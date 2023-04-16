@@ -7,7 +7,7 @@
 #'
 #' @md
 #' @export
-use_readme_urbn <- function(name = "README", open = TRUE) {
+use_readme_cpal <- function(name = "README", open = TRUE) {
   usethis::use_template(
     template = "README.md",
     data = list(Package = name, Version = ""),
