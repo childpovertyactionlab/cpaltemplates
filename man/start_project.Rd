@@ -4,7 +4,13 @@
 \alias{start_project}
 \title{start_project}
 \usage{
-start_project(name, directory = getwd(), readme = TRUE, gitignore = TRUE)
+start_project(
+  name,
+  directory = getwd(),
+  readme = TRUE,
+  gitignore = TRUE,
+  shiny = FALSE
+)
 }
 \arguments{
 \item{name}{Name of the project and the directory.}
@@ -15,7 +21,9 @@ directory you want created.}
 \item{readme}{Add a CPAL README to the project}
 
 \item{gitignore}{Add an R .gitignore to the project}
+
+\item{shiny}{Adds a folder for shiny apps to the project}
 }
 \description{
-Creates and opens a new project and project directory with useful files.
+Creates and opens a new project and project directory with useful files and folders.
 }
