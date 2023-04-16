@@ -33,6 +33,6 @@ use_web_report <- function(name = "web_report.Rmd", directory = NULL) {
     data = list(Package = "", Version = ""),
     ignore = FALSE,
     open = TRUE,
-    package = "urbntemplates"
+    package = "cpaltemplates"
   )
 }
