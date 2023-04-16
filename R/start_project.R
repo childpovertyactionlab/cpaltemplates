@@ -24,10 +24,10 @@ start_project <- function(name, directory = getwd(), readme = TRUE, gitignore = 
   }
 
   if (shiny == TRUE) {
-    usethis::use_directory(path = paste0(directory, "/", "Shiny"))
+    usethis::use_directory(path = paste0(directory, "/", name, "/Shiny"))
   }
 
-  usethis::use_directory(path = paste0(directory, "/", "Data"))
-  usethis::use_directory(path = paste0(directory, "/", "Scripts"))
-  usethis::use_directory(path = paste0(directory, "/", "Graphics"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Data"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Scripts"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Graphics"))
 }
