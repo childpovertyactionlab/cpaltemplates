@@ -11,6 +11,11 @@ scale_fill_cpal(
     "#B5A512", "#851E2C", "#E33917"))
 )
 }
+\arguments{
+\item{theme}{Collections of colors for use in visualizations. Can be either 'factor', 'triad', or 'diverge'.}
+
+\item{visual}{List containing different color values based on theme selected.}
+}
 \description{
 cpal scale fill
 }

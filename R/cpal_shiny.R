@@ -17,9 +17,9 @@ cpal_shiny <- function() {
     warning = "#E98816",
     danger = "#971700",
     font_scale = NULL,
-    heading_font = gt::font_google("Poppins"),
-    base_font = gt::font_google("Roboto"),
-    code_font = gt::font_google("Fira Code"),
+    heading_font = gt::google_font("Poppins"),
+    base_font = gt::google_font("Roboto"),
+    code_font = gt::google_font("Fira Code"),
     "enable-gradients" = TRUE,
     "enable-shadows" = TRUE,
     "progress-bar-bg" = "#E98816", # progress bar color

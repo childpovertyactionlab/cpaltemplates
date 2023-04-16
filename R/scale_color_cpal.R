@@ -4,6 +4,8 @@
 #' @name scale_color_cpal
 #' @author Michael Lopez
 #' @title CPAL scale color for ggplot2
+#' @param theme Collections of colors for use in visualizations. Can be either 'factor', 'triad', or 'diverge'.
+#' @param visual List containing different color values based on theme selected.
 #' @examples
 #' scale_color_cpal(theme="factor")
 
