@@ -16,12 +16,12 @@ start_project <- function(name, directory = getwd(), readme = TRUE, gitignore = 
   usethis::create_project(paste0(directory, "/", name))
 
   if (shiny == TRUE) {
-    usethis::use_directory(path = paste0(directory, "/", name, "/Shiny"))
+    usethis::use_directory("Shiny")
   }
 
-  usethis::use_directory(path = paste0(directory, "/", name, "/Data"))
-  usethis::use_directory(path = paste0(directory, "/", name, "/Scripts"))
-  usethis::use_directory(path = paste0(directory, "/", name, "/Graphics"))
+  usethis::use_directory("Data")
+  usethis::use_directory("Scripts")
+  usethis::use_directory("Graphics")
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
