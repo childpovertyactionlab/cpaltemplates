@@ -21,7 +21,6 @@ should be saved.}
 Defaults to \code{TRUE}.}
 }
 \description{
-Adds the necessary templates for making PDF fact sheets at the Urban
-Institute. Adds a .gitignore, pdf_fact_sheet template, LaTeX preamble,
-iteration script, and instructions.
+Adds the necessary templates for making PDF fact sheets at the Child Poverty Action Lab.
+Adds a .gitignore, pdf_fact_sheet template, LaTeX preamble, iteration script, and instructions.
 }

@@ -1,26 +1,25 @@
 
-# urbntemplates
+# cpaltemplates
 
 **NOTE:** This project is still under active development.
 
-**NOTE:** All publications still need to go throught the normal COMM
-process.
+**NOTE** This package is based on 'library(urbntemplates)' from the Urban Institute. Changes are currently being made to generate templates that fall in line with Child Poverty Action Lab (CPAL) standards.
 
-`library(urbntemplates)` contains tools and templates for managing
+`library(cpaltemplates)` contains tools and templates for managing
 analysis workflows at the Urban Institute. It heavily relies on
 functions and functionality from
 [usethis](https://github.com/r-lib/usethis).
 
 ## Installation
 
-You can install the latest version of `urbntemplates` from GitHub:
+You can install the latest version of `cpaltemplates` from GitHub:
 
     # install.packages("devtools")
-    devtools::install_github("UrbanInstitute/urbntemplates")
+    devtools::install_github("childpovertyactionlab/cpaltemplates")
 
 ## Usage
 
-`library(urbntemplates)` contains three families of functions:
+`library(cpaltemplates)` contains three families of functions:
 
 `start_project()` generates a new project with a .Rproj, README, and
 .gitignore at the specified location on a machine.
@@ -37,7 +36,7 @@ directory or sub directory.
 A sensible workflow is:
 
 1)  Start a new project and create a .Rproj by submitting
-    `urbntemplates::start_project()`. This will create and open a new
+    `cpaltemplates::start_project()`. This will create and open a new
     .Rproj.
 2)  Inside the .Rproj, add the necessary documents for a part of a
     project, like a Shiny application, with a `construct_*()` function.
@@ -69,7 +68,7 @@ or an R Markdown web report.
   - `use_css()`
   - `use_fact_sheet_html()`
   - `use_fact_sheet_pdf()`
-  - `use_git_ignore_urbn()`
+  - `use_git_ignore_cpal()`
   - `use_instructions()`
   - `use_iterate()`
   - `use_preamble()`
@@ -84,6 +83,6 @@ Code released under the GNU General Public License v3.0.
 
 ## Code of conduct
 
-Please note that the “urbntemplates” project is released with a
+Please note that the “cpaltemplates” project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to
 this project, you agree to abide by its terms.

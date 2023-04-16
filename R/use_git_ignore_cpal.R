@@ -1,4 +1,4 @@
-#' use_git_ignore_urbn
+#' use_git_ignore_cpal
 #'
 #' Adds a custom .gitignore to the top directory.
 #'
@@ -8,7 +8,7 @@
 #'
 #' @md
 #' @export
-use_git_ignore_urbn <- function(gitignore = "R", open = FALSE) {
+use_git_ignore_cpal <- function(gitignore = "R", open = FALSE) {
 
 ignore <-
 "# History files

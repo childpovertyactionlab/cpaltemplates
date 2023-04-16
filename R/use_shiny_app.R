@@ -1,7 +1,7 @@
 #' use_shiny_app
 #'
 #' Adds a template called app.R for creating R Shiny applications. There is no
-#'   name argument because the Urban Institute Shiny server expects app.R.
+#'   name argument because the Child Poverty Action Lab Shiny server expects app.R.
 #'
 #' @md
 #' @export
@@ -11,6 +11,6 @@ use_shiny_app <- function() {
     data = list(Package = "", Version = ""),
     ignore = FALSE,
     open = TRUE,
-    package = "urbntemplates"
+    package = "cpaltemplates"
   )
 }

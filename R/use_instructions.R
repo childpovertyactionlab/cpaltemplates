@@ -3,7 +3,7 @@
 #' Adds instructions for constructed templates.
 #'
 #' @param instructions A character string for the name of the created template.
-#'   Current options are `"fact_sheet_pdf"`, `"fact_sheet_html"`, `"revealks"`,
+#'   Current options are `"fact_sheet_pdf"`, `"fact_sheet_html"`,
 #'   `"shiny"`, and `"web_report"`.
 #'
 #' @md
@@ -13,7 +13,6 @@ use_instructions <- function(instructions) {
   if (instructions %in% c("fact_sheet_pdf",
                           "fact_sheet_html",
                           "shiny",
-                          "revealjs",
                           "web_report")) {
 
     template_name <- paste0(instructions, "_instructions.md")
@@ -21,7 +20,7 @@ use_instructions <- function(instructions) {
   } else {
 
     stop("Invalid 'instructions' argument. Valid instructions are: ",
-         "'fact_sheet_pdf', 'fact_sheet_html', 'revealjs', 'shiny', and 'web_report'",
+         "'fact_sheet_pdf', 'fact_sheet_html', 'shiny', and 'web_report'",
          call. = FALSE)
 
   }
@@ -32,6 +31,6 @@ use_instructions <- function(instructions) {
     data = list(Package = "", Version = ""),
     ignore = FALSE,
     open = TRUE,
-    package = "urbntemplates"
+    package = "cpaltemplates"
   )
 }

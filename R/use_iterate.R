@@ -1,6 +1,6 @@
 #' use_iterate
 #'
-#' Adds a template called iterate.R that is used for iterating fact cheets
+#' Adds a template called iterate.R that is used for iterating fact sheets
 #'   across tibbles.
 #'
 #' @param directory A character string for the directory where the template
@@ -27,6 +27,6 @@ use_iterate <- function(directory = NULL) {
     data = list(Package = "", Version = ""),
     ignore = FALSE,
     open = TRUE,
-    package = "urbntemplates"
+    package = "cpaltemplates"
   )
 }

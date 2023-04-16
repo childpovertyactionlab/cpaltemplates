@@ -12,10 +12,10 @@ start_project(name, directory = getwd(), readme = TRUE, gitignore = TRUE)
 \item{directory}{A path from the home directory of the computer to the new
 directory you want created.}
 
-\item{readme}{Add an Urban Institute README to the project}
+\item{readme}{Add a CPAL README to the project}
 
 \item{gitignore}{Add an R .gitignore to the project}
 }
 \description{
-Creates and opens a new project and project dirctory with useful files.
+Creates and opens a new project and project directory with useful files.
 }

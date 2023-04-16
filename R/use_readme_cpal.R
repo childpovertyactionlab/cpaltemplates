@@ -1,6 +1,6 @@
-#' use_readme_urbn
+#' use_readme_cpal
 #'
-#' Adds an Urban Institute specific README.
+#' Adds a Child Poverty Action Lab specific README.
 #'
 #' @param name Name of analysis to put at top of README
 #' @param open Boolean for whether or not to open the instructions
@@ -13,6 +13,6 @@ use_readme_urbn <- function(name = "README", open = TRUE) {
     data = list(Package = name, Version = ""),
     ignore = FALSE,
     open = open,
-    package = "urbntemplates"
+    package = "cpaltemplates"
   )
 }

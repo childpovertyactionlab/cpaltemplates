@@ -11,6 +11,6 @@ use_iterate(directory = NULL)
 should be saved.}
 }
 \description{
-Adds a template called iterate.R that is used for iterating fact cheets
+Adds a template called iterate.R that is used for iterating fact sheets
 across tibbles.
 }

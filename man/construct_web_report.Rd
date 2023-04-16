@@ -21,7 +21,6 @@ should be saved.}
 Defaults to \code{TRUE}.}
 }
 \description{
-Adds the necessary templates for making web reports at the Urban
-Institute. Adds a web report template, stylesheet, and
-instructions.
+Adds the necessary templates for making web reports at the Child Poverty Action Lab.
+Adds a web report template and instructions.
 }

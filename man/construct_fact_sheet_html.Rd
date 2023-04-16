@@ -21,7 +21,6 @@ should be saved.}
 Defaults to \code{TRUE}.}
 }
 \description{
-Adds the necessary templates for making html fact sheets at the Urban
-Institute. Adds a .gitignore, html fact sheet template, CSS, iteration
-script, and instructions.
+Adds the necessary templates for making html fact sheets at the Child Poverty Action Lab.
+Adds a .gitignore, html fact sheet template, CSS, iteration script, and instructions.
 }
