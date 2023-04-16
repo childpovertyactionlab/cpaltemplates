@@ -41,7 +41,7 @@ Note:
 
 ### start function
 
-* `start_project()`
+* `start_project()` DONE
 
 ### construct functions
 
@@ -65,6 +65,13 @@ Note:
 * `use_shiny_app()`
 * `use_readme_readme()`
 * `use_web_report()`
+
+### visualization functions
+
+* `cpal_shiny`
+* `cpal_theme`
+* `scale_color_cpal`
+* `scale_fill_cpal`
 
 ## License
 
