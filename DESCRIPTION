@@ -12,7 +12,8 @@ Imports:
     here,
     ggplot2,
     gt,
-    bslib
+    bslib,
+    withr
 Suggests:
     tidyverse,
     cpaltemplates,
