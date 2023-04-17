@@ -15,6 +15,8 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
 
   usethis::create_project(path = paste0(directory, "/", name))
 
+  Sys.sleep(5)
+
   dir.create(path = paste0(directory, "/", name, "/scripts"))
   dir.create(path = paste0(directory, "/", name, "/graphics"))
   dir.create(path = paste0(directory, "/", name, "/data"))
@@ -27,6 +29,6 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
     use_git_ignore_cpal(gitignore = "R", open = FALSE)
   }
 
-  unlink(paste0(directory, "/", name, "/R"), recursive = TRUE)
+  unlink(x = paste0(directory, "/", name, "/R"), recursive = TRUE)
 
 }
