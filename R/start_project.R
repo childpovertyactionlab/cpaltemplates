@@ -13,15 +13,15 @@
 
 start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE) {
 
-  usethis:ui_line("Creating project directory.")
+  print("Creating project directory.")
 
   usethis::create_project(path = paste0(directory, "/", name))
 
-  usethis:ui_line("Project directory generated.")
+  print("Project directory generated.")
 
   Sys.sleep(5)
 
-  usethis:ui_line("Creating project folders.")
+  print("Creating project folders.")
 
   dir.create(path = paste0(directory, "/", name, "/Scripts"))
   dir.create(path = paste0(directory, "/", name, "/Graphics"))
@@ -29,11 +29,11 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
 
   unlink(x = paste0(directory, "/", name, "/R"), recursive = TRUE)
 
-  usethis:ui_line("Project folders generated.")
+  print("Project folders generated.")
 
   Sys.sleep(5)
 
-  usethis:ui_line("Creating project files.")
+  print("Creating project files.")
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
@@ -43,6 +43,6 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
     use_git_ignore_cpal(gitignore = "R", open = FALSE)
   }
 
-  usethis:ui_line("Project files generated.")
+  print("Project files generated.")
 
 }
