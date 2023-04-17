@@ -1,8 +1,8 @@
-#' cpal_theme
+#' theme_cpal
 #'
 #' This function allows you to add the cpal theme to your  ggplot graphics.
 #' @export
-cpal_theme <- function() {
+theme_cpal <- function() {
   font <- gt::google_font("Poppins")
 
   ggplot2::theme(

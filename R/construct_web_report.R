@@ -17,7 +17,7 @@ construct_web_report <- function(name = "web_report.qmd",
 
   use_git_ignore_cpal(gitignore = "web_report", open = FALSE)
   use_web_report(name = name, directory = directory)
-  use_css(stylesheet = "cpal", open = FALSE)
+  use_css(stylesheet = "web_report", open = FALSE)
   if (instructions) {
     use_instructions(instructions = "web_report")
   }
