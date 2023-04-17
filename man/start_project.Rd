@@ -5,25 +5,24 @@
 \title{start_project}
 \usage{
 start_project(
-  path,
-  rstudio = rstudioapi::isAvailable(),
-  open = rlang::is_interactive(),
+  name,
+  directory = getwd(),
   readme = TRUE,
-  gitignore = FALSE,
+  gitignore = TRUE,
   shiny = FALSE
 )
 }
 \arguments{
+\item{name}{Name of the project and the directory.}
+
+\item{directory}{A path from the home directory of the computer to the new
+directory you want created.}
+
 \item{readme}{Add a CPAL README to the project}
 
 \item{gitignore}{Add an R .gitignore to the project}
 
 \item{shiny}{Adds a folder for shiny apps to the project}
-
-\item{name}{Name of the project and the directory.}
-
-\item{directory}{A path from the home directory of the computer to the new
-directory you want created.}
 }
 \description{
 Creates and opens a new project and project directory with useful files and folders.
