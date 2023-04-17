@@ -12,7 +12,7 @@
 #' @md
 #' @export
 
-start_project <- function(name, directory = getwd(), readme = TRUE, gitignore = TRUE, shiny = FALSE) {
+start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = TRUE, shiny = FALSE) {
 
   usethis::create_project(paste0(directory, "/", name))
 
