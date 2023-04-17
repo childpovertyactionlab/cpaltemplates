@@ -17,12 +17,12 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
   usethis::create_project(path = paste0(directory, "/", name), open = FALSE)
 
   if (shiny == TRUE) {
-    usethis::use_directory(path = paste0(directory, "/", name, "/Shiny"))
+    dir.create(path = paste0(directory, "/", name, "/shiny"))
   }
 
-  usethis::use_directory(path = paste0(directory, "/", name, "/Data"))
-  usethis::use_directory(path = paste0(directory, "/", name, "/Scripts"))
-  usethis::use_directory(path = paste0(directory, "/", name, "/Graphics"))
+  dir.create(path = paste0(directory, "/", name, "/scripts"))
+  dir.create(path = paste0(directory, "/", name, "/graphics"))
+  dir.create(path = paste0(directory, "/", name, "/data"))
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
