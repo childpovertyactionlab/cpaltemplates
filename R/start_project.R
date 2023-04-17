@@ -14,15 +14,15 @@
 
 start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = TRUE, shiny = FALSE) {
 
-  usethis::create_project(paste0(directory, "/", name))
+  usethis::create_project(path = paste0(directory, "/", name), open = FALSE)
 
-#  if (shiny == TRUE) {
-#    usethis::use_directory(path = paste0(directory, "/", name, "/Shiny"))
-#  }
+  if (shiny == TRUE) {
+    usethis::use_directory(path = paste0(directory, "/", name, "/Shiny"))
+  }
 
-#  usethis::use_directory(path = paste0(directory, "/", name, "/Data"))
-#  usethis::use_directory(path = paste0(directory, "/", name, "/Scripts"))
-#  usethis::use_directory(path = paste0(directory, "/", name, "/Graphics"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Data"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Scripts"))
+  usethis::use_directory(path = paste0(directory, "/", name, "/Graphics"))
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
