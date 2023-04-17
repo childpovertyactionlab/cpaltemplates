@@ -17,11 +17,11 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
 
   usethis::create_project(path = paste0(directory, "/", name))
 
-  paste("Project directory generated.")
+  print("Project directory generated.")
 
   Sys.sleep(5)
 
-  paste("Creating project folders.")
+  print("Creating project folders.")
 
   dir.create(path = paste0(directory, "/", name, "/scripts"))
   dir.create(path = paste0(directory, "/", name, "/graphics"))
@@ -29,11 +29,11 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
 
   unlink(x = paste0(directory, "/", name, "/R"), recursive = TRUE)
 
-  paste("Project folders generated.")
+  print("Project folders generated.")
 
   Sys.sleep(5)
 
-  paste("Creating project files.")
+  print("Creating project files.")
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
@@ -43,6 +43,6 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
     use_git_ignore_cpal(gitignore = "R", open = FALSE)
   }
 
-  paste("Project files generated.")
+  print("Project files generated.")
 
 }
