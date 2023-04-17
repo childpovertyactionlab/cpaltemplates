@@ -12,9 +12,9 @@
 #' @md
 #' @export
 
-start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = TRUE, shiny = FALSE) {
+start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE, shiny = FALSE) {
 
-  usethis::create_project(path = paste0(directory, "/", name), open = FALSE)
+  usethis::create_project(path = paste0(directory, "/", name))
 
   if (shiny == TRUE) {
     dir.create(path = paste0(directory, "/", name, "/shiny"))
@@ -23,6 +23,8 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
   dir.create(path = paste0(directory, "/", name, "/scripts"))
   dir.create(path = paste0(directory, "/", name, "/graphics"))
   dir.create(path = paste0(directory, "/", name, "/data"))
+
+  unlink(paste0(directory, "/", name, "/R"), recursive = TRUE)
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)

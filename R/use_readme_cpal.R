@@ -11,6 +11,7 @@ use_readme_cpal <- function(name = "README", open = TRUE) {
   usethis::use_template(
     template = "README.md",
     data = list(Package = name, Version = ""),
+    save_as =
     ignore = FALSE,
     open = open,
     package = "cpaltemplates"
