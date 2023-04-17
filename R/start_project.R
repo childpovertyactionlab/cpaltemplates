@@ -7,24 +7,17 @@
 #'   directory you want created.
 #' @param readme Add a CPAL README to the project
 #' @param gitignore Add an R .gitignore to the project
-#' @param shiny Adds a folder for shiny apps to the project
 #'
 #' @md
 #' @export
 
-start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE, shiny = FALSE) {
+start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE) {
 
   usethis::create_project(path = paste0(directory, "/", name))
-
-  if (shiny == TRUE) {
-    dir.create(path = paste0(directory, "/", name, "/shiny"))
-  }
 
   dir.create(path = paste0(directory, "/", name, "/scripts"))
   dir.create(path = paste0(directory, "/", name, "/graphics"))
   dir.create(path = paste0(directory, "/", name, "/data"))
-
-  unlink(paste0(directory, "/", name, "/R"), recursive = TRUE)
 
   if (readme == TRUE) {
     use_readme_cpal(name = name, open = FALSE)
@@ -33,5 +26,7 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
   if (gitignore == TRUE) {
     use_git_ignore_cpal(gitignore = "R", open = FALSE)
   }
+
+  unlink(paste0(directory, "/", name, "/R"), recursive = TRUE)
 
 }

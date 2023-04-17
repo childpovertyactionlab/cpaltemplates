@@ -9,7 +9,7 @@ construct_shiny <- function() {
 
   use_git_ignore_cpal(gitignore = "shiny", open = FALSE)
   use_shiny_app()
-#  use_css(stylesheet = "shiny", directory = "www", open = FALSE)
+
   use_instructions(instructions = "shiny")
 
 }

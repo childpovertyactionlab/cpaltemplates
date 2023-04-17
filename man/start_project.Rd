@@ -8,8 +8,7 @@ start_project(
   name = NULL,
   directory = getwd(),
   readme = TRUE,
-  gitignore = TRUE,
-  shiny = FALSE
+  gitignore = FALSE
 )
 }
 \arguments{
@@ -21,8 +20,6 @@ directory you want created.}
 \item{readme}{Add a CPAL README to the project}
 
 \item{gitignore}{Add an R .gitignore to the project}
-
-\item{shiny}{Adds a folder for shiny apps to the project}
 }
 \description{
 Creates and opens a new project and project directory with useful files and folders.
