@@ -5,7 +5,7 @@
 \title{start_project}
 \usage{
 start_project(
-  name,
+  name = NULL,
   directory = getwd(),
   readme = TRUE,
   gitignore = TRUE,
