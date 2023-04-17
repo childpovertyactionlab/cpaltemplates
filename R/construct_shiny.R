@@ -12,4 +12,11 @@ construct_shiny <- function() {
 
   use_instructions(instructions = "shiny")
 
+  if (!file.exists("www/images/CPAL_Logo_White.png")) {
+
+    use_content(content = "web images")
+
+  }
+
+
 }
