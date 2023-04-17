@@ -13,7 +13,7 @@
 
 start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE) {
 
-  paste("Creating project directory.")
+  print("Creating project directory.")
 
   usethis::create_project(path = paste0(directory, "/", name))
 
