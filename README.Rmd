@@ -29,6 +29,10 @@ devtools::install_github("childpovertyactionlab/cpaltemplates")
 
 `use_*()` functions add individual templates and documents to a project directory or sub directory.
 
+`theme` functions contain theme styling for various R outputs.
+
+`scale_*()` functions generate color sets to be used in visualizations.
+
 A sensible workflow is:
 
 1) Start a new project and create a .Rproj by submitting `cpaltemplates::start_project()`. This will create and open a new .Rproj. 
@@ -37,7 +41,7 @@ A sensible workflow is:
 
 Note:
 
-`construct_*()` functions are useful on their own. If you have an existing project, just use `construct_*()` to add all of the necessary templates and documents for creating a product like a branded slide show or an R Markdown web report. 
+`construct_*()` functions are useful on their own. If you have an existing project, just use `construct_*()` to add all of the necessary templates and documents for creating a product like a branded shiny app or an R Markdown web report. 
 
 ### start function
 
@@ -46,30 +50,22 @@ Note:
 ### construct functions
 
 * `construct_shiny()` 
-* `construct_fact_sheet_html()`
-* `construct_fact_sheet_pdf()`
-* `construct_slide_show()`
 * `construct_web_report()`
 
 ### use functions
 
 * `use_content()`
 * `use_css()`
-* `use_fact_sheet_html()`
-* `use_fact_sheet_pdf()`
-* `use_git_ignore_urbn()`
+* `use_git_ignore_cpal()`
 * `use_instructions()`
-* `use_iterate()`
-* `use_preamble()`
-* `use_revealjs()`
 * `use_shiny_app()`
-* `use_readme_readme()`
+* `use_readme_cpal()`
 * `use_web_report()`
 
 ### visualization functions
 
 * `cpal_shiny`
-* `cpal_theme`
+* `theme_cpal`
 * `scale_color_cpal`
 * `scale_fill_cpal`
 

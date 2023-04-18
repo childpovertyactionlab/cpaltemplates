@@ -1,0 +1,19 @@
+name: "web-report-name"
+title: "Title of this web report."
+theme: web_report.scss
+favicon: images/CPAL_favicon.ico
+description: |
+  Description of this web report.
+output_dir: "docs"
+navbar:
+  logo:
+    image: images/CPAL_Logo_Teal.png
+    href: https://childpovertyactionlab.org/
+  right:
+    - text: "Home"
+      href: web_report.html
+    - text: "About"
+      menu:
+        - text: "Github"
+          href: https://github.com/childpovertyactionlab/
+output: html_document

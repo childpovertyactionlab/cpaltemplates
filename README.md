@@ -33,6 +33,10 @@ selected template.
 `use_*()` functions add individual templates and documents to a project
 directory or sub directory.
 
+`theme` functions contain theme styling for various R outputs.
+
+`scale_*()` functions generate color sets to be used in visualizations.
+
 A sensible workflow is:
 
 1)  Start a new project and create a .Rproj by submitting
@@ -57,24 +61,16 @@ or an R Markdown web report.
 ### construct functions
 
   - `construct_shiny()`
-  - `construct_fact_sheet_html()`
-  - `construct_fact_sheet_pdf()`
-  - `construct_slide_show()`
   - `construct_web_report()`
 
 ### use functions
 
   - `use_content()`
   - `use_css()`
-  - `use_fact_sheet_html()`
-  - `use_fact_sheet_pdf()`
   - `use_git_ignore_cpal()`
   - `use_instructions()`
-  - `use_iterate()`
-  - `use_preamble()`
-  - `use_revealjs()`
   - `use_shiny_app()`
-  - `use_readme_readme()`
+  - `use_readme_cpal()`
   - `use_web_report()`
 
 ## License

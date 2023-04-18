@@ -38,10 +38,19 @@ use_css <- function(stylesheet, directory = "www", open = FALSE) {
 
   }
 
-  # add template to destination
+  # add template to destination+
   usethis::use_template(
     template = template_name,
     save_as = save_name,
+    data = list(Package = "", Version = ""),
+    ignore = FALSE,
+    open = open,
+    package = "cpaltemplates"
+  )
+
+  usethis::use_template(
+    template = "_quarto.yml",
+    save_as = "_quarto.yml",
     data = list(Package = "", Version = ""),
     ignore = FALSE,
     open = open,

@@ -1,14 +1,19 @@
 ---
-title: "web_report"
-theme: 
-  www/cpal.scss
+title: "Report Title"
+subtitle: "Report Subtitle"
+theme: web_report.scss
 title-block-banner: TRUE
-editor: visual
+fig-width: 8
+fig-height: 6
+warning: FALSE
+error: TRUE
+body-footer: Copyright 2022 [The Child Poverty Action Lab](https://childpovertyactionlab.org/).
+
 ---
 
-# Quarto One
+# Main Header
 
-## Quarto
+## Second Header
 
 Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
