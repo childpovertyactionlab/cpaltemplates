@@ -3,7 +3,7 @@
 #' This function allows you to add the cpal theme to your  ggplot graphics.
 #' @export
 theme_cpal <- function() {
-  font <- gt::google_font("Poppins")
+  font <- bslib::google_font("Poppins")
 
   ggplot2::theme(
 

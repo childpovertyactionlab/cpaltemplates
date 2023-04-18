@@ -4,8 +4,7 @@
 #'
 #' @md
 #' @export
-cpal_shiny <- function() {
-
+cpal_shiny <- function(){
   bslib::bs_theme(
     version = 5,
     bg = "#E7ECEE",
@@ -17,9 +16,9 @@ cpal_shiny <- function() {
     warning = "#E98816",
     danger = "#971700",
     font_scale = NULL,
-    heading_font = gt::google_font("Poppins"),
-    base_font = gt::google_font("Roboto"),
-    code_font = gt::google_font("Fira Code"),
+    heading_font = google_font("Poppins"),
+    base_font = google_font("Roboto"),
+    code_font = google_font("Fira Code"),
     "enable-gradients" = TRUE,
     "enable-shadows" = TRUE,
     "progress-bar-bg" = "#E98816", # progress bar color
@@ -28,5 +27,4 @@ cpal_shiny <- function() {
 
     bootswatch = "sandstone" # base shiny theme to modify
   )
-
-}
+  }
