@@ -16,7 +16,6 @@ Imports:
     withr
 Suggests:
     tidyverse,
-    cpaltemplates,
     knitr,
     rmarkdown
 License: GPL-3
