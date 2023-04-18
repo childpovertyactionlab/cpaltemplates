@@ -34,5 +34,14 @@ use_web_report <- function(name = "web_report.qmd", directory = NULL) {
     ignore = FALSE,
     open = TRUE,
     package = "cpaltemplates"
+    )
+
+  usethis::use_template(
+    template = "_quarto.yml",
+    save_as = save_name,
+    data = list(Package = "", Version = ""),
+    ignore = FALSE,
+    open = TRUE,
+    package = "cpaltemplates"
   )
 }
