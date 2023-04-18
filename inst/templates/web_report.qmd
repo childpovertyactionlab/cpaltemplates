@@ -1,17 +1,17 @@
 ---
 title: "Report Title"
-subtitle: "Report Subtitle"
-theme: web_report.scss
 title-block-banner: TRUE
-fig-width: 8
-fig-height: 6
+fig-width: 7
+fig-height: 5
 warning: FALSE
 error: TRUE
-body-footer: Copyright 2022 [The Child Poverty Action Lab](https://childpovertyactionlab.org/).
-
+echo: FALSE
+message: FALSE
 ---
 
 # Main Header
+
+Here's some text for you.
 
 ## Second Header
 
@@ -22,14 +22,17 @@ Quarto enables you to weave together content and executable code into a finished
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-test <- "TEST"
+#| echo: TRUE
+
+library(ggplot2)
+library(cpaltemplates)
+# mtcars dataset is natively available in R
+# head(mtcars)
+ 
+# A basic scatterplot with color depending on Species
+ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
+  geom_point(size=2) +
+  theme_cpal() +
+  scale_color_cpal(theme = "factor") +
+  labs(title = "Chart Title")
 ```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).

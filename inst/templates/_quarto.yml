@@ -2,11 +2,9 @@ project:
   type: website
   output-dir: "docs"
   title: "Title of this web report."
-
 format:
   html:
     theme: www/web_report.scss
-
 website:
   favicon: www/images/CPAL_favicon.ico
   description: Description of this web report.
@@ -17,7 +15,7 @@ website:
   navbar:
       logo: www/images/CPAL_Logo_White.png
       logo-href: "https://childpovertyactionlab.org/"
-#      search: TRUE
+      search: FALSE
       collapse: TRUE
       right:
         - icon: house-door-fill
@@ -26,7 +24,6 @@ website:
         - icon: github
           text: "Github"
           href: "https://github.com/childpovertyactionlab/"
-
   page-footer:
-    center: Copyright 2023 <b>[The Child Poverty Action Lab](https://childpovertyactionlab.org/).</b> <br> <img src = "www/images/CPAL_Skyline_Name_White.png", alt = "CPAL Logo">
+    center: Copyright 2023 <b>[The Child Poverty Action Lab](https://childpovertyactionlab.org/).</b>
     background: "#008097"
