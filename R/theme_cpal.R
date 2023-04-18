@@ -18,14 +18,14 @@ theme_cpal <- function() {
                                           size=22,
                                           margin=ggplot2::margin(9,0,9,0)),
     plot.caption = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill="#ccd4d5"),
+    plot.background = ggplot2::element_rect(fill="#E7ECEE"),
     #This leaves the caption text element empty, because it is set elsewhere in the finalize plot function
 
     #Legend format
     #This sets the position and alignment of the legend, removes a title and background for it and sets the requirements for any text within the legend. The legend may often need some more manual tweaking when it comes to its exact position based on the plot coordinates.
     legend.position = "bottom",
     legend.text.align = 0,
-    legend.background = ggplot2::element_rect(fill="#ccd4d5"),
+    legend.background = ggplot2::element_rect(fill="#E7ECEE"),
     legend.title = ggplot2::element_blank(),
     legend.key = ggplot2::element_blank(),
     legend.text = ggplot2::element_text(family=font,
@@ -50,10 +50,10 @@ theme_cpal <- function() {
 
     #Blank background
     #This sets the panel background as blank, removing the standard grey ggplot background colour from the plot
-    panel.background = ggplot2::element_rect(fill="#ccd4d5"),
+    panel.background = ggplot2::element_rect(fill="#E7ECEE"),
 
     #Strip background (#This sets the panel background for facet-wrapped plots to white, removing the standard grey ggplot background colour and sets the title size of the facet-wrap title to font size 22)
-    strip.background = ggplot2::element_rect(fill="#ccd4d5"),
+    strip.background = ggplot2::element_rect(fill="#E7ECEE"),
     strip.text = ggplot2::element_text(size  = 22,  hjust = 0)
   )
 }
