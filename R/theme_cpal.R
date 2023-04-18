@@ -18,6 +18,7 @@ theme_cpal <- function() {
                                           size=22,
                                           margin=ggplot2::margin(9,0,9,0)),
     plot.caption = ggplot2::element_blank(),
+    plot.background = ggplot2::element_rect(fill="#ccd4d5"),
     #This leaves the caption text element empty, because it is set elsewhere in the finalize plot function
 
     #Legend format
