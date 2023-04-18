@@ -11,7 +11,6 @@ Imports:
     usethis,
     here,
     ggplot2,
-    gt,
     bslib,
     withr
 Suggests:
