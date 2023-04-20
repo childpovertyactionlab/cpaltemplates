@@ -37,6 +37,8 @@ directory or sub directory.
 
 `scale_*()` functions generate color sets to be used in visualizations.
 
+`data` datasets stored within package to keep consistency across CPAL workflows.
+
 A sensible workflow is:
 
 1)  Start a new project and create a .Rproj by submitting
@@ -69,9 +71,23 @@ or an R Markdown web report.
   - `use_css()`
   - `use_git_ignore_cpal()`
   - `use_instructions()`
-  - `use_shiny_app()`
   - `use_readme_cpal()`
+  - `use_shiny_app()`
   - `use_web_report()`
+
+## theme functions
+  - `cpal_shiny`
+  - `theme_cpal`
+
+## scale functions
+  - `scale_fill_cpal()`
+  - `scale_color_cpal()`
+
+## datasets
+  - `acs_variables`
+  - `ntx_county`
+  - `cpal_leaflet`
+  - `cpal_mapbox`
 
 ## License
 

@@ -45,29 +45,36 @@ Note:
 
 ### start function
 
-* `start_project()` DONE
+ * `start_project()`
 
 ### construct functions
 
-* `construct_shiny()` 
-* `construct_web_report()`
+ * `construct_shiny()`
+ * `construct_web_report()`
 
 ### use functions
 
-* `use_content()`
-* `use_css()`
-* `use_git_ignore_cpal()`
-* `use_instructions()`
-* `use_shiny_app()`
-* `use_readme_cpal()`
-* `use_web_report()`
+ * `use_content()`
+ * `use_css()`
+ * `use_git_ignore_cpal()`
+ * `use_instructions()`
+ * `use_readme_cpal()`
+ * `use_shiny_app()`
+ * `use_web_report()`
 
-### visualization functions
+## theme functions
+ * `cpal_shiny`
+ * `theme_cpal`
 
-* `cpal_shiny`
-* `theme_cpal`
-* `scale_color_cpal`
-* `scale_fill_cpal`
+## scale functions
+ * `scale_fill_cpal()`
+ * `scale_color_cpal()`
+
+## datasets
+ * `acs_variables`
+ * `ntx_county`
+ * `cpal_leaflet`
+ * `cpal_mapbox`
 
 ## License
 
