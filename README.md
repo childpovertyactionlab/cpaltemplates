@@ -6,7 +6,7 @@
 **NOTE** This package is based on 'library(urbntemplates)' from the Urban Institute. Changes are currently being made to generate templates that fall in line with Child Poverty Action Lab (CPAL) standards.
 
 `library(cpaltemplates)` contains tools and templates for managing
-analysis workflows at the Urban Institute. It heavily relies on
+analysis workflows at the Child Poverty Action Lab. It heavily relies on
 functions and functionality from
 [usethis](https://github.com/r-lib/usethis).
 
@@ -58,36 +58,36 @@ or an R Markdown web report.
 
 ### start function
 
-  - `start_project()`
+  - `start_project()` Creates a set of folders and a new Rproj file within a specified directory. Folders included are _Scripts_, _Data_, and _Graphics_ to house anything necessary for a new analysis.
 
 ### construct functions
 
-  - `construct_shiny()`
-  - `construct_web_report()`
+  - `construct_shiny()` Generates an app.R file along with scss theme templates and images for a shiny dashboard with CPAL branding that can be uploaded to shinyapps.io.
+  - `construct_web_report()` Generates a .qmd file along with _quarto.yml theme templates and images for a web report with CPAL branding that can be uploaded to github pages.
 
 ### use functions
 
-  - `use_content()`
-  - `use_css()`
-  - `use_git_ignore_cpal()`
-  - `use_instructions()`
-  - `use_readme_cpal()`
-  - `use_shiny_app()`
-  - `use_web_report()`
+  - `use_content()` Imports content from package templates folder into respective product types. Content such as CPAL branded images/logos.
+  - `use_css()` Imports scss file where needed from package templates folder into respective product types such as web reports or fact sheets. 
+  - `use_git_ignore_cpal()` Generates a .gitignore file for use in files that will be uploaded to github.
+  - `use_instructions()` Generates an instructions markdown document for respective product types to guide users on correct practices for use of web products.
+  - `use_readme_cpal()`Generates a readme markdown document which should be filled out by user to provide necessary information project being completed.
+  - `use_shiny_app()` Generates a new shiny app template for use alongside `construct_shiny()` function, when new app templates are needed.
+  - `use_web_report()` Generates a new web report  template for use alongside `construct_web_report()` function, when new app templates are needed.
 
 ## theme functions
-  - `cpal_shiny`
-  - `theme_cpal`
+  - `cpal_shiny` Theme to be used for all CPAL branded shiny dashboards. Shiny template already contains insertion of this function.
+  - `theme_cpal` Used to provide a`ggplot2` for use across all CPAL branded plots. 
 
 ## scale functions
-  - `scale_fill_cpal()`
-  - `scale_color_cpal()`
+  - `scale_fill_cpal()` Fill function used for `ggplot2` visualizations, contains three themes named _factor_, _diverge_, and _triad_ that should be used with respective visualization type.
+  - `scale_color_cpal()` Color function used for `ggplot2` visualizations, contains three themes named _factor_, _diverge_, and _triad_ that should be used with respective visualization type.
 
 ## datasets
-  - `acs_variables`
-  - `ntx_county`
-  - `cpal_leaflet`
-  - `cpal_mapbox`
+  - `acs_variables` Contains commonly used acs field tables which are consistently used when pulling data from the `tidycensus` package.
+  - `ntx_county` Contains a named list of the eight surrounding counties around Dallas County.
+  - `cpal_leaflet` Contains attribution information for leaflet maps.
+  - `cpal_mapbox` Contains mapbox link for theming leaflet maps.
 
 ## License
 
