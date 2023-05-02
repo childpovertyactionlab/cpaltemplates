@@ -10,12 +10,12 @@ theme_cpal <- function() {
     #Text format:
     #This sets the font, size, type and colour of text for the chart's title
     plot.title = ggplot2::element_text(family=font,
-                                       size=28,
+                                       size=22,
                                        face="bold",
                                        color="#3f3f3f"),
     #This sets the font, size, type and colour of text for the chart's subtitle, as well as setting a margin between the title and the subtitle
     plot.subtitle = ggplot2::element_text(family=font,
-                                          size=18,
+                                          size=16,
                                           margin=ggplot2::margin(9,0,9,0)),
     plot.caption = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill="#E7ECEE"),
