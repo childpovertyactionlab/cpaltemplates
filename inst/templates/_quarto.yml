@@ -5,6 +5,9 @@ project:
 format:
   html:
     theme: www/web_report.scss
+    toc: true
+    toc-depth: 4
+    anchor-sections: false
 website:
   favicon: www/images/CPAL_favicon.ico
   description: Description of this web report.
@@ -13,9 +16,8 @@ website:
 #  google-analytics:
 #  cookie consent: implied
   navbar:
-      logo: www/images/CPAL_Logo_White.png
-      logo-href: "https://childpovertyactionlab.org/"
-      search: FALSE
+#      logo: www/images/CPAL_Logo_White.png
+#      logo-href: "https://childpovertyactionlab.org/"
       collapse: TRUE
       right:
         - icon: house-door-fill

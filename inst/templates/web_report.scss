@@ -140,3 +140,16 @@ $breadcrumb-border-radius:          .25rem !default;
 $btn-close-color:            $white !default;
 $btn-close-opacity:          .8 !default;
 $btn-close-hover-opacity:    1 !default;
+
+// Title Block
+.quarto-title-block {
+	.quarto-title-banner {
+		background-image: url(www/images/CPAL_Logo_White.png);
+	background-size: 125px;
+	background-position: left;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+	background-origin: content-box;
+}
+
+}
