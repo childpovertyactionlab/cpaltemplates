@@ -11,15 +11,15 @@
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_main <- c(
-  teal = "#008097",
-  orange = "#E98816",
-  black = "#2f2f2f",
-  yellow = "#ffbe0b",
-  gray = "#ccd4d5",
-  magenta = "#EA8B98",
-  green = "#009763",
-  red = "#971700",
-  purple = "#6610f2")
+  "#008097",
+  "#E98816",
+  "#2f2f2f",
+  "#ffbe0b",
+  "#ccd4d5",
+  "#EA8B98",
+  "#009763",
+  "#971700",
+  "#6610f2")
 
 #' @rdname cpal_palettes
 #' @export
