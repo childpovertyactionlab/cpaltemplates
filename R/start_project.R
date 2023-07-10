@@ -23,9 +23,9 @@ start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitig
 
   print("Creating project folders.")
 
-  dir.create(path = paste0(directory, "/", name, "/Scripts"))
-  dir.create(path = paste0(directory, "/", name, "/Graphics"))
-  dir.create(path = paste0(directory, "/", name, "/Data"))
+  dir.create(path = paste0(directory, "/", name, "/scripts"))
+  dir.create(path = paste0(directory, "/", name, "/data"))
+  dir.create(path = paste0(directory, "/", name, "/docs"))
 
   unlink(x = paste0(directory, "/", name, "/R"), recursive = TRUE)
 

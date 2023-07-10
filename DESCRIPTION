@@ -1,18 +1,25 @@
 Package: cpaltemplates
 Type: Package
 Title: Contains templates for the Child Poverty Action Lab
-Version: 0.0.0.1
+Version: 0.0.0.3
 Authors@R: person("Michael", "Lopez", email = "michael@childpovertyactionlab.org", role = c('aut', 'cre'))
 Description: Common templates for the Child Poverty Action Lab in one tidy package.
 Depends:
     R (>= 3.4.0)
 Imports:
+    purrr,
+    tibble,
+    stringr,
+    scales,
+    systemfonts,
     magick,
     usethis,
-    here,
     ggplot2,
     bslib,
-    withr
+    extrafont,
+    ggrepel,
+    grid,
+    gridExtra
 Suggests:
     tidyverse,
     knitr,

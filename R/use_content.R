@@ -25,8 +25,8 @@ use_content <- function(content) {
     img_skywh <- magick::image_read(system.file("content/CPAL_Skyline_White.png", package = "cpaltemplates"))
     img_skyte <- magick::image_read(system.file("content/CPAL_Skyline_Teal.png", package = "cpaltemplates"))
 
-    magick::image_write(img_logo_teal, "www/images/CPAL_Logo_White.png")
-    magick::image_write(img_logo_white, "www/images/CPAL_Logo_Teal.png")
+    magick::image_write(img_logo_teal, "www/images/CPAL_Logo_Teal.png")
+    magick::image_write(img_logo_white, "www/images/CPAL_Logo_White.png")
     magick::image_write(img_favi, "www/images/CPAL_favicon.ico")
     magick::image_write(img_skywh, "www/images/CPAL_Skyline_White.png")
     magick::image_write(img_skyte, "www/images/CPAL_Skyline_Teal.png")
