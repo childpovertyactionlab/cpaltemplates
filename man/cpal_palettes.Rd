@@ -15,7 +15,7 @@
 \alias{palette_cpal_purple}
 \title{Child Poverty Action Lab palettes}
 \format{
-An object of class \code{character} of length 8.
+An object of class \code{character} of length 9.
 
 An object of class \code{character} of length 9.
 
@@ -38,7 +38,7 @@ An object of class \code{character} of length 8.
 An object of class \code{character} of length 8.
 }
 \source{
-Urban Institute Data Visualization Style Guide
+Child Poverty Action Lab Data Visualization Style Guide
  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 }
 \usage{
@@ -68,5 +68,5 @@ palette_cpal_purple
 Vectors with hex-color codes that correspond to the color palettes outlined in the Child Poverty Action Lab Data Visualization Style Guide.
  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 }
-\concept{cpal palettes}
+\concept{cpal_palettes}
 \keyword{datasets}

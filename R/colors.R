@@ -3,17 +3,18 @@
 #' Vectors with hex-color codes that correspond to the color palettes outlined in the Child Poverty Action Lab Data Visualization Style Guide.
 #'  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 #'
-#' @source Urban Institute Data Visualization Style Guide
+#' @source Child Poverty Action Lab Data Visualization Style Guide
 #'  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 #'
 #'
-#' @family cpal palettes
+#' @family cpal_palettes
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_main <- c(
   teal = "#008097",
-  yellow = "#ffbe0b",
+  orange = "#E98816",
   black = "#2f2f2f",
+  yellow = "#ffbe0b",
   gray = "#ccd4d5",
   magenta = "#EA8B98",
   green = "#009763",
