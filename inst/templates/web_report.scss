@@ -29,7 +29,7 @@ $orange:  #E98816 !default;
 $yellow:  #ffbe0b !default;
 $green:   #009763 !default;
 $teal:    #008097 !default;
-$cyan:    #43bccd !default;
+$cyan:    #ff006e !default;
 
 $primary:       $teal !default;
 $secondary:     $gray-600 !default;
@@ -145,7 +145,7 @@ $btn-close-hover-opacity:    1 !default;
 .quarto-title-block {
 	.quarto-title-banner {
 		background-image: url(www/images/CPAL_Logo_White.png);
-	background-size: 125px;
+	background-size: 75px;
 	background-position: left;
 	background-repeat: no-repeat;
 	padding-left: 20px;
