@@ -16,11 +16,11 @@ cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {
   # should "Note:" be "Notes:" in the note
   if (!plural) {
 
-    section_title <- "Note: "
+    section_title <- "     Note: "
 
   } else {
 
-    section_title <- "Notes: "
+    section_title <- "     Notes: "
 
   }
 
@@ -44,7 +44,7 @@ cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {
     name = "note1",
     x = unit(0, "npc"),
     y = unit(1, "npc"),
-    hjust = -0.01,
+    hjust = 0,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins", fontface = "bold", lineheight = 1)
   )

@@ -16,11 +16,11 @@ cpal_source <- function(text, size = 8, width = 132, plural = FALSE) {
   # should "Source:" be "Sources:" in the note
   if (!plural) {
 
-    section_title <- "Source: "
+    section_title <- "     Source: "
 
   } else {
 
-    section_title <- "Sources: "
+    section_title <- "     Sources: "
 
   }
 
@@ -44,7 +44,7 @@ cpal_source <- function(text, size = 8, width = 132, plural = FALSE) {
     name = "source1",
     x = unit(0, "npc"),
     y = unit(1, "npc"),
-    hjust = -0.1,
+    hjust = 0,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins", fontface = "bold")
   )
