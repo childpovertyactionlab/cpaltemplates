@@ -66,7 +66,7 @@ theme_cpal_print <- function(base_size = 8.5, base_family = "Poppins",
                                          vjust = 1L,
                                          margin = ggplot2::margin(t = half_line * 0.9)),
     plot.caption.position = "plot",
-    plot.background = NULL,
+    plot.background = element_rect(fill = "#E7ECEE"),
 
     plot.margin = ggplot2::margin(t = half_line,
                                   r = base_line_size * 24,
@@ -147,8 +147,7 @@ theme_cpal_print <- function(base_size = 8.5, base_family = "Poppins",
     legend.box.spacing = NULL,
 
     # panel attributes
-
-    panel.background = ggplot2::element_blank(),
+    panel.background = ggplot2::element_rect(fill = "#E7ECEE"),
     panel.border = ggplot2::element_blank(),
     panel.ontop = FALSE,
 

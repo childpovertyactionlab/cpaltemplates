@@ -13,7 +13,7 @@ cpal_subtitle <- function(string, size = 9.5) {
   grid::textGrob(string,
            x = unit(0, "npc"),
            y = unit(1, "npc"),
-           hjust = 0,
+           hjust = 1,
            vjust = 1,
            gp = gpar(fontsize = size,
                      fontfamily = "Poppins"))

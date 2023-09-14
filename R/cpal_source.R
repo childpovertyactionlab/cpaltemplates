@@ -44,7 +44,7 @@ cpal_source <- function(text, size = 8, width = 132, plural = FALSE) {
     name = "source1",
     x = unit(0, "npc"),
     y = unit(1, "npc"),
-    hjust = 0,
+    hjust = 1,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins", fontface = "bold")
   )
@@ -53,7 +53,7 @@ cpal_source <- function(text, size = 8, width = 132, plural = FALSE) {
     line1,
     x = unit(0, "npc") + grobWidth("source1"),
     y = unit(1, "npc"),
-    hjust = 0,
+    hjust = 1,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins")
   )
@@ -64,7 +64,7 @@ cpal_source <- function(text, size = 8, width = 132, plural = FALSE) {
       lines,
       x = unit(0, "npc"),
       y = unit(1, "npc") - 1.5 * grobHeight("source1"),
-      hjust = 0,
+      hjust = 1,
       vjust = 1,
       gp = gpar(fontsize = size, fontfamily = "Poppins", lineheight = 1)
     )
