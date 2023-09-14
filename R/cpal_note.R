@@ -44,7 +44,7 @@ cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {
     name = "note1",
     x = unit(0, "npc"),
     y = unit(1, "npc"),
-    hjust = 1,
+    hjust = -0.05,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins", fontface = "bold", lineheight = 1)
   )
@@ -53,7 +53,7 @@ cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {
     line1,
     x = unit(0, "npc") + grobWidth("note1"),
     y = unit(1, "npc"),
-    hjust = 1,
+    hjust = -0.05,
     vjust = 1,
     gp = gpar(fontsize = size, fontfamily = "Poppins", lineheight = 1)
   )
@@ -65,7 +65,7 @@ cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {
       lines,
       x = unit(0, "npc"),
       y = unit(1, "npc") - 1.5 * grobHeight("note1"),
-      hjust = 1,
+      hjust = -0.05,
       vjust = 1,
       gp = gpar(fontsize = size, fontfamily = "Poppins", lineheight = 1)
     )
