@@ -1,7 +1,7 @@
 Package: cpaltemplates
 Type: Package
 Title: Contains templates for the Child Poverty Action Lab
-Version: 0.0.0.3
+Version: 1.0.2
 Authors@R: person("Michael", "Lopez", email = "michael@childpovertyactionlab.org", role = c('aut', 'cre'))
 Description: Common templates for the Child Poverty Action Lab in one tidy package.
 Depends:

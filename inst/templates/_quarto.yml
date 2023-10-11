@@ -1,31 +1,55 @@
 project:
   type: website
   output-dir: "docs"
-  title: "Title of this web report."
 format:
   html:
     theme: www/web_report.scss
+    toc-title: Contents
     toc: true
-    toc-depth: 4
+    toc-depth: 2
+    toc-location: right
     anchor-sections: false
+    code-summary: "Reveal Code"
+    code-copy: hover
+    code-fold: true
+    smooth-scroll: true
+    grid:
+      sidebar-width: 250px
+      body-width: 900px
+      margin-width: 300px
+    code-block-bg: true
+    code-block-border-left: "#008097"
+    fig-width: 7.5
+    fig-height: 4.2
+    warning: FALSE
+    error: TRUE
+    echo: FALSE
+    message: FALSE
 website:
+  search:
+    location: navbar
+    type: textbox
   favicon: www/images/CPAL_favicon.ico
-  description: Description of this web report.
+#  description: Description of this web report.
 #  site-url:
 #  repo-url:
 #  google-analytics:
 #  cookie consent: implied
   navbar:
-#      logo: www/images/CPAL_Logo_White.png
-#      logo-href: "https://childpovertyactionlab.org/"
-      collapse: TRUE
+      pinned: TRUE
+      search: TRUE
+      logo: www/images/CPAL_Logo_White.png
+      logo-href: "https://github.com/childpovertyactionlab"
+      collapse: false
       right:
-        - icon: house-door-fill
-          text: "Home"
-          href: web_report.html
-        - icon: github
-          text: "Github"
-          href: "https://github.com/childpovertyactionlab/"
+        - text: "<b>Menu<b>"
+          menu:
+            - icon: house-door-fill
+              text: "Home"
+              href: index.html
+            - icon: github
+              text: "Github"
+              href: "https://github.com/childpovertyactionlab/"
   page-footer:
     center: Copyright 2023 <b>[The Child Poverty Action Lab](https://childpovertyactionlab.org/).</b>
     background: "#008097"
