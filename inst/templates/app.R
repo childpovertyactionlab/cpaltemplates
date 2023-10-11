@@ -16,7 +16,7 @@ options(shiny.sanitize.errors = TRUE)
 options(scipen = 999)
 
 ##### App Title #####
-cpaltitle <- tags$a(tags$img(src = "www/images/CPAL_Logo_White.png", height = "50"),
+cpaltitle <- tags$a(tags$img(src = "images/CPAL_Logo_White.png", height = "50"),
                     strong("APP HEADER TITLE HERE"))
 
 #### UI #####
