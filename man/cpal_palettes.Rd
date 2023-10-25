@@ -15,7 +15,7 @@
 \alias{palette_cpal_purple}
 \title{Child Poverty Action Lab palettes}
 \format{
-An object of class \code{character} of length 9.
+An object of class \code{character} of length 7.
 
 An object of class \code{character} of length 9.
 

@@ -12,42 +12,40 @@
 #' @export
 palette_cpal_main <- c(
   "#008097",
-  "#E98816",
-  "#2f2f2f",
-  "#ffbe0b",
-  "#ccd4d5",
-  "#EA8B98",
-  "#009763",
-  "#971700",
-  "#6610f2")
+  "#ED018C",
+  "#2F2F2F",
+  "#ED683F",
+  "#EACA2D",
+  "#042D33",
+  "#881354")
 
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_diverging <- c(
-  "#E98816",
-  "#E8BA82",
-  "#E8D3B8",
-  "#E8DFD1",
-  "#E7ECEE",
-  "#B9D7DD",
-  "#A4CDD5",
-  "#8BC1CB",
-  "#008097")
+  "#881354",
+  "#ED018C",
+  "#FFCCDC",
+  "#FEEBF2",
+  "#FFFFFF",
+  "#E1F5F8",
+  "#9ADAE5",
+  "#008097",
+  "#042D33")
 
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_quintile <- c(
-  "#ccd4d5",
-  "#83b6bf",
-  "#2690a3",
-  "#005160",
-  "#2f2f2f")
+  "#F4FBFC",
+  "#E1F5F8",
+  "#9ADAE5",
+  "#008097",
+  "#042D33")
 
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_politics <- c(
   "#008097",
-  "#E98816")
+  "#ED018C")
 
 #' @rdname cpal_palettes
 #' @export
@@ -88,14 +86,14 @@ palette_cpal_orange <- c(
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_magenta <- c(
-  "#FCEEF0",
-  "#F6CBD1",
-  "#EA8B98",
-  "#DC4156",
-  "#AC2032",
-  "#67131E",
-  "#450D14",
-  "#22060A")
+  "#FADBEC",
+  "#F2A6D0",
+  "#EB70B4",
+  "#E33B97",
+  "#c41c79",
+  "#881354",
+  "#590d37",
+  "#350821")
 
 #' @rdname cpal_palettes
 #' @export

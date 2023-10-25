@@ -25,8 +25,8 @@ theme_cpal_map <- function(scale = "continuous",
   gg <- gg +  ggplot2::theme(
 
       # make changes for mapping styles
-      plot.background = element_rect(fill = "#E7ECEE"),
-      panel.background = element_rect(fill = "#E7ECEE"),
+      plot.background = ggplot2::element_rect(fill = "#FFFFFF"),
+      panel.background = ggplot2::element_rect(fill = "#FFFFFF"),
       axis.text = ggplot2::element_blank(),
       axis.ticks = ggplot2::element_blank(),
       axis.title = ggplot2::element_blank(),

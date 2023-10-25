@@ -22,6 +22,8 @@ cpal_save(
 
 \item{dpi}{Plot resolution. Also accepts a string input: "retina" (320),
 "print" (300), or "screen" (72). Applies only to raster output types.}
+
+\item{height}{Height of plot after save. Default is NULL.}
 }
 \description{
 This is a function to save standardized images for CPAL
