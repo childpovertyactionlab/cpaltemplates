@@ -70,7 +70,7 @@ $link-color:    $teal-900 !default;
 
 // Links
 
-$link-color:    $teal-900 !default;
+$link-color:                $success !default;
 
 // Fonts
 
@@ -200,8 +200,8 @@ div.shadecontent
     -moz-border-radius: 10px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-    padding: 0px;
+h1 {
+    padding: 5px;
     font-weight: $headings-font-weight;
     font-family: $headings-font-family;
     color: #FFFFFF;
@@ -209,6 +209,75 @@ h1, h2, h3, h4, h5, h6 {
     background: $teal-900;
     border-radius: 15px;
     -moz-border-radius: 0px;
+}
+
+h2, h3, h4, h5, h6 {
+    padding: 5px;
+    font-weight: $headings-font-weight;
+    font-family: $headings-font-family;
+    color: #FFFFFF;
+    text-align: left;
+    padding-left: 15px;
+    background: lighten($teal-900, 10%);
+    border-radius: 15px;
+    -moz-border-radius: 0px;
+    display: block; /* Makes the element respect content width */
+    min-width: 200px; /* Set your desired minimum width value */
+}
+
+.dataTables_wrapper {
+  // overflow: auto;
+  border: 4px solid $teal-900;
+  border-radius: 10px 10px 5px 5px;
+
+
+  .dataTable {
+
+    .last-row {
+      background-color: $teal-900;
+    }
+
+    overflow: hidden;
+
+    tbody tr:hover {
+      background-color: rgba(4, 45, 51, 0.1);
+    }
+
+    thead th:hover {
+      color: #FFF; /* This sets the text color to white; adjust as needed */
+      cursor: pointer; /* Makes it clear to users they can interact with the headers */
+    }
+
+    th, td {
+      font-family: "Poppins", sans-serif;
+      // font-weight: bold;
+      text-align: left;
+      // border-radius: 15px;
+    }
+
+    .th-hover-effect {
+      color: rgba(4, 45, 51, 0.05); /* teal-900 at 5% opacity */
+    }
+
+    td {
+      font-size: 15px;
+      padding-left: 15px;
+    }
+
+    th {
+      background-color: $teal-900;
+      color: #FFFFFF;
+      line-height: 1.2;
+      font-style: none;
+      font-variant: small-caps;
+      // border-radius: 15px;
+    }
+
+    // tr:nth-child(odd) {
+    //  background-color: $gray-100;
+    // }
+  }
+
 }
 
 
