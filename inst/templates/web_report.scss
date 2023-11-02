@@ -200,29 +200,130 @@ div.shadecontent
     -moz-border-radius: 10px;
 }
 
-h1 {
-    padding: 5px;
-    font-weight: $headings-font-weight;
-    font-family: $headings-font-family;
-    color: #FFFFFF;
-    text-align: center;
-    background: $teal-900;
-    border-radius: 15px;
-    -moz-border-radius: 0px;
-}
-
-h2, h3, h4, h5, h6 {
-    padding: 5px;
+h1, h2, h3, h4, h5, h6 {
+    position: relative;
+    padding: 10px; /* Add more padding to the right to make space for the triangle */
     font-weight: $headings-font-weight;
     font-family: $headings-font-family;
     color: #FFFFFF;
     text-align: left;
-    padding-left: 15px;
-    background: lighten($teal-900, 10%);
-    border-radius: 15px;
+    background: $teal-900;
+    border-radius: 8px 10px 10px 8px;
     -moz-border-radius: 0px;
-    display: block; /* Makes the element respect content width */
-    min-width: 200px; /* Set your desired minimum width value */
+}
+
+h1 {
+    width: 95%;
+    height: 56px;
+    text-align: center;
+
+    &::after {
+        border-radius: 0;
+        content: '';
+        position: absolute;
+        right: -32px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: calc(56px * .65) solid $teal-900;
+        border-top: calc(56px / 2 - 2px) solid transparent;
+        border-bottom: calc(56px / 2 - 2px) solid transparent;
+    }
+}
+
+h2 {
+    width: 70%;
+    height: 48px;
+
+    &::after {
+        border-radius: 0;
+        content: '';
+        position: absolute;
+        right: -26.5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: calc(48px * .65) solid $teal-900;
+        border-top: calc(48px / 2 - 2px) solid transparent;
+        border-bottom: calc(48px / 2 - 2px) solid transparent;
+    }
+}
+
+h2#toc-title {
+    height: auto;
+    padding: 5px;
+    padding-left: 10px;
+
+    &::after {
+        content: none;     /* Removes the ::after content, i.e., the triangle */
+    }
+}
+
+h3 {
+    width: 45%;
+    height: 48px;
+
+    &::after {
+        border-radius: 0;
+        content: '';
+        position: absolute;
+        right: -26.5px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: calc(48px * .65) solid $teal-900;
+        border-top: calc(48px / 2 - 2px) solid transparent;
+        border-bottom: calc(48px / 2 - 2px) solid transparent;
+    }
+}
+
+h4 {
+    position: relative;
+    color: #FFFFFF;
+    padding-left: 85px; /* Space for block and triangle. Adjust as needed. */
+    background: none;
+    color: $teal-900;
+
+    &::before {
+        /* Block */
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 50px; /* Adjust as needed */
+        height: 40px; /* Adjust as needed */
+        background: $teal-900;
+        border-radius: 5px 10px 10px 5px;
+    }
+
+    &::after {
+        /* Triangle */
+        content: '';
+        position: absolute;
+        left: 46px; /* Adjust based on block width */
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: calc(40px * .60) solid $teal-900; /* Adjust based on the height */
+        border-top: calc(40px / 2 - 2px) solid transparent;
+        border-bottom: calc(40px / 2 - 2px) solid transparent;
+    }
+}
+
+h5, h6 {
+  display: inline-block;
+  font-size: 20px !important;
+}
+
+h6 {
+    background: #FFFFFF;
+    color: $teal-900;
+    border: 2px solid $teal-900;
 }
 
 .dataTables_wrapper {

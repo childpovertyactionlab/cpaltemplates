@@ -3,25 +3,27 @@
 \docType{data}
 \name{palette_cpal_main}
 \alias{palette_cpal_main}
+\alias{palette_cpal_deut}
 \alias{palette_cpal_diverging}
 \alias{palette_cpal_quintile}
-\alias{palette_cpal_politics}
 \alias{palette_cpal_teal}
 \alias{palette_cpal_gray}
 \alias{palette_cpal_orange}
 \alias{palette_cpal_magenta}
 \alias{palette_cpal_green}
-\alias{palette_cpal_red}
+\alias{palette_cpal_yellow}
 \alias{palette_cpal_purple}
 \title{Child Poverty Action Lab palettes}
 \format{
-An object of class \code{character} of length 7.
+An object of class \code{character} of length 8.
+
+An object of class \code{character} of length 8.
+
+An object of class \code{character} of length 8.
 
 An object of class \code{character} of length 9.
 
 An object of class \code{character} of length 5.
-
-An object of class \code{character} of length 2.
 
 An object of class \code{character} of length 8.
 
@@ -44,11 +46,13 @@ Child Poverty Action Lab Data Visualization Style Guide
 \usage{
 palette_cpal_main
 
+palette_cpal_main
+
+palette_cpal_deut
+
 palette_cpal_diverging
 
 palette_cpal_quintile
-
-palette_cpal_politics
 
 palette_cpal_teal
 
@@ -60,7 +64,7 @@ palette_cpal_magenta
 
 palette_cpal_green
 
-palette_cpal_red
+palette_cpal_yellow
 
 palette_cpal_purple
 }

@@ -8,16 +8,39 @@
 #'
 #'
 #' @family cpal_palettes
+
+#' @rdname cpal_palettes
+#' @export
+palette_cpal_five <- c(
+  "#042d33",
+  "#008097",
+  "#ed018c",
+  "#ed683f",
+  "#eaca2d")
+
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_main <- c(
+  "#042d33",
   "#008097",
-  "#ED018C",
-  "#2F2F2F",
-  "#ED683F",
-  "#EACA2D",
-  "#042D33",
-  "#881354")
+  "#0047bd",
+  "#a80092",
+  "#ed018c",
+  "#ed683f",
+  "#ffa13e",
+  "#eaca2d")
+
+#' @rdname cpal_palettes
+#' @export
+palette_cpal_deut <- c(
+  "#1d2c36",
+  "#c97d3b",
+  "#6d3988",
+  "#437799",
+  "#004f9e",
+  "#f7c43a",
+  "#eea83d",
+  "#ac4c81")
 
 #' @rdname cpal_palettes
 #' @export
@@ -43,21 +66,15 @@ palette_cpal_quintile <- c(
 
 #' @rdname cpal_palettes
 #' @export
-palette_cpal_politics <- c(
-  "#008097",
-  "#ED018C")
-
-#' @rdname cpal_palettes
-#' @export
 palette_cpal_teal <- c(
-  "#E2F1F3",
-  "#B4DDE4",
-  "#87C8D4",
-  "#5AB4C4",
-  "#008BA3",
-  "#00687A",
-  "#00343D",
-  "#001114")
+  "#F4FBFC",
+  "#C2F6FF",
+  "#70EAFF",
+  "#1FDDFF",
+  "#00BFE0",
+  "#008097",
+  "#005766",
+  "#042D33")
 
 #' @rdname cpal_palettes
 #' @export
@@ -74,26 +91,26 @@ palette_cpal_gray <- c(
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_orange <- c(
-  "#FDF5EC",
-  "#F6CFA2",
-  "#EFA857",
-  "#E98816",
-  "#A86110",
-  "#5D3609",
-  "#4B2B07",
-  "#251603")
+  "#FFE5DE",
+  "#F8C4B4",
+  "#F1896A",
+  "#ED683F",
+  "#EA4E1F",
+  "#BB3911",
+  "#83280C",
+  "#4B1707")
 
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_magenta <- c(
-  "#FADBEC",
-  "#F2A6D0",
-  "#EB70B4",
-  "#E33B97",
-  "#c41c79",
-  "#881354",
-  "#590d37",
-  "#350821")
+  "#FFF9FB",
+  "#FFD6EE",
+  "#FE9AD4",
+  "#FE34AA",
+  "#ED018C",
+  "#B7016B",
+  "#7A0147",
+  "#3D0024")
 
 #' @rdname cpal_palettes
 #' @export
@@ -109,15 +126,15 @@ palette_cpal_green <- c(
 
 #' @rdname cpal_palettes
 #' @export
-palette_cpal_red <- c(
-  "#FFEEEB",
-  "#FFBAAD",
-  "#FF745C",
-  "#F52500",
-  "#B81C00",
-  "#7A1200",
-  "#520C00",
-  "#290600")
+palette_cpal_yellow <- c(
+  "#FFFEE2",
+  "#F7EDB6",
+  "#F3DF7C",
+  "#EDD145",
+  "#EACA2D",
+  "#DFBD16",
+  "#957E0F",
+  "#4A3F07")
 
 #' @rdname cpal_palettes
 #' @export
