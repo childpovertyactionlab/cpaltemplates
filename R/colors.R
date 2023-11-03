@@ -8,7 +8,6 @@
 #'
 #'
 #' @family cpal_palettes
-
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_five <- c(
