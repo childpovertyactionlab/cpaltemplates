@@ -7,13 +7,13 @@
 cpal_shiny <- function(){
   bslib::bs_theme(
     version = 5,
-    bootswatch = "sandstone", # base shiny theme to modify
+    bootswatch = "flatly", # base shiny theme to modify
     bg = "#FFFFFF",
-    fg = "#008097",
+    fg = "#042D33",
     "body-color" = "#2F2F2F",
     primary = "#042D33",
-    secondary = "#008097",
-    success = "#042D33",
+    secondary = "#042D33",
+    success = "#008097",
     info = "#EACA2D",
     warning = "#ED683F",
     danger = "#ED018C",
@@ -27,6 +27,9 @@ cpal_shiny <- function(){
     "enable-transitions" = TRUE,
     "progress-bar-bg" = "#881534", # progress bar color
     "progress-bg" = "#FFF9FB", # progress bar background color
-    "body-color" = "#2F2F2F" # body text color
+    "body-color" = "#2F2F2F", # body text color
+    "navbar-light-active-color" = "#FFF9FB !important", # does work!!!
+    "nav-link-color" = "#FFF9FB !important",
+    "nav-link-hover-color" = "#FFF9FB !important",
   )
 }
