@@ -17,6 +17,7 @@ The `cpaltemplates` package provides several functions to create beautifully for
 
 ```{r}
 library(ggplot2)
+library(cpaltemplates)
 
 # Create a scatter plot using ggplot2
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
@@ -74,9 +75,7 @@ ggplot(mtcars, aes(x = wt, y = mpg)) +
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   geom_point(aes(color = factor(gear)))
 
-p
-
-p + remove_legend(p)  # Removes the legend
+remove_legend(p)  # Removes the legend
 ```
 
 6.  `cpal_note()` & `cpal_source()`:
