@@ -2,20 +2,28 @@
 % Please edit documentation in R/cpal_title.R
 \name{cpal_title}
 \alias{cpal_title}
-\title{cpal_title}
+\title{Add a Title to a Plot}
 \usage{
 cpal_title(string, size = 12, width = 68)
 }
 \arguments{
-\item{string}{character string for a title}
+\item{string}{A character string representing the title text.}
 
-\item{size}{font size for the title}
+\item{size}{Numeric value specifying the font size for the title (default is 12).}
 
-\item{width}{a number of characters to allow before a character return}
+\item{width}{Numeric value indicating the maximum number of characters per line before wrapping the text (default is 68). If `FALSE`, no wrapping occurs.}
 }
 \value{
-a grob formatted for a source in a ggplot
+A grid graphical object (`grob`) formatted as a title for a ggplot.
 }
 \description{
-Add a title to a plot created with \code{cpal_plot()}.
+Adds a formatted title to a plot created with \code{cpal_plot()}.
+}
+\examples{
+\dontrun{
+title <- cpal_title("This is a title")
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotation_custom(title)
+}
+
 }

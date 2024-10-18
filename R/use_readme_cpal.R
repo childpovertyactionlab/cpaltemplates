@@ -1,24 +1,16 @@
-#' use_readme_cpal
+#' Add a Child Poverty Action Lab Specific README
 #'
-#' Adds a Child Poverty Action Lab specific README using a pre-defined template.
+#' \code{use_readme_cpal} adds a pre-defined CPAL README template, with the project name and optional version included at the top.
 #'
-#' @param name Name of the analysis to put at the top of the README.
-#' @param version Version of the project or analysis (optional).
-#' @param open Boolean for whether or not to open the README file after creation.
+#' @param name A character string for the name of the analysis or project (default is "README").
+#' @param version A character string for the project or analysis version (optional).
+#' @param open Boolean indicating whether or not to open the README file after creation (default is TRUE).
 #'
 #' @md
 #' @export
-use_readme_cpal <- function(name = "README", version = NULL, open = TRUE) {
+use_readme_cpal <- function(name = "README", version = "1.0", open = TRUE) {
 
-  # Ensure the version argument is non-null for better template flexibility
-  version <- ifelse(is.null(version), "", version)
-
-  # Check if the template file exists within the package
-  if (!file.exists(system.file("templates/README.md", package = "cpaltemplates"))) {
-    stop("README template not found. Please ensure it is installed correctly in the package.")
-  }
-
-  # Use the template to generate the README
+  # Add template for README
   usethis::use_template(
     template = "README.md",
     data = list(Package = name, Version = version),
@@ -27,5 +19,6 @@ use_readme_cpal <- function(name = "README", version = NULL, open = TRUE) {
     package = "cpaltemplates"
   )
 
-  message("README.md created successfully for ", name)
+  # Inform the user
+  message("README.md created successfully for project: ", name)
 }

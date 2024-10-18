@@ -2,7 +2,7 @@
 % Please edit documentation in R/cpal_save.R
 \name{cpal_save}
 \alias{cpal_save}
-\title{Save ggplot2 plots in standard Child Poverty Action Lab sizes}
+\title{Save ggplot2 Plots in Standard Child Poverty Action Lab Sizes}
 \usage{
 cpal_save(
   filename,
@@ -13,36 +13,29 @@ cpal_save(
 )
 }
 \arguments{
-\item{filename}{File name to create on disk.}
+\item{filename}{Character string. The file name to create on disk.}
 
-\item{plot}{Plot to save, defaults to last plot displayed.}
+\item{plot}{A ggplot2 plot to save. Defaults to the last plot displayed.}
 
-\item{size}{Size of plot. Must be one of "small" (3.25 x 2 inches),
-"medium" (6.5 x 4 inches), or "large" (9 x 6.5 inches).}
+\item{size}{Character string. Size of the plot, must be one of `"small"` (3.25 x 2 inches),
+`"medium"` (6.5 x 4 inches), or `"large"` (9 x 6.5 inches).}
 
-\item{dpi}{Plot resolution. Also accepts a string input: "retina" (320),
-"print" (300), or "screen" (72). Applies only to raster output types.}
+\item{dpi}{Numeric or character. Plot resolution. Can be a number or `"retina"` (320), `"print"` (300), or `"screen"` (72).
+Applies only to raster output types.}
 
-\item{height}{Height of plot after save. Default is NULL.}
+\item{height}{Numeric. Custom height for the plot. Default is `NULL`, and the standard size height is used.}
+}
+\value{
+Saves the plot to the specified file.
 }
 \description{
-This is a function to save standardized images for CPAL
-publications. For more functionality like custom widths and heights, use
-ggsave() directly.
+This function saves ggplot2 plots with standardized dimensions for CPAL publications.
+For custom sizes or more control over width and height, consider using `ggsave()` directly.
 }
 \examples{
-
 \dontrun{
 library(tidyverse)
-library(cpalthemes)
-
-set_cpal_defaults(style = "print")
-
-cars \%>\%
-  ggplot(aes(speed, dist)) +
-  geom_point()
-
-cpal_save("test.png")
+cpal_save("plot.png", size = "small")
 }
 
 }

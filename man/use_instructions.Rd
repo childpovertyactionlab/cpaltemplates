@@ -2,15 +2,14 @@
 % Please edit documentation in R/use_instructions.R
 \name{use_instructions}
 \alias{use_instructions}
-\title{use_instructions}
+\title{Add Instructional Template}
 \usage{
 use_instructions(instructions)
 }
 \arguments{
-\item{instructions}{A character string for the name of the created template.
-Current options are \code{"fact_sheet_pdf"}, \code{"fact_sheet_html"},
-\code{"shiny"}, and \code{"web_report"}.}
+\item{instructions}{A character string specifying the type of template instructions to add.
+Valid options are \code{"fact_sheet_pdf"}, \code{"fact_sheet_html"}, \code{"shiny"}, and \code{"web_report"}.}
 }
 \description{
-Adds instructions for constructed templates.
+\code{use_instructions} adds instructional templates to the project directory for specified content types.
 }

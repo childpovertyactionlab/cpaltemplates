@@ -5,11 +5,13 @@
 #'
 #' @return A [bslib] theme object for use in Shiny applications.
 #' @examples
+#' \dontrun{
 #' library(shiny)
 #' shinyApp(
 #'   ui = fluidPage(theme = cpal_shiny(), "Hello, CPAL!"),
 #'   server = function(input, output) {}
 #' )
+#' }
 #'
 #' @export
 cpal_shiny <- function(){

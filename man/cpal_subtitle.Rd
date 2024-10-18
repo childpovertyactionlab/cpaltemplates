@@ -2,18 +2,26 @@
 % Please edit documentation in R/cpal_subtitle.R
 \name{cpal_subtitle}
 \alias{cpal_subtitle}
-\title{cpal_subtitle}
+\title{Add a Subtitle to a Plot}
 \usage{
 cpal_subtitle(string, size = 9.5)
 }
 \arguments{
-\item{string}{character string for a subtitle}
+\item{string}{A character string representing the subtitle text.}
 
-\item{size}{font size for the subtitle}
+\item{size}{Numeric value specifying the font size for the subtitle (default is 9.5).}
 }
 \value{
-a grob formatted for a subtitle in a ggplot
+A grid graphical object (`grob`) formatted for a subtitle in a ggplot.
 }
 \description{
-Add a subtitle to a plot created with \code{cpal_plot()}.
+Adds a formatted subtitle to a plot created with \code{cpal_plot()}.
+}
+\examples{
+\dontrun{
+subtitle <- cpal_subtitle("This is a subtitle")
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotation_custom(subtitle)
+}
+
 }

@@ -2,14 +2,16 @@
 % Please edit documentation in R/use_content.R
 \name{use_content}
 \alias{use_content}
-\title{use_content}
+\title{Add Content to Specified Directory}
 \usage{
-use_content(content)
+use_content(content, overwrite = FALSE)
 }
 \arguments{
-\item{content}{A character string for the name of the content. The
-only options are "header image" and "urban logo".}
+\item{content}{A character string specifying the type of content to add. Currently, the only valid option is "web images".}
+
+\item{overwrite}{Logical. If \code{TRUE}, existing files with the same name will be overwritten (default is \code{FALSE}).}
 }
 \description{
-Adds content to the specified directory.
+\code{use_content} adds specific content, like images, to a designated directory.
+This function supports "web images" for now, which includes adding CPAL logos and images.
 }

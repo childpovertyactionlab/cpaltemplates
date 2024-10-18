@@ -14,7 +14,7 @@
 \alias{palette_cpal_green}
 \alias{palette_cpal_yellow}
 \alias{palette_cpal_purple}
-\title{Child Poverty Action Lab palettes}
+\title{Child Poverty Action Lab Color Palettes}
 \format{
 An object of class \code{character} of length 5.
 
@@ -41,7 +41,7 @@ An object of class \code{character} of length 8.
 An object of class \code{character} of length 8.
 }
 \source{
-Child Poverty Action Lab Data Visualization Style Guide
+Child Poverty Action Lab Data Visualization Style Guide:
  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 }
 \usage{
@@ -70,8 +70,11 @@ palette_cpal_yellow
 palette_cpal_purple
 }
 \description{
-Vectors with hex-color codes that correspond to the color palettes outlined in the Child Poverty Action Lab Data Visualization Style Guide.
- \url{http://childpovertyactionlab.github.io/cpal-directory/}
+Provides hex color codes corresponding to the official color palettes outlined in the Child Poverty Action Lab (CPAL) Data Visualization Style Guide.
+These palettes are designed for consistent and accessible visualizations across CPAL projects.
+}
+\details{
+Each palette contains a unique set of colors for different visualization needs, such as sequential, diverging, and categorical color scales. These can be used directly in plotting libraries like `ggplot2` or leaflet maps.
 }
 \concept{cpal_palettes}
 \keyword{datasets}

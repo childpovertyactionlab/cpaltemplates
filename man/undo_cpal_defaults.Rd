@@ -2,10 +2,21 @@
 % Please edit documentation in R/undo_cpal_defaults.R
 \name{undo_cpal_defaults}
 \alias{undo_cpal_defaults}
-\title{Child Poverty Action Lab \link{ggplot2} theme}
+\title{Reset ggplot2 Theme to Defaults}
 \usage{
-undo_cpal_defaults()
+undo_cpal_defaults(
+  font_family = "Helvetica",
+  fill_color = "#595959",
+  line_color = "#595959"
+)
+}
+\arguments{
+\item{font_family}{Font family to use when resetting (default is "Helvetica").}
+
+\item{fill_color}{Default fill color for geoms (default is "#595959").}
+
+\item{line_color}{Default line color (default is "#595959").}
 }
 \description{
-Resets all the \link{ggplot2} theme to its default settings
+\code{undo_cpal_defaults} resets the ggplot2 theme to its default settings and returns the aesthetics to standard colors and font family.
 }

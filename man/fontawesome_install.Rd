@@ -2,15 +2,19 @@
 % Please edit documentation in R/fontawesome_install.R
 \name{fontawesome_install}
 \alias{fontawesome_install}
-\title{Import and register Poppins font}
+\title{Import and Register FontAwesome}
 \usage{
 fontawesome_install()
 }
+\value{
+A message indicating whether FontAwesome was already imported or has been successfully imported and registered.
+}
 \description{
-\code{fontawesome_install} tests to see if FontAwesome is imported and registered. If FontAwesome, isn't imported and registered, then \code{fontawesome_install} imports and registers FontAwesome with \href{https://github.com/wch/extrafont}{library(extrafont)}.
+\code{fontawesome_install()} checks whether FontAwesome is already imported and registered.
+If it is not, the function imports and registers FontAwesome using the \href{https://github.com/wch/extrafont}{extrafont} package.
 }
 \details{
-Note: FontAwesome must be installed on your computer for \code{fontawesome_install} to work.
+Note: FontAwesome must be installed on your computer for \code{fontawesome_install()} to work properly.
 
-Test to see if FontAwesome is imported and registered with \code{fontawesome_test()}.
+You can test if FontAwesome is installed using \code{extrafont::fonts()}.
 }

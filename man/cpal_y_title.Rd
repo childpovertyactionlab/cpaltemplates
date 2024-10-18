@@ -2,18 +2,26 @@
 % Please edit documentation in R/cpal_y_title.R
 \name{cpal_y_title}
 \alias{cpal_y_title}
-\title{cpal_y_title}
+\title{Add a Horizontal Y-Axis Title to a Plot}
 \usage{
 cpal_y_title(string, size = 8.5)
 }
 \arguments{
-\item{string}{character string for a y-axis title}
+\item{string}{A character string representing the y-axis title.}
 
-\item{size}{font size for the y-axis title}
+\item{size}{Numeric value specifying the font size for the y-axis title (default is 8.5).}
 }
 \value{
-a grob formatted for a y-axis title in a ggplot
+A grid graphical object (`grob`) formatted as a horizontal y-axis title for a ggplot.
 }
 \description{
-Add a horizontal y axis title to a plot created with \code{cpal_plot()}.
+Adds a horizontal y-axis title to a plot created with \code{cpal_plot()}.
+}
+\examples{
+\dontrun{
+y_title <- cpal_y_title("Y-Axis Label")
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotation_custom(y_title)
+}
+
 }

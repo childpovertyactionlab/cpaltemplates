@@ -2,11 +2,13 @@
 % Please edit documentation in R/use_shiny_app.R
 \name{use_shiny_app}
 \alias{use_shiny_app}
-\title{use_shiny_app}
+\title{Add a Shiny Application Template}
 \usage{
 use_shiny_app()
 }
 \description{
-Adds a template called app.R for creating R Shiny applications. There is no
-name argument because the Child Poverty Action Lab Shiny server expects app.R.
+\code{use_shiny_app} adds a template called \code{app.R} for creating R Shiny applications. This function does not require a name argument because the Child Poverty Action Lab Shiny server expects the file to be named \code{app.R}.
+}
+\details{
+The template will be added to the current working directory, or an existing \code{www} folder if needed for Shiny assets.
 }

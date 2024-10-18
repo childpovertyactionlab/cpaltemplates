@@ -7,8 +7,6 @@
 #'   to end the name with ".Rmd".
 #' @param directory A character string for the directory where the template
 #'   should be saved.
-#'@param instructions Includes a .md file with instructions on how to fill content.
-#'
 #' @md
 #' @export
 construct_web_report <- function(name = "web_report.qmd",

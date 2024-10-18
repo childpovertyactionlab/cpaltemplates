@@ -2,22 +2,30 @@
 % Please edit documentation in R/cpal_note.R
 \name{cpal_note}
 \alias{cpal_note}
-\title{cpal_note}
+\title{Add Notes Section to a Plot}
 \usage{
 cpal_note(text, size = 8, width = 132, plural = FALSE)
 }
 \arguments{
-\item{text}{character string for a note}
+\item{text}{A character string for the note to be displayed.}
 
-\item{size}{font size for the note}
+\item{size}{Numeric value indicating the font size of the note (default is 8).}
 
-\item{width}{a number of characters to allow before a character return}
+\item{width}{Numeric value for the number of characters to allow before wrapping the text (default is 132).}
 
-\item{plural}{If `TRUE`, will change "Note:" to "Notes:"}
+\item{plural}{Logical value; if `TRUE`, changes "Note:" to "Notes:" (default is `FALSE`).}
 }
 \value{
-a grob formatted for a source in a ggplot
+A grid graphical object (`grob`) formatted for a source note in a ggplot.
 }
 \description{
-Add a notes section to the bottom of a plot created with \code{cpal_plot()}.
+Adds a formatted notes section to the bottom of a plot created with \code{cpal_plot()}.
+}
+\examples{
+\dontrun{
+library(ggplot2)
+p <- cpal_plot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotation_custom(cpal_note("This is a note", plural = TRUE))
+}
+
 }

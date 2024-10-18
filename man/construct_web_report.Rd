@@ -4,11 +4,7 @@
 \alias{construct_web_report}
 \title{construct_web_report}
 \usage{
-construct_web_report(
-  name = "web_report.qmd",
-  directory = NULL,
-  instructions = TRUE
-)
+construct_web_report(name = "web_report.qmd", directory = NULL)
 }
 \arguments{
 \item{name}{A character string for the name of the created template. Be sure
@@ -16,8 +12,6 @@ to end the name with ".Rmd".}
 
 \item{directory}{A character string for the directory where the template
 should be saved.}
-
-\item{instructions}{Includes a .md file with instructions on how to fill content.}
 }
 \description{
 Adds the necessary templates for making web reports at the Child Poverty Action Lab.

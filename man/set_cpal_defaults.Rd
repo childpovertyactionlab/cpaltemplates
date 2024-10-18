@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_cpal_defaults.R
 \name{set_cpal_defaults}
 \alias{set_cpal_defaults}
-\title{Child Poverty Action Lab [ggplot2] theme}
+\title{Set CPAL Defaults for ggplot2 Theme}
 \usage{
 set_cpal_defaults(
   style = "print",
@@ -10,26 +10,28 @@ set_cpal_defaults(
   base_family = "Poppins",
   base_line_size = 0.5,
   base_rect_size = 0.5,
-  scale = "continuous"
+  scale = "continuous",
+  fill_color = "#008097",
+  text_color = "#042D33"
 )
 }
 \arguments{
-\item{style}{The default theme style for the R session. "print" or "map".}
+\item{style}{The default theme style for the R session: "print" or "map".}
 
-\item{base_size}{The base font size for the theme. All fonts are relative to
-this value.}
+\item{base_size}{The base font size for the theme (default is 8.5).}
 
-\item{base_family}{The base font family for the theme.}
+\item{base_family}{The base font family for the theme (default is "Poppins").}
 
-\item{base_line_size}{The base line size for the theme. All line sizes are
-relative to this value.}
+\item{base_line_size}{The base line size for the theme (default is 0.5).}
 
-\item{base_rect_size}{The base rect size for the theme. All rect sizes are
-relative to this value.}
+\item{base_rect_size}{The base rect size for the theme (default is 0.5).}
 
-\item{scale}{For `theme_cpal_map()`. Should the legend theme be continuous or discrete?}
+\item{scale}{For \code{theme_cpal_map()}: Should the legend theme be continuous or discrete? (default is "continuous").}
+
+\item{fill_color}{Default fill color for geoms (default is "#008097").}
+
+\item{text_color}{Default text color for plot labels (default is "#042D33").}
 }
 \description{
-\code{set_cpal_defaults} provides a [ggplot2] theme formatted according to the
-Child Poverty Action Lab style guide, with sensible defaults.
+\code{set_cpal_defaults} sets a [ggplot2] theme formatted according to the Child Poverty Action Lab style guide, with sensible defaults for print and map styles.
 }

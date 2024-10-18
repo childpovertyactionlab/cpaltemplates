@@ -2,17 +2,21 @@
 % Please edit documentation in R/geoms.R
 \name{geom_col}
 \alias{geom_col}
-\title{geom_col in CPAL style}
+\title{CPAL Styled geom_col}
 \usage{
 geom_col(mapping = NULL, width = 1.1, ...)
 }
 \arguments{
-\item{mapping}{mapping from ggplot2}
+\item{mapping}{Aesthetic mapping from ggplot2.}
 
-\item{width}{column width}
+\item{width}{Numeric value for the column width (default is 1.1).}
 
-\item{...}{other arguments passed to \code{geom_col()}}
+\item{...}{Additional arguments passed to \code{geom_col()}.}
+}
+\value{
+A ggplot2 `geom_col()` layer with CPAL styling.
 }
 \description{
-Submit \code{?ggplot2::geom_line} to see the full documentation for \code{geom_col()}
+This function applies a custom width and other CPAL-specific defaults to `geom_col()`.
+For full documentation, see \code{?ggplot2::geom_col}.
 }

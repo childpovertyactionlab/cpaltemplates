@@ -1,193 +1,62 @@
-#' A [ggplot2] theme formatted in Child Poverty Action Lab style style
+#' Child Poverty Action Lab [ggplot2] Theme for Print
 #'
-#' \code{theme_cpal} provides a [ggplot2] theme formatted according to the
-#' Child Poverty Action Lab style guide for web, with sensible defaults.
+#' \code{theme_cpal_print} provides a [ggplot2] theme formatted according to the CPAL style guide for print, with sensible defaults.
 #'
+#' @param base_size Base font size (default is 8.5).
+#' @param base_family Base font family (default is "Poppins").
+#' @param base_line_size Base size for lines (default is 0.5).
+#' @param base_rect_size Base size for rectangle elements (default is 0.5).
+#' @param line_color Default line color (default is "#222222").
+#' @param rect_fill Background color for rectangles (default is "#E7ECEE").
+#' @param grid_color Grid line color (default is "#E7ECEE").
 #' @import extrafont
 #' @import ggrepel
 #' @md
-#' @param base_family,base_size base font family and size
-#' @param base_line_size,base_rect_size base line and rectangle sizes
 #' @export
 
-theme_cpal_print <- function(base_size = 8.5, base_family = "Poppins",
+theme_cpal_print <- function(base_size = 8.5,
+                             base_family = "Poppins",
                              base_line_size = 0.5,
-                             base_rect_size = 0.5) {
+                             base_rect_size = 0.5,
+                             line_color = "#222222",
+                             rect_fill = "#E7ECEE",
+                             grid_color = "#E7ECEE") {
 
   half_line <- base_size / 2L
 
   ggplot2::theme(
+    line = ggplot2::element_line(colour = line_color, size = base_line_size),
+    rect = ggplot2::element_rect(fill = rect_fill, colour = line_color, size = base_rect_size),
+    text = ggplot2::element_text(family = base_family, colour = line_color, size = base_size, lineheight = 0.9),
 
-    # main attributes
-
-    line = ggplot2::element_line(colour = "#222222",
-                                 size = base_line_size,
-                                 linetype = 1L,
-                                 lineend = "butt"),
-    rect = ggplot2::element_rect(fill = "#E7ECEE",
-                                 colour = "#222222",
-                                 size = base_rect_size,
-                                 linetype = 1L),
-    text = ggplot2::element_text(family = base_family,
-                                 face = "plain",
-                                 colour = "#222222",
-                                 size = base_size,
-                                 hjust = 0.5,
-                                 vjust = 0.5,
-                                 angle = 0,
-                                 lineheight = 0.9,
-                                 margin = ggplot2::margin(),
-                                 debug = FALSE),
-
-    # Plot Attributes
-
-    plot.tag = ggplot2::element_text(size = base_size * 1.5,
-                                     hjust = 0L,
-                                     vjust = 0L,
-                                     family = base_family,
-                                     face = "bold",
-                                     margin = ggplot2::margin(b = 10L)),
+    # Plot attributes
+    plot.title = ggplot2::element_text(size = base_size * 12 / 8.5, family = base_family, face = "bold"),
+    plot.subtitle = ggplot2::element_text(size = base_size * 9.5 / 8.5, family = base_family),
+    plot.caption = ggplot2::element_text(size = base_size * 7 / 8.5, family = base_family),
+    plot.tag = ggplot2::element_text(size = base_size * 1.5, family = base_family, face = "bold"),
     plot.tag.position = "topleft",
-    plot.title = ggplot2::element_text(size = base_size * 12 / 8.5,
-                                       hjust = 0L,
-                                       vjust = 0L,
-                                       family = base_family,
-                                       face = "bold",
-                                       margin = ggplot2::margin(b = 10L)),
     plot.title.position = "plot",
-    plot.subtitle = ggplot2::element_text(family = base_family,
-                                          size = base_size * 9.5 / 8.5,
-                                          hjust = 0L,
-                                          vjust = 0L,
-                                          margin = ggplot2::margin(b = 10L)),
-    plot.caption = ggplot2::element_text(family = base_family,
-                                         size = base_size * 7 / 8.5,
-                                         hjust = 1L,
-                                         vjust = 1L,
-                                         margin = ggplot2::margin(t = half_line * 0.9)),
     plot.caption.position = "plot",
-    plot.background = NULL,
 
-    plot.margin = ggplot2::margin(t = half_line,
-                                  r = base_line_size * 24,
-                                  b = half_line,
-                                  l = half_line),
-
-    # axis attributes
-
-    axis.text = ggplot2::element_text(family = base_family,
-                                      size = base_size),
-    axis.text.x = ggplot2::element_text(family = base_family,
-                                        vjust = 1, margin = ggplot2::margin(t = 4L)),
-    axis.text.y = ggplot2::element_text(family = base_family,
-                                        hjust = 1),
-    axis.text.x.top = NULL,
-    axis.text.y.right = NULL,
-    axis.ticks.length.x = NULL,
-    axis.ticks.length.x.top = NULL,
-    axis.ticks.length.x.bottom = NULL,
-    axis.ticks.length.y = NULL,
-    axis.ticks.length.y.left = NULL,
-    axis.ticks.length.y.right = NULL,
-
-    axis.title = ggplot2::element_text(family = base_family,
-                                       face = "italic",
-                                       size = base_size),
-    axis.title.x = ggplot2::element_text(family = base_family,
-                                         margin = ggplot2::margin(t = 8L)),
-    axis.title.y = ggplot2::element_text(family = base_family,
-                                         angle = 90L,
-                                         margin = ggplot2::margin(r = 4L)),
-    axis.title.x.top = NULL,
-    axis.title.y.right = NULL,
-
+    # Axis attributes
+    axis.text = ggplot2::element_text(family = base_family, size = base_size),
+    axis.title = ggplot2::element_text(family = base_family, face = "italic", size = base_size),
     axis.ticks = ggplot2::element_line(),
-    axis.ticks.length = ggplot2::unit(4L, "pt"),
-    axis.ticks.x = ggplot2::element_line(colour = NULL,
-                                         size = NULL,
-                                         linetype = NULL,
-                                         lineend = NULL),
-    axis.ticks.y = ggplot2::element_blank(),
+    axis.line = ggplot2::element_line(colour = line_color),
 
-    axis.line = ggplot2::element_line(),
-    axis.line.x = ggplot2::element_line(colour = NULL,
-                                        size = NULL,
-                                        linetype = NULL,
-                                        lineend = NULL),
-    axis.line.y = ggplot2::element_blank(),
-
-    # legend attributes
-
-    legend.background = ggplot2::element_blank(),
-
-    legend.spacing = ggplot2::unit(20L, "pt"),
-    legend.spacing.x = ggplot2::unit(4L, "pt"),
-    legend.spacing.y = NULL,
-
-    legend.key = ggplot2::element_blank(),
-    legend.key.size = ggplot2::unit(10L, "pt"),
-    legend.key.height = NULL,
-    legend.key.width = NULL,
-
-    legend.text = ggplot2::element_text(family = base_family,
-                                        size = base_size * 9.5 / 8.5,
-                                        vjust = 0.5),
-    legend.text.align = NULL,
-    legend.title = ggplot2::element_blank(),
-    legend.title.align = NULL,
-
+    # Legend attributes
     legend.position = "bottom",
-    legend.direction = "horizontal",
-    legend.justification = NULL,
-    legend.margin = ggplot2::margin(t = 6L, r = 0L, b = 6L, l = 0L, "pt"),
+    legend.background = ggplot2::element_blank(),
+    legend.key = ggplot2::element_blank(),
+    legend.text = ggplot2::element_text(size = base_size * 9.5 / 8.5, family = base_family),
 
-    legend.box = "horizontal",
-    legend.box.margin = NULL,
-    legend.box.background = NULL,
-    legend.box.spacing = NULL,
-
-    # panel attributes
+    # Panel attributes
     panel.background = ggplot2::element_blank(),
-    panel.border = ggplot2::element_blank(),
-    panel.ontop = FALSE,
+    panel.grid.major = ggplot2::element_line(colour = grid_color),
+    panel.grid.minor = ggplot2::element_blank(),
 
-    panel.spacing = ggplot2::unit(6L, "pt"),
-    panel.spacing.x = NULL,
-    panel.spacing.y = NULL,
-
-    panel.grid = NULL,
-    panel.grid.major = ggplot2::element_line(),
-    panel.grid.major.x = ggplot2::element_blank(),
-    panel.grid.major.y = ggplot2::element_line(colour = "#E7ECEE"),
-    panel.grid.minor = ggplot2::element_line(),
-    panel.grid.minor.x = ggplot2::element_blank(),
-    panel.grid.minor.y = ggplot2::element_blank(),
-
-    # strip attributes (Faceting)
-
-    strip.background = ggplot2::element_rect(fill = "#E7ECEE",
-                                             colour = NA,
-                                             size = 10L),
-    strip.text = ggplot2::element_text(family = base_family,
-                                       face = "bold",
-                                       size = base_size * 9.5 / 8.5,
-                                       margin = ggplot2::margin(t = 0L, r = 0L, b = 0L, l = 0L)),
-
-    strip.text.x = ggplot2::element_text(family = base_family,
-                                         margin = ggplot2::margin(t = 4.5, b = 4.5)),
-    strip.text.y = ggplot2::element_text(family = base_family,
-                                         angle = -90L,
-                                         margin = ggplot2::margin(l = 4.5, r = 4.5)),
-
-    strip.placement = "inside",
-    strip.placement.x =  NULL,
-    strip.placement.y =  NULL,
-
-    strip.switch.pad.grid = ggplot2::unit(0.1, "cm"),
-    strip.switch.pad.wrap = ggplot2::unit(0.1, "cm"),
-
-    # create a complete format
-    complete = TRUE
-
+    # Facet strip attributes
+    strip.background = ggplot2::element_rect(fill = grid_color),
+    strip.text = ggplot2::element_text(family = base_family, face = "bold", size = base_size * 9.5 / 8.5)
   )
 }

@@ -11,8 +11,8 @@ An object of class \code{character} of length 1.
 An object of class \code{character} of length 1.
 }
 \source{
-Child Poverty Action Lab Data Visualization Style Guide
- \url{http://childpovertyactionlab.github.io/cpal-directory/}
+Child Poverty Action Lab Data Visualization Style Guide:
+\url{http://childpovertyactionlab.github.io/cpal-directory/}
 }
 \usage{
 cpal_mapbox_color
@@ -20,7 +20,10 @@ cpal_mapbox_color
 cpal_mapbox_mono
 }
 \description{
-Child Poverty Action Lab Mapbox Basemaps
+Provides access to custom Mapbox basemaps designed according to the Child Poverty Action Lab Data Visualization Style Guide.
+}
+\details{
+The basemaps available include a color version (`cpal_mapbox_color`) and a monochrome version (`cpal_mapbox_mono`), designed for use in data visualizations.
 }
 \concept{cpal_mapbox}
 \keyword{datasets}

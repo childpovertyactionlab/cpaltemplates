@@ -4,14 +4,13 @@
 \alias{use_git_ignore_cpal}
 \title{use_git_ignore_cpal}
 \usage{
-use_git_ignore_cpal(gitignore = "R", open = FALSE)
+use_git_ignore_cpal(gitignore = "R", open = TRUE)
 }
 \arguments{
-\item{gitignore}{Selection of .gitignore. Current options are \code{"R"}, \code{"shiny"},
-\code{"fact_sheet_pdf"}, \code{"fact_sheet_pdf"}, and \code{"web_report"}.}
+\item{gitignore}{Content to be added to the .gitignore file. Default is set to 'R'.}
 
-\item{open}{Open the newly created file for editing?}
+\item{open}{Logical. If TRUE, opens the .gitignore file after creation.}
 }
 \description{
-Adds a custom .gitignore to the top directory.
+Adds a .gitignore file tailored for R projects.
 }

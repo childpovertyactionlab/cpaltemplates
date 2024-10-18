@@ -2,15 +2,27 @@
 % Please edit documentation in R/remove_axis.R
 \name{remove_axis}
 \alias{remove_axis}
-\title{The Child Poverty Action Lab \link{ggplot2} theme}
+\title{Remove Axes and Labels in CPAL [ggplot2] Theme}
 \usage{
 remove_axis(axis = "y", flip = FALSE)
 }
 \arguments{
-\item{axis}{Axis to drop. "x", "y", or "both"}
+\item{axis}{A character string specifying which axis to remove: `"x"`, `"y"`, or `"both"`.}
 
-\item{flip}{TRUE/FALSE is \code{coord_flip()} is used}
+\item{flip}{Logical. If `TRUE`, indicates that `coord_flip()` is used and adjusts the axis accordingly.}
+}
+\value{
+A [ggplot2] theme object that removes the specified axis components.
 }
 \description{
-Removes axes and axes labels
+Removes axis lines, ticks, and labels for the specified axis in a [ggplot2] plot.
+Can be customized for use with `coord_flip()`.
+}
+\examples{
+\dontrun{
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  remove_axis("x", flip = FALSE)
+}
+
 }

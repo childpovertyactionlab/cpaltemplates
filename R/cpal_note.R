@@ -9,8 +9,11 @@
 #'
 #' @return A grid graphical object (`grob`) formatted for a source note in a ggplot.
 #' @examples
+#' \dontrun{
+#' library(ggplot2)
 #' p <- cpal_plot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 #' p + annotation_custom(cpal_note("This is a note", plural = TRUE))
+#' }
 #'
 #' @export
 cpal_note <- function(text, size = 8, width = 132, plural = FALSE) {

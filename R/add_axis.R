@@ -11,9 +11,12 @@
 #'
 #' @return A [ggplot2] theme object modifying the axis lines.
 #' @examples
+#' \dontrun{
+#' library(ggplot2)
 #' ggplot(data = mtcars, aes(x = wt, y = mpg)) +
 #'   geom_point() +
 #'   add_axis("x")
+#' }
 #'
 #' @export
 add_axis <- function(axis = "y") {

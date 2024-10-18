@@ -2,35 +2,28 @@
 % Please edit documentation in R/inter_import.R, R/poppins_import.R
 \name{poppins_import}
 \alias{poppins_import}
-\title{Import and register Inter font}
+\title{Import and Register Inter Font}
 \usage{
 poppins_import()
 
 poppins_import()
 }
+\value{
+A message indicating whether Poppins is already registered or has been successfully imported and registered.
+}
 \description{
-\code{inter_import()} tests to see if Inter is imported and registered. If
-Inter, isn't imported and registered, then \code{inter_import()} imports and
-registers Inter with
-\href{https://github.com/wch/extrafont}{library(extrafont)}.
+\code{poppins_import()} checks if the Inter font is imported and registered on your system.
+If not, it imports and registers the font using the \href{https://github.com/wch/extrafont}{extrafont} package.
 
-\code{poppins_import()} tests to see if Poppins is imported and registered. If
-Poppins, isn't imported and registered, then \code{poppins_import()} imports and
-registers Poppins with
-\href{https://github.com/wch/extrafont}{library(extrafont)}.
+\code{poppins_import()} checks if the Poppins font is imported and registered. If not, it imports and registers Poppins using the \href{https://github.com/wch/extrafont}{extrafont} package.
 }
 \details{
-Note: Inter must be installed on your computer for \code{inter_import()} to
-work. Inter is the Child Poverty Action Lab's main font. To install, visit
-\href{https://fonts.google.com/specimen/Poppins}{Google fonts} and click
-"Download family". Unzip and open each of the .ttf files and click install.
+Note: The Inter font must be installed on your computer for \code{poppins_import()} to work.
+Inter is the main font used by the Child Poverty Action Lab. To install, visit
+\href{https://fonts.google.com/specimen/Inter}{Google Fonts} and download the Inter font family.
+After downloading, unzip and install each of the .ttf files.
 
-Test to see if Inter is imported and registered with \code{inter_test()}.
+You can test if Inter is imported and registered with \code{extrafont::fonts()}.
 
-Note: Poppins must be installed on your computer for \code{poppins_import()} to
-work. Poppins is the Child Poverty Action Lab's main font. To install, visit
-\href{https://fonts.google.com/specimen/Poppins}{Google fonts} and click
-"Download family". Unzip and open each of the .ttf files and click install.
-
-Test to see if Poppins is imported and registered with \code{poppins_test()}.
+Note: Poppins must be installed on your computer for \code{poppins_import()} to work. Poppins is the Child Poverty Action Lab's main font. To install, visit \href{https://fonts.google.com/specimen/Poppins}{Google Fonts}, download, unzip, and install each of the .ttf files.
 }

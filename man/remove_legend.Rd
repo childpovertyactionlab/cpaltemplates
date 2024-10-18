@@ -2,16 +2,23 @@
 % Please edit documentation in R/remove_legend.R
 \name{remove_legend}
 \alias{remove_legend}
-\title{remove_legend}
+\title{Remove the Legend from a ggplot2 Object}
 \usage{
 remove_legend(ggplot_object)
 }
 \arguments{
-\item{ggplot_object}{a ggplot}
+\item{ggplot_object}{A ggplot object from which the legend will be removed.}
 }
 \value{
-a ggplot without a legend
+A ggplot object without a legend.
 }
 \description{
-Remove just the legend from a ggplot2 object.
+This function removes the legend from a ggplot2 plot by disabling all guide aesthetics.
+}
+\examples{
+\dontrun{
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(gear))) + geom_point()
+p_no_legend <- remove_legend(p)
+}
+
 }

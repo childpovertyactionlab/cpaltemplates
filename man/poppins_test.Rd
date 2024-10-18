@@ -2,15 +2,18 @@
 % Please edit documentation in R/poppins_test.R
 \name{poppins_test}
 \alias{poppins_test}
-\title{Test for Poppins import and registration}
+\title{Test for Poppins Font Import and Registration}
 \usage{
 poppins_test()
 }
+\value{
+A message indicating whether Poppins is successfully registered.
+}
 \description{
-\code{poppins_test} tests to see if Poppins is imported and registered. Poppins is
-the Child Poverty Action Lab's main font and can be installed from
-\href{https://fonts.google.com/specimen/Poppins}{Google fonts}.
+\code{poppins_test()} checks whether the Poppins font is imported and registered in R.
+Poppins is the main font used by the Child Poverty Action Lab. If the font is not found,
+instructions are provided for installing and importing it using \code{poppins_import()}.
 }
 \details{
-Import and register Poppins in R with poppins_import().
+You can download the font from \href{https://fonts.google.com/specimen/Poppins}{Google Fonts}.
 }

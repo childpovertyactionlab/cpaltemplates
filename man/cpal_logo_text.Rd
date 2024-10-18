@@ -2,10 +2,16 @@
 % Please edit documentation in R/cpal_logo_text.R
 \name{cpal_logo_text}
 \alias{cpal_logo_text}
-\title{Child Poverty Action Lab \link{ggplot2} theme}
+\title{Child Poverty Action Lab \link{ggplot2} Logo Theme}
 \usage{
 cpal_logo_text()
 }
+\value{
+A grid graphical object (\code{grob}) with the CPAL logo text.
+}
 \description{
-Creates a grid object with a Child Poverty Action Lab logo
+Creates a grid object with the Child Poverty Action Lab logo text, which can be used in \link{ggplot2} plots as a custom annotation.
+}
+\details{
+This function generates a \code{grobTree} containing the CPAL logo text. It is useful for adding consistent branding to visualizations.
 }

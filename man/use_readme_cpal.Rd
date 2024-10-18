@@ -2,15 +2,17 @@
 % Please edit documentation in R/use_readme_cpal.R
 \name{use_readme_cpal}
 \alias{use_readme_cpal}
-\title{use_readme_cpal}
+\title{Add a Child Poverty Action Lab Specific README}
 \usage{
-use_readme_cpal(name = "README", open = TRUE)
+use_readme_cpal(name = "README", version = "1.0", open = TRUE)
 }
 \arguments{
-\item{name}{Name of analysis to put at top of README}
+\item{name}{A character string for the name of the analysis or project (default is "README").}
 
-\item{open}{Boolean for whether or not to open the instructions}
+\item{version}{A character string for the project or analysis version (optional).}
+
+\item{open}{Boolean indicating whether or not to open the README file after creation (default is TRUE).}
 }
 \description{
-Adds a Child Poverty Action Lab specific README.
+\code{use_readme_cpal} adds a pre-defined CPAL README template, with the project name and optional version included at the top.
 }

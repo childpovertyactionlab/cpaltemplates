@@ -2,21 +2,33 @@
 % Please edit documentation in R/theme_cpal_print.R
 \name{theme_cpal_print}
 \alias{theme_cpal_print}
-\title{A \link{ggplot2} theme formatted in Child Poverty Action Lab style style}
+\title{Child Poverty Action Lab \link{ggplot2} Theme for Print}
 \usage{
 theme_cpal_print(
   base_size = 8.5,
   base_family = "Poppins",
   base_line_size = 0.5,
-  base_rect_size = 0.5
+  base_rect_size = 0.5,
+  line_color = "#222222",
+  rect_fill = "#E7ECEE",
+  grid_color = "#E7ECEE"
 )
 }
 \arguments{
-\item{base_family, base_size}{base font family and size}
+\item{base_size}{Base font size (default is 8.5).}
 
-\item{base_line_size, base_rect_size}{base line and rectangle sizes}
+\item{base_family}{Base font family (default is "Poppins").}
+
+\item{base_line_size}{Base size for lines (default is 0.5).}
+
+\item{base_rect_size}{Base size for rectangle elements (default is 0.5).}
+
+\item{line_color}{Default line color (default is "#222222").}
+
+\item{rect_fill}{Background color for rectangles (default is "#E7ECEE").}
+
+\item{grid_color}{Grid line color (default is "#E7ECEE").}
 }
 \description{
-\code{theme_cpal} provides a \link{ggplot2} theme formatted according to the
-Child Poverty Action Lab style guide for web, with sensible defaults.
+\code{theme_cpal_print} provides a \link{ggplot2} theme formatted according to the CPAL style guide for print, with sensible defaults.
 }

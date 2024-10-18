@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_cpal_map.R
 \name{theme_cpal_map}
 \alias{theme_cpal_map}
-\title{A \link{ggplot2} theme formatted in Child Poverty Action Lab style}
+\title{Child Poverty Action Lab \link{ggplot2} Theme for Maps}
 \usage{
 theme_cpal_map(
   scale = "continuous",
@@ -13,13 +13,16 @@ theme_cpal_map(
 )
 }
 \arguments{
-\item{scale}{"continuous" creates a vertical legend to the right of the map. "discrete" creates a horizontal legend above the map.}
+\item{scale}{A string specifying the type of legend. "continuous" creates a vertical legend on the right of the map, while "discrete" creates a horizontal legend above the map.}
 
-\item{base_family, base_size}{base font family and size}
+\item{base_size}{Base font size for the theme (default is 8.5).}
 
-\item{base_line_size, base_rect_size}{base line and rectangle sizes}
+\item{base_family}{Base font family for the theme (default is "Poppins").}
+
+\item{base_line_size}{Base line size for the theme (default is 0.5).}
+
+\item{base_rect_size}{Base rectangle size for the theme (default is 0.5).}
 }
 \description{
-\code{theme_cpal} provides a \link{ggplot2} theme formatted according to the
-Child Poverty Action Lab style guide for maps, with sensible defaults.
+\code{theme_cpal_map} provides a \link{ggplot2} theme formatted according to the Child Poverty Action Lab style guide for maps, with sensible defaults for map visualizations.
 }

@@ -2,22 +2,29 @@
 % Please edit documentation in R/cpal_source.R
 \name{cpal_source}
 \alias{cpal_source}
-\title{cpal_source}
+\title{Add Source Section to a Plot}
 \usage{
 cpal_source(text, size = 8, width = 132, plural = FALSE)
 }
 \arguments{
-\item{text}{character string for a source}
+\item{text}{A character string containing the source information to be displayed.}
 
-\item{size}{font size for the source}
+\item{size}{Numeric value indicating the font size for the source text (default is 8).}
 
-\item{width}{a number of characters to allow before a character return}
+\item{width}{Numeric value for the maximum number of characters per line before wrapping the text (default is 132).}
 
-\item{plural}{If `TRUE`, will change "Source:" to "Sources:"}
+\item{plural}{Logical value. If `TRUE`, changes "Source:" to "Sources:" (default is `FALSE`).}
 }
 \value{
-a grob formatted for a source in a ggplot
+A grid graphical object (`grob`) formatted for adding source information to a ggplot.
 }
 \description{
-Add a source section to the bottom of a plot created with \code{cpal_plot()}.
+Adds a formatted source section to the bottom of a plot created with \code{cpal_plot()}.
+}
+\examples{
+\dontrun{
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
+p + annotation_custom(cpal_source("Data from XYZ source", plural = TRUE))
+}
+
 }

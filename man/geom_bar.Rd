@@ -2,17 +2,21 @@
 % Please edit documentation in R/geoms.R
 \name{geom_bar}
 \alias{geom_bar}
-\title{geom_bar in CPAL style}
+\title{CPAL Styled geom_bar}
 \usage{
 geom_bar(mapping = NULL, width = 1.1, ...)
 }
 \arguments{
-\item{mapping}{mapping from ggplot2}
+\item{mapping}{Aesthetic mapping from ggplot2.}
 
-\item{width}{bar width}
+\item{width}{Numeric value for the bar width (default is 1.1).}
 
-\item{...}{other arguments passed to \code{geom_bar()}}
+\item{...}{Additional arguments passed to \code{geom_bar()}.}
+}
+\value{
+A ggplot2 `geom_bar()` layer with CPAL styling.
 }
 \description{
-Submit \code{?ggplot2::geom_line} to see the full documentation for \code{geom_bar()}
+This function applies a custom width and other CPAL-specific defaults to `geom_bar()`.
+For full documentation, see \code{?ggplot2::geom_bar}.
 }

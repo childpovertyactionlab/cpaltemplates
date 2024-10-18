@@ -8,18 +8,26 @@ start_project(
   name = NULL,
   directory = getwd(),
   readme = TRUE,
-  gitignore = FALSE
+  gitignore = FALSE,
+  type = "General",
+  docker = FALSE,
+  overwrite = FALSE
 )
 }
 \arguments{
 \item{name}{Name of the project and the directory.}
 
-\item{directory}{A path from the home directory of the computer to the new
-directory you want created.}
+\item{directory}{A path to the new directory to be created.}
 
-\item{readme}{Add a CPAL README to the project}
+\item{readme}{Add a CPAL README to the project.}
 
-\item{gitignore}{Add an R .gitignore to the project}
+\item{gitignore}{Add an R .gitignore to the project.}
+
+\item{type}{The type of project to set up ('General', 'Shiny', 'Quarto').}
+
+\item{docker}{Logical. If TRUE, adds Dockerfile and run_app.R for running in Docker.}
+
+\item{overwrite}{Logical. If TRUE, overwrite existing project if it exists.}
 }
 \description{
 Creates and opens a new project and project directory with useful files and folders.

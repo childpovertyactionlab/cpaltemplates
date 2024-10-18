@@ -9,10 +9,13 @@
 #' @return A combined plot made from multiple grobs.
 #'
 #' @examples
+#' \dontrun{
+#' library(ggplot2)
 #' p <- ggplot(mtcars, aes(x = wt, y = mpg)) + geom_point()
 #' title <- cpal_title("Title")
 #' subtitle <- cpal_subtitle("Subtitle")
 #' cpal_plot(title, subtitle, p)
+#' }
 #'
 #' @export
 cpal_plot <- function(..., heights = 1) {

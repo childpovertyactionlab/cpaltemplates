@@ -2,13 +2,24 @@
 % Please edit documentation in R/remove_ticks.R
 \name{remove_ticks}
 \alias{remove_ticks}
-\title{The Child Poverty Action Lab \link{ggplot2} theme}
+\title{Remove Tick Marks from Axes in CPAL \link{ggplot2} Theme}
 \usage{
 remove_ticks(axis = "both")
 }
 \arguments{
-\item{axis}{Axis to drop. "x", "y", or "both"}
+\item{axis}{A character string specifying which axis to remove ticks from: \code{"x"}, \code{"y"}, or \code{"both"} (default is \code{"both"}).}
+}
+\value{
+A \link{ggplot2} theme object that removes the tick marks from the specified axis.
 }
 \description{
-Removes tick marks from all axes
+Removes tick marks from the specified axis or both axes in a \link{ggplot2} plot.
+}
+\examples{
+\dontrun{
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point() +
+  remove_ticks("x")
+}
+
 }

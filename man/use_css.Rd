@@ -2,20 +2,17 @@
 % Please edit documentation in R/use_css.R
 \name{use_css}
 \alias{use_css}
-\title{use_css}
+\title{Add a CSS/SCSS Stylesheet to the Project}
 \usage{
 use_css(stylesheet, directory = "www", open = FALSE)
 }
 \arguments{
-\item{stylesheet}{Selection of stylesheet. Current options are \code{"shiny"}, and
-\code{"web_report"}.}
+\item{stylesheet}{Selection of stylesheet. Current options are \code{"shiny"}, and \code{"web_report"}.}
 
-\item{directory}{The directory where the template should be saved and opened.
-The default "www" is preferable for most projects. Use NULL to save the
-template to the project directory or working directory.}
+\item{directory}{The directory where the template should be saved (default is \code{"www"}). Use \code{NULL} to save the template to the project directory or current working directory.}
 
-\item{open}{Open the newly created file for editing.}
+\item{open}{Logical. Should the newly created file be opened for editing? (default is \code{FALSE}).}
 }
 \description{
-Adds a Syntactically Awesome Style Sheet (SCSS) to the specified directory
+\code{use_css} adds a Syntactically Awesome Style Sheet (SCSS) or CSS file to the specified directory for either Shiny apps or web reports.
 }
