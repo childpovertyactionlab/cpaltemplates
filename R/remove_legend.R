@@ -1,15 +1,19 @@
-#' remove_legend
+#' Remove the Legend from a ggplot2 Object
 #'
-#' Remove just the legend from a ggplot2 object.
+#' This function removes the legend from a ggplot2 plot by disabling all guide aesthetics.
 #'
-#' @param ggplot_object a ggplot
+#' @param ggplot_object A ggplot object from which the legend will be removed.
 #'
-#' @return a ggplot without a legend
+#' @return A ggplot object without a legend.
+#'
+#' @examples
+#' \dontrun{
+#' p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(gear))) + geom_point()
+#' p_no_legend <- remove_legend(p)
+#' }
 #'
 #' @export
-#'
 remove_legend <- function(ggplot_object) {
-
   ggplot_object +
     ggplot2::guides(
       color = FALSE,
@@ -19,5 +23,4 @@ remove_legend <- function(ggplot_object) {
       shape = FALSE,
       linetype = FALSE
     )
-
 }

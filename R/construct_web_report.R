@@ -12,13 +12,12 @@
 #' @md
 #' @export
 construct_web_report <- function(name = "web_report.qmd",
-                                 directory = NULL,
-                                 instructions = TRUE) {
+                                 directory = NULL) {
 
   use_git_ignore_cpal(gitignore = "web_report", open = FALSE)
   use_web_report(name = name, directory = directory)
-  use_css(stylesheet = "web_report", open = FALSE)
-  if (instructions) {
-    use_instructions(instructions = "web_report")
-  }
+  use_css(stylesheet = "styles", open = FALSE)
+#  if (instructions) {
+#    use_instructions(instructions = "web_report")
+#  }
 }

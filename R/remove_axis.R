@@ -1,60 +1,63 @@
-#' The Child Poverty Action Lab [ggplot2] theme
+#' Remove Axes and Labels in CPAL [ggplot2] Theme
 #'
-#' Removes axes and axes labels
+#' Removes axis lines, ticks, and labels for the specified axis in a [ggplot2] plot.
+#' Can be customized for use with `coord_flip()`.
 #'
-#' @param axis Axis to drop. "x", "y", or "both"
-#' @param flip TRUE/FALSE is `coord_flip()` is used
+#' @param axis A character string specifying which axis to remove: `"x"`, `"y"`, or `"both"`.
+#' @param flip Logical. If `TRUE`, indicates that `coord_flip()` is used and adjusts the axis accordingly.
 #'
-#' @md
+#' @return A [ggplot2] theme object that removes the specified axis components.
+#' @examples
+#' \dontrun{
+#' ggplot(mtcars, aes(x = wt, y = mpg)) +
+#'   geom_point() +
+#'   remove_axis("x", flip = FALSE)
+#' }
+#'
 #' @export
 remove_axis <- function(axis = "y", flip = FALSE) {
 
-  if (axis == "x" && flip == FALSE) {
-
-    ggplot2::theme(panel.grid.major.x = ggplot2::element_blank(),
-                   axis.text.x = ggplot2::element_blank(),
-                   axis.line.x = ggplot2::element_blank())
-
-  } else if (axis == "x" && flip == TRUE) {
-
-      ggplot2::theme(panel.grid.major.y = ggplot2::element_blank(),
-                     axis.text.x = ggplot2::element_blank(),
-                     axis.line.x = ggplot2::element_blank(),
-                     axis.ticks = ggplot2::element_blank(),
-                     axis.line.y = ggplot2::element_line(colour = NULL,
-                                                         size = NULL,
-                                                         linetype = NULL,
-                                                         lineend = NULL))
-
-  } else if (axis == "y" && flip == FALSE) {
-
-    ggplot2::theme(panel.grid.major.y = ggplot2::element_blank(),
-                   axis.text.y = ggplot2::element_blank(),
-                   axis.line.y = ggplot2::element_blank(),
-                   axis.ticks = ggplot2::element_blank())
-
-  } else if (axis == "y" && flip == TRUE) {
-
-    ggplot2::theme(panel.grid.major.y = ggplot2::element_blank(),
-                   axis.text.y = ggplot2::element_blank(),
-                   axis.line.y = ggplot2::element_blank(),
-                   axis.ticks = ggplot2::element_blank(),
-                   axis.title.y = ggplot2::element_blank())
-
+  if (axis == "x" && !flip) {
+    ggplot2::theme(
+      panel.grid.major.x = ggplot2::element_blank(),
+      axis.text.x = ggplot2::element_blank(),
+      axis.line.x = ggplot2::element_blank()
+    )
+  } else if (axis == "x" && flip) {
+    ggplot2::theme(
+      panel.grid.major.y = ggplot2::element_blank(),
+      axis.text.x = ggplot2::element_blank(),
+      axis.line.x = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_line()
+    )
+  } else if (axis == "y" && !flip) {
+    ggplot2::theme(
+      panel.grid.major.y = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank()
+    )
+  } else if (axis == "y" && flip) {
+    ggplot2::theme(
+      panel.grid.major.y = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank(),
+      axis.title.y = ggplot2::element_blank()
+    )
   } else if (axis == "both") {
-
-    ggplot2::theme(panel.grid.major.x = ggplot2::element_blank(),
-                   axis.text.x = ggplot2::element_blank(),
-                   axis.line.x = ggplot2::element_blank(),
-                   panel.grid.major.y = ggplot2::element_blank(),
-                   axis.text.y = ggplot2::element_blank(),
-                   axis.line.y = ggplot2::element_blank(),
-                   axis.ticks = ggplot2::element_blank())
-
+    ggplot2::theme(
+      panel.grid.major.x = ggplot2::element_blank(),
+      axis.text.x = ggplot2::element_blank(),
+      axis.line.x = ggplot2::element_blank(),
+      panel.grid.major.y = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_blank(),
+      axis.line.y = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank()
+    )
   } else {
-
-    stop('Invalid "axis" or "flip" argument. Valid arguments are: ',
-              '"x", "y", and "both", or TRUE/FALSE',
-              call. = FALSE)
+    stop('Invalid "axis" argument. Valid options are "x", "y", or "both".',
+         call. = FALSE)
   }
 }

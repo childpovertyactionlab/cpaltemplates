@@ -1,8 +1,16 @@
-#' cpal_shiny
+#' Generate a Shiny BSlib Theme with CPAL Standards
 #'
-#' generates a shiny bslib theme to CPAL standards
+#' This function generates a customized [shiny] BSlib theme according to Child Poverty Action Lab (CPAL) standards.
+#' It is based on the "flatly" bootswatch theme and includes CPAL's branding colors for success, info, warning, and danger states, as well as custom font settings.
 #'
-#' @md
+#' @return A [bslib] theme object for use in Shiny applications.
+#' @examples
+#' library(shiny)
+#' shinyApp(
+#'   ui = fluidPage(theme = cpal_shiny(), "Hello, CPAL!"),
+#'   server = function(input, output) {}
+#' )
+#'
 #' @export
 cpal_shiny <- function(){
   bslib::bs_theme(
@@ -28,8 +36,9 @@ cpal_shiny <- function(){
     "progress-bar-bg" = "#881534", # progress bar color
     "progress-bg" = "#FFF9FB", # progress bar background color
     "body-color" = "#2F2F2F", # body text color
-    "navbar-light-active-color" = "#FFF9FB !important", # does work!!!
+    "navbar-light-active-color" = "#FFF9FB !important",
     "nav-link-color" = "#FFF9FB !important",
-    "nav-link-hover-color" = "#FFF9FB !important",
+    "nav-link-hover-color" = "#FFF9FB !important"
   )
 }
+

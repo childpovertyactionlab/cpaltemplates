@@ -10,7 +10,7 @@ construct_shiny <- function() {
   use_git_ignore_cpal(gitignore = "shiny", open = FALSE)
   use_shiny_app()
 
-  use_instructions(instructions = "shiny")
+#  use_instructions(instructions = "shiny")
 
   if (!file.exists("www/images/CPAL_Logo_White.png")) {
 

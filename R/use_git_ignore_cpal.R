@@ -1,63 +1,34 @@
 #' use_git_ignore_cpal
 #'
-#' Adds a custom .gitignore to the top directory.
+#' Adds a .gitignore file tailored for R projects.
 #'
-#' @param gitignore Selection of .gitignore. Current options are `"R"`, `"shiny"`,
-#'   `"fact_sheet_pdf"`, `"fact_sheet_pdf"`, and `"web_report"`.
-#' @param open Open the newly created file for editing?
+#' @param gitignore Content to be added to the .gitignore file. Default is set to 'R'.
+#' @param open Logical. If TRUE, opens the .gitignore file after creation.
 #'
-#' @md
 #' @export
-use_git_ignore_cpal <- function(gitignore = "R", open = FALSE) {
+use_git_ignore_cpal <- function(gitignore = "R", open = TRUE) {
+  gitignore_path <- file.path(getwd(), ".gitignore")
 
-ignore <-
-"# History files
-.Rhistory
-.Rapp.history
-# Session Data files
-.RData
-# Example code in package build process
-*-Ex.R
-# Output files from R CMD build
-/*.tar.gz
-# Output files from R CMD check
-/*.Rcheck/
-# RStudio files
-.Rproj.user/
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-# knitr and R markdown default cache directories
-/*_cache/
-/cache/
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md"
+  # Define default gitignore content for R projects
+  gitignore_content <- c(
+    ".Rhistory",
+    ".RData",
+    ".Rproj.user",
+    "data/*.csv",
+    "data/*.rds",
+    "rsconnect/"
+  )
 
-  # pick a gitignore template
-  if (gitignore == "R") {
-
-    usethis::use_git_ignore(ignore)
-
-  } else if (gitignore == "fact_sheet_pdf") {
-
-    usethis::use_git_ignore("*.aux")
-    usethis::use_git_ignore("*.out")
-    usethis::use_git_ignore("*.log")
-    usethis::use_git_ignore("# TeX system files")
-    usethis::use_git_ignore(ignore)
-
-  } else if (gitignore %in% c("shiny", "fact_sheet_html", "web_report")) {
-
-    usethis::use_git_ignore(ignore)
-
-  } else {
-
-    stop("Invalid 'gitignore' argument. Valid 'gitignore' options are: ",
-         "'shiny', 'fact_sheet_html', 'fact_sheet_pdf', 'web_report'",
-         call. = FALSE)
-
+  # Append additional content if provided
+  if (!is.null(gitignore)) {
+    gitignore_content <- c(gitignore_content, gitignore)
   }
+
+  writeLines(gitignore_content, con = gitignore_path)
+
+  if (open) {
+    usethis::edit_file(gitignore_path)
+  }
+
+  message(".gitignore created and configured.")
 }

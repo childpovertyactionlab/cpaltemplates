@@ -1,11 +1,12 @@
-#' Child Poverty Action Lab palettes
+#' Child Poverty Action Lab Color Palettes
 #'
-#' Vectors with hex-color codes that correspond to the color palettes outlined in the Child Poverty Action Lab Data Visualization Style Guide.
+#' Provides hex color codes corresponding to the official color palettes outlined in the Child Poverty Action Lab (CPAL) Data Visualization Style Guide.
+#' These palettes are designed for consistent and accessible visualizations across CPAL projects.
+#'
+#' @source Child Poverty Action Lab Data Visualization Style Guide:
 #'  \url{http://childpovertyactionlab.github.io/cpal-directory/}
 #'
-#' @source Child Poverty Action Lab Data Visualization Style Guide
-#'  \url{http://childpovertyactionlab.github.io/cpal-directory/}
-#'
+#' @details Each palette contains a unique set of colors for different visualization needs, such as sequential, diverging, and categorical color scales. These can be used directly in plotting libraries like `ggplot2` or leaflet maps.
 #'
 #' @family cpal_palettes
 #' @rdname cpal_palettes
@@ -17,6 +18,8 @@ palette_cpal_five <- c(
   "#ed683f",
   "#eaca2d")
 
+#' Main CPAL Color Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_main <- c(
@@ -29,6 +32,8 @@ palette_cpal_main <- c(
   "#ffa13e",
   "#eaca2d")
 
+#' CPAL Color Palette for Color Blindness (Deuteranopia)
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_deut <- c(
@@ -41,6 +46,8 @@ palette_cpal_deut <- c(
   "#eea83d",
   "#ac4c81")
 
+#' Diverging CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_diverging <- c(
@@ -54,6 +61,8 @@ palette_cpal_diverging <- c(
   "#008097",
   "#042D33")
 
+#' Quintile CPAL Palette for Mapping
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_quintile <- c(
@@ -63,6 +72,8 @@ palette_cpal_quintile <- c(
   "#008097",
   "#042D33")
 
+#' Teal CPAL Color Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_teal <- c(
@@ -75,6 +86,8 @@ palette_cpal_teal <- c(
   "#005766",
   "#042D33")
 
+#' Gray CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_gray <- c(
@@ -87,6 +100,8 @@ palette_cpal_gray <- c(
   "#334248",
   "#3F3F3F")
 
+#' Orange CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_orange <- c(
@@ -99,6 +114,8 @@ palette_cpal_orange <- c(
   "#83280C",
   "#4B1707")
 
+#' Magenta CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_magenta <- c(
@@ -111,6 +128,8 @@ palette_cpal_magenta <- c(
   "#7A0147",
   "#3D0024")
 
+#' Green CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_green <- c(
@@ -123,6 +142,8 @@ palette_cpal_green <- c(
   "#006642",
   "#00291B")
 
+#' Yellow CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_yellow <- c(
@@ -135,6 +156,8 @@ palette_cpal_yellow <- c(
   "#957E0F",
   "#4A3F07")
 
+#' Purple CPAL Palette
+#'
 #' @rdname cpal_palettes
 #' @export
 palette_cpal_purple <- c(

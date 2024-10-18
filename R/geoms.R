@@ -1,24 +1,26 @@
-#' geom_bar in CPAL style
+#' CPAL Styled geom_bar
 #'
-#' Submit `?ggplot2::geom_line` to see the full documentation for `geom_bar()`
+#' This function applies a custom width and other CPAL-specific defaults to `geom_bar()`.
+#' For full documentation, see \code{?ggplot2::geom_bar}.
 #'
-#' @md
-#' @param mapping mapping from ggplot2
-#' @param width bar width
-#' @param ... other arguments passed to \code{geom_bar()}
+#' @param mapping Aesthetic mapping from ggplot2.
+#' @param width Numeric value for the bar width (default is 1.1).
+#' @param ... Additional arguments passed to \code{geom_bar()}.
+#' @return A ggplot2 `geom_bar()` layer with CPAL styling.
 #' @export
 geom_bar <- function(mapping = NULL, width = 1.1, ...) {
   ggplot2::geom_bar(mapping = mapping, width = width, ...)
 }
 
-#' geom_col in CPAL style
+#' CPAL Styled geom_col
 #'
-#' Submit `?ggplot2::geom_line` to see the full documentation for `geom_col()`
+#' This function applies a custom width and other CPAL-specific defaults to `geom_col()`.
+#' For full documentation, see \code{?ggplot2::geom_col}.
 #'
-#' @md
-#' @param mapping mapping from ggplot2
-#' @param width column width
-#' @param ... other arguments passed to \code{geom_col()}
+#' @param mapping Aesthetic mapping from ggplot2.
+#' @param width Numeric value for the column width (default is 1.1).
+#' @param ... Additional arguments passed to \code{geom_col()}.
+#' @return A ggplot2 `geom_col()` layer with CPAL styling.
 #' @export
 geom_col <- function(mapping = NULL, width = 1.1, ...) {
   ggplot2::geom_col(mapping = mapping, width = width, ...)

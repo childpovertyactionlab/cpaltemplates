@@ -3,46 +3,69 @@
 #' Creates and opens a new project and project directory with useful files and folders.
 #'
 #' @param name Name of the project and the directory.
-#' @param directory A path from the home directory of the computer to the new
-#'   directory you want created.
-#' @param readme Add a CPAL README to the project
-#' @param gitignore Add an R .gitignore to the project
+#' @param directory A path to the new directory to be created.
+#' @param readme Add a CPAL README to the project.
+#' @param gitignore Add an R .gitignore to the project.
+#' @param type The type of project to set up ('General', 'Shiny', 'Quarto').
+#' @param docker Logical. If TRUE, adds Dockerfile and run_app.R for running in Docker.
+#' @param overwrite Logical. If TRUE, overwrite existing project if it exists.
 #'
 #' @md
 #' @export
 
-start_project <- function(name = NULL, directory = getwd(), readme = TRUE, gitignore = FALSE) {
+start_project <- function(name = NULL, directory = getwd(), readme = TRUE,
+                          gitignore = FALSE, type = "General", docker = FALSE,
+                          overwrite = FALSE) {
 
-  print("Creating project directory.")
+  # Define the project path
+  project_path <- file.path(directory, name)
 
-  usethis::create_project(path = paste0(directory, "/", name))
+  # Check if project already exists
+  if (dir.exists(project_path) && !overwrite) {
+    stop("Project directory already exists. Set overwrite = TRUE to replace it.")
+  }
 
-  print("Project directory generated.")
+  # Create the project
+  usethis::create_project(path = project_path, open = TRUE)
+  message("Project directory generated at: ", project_path)
 
-  Sys.sleep(5)
+  # Define folder structure based on project type
+  folders <- switch(type,
+                    "Shiny" = c("scripts", "data", "docs", "www"),
+                    "Quarto" = c("scripts", "data", "docs", "quarto"),
+                    "General" = c("scripts", "data", "docs"),
+                    stop("Unsupported project type."))
 
-  print("Creating project folders.")
+  # Create folders
+  message("Creating project folders...")
+  lapply(folders, function(folder) dir.create(file.path(project_path, folder)))
 
-  dir.create(path = paste0(directory, "/", name, "/scripts"))
-  dir.create(path = paste0(directory, "/", name, "/data"))
-  dir.create(path = paste0(directory, "/", name, "/docs"))
+  # Remove default R folder if not needed
+  unlink(file.path(project_path, "R"), recursive = TRUE)
+  message("Project folders created: ", paste(folders, collapse = ", "))
 
-  unlink(x = paste0(directory, "/", name, "/R"), recursive = TRUE)
+  # Construct project-specific files based on type
+  if (type == "Shiny") {
+    construct_shiny()
+  } else if (type == "Quarto") {
+    construct_web_report(name = paste0(name, ".qmd"), directory = project_path)
+  }
 
-  print("Project folders generated.")
-
-  Sys.sleep(5)
-
-  print("Creating project files.")
-
-  if (readme == TRUE) {
+  # Create project files (README, .gitignore, etc.)
+  if (readme) {
     use_readme_cpal(name = name, open = FALSE)
   }
 
-  if (gitignore == TRUE) {
+  if (gitignore) {
     use_git_ignore_cpal(gitignore = "R", open = FALSE)
   }
 
-  print("Project files generated.")
+  # Add Dockerfile and run_app.R if requested
+  if (docker) {
+    usethis::use_template("Dockerfile", project_path, package = "cpaltemplates")
+    usethis::use_template("run_app.R", project_path, package = "cpaltemplates")
+    message("Docker support files added: Dockerfile and run_app.R.")
+  }
 
+  message("Project setup complete.")
 }

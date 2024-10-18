@@ -1,6 +1,10 @@
-#' Child Poverty Action Lab [ggplot2] theme
+#' Child Poverty Action Lab [ggplot2] Logo Theme
 #'
-#' Creates a grid object with a Child Poverty Action Lab logo
+#' Creates a grid object with the Child Poverty Action Lab logo text, which can be used in [ggplot2] plots as a custom annotation.
+#'
+#' This function generates a `grobTree` containing the CPAL logo text. It is useful for adding consistent branding to visualizations.
+#'
+#' @return A grid graphical object (`grob`) with the CPAL logo text.
 #'
 #' @import grid
 #' @import gridExtra
@@ -19,5 +23,3 @@ cpal_logo_text <- function() {
              gp = gpar(col = "#008097", fontface = "bold", fontfamily = "Poppins"))
   )
 }
-
-

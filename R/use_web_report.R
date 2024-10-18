@@ -28,7 +28,7 @@ use_web_report <- function(name = "web_report.qmd", directory = NULL) {
   }
 
   usethis::use_template(
-    template = "web_report.qmd",
+    template = "styles.qmd",
     save_as = save_name,
     data = list(Package = "", Version = ""),
     ignore = FALSE,

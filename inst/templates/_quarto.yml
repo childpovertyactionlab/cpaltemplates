@@ -3,6 +3,7 @@ project:
   output-dir: "docs"
 format:
   html:
+    lang: en
     theme: www/web_report.scss
     toc-title: Contents
     toc: true
@@ -19,8 +20,8 @@ format:
       margin-width: 300px
     code-block-bg: true
     code-block-border-left: "#008097"
-    fig-width: 9
-    fig-height: 7
+    fig-width: 7
+    fig-height: 5
     fig-dpi: 300
     warning: FALSE
     error: TRUE
@@ -31,14 +32,14 @@ website:
     location: navbar
     type: textbox
   favicon: www/images/CPAL_favicon.ico
-#  description: Description of this web report.
-#  site-url:
-#  repo-url:
+  description: "A comprehensive web report for the Child Poverty Action Lab."
+  site-url: "https://yourprojectwebsite.com"
+  repo-url: "https://github.com/childpovertyactionlab/yourrepo"
 #  google-analytics:
 #  cookie consent: implied
   navbar:
-      pinned: TRUE
-      search: TRUE
+#      pinned: TRUE
+#      search: TRUE
       logo: www/images/CPAL_Logo_White.png
       logo-href: "https://github.com/childpovertyactionlab"
       collapse: false
@@ -52,5 +53,5 @@ website:
               text: "Github"
               href: "https://github.com/childpovertyactionlab/"
   page-footer:
-    center: Copyright 2023 <b>[The Child Poverty Action Lab](https://childpovertyactionlab.org/).</b>
-    background: "#008097"
+    center: Copyright 2024 <b>[The Child Poverty Action Lab](https://childpovertyactionlab.org/).</b>
+    background: "#042d33"
