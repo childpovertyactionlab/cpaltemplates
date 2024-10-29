@@ -1,5 +1,7 @@
-#' Display a CPAL Color Palette
+#' @name view_palette
+#' @title Display a CPAL Color Palette
 #'
+#' @description
 #' \code{view_palette} displays the colors and hexadecimal codes for a specified CPAL color palette.
 #'
 #' @param palette A color palette vector. Options include predefined palettes like `palette_cpal_diverging`, `palette_cpal_teal`, `palette_cpal_gray`, and more.

@@ -7,6 +7,7 @@ Description: Common templates for the Child Poverty Action Lab in one tidy packa
 Depends:
     R (>= 3.4.0)
 Imports:
+    quarto,
     purrr,
     tibble,
     stringr,
