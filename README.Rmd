@@ -4,114 +4,331 @@ output: github_document
 
 # cpaltemplates
 
-**NOTE:** This project is under active development, based on the 'urbntemplates' package from the Urban Institute, with modifications for Child Poverty Action Lab (CPAL) standards.
+**A modern toolkit for data analysis workflows at the Child Poverty Action Lab**
 
-The `cpaltemplates` package provides tools and templates for managing analysis workflows at CPAL, leveraging [usethis](https://github.com/r-lib/usethis) and other packages like [ggplot2] for plotting and [extrafont] for font management.
+## Vision
+
+cpaltemplates is evolving from a simple template package into a comprehensive workflow toolkit that helps CPAL's data team work faster, more consistently, and with higher quality outputs. We're building intelligent tools that understand context and automate repetitive tasks while maintaining flexibility for custom analyses.
+
+## What's New in This Approach
+
+Instead of just copying static templates, cpaltemplates now provides:
+- 🧠 **Smart workflows** that adapt to your project needs
+- 🔄 **Integrated pipelines** using modern R tools like targets and Quarto
+- 📊 **Context-aware visualizations** that adjust to different audiences
+- ✅ **Built-in quality checks** for data, code, and outputs
+- 👥 **Collaboration features** for team projects
+
+## Current Features (v1.6.0)
+
+### ✅ Core Functionality
+- **`start_project()`**: Intelligent project initialization
+  - Project types: general, shiny, report
+  - Modern integrations: renv, git, Quarto
+  - Standardized folder structures
+  - Team-ready configurations
+  - ✅ All content now created from templates
+
+### 📁 Project Templates
+- Analysis workflow templates
+- Quarto report templates with TeX support
+- Shiny app templates (simple and dashboard)
+- Documentation templates
+- Environment configurations
+- ✅ Modular template system in `inst/templates/`
+
+### 🎨 Assets & Branding
+- CPAL logos and visual elements
+- Color palettes and themes
+- Typography standards
+
+### 🛠️ Utility Functions (`use_*`)
+- **`use_quarto_report()`** - Add report capability to existing projects
+- **`use_quarto_slides()`** - Add presentation templates
+- **`use_shiny_app()`** - Add simple Shiny app
+- **`use_shiny_dashboard()`** - Add full dashboard with modules
+- **`use_targets()`** - Add reproducible pipelines (3 types)
+- **`update_cpal_assets()`** - Update branding in existing projects
+
+## Template System Architecture
+
+All project scaffolding is now generated from templates stored in `inst/templates/`, making the package more maintainable and customizable.
+
+### Template Structure
+
+```
+inst/templates/
+├── analysis/             # Analysis script templates
+│   └── analysis_template.R.tpl
+├── assets/              # CPAL branding assets
+│   └── images/          # Logo and favicon files
+├── functions/           # Function templates
+│   ├── analysis_functions.R.tpl
+│   └── functions.R.tpl
+├── modules/             # Shiny module templates
+│   └── example_module.R.tpl
+├── package/             # R package templates
+│   └── DESCRIPTION.tpl
+├── report/              # Quarto report templates
+│   ├── _quarto.yml.tpl
+│   ├── report.qmd.tpl
+│   └── tex/             # LaTeX templates
+├── shiny/               # Shiny app templates
+│   ├── app.R.tpl
+│   ├── app_dashboard.R.tpl
+│   └── app_simple.R.tpl
+├── slides/              # Presentation templates
+│   └── slides.qmd.tpl
+├── targets/             # Targets pipeline templates
+│   ├── targets_analysis.R.tpl
+│   ├── targets_basic.R.tpl
+│   └── targets_report.R.tpl
+├── _tools.json.tpl     # RStudio tools configuration
+├── env.tpl             # Environment variables template
+├── gitignore.tpl       # Git ignore patterns
+├── README.md.tpl       # Project README template
+├── rproj.tpl           # RStudio project settings
+├── style.css.tpl       # CPAL CSS styles
+└── styles.scss         # SCSS source for styles
+```
+
+### Adding Custom Templates
+
+To add new templates or modify existing ones:
+
+1. Add your template file to the appropriate directory in `inst/templates/`
+2. Use the `.tpl` extension for template files
+3. Include placeholders like `{{variable_name}}` for dynamic content
+4. Update the relevant function in `R/start_project.R` or `R/utils.R` to use the template
 
 ## Installation
 
-You can install the latest version of `cpaltemplates` from GitHub:
-
 ```r
+# Install from GitHub
 # install.packages("devtools")
 devtools::install_github("childpovertyactionlab/cpaltemplates")
 ```
 
-## Usage
+## Quick Start
 
-The package is structured around several function families:
+```r
+library(cpaltemplates)
 
-### 1. **Project Management Functions**
+# Start a new analysis project
+start_project(
+  name = "dallas_education_analysis",
+  project_type = "report",
+  github = TRUE,
+  open = TRUE
+)
+```
 
-These functions help initialize new projects or add templates to existing ones.
+## Development Roadmap
 
-- **`start_project()`**: Initializes a new project with a `.Rproj`, `README`, and `.gitignore`.
+### 🎯 Phase 1: Enhanced Templates & Workflows (Current Priority)
 
-### 2. **Construct Functions**
+#### Analysis Workflows
+- [ ] **Modern analysis templates**
+  - [ ] Targets-based pipeline templates
+  - [ ] Reproducible analysis workflows
+  - [ ] Data validation templates
+  - [ ] Model comparison frameworks
+- [ ] **Project health checks**
+  - [ ] `check_project()` - Verify setup and dependencies
+  - [ ] `validate_data()` - Data quality checks
+  - [ ] `test_pipeline()` - Pipeline validation
 
-These functions add related templates and documents for specific types of projects, like Shiny apps or web reports.
+#### Quarto Integration
+- [ ] **Enhanced Quarto templates**
+  - [ ] Multi-format reports (HTML, PDF, Word)
+  - [ ] Parameterized reports
+  - [ ] Cross-references and citations
+  - [ ] Custom CPAL themes
+- [ ] **Quarto workflows**
+  - [ ] `use_quarto_report()` - Advanced report setup
+  - [ ] `use_quarto_presentation()` - Slide templates
+  - [ ] `render_all_formats()` - Multi-output rendering
 
-- **`construct_shiny()`**: Adds necessary files for building a Shiny application (e.g., `app.R`, CSS).
-- **`construct_web_report()`**: Adds files for creating a web report (e.g., `web_report.qmd`, styling).
+#### Shiny Applications
+- [ ] **Smart Shiny templates**
+  - [ ] Dashboard layouts
+  - [ ] Data explorer templates
+  - [ ] Report generators
+  - [ ] Mobile-responsive designs
+- [ ] **Shiny utilities**
+  - [ ] `use_shiny_dashboard()` - Full dashboard setup
+  - [ ] `add_shiny_module()` - Modular components
+  - [ ] `deploy_shiny()` - Deployment helpers
 
-### 3. **Use Functions**
+### 📊 Phase 2: Modern Data Visualization
 
-These functions add individual templates or documents to an existing project.
+#### ggplot2 Enhancement
+- [ ] **Smart plotting system**
+  - [ ] `cpal_plot()` - Intelligent plot creation
+  - [ ] Context-aware theming
+  - [ ] Automatic accessibility checks
+  - [ ] Multi-format export
+- [ ] **Plot types**
+  - [ ] Time series with annotations
+  - [ ] Comparative visualizations
+  - [ ] Geographic maps
+  - [ ] Statistical summaries
 
-- **`use_content()`**: Adds images or other media files to a project.
-- **`use_css()`**: Adds a CSS or SCSS stylesheet to a specified directory.
-- **`use_git_ignore_cpal()`**: Adds CPAL-specific `.gitignore` settings.
-- **`use_instructions()`**: Adds instructions related to specific project types.
-- **`use_readme_cpal()`**: Generates a CPAL-specific `README` template.
-- **`use_shiny_app()`**: Creates a Shiny app template.
-- **`use_web_report()`**: Generates a web report template.
+#### Beyond ggplot2
+- [ ] **Interactive visualizations**
+  - [ ] Plotly integration
+  - [ ] Observable Plot templates
+  - [ ] D3.js components
+  - [ ] Leaflet map templates
+- [ ] **Tables and reports**
+  - [ ] `cpal_table()` - Smart table formatting
+  - [ ] GT table themes
+  - [ ] Interactive tables with reactable
+  - [ ] Excel report generation
 
-### 4. **Theme Functions**
+### 🔧 Phase 3: Workflow Automation
 
-These functions provide pre-configured visual themes that conform to CPAL standards for [ggplot2] and Shiny apps.
+#### Pipeline Management
+- [ ] **Targets integration**
+  - [ ] Pipeline templates
+  - [ ] Caching strategies
+  - [ ] Parallel processing
+  - [ ] Dependency visualization
+- [ ] **Automation tools**
+  - [ ] Scheduled reports
+  - [ ] Data refresh workflows
+  - [ ] Quality monitoring
 
-- **`cpal_shiny()`**: Applies a Shiny-specific theme based on CPAL’s visual guidelines.
-- **`theme_cpal_map()`**: Applies a map-based theme for visualizations.
-- **`theme_cpal_print()`**: Applies a print-ready theme for clean and minimalist plots.
+#### Documentation & Quality
+- [ ] **Auto-documentation**
+  - [ ] Code documentation
+  - [ ] Data dictionaries
+  - [ ] Method descriptions
+  - [ ] Change logs
+- [ ] **Quality assurance**
+  - [ ] Unit test templates
+  - [ ] Data validation rules
+  - [ ] Output verification
+  - [ ] Performance monitoring
 
-### 5. **Grob and Plot Functions**
+### 🔌 Phase 4: Data Connections (Future)
 
-These functions help create and format ggplot2 plots and grobs (graphical objects).
+#### Connection Management
+- [ ] **Database connections**
+  - [ ] Secure credential storage
+  - [ ] Connection pooling
+  - [ ] Query builders
+  - [ ] Cache management
+- [ ] **API integrations**
+  - [ ] Census data access
+  - [ ] City data portals
+  - [ ] Education databases
+  - [ ] Social service APIs
 
-- **`cpal_plot()`**: Combines multiple plot elements or grobs (e.g., titles, subtitles, charts) into one cohesive plot.
-- **`cpal_title()`**: Adds a title to a plot.
-- **`cpal_subtitle()`**: Adds a subtitle to a plot.
-- **`cpal_note()`**: Adds a note section at the bottom of the plot.
-- **`cpal_source()`**: Adds a source label to a plot.
-- **`add_axis()`**: Adds or removes axis lines in a plot.
-- **`remove_ticks()`**: Removes tick marks from specified axes.
-- **`remove_legend()`**: Removes the legend from a ggplot2 plot.
+## Example: Modern Workflow
 
-### 6. **Scale Functions**
+```r
+# 1. Create project with advanced features
+project <- start_project(
+  "quarterly_education_report",
+  project_type = "report",
+  renv = TRUE,        # Reproducible environments
+  github = TRUE       # Version control ready
+)
 
-These functions provide color scales based on CPAL's style guide.
+# 2. Set up analysis pipeline (coming soon)
+use_targets_pipeline(
+  data_sources = c("enrollment", "performance", "demographics"),
+  outputs = c("report", "dashboard", "dataset")
+)
 
-- **`scale_color_discrete()`**: Discrete color scale for categorical variables.
-- **`scale_fill_discrete()`**: Discrete fill scale for categorical variables.
-- **`scale_color_gradientn()`**: Continuous gradient color scale for numerical variables.
-- **`scale_fill_gradientn()`**: Continuous gradient fill scale for numerical variables.
-- **`scale_color_ordinal()`**: Ordinal color scale for factors.
-- **`scale_fill_ordinal()`**: Ordinal fill scale for factors.
+# 3. Create branded visualizations (coming soon)
+cpal_plot(enrollment_data) %>%
+  set_type("trend") %>%
+  add_context(
+    title = "DISD Enrollment Trends",
+    subtitle = "Pre-K through 12th Grade",
+    source = "TEA PEIMS 2024"
+  ) %>%
+  annotate_insights() %>%
+  export_all_formats()
 
-### 7. **Utility Functions**
+# 4. Generate multi-format report (coming soon)
+render_cpal_report(
+  "quarterly_education_report.qmd",
+  outputs = c("html", "pdf", "pptx"),
+  params = list(quarter = "Q3", year = 2024)
+)
+```
 
-These functions help manage fonts and templates within the package.
+## Why This Approach?
 
-- **`poppins_import()`**: Imports and registers the Poppins font, which is the main font used at CPAL.
-- **`fontawesome_install()`**: Imports and registers the FontAwesome font for use in graphics.
+### 🚀 Immediate Benefits
+- **Faster project setup**: Minutes instead of hours
+- **Consistent outputs**: Same quality across all projects
+- **Better collaboration**: Shared standards and workflows
+- **Reduced errors**: Built-in validation and checks
 
-## Example Workflow
+### 🔮 Future-Ready
+- **Modern R ecosystem**: Embraces tidyverse, Quarto, targets
+- **Scalable workflows**: From simple analyses to complex pipelines
+- **Team-oriented**: Built for collaboration from the ground up
+- **Continuously improving**: Regular updates based on team needs
 
-1. **Starting a Project**:  
-   Create a new project by running:
-   ```r
-   cpaltemplates::start_project("MyProject")
-   ```
+## Contributing
 
-2. **Adding Templates**:  
-   Use `construct_*` functions to add necessary files. For example, to add Shiny files:
-   ```r
-   construct_shiny()
-   ```
+We welcome contributions! Priority areas:
+1. Template improvements
+2. Workflow examples
+3. Documentation
+4. Bug reports and feature requests
 
-3. **Creating Visualizations**:  
-   Use CPAL’s predefined themes and scales to ensure your visualizations adhere to CPAL standards:
-   ```r
-   ggplot(mtcars, aes(x = wt, y = mpg)) +
-     geom_point() +
-     theme_cpal_print() +
-     scale_color_discrete()
-   ```
+See our [Contributing Guide](CONTRIBUTING.md) for details.
+
+## Getting Help
+
+- 📖 **Documentation**: See package vignettes (coming soon)
+- 💬 **Questions**: Contact the CPAL data team
+- 🐛 **Issues**: [GitHub Issues](https://github.com/childpovertyactionlab/cpaltemplates/issues)
+- 📧 **Email**: datalab@childpovertyactionlab.org
+
+
+## Changelog
+
+### Version 1.6.1 (Latest)
+- ✅ **Template System Overhaul**:
+  - All project content now generated from template files
+  - Added templates for .Rproj and DESCRIPTION files
+  - Removed hardcoded content from `start_project.R`
+  - Improved maintainability and customization
+- ✅ **New Templates Added**:
+  - `inst/templates/rproj.tpl` - RStudio project settings
+  - `inst/templates/package/DESCRIPTION.tpl` - Package description template
+
+
+### Version 1.6.0 (Current)
+- **Template System**: All content now generated from templates in `inst/templates/`
+- **New Functions**: Added 6 `use_*()` functions for enhancing existing projects
+- **Consistency**: Both `start_project()` and `use_*()` functions use same templates
+- **Code Cleanup**: Removed ~300 lines of duplicate code
+- **Better Structure**: Modern R conventions (R/ instead of scripts/)
+
+### Version 1.5.1
+- Initial streamlined version
+- Basic `start_project()` function
+- Core templates for reports and Shiny apps
 
 ## License
 
-This project is licensed under the MIT License.
+GPL-3
 
-## Code of Conduct
+## Acknowledgments
 
-Please note that the "cpaltemplates" project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+- Inspired by [urbntemplates](https://github.com/UrbanInstitute/urbntemplates) from the Urban Institute
+- Built by and for the Child Poverty Action Lab data team
+- Special thanks to all contributors and users who provide feedback
+
+---
+
+*Building better data workflows for social impact* 🌟
+

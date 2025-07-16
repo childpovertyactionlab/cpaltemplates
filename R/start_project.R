@@ -1,71 +1,472 @@
-#' start_project
+#' Start a new CPAL project with modern workflows
 #'
-#' Creates and opens a new project and project directory with useful files and folders.
+#' Creates a new project with intelligent defaults and modern R best practices.
+#' By default, runs in interactive mode to guide users through setup.
 #'
-#' @param name Name of the project and the directory.
-#' @param directory A path to the new directory to be created.
-#' @param readme Add a CPAL README to the project.
-#' @param gitignore Add an R .gitignore to the project.
-#' @param type The type of project to set up ('General', 'Shiny', 'Quarto').
-#' @param docker Logical. If TRUE, adds Dockerfile and run_app.R for running in Docker.
-#' @param overwrite Logical. If TRUE, overwrite existing project if it exists.
+#' @param name Character. Project name (used for folder and .Rproj file).
+#' @param path Character. Parent directory where project folder is created.
+#' @param project_type Character. Type of project: "analysis", "quarto-report",
+#'   "quarto-slides", "shiny-dashboard", "shiny-app", or "package".
+#' @param interactive Logical. If TRUE (default), guides user through setup.
+#' @param features Character vector. Features to enable: "renv", "git", "github",
+#'   "targets", "tests".
+#' @param open Logical. If TRUE, opens the project in RStudio after creation.
+#' @param overwrite Logical. If TRUE, overwrites existing directory.
 #'
-#' @md
+#' @return Invisibly returns the full path to the created project.
 #' @export
+start_project <- function(
+    name = NULL,
+    path = ".",
+    project_type = NULL,
+    interactive = TRUE,
+    features = NULL,
+    open = TRUE,
+    overwrite = FALSE
+) {
+  # Load required namespaces
+  require_packages <- function(pkgs) {
+    missing <- pkgs[!sapply(pkgs, requireNamespace, quietly = TRUE)]
+    if (length(missing) > 0) {
+      stop("Please install: ", paste(missing, collapse = ", "))
+    }
+  }
+  require_packages(c("cli", "fs"))
+  # Define available options
+  project_types <- c(
+    "analysis" = "General analysis with targets pipeline",
+    "quarto-report" = "Quarto report (HTML, PDF, Word)",
+    "quarto-slides" = "Quarto presentation slides",
+    "shiny-dashboard" = "Full-featured Shiny dashboard",
+    "shiny-app" = "Simple Shiny application",
+    "package" = "R package development"
+  )
+  feature_options <- c(
+    "renv" = "Dependency management",
+    "git" = "Version control",
+    "github" = "GitHub integration",
+    "targets" = "Pipeline management",
+    "tests" = "Testing framework"
+  )
+  # Interactive mode
+  if (interactive) {
+    if (is.null(name)) {
+      name <- readline("Project name: ")
+      if (name == "") stop("Project name required")
+    }
+    if (is.null(project_type)) {
+      cli::cli_h3("Select project type:")
+      for (i in seq_along(project_types)) {
+        cat(i, ". ", names(project_types)[i], " - ", project_types[i], "\n", sep = "")
+      }
+      choice <- as.integer(readline("Choice (1-6): "))
+      project_type <- names(project_types)[choice]
+    }
+    if (is.null(features)) {
+      # Suggest defaults based on project type
+      defaults <- switch(
+        project_type,
+        "analysis" = c("targets", "renv", "git"),
+        "quarto-report" = c("renv", "git"),
+        "quarto-slides" = c("renv", "git"),
+        "shiny-dashboard" = c("renv", "git", "tests"),
+        "shiny-app" = c("renv", "git"),
+        "package" = c("renv", "git", "tests")
+      )
+      cli::cli_h3("Select features (space-separated numbers):")
+      for (i in seq_along(feature_options)) {
+        default_mark <- if (names(feature_options)[i] %in% defaults) " [default]" else ""
+        cat(i, ". ", names(feature_options)[i], " - ", feature_options[i], default_mark, "\n", sep = "")
+      }
+      input <- readline("Choice (Enter for defaults): ")
+      if (input == "") {
+        features <- defaults
+      } else {
+        nums <- as.integer(strsplit(input, "\\s+")[[1]])
+        features <- names(feature_options)[nums]
+      }
+    }
+  }
+  # Validate inputs
+  if (is.null(name) || name == "") stop("Name required")
+  if (!project_type %in% names(project_types)) {
+    stop("Invalid type. Choose: ", paste(names(project_types), collapse = ", "))
+  }
+  # Create project
+  full_path <- fs::path_abs(fs::path(path, name))
+  # Check existing
+  if (fs::dir_exists(full_path)) {
+    if (overwrite) {
+      cli::cli_alert_warning("Overwriting {.path {full_path}}")
+      fs::dir_delete(full_path)
+    } else {
+      stop("Directory exists. Use overwrite = TRUE")
+    }
+  }
+  cli::cli_h2("Creating project: {.strong {name}}")
+  # Create structure
+  create_base_structure(full_path, project_type)
+  create_rproj(full_path, name)
+  copy_assets(full_path)
+  # Set up project type
+  setup_functions <- list(
+    "analysis" = setup_analysis,
+    "quarto-report" = setup_quarto_report,
+    "quarto-slides" = setup_quarto_slides,
+    "shiny-dashboard" = setup_shiny_dashboard,
+    "shiny-app" = setup_shiny_app,
+    "package" = setup_package
+  )
+  setup_functions[[project_type]](full_path, features)
+  # Enable features
+  if ("renv" %in% features) setup_renv(full_path)
+  if ("git" %in% features) setup_git(full_path)
+  if ("github" %in% features && !"git" %in% features) create_gitignore(full_path)
+  # Create README
+  create_project_readme(full_path, name, project_type, features)
+  # Show next steps
+  show_project_next_steps(name, project_type, features)
+  # Open project
+  if (open && requireNamespace("rstudioapi", quietly = TRUE)) {
+    if (rstudioapi::isAvailable()) {
+      rstudioapi::openProject(full_path, newSession = TRUE)
+    }
+  }
+  invisible(full_path)
+}
+# Helper functions ----
+create_base_structure <- function(path, type) {
+  # Base folders for all projects
+  base <- c("R", "data-raw", "data", "outputs", "docs", "assets/images", "assets/css")
+  # Type-specific folders
+  type_specific <- switch(
+    type,
+    "analysis" = c("notebooks", "figures", "tables"),
+    "quarto-report" = c("figures", "tables", "assets/tex"),
+    "quarto-slides" = c("figures"),
+    "shiny-dashboard" = c("modules", "www", "data-prep"),
+    "shiny-app" = c("www"),
+    "package" = c("man", "inst", "vignettes"),
+    character(0)
+  )
+  all_dirs <- unique(c(base, type_specific))
+  for (d in all_dirs) {
+    fs::dir_create(fs::path(path, d))
+  }
+  cli::cli_alert_success("Created directory structure")
+}
+create_rproj <- function(path, name) {
+  # Copy from template
+  rproj_src <- system.file("templates/rproj.tpl", package = "cpaltemplates")
+  if (fs::file_exists(rproj_src)) {
+    fs::file_copy(rproj_src, fs::path(path, paste0(name, ".Rproj")))
+    cli::cli_alert_success("Created {.file {name}.Rproj}")
+  } else {
+    cli::cli_alert_warning("RProj template not found")
+  }
+}
 
-start_project <- function(name = NULL, directory = getwd(), readme = TRUE,
-                          gitignore = FALSE, type = "General", docker = FALSE,
-                          overwrite = FALSE) {
-
-  # Define the project path
-  project_path <- file.path(directory, name)
-
-  # Check if project already exists
-  if (dir.exists(project_path) && !overwrite) {
-    stop("Project directory already exists. Set overwrite = TRUE to replace it.")
+copy_assets <- function(path) {
+  # Copy images
+  img_src <- system.file("templates/assets/images", package = "cpaltemplates")
+  if (fs::dir_exists(img_src)) {
+    imgs <- fs::dir_ls(img_src)
+    if (length(imgs) > 0) {
+      fs::file_copy(imgs, fs::path(path, "assets/images"))
+      cli::cli_alert_success("Copied {length(imgs)} images")
+    }
+  }
+  # Copy CSS
+  css_src <- system.file("templates/style.css.tpl", package = "cpaltemplates")
+  if (fs::file_exists(css_src)) {
+    fs::file_copy(css_src, fs::path(path, "assets/css/cpal-style.css"))
+    cli::cli_alert_success("Copied CSS styles")
+  }
+}
+# Project-specific setup functions ----
+setup_analysis <- function(path, features) {
+  # Copy analysis template
+  analysis_src <- system.file("templates/analysis/analysis_template.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(analysis_src)) {
+    fs::file_copy(analysis_src, fs::path(path, "R/01-analysis.R"))
+    cli::cli_alert_success("Created R/01-analysis.R")
+  } else {
+    cli::cli_alert_warning("Analysis template not found")
+  }
+  if ("targets" %in% features) {
+    fs::dir_create(fs::path(path, "data-prep"))
+    cli::cli_alert_info("Created data-prep/ for targets workflow")
+  }
+}
+setup_quarto_report <- function(path, features) {
+  # Create _quarto.yml
+  if (requireNamespace("yaml", quietly = TRUE)) {
+    config <- list(
+      project = list(
+        type = "default",
+        output_dir = "outputs"
+      ),
+      format = list(
+        html = list(
+          theme = "cosmo",
+          css = "assets/css/cpal-style.css",
+          toc = TRUE,
+          toc_depth = 3
+        ),
+        pdf = list(
+          documentclass = "article",
+          include_in_header = "assets/tex/header.tex"
+        ),
+        docx = list(
+          toc = TRUE,
+          reference_doc = "assets/templates/word-template.docx"
+        )
+      )
+    )
+    yaml::write_yaml(config, fs::path(path, "_quarto.yml"))
+  }
+  # Copy tex templates if available
+  tex_src <- system.file("templates/report/tex", package = "cpaltemplates")
+  if (fs::dir_exists(tex_src)) {
+    tex_files <- fs::dir_ls(tex_src)
+    if (length(tex_files) > 0) {
+      fs::file_copy(tex_files, fs::path(path, "assets/tex"))
+      cli::cli_alert_success("Copied TeX templates")
+    }
+  }
+  # Create report template
+  # Copy report template
+  report_src <- system.file("templates/report/report.qmd.tpl", package = "cpaltemplates")
+  if (fs::file_exists(report_src)) {
+    fs::file_copy(report_src, fs::path(path, "report.qmd"))
+    cli::cli_alert_success("Created report.qmd")
+  } else {
+    cli::cli_alert_warning("Report template not found")
+  }
+  # Copy functions template
+  functions_src <- system.file("templates/functions/functions.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(functions_src)) {
+    fs::file_copy(functions_src, fs::path(path, "R/functions.R"))
+    cli::cli_alert_success("Created R/functions.R with helper functions")
+  }
+  cli::cli_alert_success("Set up Quarto report")
+}
+setup_quarto_slides <- function(path, features) {
+  # Copy slides template
+  slides_src <- system.file("templates/slides/slides.qmd.tpl", package = "cpaltemplates")
+  if (fs::file_exists(slides_src)) {
+    fs::file_copy(slides_src, fs::path(path, "slides.qmd"))
+    cli::cli_alert_success("Created slides.qmd")
+  } else {
+    cli::cli_alert_warning("Slides template not found")
+  }
+  cli::cli_alert_success("Set up Quarto slides")
+}
+setup_shiny_dashboard <- function(path, features) {
+  # Copy dashboard app template
+  app_src <- system.file("templates/shiny/app_dashboard.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(app_src)) {
+    fs::file_copy(app_src, fs::path(path, "app.R"))
+    cli::cli_alert_success("Created app.R")
   }
 
-  # Create the project
-  usethis::create_project(path = project_path, open = TRUE)
-  message("Project directory generated at: ", project_path)
-
-  # Define folder structure based on project type
-  folders <- switch(type,
-                    "Shiny" = c("scripts", "data", "docs", "www"),
-                    "Quarto" = c("scripts", "data", "docs", "quarto"),
-                    "General" = c("scripts", "data", "docs"),
-                    stop("Unsupported project type."))
-
-  # Create folders
-  message("Creating project folders...")
-  lapply(folders, function(folder) dir.create(file.path(project_path, folder)))
-
-  # Remove default R folder if not needed
-  unlink(file.path(project_path, "R"), recursive = TRUE)
-  message("Project folders created: ", paste(folders, collapse = ", "))
-
-  # Construct project-specific files based on type
-  if (type == "Shiny") {
-    construct_shiny()
-  } else if (type == "Quarto") {
-    construct_web_report(name = paste0(name, ".qmd"), directory = project_path)
+  # Copy CSS to www/
+  css_src <- system.file("templates/style.css.tpl", package = "cpaltemplates")
+  if (fs::file_exists(css_src)) {
+    fs::file_copy(css_src, fs::path(path, "www/cpal-style.css"))
   }
 
-  # Create project files (README, .gitignore, etc.)
-  if (readme) {
-    use_readme_cpal(name = name, open = FALSE)
+  # Copy example module template
+  module_src <- system.file("templates/modules/example_module.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(module_src)) {
+    fs::file_copy(module_src, fs::path(path, "modules/example_module.R"))
+    cli::cli_alert_success("Created modules/example_module.R")
   }
 
-  if (gitignore) {
-    use_git_ignore_cpal(gitignore = "R", open = FALSE)
+  cli::cli_alert_success("Set up Shiny dashboard")
+}
+setup_shiny_app <- function(path, features) {
+  # Copy simple app template
+  app_src <- system.file("templates/shiny/app_simple.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(app_src)) {
+    fs::file_copy(app_src, fs::path(path, "app.R"))
+    cli::cli_alert_success("Created app.R")
   }
 
-  # Add Dockerfile and run_app.R if requested
-  if (docker) {
-    usethis::use_template("Dockerfile", project_path, package = "cpaltemplates")
-    usethis::use_template("run_app.R", project_path, package = "cpaltemplates")
-    message("Docker support files added: Dockerfile and run_app.R.")
+  # Copy CSS to www/
+  css_src <- system.file("templates/style.css.tpl", package = "cpaltemplates")
+  if (fs::file_exists(css_src)) {
+    fs::file_copy(css_src, fs::path(path, "www/cpal-style.css"))
   }
 
-  message("Project setup complete.")
+  cli::cli_alert_success("Set up Shiny app")
+}
+setup_package <- function(path, features) {
+  # Create DESCRIPTION
+  # Copy DESCRIPTION template
+  desc_src <- system.file("templates/package/DESCRIPTION.tpl", package = "cpaltemplates")
+  if (fs::file_exists(desc_src)) {
+    # Read template and replace package name
+    desc_content <- readLines(desc_src)
+    desc_content <- gsub("{{package_name}}", fs::path_file(path), desc_content)
+    writeLines(desc_content, fs::path(path, "DESCRIPTION"))
+    cli::cli_alert_success("Created DESCRIPTION")
+  } else {
+    cli::cli_alert_warning("DESCRIPTION template not found")
+  }
+  # Create NAMESPACE
+  writeLines("# Generated by roxygen2: do not edit by hand", fs::path(path, "NAMESPACE"))
+  # Create example function
+  example_fn <- c(
+    "#' Hello World",
+    "#'",
+    "#' @param name Your name",
+    "#' @return A greeting",
+    "#' @export",
+    "hello <- function(name = \"World\") {",
+    "  paste(\"Hello,\", name)",
+    "}"
+  )
+  writeLines(example_fn, fs::path(path, "R/hello.R"))
+  cli::cli_alert_success("Set up R package")
+}
+# Feature setup functions ----
+create_targets_file <- function(path) {
+  # Copy targets template for analysis
+  targets_src <- system.file("templates/targets/targets_analysis.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(targets_src)) {
+    fs::file_copy(targets_src, fs::path(path, "_targets.R"))
+    cli::cli_alert_success("Created targets pipeline")
+  } else {
+    cli::cli_alert_warning("Targets template not found")
+  }
+}
+setup_renv <- function(path) {
+  if (requireNamespace("renv", quietly = TRUE)) {
+    old_wd <- getwd()
+    setwd(path)
+    tryCatch({
+      renv::init(bare = TRUE)
+      cli::cli_alert_success("Initialized renv")
+    }, finally = {
+      setwd(old_wd)
+    })
+  } else {
+    cli::cli_alert_warning("Package renv not installed")
+  }
+}
+setup_git <- function(path) {
+  if (requireNamespace("gert", quietly = TRUE)) {
+    create_gitignore(path)
+    gert::git_init(path)
+    # Initial commit
+    old_wd <- getwd()
+    setwd(path)
+    tryCatch({
+      gert::git_add(".")
+      gert::git_commit("Initial commit from cpaltemplates")
+      cli::cli_alert_success("Initialized git repository")
+    }, finally = {
+      setwd(old_wd)
+    })
+  } else {
+    cli::cli_alert_warning("Package gert not installed")
+    create_gitignore(path)
+  }
+}
+create_gitignore <- function(path) {
+  # Copy gitignore template
+  gitignore_src <- system.file("templates/gitignore.tpl", package = "cpaltemplates")
+  if (fs::file_exists(gitignore_src)) {
+    fs::file_copy(gitignore_src, fs::path(path, ".gitignore"))
+    cli::cli_alert_success("Created .gitignore")
+  } else {
+    cli::cli_alert_warning("Gitignore template not found")
+  }
+}
+create_project_readme <- function(path, name, type, features) {
+  content <- c(
+    paste0("# ", name),
+    "",
+    "Created with cpaltemplates",
+    "",
+    paste0("Project type: ", type),
+    "",
+    if (length(features) > 0) {
+      c("Features enabled:", paste0("- ", features))
+    },
+    "",
+    "## Getting Started",
+    "",
+    switch(
+      type,
+      "analysis" = c(
+        "1. Add data to `data-raw/`",
+        "2. Edit analysis scripts in `R/`",
+        if ("targets" %in% features) "3. Run `targets::tar_make()`" else "3. Run analysis scripts"
+      ),
+      "quarto-report" = c(
+        "1. Edit `report.qmd`",
+        "2. Preview with `quarto::quarto_preview()`",
+        "3. Render with `quarto::quarto_render()`"
+      ),
+      "quarto-slides" = c(
+        "1. Edit `slides.qmd`",
+        "2. Preview with `quarto::quarto_preview()`"
+      ),
+      "shiny-dashboard" = c(
+        "1. Edit `app.R`",
+        "2. Run with `shiny::runApp()`"
+      ),
+      "shiny-app" = c(
+        "1. Edit `app.R`",
+        "2. Run with `shiny::runApp()`"
+      ),
+      "package" = c(
+        "1. Edit DESCRIPTION",
+        "2. Add functions to `R/`",
+        "3. Document with `devtools::document()`"
+      )
+    )
+  )
+  writeLines(content, fs::path(path, "README.md"))
+}
+show_project_next_steps <- function(name, type, features) {
+  cli::cli_h3("✨ Project {.strong {name}} created!")
+  cli::cli_alert_info("Next steps:")
+  steps <- switch(
+    type,
+    "analysis" = list(
+      "Add data to {.file data-raw/}",
+      "Edit {.file R/01-analysis.R}",
+      if ("targets" %in% features) "Run {.code targets::tar_make()}"
+    ),
+    "quarto-report" = list(
+      "Edit {.file report.qmd}",
+      "Preview with {.code quarto::quarto_preview()}"
+    ),
+    "quarto-slides" = list(
+      "Edit {.file slides.qmd}",
+      "Preview with {.code quarto::quarto_preview()}"
+    ),
+    "shiny-dashboard" = list(
+      "Edit {.file app.R}",
+      "Run with {.code shiny::runApp()}"
+    ),
+    "shiny-app" = list(
+      "Edit {.file app.R}",
+      "Run with {.code shiny::runApp()}"
+    ),
+    "package" = list(
+      "Edit {.file DESCRIPTION}",
+      "Add functions to {.file R/}",
+      "Document with {.code devtools::document()}"
+    )
+  )
+  for (step in steps) {
+    if (!is.null(step)) cli::cli_li(step)
+  }
+  if ("renv" %in% features) {
+    cli::cli_alert_info("Remember to {.code renv::snapshot()} after installing packages")
+  }
 }

@@ -1,0 +1,39 @@
+% === CORE PGF/TIKZ SUPPORT ===
+\usepackage{pgf}                % Core PGF functionality (needed for TikZ internals)
+\usepackage{tikz}               % Main TikZ package
+\usetikzlibrary{calc}           % Enables coordinate math like ($(A)+(1,2)$)
+\usetikzlibrary{shapes}         % For rounded corners, ellipses, etc.
+\usetikzlibrary{decorations}    % For shaded paths and visual effects
+\usetikzlibrary{backgrounds}    % Enables background layers
+\usetikzlibrary{positioning}    % Enables 'right of=...' syntax
+\usetikzlibrary{arrows.meta}    % Modern arrow styles
+
+% === COLOR AND BACKGROUND ===
+\usepackage{xcolor}             % Required for color definitions
+\usepackage{pagecolor}          % To set full-page background color
+
+% === IMAGE SUPPORT ===
+\usepackage{graphicx}           % For logo and image includes
+
+% === TABLE AND BOX STYLE ===
+\usepackage{booktabs}           % Professional horizontal lines in tables
+\usepackage[table]{xcolor}      % Alternating row colors in tables
+\usepackage{longtable}          % For multipage tables
+\usepackage{tcolorbox}          % Optional: for styled callout boxes
+
+% === HEADER AND FOOTER STYLE ===
+\usepackage{fancyhdr}           % Allows custom headers/footers
+
+% === COLOR DEFINITIONS FOR COVER ===
+\definecolor{c1}{HTML}{F4FBFC}
+\definecolor{c2}{HTML}{C2F6FF}
+\definecolor{c3}{HTML}{70EAFF}
+\definecolor{c4}{HTML}{1FDDFF}
+\definecolor{c5}{HTML}{00BFE0}
+\definecolor{c6}{HTML}{008097}
+\definecolor{c7}{HTML}{005766}
+\definecolor{c8}{HTML}{042D33}
+
+% === HEADER AND FOOTER FILES ===
+\input{tex/header.tex}
+\input{tex/footer.tex}
