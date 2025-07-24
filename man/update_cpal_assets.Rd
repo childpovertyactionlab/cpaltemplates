@@ -9,7 +9,7 @@ update_cpal_assets(path = ".", components = "all")
 \arguments{
 \item{path}{Character. Path to your project root.}
 
-\item{components}{Character vector. Which components to update: 
+\item{components}{Character vector. Which components to update:
 "css", "images", "all".}
 }
 \value{

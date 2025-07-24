@@ -27,8 +27,8 @@ Save ggplot2 plots with standard CPAL dimensions and settings
 }
 \examples{
 \dontrun{
-p <- ggplot(mtcars, aes(wt, mpg)) + 
-  geom_point() + 
+p <- ggplot(mtcars, aes(wt, mpg)) +
+  geom_point() +
   theme_cpal()
 
 # Save with default dimensions

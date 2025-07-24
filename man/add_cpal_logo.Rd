@@ -4,14 +4,14 @@
 \alias{add_cpal_logo}
 \title{Add CPAL logo to plots}
 \usage{
-add_cpal_logo(plot, position = "bottom-right", size = 0.1, logo_path = NULL)
+add_cpal_logo(plot, position = "top-right", size = 0.09, logo_path = NULL)
 }
 \arguments{
 \item{plot}{ggplot object}
 
-\item{position}{Position for logo: "bottom-right", "bottom-left", "top-right", "top-left"}
+\item{position}{Position for logo: "top-right", "top-left", "bottom-right", "bottom-left"}
 
-\item{size}{Logo size as proportion of plot (default: 0.1)}
+\item{size}{Logo size as proportion of plot (default: 0.08)}
 
 \item{logo_path}{Path to logo file (uses package default if NULL)}
 }
@@ -19,5 +19,6 @@ add_cpal_logo(plot, position = "bottom-right", size = 0.1, logo_path = NULL)
 ggplot object with logo
 }
 \description{
-Add the CPAL logo to a ggplot2 plot in a specified position
+Add the CPAL logo to a ggplot2 plot in a specified position.
+Automatically detects dark themes and uses appropriate logo color.
 }

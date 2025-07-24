@@ -37,6 +37,7 @@ start_project <- function(
     "analysis" = "General analysis with targets pipeline",
     "quarto-report" = "Quarto report (HTML, PDF, Word)",
     "quarto-slides" = "Quarto presentation slides",
+    "quarto-web" = "Quarto website with multiple pages",
     "shiny-dashboard" = "Full-featured Shiny dashboard",
     "shiny-app" = "Simple Shiny application",
     "package" = "R package development"
@@ -113,6 +114,7 @@ start_project <- function(
     "analysis" = setup_analysis,
     "quarto-report" = setup_quarto_report,
     "quarto-slides" = setup_quarto_slides,
+    "quarto-web" = setup_quarto_web,
     "shiny-dashboard" = setup_shiny_dashboard,
     "shiny-app" = setup_shiny_app,
     "package" = setup_package
@@ -262,6 +264,35 @@ setup_quarto_slides <- function(path, features) {
   }
   cli::cli_alert_success("Set up Quarto slides")
 }
+
+setup_quarto_web <- function(path, features) {
+  # Create _quarto.yml for website
+  config_src <- system.file("templates/quarto-web/_quarto.yml.tpl", package = "cpaltemplates")
+  if (fs::file_exists(config_src)) {
+    fs::file_copy(config_src, fs::path(path, "_quarto.yml"))
+    cli::cli_alert_success("Created _quarto.yml for website")
+  }
+
+  # Copy web document template
+  web_src <- system.file("templates/quarto-web/web-document.qmd.tpl", package = "cpaltemplates")
+  if (fs::file_exists(web_src)) {
+    fs::file_copy(web_src, fs::path(path, "index.qmd"))
+    cli::cli_alert_success("Created index.qmd")
+  } else {
+    cli::cli_alert_warning("Web document template not found")
+  }
+
+  # Copy CSS styles
+  css_src <- system.file("templates/style.css.tpl", package = "cpaltemplates")
+  if (fs::file_exists(css_src)) {
+    fs::dir_create(fs::path(path, "assets/css"))
+    fs::file_copy(css_src, fs::path(path, "assets/css/cpal-style.css"))
+    cli::cli_alert_success("Copied CSS styles")
+  }
+
+  cli::cli_alert_success("Set up Quarto website")
+}
+
 setup_shiny_dashboard <- function(path, features) {
   # Copy dashboard app template
   app_src <- system.file("templates/shiny/app_dashboard.R.tpl", package = "cpaltemplates")
@@ -448,6 +479,11 @@ show_project_next_steps <- function(name, type, features) {
     "quarto-slides" = list(
       "Edit {.file slides.qmd}",
       "Preview with {.code quarto::quarto_preview()}"
+    ),
+    "quarto-web" = list(
+      "Edit {.file index.qmd}",
+      "Preview with {.code quarto::quarto_preview()}",
+      "Render site with {.code quarto::quarto_render()}"
     ),
     "shiny-dashboard" = list(
       "Edit {.file app.R}",

@@ -550,3 +550,97 @@ theme_cpal_map <- function(scale = "continuous",
 set_theme_cpal <- function(...) {
   ggplot2::theme_set(theme_cpal(...))
 }
+
+#' Setup CPAL fonts for interactive plots
+#'
+#' Helper function to register Inter font for ggiraph compatibility
+#' This should be called before creating interactive plots
+#'
+#' @param force_register Logical. Force re-registration of fonts (default: FALSE)
+#' @return Logical indicating success
+#' @export
+setup_cpal_fonts_interactive <- function(force_register = FALSE) {
+  success <- FALSE
+
+  # Check if gdtools is available for font registration
+  if (!requireNamespace("gdtools", quietly = TRUE)) {
+    message("Package 'gdtools' is recommended for interactive font support.")
+    message("Install with: install.packages('gdtools')")
+    return(FALSE)
+  }
+
+  if (!requireNamespace("systemfonts", quietly = TRUE)) {
+    message("Package 'systemfonts' is required for font detection.")
+    message("Install with: install.packages('systemfonts')")
+    return(FALSE)
+  }
+
+  tryCatch({
+    # Check if Inter is already registered
+    if (!force_register) {
+      registered_fonts <- gdtools::gfonts()
+      if ("Inter" %in% registered_fonts) {
+        message("Inter font already registered for interactive plots")
+        return(TRUE)
+      }
+    }
+
+    # Try to register Inter from Google Fonts
+    gdtools::register_gfont("Inter")
+    message("✅ Successfully registered Inter font for interactive plots")
+    success <- TRUE
+
+  }, error = function(e) {
+    # Fallback: try to register system Inter font
+    tryCatch({
+      available_fonts <- systemfonts::system_fonts()
+      inter_fonts <- available_fonts[grepl("Inter", available_fonts$family, ignore.case = TRUE), ]
+
+      if (nrow(inter_fonts) > 0) {
+        # Register the first Inter font found
+        systemfonts::register_font(
+          name = "Inter",
+          plain = inter_fonts$path[1]
+        )
+        message("✅ Registered system Inter font for interactive plots")
+        success <- TRUE
+      } else {
+        message("ℹ️  Inter font not found. Interactive plots will use Arial fallback.")
+        message("   You can install Inter font system-wide or use Google Fonts integration.")
+      }
+    }, error = function(e2) {
+      message("⚠️  Could not register Inter font: ", e2$message)
+      message("   Interactive plots will use Arial fallback.")
+    })
+  })
+
+  return(success)
+}
+
+#' Import and setup all CPAL fonts
+#'
+#' Comprehensive font setup for both regular plots (showtext) and interactive plots (ggiraph)
+#'
+#' @param setup_interactive Logical. Also setup fonts for interactive plots (default: TRUE)
+#' @return Logical indicating success
+#' @export
+import_cpal_fonts <- function(setup_interactive = TRUE) {
+  # Import Inter for regular plots
+  regular_success <- import_inter_font()
+
+  # Setup fonts for interactive plots
+  interactive_success <- TRUE
+  if (setup_interactive) {
+    interactive_success <- setup_cpal_fonts_interactive()
+  }
+
+  if (regular_success && interactive_success) {
+    message("🎉 All CPAL fonts ready for both regular and interactive plots!")
+  } else if (regular_success) {
+    message("✅ CPAL fonts ready for regular plots. Interactive plots will use fallback fonts.")
+  } else {
+    message("⚠️  Using fallback fonts for all plots.")
+  }
+
+  return(regular_success && interactive_success)
+}

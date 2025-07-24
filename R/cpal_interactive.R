@@ -1,8 +1,7 @@
-
 #' Create interactive CPAL plots with ggiraph
 #'
 #' Wrapper functions to create interactive versions of ggplot2 plots
-#' while maintaining CPAL styling
+#' while maintaining CPAL styling. Handles font registration for ggiraph compatibility.
 #'
 #' @param plot A ggplot2 object to make interactive
 #' @param width_svg SVG width in inches (default: 8)
@@ -14,18 +13,56 @@
 #' \dontrun{
 #' library(ggplot2)
 #' library(ggiraph)
-#' 
+#'
 #' p <- ggplot(mtcars, aes(wt, mpg)) +
 #'   geom_point_interactive(aes(tooltip = rownames(mtcars))) +
 #'   theme_cpal()
-#'   
+#'
 #' cpal_interactive(p)
 #' }
 cpal_interactive <- function(plot, width_svg = 8, height_svg = 5, ...) {
   if (!requireNamespace("ggiraph", quietly = TRUE)) {
     stop("Package 'ggiraph' is required. Install with: install.packages('ggiraph')")
   }
-  
+
+  # Handle font registration for ggiraph
+  font_family <- "Arial, sans-serif"  # Default fallback
+
+  # Try to register Inter font for ggiraph if available
+  if (requireNamespace("gdtools", quietly = TRUE) && requireNamespace("systemfonts", quietly = TRUE)) {
+    tryCatch({
+      # Check if Inter is available in system fonts
+      available_fonts <- systemfonts::system_fonts()
+      inter_available <- any(grepl("Inter", available_fonts$family, ignore.case = TRUE))
+
+      if (inter_available) {
+        # Try to register Inter for ggiraph
+        gdtools::register_gfont("Inter")
+        font_family <- "Inter, Arial, sans-serif"
+        message("Successfully registered Inter font for interactive plots")
+      } else {
+        # Try to add Inter from Google Fonts
+        if (requireNamespace("sysfonts", quietly = TRUE)) {
+          if ("Inter" %in% sysfonts::font_families()) {
+            font_family <- "Inter, Arial, sans-serif"
+          }
+        }
+      }
+    }, error = function(e) {
+      message("Could not register Inter font for ggiraph. Using Arial fallback.")
+      font_family <- "Arial, sans-serif"
+    })
+  }
+
+  # Disable showtext for ggiraph (it conflicts)
+  if (requireNamespace("showtext", quietly = TRUE)) {
+    showtext_enabled <- showtext::showtext_auto()
+    if (showtext_enabled) {
+      showtext::showtext_auto(FALSE)
+      on.exit(showtext::showtext_auto(TRUE), add = TRUE)
+    }
+  }
+
   # Default ggiraph options for CPAL styling
   ggiraph::girafe(
     ggobj = plot,
@@ -41,7 +78,7 @@ cpal_interactive <- function(plot, width_svg = 8, height_svg = 5, ...) {
           "color:white;",
           "padding:10px;",
           "border-radius:5px;",
-          "font-family:Inter, Arial, sans-serif;",
+          "font-family:", font_family, ";",
           "font-size:14px;"
         ),
         opacity = 0.95
@@ -63,7 +100,7 @@ cpal_interactive <- function(plot, width_svg = 8, height_svg = 5, ...) {
 #'
 #' These are convenience wrappers around ggiraph interactive geoms
 #' that make it easier to add interactivity with consistent styling
-#' 
+#'
 #' @name cpal_geom_interactive
 NULL
 
@@ -75,18 +112,18 @@ NULL
 #' @param data_id_var Variable to use for data IDs (for linking)
 #' @param ... Other arguments passed to the geom
 #' @export
-cpal_point_interactive <- function(mapping = NULL, data = NULL, 
-                                  tooltip_var = NULL, 
+cpal_point_interactive <- function(mapping = NULL, data = NULL,
+                                  tooltip_var = NULL,
                                   onclick_var = NULL,
                                   data_id_var = NULL, ...) {
   if (!requireNamespace("ggiraph", quietly = TRUE)) {
     stop("Package 'ggiraph' is required")
   }
-  
+
   # Build interactive aesthetics
   if (!is.null(tooltip_var) || !is.null(onclick_var) || !is.null(data_id_var)) {
     if (is.null(mapping)) mapping <- ggplot2::aes()
-    
+
     if (!is.null(tooltip_var)) {
       mapping$tooltip <- substitute(tooltip_var)
     }
@@ -97,23 +134,23 @@ cpal_point_interactive <- function(mapping = NULL, data = NULL,
       mapping$data_id <- substitute(data_id_var)
     }
   }
-  
+
   ggiraph::geom_point_interactive(mapping = mapping, data = data, ...)
 }
 
 #' @rdname cpal_geom_interactive
 #' @export
 cpal_col_interactive <- function(mapping = NULL, data = NULL,
-                                tooltip_var = NULL, 
+                                tooltip_var = NULL,
                                 onclick_var = NULL,
                                 data_id_var = NULL, ...) {
   if (!requireNamespace("ggiraph", quietly = TRUE)) {
     stop("Package 'ggiraph' is required")
   }
-  
+
   if (!is.null(tooltip_var) || !is.null(onclick_var) || !is.null(data_id_var)) {
     if (is.null(mapping)) mapping <- ggplot2::aes()
-    
+
     if (!is.null(tooltip_var)) {
       mapping$tooltip <- substitute(tooltip_var)
     }
@@ -124,7 +161,7 @@ cpal_col_interactive <- function(mapping = NULL, data = NULL,
       mapping$data_id <- substitute(data_id_var)
     }
   }
-  
+
   ggiraph::geom_col_interactive(mapping = mapping, data = data, ...)
 }
 
@@ -137,10 +174,10 @@ cpal_line_interactive <- function(mapping = NULL, data = NULL,
   if (!requireNamespace("ggiraph", quietly = TRUE)) {
     stop("Package 'ggiraph' is required")
   }
-  
+
   if (!is.null(tooltip_var) || !is.null(onclick_var) || !is.null(data_id_var)) {
     if (is.null(mapping)) mapping <- ggplot2::aes()
-    
+
     if (!is.null(tooltip_var)) {
       mapping$tooltip <- substitute(tooltip_var)
     }
@@ -151,7 +188,7 @@ cpal_line_interactive <- function(mapping = NULL, data = NULL,
       mapping$data_id <- substitute(data_id_var)
     }
   }
-  
+
   ggiraph::geom_line_interactive(mapping = mapping, data = data, ...)
 }
 
@@ -164,10 +201,10 @@ cpal_polygon_interactive <- function(mapping = NULL, data = NULL,
   if (!requireNamespace("ggiraph", quietly = TRUE)) {
     stop("Package 'ggiraph' is required")
   }
-  
+
   if (!is.null(tooltip_var) || !is.null(onclick_var) || !is.null(data_id_var)) {
     if (is.null(mapping)) mapping <- ggplot2::aes()
-    
+
     if (!is.null(tooltip_var)) {
       mapping$tooltip <- substitute(tooltip_var)
     }
@@ -178,14 +215,14 @@ cpal_polygon_interactive <- function(mapping = NULL, data = NULL,
       mapping$data_id <- substitute(data_id_var)
     }
   }
-  
+
   ggiraph::geom_polygon_interactive(mapping = mapping, data = data, ...)
 }
 
 #' Create interactive maps with mapgl
-#' 
+#'
 #' Wrapper for mapgl with CPAL defaults for Dallas area
-#' 
+#'
 #' @param style Mapbox style URL or style object
 #' @param bounds Initial map bounds (defaults to Dallas area)
 #' @param ... Additional arguments passed to mapboxgl()
@@ -196,7 +233,7 @@ cpal_mapgl <- function(style = "mapbox://styles/mapbox/light-v11",
   if (!requireNamespace("mapgl", quietly = TRUE)) {
     stop("Package 'mapgl' is required. Install with: remotes::install_github('walkerke/mapgl')")
   }
-  
+
   # Default to Dallas area bounds if not specified
   if (is.null(bounds)) {
     bounds <- list(
@@ -206,7 +243,7 @@ cpal_mapgl <- function(style = "mapbox://styles/mapbox/light-v11",
       north = 33.0
     )
   }
-  
+
   # Create map with defaults
   mapgl::mapboxgl(
     style = style,
@@ -216,9 +253,9 @@ cpal_mapgl <- function(style = "mapbox://styles/mapbox/light-v11",
 }
 
 #' Add CPAL-styled layer to mapgl map
-#' 
+#'
 #' Helper function to add a layer with CPAL color defaults
-#' 
+#'
 #' @param map A mapboxgl object
 #' @param id Layer ID
 #' @param source Data source
@@ -227,12 +264,12 @@ cpal_mapgl <- function(style = "mapbox://styles/mapbox/light-v11",
 #' @param ... Additional arguments
 #' @return Updated mapboxgl object
 #' @export
-cpal_mapgl_layer <- function(map, id, source, type = "fill", 
+cpal_mapgl_layer <- function(map, id, source, type = "fill",
                             paint = NULL, ...) {
   if (!requireNamespace("mapgl", quietly = TRUE)) {
     stop("Package 'mapgl' is required")
   }
-  
+
   # Set CPAL color defaults based on layer type
   if (is.null(paint)) {
     paint <- switch(type,
@@ -253,7 +290,7 @@ cpal_mapgl_layer <- function(map, id, source, type = "fill",
       list()
     )
   }
-  
+
   mapgl::add_layer(
     map = map,
     id = id,
@@ -265,9 +302,9 @@ cpal_mapgl_layer <- function(map, id, source, type = "fill",
 }
 
 #' Interactive table with reactable
-#' 
+#'
 #' Create an interactive table with CPAL styling using reactable
-#' 
+#'
 #' @param data Data frame to display
 #' @param ... Additional arguments passed to reactable()
 #' @return A reactable object
@@ -276,7 +313,7 @@ cpal_table_interactive <- function(data, ...) {
   if (!requireNamespace("reactable", quietly = TRUE)) {
     stop("Package 'reactable' is required. Install with: install.packages('reactable')")
   }
-  
+
   reactable::reactable(
     data,
     theme = reactable::reactableTheme(
