@@ -1,376 +1,176 @@
-
 # cpaltemplates
 
-**A modern toolkit for data analysis workflows at the Child Poverty
-Action Lab**
+> **R package for standardizing CPAL data team workflows**
 
-## Vision
+An R package that provides templates, themes, color palettes, and project scaffolding tools to standardize data visualization and analysis workflows for the Child Poverty Action Lab (CPAL) data team.
 
-cpaltemplates is evolving from a simple template package into a
-comprehensive workflow toolkit that helps CPAL’s data team work faster,
-more consistently, and with higher quality outputs. We’re building
-intelligent tools that understand context and automate repetitive tasks
-while maintaining flexibility for custom analyses.
+## 📋 Current Development Status
 
-## What’s New in This Approach
+**Package State**: Substantially complete with 8 major function systems across 6 R files  
+**Total Functions**: 40+ functions implemented  
+**Last Review**: January 2025  
 
-Instead of just copying static templates, cpaltemplates now provides: -
-🧠 **Smart workflows** that adapt to your project needs - 🔄
-**Integrated pipelines** using modern R tools like targets and Quarto -
-📊 **Context-aware visualizations** that adjust to different audiences -
-✅ **Built-in quality checks** for data, code, and outputs - 👥
-**Collaboration features** for team projects
+### ✅ Completed Systems
 
-## Current Features (v1.6.0)
+- **🎨 Color System** (`cpal_colors.R`) - Complete with 16 color palettes (sequential, diverging, categorical)
+- **🖼️ Theme System** (`theme_cpal.R`) - 7 theme variants (default, minimal, dark, classic, print, map)
+- **⚡ Interactive Features** (`cpal_interactive.R`) - ggiraph, mapgl, and reactable integration
+- **📊 Plot Utilities** (`cpal_plots.R`) - Save functions, accessibility checking, formatted tables
+- **🏗️ Project Scaffolding** (`start_project.R`) - Complete project template system (6 project types)
+- **🔧 Utility Functions** (`utils.R`) - Template addition helpers for existing projects
 
-### ✅ Core Functionality
+### 🚧 Active Development Tasks
 
-- **`start_project()`**: Intelligent project initialization
-  - Project types: general, shiny, report
-  - Modern integrations: renv, git, Quarto
-  - Standardized folder structures
-  - Team-ready configurations
-  - ✅ All content now created from templates
+- [ ] **Logo Functions** - Implement missing `add_cpal_logo()` function referenced in documentation
+- [ ] **Template Validation** - Verify all template files exist in `inst/` directory structure
+- [ ] **Testing Framework** - Create comprehensive testthat suite for all functions
+- [ ] **Documentation** - Complete roxygen2 documentation for all functions
+- [ ] **Font Optimization** - Improve cross-platform font handling
+- [ ] **Accessibility Testing** - Validate colorblind-safe palettes
+- [ ] **GitHub Pages Setup** - Deploy QMD documentation as website
 
-### 📁 Project Templates
-
-- Analysis workflow templates
-- Quarto report templates with TeX support
-- Shiny app templates (simple and dashboard)
-- Documentation templates
-- Environment configurations
-- ✅ Modular template system in `inst/templates/`
-
-### 🎨 Assets & Branding
-- ✅ **Color Palettes**: Complete CPAL brand color system
-  - Primary brand colors (Midnight, Teal, Pink, Orange, Gold)
-  - Sequential palettes (single-hue and multi-hue)
-  - Diverging palettes (pink-to-teal)
-  - Categorical palettes (2-6 colors)
-### 🛠️ Utility Functions (`use_*`)
-
-- **`use_quarto_report()`** - Add report capability to existing projects
-- **`use_quarto_slides()`** - Add presentation templates
-- **`use_shiny_app()`** - Add simple Shiny app
-- **`use_shiny_dashboard()`** - Add full dashboard with modules
-- **`use_targets()`** - Add reproducible pipelines (3 types)
-- **`update_cpal_assets()`** - Update branding in existing projects \##
-  Installation
-
-``` r
-# Install from GitHub
-# install.packages("devtools")
-devtools::install_github("childpovertyactionlab/cpaltemplates")
-```
-
-## Quick Start
+## 🚀 Quick Start
 
 ```r
-# Install from GitHub
-devtools::install_github("childpovertyactionlab/cpaltemplates")
+# Install from GitHub (when available)
+# remotes::install_github("cpal/cpaltemplates")
 
-# Load the package
+# Load and set up
 library(cpaltemplates)
+import_inter_font()        # Import CPAL brand fonts
+set_theme_cpal()          # Set as default theme
 
-# Create a new CPAL project
-start_project("my_analysis")
-
-# View available color palettes
-view_all_palettes()
-
-## Color Palettes
-
-The package includes the complete CPAL brand color system with multiple palette types for different visualization needs.
-
-### Brand Colors
-
-```r
-# Get primary brand colors
-cpal_colors("primary")
-#>  midnight      teal      pink    orange      gold 
-#> "#004855" "#008097" "#C3257B" "#ED683F" "#AB8C01"
-
-# Get specific colors
-cpal_colors(c("teal", "orange"))
-#>      teal    orange 
-#> "#008097" "#ED683F"
-```
-
-### Available Palettes
-
-#### Sequential Palettes
-For continuous data:
-- `teal_seq_4`, `teal_seq_5`, `teal_seq_6` - Single-hue teal gradients
-- `yellow_teal_seq_4`, `yellow_teal_seq_5`, `yellow_teal_seq_6` - Multi-hue yellow to teal
-
-#### Diverging Palettes
-For data with meaningful midpoints:
-- `pink_teal_3`, `pink_teal_5`, `pink_teal_6` - Pink to teal through neutral gray
-
-#### Categorical Palettes
-For discrete categories:
-- `main` - 5 main brand colors
-- `main_gray` - 6 colors including gray
-- `blues` - 2 shades of blue
-- `compare` - Gray and teal for comparisons
-- `main_3`, `main_4` - Subsets of main colors
-
-### View All Palettes
-
-```r
-# View all palettes in a grid with hex codes
-view_all_palettes()
-
-# View palettes in horizontal bars
-view_palette()
-```
-
-### Using with ggplot2
-
-```r
+# Create a CPAL-styled plot
 library(ggplot2)
-
-# Categorical data
-ggplot(mpg, aes(class, fill = drv)) +
-  geom_bar() +
-  scale_fill_cpal()
-
-# Continuous data with sequential palette
-ggplot(mpg, aes(displ, hwy, color = cty)) +
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point(size = 3) +
-  scale_color_cpal("teal_seq_6", discrete = FALSE)
-
-# Diverging data
-ggplot(mtcars, aes(factor(cyl), mpg, fill = mpg)) +
-  geom_boxplot() +
-  scale_fill_cpal("pink_teal_5", discrete = FALSE)
+  scale_color_cpal(palette = "main") +
+  labs(title = "CPAL Styled Visualization")
 ```
 
-### Palette Selection Guide
+## 📦 Function Inventory
 
-- **Sequential Single-Hue**: Use when showing intensity or concentration of a single variable
-- **Sequential Multi-Hue**: Better for heat maps or when you need more visual distinction
-- **Diverging**: Use when your data has a meaningful midpoint (e.g., positive/negative, above/below average)
-- **Categorical**: Use for distinct groups with no inherent order
-## Development Roadmap
+### Color System (`cpal_colors.R`)
+- `cpal_colors()` - Access CPAL color palettes  
+- `cpal_colors_primary` - Brand color constants
+- `cpal_colors_extended` - Extended color palette  
+- `cpal_palettes_sequential` - Sequential palettes (7 variants)
+- `cpal_palettes_diverging` - Diverging palettes (3 variants)  
+- `cpal_palettes_categorical` - Categorical palettes (6 variants)
+- `scale_color_cpal()`, `scale_fill_cpal()` - ggplot2 color scales
+- `view_palette()`, `view_all_palettes()` - Palette visualization
+- `cpal_display_palettes()` - Interactive palette display
 
-### 🎯 Phase 1: Enhanced Templates & Workflows (Current Priority)
+### Theme System (`theme_cpal.R`)  
+- `theme_cpal()` - Main CPAL theme with customization options
+- `theme_cpal_minimal()`, `theme_cpal_dark()`, `theme_cpal_classic()` - Theme variants
+- `theme_cpal_print()` - Print-optimized theme
+- `theme_cpal_map()` - Map visualization theme  
+- `import_inter_font()` - Google Fonts integration
+- `cpal_font_family()` - Cross-platform font detection
+- `set_theme_cpal()` - Set as default theme
 
-#### Analysis Workflows
+### Interactive Features (`cpal_interactive.R`)
+- `cpal_interactive()` - ggiraph wrapper with CPAL styling
+- `cpal_point_interactive()`, `cpal_col_interactive()`, `cpal_line_interactive()` - Interactive geoms
+- `cpal_mapgl()` - Mapbox GL integration  
+- `cpal_table_interactive()` - Styled reactable tables
 
-- [ ] **Modern analysis templates**
-  - [ ] Targets-based pipeline templates
-  - [ ] Reproducible analysis workflows
-  - [ ] Data validation templates
-  - [ ] Model comparison frameworks
-- [ ] **Project health checks**
-  - [ ] `check_project()` - Verify setup and dependencies
-  - [ ] `validate_data()` - Data quality checks
-  - [ ] `test_pipeline()` - Pipeline validation
+### Plot Utilities (`cpal_plots.R`)
+- `save_cpal_plot()` - Save plots with standard CPAL dimensions
+- `cpal_table()` - gt table with CPAL styling
+- `check_plot_accessibility()` - Accessibility validation
+- `add_cpal_logo()` - ⚠️ **Missing Implementation**
 
-#### Quarto Integration
+### Project Creation (`start_project.R`)
+- `start_project()` - Interactive project creation wizard
+- **Project Types**: analysis, quarto-report, quarto-slides, shiny-dashboard, shiny-app, package
+- **Features**: renv, git, github, targets, tests
 
-- [ ] **Enhanced Quarto templates**
-  - [ ] Multi-format reports (HTML, PDF, Word)
-  - [ ] Parameterized reports
-  - [ ] Cross-references and citations
-  - [ ] Custom CPAL themes
-- [ ] **Quarto workflows**
-  - [ ] `use_quarto_report()` - Advanced report setup
-  - [ ] `use_quarto_presentation()` - Slide templates
-  - [ ] `render_all_formats()` - Multi-output rendering
+### Utility Functions (`utils.R`)  
+- `use_quarto_report()`, `use_quarto_slides()` - Add reporting to existing projects
+- `use_shiny_dashboard()`, `use_shiny_app()` - Add Shiny components
+- `use_targets()` - Add targets pipeline
+- `update_cpal_assets()` - Update CSS/images to latest versions
 
-#### Shiny Applications
+## 🎨 Available Color Palettes
 
-- [ ] **Smart Shiny templates**
-  - [ ] Dashboard layouts
-  - [ ] Data explorer templates
-  - [ ] Report generators
-  - [ ] Mobile-responsive designs
-- [ ] **Shiny utilities**
-  - [ ] `use_shiny_dashboard()` - Full dashboard setup
-  - [ ] `add_shiny_module()` - Modular components
-  - [ ] `deploy_shiny()` - Deployment helpers
+### Sequential Palettes (7 variants)
+- `teal_seq_4`, `teal_seq_5`, `teal_seq_6` - Single-hue teal gradients
+- `yellow_teal_seq_4`, `yellow_teal_seq_5`, `yellow_teal_seq_6` - Multi-hue gradients
 
-### 📊 Phase 2: Modern Data Visualization
+### Diverging Palettes (3 variants)  
+- `pink_teal_3`, `pink_teal_5`, `pink_teal_6` - Pink to teal with neutral center
 
-#### ggplot2 Enhancement
+### Categorical Palettes (6 variants)
+- `main` - Primary 5-color palette
+- `main_gray` - Primary + gray (6 colors)
+- `blues`, `compare`, `main_3`, `main_4` - Subset palettes
 
-- [ ] **Smart plotting system**
-  - [ ] `cpal_plot()` - Intelligent plot creation
-  - [ ] Context-aware theming
-  - [ ] Automatic accessibility checks
-  - [ ] Multi-format export
-- [ ] **Plot types**
-  - [ ] Time series with annotations
-  - [ ] Comparative visualizations
-  - [ ] Geographic maps
-  - [ ] Statistical summaries
+## 📖 Documentation
 
-#### Beyond ggplot2
+Comprehensive documentation with examples available in the QMD documentation file created during this review. The documentation covers:
 
-- [ ] **Interactive visualizations**
-  - [ ] Plotly integration
-  - [ ] Observable Plot templates
-  - [ ] D3.js components
-  - [ ] Leaflet map templates
-- [ ] **Tables and reports**
-  - [ ] `cpal_table()` - Smart table formatting
-  - [ ] GT table themes
-  - [ ] Interactive tables with reactable
-  - [ ] Excel report generation
+- Installation and setup
+- Complete function examples  
+- Advanced workflows
+- Interactive features
+- Best practices
+- Project creation guides
 
-### 🔧 Phase 3: Workflow Automation
+## 🔧 Development Workflow
 
-#### Pipeline Management
+All changes to this package follow our established workflow:
 
-- [ ] **Targets integration**
-  - [ ] Pipeline templates
-  - [ ] Caching strategies
-  - [ ] Parallel processing
-  - [ ] Dependency visualization
-- [ ] **Automation tools**
-  - [ ] Scheduled reports
-  - [ ] Data refresh workflows
-  - [ ] Quality monitoring
+1. **Function Development** → Immediate README.md update
+2. **Template Addition** → Documentation in README.md  
+3. **Task Completion** → Check off in task list below
+4. **Version Changes** → Update this status section
 
-#### Documentation & Quality
+## 📋 Current Task List
 
-- [ ] **Auto-documentation**
-  - [ ] Code documentation
-  - [ ] Data dictionaries
-  - [ ] Method descriptions
-  - [ ] Change logs
-- [ ] **Quality assurance**
-  - [ ] Unit test templates
-  - [ ] Data validation rules
-  - [ ] Output verification
-  - [ ] Performance monitoring
+### 🔄 In Progress  
+- [x] Complete thorough review of all R functions in the package
+- [x] Create comprehensive QMD documentation for all functions with examples  
+- [x] Update README.md with current function inventory and task tracking
 
-### 🔌 Phase 4: Data Connections (Future)
+### 📅 Pending Tasks
+- [ ] **High Priority**: Implement missing logo functions referenced in documentation
+- [ ] **High Priority**: Verify all template files exist in inst/ directory and are accessible  
+- [ ] **Medium Priority**: Add proper roxygen2 documentation to all functions
+- [ ] **Medium Priority**: Create comprehensive testing suite for all functions
+- [ ] **Low Priority**: Optimize font handling across different platforms
+- [ ] **Low Priority**: Test color palettes for colorblind accessibility  
+- [ ] **Low Priority**: Set up QMD documentation as GitHub Pages site
 
-#### Connection Management
+### 🎯 Next Development Priorities
 
-- [ ] **Database connections**
-  - [ ] Secure credential storage
-  - [ ] Connection pooling
-  - [ ] Query builders
-  - [ ] Cache management
-- [ ] **API integrations**
-  - [ ] Census data access
-  - [ ] City data portals
-  - [ ] Education databases
-  - [ ] Social service APIs
+1. **Template File Audit** - Check all `system.file()` calls in `start_project.R` 
+2. **Logo Function Implementation** - Create `add_cpal_logo()` function
+3. **Testing Infrastructure** - Set up testthat framework
+4. **Documentation Polish** - Complete roxygen2 docs
 
-## Example: Modern Workflow
+## 💡 Usage Philosophy
 
-```r
-# Start a new CPAL project
-library(cpaltemplates)
-start_project("dallas_housing_analysis")
+This package follows the principle that **CPAL data team workflows should be**:
+- **Consistent** - Same visual identity across all outputs
+- **Accessible** - Colorblind-safe palettes and proper contrast
+- **Professional** - Publication-ready defaults  
+- **Efficient** - Minimize repetitive styling work
+- **Reproducible** - Template-based project structure
 
-# In your analysis script:
-library(tidyverse)
-library(cpaltemplates)
+## 🤝 Contributing
 
-# Load and process data
-housing_data <- read_csv("data/dallas_housing.csv") %>%
-  mutate(price_category = cut(median_price, breaks = 5))
+When contributing to this package:
 
-# Create visualizations with CPAL colors
-ggplot(housing_data, aes(x = year, y = median_price, color = district)) +
-  geom_line(size = 1.2) +
-  scale_color_cpal("main") +  # Automatic CPAL colors
-  scale_y_continuous(labels = scales::dollar) +
-  labs(
-    title = "Dallas Housing Prices by District",
-    subtitle = "Median home prices 2019-2024",
-    caption = "Source: Dallas County Appraisal District"
-  ) +
-  theme_minimal(base_size = 12)
+1. **Always update README.md** with any function changes
+2. **Use the task list** to track ongoing work  
+3. **Test across platforms** (Windows/Mac/Linux)
+4. **Follow CPAL brand guidelines** for any visual elements
+5. **Maintain backward compatibility** for existing team workflows
 
-# Create a heatmap with sequential colors
-ggplot(correlation_matrix, aes(x = var1, y = var2, fill = correlation)) +
-  geom_tile() +
-  scale_fill_cpal("yellow_teal_seq_6", discrete = FALSE) +
-  theme_minimal()
+---
 
-# Compare groups with diverging colors
-ggplot(school_performance, aes(x = school, y = score_diff, fill = score_diff)) +
-  geom_col() +
-## Why This Approach?
-
-### 🚀 Immediate Benefits
-
-- **Faster project setup**: Minutes instead of hours
-- **Consistent outputs**: Same quality across all projects
-- **Better collaboration**: Shared standards and workflows
-- **Reduced errors**: Built-in validation and checks
-
-### 🔮 Future-Ready
-
-- **Modern R ecosystem**: Embraces tidyverse, Quarto, targets
-- **Scalable workflows**: From simple analyses to complex pipelines
-- **Team-oriented**: Built for collaboration from the ground up
-- **Continuously improving**: Regular updates based on team needs
-
-## Contributing
-
-We welcome contributions! Priority areas: 1. Template improvements 2.
-Workflow examples 3. Documentation 4. Bug reports and feature requests
-
-See our [Contributing Guide](CONTRIBUTING.md) for details.
-
-## Getting Help
-
-- 📖 **Documentation**: See package vignettes (coming soon)
-- 💬 **Questions**: Contact the CPAL data team
-- 🐛 **Issues**: [GitHub
-  Issues](https://github.com/childpovertyactionlab/cpaltemplates/issues)
-- 📧 **Email**: <datalab@childpovertyactionlab.org>
-
-## Changelog
-
-### Version 1.6.1 (Latest)
-- ✅ **Template System Overhaul**:
-  - All project content now generated from template files
-  - Added templates for .Rproj and DESCRIPTION files
-  - Removed hardcoded content from `start_project.R`
-  - Improved maintainability and customization
-- ✅ **New Templates Added**:
-  - `inst/templates/rproj.tpl` - RStudio project settings
-  - `inst/templates/package/DESCRIPTION.tpl` - Package description template
-
-
-### Version 1.6.0 (Current)
-- ✅ Complete CPAL color palette system
-  - Brand colors with corrected values (Teal: #008097, Gold: #AB8C01)
-  - Sequential palettes (4-6 colors, single and multi-hue)
-  - Diverging palettes (pink-to-teal, 3-6 colors)
-  - Categorical palettes (2-6 colors)
-- ✅ Color palette viewing functions:
-  - `view_palette()` - Display all palettes in bar format
-  - `view_all_palettes()` - Grid view with hex codes
-- ✅ ggplot2 integration:
-  - `scale_color_cpal()` and `scale_fill_cpal()`
-### Version 1.5.1
-
-- Initial streamlined version
-- Basic `start_project()` function
-- Core templates for reports and Shiny apps
-
-## License
-
-GPL-3
-
-## Acknowledgments
-
-- Inspired by
-  [urbntemplates](https://github.com/UrbanInstitute/urbntemplates) from
-  the Urban Institute
-- Built by and for the Child Poverty Action Lab data team
-- Special thanks to all contributors and users who provide feedback
-
-------------------------------------------------------------------------
-
-*Building better data workflows for social impact* 🌟
+**Last Updated**: January 2025  
+**Package Maintainer**: CPAL Data Team  
+**Current Version**: Development

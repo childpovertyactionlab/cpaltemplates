@@ -1,4 +1,7 @@
 
+#' @importFrom grDevices colorRampPalette
+#' @importFrom graphics axis barplot image mtext par plot.new rect text
+
 #' CPAL Color Palettes
 #'
 #' Official color palettes for Child Poverty Action Lab data visualizations
@@ -185,6 +188,24 @@ cpal_colors <- function(palette = "primary", n = NULL, reverse = FALSE) {
 
   return(pal)
 }
+
+#' Get CPAL Color Palette
+#'
+#' Helper function to retrieve CPAL color palettes with optional reversal.
+#' This is a wrapper around cpal_colors() for use in scale functions.
+#'
+#' @param palette Name of the palette to retrieve
+#' @param reverse Logical. Should the palette be reversed?
+#' @return A vector of colors
+#' @keywords internal
+cpal_palette <- function(palette = "primary", reverse = FALSE) {
+  colors <- cpal_colors(palette)
+  if (reverse) {
+    colors <- rev(colors)
+  }
+  return(colors)
+}
+
 
 #' Display CPAL Color Palettes
 #'

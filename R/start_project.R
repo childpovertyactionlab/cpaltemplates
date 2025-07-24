@@ -432,7 +432,7 @@ create_project_readme <- function(path, name, type, features) {
   writeLines(content, fs::path(path, "README.md"))
 }
 show_project_next_steps <- function(name, type, features) {
-  cli::cli_h3("✨ Project {.strong {name}} created!")
+  cli::cli_h3(" Project {.strong {name}} created!")
   cli::cli_alert_info("Next steps:")
   steps <- switch(
     type,

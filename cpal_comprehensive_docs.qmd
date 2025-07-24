@@ -1,0 +1,1057 @@
+---
+title: "CPAL Templates: Comprehensive Function Documentation"
+subtitle: "Complete guide to theme functions, workflows, and best practices"
+author: "CPAL Data Team"
+date: "`r Sys.Date()`"
+format: 
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-tools: true
+    df-print: paged
+  pdf:
+    toc: true
+    number-sections: true
+execute:
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 10, fig.height = 6)
+library(ggplot2)
+library(dplyr)
+library(scales)
+library(patchwork)
+```
+
+# Introduction
+
+The `cpaltemplates` package provides standardized themes, templates, and workflows for the CPAL data team. This comprehensive documentation covers all current functions, usage examples, and development roadmap.
+
+## Package Overview
+
+**Current Status**: Version 2.0 (July 2025)  
+**Core Features**: Enhanced theme system with improved spacing and logo integration  
+**Dependencies**: `ggplot2`, `cowplot`, `scales`
+
+# Core Theme Functions
+
+## theme_cpal() - Main Theme {#sec-main-theme}
+
+The primary CPAL theme with enhanced spacing and professional styling.
+
+### Function Signature
+
+```{r eval=FALSE}
+theme_cpal(base_size = 12, base_family = "", include_logo = TRUE)
+```
+
+### Parameters
+
+- **`base_size`** *(numeric)*: Base font size for all text elements (default: 12)
+- **`base_family`** *(character)*: Base font family (default: "")  
+- **`include_logo`** *(logical)*: Whether to accommodate logo space (default: TRUE)
+
+### Key Features
+
+#### Enhanced Spacing System
+- **Axis titles**: 1.2× base_size margins (increased from 0.5×)
+- **Legend elements**: 1.5 lines width × 1.2 lines height
+- **Top margin**: 2.5× base_size for logo accommodation
+- **Legend text**: 0.3× base_size spacing from color boxes
+
+#### Visual Properties
+- **Grid lines**: Light gray major (`#E7ECEE`), lighter minor (`#F5F7F8`)
+- **Text hierarchy**: Title (1.4×), subtitle (1.1×), caption (0.8×)
+- **Colors**: Consistent with CPAL brand guidelines
+
+### Usage Examples
+
+#### Basic Usage
+```{r theme-cpal-basic}
+# Load theme functions (would normally be from package)
+source("R/theme_functions.R") # This would be library(cpaltemplates)
+
+# Sample data
+sample_data <- data.frame(
+  category = c("Research", "Operations", "Marketing", "Finance"),
+  value = c(45, 38, 52, 41),
+  quarter = c("Q1", "Q2", "Q3", "Q4")
+)
+
+# Basic bar chart with enhanced spacing
+ggplot(sample_data, aes(x = reorder(category, value), y = value, fill = category)) +
+  geom_col(alpha = 0.8, show.legend = FALSE) +
+  geom_text(aes(label = value), hjust = -0.1, size = 4, fontface = "bold") +
+  coord_flip() +
+  labs(
+    title = "Department Performance Scores",
+    subtitle = "Enhanced axis spacing prevents title/label overlap", 
+    x = "Department",
+    y = "Performance Score",
+    caption = "Note: Increased spacing between axis titles and labels"
+  ) +
+  theme_cpal(base_size = 12) +
+  scale_fill_viridis_d(option = "plasma") +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+```
+
+#### Time Series with Legend
+```{r theme-cpal-timeseries}
+# Time series data
+time_data <- data.frame(
+  date = seq.Date(from = as.Date("2023-01-01"), by = "month", length.out = 12),
+  metric_a = cumsum(rnorm(12, 2, 1)) + 20,
+  metric_b = cumsum(rnorm(12, 1.5, 1.2)) + 15,
+  metric_c = cumsum(rnorm(12, 2.5, 0.8)) + 25
+) %>%
+  tidyr::pivot_longer(cols = starts_with("metric"), names_to = "series", values_to = "value") %>%
+  mutate(series = case_when(
+    series == "metric_a" ~ "Performance Index",
+    series == "metric_b" ~ "Quality Score",
+    series == "metric_c" ~ "Efficiency Rating"
+  ))
+
+ggplot(time_data, aes(x = date, y = value, color = series)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2.5) +
+  labs(
+    title = "Enhanced Legend Spacing Demonstration",
+    subtitle = "Legend elements now have improved spacing and readability",
+    x = "Date",
+    y = "Score",
+    color = "Metric Type",
+    caption = "Legend: 1.5 line width × 1.2 line height with enhanced margins"
+  ) +
+  theme_cpal(base_size = 12) +
+  scale_color_viridis_d(option = "viridis") +
+  scale_x_date(date_labels = "%b %Y")
+```
+
+### Best Practices
+
+1. **Font Sizing**: Use `base_size = 12` for presentations, `base_size = 10` for dense reports
+2. **Logo Space**: Keep `include_logo = TRUE` for final outputs, set `FALSE` for draft work
+3. **Color Palettes**: Pair with `viridis` or `plasma` palettes for accessibility
+4. **Text Hierarchy**: Leverage automatic title sizing (1.4×, 1.1×, 0.8×)
+
+---
+
+## theme_cpal_dark() - Dark Theme {#sec-dark-theme}
+
+Optimized theme for dark backgrounds and night-mode interfaces.
+
+### Function Signature
+
+```{r eval=FALSE}
+theme_cpal_dark(base_size = 12, base_family = "", include_logo = TRUE)
+```
+
+### Key Features
+
+#### Dark Optimization
+- **Background**: Deep dark (`#1a1a1a`) for reduced eye strain
+- **Text colors**: White primary, light gray secondary (`#cccccc`)
+- **Grid lines**: Subtle dark grays (`#333333` major, `#2a2a2a` minor)
+- **Logo compatibility**: Designed for white logo variants
+
+#### Enhanced Readability
+- **High contrast**: Carefully calibrated for dark environments
+- **Reduced glare**: Muted grid lines prevent visual fatigue
+- **Professional appearance**: Suitable for executive dashboards
+
+### Usage Examples
+
+#### Dark Analytics Dashboard
+```{r theme-dark-example}
+# Create sample dashboard data
+dashboard_data <- data.frame(
+  metric = c("Revenue", "Users", "Conversion", "Retention"),
+  current = c(125000, 45000, 3.2, 78),
+  target = c(120000, 50000, 3.0, 80),
+  category = c("Financial", "Growth", "Performance", "Quality")
+)
+
+ggplot(dashboard_data, aes(x = reorder(metric, current))) +
+  geom_col(aes(y = target), fill = "#444444", alpha = 0.6, width = 0.6) +
+  geom_col(aes(y = current, fill = category), alpha = 0.9, width = 0.6) +
+  coord_flip() +
+  labs(
+    title = "Executive Dashboard - Dark Theme",
+    subtitle = "Current performance vs targets with enhanced dark readability",
+    x = "Key Metrics",
+    y = "Value",
+    fill = "Category",
+    caption = "Dark theme optimized for low-light environments"
+  ) +
+  theme_cpal_dark(base_size = 12) +
+  scale_fill_viridis_d(option = "plasma") +
+  scale_y_continuous(labels = number_format(scale = 0.001, suffix = "K"))
+```
+
+#### Dark Time Series
+```{r theme-dark-timeseries}
+# Performance monitoring data
+monitoring_data <- data.frame(
+  time = seq.POSIXt(from = as.POSIXct("2024-01-01"), by = "hour", length.out = 168),
+  cpu_usage = abs(sin(1:168/24) * 40 + rnorm(168, 30, 5)),
+  memory_usage = abs(cos(1:168/36) * 30 + rnorm(168, 45, 8)),
+  network_io = abs(sin(1:168/12) * 25 + rnorm(168, 20, 3))
+) %>%
+  tidyr::pivot_longer(cols = c(cpu_usage, memory_usage, network_io), 
+                      names_to = "resource", values_to = "usage")
+
+ggplot(monitoring_data, aes(x = time, y = usage, color = resource)) +
+  geom_line(alpha = 0.8, size = 1) +
+  labs(
+    title = "System Resource Monitoring",
+    subtitle = "Real-time performance metrics with dark theme optimization",
+    x = "Time", 
+    y = "Usage (%)",
+    color = "Resource Type",
+    caption = "24/7 monitoring dashboard - dark theme reduces eye strain"
+  ) +
+  theme_cpal_dark(base_size = 11) +
+  scale_color_manual(values = c("#00D4AA", "#FF6B6B", "#4ECDC4")) +
+  scale_x_datetime(date_labels = "%m/%d") +
+  facet_wrap(~resource, scales = "free_y")
+```
+
+### Dark Theme Best Practices
+
+1. **Color Selection**: Use bright, saturated colors that contrast well with dark backgrounds
+2. **Text Contrast**: Ensure sufficient contrast ratios (WCAG AA: 4.5:1 minimum)
+3. **Logo Usage**: Always use white/light logo variants with this theme
+4. **Use Cases**: Ideal for dashboards, monitoring systems, presentations in dark rooms
+
+---
+
+## theme_cpal_print() - Print-Optimized Theme {#sec-print-theme}
+
+Specifically designed for print media with pure white backgrounds and enhanced contrast.
+
+### Function Signature
+
+```{r eval=FALSE}
+theme_cpal_print(base_size = 12, base_family = "", rect_fill = "white", include_logo = TRUE)
+```
+
+### Parameters
+
+- **`rect_fill`** *(character)*: Background color for strip elements (default: "white")
+
+### Key Features
+
+#### Print Optimization
+- **Pure white background**: Changed from gray (`#E7ECEE`) to pure white
+- **Enhanced contrast**: Darker grid lines (`#CCCCCC`) for print visibility
+- **Monochrome friendly**: Works well in both color and grayscale printing
+- **Clean output**: Optimized for PDF exports and physical printing
+
+### Usage Examples
+
+#### Print Report Visualization
+```{r theme-print-example}
+# Quarterly report data
+quarterly_data <- data.frame(
+  quarter = rep(c("Q1 2023", "Q2 2023", "Q3 2023", "Q4 2023"), 3),
+  department = rep(c("Sales", "Marketing", "Operations"), each = 4),
+  budget = c(120, 135, 142, 158, 95, 108, 115, 125, 78, 82, 89, 95),
+  actual = c(118, 141, 138, 162, 92, 112, 118, 128, 81, 79, 92, 98)
+) %>%
+  tidyr::pivot_longer(cols = c(budget, actual), names_to = "type", values_to = "amount")
+
+ggplot(quarterly_data, aes(x = quarter, y = amount, fill = type)) +
+  geom_col(position = "dodge", color = "black", size = 0.3) +
+  facet_wrap(~department, scales = "free_y") +
+  labs(
+    title = "Quarterly Budget vs Actual Performance",
+    subtitle = "Print-optimized theme with pure white background and enhanced contrast",
+    x = "Quarter",
+    y = "Amount (Thousands USD)",
+    fill = "Metric Type",
+    caption = "Source: Financial Reports | Optimized for black and white printing"
+  ) +
+  theme_cpal_print(base_size = 11) +
+  scale_fill_grey(start = 0.4, end = 0.8, labels = c("Actual", "Budget")) +
+  scale_y_continuous(labels = dollar_format(scale = 0.001, suffix = "K")) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+#### Monochrome Scatter Analysis
+```{r theme-print-scatter}
+# Research data for publication
+research_data <- data.frame(
+  experience_years = runif(100, 0, 20),
+  salary = 35000 + experience_years * 3200 + rnorm(100, 0, 8000),
+  education = sample(c("Bachelor's", "Master's", "PhD"), 100, replace = TRUE,
+                    prob = c(0.6, 0.3, 0.1))
+) %>%
+  mutate(salary = pmax(salary, 30000))  # Minimum salary floor
+
+ggplot(research_data, aes(x = experience_years, y = salary)) +
+  geom_point(size = 2.5, alpha = 0.7, color = "black") +
+  geom_smooth(method = "lm", color = "black", fill = "gray70", alpha = 0.3) +
+  facet_wrap(~education) +
+  labs(
+    title = "Salary vs Experience Analysis",
+    subtitle = "Print-ready visualization for academic publication",
+    x = "Years of Experience",
+    y = "Annual Salary (USD)",
+    caption = "N=100 | R² displayed for each education level | Grayscale optimized"
+  ) +
+  theme_cpal_print(base_size = 10) +
+  scale_x_continuous(breaks = pretty_breaks(n = 5)) +
+  scale_y_continuous(labels = dollar_format())
+```
+
+### Print Theme Best Practices
+
+1. **Color Strategy**: Use grayscale or high-contrast colors that print well
+2. **Line Weights**: Ensure adequate line thickness (0.3pt minimum)
+3. **Font Sizing**: Use `base_size = 10-11` for compact print layouts
+4. **Background**: Pure white background ensures clean printing
+5. **Export Settings**: Use high DPI (300+) for professional print quality
+
+---
+
+## theme_cpal_map() - Clean Map Theme {#sec-map-theme}
+
+Completely cleaned theme for spatial data visualization with no distracting elements.
+
+### Function Signature
+
+```{r eval=FALSE}
+theme_cpal_map(base_size = 12, base_family = "", include_logo = TRUE)
+```
+
+### Key Features
+
+#### Complete Cleanup
+- **No axes**: All axis elements removed (text, titles, ticks, lines)
+- **No grids**: All grid lines eliminated (major, minor, x, y)
+- **No borders**: Panel borders removed for seamless appearance
+- **Clean canvas**: Only map content, titles, and legend remain visible
+
+#### Geographic Focus
+- **Distraction-free**: Removes all non-essential elements
+- **Professional cartography**: Clean, publication-ready maps
+- **Flexible legends**: Enhanced legend spacing maintained for data interpretation
+
+### Usage Examples
+
+#### Geographic Heatmap
+```{r theme-map-heatmap}
+# Create spatial demonstration data (simulating geographic coordinates)
+spatial_data <- expand.grid(
+  longitude = seq(-97.5, -96.0, length.out = 30),
+  latitude = seq(32.3, 33.2, length.out = 25)
+) %>%
+  mutate(
+    # Simulate temperature data with spatial patterns
+    temperature = 75 + 10 * sin((longitude + 97) * 5) * cos((latitude - 32.7) * 8) + rnorm(750, 0, 3),
+    # Simulate population density
+    population = exp(-((longitude + 96.8)^2 + (latitude - 32.75)^2) * 50) * 10000 + rnorm(750, 100, 50)
+  ) %>%
+  filter(population > 0)
+
+ggplot(spatial_data, aes(x = longitude, y = latitude, fill = temperature)) +
+  geom_tile() +
+  labs(
+    title = "Dallas Metro Temperature Distribution",
+    subtitle = "Clean map theme removes all distracting elements for pure geographic focus",
+    fill = "Temperature (°F)",
+    caption = "Data visualization optimized for spatial analysis"
+  ) +
+  theme_cpal_map(base_size = 12) +
+  scale_fill_viridis_c(option = "plasma", name = "Temp\n(°F)") +
+  coord_fixed(ratio = 1)
+```
+
+#### Population Density Visualization
+```{r theme-map-density}
+ggplot(spatial_data, aes(x = longitude, y = latitude, fill = population)) +
+  geom_tile() +
+  labs(
+    title = "Population Density Map",
+    subtitle = "Seamless geographic visualization without axis distractions", 
+    fill = "Population\nDensity",
+    caption = "Clean theme perfect for GIS and spatial analysis workflows"
+  ) +
+  theme_cpal_map(base_size = 12) +
+  scale_fill_viridis_c(option = "viridis", trans = "log10", 
+                      labels = function(x) paste0(round(x), "/km²")) +
+  coord_fixed(ratio = 1)
+```
+
+### Map Theme Best Practices
+
+1. **Coordinate Systems**: Always use `coord_fixed()` or `coord_sf()` for proper geographic proportions
+2. **Legend Placement**: Position legends to not obscure important map areas
+3. **Color Schemes**: Use perceptually uniform color scales (viridis family)
+4. **Title Strategy**: Use titles and subtitles to provide context removed by clean theme
+5. **Data Types**: Ideal for choropleth maps, heatmaps, and point pattern analysis
+
+---
+
+# Logo Integration System {#sec-logo-system}
+
+## add_cpal_logo_auto() - Smart Logo Placement
+
+Automatically adds appropriate CPAL logo based on theme type with intelligent positioning.
+
+### Function Signature
+
+```{r eval=FALSE}
+add_cpal_logo_auto(plot, logo_path_teal = NULL, logo_path_white = NULL, 
+                   logo_size = 0.08, hjust = 0.98, vjust = 0.98)
+```
+
+### Parameters
+
+- **`plot`** *(ggplot)*: The ggplot object to add logo to
+- **`logo_path_teal`** *(character)*: Path to teal logo file (auto-detected if NULL)
+- **`logo_path_white`** *(character)*: Path to white logo file (auto-detected if NULL)  
+- **`logo_size`** *(numeric)*: Relative logo size (default: 0.08 = 8% of plot area)
+- **`hjust`** *(numeric)*: Horizontal justification (0 = left, 1 = right)
+- **`vjust`** *(numeric)*: Vertical justification (0 = bottom, 1 = top)
+
+### Key Features
+
+#### Intelligent Logo Selection
+- **Theme Detection**: Automatically identifies light vs dark themes
+- **Smart Selection**: Teal logo for light themes, white logo for dark themes
+- **Fallback Logic**: Uses available logo if preferred variant missing
+- **Error Handling**: Graceful degradation when logo files unavailable
+
+#### Professional Positioning
+- **Top-right placement**: Default position aligns with plot titles
+- **Customizable sizing**: Scales appropriately with plot dimensions
+- **Non-intrusive**: Positioned to complement, not compete with content
+
+### Usage Examples
+
+#### Automatic Logo Integration
+```{r eval=FALSE}
+# Requires logo files in inst/content/ directory
+library(cpaltemplates)
+
+# Light theme automatically gets teal logo
+p_light <- ggplot(mtcars, aes(x = mpg, y = hp, color = factor(cyl))) +
+  geom_point(size = 3) +
+  labs(title = "Light Theme with Teal Logo") +
+  theme_cpal()
+
+p_light_final <- add_cpal_logo_auto(p_light)
+
+# Dark theme automatically gets white logo  
+p_dark <- ggplot(mtcars, aes(x = mpg, y = hp)) +
+  geom_point(color = "#00D4AA", size = 3) +
+  labs(title = "Dark Theme with White Logo") +
+  theme_cpal_dark()
+
+p_dark_final <- add_cpal_logo_auto(p_dark)
+```
+
+#### Custom Logo Positioning
+```{r eval=FALSE}
+# Custom size and positioning
+p_custom <- add_cpal_logo_auto(
+  plot = my_plot,
+  logo_size = 0.06,  # Smaller logo (6% of plot area)
+  hjust = 0.95,      # Slightly more inset from right edge
+  vjust = 0.95       # Slightly more inset from top edge
+)
+
+# Bottom-left positioning
+p_bottom_left <- add_cpal_logo_auto(
+  plot = my_plot,
+  hjust = 0.05,      # Near left edge
+  vjust = 0.05       # Near bottom edge  
+)
+```
+
+### Logo System Best Practices
+
+1. **File Organization**: Store logos in `inst/content/` directory within package
+2. **File Naming**: Use exact names `CPAL_Icon_Teal.png` and `CPAL_Icon_White.png`
+3. **Logo Quality**: Use high-resolution PNG files (300+ DPI) for print quality
+4. **Size Guidelines**: Default 8% size works for most plots; adjust for specific layouts
+5. **Theme Consistency**: Let automatic selection handle theme-logo pairing
+
+---
+
+# Advanced Usage Patterns {#sec-advanced-usage}
+
+## Theme Comparison and Selection
+
+### Side-by-Side Theme Comparison
+```{r theme-comparison}
+# Create standardized comparison data
+comparison_data <- data.frame(
+  category = c("Analysis", "Reporting", "Research", "Operations"),
+  score = c(85, 92, 78, 88),
+  target = c(80, 90, 75, 85)
+)
+
+# Function to create comparison plot
+create_comparison_plot <- function(theme_func, theme_name) {
+  ggplot(comparison_data, aes(x = reorder(category, score))) +
+    geom_col(aes(y = target), fill = "gray70", alpha = 0.5, width = 0.6) +
+    geom_col(aes(y = score, fill = category), alpha = 0.8, width = 0.6) +
+    coord_flip() +
+    labs(
+      title = paste("Theme:", theme_name),
+      subtitle = paste("Demonstration of", theme_name),
+      x = "Department",
+      y = "Performance Score", 
+      caption = paste("Using", theme_name, "styling")
+    ) +
+    theme_func(base_size = 10) +
+    scale_fill_viridis_d(option = "plasma") +
+    theme(legend.position = "none")
+}
+
+# Create comparison grid
+p1 <- create_comparison_plot(theme_cpal, "theme_cpal()")
+p2 <- create_comparison_plot(theme_cpal_dark, "theme_cpal_dark()")  
+p3 <- create_comparison_plot(theme_cpal_print, "theme_cpal_print()")
+p4 <- create_comparison_plot(theme_cpal_map, "theme_cpal_map()")
+
+# Combine using patchwork
+if (requireNamespace("patchwork", quietly = TRUE)) {
+  (p1 | p2) / (p3 | p4)
+}
+```
+
+## Dynamic Theme Selection
+
+### Conditional Theme Application
+```{r conditional-themes}
+# Function for dynamic theme selection based on use case
+apply_cpal_theme <- function(plot, use_case = "presentation", dark_mode = FALSE, logo = TRUE) {
+  
+  theme_func <- switch(use_case,
+    "presentation" = if(dark_mode) theme_cpal_dark else theme_cpal,
+    "print" = theme_cpal_print,
+    "map" = theme_cpal_map,
+    "web" = theme_cpal,
+    theme_cpal  # default fallback
+  )
+  
+  # Apply selected theme
+  final_plot <- plot + theme_func(base_size = 12, include_logo = logo)
+  
+  # Add logo if requested and function available
+  if (logo && exists("add_cpal_logo_auto")) {
+    tryCatch({
+      final_plot <- add_cpal_logo_auto(final_plot)
+    }, error = function(e) {
+      message("Logo files not available - continuing without logo")
+    })
+  }
+  
+  return(final_plot)
+}
+
+# Example usage
+base_plot <- ggplot(mtcars, aes(x = mpg, y = hp, color = factor(cyl))) +
+  geom_point(size = 3) +
+  labs(title = "Dynamic Theme Application", color = "Cylinders")
+
+# Different use cases
+presentation_plot <- apply_cpal_theme(base_plot, "presentation", dark_mode = FALSE)
+dark_dashboard <- apply_cpal_theme(base_plot, "presentation", dark_mode = TRUE)  
+print_version <- apply_cpal_theme(base_plot, "print")
+```
+
+---
+
+# Upcoming Features {#sec-upcoming}
+
+## High Priority Development
+
+### Enhanced Color Palette System
+**Status**: Planned for Q3 2025  
+**Description**: Comprehensive CPAL color palette functions with accessibility compliance.
+
+```{r eval=FALSE}
+# Planned functions
+scale_fill_cpal(palette = "main", discrete = TRUE)
+scale_color_cpal(palette = "sequential", direction = 1)
+cpal_palette(name = "categorical", n = 5)
+
+# Planned palettes
+- cpal_main: Primary brand colors
+- cpal_sequential: Data progression colors  
+- cpal_diverging: Two-direction data colors
+- cpal_qualitative: Categorical data colors
+- cpal_accessible: WCAG AA compliant variants
+```
+
+**Benefits**:
+- Consistent brand color application
+- Built-in accessibility compliance
+- Seamless integration with existing themes
+- Support for colorblind-friendly variants
+
+### Project Template System
+**Status**: Design phase  
+**Expected**: Q4 2025
+
+```{r eval=FALSE}
+# Planned template functions
+create_cpal_project(type = "analysis", name = "housing_study")
+use_cpal_template("quarterly_report") 
+setup_cpal_workflow(analysis_type = "survey")
+
+# Template types planned
+- analysis: Data analysis projects
+- report: Recurring report templates  
+- presentation: Standardized slide formats
+- dashboard: Shiny app templates
+- publication: Academic paper layouts
+```
+
+**Features**:
+- Standardized directory structures
+- Pre-configured R scripts and templates
+- Integrated documentation workflows
+- Automated report generation systems
+
+## Medium Priority Features
+
+### Interactive Theme Support
+**Status**: Research phase  
+**Target**: Q1 2026
+
+Integration with interactive visualization packages:
+
+```{r eval=FALSE}
+# Planned Plotly integration
+ggplot(data, aes(x, y)) + 
+  geom_point() + 
+  theme_cpal() %>%
+  ggplotly(theme = "cpal_interactive")
+
+# Planned DT styling
+datatable(data, options = dt_options_cpal())
+
+# Planned htmlwidgets themes
+leaflet(data) %>% addTiles(theme = "cpal_map")
+```
+
+### Accessibility Enhancements
+**Status**: Requirements gathering  
+**Target**: Q2 2026
+
+- WCAG 2.1 AA compliance verification
+- Screen reader optimization
+- High contrast theme variants
+- Color vision deficiency support
+- Alternative text generation helpers
+
+### Advanced Export Tools
+**Status**: Conceptual  
+**Target**: Q3 2026
+
+```{r eval=FALSE}
+# Planned export functions
+export_cpal_plot(plot, format = "presentation", dpi = 300)
+batch_export_plots(plot_list, template = "report_standard")
+create_plot_summary(plot, include_data_summary = TRUE)
+```
+
+## Future Enhancements
+
+### Animation and Motion Graphics
+- gganimate theme compatibility
+- Transition templates for presentations
+- Animated dashboard elements
+
+### Advanced Statistical Templates  
+- Pre-configured analysis workflows
+- Statistical reporting templates
+- Automated insight generation
+
+### Multi-format Publishing
+- Automated cross-platform publishing
+- Web, print, and digital format optimization
+- Social media format generation
+
+---
+
+# Best Practices Guide {#sec-best-practices}
+
+## Code Organization
+
+### Package Integration
+```{r eval=FALSE}
+# Recommended package loading
+library(cpaltemplates)  # Load themes and templates
+library(ggplot2)        # Core plotting
+library(dplyr)          # Data manipulation  
+library(scales)         # Number formatting
+library(patchwork)      # Plot combination
+```
+
+### Function Usage Patterns
+```{r eval=FALSE}
+# Recommended workflow
+plot <- data %>%
+  # Data preparation
+  mutate(category = fct_reorder(category, value)) %>%
+  # Plot creation
+  ggplot(aes(x = category, y = value)) +
+  geom_col(fill = "steelblue", alpha = 0.8) +
+  # Labeling
+  labs(
+    title = "Clear, Descriptive Title",
+    subtitle = "Informative subtitle providing context", 
+    x = "X-axis Label",
+    y = "Y-axis Label", 
+    caption = "Source: Data source | Analysis: CPAL Team"
+  ) +
+  # Theme application
+  theme_cpal(base_size = 12) +
+  # Scale customization
+  scale_y_continuous(labels = number_format())
+
+# Logo integration (when available)
+final_plot <- add_cpal_logo_auto(plot)
+```
+
+## Quality Standards
+
+### Visual Hierarchy
+1. **Titles**: Clear, concise, descriptive (1.4× base size)
+2. **Subtitles**: Context and key insights (1.1× base size)  
+3. **Captions**: Data sources and methodology notes (0.8× base size)
+4. **Axis labels**: Descriptive with appropriate units
+5. **Legend**: Clear categories with adequate spacing
+
+### Color Usage Guidelines
+```{r color-guidelines}
+# Recommended color strategies
+good_colors <- data.frame(
+  use_case = c("Sequential Data", "Categorical Data", "Diverging Data", "Emphasis"),
+  recommendation = c("viridis, plasma", "Set2, Dark2", "RdBu, PRGn", "Accent colors"),
+  accessibility = c("High", "Medium", "High", "Varies")
+)
+
+knitr::kable(good_colors, caption = "Color Palette Recommendations")
+```
+
+### Accessibility Checklist
+- [ ] **Contrast Ratios**: Minimum 4.5:1 for normal text, 3:1 for large text
+- [ ] **Color Independence**: Information not conveyed by color alone
+- [ ] **Font Sizes**: Minimum 8pt for print, 12pt for screen display
+- [ ] **Alternative Text**: Descriptive captions for screen readers
+- [ ] **Colorblind Testing**: Verify readability with color vision simulators
+
+## Performance Optimization
+
+### Efficient Plotting
+```{r eval=FALSE}
+# For large datasets
+plot + 
+  theme_cpal() +
+  # Optimize point rendering
+  geom_point(alpha = 0.6, size = 0.8) +  # Smaller, transparent points
+  # Limit data display
+  coord_cartesian(xlim = c(min_x, max_x)) +  # Faster than scale limits
+  # Efficient legends
+  guides(color = guide_legend(override.aes = list(size = 3)))  # Larger legend points
+```
+
+### Memory Management
+```{r eval=FALSE}
+# For complex visualizations
+# Use data subsampling for exploratory analysis
+sample_data <- large_dataset %>% slice_sample(n = 1000)
+
+# Create plot with sample, then apply to full data
+explore_plot <- sample_data %>% 
+  ggplot(aes(x, y)) + geom_point() + theme_cpal()
+
+# Finalize with full dataset only when satisfied with design
+final_plot <- full_dataset %>%
+  ggplot(aes(x, y)) + geom_point() + theme_cpal()
+```
+
+---
+
+# Troubleshooting Guide {#sec-troubleshooting}
+
+## Common Issues and Solutions
+
+### Theme Function Not Found
+**Error**: `Error: could not find function "theme_cpal"`
+
+**Solutions**:
+```{r eval=FALSE}
+# 1. Ensure package is installed and loaded
+install.packages("cpaltemplates")  # If not installed
+library(cpaltemplates)
+
+# 2. Check if functions are in environment
+ls(pattern = "theme_")
+
+# 3. Source functions directly if package unavailable
+source("R/theme_functions.R")
+```
+
+### Logo Files Not Found
+**Warning**: `No CPAL logo files found`
+
+**Solutions**:
+```{r eval=FALSE}
+# 1. Check file structure
+file.exists(system.file("content", "CPAL_Icon_Teal.png", package = "cpaltemplates"))
+
+# 2. Create directory if missing
+dir.create(system.file("content", package = "cpaltemplates"), 
+           recursive = TRUE, showWarnings = FALSE)
+
+# 3. Use custom logo paths
+add_cpal_logo_auto(plot, 
+                   logo_path_teal = "path/to/your/logo.png")
+
+# 4. Disable logo functionality
+theme_cpal(include_logo = FALSE)
+```
+
+### Spacing Issues
+**Problem**: Text elements overlapping or too spread out
+
+**Solutions**:
+```{r eval=FALSE}
+# 1. Adjust base_size for your output format
+theme_cpal(base_size = 10)  # Smaller for dense layouts
+theme_cpal(base_size = 14)  # Larger for presentations
+
+# 2. Custom margin adjustments
+theme_cpal() +
+  theme(plot.margin = margin(t = 20, r = 15, b = 15, l = 15))
+
+# 3. Legend positioning
+theme_cpal() +
+  theme(legend.position = "bottom",
+        legend.box = "horizontal")
+```
+
+### Print Quality Issues
+**Problem**: Poor print output or PDF rendering
+
+**Solutions**:
+```{r eval=FALSE}
+# 1. Use print-optimized theme
+ggplot() + theme_cpal_print()
+
+# 2. High-resolution export
+ggsave("plot.pdf", width = 8, height = 6, dpi = 300, device = "pdf")
+
+# 3. Font embedding for PDFs
+ggsave("plot.pdf", device = cairo_pdf, width = 8, height = 6)
+
+# 4. Color space considerations  
+ggsave("plot.pdf", device = "pdf", colormodel = "cmyk")  # For print
+```
+
+## Performance Diagnostics
+
+### Plotting Speed
+```{r eval=FALSE}
+# Benchmark theme application
+microbenchmark::microbenchmark(
+  base = ggplot(data, aes(x, y)) + geom_point() + theme_minimal(),
+  cpal = ggplot(data, aes(x, y)) + geom_point() + theme_cpal(),
+  times = 100
+)
+```
+
+### Memory Usage
+```{r eval=FALSE}
+# Monitor memory usage
+profvis::profvis({
+  large_plot <- big_dataset %>%
+    ggplot(aes(x, y, color = category)) +
+    geom_point() +
+    theme_cpal()
+})
+```
+
+---
+
+# Development Workflow {#sec-development}
+
+## Contributing to cpaltemplates
+
+### Development Setup
+```{r eval=FALSE}
+# Install development dependencies
+install.packages(c("devtools", "testthat", "roxygen2", "pkgdown"))
+
+# Load development tools
+library(devtools)
+
+# Load package in development mode
+load_all()
+
+# Run tests
+test()
+
+# Generate documentation
+document()
+```
+
+### Adding New Functions
+
+#### 1. Function Development
+```{r eval=FALSE}
+# Create new function in R/ directory
+# File: R/new_theme_function.R
+
+#' New CPAL Theme Function
+#'
+#' @description Detailed description of the new theme
+#' @param base_size Base font size
+#' @param base_family Base font family
+#' @return A ggplot2 theme object
+#' @examples
+#' ggplot(mtcars, aes(x = mpg, y = hp)) +
+#'   geom_point() +
+#'   new_theme_cpal()
+#' @export
+new_theme_cpal <- function(base_size = 12, base_family = "") {
+  # Function implementation
+  theme_minimal(base_size = base_size, base_family = base_family) +
+    theme(
+      # Custom theme elements
+    )
+}
+```
+
+#### 2. Testing
+```{r eval=FALSE}
+# File: tests/testthat/test-new-theme.R
+test_that("new theme function works", {
+  p <- ggplot(mtcars, aes(x = mpg, y = hp)) + 
+       geom_point() + 
+       new_theme_cpal()
+  
+  expect_s3_class(p, "ggplot")
+  expect_s3_class(p$theme, "theme")
+})
+```
+
+#### 3. Documentation Update
+- Update README.md with new function
+- Add examples to showcase script
+- Update this comprehensive documentation
+- Include in package vignettes
+
+### Version Control Workflow
+
+#### Git Best Practices
+```bash
+# Feature development
+git checkout -b feature/new-theme-function
+git add R/new_theme_function.R tests/testthat/test-new-theme.R
+git commit -m "Add new theme function with enhanced features"
+
+# Documentation updates
+git add README.md examples/showcase_cpal_themes.R
+git commit -m "Update documentation for new theme function"
+
+# Merge workflow
+git checkout main
+git merge feature/new-theme-function
+git tag v2.1.0
+```
+
+### Release Checklist
+- [ ] All tests pass (`devtools::test()`)
+- [ ] Documentation updated (`devtools::document()`)  
+- [ ] README.md reflects all changes
+- [ ] Examples run successfully
+- [ ] Version number incremented
+- [ ] NEWS.md updated with changes
+- [ ] Package builds successfully (`devtools::build()`)
+
+---
+
+# Appendix {#sec-appendix}
+
+## Function Reference Summary
+
+### Core Themes
+| Function | Purpose | Key Features |
+|----------|---------|--------------|
+| `theme_cpal()` | Main CPAL theme | Enhanced spacing, logo ready |
+| `theme_cpal_dark()` | Dark backgrounds | White text, high contrast |
+| `theme_cpal_print()` | Print media | Pure white, enhanced contrast |
+| `theme_cpal_map()` | Spatial data | No axes/grids, clean canvas |
+
+### Utility Functions
+| Function | Purpose | Key Features |
+|----------|---------|--------------|
+| `add_cpal_logo_auto()` | Smart logo placement | Theme-aware, customizable |
+
+## File Structure Reference
+
+```
+cpaltemplates/
+├── DESCRIPTION              # Package metadata
+├── NAMESPACE               # Exported functions  
+├── README.md               # Main documentation
+├── NEWS.md                 # Version history
+├── R/
+│   ├── theme_functions.R       # Core theme functions
+│   ├── logo_functions.R        # Logo integration
+│   └── utils.R                 # Utility functions
+├── inst/
+│   └── content/
+│       ├── CPAL_Icon_Teal.png     # Light theme logo
+│       └── CPAL_Icon_White.png    # Dark theme logo
+├── man/                    # Generated documentation
+├── tests/
+│   └── testthat/               # Unit tests
+├── examples/
+│   └── showcase_cpal_themes.R     # Comprehensive examples
+├── vignettes/              # Package vignettes
+└── docs/                   # Generated website
+```
+
+## Package Dependencies
+
+### Required Dependencies
+- `ggplot2` (>= 3.4.0): Core plotting functionality
+- `cowplot` (>= 1.1.0): Logo overlay functionality
+
+### Suggested Dependencies  
+- `scales` (>= 1.2.0): Number formatting
+- `dplyr` (>= 1.1.0): Data manipulation
+- `patchwork` (>= 1.1.0): Plot combination
+- `viridis` (>= 0.6.0): Accessible color palettes
+
+### Development Dependencies
+- `devtools`: Development workflow
+- `testthat`: Unit testing
+- `roxygen2`: Documentation generation
+- `pkgdown`: Website generation
+
+## Contact Information
+
+**CPAL Data Team**  
+**Package Maintainer**: [Team Lead Name]  
+**Issues**: [GitHub Issues URL]  
+**Documentation**: [Package Website URL]
+
+---
+
+*This documentation is maintained alongside the cpaltemplates package development. Last updated: `r Sys.Date()`*
