@@ -16,4 +16,5 @@ A reactable object
 }
 \description{
 Create an interactive table with CPAL styling using reactable
+Uses Google Fonts (Inter/Roboto) automatically
 }

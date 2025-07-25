@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_cpal.R
 \name{import_inter_font}
 \alias{import_inter_font}
-\title{Import Inter font from Google Fonts}
+\title{Import Inter font from Google Fonts (legacy function)}
 \usage{
 import_inter_font()
 }
@@ -10,6 +10,5 @@ import_inter_font()
 Logical indicating success
 }
 \description{
-This function attempts to import the Inter font from Google Fonts
-using the sysfonts and showtext packages.
+This function is kept for backward compatibility but now calls import_cpal_fonts()
 }

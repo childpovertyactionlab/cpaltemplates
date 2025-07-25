@@ -20,7 +20,7 @@ A girafe object
 }
 \description{
 Wrapper functions to create interactive versions of ggplot2 plots
-while maintaining CPAL styling
+while maintaining CPAL styling. Uses Google Fonts (Inter/Roboto) automatically.
 }
 \examples{
 \dontrun{
@@ -30,7 +30,7 @@ library(ggiraph)
 p <- ggplot(mtcars, aes(wt, mpg)) +
   geom_point_interactive(aes(tooltip = rownames(mtcars))) +
   theme_cpal()
-  
+
 cpal_interactive(p)
 }
 }

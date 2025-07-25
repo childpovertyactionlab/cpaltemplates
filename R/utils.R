@@ -82,7 +82,6 @@ use_quarto_report <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
-
 #' Add Quarto slides to an existing project
 #'
 #' Adds a Quarto presentation template with CPAL branding to your project.
@@ -137,6 +136,50 @@ use_quarto_slides <- function(path = ".", filename = "slides.qmd", overwrite = F
   invisible(root)
 }
 
+#' Add Quarto website to an existing project
+#'
+#' Adds a Quarto website with multiple pages and CPAL branding to your project.
+#'
+#' @param path Character. Path to your project root.
+#' @param overwrite Logical. If TRUE, overwrites existing files.
+#' @return Invisibly returns the project path.
+#' @export
+use_quarto_web <- function(path = ".", overwrite = FALSE) {
+  cli::cli_h3("Adding Quarto website")
+  root <- fs::path_abs(path)
+
+  # Create directories
+  fs::dir_create(fs::path(root, "assets/css"))
+  fs::dir_create(fs::path(root, "assets/images"))
+  fs::dir_create(fs::path(root, "figures"))
+  fs::dir_create(fs::path(root, "docs"))  # Output directory
+
+  # Copy website config
+  config_src <- system.file("templates/quarto-web/_quarto.yml.tpl", package = "cpaltemplates")
+  if (fs::file_exists(config_src) && (!fs::file_exists(fs::path(root, "_quarto.yml")) || overwrite)) {
+    fs::file_copy(config_src, fs::path(root, "_quarto.yml"), overwrite = overwrite)
+    cli::cli_alert_success("Created _quarto.yml")
+  }
+
+  # Copy index page
+  index_src <- system.file("templates/quarto-web/web-document.qmd.tpl", package = "cpaltemplates")
+  if (fs::file_exists(index_src) && (!fs::file_exists(fs::path(root, "index.qmd")) || overwrite)) {
+    fs::file_copy(index_src, fs::path(root, "index.qmd"), overwrite = overwrite)
+    cli::cli_alert_success("Created index.qmd")
+  }
+
+  # Copy all CPAL assets
+  copy_cpal_assets(root)
+
+  cli::cli_alert_success("Quarto website scaffolding added to {.path {root}}")
+  cli::cli_alert_info("Next steps:")
+  cli::cli_li("Edit {.file index.qmd} with your content")
+  cli::cli_li("Preview with {.code quarto::quarto_preview()}")
+  cli::cli_li("Render site with {.code quarto::quarto_render()}")
+  cli::cli_li("Publish to GitHub Pages with {.code quarto::quarto_publish()}")
+
+  invisible(root)
+}
 
 #' Add Shiny dashboard scaffolding to an existing project
 #'
@@ -197,7 +240,6 @@ use_shiny_dashboard <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
-
 #' Add simple Shiny app to an existing project
 #'
 #' Adds a basic Shiny application template (simpler than dashboard).
@@ -238,6 +280,55 @@ use_shiny_app <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
+#' Add custom CPAL Shiny theme to an existing project
+#'
+#' Adds custom CSS theme files for enhanced Shiny dashboard styling.
+#'
+#' @param path Character. Path to your project root.
+#' @param theme_name Character. Name for the theme CSS file (default: "cpal-theme.css").
+#' @param overwrite Logical. If TRUE, overwrites existing files.
+#' @return Invisibly returns the project path.
+#' @export
+use_shiny_theme <- function(path = ".", theme_name = "cpal-theme.css", overwrite = FALSE) {
+  cli::cli_h3("Adding CPAL Shiny theme")
+  root <- fs::path_abs(path)
+
+  # Create www directory if it doesn't exist
+  fs::dir_create(fs::path(root, "www"))
+
+  # Copy custom theme CSS
+  theme_src <- system.file("templates/shiny/themes/cpal-theme.css.tpl", package = "cpaltemplates")
+  theme_dest <- fs::path(root, "www", theme_name)
+
+  if (fs::file_exists(theme_src) && (!fs::file_exists(theme_dest) || overwrite)) {
+    fs::file_copy(theme_src, theme_dest, overwrite = overwrite)
+    cli::cli_alert_success("Created {.file www/{theme_name}}")
+  } else if (!fs::file_exists(theme_src)) {
+    cli::cli_alert_warning("Theme template not found in package")
+    return(invisible(root))
+  } else {
+    cli::cli_alert_warning("{.file www/{theme_name}} already exists. Use overwrite = TRUE to replace.")
+  }
+
+  # Copy enhanced dashboard template if available
+  enhanced_src <- system.file("templates/shiny/app_dashboard_enhanced.R.tpl", package = "cpaltemplates")
+  if (fs::file_exists(enhanced_src) && !fs::file_exists(fs::path(root, "app_enhanced.R"))) {
+    fs::file_copy(enhanced_src, fs::path(root, "app_enhanced.R"))
+    cli::cli_alert_success("Created {.file app_enhanced.R} with theme integration")
+  }
+
+  # Copy all CPAL assets to www
+  copy_cpal_assets(root, destination = "www")
+
+  cli::cli_alert_success("CPAL Shiny theme added to {.path {root}}")
+  cli::cli_alert_info("Next steps:")
+  cli::cli_li("Include theme in your UI with {.code includeCSS(\"www/{theme_name}\")}")
+  cli::cli_li("Or add to dashboardHeader: {.code tags$head(tags$link(rel=\"stylesheet\", href=\"{theme_name}\"))}")
+  cli::cli_li("Check {.file app_enhanced.R} for theme integration example")
+  cli::cli_li("Run your app with {.code shiny::runApp()}")
+
+  invisible(root)
+}
 
 #' Add targets pipeline to an existing project
 #'
@@ -284,7 +375,7 @@ use_targets <- function(path = ".", type = c("basic", "analysis", "report"),
   # For analysis type, also copy the analysis functions template
   if (type == "analysis") {
     functions_src <- system.file("templates/functions/analysis_functions.R.tpl",
-                                package = "cpaltemplates")
+                                 package = "cpaltemplates")
     if (fs::file_exists(functions_src) && !fs::file_exists(fs::path(root, "R/analysis_functions.R"))) {
       fs::file_copy(functions_src, fs::path(root, "R/analysis_functions.R"))
       cli::cli_alert_success("Created R/analysis_functions.R with examples")
@@ -311,7 +402,6 @@ use_targets <- function(path = ".", type = c("basic", "analysis", "report"),
 
   invisible(root)
 }
-
 
 #' Update CPAL assets in an existing project
 #'
@@ -399,101 +489,6 @@ update_cpal_assets <- function(path = ".", components = "all") {
   invisible(root)
 }
 
-#' Add Quarto website to an existing project
-#'
-#' Adds a Quarto website with multiple pages and CPAL branding to your project.
-#'
-#' @param path Character. Path to your project root.
-#' @param overwrite Logical. If TRUE, overwrites existing files.
-#' @return Invisibly returns the project path.
-#' @export
-use_quarto_web <- function(path = ".", overwrite = FALSE) {
-  cli::cli_h3("Adding Quarto website")
-  root <- fs::path_abs(path)
-
-  # Create directories
-  fs::dir_create(fs::path(root, "assets/css"))
-  fs::dir_create(fs::path(root, "assets/images"))
-  fs::dir_create(fs::path(root, "figures"))
-  fs::dir_create(fs::path(root, "docs"))  # Output directory
-
-  # Copy website config
-  config_src <- system.file("templates/quarto-web/_quarto.yml.tpl", package = "cpaltemplates")
-  if (fs::file_exists(config_src) && (!fs::file_exists(fs::path(root, "_quarto.yml")) || overwrite)) {
-    fs::file_copy(config_src, fs::path(root, "_quarto.yml"), overwrite = overwrite)
-    cli::cli_alert_success("Created _quarto.yml")
-  }
-
-  # Copy index page
-  index_src <- system.file("templates/quarto-web/web-document.qmd.tpl", package = "cpaltemplates")
-  if (fs::file_exists(index_src) && (!fs::file_exists(fs::path(root, "index.qmd")) || overwrite)) {
-    fs::file_copy(index_src, fs::path(root, "index.qmd"), overwrite = overwrite)
-    cli::cli_alert_success("Created index.qmd")
-  }
-
-  # Copy all CPAL assets
-  copy_cpal_assets(root)
-
-  cli::cli_alert_success("Quarto website scaffolding added to {.path {root}}")
-  cli::cli_alert_info("Next steps:")
-  cli::cli_li("Edit {.file index.qmd} with your content")
-  cli::cli_li("Preview with {.code quarto::quarto_preview()}")
-  cli::cli_li("Render site with {.code quarto::quarto_render()}")
-  cli::cli_li("Publish to GitHub Pages with {.code quarto::quarto_publish()}")
-
-  invisible(root)
-}
-
-#' Add custom CPAL Shiny theme to an existing project
-#'
-#' Adds custom CSS theme files for enhanced Shiny dashboard styling.
-#'
-#' @param path Character. Path to your project root.
-#' @param theme_name Character. Name for the theme CSS file (default: "cpal-theme.css").
-#' @param overwrite Logical. If TRUE, overwrites existing files.
-#' @return Invisibly returns the project path.
-#' @export
-use_shiny_theme <- function(path = ".", theme_name = "cpal-theme.css", overwrite = FALSE) {
-  cli::cli_h3("Adding CPAL Shiny theme")
-  root <- fs::path_abs(path)
-
-  # Create www directory if it doesn't exist
-  fs::dir_create(fs::path(root, "www"))
-
-  # Copy custom theme CSS
-  theme_src <- system.file("templates/shiny/themes/cpal-theme.css.tpl", package = "cpaltemplates")
-  theme_dest <- fs::path(root, "www", theme_name)
-
-  if (fs::file_exists(theme_src) && (!fs::file_exists(theme_dest) || overwrite)) {
-    fs::file_copy(theme_src, theme_dest, overwrite = overwrite)
-    cli::cli_alert_success("Created {.file www/{theme_name}}")
-  } else if (!fs::file_exists(theme_src)) {
-    cli::cli_alert_warning("Theme template not found in package")
-    return(invisible(root))
-  } else {
-    cli::cli_alert_warning("{.file www/{theme_name}} already exists. Use overwrite = TRUE to replace.")
-  }
-
-  # Copy enhanced dashboard template if available
-  enhanced_src <- system.file("templates/shiny/app_dashboard_enhanced.R.tpl", package = "cpaltemplates")
-  if (fs::file_exists(enhanced_src) && !fs::file_exists(fs::path(root, "app_enhanced.R"))) {
-    fs::file_copy(enhanced_src, fs::path(root, "app_enhanced.R"))
-    cli::cli_alert_success("Created {.file app_enhanced.R} with theme integration")
-  }
-
-  # Copy all CPAL assets to www
-  copy_cpal_assets(root, destination = "www")
-
-  cli::cli_alert_success("CPAL Shiny theme added to {.path {root}}")
-  cli::cli_alert_info("Next steps:")
-  cli::cli_li("Include theme in your UI with {.code includeCSS(\"www/{theme_name}\")}")
-  cli::cli_li("Or add to dashboardHeader: {.code tags$head(tags$link(rel=\"stylesheet\", href=\"{theme_name}\"))}")
-  cli::cli_li("Check {.file app_enhanced.R} for theme integration example")
-  cli::cli_li("Run your app with {.code shiny::runApp()}")
-
-  invisible(root)
-}
-
 #' Copy all CPAL brand assets to a project
 #'
 #' Internal helper function to copy all CPAL logos, icons, and favicons
@@ -569,4 +564,3 @@ get_cpal_asset <- function(asset_name, category = NULL) {
   # If not found, return NULL
   return(NULL)
 }
-

@@ -201,10 +201,10 @@ add_cpal_logo <- function(plot,
 
   # Determine position coordinates (updated default to top-right)
   positions <- list(
-    "top-right" = c(0.95, 0.95),
-    "top-left" = c(0.05, 0.95),
-    "bottom-right" = c(0.95, 0.05),
-    "bottom-left" = c(0.05, 0.05)
+    "top-right" = c(0.95, 0.97),
+    "top-left" = c(0.05, 0.97),
+    "bottom-right" = c(0.95, 0.03),
+    "bottom-left" = c(0.05, 0.03)
   )
 
   if (!position %in% names(positions)) {

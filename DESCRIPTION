@@ -26,7 +26,10 @@ Suggests:
     showtext,
     sysfonts,
     reactable,
-    quarto
+    quarto,
+    gdtools,
+    systemfonts,
+    gdtools
 License: GPL-3
 URL: https://github.com/childpovertyactionlab/cpaltemplates
 BugReports: https://github.com/childpovertyactionlab/cpaltemplates/issues

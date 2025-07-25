@@ -19,7 +19,7 @@ theme_cpal(
 \arguments{
 \item{base_size}{Base font size (default: 11)}
 
-\item{base_family}{Base font family (default: uses Inter if available)}
+\item{base_family}{Base font family (default: uses Inter from Google Fonts if available)}
 
 \item{base_line_size}{Base size for line elements (default: base_size/22)}
 
@@ -41,5 +41,5 @@ A ggplot2 theme object
 \description{
 A consistent theme for CPAL data visualizations based on organizational
 style guidelines. Provides clean, accessible visualizations with
-CPAL brand colors and typography.
+CPAL brand colors and typography. Now uses Google Fonts (Inter/Roboto).
 }

@@ -19,7 +19,7 @@ format:
     code-overflow: wrap
     fig-width: 8
     fig-height: 5
-    fig-dpi: 300
+    fig-dpi: 96          # Reduced from 120
     fig-align: center
     embed-resources: false
     smooth-scroll: true
@@ -79,8 +79,8 @@ knitr:
     collapse: true
     comment: "#>"
     fig.path: "docs/figures/"
-    dpi: 300
-    out.width: "100%"
+    dpi: 96              # Match fig-dpi setting
+    out.width: "85%"     # Reduced for less compression
 ---
 
 # cpaltemplates: CPAL Data Team R Package Documentation
@@ -95,11 +95,11 @@ This documentation provides comprehensive examples and usage guidelines for the 
 
 # Load the package
 library(cpaltemplates)
-library(ggplot2)
-library(dplyr)
+library(tidyverse)
 
 # Import CPAL fonts (recommended)
 import_inter_font()
+
 ```
 
 ## 1. Color System (`cpal_colors.R`)
@@ -310,7 +310,7 @@ p_interactive <- ggplot(mtcars, aes(x = wt, y = mpg)) +
   )
 
 # Render interactive plot
-#cpal_interactive(p_interactive)
+cpal_interactive(p_interactive)
 ```
 
 ### Interactive Bar Charts
@@ -336,7 +336,7 @@ p_bar <- ggplot(bar_data, aes(x = factor(cyl), y = count)) +
     fill = "Engine Type"
   )
 
-#cpal_interactive(p_bar)
+cpal_interactive(p_bar)
 ```
 
 ### Interactive Tables

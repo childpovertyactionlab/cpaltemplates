@@ -2,11 +2,14 @@
 % Please edit documentation in R/theme_cpal.R
 \name{cpal_font_family}
 \alias{cpal_font_family}
-\title{Helper function to determine available fonts}
+\title{Helper function to determine available fonts with Google Fonts priority}
 \usage{
-cpal_font_family()
+cpal_font_family(for_interactive = FALSE)
+}
+\arguments{
+\item{for_interactive}{Logical. Optimize for interactive plots}
 }
 \description{
-Helper function to determine available fonts
+Helper function to determine available fonts with Google Fonts priority
 }
 \keyword{internal}
