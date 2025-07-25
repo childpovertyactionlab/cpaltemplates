@@ -4,11 +4,32 @@
 \alias{set_theme_cpal}
 \title{Set CPAL Theme as Default}
 \usage{
-set_theme_cpal(...)
+set_theme_cpal(style = "default", base_size = 16, ...)
 }
 \arguments{
-\item{...}{Arguments passed to theme_cpal()}
+\item{style}{Theme style to set as default (default: "default")}
+
+\item{base_size}{Base font size (default: 16)}
+
+\item{...}{Additional arguments passed to the theme function}
+}
+\value{
+Invisibly returns the theme that was set
 }
 \description{
-Sets theme_cpal() as the default ggplot2 theme for the session
+Sets the CPAL theme as the default ggplot2 theme for the current session.
+This means all subsequent plots will automatically use CPAL styling
+unless a different theme is explicitly specified.
+}
+\examples{
+\dontrun{
+# Set CPAL theme as default
+set_theme_cpal()
+
+# Set dark theme as default
+set_theme_cpal("dark")
+
+# Set with larger font
+set_theme_cpal(base_size = 18)
+}
 }

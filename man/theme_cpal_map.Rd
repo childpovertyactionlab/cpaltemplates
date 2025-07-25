@@ -2,27 +2,32 @@
 % Please edit documentation in R/theme_cpal.R
 \name{theme_cpal_map}
 \alias{theme_cpal_map}
-\title{Child Poverty Action Lab theme for maps}
+\title{CPAL Map Theme}
 \usage{
 theme_cpal_map(
-  scale = "continuous",
-  base_size = 8.5,
+  base_size = 16,
   base_family = "",
-  base_line_size = 0.5,
-  base_rect_size = 0.5
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22,
+  legend_position = "bottom"
 )
 }
 \arguments{
-\item{scale}{A string specifying the type of legend. "continuous" creates a vertical legend on the right of the map, while "discrete" creates a horizontal legend above the map.}
+\item{base_size}{Base font size (default: 16)}
 
-\item{base_size}{Base font size for the theme (default is 8.5).}
+\item{base_family}{Base font family (default: uses Inter from Google Fonts if available)}
 
-\item{base_family}{Base font family for the theme (default is Inter from Google Fonts if available).}
+\item{base_line_size}{Base size for line elements (default: base_size/22)}
 
-\item{base_line_size}{Base line size for the theme (default is 0.5).}
+\item{base_rect_size}{Base size for rect elements (default: base_size/22)}
 
-\item{base_rect_size}{Base rectangle size for the theme (default is 0.5).}
+\item{legend_position}{Legend position (default: "bottom")}
+}
+\value{
+A ggplot2 theme object optimized for maps
 }
 \description{
-\code{theme_cpal_map} provides a \pkg{ggplot2} theme formatted according to the Child Poverty Action Lab style guide for maps, with sensible defaults for map visualizations.
+Specialized theme for geographic visualizations and maps.
+Removes most decorative elements to focus attention on the
+geographic data itself.
 }

@@ -2,33 +2,40 @@
 % Please edit documentation in R/theme_cpal.R
 \name{theme_cpal_print}
 \alias{theme_cpal_print}
-\title{Child Poverty Action Lab theme for print}
+\title{CPAL Print Theme}
 \usage{
 theme_cpal_print(
-  base_size = 8.5,
+  base_size = 16,
   base_family = "",
-  base_line_size = 0.5,
-  base_rect_size = 0.5,
-  line_color = "#222222",
-  rect_fill = "#E7ECEE",
-  grid_color = "#E7ECEE"
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22,
+  grid = c("horizontal", "vertical", "both", "none"),
+  axis_line = c("x", "y", "both", "none"),
+  axis_title = TRUE,
+  legend_position = "bottom"
 )
 }
 \arguments{
-\item{base_size}{Base font size (default is 8.5).}
+\item{base_size}{Base font size (default: 16)}
 
-\item{base_family}{Base font family (default is Inter from Google Fonts if available).}
+\item{base_family}{Base font family (default: uses system font for print compatibility)}
 
-\item{base_line_size}{Base size for lines (default is 0.5).}
+\item{base_line_size}{Base size for line elements (default: base_size/22)}
 
-\item{base_rect_size}{Base size for rectangle elements (default is 0.5).}
+\item{base_rect_size}{Base size for rect elements (default: base_size/22)}
 
-\item{line_color}{Default line color (default is "#222222").}
+\item{grid}{Grid lines: "horizontal", "vertical", "both", or "none" (default: "both")}
 
-\item{rect_fill}{Background color for rectangles (default is "#E7ECEE").}
+\item{axis_line}{Axis line position: "x", "y", "both", or "none" (default: "both")}
 
-\item{grid_color}{Grid line color (default is "#E7ECEE").}
+\item{axis_title}{Include axis titles (default: TRUE)}
+
+\item{legend_position}{Legend position (default: "bottom")}
+}
+\value{
+A ggplot2 theme object optimized for printing
 }
 \description{
-\code{theme_cpal_print} provides a \pkg{ggplot2} theme formatted according to the CPAL style guide for print, with sensible defaults.
+Optimized theme for printed materials and PDFs. Uses conservative
+styling and ensures good contrast for black and white printing.
 }
