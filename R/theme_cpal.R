@@ -214,7 +214,7 @@ theme_cpal <- function(base_size = 14,
     theme <- theme + ggplot2::theme(
       axis.line.x.bottom = ggplot2::element_line(
         color = if (style == "dark") "#666666" else axis_line_color,
-        size = 0.5
+        linewidth = 0.5
       )
     )
   }
@@ -222,7 +222,7 @@ theme_cpal <- function(base_size = 14,
     theme <- theme + ggplot2::theme(
       axis.line.y.left = ggplot2::element_line(
         color = if (style == "dark") "#666666" else axis_line_color,
-        size = 0.5
+        linewidth = 0.5
       )
     )
   }
@@ -236,11 +236,11 @@ theme_cpal <- function(base_size = 14,
     theme <- theme + ggplot2::theme(
       axis.line.x.bottom = ggplot2::element_line(
         color = if (style == "dark") "#666666" else axis_line_color,
-        size = 0.5
+        linewidth = 0.5
       ),
       axis.line.y.left = ggplot2::element_line(
         color = if (style == "dark") "#666666" else axis_line_color,
-        size = 0.5
+        linewidth = 0.5
       )
     )
   }

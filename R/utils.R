@@ -564,3 +564,27 @@ get_cpal_asset <- function(asset_name, category = NULL) {
   # If not found, return NULL
   return(NULL)
 }
+
+
+#' Get CPAL Font Family (Simple Version)
+#'
+#' Simple wrapper that returns the preferred CPAL font family.
+#' This is a simplified version that works with gt tables.
+#'
+#' @return Character string of font family name
+#' @export
+cpal_font_family <- function() {
+  return(get_cpal_font_family(for_interactive = FALSE, setup_if_missing = FALSE))
+}
+
+#' CPAL Font Family Fallback
+#'
+#' Returns system font fallback when CPAL fonts are not available.
+#' Used internally by theme functions.
+#'
+#' @return Character string of fallback font family
+#' @export
+cpal_font_family_fallback <- function() {
+  return("sans")  # System default
+}
+
