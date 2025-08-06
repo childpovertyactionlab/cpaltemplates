@@ -203,7 +203,8 @@ cpal_palette <- function(palette = "primary", reverse = FALSE) {
   if (reverse) {
     colors <- rev(colors)
   }
-  return(colors)
+  # Fix: Remove names to ensure compatibility with ggplot2 scale functions
+  return(unname(colors))
 }
 
 
@@ -270,9 +271,13 @@ cpal_display_palettes <- function(palette = "all") {
 #' @param reverse Logical. Reverse palette?
 #' @param ... Additional arguments passed to scale functions
 #' @name scale_cpal
+#' @return A ggplot2 scale object for adding CPAL colors to plots
 #' @export
 scale_color_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, ...) {
   pal <- cpal_colors(palette, reverse = reverse)
+
+  # Fix: Remove names from color vectors before passing to ggplot2
+  pal <- unname(pal)
 
   if (discrete) {
     ggplot2::discrete_scale("colour", "cpal", palette = function(n) {
@@ -296,6 +301,9 @@ scale_colour_cpal <- scale_color_cpal
 scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, ...) {
   pal <- cpal_colors(palette, reverse = reverse)
 
+  # Fix: Remove names from color vectors before passing to ggplot2
+  pal <- unname(pal)
+
   if (discrete) {
     ggplot2::discrete_scale("fill", "cpal", palette = function(n) {
       if (n <= length(pal)) {
@@ -310,7 +318,6 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
 }
 
 
-
 # View Functions ----
 
 #' View CPAL Color Palettes
@@ -319,6 +326,7 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
 #'
 
 #' Basic view of all palettes
+#' @return Displays color palette visualization (called for side effects)
 #' @export
 view_palette <- function() {
   # Save current par settings
@@ -378,6 +386,7 @@ view_palette <- function() {
 }
 
 #' Grid view of all palettes with hex codes
+#' @return Displays grid visualization of all color palettes (called for side effects)
 #' @export
 view_all_palettes <- function() {
   # Save current par settings

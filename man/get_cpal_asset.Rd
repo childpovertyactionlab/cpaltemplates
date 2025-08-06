@@ -7,9 +7,9 @@
 get_cpal_asset(asset_name, category = NULL)
 }
 \arguments{
-\item{asset_name}{Name of the asset file}
+\item{asset_name}{Character. Name of the asset file to retrieve}
 
-\item{category}{Category: "logos", "icons", or "favicons" (optional, will search all if not specified)}
+\item{category}{Character. Subfolder within assets directory (default: '')}
 }
 \value{
 Path to the asset file, or NULL if not found

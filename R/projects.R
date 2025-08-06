@@ -137,6 +137,14 @@ start_project <- function(
   invisible(full_path)
 }
 # Helper functions ----
+#' Create base project directory structure
+#' 
+#' Internal function to create standard CPAL project folders and files.
+#' 
+#' @param path Character. Full path to project directory
+#' @param type Character. Type of project (determines additional folders)
+#' @return Invisibly returns TRUE on success
+#' @keywords internal
 create_base_structure <- function(path, type) {
   # Base folders for all projects
   base <- c("R", "data-raw", "data", "outputs", "docs", "assets/images", "assets/css")
@@ -157,6 +165,16 @@ create_base_structure <- function(path, type) {
   }
   cli::cli_alert_success("Created directory structure")
 }
+#' Create RStudio Project File
+#'
+#' Creates an RStudio project file (.Rproj) from the CPAL template.
+#' This file contains RStudio-specific settings for consistent project behavior.
+#'
+#' @param path Character. Directory path where the .Rproj file will be created.
+#' @param name Character. Project name (used for the .Rproj filename).
+#'
+#' @return Invisible NULL. Creates .Rproj file as a side effect.
+#' @keywords internal
 create_rproj <- function(path, name) {
   # Copy from template
   rproj_src <- system.file("templates/rproj.tpl", package = "cpaltemplates")
@@ -168,6 +186,15 @@ create_rproj <- function(path, name) {
   }
 }
 
+#' Copy CPAL Assets to Project
+#'
+#' Copies CPAL branding assets (logos, icons, CSS) to the project directory.
+#' Creates an assets folder with organized CPAL brand elements.
+#'
+#' @param path Character. Project directory path where assets will be copied.
+#'
+#' @return Invisible NULL. Copies asset files as a side effect.
+#' @keywords internal
 copy_assets <- function(path) {
   # Copy images
   img_src <- system.file("templates/assets/images", package = "cpaltemplates")
@@ -186,6 +213,16 @@ copy_assets <- function(path) {
   }
 }
 # Project-specific setup functions ----
+#' Setup Analysis Project Template
+#'
+#' Sets up a general analysis project with R scripts and targets pipeline.
+#' Creates analysis-specific templates and folder structure.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates analysis template files as a side effect.
+#' @keywords internal
 setup_analysis <- function(path, features) {
   # Copy analysis template
   analysis_src <- system.file("templates/analysis/analysis_template.R.tpl", package = "cpaltemplates")
@@ -200,6 +237,16 @@ setup_analysis <- function(path, features) {
     cli::cli_alert_info("Created data-prep/ for targets workflow")
   }
 }
+#' Setup Quarto Report Project Template
+#'
+#' Creates a Quarto report project with CPAL branding and styling.
+#' Includes report template, LaTeX settings, and CPAL theme integration.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates Quarto report template files as a side effect.
+#' @keywords internal
 setup_quarto_report <- function(path, features) {
   # Create _quarto.yml
   if (requireNamespace("yaml", quietly = TRUE)) {
@@ -253,6 +300,16 @@ setup_quarto_report <- function(path, features) {
   }
   cli::cli_alert_success("Set up Quarto report")
 }
+#' Setup Quarto Slides Project Template
+#'
+#' Creates a Quarto presentation project with CPAL branding.
+#' Includes slide template with CPAL theme and styling.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates Quarto slides template files as a side effect.
+#' @keywords internal
 setup_quarto_slides <- function(path, features) {
   # Copy slides template
   slides_src <- system.file("templates/slides/slides.qmd.tpl", package = "cpaltemplates")
@@ -265,6 +322,16 @@ setup_quarto_slides <- function(path, features) {
   cli::cli_alert_success("Set up Quarto slides")
 }
 
+#' Setup Quarto Web Project Template
+#'
+#' Creates a Quarto website project with multiple pages and CPAL branding.
+#' Includes navigation, multiple content pages, and CPAL styling.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates Quarto web template files as a side effect.
+#' @keywords internal
 setup_quarto_web <- function(path, features) {
   # Create _quarto.yml for website
   config_src <- system.file("templates/quarto-web/_quarto.yml.tpl", package = "cpaltemplates")
@@ -293,6 +360,16 @@ setup_quarto_web <- function(path, features) {
   cli::cli_alert_success("Set up Quarto website")
 }
 
+#' Setup Shiny Dashboard Project Template
+#'
+#' Creates a full-featured Shiny dashboard with CPAL branding and modular structure.
+#' Includes dashboard template, modules, and CPAL theme integration.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates Shiny dashboard template files as a side effect.
+#' @keywords internal
 setup_shiny_dashboard <- function(path, features) {
   # Copy dashboard app template
   app_src <- system.file("templates/shiny/app_dashboard.R.tpl", package = "cpaltemplates")
@@ -316,6 +393,16 @@ setup_shiny_dashboard <- function(path, features) {
 
   cli::cli_alert_success("Set up Shiny dashboard")
 }
+#' Setup Shiny App Project Template
+#'
+#' Creates a simple Shiny application with CPAL branding.
+#' Includes basic app template with CPAL styling.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates Shiny app template files as a side effect.
+#' @keywords internal
 setup_shiny_app <- function(path, features) {
   # Copy simple app template
   app_src <- system.file("templates/shiny/app_simple.R.tpl", package = "cpaltemplates")
@@ -332,6 +419,16 @@ setup_shiny_app <- function(path, features) {
 
   cli::cli_alert_success("Set up Shiny app")
 }
+#' Setup R Package Project Template
+#'
+#' Creates an R package development project with CPAL standards.
+#' Includes package structure, DESCRIPTION, and development templates.
+#'
+#' @param path Character. Project directory path.
+#' @param features Character vector. Enabled features for the project.
+#'
+#' @return Invisible NULL. Creates R package template files as a side effect.
+#' @keywords internal
 setup_package <- function(path, features) {
   # Create DESCRIPTION
   # Copy DESCRIPTION template
@@ -362,6 +459,15 @@ setup_package <- function(path, features) {
   cli::cli_alert_success("Set up R package")
 }
 # Feature setup functions ----
+#' Create Targets Pipeline File
+#'
+#' Creates a targets workflow file customized for the project type.
+#' Includes appropriate pipeline structure for analysis or report generation.
+#'
+#' @param path Character. Project directory path.
+#'
+#' @return Invisible NULL. Creates _targets.R file as a side effect.
+#' @keywords internal
 create_targets_file <- function(path) {
   # Copy targets template for analysis
   targets_src <- system.file("templates/targets/targets_analysis.R.tpl", package = "cpaltemplates")
@@ -372,6 +478,13 @@ create_targets_file <- function(path) {
     cli::cli_alert_warning("Targets template not found")
   }
 }
+#' Setup renv for dependency management
+#' 
+#' Internal function to initialize renv in a project.
+#' 
+#' @param path Character. Full path to project directory
+#' @return Invisibly returns TRUE on success
+#' @keywords internal
 setup_renv <- function(path) {
   if (requireNamespace("renv", quietly = TRUE)) {
     old_wd <- getwd()
@@ -386,6 +499,13 @@ setup_renv <- function(path) {
     cli::cli_alert_warning("Package renv not installed")
   }
 }
+#' Setup git repository
+#' 
+#' Internal function to initialize git repository and create .gitignore.
+#' 
+#' @param path Character. Full path to project directory
+#' @return Invisibly returns TRUE on success
+#' @keywords internal
 setup_git <- function(path) {
   if (requireNamespace("gert", quietly = TRUE)) {
     create_gitignore(path)
@@ -405,6 +525,15 @@ setup_git <- function(path) {
     create_gitignore(path)
   }
 }
+#' Create .gitignore File
+#'
+#' Creates a comprehensive .gitignore file appropriate for R projects.
+#' Includes common R, RStudio, and data file patterns.
+#'
+#' @param path Character. Project directory path.
+#'
+#' @return Invisible NULL. Creates .gitignore file as a side effect.
+#' @keywords internal
 create_gitignore <- function(path) {
   # Copy gitignore template
   gitignore_src <- system.file("templates/gitignore.tpl", package = "cpaltemplates")
@@ -415,6 +544,18 @@ create_gitignore <- function(path) {
     cli::cli_alert_warning("Gitignore template not found")
   }
 }
+#' Create Project README
+#'
+#' Creates a comprehensive README.md file for the project with CPAL branding.
+#' Includes project description, setup instructions, and usage guidelines.
+#'
+#' @param path Character. Project directory path.
+#' @param name Character. Project name.
+#' @param type Character. Project type.
+#' @param features Character vector. Enabled project features.
+#'
+#' @return Invisible NULL. Creates README.md file as a side effect.
+#' @keywords internal
 create_project_readme <- function(path, name, type, features) {
   content <- c(
     paste0("# ", name),
@@ -462,6 +603,17 @@ create_project_readme <- function(path, name, type, features) {
   )
   writeLines(content, fs::path(path, "README.md"))
 }
+#' Show Project Next Steps
+#'
+#' Displays helpful next steps and instructions for the newly created project.
+#' Provides guidance on getting started with the project type and features.
+#'
+#' @param name Character. Project name.
+#' @param type Character. Project type.
+#' @param features Character vector. Enabled project features.
+#'
+#' @return Invisible NULL. Displays messages as a side effect.
+#' @keywords internal
 show_project_next_steps <- function(name, type, features) {
   cli::cli_h3(" Project {.strong {name}} created!")
   cli::cli_alert_info("Next steps:")

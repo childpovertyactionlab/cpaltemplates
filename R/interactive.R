@@ -296,6 +296,7 @@ cpal_interactive <- function(plot, width_svg = 8, height_svg = 5, ...) {
 #' These are convenience wrappers around ggiraph interactive geoms
 #' that make it easier to add interactivity with consistent styling
 #'
+#' @return Interactive ggplot2 layer objects with CPAL styling and ggiraph interactivity
 #' @name cpal_geom_interactive
 NULL
 

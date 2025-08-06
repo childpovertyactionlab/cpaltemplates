@@ -78,6 +78,7 @@ save_cpal_plot <- function(plot,
 #' These functions provide additional options beyond the basic scale_color_cpal()
 #' and scale_fill_cpal() for specific use cases.
 #'
+#' @return A ggplot2 scale object for continuous or discrete color/fill mappings
 #' @name scale_cpal_extended
 NULL
 
@@ -88,6 +89,7 @@ NULL
 #' @export
 scale_color_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
+  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_color_gradientn(colors = pal, ...)
 }
 
@@ -95,6 +97,7 @@ scale_color_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...
 #' @export
 scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
+  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_fill_gradientn(colors = pal, ...)
 }
 
@@ -102,6 +105,7 @@ scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...)
 #' @export
 scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
+  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_color_manual(values = pal, ...)
 }
 
@@ -109,6 +113,7 @@ scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
 #' @export
 scale_fill_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
+  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_fill_manual(values = pal, ...)
 }
 

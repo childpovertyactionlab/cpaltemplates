@@ -562,7 +562,7 @@ set_theme_cpal <- function(style = "default", base_size = 16, ...) {
 #'
 #' @return CSS styling for Shiny applications
 #' @export
-use_shiny_theme <- function(theme = "default", base_size = 16) {
+get_shiny_theme_colors <- function(theme = "default", base_size = 16) {
   # Define color schemes
   themes <- list(
     default = list(

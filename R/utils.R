@@ -533,6 +533,8 @@ copy_cpal_assets <- function(root, destination = "assets/images") {
 #'
 #' @param asset_name Name of the asset file
 #' @param category Category: "logos", "icons", or "favicons" (optional, will search all if not specified)
+#' @param asset_name Character. Name of the asset file to retrieve
+#' @param category Character. Subfolder within assets directory (default: '')
 #' @return Path to the asset file, or NULL if not found
 #' @export
 #' @examples
