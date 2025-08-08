@@ -14,6 +14,12 @@
 #' @param gradient_direction Gradient direction
 #' @param title_font Title font
 #' @param data_font Data font
+#' @importFrom magrittr %>%
+#' @importFrom gt gt tab_header tab_source_note tab_options tab_style opt_css
+#' @importFrom gt pct px cell_borders cells_title cell_text cell_fill
+#' @importFrom gt cells_column_labels cells_body
+#' @importFrom dplyr all_of
+#' @importFrom stats quantile
 #' @return GT table object
 #' @export
 cpal_table_gt <- function(data,

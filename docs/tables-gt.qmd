@@ -1,0 +1,636 @@
+---
+title: "Tables & GT Styling"
+subtitle: "Professional table creation and styling with CPAL branding"
+author: "CPAL Data Team"
+date: today
+---
+
+## Why Professional Table Styling Matters
+
+Tables are often overlooked in data visualization, but **they're crucial for presenting precise values, detailed comparisons, and supporting documentation.** Poor table formatting can undermine otherwise excellent analysis.
+
+### **Common Table Problems**
+
+| **Problem** | **Impact** | **CPAL Solution** |
+|-------------|------------|------------------|
+| **Generic appearance** | Tables don't match report branding | Automatic CPAL fonts, colors, and styling |
+| **Poor readability** | Hard to scan rows and find information | Strategic highlighting and spacing |
+| **Inconsistent formatting** | Different team members create different styles | Standardized table functions |
+| **Static limitations** | Can't explore or interact with data | Both static and interactive table options |
+| **Manual styling** | Time-consuming to format each table | One-function professional styling |
+
+### **What CPAL Table Functions Provide**
+
+- **Consistent branding**: Automatic CPAL fonts, colors, and spacing
+- **Professional appearance**: Publication-ready styling with minimal effort
+- **Flexible customization**: Easy highlighting, formatting, and theming options
+- **Interactive capabilities**: Sortable, filterable, and searchable tables
+- **Cross-format compatibility**: Works in reports, presentations, and web outputs
+
+## CPAL Table Function Overview
+
+The cpaltemplates package provides **4 table functions** for different use cases and output formats:
+
+| **Function** | **Technology** | **Best For** | **Key Features** |
+|--------------|---------------|--------------|-----------------|
+| `cpal_table_gt()` | GT package | **Static reports, PDFs, presentations** | High customization, print-optimized |
+| `cpal_table_reactable()` | Reactable package | **Interactive dashboards, web outputs** | Sorting, filtering, data bars |
+| `cpal_table()` | GT package | **Simple static tables** | Quick formatting with minimal options |
+| `cpal_table_interactive()` | Reactable package | **Basic interactive tables** | Simple interactivity with CPAL styling |
+
+## Static Tables with GT: cpal_table_gt()
+
+### **Why GT for Static Tables**
+
+**GT (Grammar of Tables)** provides the most sophisticated table formatting capabilities in R. **CPAL's GT wrapper applies professional styling automatically while preserving GT's full customization power.**
+
+### **Basic Professional Tables**
+
+```{r}
+library(cpaltemplates)
+library(gt)
+
+# Simple professional table with CPAL branding
+cpal_table_gt(
+  quarterly_results,
+  title = "Q4 Performance Summary",
+  subtitle = "Key metrics by division",
+  source = "Internal financial systems"
+)
+```
+
+### **Understanding cpal_table_gt() Parameters**
+
+**Core content parameters:**
+```{r}
+cpal_table_gt(
+  data = your_dataframe,        # Data to display
+  title = "Table Title",        # Main heading
+  subtitle = "Additional context", # Secondary heading  
+  source = "Data source note"   # Attribution/source
+)
+```
+
+### **Visual Customization Options**
+
+#### **Theme Selection**
+```{r}
+# Light theme (default) - professional, clean
+cpal_table_gt(data, theme = "light")
+
+# Dark theme - for dark backgrounds, presentations
+cpal_table_gt(data, theme = "dark") 
+```
+
+**When to use each theme:**
+- **Light theme**: Most reports, documents, printed materials
+- **Dark theme**: Presentations with dark backgrounds, night viewing, modern dashboards
+
+#### **Column Highlighting**
+```{r}
+# Highlight specific columns for emphasis
+cpal_table_gt(
+  performance_data,
+  title = "Department Performance",
+  highlight_columns = c("revenue", "growth_rate")  # Draws attention to key metrics
+)
+```
+
+**Strategic highlighting use:**
+- **Key performance indicators**: Revenue, growth rates, efficiency metrics
+- **Comparison columns**: Before/after, target vs. actual
+- **Action items**: Columns that require decision-making
+
+#### **Row Emphasis**
+```{r}
+# Bold specific rows for emphasis
+cpal_table_gt(
+  summary_data,
+  title = "Regional Summary",
+  bold_rows = "total",           # Row identifier for bolding
+  bold_color = cpal_colors("midnight")  # Custom bold text color
+)
+
+# Highlight rows with background color
+cpal_table_gt(
+  performance_data,
+  bold_rows = "top_performer",
+  row_fill = cpal_colors("teal"),    # Background color
+  bold_color = "white"               # Ensure text visibility
+)
+```
+
+### **Advanced Formatting Features**
+
+#### **Gradient Styling for Numerical Columns**
+```{r}
+# Apply color gradients to show data ranges
+cpal_table_gt(
+  metrics_data,
+  title = "Performance Metrics with Visual Scaling",
+  gradient_direction = "high_to_low"  # or "low_to_high"
+)
+```
+
+**Gradient applications:**
+- **Performance rankings**: High performers in darker colors
+- **Risk assessments**: High risk in attention-grabbing colors
+- **Progress indicators**: Completion percentages with visual scaling
+
+#### **Typography Customization**
+```{r}
+# Custom font choices (while maintaining CPAL standards)
+cpal_table_gt(
+  formal_report_data,
+  title_font = "Inter",      # Headings font
+  data_font = "Roboto"       # Table data font
+)
+```
+
+### **Integration with GT's Advanced Features**
+
+**CPAL tables work seamlessly with GT's formatting functions:**
+
+```{r}
+# Start with CPAL styling, then add GT customizations
+cpal_table_gt(
+  financial_data,
+  title = "Financial Performance",
+  highlight_columns = c("revenue", "profit")
+) %>%
+  # Add GT formatting functions
+  fmt_currency(columns = c(revenue, profit), currency = "USD") %>%
+  fmt_percent(columns = growth_rate, decimals = 1) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(rows = department == "Total")
+  ) %>%
+  tab_footnote(
+    footnote = "Excludes one-time charges",
+    locations = cells_body(columns = profit, rows = 1)
+  )
+```
+
+### **Complete Static Table Examples**
+
+#### **Executive Summary Table**
+```{r}
+# High-level overview for executive audiences
+executive_summary <- cpal_table_gt(
+  kpi_summary,
+  title = "Executive Dashboard",
+  subtitle = "Q4 2024 Key Performance Indicators",
+  source = "CPAL Analytics Team",
+  theme = "light",
+  highlight_columns = c("current_quarter", "growth_rate"),
+  bold_rows = "organization_total"
+) %>%
+  fmt_currency(columns = c(revenue, costs), currency = "USD", suffixing = TRUE) %>%
+  fmt_percent(columns = growth_rate, decimals = 1) %>%
+  tab_options(
+    table.font.size = px(12),
+    heading.title.font.size = px(16)
+  )
+```
+
+#### **Detailed Analysis Table**
+```{r}
+# Comprehensive data for analytical audiences  
+detailed_analysis <- cpal_table_gt(
+  program_results,
+  title = "Program Effectiveness Analysis",
+  subtitle = "Detailed metrics by program and region",
+  source = "Program evaluation data, December 2024",
+  highlight_columns = c("effectiveness_score", "cost_per_outcome"),
+  gradient_direction = "high_to_low"
+) %>%
+  fmt_number(columns = c(participants, outcomes), decimals = 0) %>%
+  fmt_currency(columns = c(cost_per_outcome, total_cost), currency = "USD") %>%
+  fmt_percent(columns = effectiveness_score, decimals = 2)
+```
+
+## Interactive Tables with Reactable: cpal_table_reactable()
+
+### **Why Reactable for Interactive Tables**
+
+**Reactable** provides modern, responsive interactive tables perfect for dashboards and web outputs. **CPAL's wrapper applies consistent branding while enabling powerful user interactions.**
+
+### **Basic Interactive Tables**
+
+```{r}
+library(reactable)
+
+# Simple interactive table with CPAL styling
+cpal_table_reactable(
+  analysis_data,
+  title = "Interactive Data Explorer", 
+  subtitle = "Click headers to sort, use search to filter"
+)
+```
+
+### **Interactive Features**
+
+#### **Built-in Interactivity**
+```{r}
+# Full-featured interactive table
+cpal_table_reactable(
+  large_dataset,
+  title = "Comprehensive Data Table",
+  # User interaction features
+  filterable = TRUE,      # Column-specific filters
+  searchable = TRUE,      # Global search box
+  sortable = TRUE,        # Click headers to sort
+  
+  # Display options
+  defaultPageSize = 15,   # Rows per page
+  showPageInfo = TRUE,    # "Showing X of Y entries"
+  highlight = TRUE,       # Row highlighting on hover
+  bordered = TRUE,        # Clean borders
+  striped = TRUE          # Alternating row colors
+)
+```
+
+#### **Visual Enhancement Features**
+```{r}
+# Enhanced visual presentation
+cpal_table_reactable(
+  performance_metrics,
+  title = "Performance Dashboard",
+  
+  # Column highlighting
+  highlight_columns = c("efficiency", "satisfaction"),
+  
+  # Data visualization within table
+  data_bar_columns = c("progress", "completion"),  # Progress bars in cells
+  
+  # Row emphasis
+  bold_rows = "top_quartile",        # Bold high performers
+  row_fill = cpal_colors("teal")     # Background highlighting
+)
+```
+
+### **Advanced Interactive Customization**
+
+#### **Custom Column Formatting**
+```{r}
+# Sophisticated formatting with reactable's column definitions
+cpal_table_reactable(
+  financial_dashboard,
+  title = "Financial Performance Dashboard",
+  columns = list(
+    # Currency formatting
+    revenue = colDef(
+      name = "Revenue",
+      format = colFormat(currency = "USD", separators = TRUE)
+    ),
+    
+    # Percentage with custom styling
+    growth_rate = colDef(
+      name = "Growth Rate",
+      format = colFormat(percent = TRUE, digits = 1),
+      style = function(value) {
+        color <- if (value > 0) cpal_colors("teal") else cpal_colors("pink")
+        list(color = color, fontWeight = "bold")
+      }
+    ),
+    
+    # Progress bars
+    completion = colDef(
+      name = "Project Completion",
+      cell = function(value) {
+        width <- paste0(value * 100, "%")
+        bar_color <- cpal_colors("midnight")
+        div(
+          style = list(background = "#f0f0f0", borderRadius = "3px"),
+          div(style = list(
+            background = bar_color,
+            width = width,
+            height = "20px",
+            borderRadius = "3px",
+            transition = "width 0.6s ease"
+          ))
+        )
+      }
+    )
+  )
+)
+```
+
+### **Interactive Table Patterns**
+
+#### **Dashboard Summary Pattern**
+```{r}
+# Compact interactive summary for dashboard use
+dashboard_table <- cpal_table_reactable(
+  kpi_data,
+  title = "Key Performance Indicators",
+  defaultPageSize = 8,    # Compact display
+  searchable = TRUE,      # Quick filtering
+  highlight_columns = c("current", "target"),
+  theme = "light"
+) %>%
+  # Add reactable customizations as needed
+```
+
+#### **Data Exploration Pattern**
+```{r}
+# Full-featured table for data exploration
+exploration_table <- cpal_table_reactable(
+  comprehensive_data,
+  title = "Data Explorer",
+  subtitle = "Filter, sort, and analyze the complete dataset",
+  
+  # Maximum interactivity
+  filterable = TRUE,
+  searchable = TRUE,
+  sortable = TRUE,
+  
+  # Visual enhancements
+  data_bar_columns = c("volume", "performance"),
+  highlight_columns = c("key_metric", "outcome"),
+  
+  # User experience
+  defaultPageSize = 25,
+  showPageInfo = TRUE,
+  bordered = TRUE,
+  highlight = TRUE
+)
+```
+
+## Simple Table Functions
+
+### **cpal_table() - Quick Static Tables**
+
+**For simple tables with minimal customization needs:**
+
+```{r}
+# Basic professional table with CPAL fonts
+cpal_table(
+  summary_data,
+  title = "Quick Summary",
+  subtitle = "Basic formatting with CPAL styling"
+)
+```
+
+**When to use `cpal_table()`:**
+- Quick internal reports
+- Simple data summaries  
+- When you need GT functionality but minimal customization
+- Prototyping table layouts before adding advanced formatting
+
+### **cpal_table_interactive() - Basic Interactive Tables**
+
+**For simple interactive tables:**
+
+```{r}
+# Basic interactive table with CPAL branding
+cpal_table_interactive(data)
+
+# With basic customization
+cpal_table_interactive(
+  data,
+  defaultPageSize = 10,
+  searchable = TRUE
+)
+```
+
+**When to use `cpal_table_interactive()`:**
+- Simple dashboard components
+- Quick interactive data exploration
+- When you need reactable functionality but minimal customization
+- Testing interactive concepts before advanced formatting
+
+## Table Selection Decision Guide
+
+### **Choosing the Right Table Function**
+
+```{mermaid}
+graph TD
+    A[What type of table do you need?] --> B[Static display]
+    A --> C[Interactive exploration]
+    
+    B --> D[Simple/quick?]
+    D -->|Yes| E[cpal_table]
+    D -->|No| F[Advanced formatting needed?]
+    F -->|Yes| G[cpal_table_gt]
+    F -->|No| H[cpal_table]
+    
+    C --> I[Simple/quick?]  
+    I -->|Yes| J[cpal_table_interactive]
+    I -->|No| K[Advanced features needed?]
+    K -->|Yes| L[cpal_table_reactable]
+    K -->|No| M[cpal_table_interactive]
+```
+
+### **Use Case Matrix**
+
+| **Scenario** | **Recommended Function** | **Key Features** |
+|--------------|-------------------------|------------------|
+| **Executive summary for PDF report** | `cpal_table_gt()` | Professional formatting, print optimization |
+| **Interactive dashboard component** | `cpal_table_reactable()` | Sorting, filtering, visual enhancements |
+| **Quick internal data summary** | `cpal_table()` | Simple, fast, CPAL branding |
+| **Presentation slide table** | `cpal_table_gt(theme = "dark")` | High contrast, large fonts |
+| **Web-based data explorer** | `cpal_table_reactable()` | Full interactivity, responsive design |
+| **Appendix with detailed data** | `cpal_table_gt()` | Advanced formatting, footnotes |
+| **Dashboard KPI summary** | `cpal_table_interactive()` | Basic interactivity, compact display |
+
+## Workflow Integration Examples
+
+### **Report Generation Workflow**
+
+```{r}
+library(cpaltemplates)
+
+# Executive summary table
+executive_table <- cpal_table_gt(
+  executive_kpis,
+  title = "Executive Summary",
+  subtitle = "Q4 2024 Key Performance Indicators", 
+  source = "CPAL Analytics Team",
+  highlight_columns = c("current_quarter", "variance"),
+  bold_rows = "total"
+) %>%
+  fmt_currency(columns = c(revenue, costs)) %>%
+  fmt_percent(columns = variance)
+
+# Detailed analysis table
+detailed_table <- cpal_table_gt(
+  detailed_analysis,
+  title = "Detailed Performance Analysis",
+  subtitle = "Complete breakdown by department and program",
+  source = "Internal reporting systems",
+  gradient_direction = "high_to_low"
+) %>%
+  fmt_number(columns = participants, decimals = 0) %>%
+  fmt_currency(columns = cost_per_participant)
+
+# Both tables now have consistent CPAL branding
+```
+
+### **Interactive Dashboard Workflow**
+
+```{r}
+# Summary KPI table
+kpi_table <- cpal_table_reactable(
+  kpi_summary,
+  title = "Performance Dashboard",
+  defaultPageSize = 10,
+  highlight_columns = c("current", "target", "variance"),
+  data_bar_columns = "progress"
+)
+
+# Detailed exploration table  
+detail_table <- cpal_table_reactable(
+  full_dataset,
+  title = "Detailed Data Explorer",
+  filterable = TRUE,
+  searchable = TRUE,
+  defaultPageSize = 20,
+  highlight_columns = c("key_metrics")
+)
+
+# Both tables coordinate in dashboard layout with consistent styling
+```
+
+### **Multi-Format Output Workflow**
+
+```{r}
+# Create base table with core formatting
+base_data <- prepare_table_data()
+
+# Static version for PDF reports
+pdf_table <- cpal_table_gt(
+  base_data,
+  title = "Performance Analysis",
+  theme = "light"
+) %>%
+  add_pdf_optimizations()
+
+# Interactive version for web dashboard
+web_table <- cpal_table_reactable(
+  base_data,
+  title = "Performance Analysis", 
+  filterable = TRUE,
+  searchable = TRUE
+)
+
+# Both maintain consistent CPAL branding across formats
+```
+
+## Best Practices and Guidelines
+
+### **Table Design Principles**
+
+**Professional table design:**
+1. **Clear hierarchy**: Title → subtitle → column headers → data
+2. **Strategic highlighting**: Emphasize what matters most
+3. **Consistent alignment**: Numbers right-aligned, text left-aligned
+4. **Appropriate density**: Balance information density with readability
+5. **Contextual formatting**: Currency, percentages, dates formatted correctly
+
+### **CPAL-Specific Guidelines**
+
+**Brand consistency:**
+- **Always use CPAL table functions** instead of raw GT or reactable
+- **Maintain font consistency** with Inter/Roboto from Google Fonts setup
+- **Use CPAL colors** for highlighting and emphasis
+- **Include source attribution** for transparency and credibility
+
+### **Performance Considerations**
+
+**Table rendering optimization:**
+```{r}
+# For large datasets, consider pagination
+cpal_table_reactable(
+  large_data,
+  defaultPageSize = 50,  # Reasonable page size
+  pagination = TRUE      # Enable pagination
+)
+
+# For static tables with many rows, consider summarization
+cpal_table_gt(
+  summarized_data,      # Pre-summarize large datasets
+  title = "Summary View"
+)
+```
+
+### **Accessibility Best Practices**
+
+**Inclusive table design:**
+- **High contrast**: Ensure sufficient contrast between text and background
+- **Clear headers**: Descriptive column names that screen readers can interpret
+- **Logical structure**: Proper use of table headers and structure
+- **Alternative text**: Provide table descriptions for screen readers
+
+```{r}
+# Accessibility-focused table
+accessible_table <- cpal_table_gt(
+  data,
+  title = "Accessible Performance Summary",
+  subtitle = "Table shows quarterly performance metrics by department",
+  theme = "light"  # High contrast theme
+) %>%
+  # Ensure clear formatting
+  fmt_number(columns = all_numeric(), decimals = 1) %>%
+  # Add descriptive footnotes
+  tab_footnote("Performance measured on 1-10 scale", 
+               locations = cells_column_labels("performance_score"))
+```
+
+## Troubleshooting Common Issues
+
+### **Styling Not Applied**
+
+**Problem**: Table doesn't show CPAL styling
+```{r}
+# Check package dependencies
+library(gt)        # For cpal_table_gt()
+library(reactable) # For cpal_table_reactable()
+
+# Verify font setup
+setup_cpal_google_fonts()
+get_cpal_font_family()
+```
+
+### **Interactive Features Not Working**
+
+**Problem**: Sorting, filtering not responsive
+```{r}
+# Check reactable installation
+install.packages("reactable")
+
+# Verify function parameters
+cpal_table_reactable(
+  data,
+  sortable = TRUE,    # Explicitly enable
+  filterable = TRUE,  # Explicitly enable
+  searchable = TRUE   # Explicitly enable
+)
+```
+
+### **Formatting Issues**
+
+**Problem**: Numbers, dates, currencies not displaying correctly
+```{r}
+# Add proper formatting after CPAL function
+cpal_table_gt(data, title = "Formatted Table") %>%
+  fmt_currency(columns = revenue, currency = "USD") %>%
+  fmt_percent(columns = growth_rate, decimals = 1) %>%
+  fmt_date(columns = report_date, date_style = 3)
+```
+
+### **Theme Compatibility**
+
+**Problem**: Tables don't match document theme
+```{r}
+# Match table theme to document
+# For dark backgrounds/presentations
+cpal_table_gt(data, theme = "dark")
+
+# For light backgrounds/reports  
+cpal_table_gt(data, theme = "light")
+```
+
+---
+
+*Professional table presentation is crucial for data credibility and user comprehension. Use CPAL table functions to ensure consistent, branded, and accessible tables across all your analytical outputs.*

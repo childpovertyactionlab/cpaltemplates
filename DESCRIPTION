@@ -18,7 +18,8 @@ Imports:
     gt,
     htmltools,
     htmlwidgets,
-    reactable
+    reactable,
+    magrittr
 Suggests:
     testthat (>= 3.0.0),
     roxygen2,
