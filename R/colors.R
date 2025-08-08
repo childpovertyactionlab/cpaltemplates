@@ -207,63 +207,6 @@ cpal_palette <- function(palette = "primary", reverse = FALSE) {
   return(unname(colors))
 }
 
-
-#' Display CPAL Color Palettes
-#'
-#' Show available CPAL color palettes
-#'
-#' @param palette Character. Name of palette to display (or "all")
-#' @export
-#' @examples
-#' # Show all palettes
-#' cpal_display_palettes("all")
-#'
-#' # Show specific palette
-#' cpal_display_palettes("main")
-cpal_display_palettes <- function(palette = "all") {
-
-  # Function to plot a single palette
-  plot_palette <- function(colors, name) {
-    n <- length(colors)
-    image(1:n, 1, as.matrix(1:n), col = colors,
-          xlab = "", ylab = "", xaxt = "n", yaxt = "n",
-          main = name, cex.main = 1.2)
-
-    # Add color codes
-    text(1:n, 0.5, colors, srt = 45, adj = 1, xpd = TRUE, cex = 0.8)
-
-    # Add color names if available
-    if (!is.null(names(colors))) {
-      text(1:n, 1.5, names(colors), srt = 45, adj = 0, xpd = TRUE, cex = 0.8)
-    }
-  }
-
-  if (palette == "all") {
-    # Set up multi-panel plot
-    old_par <- par(no.readonly = TRUE)
-    on.exit(par(old_par))
-    par(mfrow = c(4, 3), mar = c(5, 1, 3, 1))
-
-    # Plot each palette
-    plot_palette(cpal_colors_primary, "Primary Colors")
-    plot_palette(cpal_palettes_categorical$main, "Main Categorical")
-    plot_palette(cpal_palettes_categorical$blues, "Blues")
-
-    plot_palette(cpal_palettes_sequential$teal_seq_4, "Teal Sequential (4)")
-    plot_palette(cpal_palettes_sequential$teal_seq_6, "Teal Sequential (6)")
-    plot_palette(cpal_palettes_sequential$yellow_teal_seq_5, "Yellow-Teal Sequential")
-
-    plot_palette(cpal_palettes_diverging$pink_teal_3, "Pink-Teal Diverging (3)")
-    plot_palette(cpal_palettes_diverging$pink_teal_5, "Pink-Teal Diverging (5)")
-    plot_palette(cpal_palettes_diverging$pink_teal_6, "Pink-Teal Diverging (6)")
-
-  } else {
-    # Plot single palette
-    colors <- cpal_colors(palette)
-    plot_palette(colors, palette)
-  }
-}
-
 #' CPAL Color Scales for ggplot2
 #'
 #' @param palette Character. Name of palette
@@ -317,27 +260,30 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
   }
 }
 
-
-# View Functions ----
-
 #' View CPAL Color Palettes
 #'
-#' Functions to visualize all available CPAL color palettes
+#' Display CPAL color palettes with improved readability and flexibility
 #'
-
-#' Basic view of all palettes
+#' @param palette Character. Name of specific palette to display, or "all" for overview
+#' @param show_hex Logical. Whether to display hex codes (default: TRUE)
+#' @param show_names Logical. Whether to display color names if available (default: TRUE)
+#' @param compact Logical. Use compact layout for overview (default: FALSE)
 #' @return Displays color palette visualization (called for side effects)
 #' @export
-view_palette <- function() {
-  # Save current par settings
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
+#' @examples
+#' # Show all palettes in overview
+#' view_cpal_palettes()
+#'
+#' # Show specific palette
+#' view_cpal_palettes("main")
+#' view_cpal_palettes("teal_seq_5")
+#'
+#' # Compact overview without hex codes
+#' view_cpal_palettes("all", show_hex = FALSE, compact = TRUE)
+view_cpal_palettes <- function(palette = "all", show_hex = TRUE, show_names = TRUE, compact = FALSE) {
 
-  # Set up the layout for multiple plots
-  par(mfrow = c(5, 3), mar = c(2, 8, 3, 1), oma = c(1, 1, 3, 1))
-
-  # Helper function to plot a palette
-  plot_single_palette <- function(colors, name, show_hex = TRUE) {
+  # Helper function to plot a single palette with improved layout
+  plot_single_palette <- function(colors, name, show_hex = TRUE, show_names = TRUE, single_plot = FALSE) {
     n <- length(colors)
     if (n == 0) {
       plot(1, 1, type = "n", xlab = "", ylab = "", main = name,
@@ -346,105 +292,245 @@ view_palette <- function() {
       return()
     }
 
-    # Create horizontal bar plot
-    barplot(rep(1, n), col = colors, border = NA, space = 0,
-            axes = FALSE, main = name, cex.main = 0.9,
-            horiz = TRUE)
+    # Use horizontal barplot for left-to-right color bars
+    tryCatch({
+      if (single_plot) {
+        # For single plots, use more space and better formatting
+        barplot(rep(1, n), col = colors, border = "white", space = 0.1,
+                axes = FALSE, main = name, cex.main = 1.3,
+                horiz = TRUE, # Make bars horizontal (left to right)
+                names.arg = if(show_hex) colors else NULL,
+                las = 1, cex.names = 0.8) # las = 1 for horizontal text
 
-    # Add hex codes if requested
-    if (show_hex && n <= 6) {
-      text(x = (1:n - 0.5) * (1/n), y = 0.5, labels = colors,
-           cex = 0.6, srt = 90, adj = c(0.5, 0.5))
-    }
+        # Add color names if available
+        if (show_names && !is.null(names(colors))) {
+          mtext(paste(names(colors), collapse = " | "), side = 4, line = 1, cex = 0.9)
+        }
+      } else {
+        # For multi-panel plots, horizontal bars with hex on left
+        barplot(rep(1, n), col = colors, border = NA, space = 0,
+                axes = FALSE, main = name, cex.main = 0.9,
+                horiz = TRUE) # Horizontal bars
 
-    # Add color names if available
-    if (!is.null(names(colors)) && n <= 6) {
-      axis(2, at = (1:n - 0.5) * (1/n), labels = names(colors),
-           las = 2, cex.axis = 0.7, tick = FALSE, line = -1)
-    }
+        # Add hex codes on the left side if requested
+        if (show_hex && !compact && n <= 6) {
+          # Place hex codes on the left (y-axis area)
+          axis(2, at = (1:n - 1) + 0.5, labels = colors,
+               las = 1, cex.axis = 0.5, tick = FALSE, line = -0.5)
+        }
+      }
+    }, error = function(e) {
+      # Fallback to simple plot if barplot fails
+      plot(1:n, rep(1, n), type = "n", xlim = c(0.5, n + 0.5), ylim = c(0.5, 1.5),
+           axes = FALSE, xlab = "", ylab = "", main = name)
+      for (i in 1:n) {
+        rect(i - 0.4, 0.7, i + 0.4, 1.3, col = colors[i], border = "white")
+      }
+    })
   }
 
-  # Plot all palette types
-  plot_single_palette(cpal_colors("primary"), "Brand Colors (Primary)")
-  plot_single_palette(cpal_colors("teal_seq_4"), "Teal Sequential (4 colors)")
-  plot_single_palette(cpal_colors("teal_seq_5"), "Teal Sequential (5 colors)")
-  plot_single_palette(cpal_colors("teal_seq_6"), "Teal Sequential (6 colors)")
-  plot_single_palette(cpal_colors("yellow_teal_seq_4"), "Yellow-Teal Seq (4 colors)")
-  plot_single_palette(cpal_colors("yellow_teal_seq_5"), "Yellow-Teal Seq (5 colors)")
-  plot_single_palette(cpal_colors("yellow_teal_seq_6"), "Yellow-Teal Seq (6 colors)")
-  plot_single_palette(cpal_colors("pink_teal_3"), "Pink-Teal Diverging (3)")
-  plot_single_palette(cpal_colors("pink_teal_5"), "Pink-Teal Diverging (5)")
-  plot_single_palette(cpal_colors("pink_teal_6"), "Pink-Teal Diverging (6)")
-  plot_single_palette(cpal_colors("main"), "Main Categorical (5)")
-  plot_single_palette(cpal_colors("main_gray"), "Main + Gray (6)")
-  plot_single_palette(cpal_colors("blues"), "Blues (2)")
-  plot_single_palette(cpal_colors("compare"), "Compare (2)")
-  plot_single_palette(cpal_colors("main_3"), "Main (3 colors)")
+  # Get available palettes
+  available_palettes <- list(
+    "primary" = cpal_colors("primary"),
+    "main" = cpal_colors("main"),
+    "main_3" = cpal_colors("main_3"),
+    "main_4" = cpal_colors("main_4"),
+    "main_gray" = cpal_colors("main_gray"),
+    "blues" = cpal_colors("blues"),
+    "compare" = cpal_colors("compare"),
+    "teal_seq_4" = cpal_colors("teal_seq_4"),
+    "teal_seq_5" = cpal_colors("teal_seq_5"),
+    "teal_seq_6" = cpal_colors("teal_seq_6"),
+    "yellow_teal_seq_4" = cpal_colors("yellow_teal_seq_4"),
+    "yellow_teal_seq_5" = cpal_colors("yellow_teal_seq_5"),
+    "yellow_teal_seq_6" = cpal_colors("yellow_teal_seq_6"),
+    "pink_teal_3" = cpal_colors("pink_teal_3"),
+    "pink_teal_5" = cpal_colors("pink_teal_5"),
+    "pink_teal_6" = cpal_colors("pink_teal_6")
+  )
 
-  # Add overall title
-  mtext("CPAL Color Palettes Overview", outer = TRUE, cex = 1.5, font = 2)
+  if (palette == "all") {
+    # Save current par settings
+    old_par <- par(no.readonly = TRUE)
+    on.exit(par(old_par))
+
+    # Calculate how many palettes we actually have
+    n_palettes <- length(available_palettes)
+
+    # Set up appropriate grid layout
+    if (compact) {
+      par(mfrow = c(4, 4), mar = c(2, 1, 2, 1), oma = c(1, 1, 3, 1))
+    } else {
+      # For 16 palettes, use 4x4 grid for normal view too
+      par(mfrow = c(4, 4), mar = c(3, 1, 2.5, 1), oma = c(1, 1, 3, 1))
+    }
+
+    # Create display names that match the order of available_palettes
+    palette_display_names <- list(
+      "primary" = "Brand Colors",
+      "main" = "Main",
+      "main_3" = "Main (3)",
+      "main_4" = "Main (4)",
+      "main_gray" = "Main+Gray",
+      "blues" = "Blues",
+      "compare" = "Compare",
+      "teal_seq_4" = "Teal-4",
+      "teal_seq_5" = "Teal-5",
+      "teal_seq_6" = "Teal-6",
+      "yellow_teal_seq_4" = "Y-Teal-4",
+      "yellow_teal_seq_5" = "Y-Teal-5",
+      "yellow_teal_seq_6" = "Y-Teal-6",
+      "pink_teal_3" = "P-Teal-3",
+      "pink_teal_5" = "P-Teal-5",
+      "pink_teal_6" = "P-Teal-6"
+    )
+
+    # Plot all palettes with error handling
+    for (i in 1:n_palettes) {
+      tryCatch({
+        palette_name <- names(available_palettes)[i]
+        display_name <- palette_display_names[[palette_name]]
+        colors <- available_palettes[[palette_name]]
+
+        # Check that we have valid colors
+        if (length(colors) > 0) {
+          plot_single_palette(colors, display_name, show_hex = show_hex && !compact,
+                              show_names = FALSE, single_plot = FALSE)
+        } else {
+          # Create empty plot if no colors
+          plot.new()
+          text(0.5, 0.5, paste("No colors\n", display_name), cex = 0.8)
+        }
+      }, error = function(e) {
+        # Skip problematic plots and show error info
+        plot.new()
+        text(0.5, 0.5, paste("Error:", palette_name), cex = 0.6)
+      })
+    }
+
+    # Add overall title
+    title_text <- if (compact) "CPAL Palettes (Compact)" else "CPAL Color Palettes"
+    mtext(title_text, outer = TRUE, cex = 1.3, font = 2, line = 0.5)
+
+  } else {
+    # Display single palette - much simpler approach
+    if (!palette %in% names(available_palettes)) {
+      stop("Palette '", palette, "' not found. Available palettes: ",
+           paste(names(available_palettes), collapse = ", "))
+    }
+
+    # Save current par settings
+    old_par <- par(no.readonly = TRUE)
+    on.exit(par(old_par))
+
+    # Set margins for single plot
+    par(mar = c(if(show_hex) 4 else 2, 2, 3, 2))
+
+    colors <- available_palettes[[palette]]
+    display_name <- paste("CPAL Palette:", toupper(palette))
+
+    plot_single_palette(colors, display_name, show_hex = show_hex,
+                        show_names = show_names, single_plot = TRUE)
+
+    # Add palette information to console
+    cat("\nPalette:", palette, "\n")
+    cat("Number of colors:", length(colors), "\n")
+    if (show_hex) {
+      cat("Hex codes:", paste(colors, collapse = ", "), "\n")
+    }
+  }
 }
 
-#' Grid view of all palettes with hex codes
-#' @return Displays grid visualization of all color palettes (called for side effects)
+#' Quick Palette Preview
+#'
+#' Display a simple, clean preview of any CPAL palette
+#'
+#' @param palette Character. Name of palette to display
+#' @param n_colors Integer. Number of colors to show (if palette has more)
+#' @return Displays simple color palette preview (called for side effects)
 #' @export
-view_all_palettes <- function() {
+#' @examples
+#' # Quick preview of main palette
+#' quick_palette("main")
+#'
+#' # Preview first 3 colors of a sequential palette
+#' quick_palette("teal_seq_6", n_colors = 3)
+quick_palette <- function(palette, n_colors = NULL) {
+  colors <- cpal_colors(palette)
+
+  if (!is.null(n_colors) && n_colors < length(colors)) {
+    colors <- colors[1:n_colors]
+  }
+
   # Save current par settings
   old_par <- par(no.readonly = TRUE)
   on.exit(par(old_par))
 
-  # Collect all available palettes
-  all_palettes <- list(
-    "Brand Colors" = cpal_colors("primary"),
-    "Sequential Teal (4)" = cpal_colors("teal_seq_4"),
-    "Sequential Teal (5)" = cpal_colors("teal_seq_5"),
-    "Sequential Teal (6)" = cpal_colors("teal_seq_6"),
-    "Yellow-Teal (4)" = cpal_colors("yellow_teal_seq_4"),
-    "Yellow-Teal (5)" = cpal_colors("yellow_teal_seq_5"),
-    "Yellow-Teal (6)" = cpal_colors("yellow_teal_seq_6"),
-    "Pink-Teal Div (3)" = cpal_colors("pink_teal_3"),
-    "Pink-Teal Div (5)" = cpal_colors("pink_teal_5"),
-    "Pink-Teal Div (6)" = cpal_colors("pink_teal_6"),
-    "Categorical Main" = cpal_colors("main"),
-    "Categorical + Gray" = cpal_colors("main_gray"),
-    "Blues Only" = cpal_colors("blues"),
-    "Compare (Gray/Teal)" = cpal_colors("compare"),
-    "Main (3 colors)" = cpal_colors("main_3"),
-    "Main (4 colors)" = cpal_colors("main_4")
+  n <- length(colors)
+  par(mar = c(1, 1, 3, 1))
+
+  # Simple horizontal bar display
+  barplot(rep(1, n), col = colors, border = "white", space = 0.1,
+          axes = FALSE, main = paste("CPAL", toupper(palette)),
+          cex.main = 1.2, horiz = FALSE)
+
+  # Print color info to console
+  cat("Palette:", palette, "\n")
+  cat("Colors:", paste(colors, collapse = " "), "\n")
+}
+
+#' List Available CPAL Palettes
+#'
+#' Get a list of all available CPAL color palettes with descriptions
+#'
+#' @param details Logical. If TRUE, show detailed information about each palette
+#' @return Character vector of palette names, or detailed list if details=TRUE
+#' @export
+#' @examples
+#' # Simple list
+#' list_cpal_palettes()
+#'
+#' # Detailed information
+#' list_cpal_palettes(details = TRUE)
+list_cpal_palettes <- function(details = FALSE) {
+  palette_info <- list(
+    "primary" = list(name = "Brand Colors", type = "Categorical", colors = 5,
+                     description = "CPAL brand colors for institutional use"),
+    "main" = list(name = "Main Categorical", type = "Categorical", colors = 5,
+                  description = "Primary categorical palette for data visualization"),
+    "main_3" = list(name = "Main (3 colors)", type = "Categorical", colors = 3,
+                    description = "Reduced main palette for simple comparisons"),
+    "main_4" = list(name = "Main (4 colors)", type = "Categorical", colors = 4,
+                    description = "Extended main palette for moderate comparisons"),
+    "main_gray" = list(name = "Main + Gray", type = "Categorical", colors = 6,
+                       description = "Main palette with gray for highlighting"),
+    "blues" = list(name = "Blues", type = "Categorical", colors = 2,
+                   description = "Blue tones for simple comparisons"),
+    "compare" = list(name = "Compare", type = "Categorical", colors = 2,
+                     description = "Gray and teal for before/after comparisons"),
+    "teal_seq_4" = list(name = "Teal Sequential (4)", type = "Sequential", colors = 4,
+                        description = "Light to dark teal progression"),
+    "teal_seq_5" = list(name = "Teal Sequential (5)", type = "Sequential", colors = 5,
+                        description = "Light to dark teal progression"),
+    "teal_seq_6" = list(name = "Teal Sequential (6)", type = "Sequential", colors = 6,
+                        description = "Light to dark teal progression"),
+    "yellow_teal_seq_4" = list(name = "Yellow-Teal Sequential (4)", type = "Sequential", colors = 4,
+                               description = "Yellow to teal progression"),
+    "yellow_teal_seq_5" = list(name = "Yellow-Teal Sequential (5)", type = "Sequential", colors = 5,
+                               description = "Yellow to teal progression"),
+    "yellow_teal_seq_6" = list(name = "Yellow-Teal Sequential (6)", type = "Sequential", colors = 6,
+                               description = "Yellow to teal progression"),
+    "pink_teal_3" = list(name = "Pink-Teal Diverging (3)", type = "Diverging", colors = 3,
+                         description = "Pink to teal with neutral center"),
+    "pink_teal_5" = list(name = "Pink-Teal Diverging (5)", type = "Diverging", colors = 5,
+                         description = "Pink to teal with neutral center"),
+    "pink_teal_6" = list(name = "Pink-Teal Diverging (6)", type = "Diverging", colors = 6,
+                         description = "Pink to teal with neutral center")
   )
 
-  # Set up grid
-  n_palettes <- length(all_palettes)
-  n_cols <- 3
-  n_rows <- ceiling(n_palettes / n_cols)
-
-  par(mfrow = c(n_rows, n_cols), mar = c(3, 0.5, 3, 0.5), oma = c(0, 0, 3, 0))
-
-  # Plot each palette
-  for (i in 1:n_palettes) {
-    colors <- all_palettes[[i]]
-    name <- names(all_palettes)[i]
-    n <- length(colors)
-
-    # Create the plot
-    plot(1:n, rep(1, n), type = "n", xlim = c(0.5, n + 0.5), ylim = c(0, 2),
-         axes = FALSE, xlab = "", ylab = "", main = name, cex.main = 1)
-
-    # Draw color squares
-    for (j in 1:n) {
-      rect(j - 0.4, 0.5, j + 0.4, 1.5, col = colors[j], border = "white", lwd = 2)
-      # Add hex code below
-      text(j, 0.2, colors[j], cex = 0.6, srt = 45, adj = 1)
-    }
+  if (details) {
+    return(palette_info)
+  } else {
+    return(names(palette_info))
   }
-
-  # Add any empty plots if needed
-  if (n_palettes < n_rows * n_cols) {
-    for (i in (n_palettes + 1):(n_rows * n_cols)) {
-      plot.new()
-    }
-  }
-
-  # Overall title
-  mtext("CPAL Color Palettes - Complete Reference", outer = TRUE, cex = 1.5, font = 2, line = 1)
 }
