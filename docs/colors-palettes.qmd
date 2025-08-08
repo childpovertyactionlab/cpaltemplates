@@ -60,10 +60,9 @@ cpaltemplates provides **7 main color functions** that work together to give you
 | `cpal_colors()` | Get specific colors or palettes | Vector of hex codes | Building custom visualizations |
 | `scale_color_cpal()` | Apply CPAL colors to ggplot2 color aesthetic | ggplot2 scale object | Automatic ggplot2 integration |
 | `scale_fill_cpal()` | Apply CPAL colors to ggplot2 fill aesthetic | ggplot2 scale object | Automatic ggplot2 integration |
-| `view_all_palettes()` | Display all available palettes | Visual grid display | Choosing the right palette |
-| `view_palette()` | Interactive palette explorer | Interactive display | Detailed palette exploration |
-| `cpal_display_palettes()` | Show specific palettes with hex codes | Visual display | Reference and documentation |
-
+| `view_cpal_palettes()` | Display all or specific palettes with options | Visual display | Choosing and exploring palettes |
+| `quick_palette()` | Simple palette preview | Visual display | Quick palette reference |
+| `list_cpal_palettes()` | List available palettes with details | Character vector or list | Programmatic palette discovery |
 ## Brand Colors: CPAL's Core Identity
 
 ### **Primary Colors**
@@ -362,6 +361,25 @@ ggplot(performance_data, aes(x = department, y = variance_from_target,
 
 ## Advanced Usage and Customization
 
+### **Exploring Available Palettes**
+
+The cpaltemplates package provides three complementary functions for palette exploration:
+
+**`list_cpal_palettes()`** - Programmatic palette discovery
+- Returns palette names for use in code
+- Optional detailed information with descriptions and color counts
+- Perfect for building automated palette selection logic
+
+**`quick_palette()`** - Fast visual reference  
+- Clean, simple display for quick reference
+- Optional color limiting for preview of large palettes
+- Ideal when you know the palette name and want a quick look
+
+**`view_cpal_palettes()`** - Comprehensive exploration
+- All palettes overview or specific palette deep dive
+- Customizable display options (hex codes, compact view, etc.)
+- Best for choosing between multiple palettes or detailed exploration
+
 ### **Getting Specific Colors**
 
 ```{r}
@@ -409,20 +427,20 @@ scale_color_cpal(palette = "main", name = "Categories", guide = guide_legend(nco
 
 ```{r}
 # See all palettes at once
-view_all_palettes()
+view_cpal_palettes()
 
 # Interactive exploration of individual palettes
-view_palette()
+quick_palette()
 
 # Display specific palette with hex codes
-cpal_display_palettes("main")
-cpal_display_palettes("teal_seq_5")
+quick_palette("main")
+quick_palette("teal_seq_5")
 ```
 
 **What each function shows:** 
-- **`view_all_palettes()`**: Grid layout showing every palette, perfect for comparison 
-- **`view_palette()`**: Interactive tool with color codes and accessibility information 
-- **`cpal_display_palettes()`**: Clean display with hex codes, ideal for documentation
+- **`view_cpal_palettes()`**: Grid layout showing every palette, perfect for comparison 
+- **`quick_palette()`**: Interactive tool with color codes and accessibility information 
+- **`view_cpal_palettes()`**: Clean display with hex codes, ideal for documentation
 
 ## Best Practices and Guidelines
 
@@ -526,7 +544,7 @@ library(cpaltemplates)
 library(ggplot2)
 
 # Step 1: Explore available colors
-view_all_palettes()
+view_cpal_palettes()
 
 # Step 2: Choose appropriate palette for your data type
 my_data <- data.frame(

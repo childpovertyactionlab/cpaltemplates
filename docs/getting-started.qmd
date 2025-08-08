@@ -92,16 +92,19 @@ setup_cpal_google_fonts()
 #| eval: true
 #| error: true
 # See all color palettes
-view_all_palettes()
+view_cpal_palettes("all")
 
 # View a specific palette interactively
-view_palette()
+quick_palette()
 
 # Check available themes
 names(formals(theme_cpal))  # See theme parameters
 ```
 
-**What these functions show you:** - **`view_all_palettes()`** displays every color palette side-by-side, helping you choose the right one for your data type and message . - **`view_palette()`** opens an interactive interface to explore individual palettes, see color codes, and test accessibility. - **Theme parameters** show you all the customization options available for fine-tuning your visualizations.
+**What these functions show you:** 
+- **`view_cpal_palettes()`** displays every color palette side-by-side, helping you choose the right one for your data type and message . 
+- **`quick_palette()`** opens an interactive interface to explore individual palettes, see color codes, and test accessibility. 
+- **Theme parameters** show you all the customization options available for fine-tuning your visualizations.
 
 ## Your First CPAL-Styled Plot
 
@@ -346,7 +349,7 @@ theme_cpal(base_family = cpal_font_family_fallback())
 
 ```{r}
 # View palettes to check they're loading
-view_all_palettes()
+view_cpal_palettes("all")
 
 # Check specific palette
 cpal_colors("main")  # Should return vector of hex colors
@@ -384,7 +387,7 @@ Now that you have the basics:
 -   `theme_cpal()` - Apply CPAL theme to plots
 -   `scale_color_cpal()` / `scale_fill_cpal()` - Use CPAL colors
 -   `save_cpal_plot()` - Save plots with CPAL standards
--   `view_all_palettes()` - See available colors
+-   `view_cpal_palettes()` - See available colors
 
 ### Getting Help
 

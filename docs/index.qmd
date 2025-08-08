@@ -65,7 +65,7 @@ cpaltemplates provides **59 functions across 7 integrated systems** that work to
 ```{r}
 # Automatic brand-consistent colors
 scale_fill_cpal(palette = "main")
-view_all_palettes()  # Interactive exploration
+view_cpal_palettes("all")  # Interactive exploration
 ```
 
 **Themes & Styling (8 functions)**  
@@ -209,18 +209,15 @@ create_cpal_standard_project("analysis-name",
 ### **First-Time Setup**
 
 ```{r}
-# 1. Install cpaltemplates (one-time)
-# devtools::install_github("cpal-org/cpaltemplates")
-
-# 2. Load and verify
+# Quick Start section
 library(cpaltemplates)
 packageVersion("cpaltemplates")
 
-# 3. Set up Google Fonts (once per R session)
 setup_cpal_google_fonts()
+view_cpal_palettes("all")  # See all color options
 
-# 4. Explore available resources
-view_all_palettes()  # See all color options
+# First-Time Setup section  
+view_cpal_palettes("all")  # Interactive exploration
 ```
 
 ### **Create Your First Professional Visualization**
