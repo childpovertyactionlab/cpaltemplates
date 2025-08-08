@@ -1,171 +1,450 @@
-#' Child Poverty Action Lab Color Palettes
-#'
-#' Provides hex color codes corresponding to the official color palettes outlined in the Child Poverty Action Lab (CPAL) Data Visualization Style Guide.
-#' These palettes are designed for consistent and accessible visualizations across CPAL projects.
-#'
-#' @source Child Poverty Action Lab Data Visualization Style Guide:
-#'  \url{http://childpovertyactionlab.github.io/cpal-directory/}
-#'
-#' @details Each palette contains a unique set of colors for different visualization needs, such as sequential, diverging, and categorical color scales. These can be used directly in plotting libraries like `ggplot2` or leaflet maps.
-#'
-#' @family cpal_palettes
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_five <- c(
-  "#042d33",
-  "#008097",
-  "#ed018c",
-  "#ed683f",
-  "#eaca2d")
 
-#' Main CPAL Color Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_main <- c(
-  "#042d33",
-  "#008097",
-  "#0047bd",
-  "#a80092",
-  "#ed018c",
-  "#ed683f",
-  "#ffa13e",
-  "#eaca2d")
+#' @importFrom grDevices colorRampPalette
+#' @importFrom graphics axis barplot image mtext par plot.new rect text
 
-#' CPAL Color Palette for Color Blindness (Deuteranopia)
+#' CPAL Color Palettes
 #'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_deut <- c(
-  "#1d2c36",
-  "#c97d3b",
-  "#6d3988",
-  "#437799",
-  "#004f9e",
-  "#f7c43a",
-  "#eea83d",
-  "#ac4c81")
+#' Official color palettes for Child Poverty Action Lab data visualizations
+#' Based on CPAL Data Visualization Guidelines
+#'
+#' @name cpal_colors
+#' @rdname cpal_colors
+NULL
 
-#' Diverging CPAL Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_diverging <- c(
-  "#881354",
-  "#ED018C",
-  "#FFCCDC",
-  "#FEEBF2",
-  "#FFFFFF",
-  "#E1F5F8",
-  "#9ADAE5",
-  "#008097",
-  "#042D33")
+# Primary Colors ----
 
-#' Quintile CPAL Palette for Mapping
+#' CPAL Primary Colors
 #'
-#' @rdname cpal_palettes
+#' Core brand colors for CPAL visualizations
 #' @export
-palette_cpal_quintile <- c(
-  "#F4FBFC",
-  "#E1F5F8",
-  "#9ADAE5",
-  "#008097",
-  "#042D33")
+cpal_colors_primary <- c(
+  "midnight" = "#004855",  # Midnight
+  "teal"     = "#008097",  # Teal
+  "pink"     = "#C3257B",  # Pink
+  "orange"   = "#ED683F",  # Orange
+  "gold"     = "#AB8C01"   # Gold
+)
 
-#' Teal CPAL Color Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_teal <- c(
-  "#F4FBFC",
-  "#C2F6FF",
-  "#70EAFF",
-  "#1FDDFF",
-  "#00BFE0",
-  "#008097",
-  "#005766",
-  "#042D33")
+# Extended Palette ----
 
-#' Gray CPAL Palette
+#' CPAL Extended Color Palette
 #'
-#' @rdname cpal_palettes
+#' Extended colors including additional shades for data visualization
 #' @export
-palette_cpal_gray <- c(
-  "#E7ECEE",
-  "#C3D0D5",
-  "#ABBDC4",
-  "#7C97A2",
-  "#5D7883",
-  "#4C636B",
-  "#334248",
-  "#3F3F3F")
+cpal_colors_extended <- c(
+  # Brand Colors
+  "midnight"      = "#004855",
+  "teal"          = "#008097",
+  "pink"          = "#C3257B",
+  "orange"        = "#ED683F",
+  "gold"          = "#AB8C01",
 
-#' Orange CPAL Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_orange <- c(
-  "#FFE5DE",
-  "#F8C4B4",
-  "#F1896A",
-  "#ED683F",
-  "#EA4E1F",
-  "#BB3911",
-  "#83280C",
-  "#4B1707")
+  # Grays (from categorical palette)
+  "gray"          = "#919191",
+  "gray_blue"     = "#798AA1",
 
-#' Magenta CPAL Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_magenta <- c(
-  "#FFF9FB",
-  "#FFD6EE",
-  "#FE9AD4",
-  "#FE34AA",
-  "#ED018C",
-  "#B7016B",
-  "#7A0147",
-  "#3D0024")
+  # Additional teal shades from single-hue sequential
+  "teal_lightest" = "#D8EFF4",
+  "teal_lighter"  = "#C0E7EE",
+  "teal_light"    = "#95CFDA",
+  "teal_mid"      = "#47ACBD",
 
-#' Green CPAL Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_green <- c(
-  "#EBFFF8",
-  "#ADFFE2",
-  "#70FFCD",
-  "#1FFFB0",
-  "#00E092",
-  "#009763",
-  "#006642",
-  "#00291B")
+  # Additional shades from diverging palette
+  "pink_light"    = "#B888AC",
+  "neutral"       = "#EBEBEB",
+  "teal_blue"     = "#6B9BDE",
 
-#' Yellow CPAL Palette
-#'
-#' @rdname cpal_palettes
-#' @export
-palette_cpal_yellow <- c(
-  "#FFFEE2",
-  "#F7EDB6",
-  "#F3DF7C",
-  "#EDD145",
-  "#EACA2D",
-  "#DFBD16",
-  "#957E0F",
-  "#4A3F07")
+  # Colors from multi-hue sequential
+  "yellow"        = "#E5CB50",
+  "green_teal"    = "#76A772",
+  "teal_dark"     = "#025968"
+)
 
-#' Purple CPAL Palette
+# Sequential Palettes ----
+
+#' CPAL Sequential Color Palettes
 #'
-#' @rdname cpal_palettes
+#' Sequential palettes for continuous data
 #' @export
-palette_cpal_purple <- c(
-  "#F3ECFE",
-  "#CEB1FB",
-  "#9C64F7",
-  "#772AF4",
-  "#590BD5",
-  "#40089B",
-  "#280561",
-  "#100227")
+cpal_palettes_sequential <- list(
+  # Single-hue sequential (from Image 3)
+  teal_seq_4 = c("#95CFDA", "#47ACBD", "#008097", "#004855"),
+  teal_seq_5 = c("#C0E7EE", "#95CFDA", "#47ACBD", "#008097", "#004855"),
+  teal_seq_6 = c("#D8EFF4", "#C0E7EE", "#95CFDA", "#47ACBD", "#008097", "#004855"),
+
+  # Multi-hue sequential (from Image 2)
+  yellow_teal_seq_4 = c("#E5CB50", "#499881", "#016678", "#004855"),
+  yellow_teal_seq_5 = c("#E5CB50", "#76A772", "#018097", "#025968", "#043037"),
+  yellow_teal_seq_6 = c("#E5CB50", "#82AA6F", "#2A8E8A", "#017084", "#03515E", "#004855")
+)
+
+# Diverging Palettes ----
+
+#' CPAL Diverging Color Palettes
+#'
+#' Diverging palettes for data with a meaningful midpoint
+#' @export
+cpal_palettes_diverging <- list(
+  # Pink to Teal diverging (from Image 1)
+  pink_teal_3 = c("#C3257B", "#EBEBEB", "#008097"),
+  pink_teal_5 = c("#C3257B", "#BB8AAC", "#EBEBEB", "#69969E", "#008097"),
+  pink_teal_6 = c("#C3257B", "#B979A2", "#C2BBCB", "#A0BFC5", "#588993", "#008097")
+)
+
+# Categorical Palettes ----
+
+#' CPAL Categorical Color Palettes
+#'
+#' Palettes for categorical data
+#' @export
+cpal_palettes_categorical <- list(
+  # Brand colors for categories
+  main = c("#004855", "#008097", "#C3257B", "#ED683F", "#AB8C01"),
+
+  # With gray for additional category
+  main_gray = c("#004855", "#008097", "#C3257B", "#ED683F", "#AB8C01", "#798AA1"),
+
+  # 2-color palettes
+  blues = c("#004855", "#008097"),
+  compare = c("#919191", "#008097"),
+
+  # Smaller sets
+  main_3 = c("#004855", "#008097", "#C3257B"),
+  main_4 = c("#004855", "#008097", "#C3257B", "#ED683F")
+)
+
+# Helper Functions ----
+
+#' Get CPAL Colors
+#'
+#' Access CPAL color palettes
+#'
+#' @param palette Character. Name of palette or specific colors
+#' @param n Integer. Number of colors needed (optional)
+#' @param reverse Logical. Reverse the order of colors?
+#' @return Character vector of hex colors
+#' @export
+#' @examples
+#' # Get primary colors
+#' cpal_colors()
+#'
+#' # Get specific colors
+#' cpal_colors("teal")
+#' cpal_colors(c("teal", "orange"))
+#'
+#' # Get a sequential palette
+#' cpal_colors("teal_seq_5")
+#'
+#' # Get n colors from a palette
+#' cpal_colors("main", n = 3)
+cpal_colors <- function(palette = "primary", n = NULL, reverse = FALSE) {
+
+  # If requesting specific colors by name
+  if (all(palette %in% names(cpal_colors_extended))) {
+    return(cpal_colors_extended[palette])
+  }
+
+  # Get the requested palette
+  pal <- switch(palette,
+    "primary" = cpal_colors_primary,
+    "extended" = cpal_colors_extended,
+
+    # Sequential palettes
+    "teal_seq_4" = cpal_palettes_sequential$teal_seq_4,
+    "teal_seq_5" = cpal_palettes_sequential$teal_seq_5,
+    "teal_seq_6" = cpal_palettes_sequential$teal_seq_6,
+    "yellow_teal_seq_4" = cpal_palettes_sequential$yellow_teal_seq_4,
+    "yellow_teal_seq_5" = cpal_palettes_sequential$yellow_teal_seq_5,
+    "yellow_teal_seq_6" = cpal_palettes_sequential$yellow_teal_seq_6,
+
+    # Diverging palettes
+    "pink_teal_3" = cpal_palettes_diverging$pink_teal_3,
+    "pink_teal_5" = cpal_palettes_diverging$pink_teal_5,
+    "pink_teal_6" = cpal_palettes_diverging$pink_teal_6,
+
+    # Categorical palettes
+    "main" = cpal_palettes_categorical$main,
+    "main_gray" = cpal_palettes_categorical$main_gray,
+    "blues" = cpal_palettes_categorical$blues,
+    "compare" = cpal_palettes_categorical$compare,
+    "main_3" = cpal_palettes_categorical$main_3,
+    "main_4" = cpal_palettes_categorical$main_4,
+
+    # Default to primary
+    cpal_colors_primary
+  )
+
+  if (reverse) pal <- rev(pal)
+
+  # Return n colors if specified
+  if (!is.null(n)) {
+    if (n <= length(pal)) {
+      return(pal[1:n])
+    } else {
+      warning("Requested ", n, " colors but palette has only ", length(pal), " colors")
+      return(pal)
+    }
+  }
+
+  return(pal)
+}
+
+#' Get CPAL Color Palette
+#'
+#' Helper function to retrieve CPAL color palettes with optional reversal.
+#' This is a wrapper around cpal_colors() for use in scale functions.
+#'
+#' @param palette Name of the palette to retrieve
+#' @param reverse Logical. Should the palette be reversed?
+#' @return A vector of colors
+#' @keywords internal
+cpal_palette <- function(palette = "primary", reverse = FALSE) {
+  colors <- cpal_colors(palette)
+  if (reverse) {
+    colors <- rev(colors)
+  }
+  # Fix: Remove names to ensure compatibility with ggplot2 scale functions
+  return(unname(colors))
+}
+
+
+#' Display CPAL Color Palettes
+#'
+#' Show available CPAL color palettes
+#'
+#' @param palette Character. Name of palette to display (or "all")
+#' @export
+#' @examples
+#' # Show all palettes
+#' cpal_display_palettes("all")
+#'
+#' # Show specific palette
+#' cpal_display_palettes("main")
+cpal_display_palettes <- function(palette = "all") {
+
+  # Function to plot a single palette
+  plot_palette <- function(colors, name) {
+    n <- length(colors)
+    image(1:n, 1, as.matrix(1:n), col = colors,
+          xlab = "", ylab = "", xaxt = "n", yaxt = "n",
+          main = name, cex.main = 1.2)
+
+    # Add color codes
+    text(1:n, 0.5, colors, srt = 45, adj = 1, xpd = TRUE, cex = 0.8)
+
+    # Add color names if available
+    if (!is.null(names(colors))) {
+      text(1:n, 1.5, names(colors), srt = 45, adj = 0, xpd = TRUE, cex = 0.8)
+    }
+  }
+
+  if (palette == "all") {
+    # Set up multi-panel plot
+    old_par <- par(no.readonly = TRUE)
+    on.exit(par(old_par))
+    par(mfrow = c(4, 3), mar = c(5, 1, 3, 1))
+
+    # Plot each palette
+    plot_palette(cpal_colors_primary, "Primary Colors")
+    plot_palette(cpal_palettes_categorical$main, "Main Categorical")
+    plot_palette(cpal_palettes_categorical$blues, "Blues")
+
+    plot_palette(cpal_palettes_sequential$teal_seq_4, "Teal Sequential (4)")
+    plot_palette(cpal_palettes_sequential$teal_seq_6, "Teal Sequential (6)")
+    plot_palette(cpal_palettes_sequential$yellow_teal_seq_5, "Yellow-Teal Sequential")
+
+    plot_palette(cpal_palettes_diverging$pink_teal_3, "Pink-Teal Diverging (3)")
+    plot_palette(cpal_palettes_diverging$pink_teal_5, "Pink-Teal Diverging (5)")
+    plot_palette(cpal_palettes_diverging$pink_teal_6, "Pink-Teal Diverging (6)")
+
+  } else {
+    # Plot single palette
+    colors <- cpal_colors(palette)
+    plot_palette(colors, palette)
+  }
+}
+
+#' CPAL Color Scales for ggplot2
+#'
+#' @param palette Character. Name of palette
+#' @param discrete Logical. Is data discrete?
+#' @param reverse Logical. Reverse palette?
+#' @param ... Additional arguments passed to scale functions
+#' @name scale_cpal
+#' @return A ggplot2 scale object for adding CPAL colors to plots
+#' @export
+scale_color_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- cpal_colors(palette, reverse = reverse)
+
+  # Fix: Remove names from color vectors before passing to ggplot2
+  pal <- unname(pal)
+
+  if (discrete) {
+    ggplot2::discrete_scale("colour", "cpal", palette = function(n) {
+      if (n <= length(pal)) {
+        pal[1:n]
+      } else {
+        colorRampPalette(pal)(n)
+      }
+    }, ...)
+  } else {
+    ggplot2::scale_color_gradientn(colours = pal, ...)
+  }
+}
+
+#' @rdname scale_cpal
+#' @export
+scale_colour_cpal <- scale_color_cpal
+
+#' @rdname scale_cpal
+#' @export
+scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, ...) {
+  pal <- cpal_colors(palette, reverse = reverse)
+
+  # Fix: Remove names from color vectors before passing to ggplot2
+  pal <- unname(pal)
+
+  if (discrete) {
+    ggplot2::discrete_scale("fill", "cpal", palette = function(n) {
+      if (n <= length(pal)) {
+        pal[1:n]
+      } else {
+        colorRampPalette(pal)(n)
+      }
+    }, ...)
+  } else {
+    ggplot2::scale_fill_gradientn(colours = pal, ...)
+  }
+}
+
+
+# View Functions ----
+
+#' View CPAL Color Palettes
+#'
+#' Functions to visualize all available CPAL color palettes
+#'
+
+#' Basic view of all palettes
+#' @return Displays color palette visualization (called for side effects)
+#' @export
+view_palette <- function() {
+  # Save current par settings
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
+
+  # Set up the layout for multiple plots
+  par(mfrow = c(5, 3), mar = c(2, 8, 3, 1), oma = c(1, 1, 3, 1))
+
+  # Helper function to plot a palette
+  plot_single_palette <- function(colors, name, show_hex = TRUE) {
+    n <- length(colors)
+    if (n == 0) {
+      plot(1, 1, type = "n", xlab = "", ylab = "", main = name,
+           axes = FALSE, xlim = c(0, 1), ylim = c(0, 1))
+      text(0.5, 0.5, "No colors available", cex = 0.8)
+      return()
+    }
+
+    # Create horizontal bar plot
+    barplot(rep(1, n), col = colors, border = NA, space = 0,
+            axes = FALSE, main = name, cex.main = 0.9,
+            horiz = TRUE)
+
+    # Add hex codes if requested
+    if (show_hex && n <= 6) {
+      text(x = (1:n - 0.5) * (1/n), y = 0.5, labels = colors,
+           cex = 0.6, srt = 90, adj = c(0.5, 0.5))
+    }
+
+    # Add color names if available
+    if (!is.null(names(colors)) && n <= 6) {
+      axis(2, at = (1:n - 0.5) * (1/n), labels = names(colors),
+           las = 2, cex.axis = 0.7, tick = FALSE, line = -1)
+    }
+  }
+
+  # Plot all palette types
+  plot_single_palette(cpal_colors("primary"), "Brand Colors (Primary)")
+  plot_single_palette(cpal_colors("teal_seq_4"), "Teal Sequential (4 colors)")
+  plot_single_palette(cpal_colors("teal_seq_5"), "Teal Sequential (5 colors)")
+  plot_single_palette(cpal_colors("teal_seq_6"), "Teal Sequential (6 colors)")
+  plot_single_palette(cpal_colors("yellow_teal_seq_4"), "Yellow-Teal Seq (4 colors)")
+  plot_single_palette(cpal_colors("yellow_teal_seq_5"), "Yellow-Teal Seq (5 colors)")
+  plot_single_palette(cpal_colors("yellow_teal_seq_6"), "Yellow-Teal Seq (6 colors)")
+  plot_single_palette(cpal_colors("pink_teal_3"), "Pink-Teal Diverging (3)")
+  plot_single_palette(cpal_colors("pink_teal_5"), "Pink-Teal Diverging (5)")
+  plot_single_palette(cpal_colors("pink_teal_6"), "Pink-Teal Diverging (6)")
+  plot_single_palette(cpal_colors("main"), "Main Categorical (5)")
+  plot_single_palette(cpal_colors("main_gray"), "Main + Gray (6)")
+  plot_single_palette(cpal_colors("blues"), "Blues (2)")
+  plot_single_palette(cpal_colors("compare"), "Compare (2)")
+  plot_single_palette(cpal_colors("main_3"), "Main (3 colors)")
+
+  # Add overall title
+  mtext("CPAL Color Palettes Overview", outer = TRUE, cex = 1.5, font = 2)
+}
+
+#' Grid view of all palettes with hex codes
+#' @return Displays grid visualization of all color palettes (called for side effects)
+#' @export
+view_all_palettes <- function() {
+  # Save current par settings
+  old_par <- par(no.readonly = TRUE)
+  on.exit(par(old_par))
+
+  # Collect all available palettes
+  all_palettes <- list(
+    "Brand Colors" = cpal_colors("primary"),
+    "Sequential Teal (4)" = cpal_colors("teal_seq_4"),
+    "Sequential Teal (5)" = cpal_colors("teal_seq_5"),
+    "Sequential Teal (6)" = cpal_colors("teal_seq_6"),
+    "Yellow-Teal (4)" = cpal_colors("yellow_teal_seq_4"),
+    "Yellow-Teal (5)" = cpal_colors("yellow_teal_seq_5"),
+    "Yellow-Teal (6)" = cpal_colors("yellow_teal_seq_6"),
+    "Pink-Teal Div (3)" = cpal_colors("pink_teal_3"),
+    "Pink-Teal Div (5)" = cpal_colors("pink_teal_5"),
+    "Pink-Teal Div (6)" = cpal_colors("pink_teal_6"),
+    "Categorical Main" = cpal_colors("main"),
+    "Categorical + Gray" = cpal_colors("main_gray"),
+    "Blues Only" = cpal_colors("blues"),
+    "Compare (Gray/Teal)" = cpal_colors("compare"),
+    "Main (3 colors)" = cpal_colors("main_3"),
+    "Main (4 colors)" = cpal_colors("main_4")
+  )
+
+  # Set up grid
+  n_palettes <- length(all_palettes)
+  n_cols <- 3
+  n_rows <- ceiling(n_palettes / n_cols)
+
+  par(mfrow = c(n_rows, n_cols), mar = c(3, 0.5, 3, 0.5), oma = c(0, 0, 3, 0))
+
+  # Plot each palette
+  for (i in 1:n_palettes) {
+    colors <- all_palettes[[i]]
+    name <- names(all_palettes)[i]
+    n <- length(colors)
+
+    # Create the plot
+    plot(1:n, rep(1, n), type = "n", xlim = c(0.5, n + 0.5), ylim = c(0, 2),
+         axes = FALSE, xlab = "", ylab = "", main = name, cex.main = 1)
+
+    # Draw color squares
+    for (j in 1:n) {
+      rect(j - 0.4, 0.5, j + 0.4, 1.5, col = colors[j], border = "white", lwd = 2)
+      # Add hex code below
+      text(j, 0.2, colors[j], cex = 0.6, srt = 45, adj = 1)
+    }
+  }
+
+  # Add any empty plots if needed
+  if (n_palettes < n_rows * n_cols) {
+    for (i in (n_palettes + 1):(n_rows * n_cols)) {
+      plot.new()
+    }
+  }
+
+  # Overall title
+  mtext("CPAL Color Palettes - Complete Reference", outer = TRUE, cex = 1.5, font = 2, line = 1)
+}

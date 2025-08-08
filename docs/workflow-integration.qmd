@@ -1,0 +1,1788 @@
+---
+title: "Workflow Integration"
+subtitle: "Complete end-to-end workflows using all cpaltemplates functions together"
+---
+
+## Why Integrated Workflows Matter
+
+**Individual functions are powerful, but the real magic happens when you combine them into complete workflows.** This section shows how to use multiple cpaltemplates functions together to create professional, efficient, and reproducible data analysis workflows that reflect CPAL's standards and best practices.
+
+### **The Power of Integration**
+
+| **Isolated Function Use** | **Integrated Workflow** |
+|---------------------------|------------------------|
+| Use `theme_cpal()` for one plot | Consistent theming across entire analysis |
+| Create single interactive visualization | Coordinated interactive dashboard with multiple elements |
+| Generate one report manually | Automated pipeline from data to multiple outputs |
+| Apply CPAL colors to individual charts | Complete brand consistency across all deliverables |
+| Set up project structure once | Reproducible project templates for team standardization |
+
+### **Complete Workflow Benefits**
+
+- **Consistency**: Every output matches CPAL standards automatically
+- **Efficiency**: Automated processes reduce manual work and errors
+- **Reproducibility**: Clear workflows can be repeated and shared
+- **Scalability**: Workflows work for simple analyses and complex multi-output projects
+- **Professionalism**: Integrated approach produces publication-ready results
+
+## Workflow Categories
+
+This section presents **5 complete workflow types** commonly used by CPAL data teams:
+
+| **Workflow Type** | **Best For** | **Functions Used** | **Outputs** |
+|-------------------|--------------|-------------------|-------------|
+| **Standard Analysis** | Exploratory analysis, research projects | Colors, themes, plots, project setup | Analysis scripts, visualizations, summary report |
+| **Executive Reporting** | Stakeholder communications, board presentations | All visualization functions + reporting + interactivity | Professional reports, slides, interactive dashboards |
+| **Ongoing Monitoring** | Program evaluation, KPI tracking | Project setup, interactive features, automation | Live dashboards, automated reports, alert systems |
+| **Research Publication** | Academic papers, policy briefs, external reports | All functions with emphasis on accessibility and reproducibility | Multi-format publications, supporting materials |
+| **Team Collaboration** | Multi-person projects, knowledge sharing | Project setup, version control, standardized templates | Shared projects, documentation sites, collaborative tools |
+
+## Workflow 1: Standard Analysis Project
+
+**Scenario:** You need to analyze quarterly program data, create visualizations, and produce a summary report for internal use.
+
+### **Step 1: Project Setup with Modern Workflows**
+
+```{r}
+library(cpaltemplates)
+
+# Create analysis project with best practices built-in
+start_project(
+  name = "q4-program-analysis",
+  project_type = "analysis",
+  features = c("renv", "git", "targets"),
+  interactive = TRUE  # Get guidance through setup
+)
+
+# Project automatically opens in RStudio with:
+# - Folder structure optimized for analysis
+# - Git repository initialized
+# - renv for package management
+# - targets for workflow automation
+# - CPAL assets and branding included
+```
+
+### **Step 2: Data Analysis with CPAL Standards**
+
+```{r}
+# File: R/analysis.R (created by template)
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+
+# Set up fonts for consistent typography
+setup_cpal_google_fonts()
+
+# Set CPAL theme as default for all plots
+set_theme_cpal("default", base_size = 14)
+
+# Load and prepare data
+program_data <- read.csv("data/raw/q4_program_data.csv") %>%
+  clean_and_prepare()  # Your data cleaning function
+
+# Create analysis visualizations with consistent CPAL styling
+performance_plot <- program_data %>%
+  ggplot(aes(x = program_type, y = outcomes_achieved, fill = program_type)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_cpal(palette = "main") +
+  labs(
+    title = "Q4 Program Performance",
+    subtitle = "Outcomes achieved by program type",
+    x = "Program Type",
+    y = "Outcomes Achieved",
+    caption = "Data: CPAL Program Evaluation System"
+  )
+
+# Save with CPAL standards
+save_cpal_plot(performance_plot, "figures/q4_performance.png", size = "default")
+
+# Create trend analysis
+trend_plot <- program_data %>%
+  ggplot(aes(x = month, y = participation, color = region)) +
+  geom_line(size = 1.2) +
+  scale_color_cpal(palette = "main") +
+  labs(
+    title = "Participation Trends by Region",
+    subtitle = "Monthly participation over Q4 2024",
+    x = "Month",
+    y = "Total Participation",
+    color = "Region"
+  )
+
+save_cpal_plot(trend_plot, "figures/participation_trends.png", size = "default")
+
+# Check accessibility of all plots
+check_plot_accessibility(performance_plot, verbose = TRUE)
+check_plot_accessibility(trend_plot, verbose = TRUE)
+```
+
+### **Step 3: Add Professional Reporting**
+
+```{r}
+# Add Quarto reporting capability to existing project
+use_quarto_report()
+
+# This adds:
+# - report.qmd with CPAL branding
+# - _quarto.yml configured for professional output
+# - CPAL CSS and assets
+# - Proper folder structure for reports
+```
+
+Edit the generated `report.qmd`:
+
+````{markdown}
+---
+title: "Q4 Program Analysis"
+subtitle: "Performance outcomes and participation trends"
+author: "CPAL Data Team"
+date: today
+format:
+  html:
+    theme: [default, assets/css/cpal.css]
+    toc: true
+  pdf:
+    documentclass: report
+    keep-tex: true
+---
+
+```{r setup, include=FALSE}
+library(cpaltemplates)
+library(ggplot2)
+library(knitr)
+
+setup_cpal_google_fonts()
+set_theme_cpal()
+
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  fig.width = 8,
+  fig.height = 6
+)
+```
+
+## Executive Summary
+
+Our Q4 analysis shows strong program performance with {{r}} total outcomes achieved across all program types.
+
+## Performance Analysis
+
+```{r performance-chart}
+# Load saved analysis results
+performance_plot
+```
+
+## Participation Trends  
+
+```{r trends-chart}
+trend_plot  
+```
+
+## Key Findings
+
+1. **Strong Performance**: All program types exceeded baseline expectations
+2. **Regional Variation**: Participation trends varied by region with North region leading
+3. **Growth Trajectory**: Positive trends indicate successful program expansion
+
+## Recommendations
+
+Based on this analysis, we recommend...
+````
+
+### **Step 4: Workflow Automation with Targets**
+
+```{r}
+# File: _targets.R (created by use_targets())
+library(targets)
+library(tarchetypes)
+
+# Define the analysis pipeline
+list(
+  # Data loading and cleaning
+  tar_target(
+    raw_data,
+    read.csv("data/raw/q4_program_data.csv")
+  ),
+  
+  tar_target(
+    clean_data,
+    clean_and_prepare(raw_data)
+  ),
+  
+  # Create visualizations
+  tar_target(
+    performance_plot,
+    create_performance_plot(clean_data)
+  ),
+  
+  tar_target(
+    trend_plot,
+    create_trend_plot(clean_data)  
+  ),
+  
+  # Save plots with CPAL standards
+  tar_target(
+    saved_plots,
+    {
+      save_cpal_plot(performance_plot, "figures/q4_performance.png")
+      save_cpal_plot(trend_plot, "figures/participation_trends.png")
+      "plots saved"
+    }
+  ),
+  
+  # Render report
+  tar_quarto(report, "report.qmd")
+)
+
+# Run the entire pipeline
+targets::tar_make()
+```
+
+### **Step 5: Complete Analysis Workflow**
+
+```{r}
+# The integrated workflow now provides:
+
+# 1. Reproducible analysis that can be re-run with new data
+targets::tar_make()
+
+# 2. Consistent CPAL branding across all outputs
+# 3. Professional report generation
+quarto::quarto_render("report.qmd")
+
+# 4. Version control for team collaboration
+system("git add .")
+system("git commit -m 'Complete Q4 analysis with CPAL standards'")
+
+# 5. Package management for reproducibility  
+renv::snapshot()
+```
+
+**Result:** Professional analysis project with automated workflow, consistent branding, and reproducible outputs that can be shared with stakeholders or updated with new data.
+
+## Workflow 2: Executive Reporting & Presentations
+
+**Scenario:** Create comprehensive deliverables for board meeting including report, slides, and interactive dashboard.
+
+### **Step 1: Multi-Output Project Setup**
+
+```{r}
+# Create report-focused project
+start_project(
+  name = "board-presentation-2024",
+  project_type = "quarto-report",
+  features = c("renv", "git", "github")  # Include GitHub for sharing
+)
+
+# Add additional capabilities to the report project
+use_quarto_slides(filename = "board-presentation.qmd")
+use_shiny_dashboard()
+```
+
+### **Step 2: Coordinated Visual System**
+
+```{r}
+# File: R/shared_visualizations.R
+library(cpaltemplates)
+
+# Set up consistent visual system
+setup_cpal_google_fonts()
+
+# Define shared color scheme for all outputs
+board_colors <- list(
+  primary = cpal_colors("midnight"),
+  secondary = cpal_colors("teal"), 
+  accent = cpal_colors("gold"),
+  highlight = cpal_colors("pink")
+)
+
+# Shared theme settings for consistency
+board_theme_settings <- list(
+  base_size = 14,      # For reports
+  slide_size = 18,     # For presentations  
+  dashboard_size = 12  # For dashboard
+)
+
+# Create reusable plotting functions
+create_kpi_chart <- function(data, title) {
+  ggplot(data, aes(x = metric, y = value, fill = metric)) +
+    geom_col(show.legend = FALSE) +
+    scale_fill_cpal(palette = "main") +
+    theme_cpal(base_size = board_theme_settings$base_size) +
+    labs(title = title, x = "", y = "Value") +
+    coord_flip()
+}
+
+create_trend_chart <- function(data, title) {
+  ggplot(data, aes(x = date, y = value, color = category)) +
+    geom_line(size = 1.5) +
+    scale_color_cpal(palette = "main") +
+    theme_cpal(base_size = board_theme_settings$base_size) +
+    labs(title = title, x = "Date", y = "Value", color = "Category")
+}
+```
+
+### **Step 3: Executive Report Creation**
+
+````{markdown}
+---
+title: "Executive Summary: 2024 Impact Report"
+subtitle: "Key performance indicators and strategic recommendations"
+author: "CPAL Data Team"
+date: "December 2024"
+format:
+  html:
+    theme: [default, assets/css/cpal.css]
+    toc: true
+    number-sections: true
+  pdf:
+    documentclass: report
+    geometry: margin=1in
+    keep-tex: true
+execute:
+  echo: false
+  warning: false
+---
+
+```{r setup}
+library(cpaltemplates)
+source("R/shared_visualizations.R")
+
+# Load executive summary data
+exec_data <- readRDS("data/processed/executive_summary.rds")
+```
+
+## Key Performance Indicators
+
+```{r kpi-dashboard}
+kpi_chart <- create_kpi_chart(exec_data$kpis, "2024 Key Performance Indicators")
+kpi_chart |> add_cpal_logo(position = "top-right", size = 0.08)
+```
+
+Our organization achieved significant milestones in 2024, with **{{r}} total beneficiaries served** and **{{r}} improvement in key outcomes**.
+
+## Financial Performance
+
+```{r financial-table}
+cpal_table_gt(
+  exec_data$financial,
+  title = "Financial Performance Summary",
+  subtitle = "Revenue, expenses, and efficiency metrics",
+  highlight_columns = c("net_impact", "efficiency_ratio"),
+  theme = "light"
+) %>%
+  fmt_currency(columns = c(revenue, expenses, net_impact)) %>%
+  fmt_percent(columns = efficiency_ratio, decimals = 1)
+```
+
+## Strategic Recommendations
+
+Based on our 2024 performance analysis, we recommend three strategic priorities for 2025...
+````
+
+### **Step 4: Board Presentation Slides**
+
+````{markdown}
+---
+title: "2024 Impact & 2025 Strategy"
+subtitle: "Board of Directors Presentation"
+author: "CPAL Leadership Team"
+date: "December 2024"
+format:
+  revealjs:
+    theme: [default, assets/css/cpal-slides.css]
+    logo: assets/images/cpal-logo.png
+    slide-number: true
+    chalkboard: true
+execute:
+  echo: false
+---
+
+```{r setup}
+library(cpaltemplates)
+source("R/shared_visualizations.R")
+
+# Use larger fonts for presentation
+set_theme_cpal("default", base_size = board_theme_settings$slide_size)
+```
+
+## 2024 Achievement Highlights
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{r impact-metrics}
+impact_chart <- create_kpi_chart(exec_data$impact, "Impact Achieved")
+impact_chart
+```
+:::
+
+::: {.column width="50%"}
+### Key Accomplishments
+
+- **150% increase** in beneficiaries served
+- **$2.3M raised** in new funding  
+- **85% program effectiveness** rating
+- **12 new partnerships** established
+:::
+
+::::
+
+## Financial Stewardship
+
+```{r financial-trends}
+financial_trend <- create_trend_chart(
+  exec_data$financial_trends,
+  "Revenue Growth & Efficiency Trends"
+)
+financial_trend |> add_cpal_logo(position = "bottom-right", size = 0.10)
+```
+
+## 2025 Strategic Priorities
+
+1. **Expand Impact**: Scale successful programs to new regions
+2. **Innovation**: Develop new intervention models
+3. **Sustainability**: Diversify funding sources
+````
+
+### **Step 5: Interactive Executive Dashboard**
+
+```{r}
+# File: app.R (created by use_shiny_dashboard())
+library(shiny)
+library(shinydashboard)
+library(cpaltemplates)
+library(plotly)
+
+# Load shared functions and data
+source("R/shared_visualizations.R")
+exec_data <- readRDS("data/processed/executive_summary.rds")
+
+ui <- dashboardPage(
+  dashboardHeader(title = "CPAL Executive Dashboard"),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Overview", tabName = "overview", icon = icon("chart-line")),
+      menuItem("Financial", tabName = "financial", icon = icon("dollar-sign")),
+      menuItem("Programs", tabName = "programs", icon = icon("users"))
+    )
+  ),
+  
+  dashboardBody(
+    # Apply CPAL theme
+    tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "cpal-theme.css")),
+    
+    tabItems(
+      tabItem(
+        tabName = "overview",
+        fluidRow(
+          # KPI Boxes
+          valueBoxOutput("total_beneficiaries"),
+          valueBoxOutput("total_impact"),
+          valueBoxOutput("efficiency_rating")
+        ),
+        fluidRow(
+          box(
+            title = "Performance Trends", status = "primary", solidHeader = TRUE,
+            width = 8,
+            cpal_interactive(create_trend_chart(exec_data$trends, "Key Metrics Over Time"))
+          ),
+          box(
+            title = "Program Distribution", status = "primary", solidHeader = TRUE,
+            width = 4,
+            cpal_table_interactive(exec_data$program_summary)
+          )
+        )
+      ),
+      
+      tabItem(
+        tabName = "financial",
+        fluidRow(
+          box(
+            title = "Financial Performance", status = "primary", solidHeader = TRUE,
+            width = 12,
+            cpal_table_gt(
+              exec_data$financial_detail,
+              title = "Detailed Financial Analysis",
+              highlight_columns = c("variance", "efficiency"),
+              theme = "light"
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+server <- function(input, output) {
+  # Color-coordinated value boxes using CPAL colors
+  output$total_beneficiaries <- renderValueBox({
+    valueBox(
+      value = format(sum(exec_data$beneficiaries), big.mark = ","),
+      subtitle = "Total Beneficiaries",
+      icon = icon("users"),
+      color = "blue"  # Maps to CPAL teal
+    )
+  })
+  
+  output$total_impact <- renderValueBox({
+    valueBox(
+      value = scales::dollar(sum(exec_data$impact_value)),
+      subtitle = "Impact Value",
+      icon = icon("chart-line"),
+      color = "green"  # Maps to CPAL colors
+    )
+  })
+  
+  output$efficiency_rating <- renderValueBox({
+    valueBox(
+      value = paste0(round(mean(exec_data$efficiency) * 100), "%"),
+      subtitle = "Efficiency Rating", 
+      icon = icon("star"),
+      color = "yellow"  # Maps to CPAL gold
+    )
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+### **Step 6: Coordinated Deployment**
+
+```{r}
+# Render all deliverables with consistent branding
+render_all_deliverables <- function() {
+  # Render executive report
+  quarto::quarto_render("executive-report.qmd")
+  
+  # Render presentation slides  
+  quarto::quarto_render("board-presentation.qmd")
+  
+  # Test dashboard locally
+  shiny::runApp()
+  
+  # Deploy dashboard to production
+  # rsconnect::deployApp()
+}
+
+# Execute coordinated deployment
+render_all_deliverables()
+```
+
+**Result:** Complete executive communication package with consistent CPAL branding, professional quality, and multiple formats for different stakeholder needs.
+
+## Workflow 3: Ongoing Program Monitoring
+
+**Scenario:** Set up continuous monitoring system for program evaluation with automated reporting and alert systems.
+
+### **Step 1: Monitoring Project Architecture**
+
+```{r}
+# Create monitoring project with automation features
+start_project(
+  name = "program-monitoring-system", 
+  project_type = "shiny-dashboard",
+  features = c("renv", "git", "targets")
+)
+
+# Add reporting capability for automated reports
+use_quarto_report()
+
+# Set up targets for data pipeline automation
+use_targets(type = "report")
+```
+
+### **Step 2: Automated Data Pipeline**
+
+```{r}
+# File: _targets.R
+library(targets)
+library(tarchetypes)
+
+tar_option_set(packages = c("cpaltemplates", "dplyr", "ggplot2"))
+
+list(
+  # Data ingestion (runs daily)
+  tar_target(
+    raw_program_data,
+    fetch_program_data(date = Sys.Date()),  # Your data fetching function
+    cue = tar_cue(mode = "always")  # Always check for new data
+  ),
+  
+  # Data processing
+  tar_target(
+    processed_data,
+    process_monitoring_data(raw_program_data)
+  ),
+  
+  # Alert system - check for issues
+  tar_target(
+    data_alerts,
+    check_data_quality_alerts(processed_data)
+  ),
+  
+  # Create monitoring visualizations
+  tar_target(
+    performance_dashboard_data,
+    create_dashboard_datasets(processed_data)
+  ),
+  
+  # Generate automated weekly report
+  tar_quarto(
+    weekly_report,
+    "reports/weekly-monitoring-report.qmd"
+  ),
+  
+  # Update dashboard data
+  tar_target(
+    dashboard_update,
+    update_dashboard_data(performance_dashboard_data)
+  )
+)
+```
+
+### **Step 3: Real-Time Monitoring Dashboard**
+
+```{r}
+# File: app.R - Live monitoring dashboard
+library(shiny)
+library(shinydashboard)  
+library(cpaltemplates)
+library(DT)
+library(plotly)
+
+# Setup CPAL styling
+setup_cpal_google_fonts()
+
+ui <- dashboardPage(
+  dashboardHeader(title = "CPAL Program Monitoring"),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem("Real-Time Overview", tabName = "overview"),
+      menuItem("Program Performance", tabName = "programs"),
+      menuItem("Alert System", tabName = "alerts"),
+      menuItem("Historical Trends", tabName = "trends")
+    )
+  ),
+  
+  dashboardBody(
+    tags$head(tags$link(rel = "stylesheet", type = "text/css", href = "cpal-theme.css")),
+    
+    tabItems(
+      tabItem(
+        tabName = "overview",
+        
+        # Real-time status indicators
+        fluidRow(
+          valueBoxOutput("current_participants"),
+          valueBoxOutput("programs_active"), 
+          valueBoxOutput("alert_count")
+        ),
+        
+        # Live performance charts
+        fluidRow(
+          box(
+            title = "Today's Activity", status = "primary", solidHeader = TRUE,
+            width = 8,
+            plotlyOutput("real_time_activity")
+          ),
+          
+          box(
+            title = "System Status", status = "success", solidHeader = TRUE,
+            width = 4,
+            cpal_table_interactive(
+              data.frame(
+                System = c("Data Feed", "Dashboard", "Alerts"),
+                Status = c("✓ Online", "✓ Online", "✓ Active"),
+                Last_Update = c("2 min ago", "Just now", "5 min ago")
+              ),
+              defaultPageSize = 5
+            )
+          )
+        )
+      ),
+      
+      tabItem(
+        tabName = "programs",
+        fluidRow(
+          box(
+            title = "Program Performance Matrix", 
+            status = "primary", 
+            solidHeader = TRUE,
+            width = 12,
+            cpal_table_reactable(
+              get_program_performance_data(),
+              title = "Live Program Performance Dashboard",
+              filterable = TRUE,
+              searchable = TRUE,
+              highlight_columns = c("participation_rate", "outcome_score"),
+              data_bar_columns = c("progress_percent"),
+              defaultPageSize = 15
+            )
+          )
+        )
+      ),
+      
+      tabItem(
+        tabName = "alerts",
+        fluidRow(
+          box(
+            title = "Active Alerts", status = "warning", solidHeader = TRUE,
+            width = 12,
+            DT::dataTableOutput("alerts_table")
+          )
+        )
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  # Reactive data that updates every 5 minutes
+  monitoring_data <- reactiveFileReader(
+    intervalMillis = 300000,  # 5 minutes
+    session = session,
+    filePath = "data/current_monitoring.rds",
+    readFunc = readRDS
+  )
+  
+  # Real-time value boxes
+  output$current_participants <- renderValueBox({
+    data <- monitoring_data()
+    valueBox(
+      value = format(sum(data$current_participants), big.mark = ","),
+      subtitle = "Active Participants",
+      icon = icon("users"),
+      color = "blue"
+    )
+  })
+  
+  output$programs_active <- renderValueBox({
+    data <- monitoring_data()
+    valueBox(
+      value = sum(data$programs_active),
+      subtitle = "Programs Running",
+      icon = icon("play-circle"),
+      color = "green"
+    )
+  })
+  
+  output$alert_count <- renderValueBox({
+    data <- monitoring_data()
+    alert_count <- sum(data$alerts_active)
+    valueBox(
+      value = alert_count,
+      subtitle = "Active Alerts",
+      icon = icon("exclamation-triangle"),
+      color = if(alert_count > 0) "red" else "green"
+    )
+  })
+  
+  # Interactive real-time chart
+  output$real_time_activity <- renderPlotly({
+    data <- monitoring_data()
+    
+    p <- ggplot(data$hourly_activity, aes(x = hour, y = activity, fill = program_type)) +
+      geom_col() +
+      scale_fill_cpal(palette = "main") +
+      theme_cpal_minimal(base_size = 12) +
+      labs(
+        title = "Hourly Program Activity", 
+        x = "Hour of Day",
+        y = "Activity Level",
+        fill = "Program Type"
+      )
+    
+    ggplotly(p, tooltip = c("x", "y", "fill")) %>%
+      config(displayModeBar = FALSE)  # Clean interface
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+### **Step 4: Automated Reporting System**
+
+````{markdown}
+---
+title: "Weekly Program Monitoring Report"
+subtitle: "Automated performance summary and alert analysis"
+author: "CPAL Monitoring System"
+date: today
+format:
+  html:
+    theme: [default, assets/css/cpal.css]
+  pdf:
+    keep-tex: true
+params:
+  week_ending: !r Sys.Date()
+  alert_threshold: 3
+---
+
+```{r setup}
+library(cpaltemplates)
+library(dplyr)
+library(gt)
+
+setup_cpal_google_fonts()
+set_theme_cpal()
+
+# Load monitoring data
+week_data <- readRDS("data/processed/weekly_summary.rds")
+alerts_data <- readRDS("data/processed/weekly_alerts.rds")
+```
+
+## Executive Summary
+
+This automated report covers program monitoring for the week ending {{< meta params.week_ending >}}.
+
+```{r summary-metrics}
+# Automated summary statistics
+total_participants <- sum(week_data$participants)
+avg_performance <- mean(week_data$performance_score)
+alert_count <- nrow(alerts_data)
+```
+
+- **Total Participants**: {{r}} format(total_participants, big.mark = ",")}}
+- **Average Performance Score**: {{r}} round(avg_performance, 1)}}
+- **Alerts Generated**: {{r}} alert_count}}
+
+## Performance Dashboard
+
+```{r performance-overview}
+performance_chart <- week_data %>%
+  ggplot(aes(x = program, y = performance_score, fill = program)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_cpal(palette = "main") +
+  coord_flip() +
+  labs(
+    title = "Weekly Performance by Program",
+    x = "Program",
+    y = "Performance Score"
+  )
+
+performance_chart |> add_cpal_logo(position = "top-right")
+```
+
+## Alert Summary
+
+```{r alerts-table}
+if (nrow(alerts_data) > 0) {
+  cpal_table_gt(
+    alerts_data,
+    title = "Active Alerts This Week",
+    subtitle = paste("Total alerts:", nrow(alerts_data)),
+    highlight_columns = c("severity", "status"),
+    bold_rows = "high_priority"
+  )
+} else {
+  cat("✅ No alerts generated this week - all systems operating normally.")
+}
+```
+
+---
+*This report was generated automatically by the CPAL monitoring system on {{r}} Sys.time()}}.*
+````
+
+### **Step 5: Automated Workflow Execution**
+
+```{r}
+# File: R/automated_monitoring.R
+# This script runs daily via cron job or task scheduler
+
+run_daily_monitoring <- function() {
+  library(cpaltemplates)
+  library(targets)
+  
+  # Run data pipeline
+  cat("Starting daily monitoring pipeline...\n")
+  tar_make()
+  
+  # Check for critical alerts
+  alerts <- readRDS("data/processed/current_alerts.rds")
+  critical_alerts <- alerts[alerts$severity == "Critical", ]
+  
+  if (nrow(critical_alerts) > 0) {
+    # Send alert notifications
+    send_alert_notifications(critical_alerts)
+    cat("CRITICAL ALERTS DETECTED - Notifications sent\n")
+  }
+  
+  # Update dashboard data
+  cat("Updating dashboard...\n")
+  update_dashboard_data()
+  
+  # Weekly report generation (Fridays only)
+  if (weekdays(Sys.Date()) == "Friday") {
+    cat("Generating weekly report...\n")
+    quarto::quarto_render("reports/weekly-monitoring-report.qmd")
+    
+    # Email weekly report to stakeholders
+    email_weekly_report()
+  }
+  
+  cat("Daily monitoring complete:", Sys.time(), "\n")
+}
+
+# Execute if running as script
+if (!interactive()) {
+  run_daily_monitoring()
+}
+```
+
+**Result:** Comprehensive monitoring system with real-time dashboard, automated alerts, and regular reporting that keeps stakeholders informed while minimizing manual effort.
+
+## Workflow 4: Research Publication Pipeline
+
+**Scenario:** Create reproducible research workflow for academic publication with multiple output formats and supporting materials.
+
+### **Step 1: Research Project Setup**
+
+```{r}
+# Create research project with comprehensive features
+start_project(
+  name = "education-impact-study-2024",
+  project_type = "quarto-report", 
+  features = c("renv", "git", "github", "targets", "tests")
+)
+
+# Add additional research capabilities
+use_quarto_web()  # For supplementary materials website
+use_targets(type = "analysis")  # For complex analysis pipeline
+```
+
+### **Step 2: Reproducible Analysis Pipeline**
+
+```{r}
+# File: _targets.R - Complete research pipeline
+library(targets)
+library(tarchetypes) 
+
+tar_option_set(
+  packages = c("cpaltemplates", "dplyr", "ggplot2", "broom", "here"),
+  format = "rds"
+)
+
+list(
+  # Data sources
+  tar_target(
+    survey_data,
+    read_survey_data("data/raw/education_survey_2024.csv")
+  ),
+  
+  tar_target(
+    administrative_data, 
+    read_admin_data("data/raw/school_records_2024.csv")
+  ),
+  
+  # Data preparation
+  tar_target(
+    merged_data,
+    merge_education_datasets(survey_data, administrative_data)
+  ),
+  
+  tar_target(
+    analysis_data,
+    prepare_analysis_dataset(merged_data)
+  ),
+  
+  # Statistical analysis
+  tar_target(
+    descriptive_stats,
+    generate_descriptive_statistics(analysis_data)
+  ),
+  
+  tar_target(
+    regression_models,
+    fit_impact_models(analysis_data)
+  ),
+  
+  tar_target(
+    robustness_checks,
+    perform_robustness_analysis(analysis_data, regression_models)
+  ),
+  
+  # Visualizations
+  tar_target(
+    figure_1_data_overview,
+    create_data_overview_plot(descriptive_stats)
+  ),
+  
+  tar_target(
+    figure_2_main_results,
+    create_main_results_plot(regression_models)
+  ),
+  
+  tar_target(
+    figure_3_robustness,
+    create_robustness_plot(robustness_checks)
+  ),
+  
+  # Tables  
+  tar_target(
+    table_1_descriptives,
+    create_descriptive_table(descriptive_stats)
+  ),
+  
+  tar_target(
+    table_2_main_results,
+    create_results_table(regression_models)
+  ),
+  
+  # Publication outputs
+  tar_quarto(main_paper, "paper.qmd"),
+  tar_quarto(appendix, "appendix.qmd"),
+  tar_quarto(policy_brief, "policy-brief.qmd"),
+  tar_quarto(website, c("index.qmd", "methods.qmd", "data.qmd"))
+)
+```
+
+### **Step 3: Main Research Paper**
+
+````{markdown}
+---
+title: "Educational Interventions and Student Outcomes: Evidence from Dallas"
+subtitle: "A quasi-experimental evaluation of CPAL programming"
+author:
+  - name: "Research Team"
+    affiliation: "Child Poverty Action Lab"
+date: today
+format:
+  pdf:
+    documentclass: article
+    geometry: margin=1in
+    linestretch: 1.5
+    fontsize: 12pt
+    keep-tex: true
+  html:
+    theme: [default, assets/css/cpal.css]
+    toc: true
+    number-sections: true
+bibliography: references.bib
+csl: chicago-author-date.csl
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+library(cpaltemplates)
+library(gt)
+library(here)
+
+# Setup for publication-quality outputs
+setup_cpal_google_fonts()
+set_theme_cpal("classic", base_size = 12)  # Academic style
+
+# Load analysis results
+descriptive_stats <- readRDS(here("outputs", "descriptive_stats.rds"))
+regression_models <- readRDS(here("outputs", "regression_models.rds"))
+```
+
+## Abstract
+
+This study evaluates the impact of educational interventions implemented by the Child Poverty Action Lab (CPAL) on student academic outcomes in Dallas-area schools...
+
+## Introduction
+
+Educational inequality remains a persistent challenge in American cities [@citation2024]. This study contributes to the literature by...
+
+## Data and Methods
+
+### Data Sources
+
+Our analysis draws on two primary data sources: (1) student survey data collected during the 2023-2024 academic year, and (2) administrative records from participating school districts.
+
+```{r descriptive-table}
+#| label: tbl-descriptives
+#| tbl-cap: "Descriptive Statistics"
+
+cpal_table_gt(
+  descriptive_stats$summary_table,
+  title = "Sample Descriptive Statistics",
+  subtitle = "Student characteristics by treatment status",
+  source = "CPAL Education Study 2024",
+  theme = "light"
+) %>%
+  fmt_number(columns = c(mean, sd), decimals = 2) %>%
+  fmt_number(columns = n, decimals = 0) %>%
+  tab_footnote(
+    footnote = "Standard deviations in parentheses",
+    locations = cells_column_labels("sd")
+  )
+```
+
+### Analytical Approach
+
+We employ a quasi-experimental design using propensity score matching to identify the causal impact of CPAL programming...
+
+## Results
+
+### Main Findings
+
+Our primary analysis reveals significant positive effects of CPAL programming on student outcomes.
+
+```{r main-results-figure}
+#| label: fig-main-results  
+#| fig-cap: "Treatment Effects on Student Outcomes"
+#| fig-width: 8
+#| fig-height: 6
+
+main_results_plot <- regression_models$coefficients %>%
+  ggplot(aes(x = outcome, y = coefficient, 
+             ymin = conf_low, ymax = conf_high)) +
+  geom_pointrange(color = cpal_colors("midnight"), size = 1) +
+  geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.7) +
+  coord_flip() +
+  labs(
+    title = "Estimated Treatment Effects",
+    subtitle = "95% confidence intervals shown",
+    x = "Outcome Measure",
+    y = "Effect Size (Standard Deviations)",
+    caption = "Note: Estimates from propensity score matched sample"
+  )
+
+# Check accessibility before including
+check_plot_accessibility(main_results_plot)
+
+main_results_plot
+```
+
+@tbl-main-results presents the complete regression results with standard errors and significance tests.
+
+```{r main-results-table}
+#| label: tbl-main-results
+#| tbl-cap: "Regression Results: Treatment Effects on Student Outcomes"
+
+cpal_table_gt(
+  regression_models$results_table,
+  title = "Main Regression Results",
+  subtitle = "Dependent variables: Student outcome measures",
+  source = "Author calculations from CPAL Education Study 2024",
+  highlight_columns = c("coefficient", "p_value"),
+  theme = "light"
+) %>%
+  fmt_number(columns = c(coefficient, se), decimals = 3) %>%
+  fmt_number(columns = p_value, decimals = 4) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(
+      columns = coefficient,
+      rows = p_value < 0.05
+    )
+  )
+```
+
+## Discussion and Policy Implications
+
+Our findings suggest that CPAL's educational interventions produce meaningful improvements in student outcomes...
+
+## References
+
+::: {#refs}
+:::
+
+---
+
+*This research was conducted by the Child Poverty Action Lab. All analysis code and materials are available at: https://github.com/cpal-org/education-impact-study-2024*
+````
+
+### **Step 4: Policy Brief and Public Communication**
+
+````{markdown}
+---
+title: "CPAL Education Programs Show Strong Results"
+subtitle: "New research demonstrates significant student outcome improvements"
+author: "CPAL Research Team"
+date: today
+format:
+  html:
+    theme: [default, assets/css/cpal.css]
+    toc: false
+  pdf:
+    geometry: margin=0.75in
+    keep-tex: true
+execute:
+  echo: false
+  warning: false
+---
+
+```{r setup}
+library(cpaltemplates)
+setup_cpal_google_fonts()
+set_theme_cpal("minimal", base_size = 14)  # Clean, accessible design
+```
+
+## Key Findings
+
+:::: {.columns}
+
+::: {.column width="30%"}
+![](assets/images/cpal-logo.png){width="200px"}
+:::
+
+::: {.column width="70%"}
+**CPAL's educational interventions produced significant improvements in student outcomes across multiple measures, with particularly strong effects for students from low-income families.**
+:::
+
+::::
+
+## What We Studied
+
+We evaluated CPAL's education programming implemented in Dallas-area schools during 2023-2024, analyzing outcomes for over 1,200 students using rigorous quasi-experimental methods.
+
+```{r impact-visualization}
+impact_summary <- data.frame(
+  outcome = c("Reading Scores", "Math Achievement", "School Engagement", "Attendance"),
+  improvement = c(0.34, 0.28, 0.45, 0.22),
+  category = c("Academic", "Academic", "Social-Emotional", "Behavioral")
+)
+
+impact_plot <- impact_summary %>%
+  ggplot(aes(x = reorder(outcome, improvement), y = improvement, fill = category)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_cpal(palette = "main") +
+  coord_flip() +
+  labs(
+    title = "CPAL Program Impact on Student Outcomes",
+    subtitle = "Effect sizes (standard deviations)",
+    x = "",
+    y = "Improvement",
+    caption = "All effects statistically significant at p < 0.05"
+  ) +
+  theme(axis.text.y = element_text(size = 12))
+
+impact_plot |> add_cpal_logo(position = "bottom-right", size = 0.06)
+```
+
+## Why This Matters
+
+- **Proven effectiveness**: Rigorous research confirms CPAL programming works
+- **Significant impacts**: Effect sizes comparable to best educational interventions
+- **Equity focus**: Largest benefits for students facing greatest challenges
+- **Scalable approach**: Methods can be expanded to serve more students
+
+## What's Next
+
+Based on these results, CPAL is expanding programming to additional schools and refining intervention models for maximum impact.
+
+---
+
+**Learn More**: Full research paper and technical details available at [research.childpovertyactionlab.org](https://research.childpovertyactionlab.org)
+````
+
+### **Step 5: Supplementary Materials Website**
+
+````{markdown}
+# File: index.qmd (website homepage)
+---
+title: "Education Impact Study 2024"
+subtitle: "Supplementary Materials and Data"
+---
+
+## Study Overview
+
+This website provides supplementary materials for "Educational Interventions and Student Outcomes: Evidence from Dallas" (CPAL, 2024).
+
+## Available Materials
+
+- [Complete Dataset](data.html) - De-identified analysis data
+- [Methods Documentation](methods.html) - Detailed methodology  
+- [Analysis Code](https://github.com/cpal-org/education-impact-study-2024) - Complete R code
+- [Policy Brief](policy-brief.pdf) - Summary for practitioners
+
+## Reproducibility
+
+All analyses can be reproduced using the provided code and data:
+
+```{r}
+# Clone repository
+git clone https://github.com/cpal-org/education-impact-study-2024
+
+# Run complete analysis pipeline  
+targets::tar_make()
+```
+
+## Contact
+
+For questions about this research, contact: [research@childpovertyactionlab.org](mailto:research@childpovertyactionlab.org)
+```
+
+**Result:** Complete research publication pipeline with reproducible analysis, multiple output formats, public communication materials, and transparent methodology sharing.
+
+## Workflow 5: Team Collaboration & Knowledge Sharing
+
+**Scenario:** Establish standardized workflows and knowledge sharing systems for multi-person data team collaboration.
+
+### **Step 1: Team Standardization Framework**
+
+```{r}
+# File: R/team_standards.R
+# Shared standards for all CPAL data team projects
+
+#' CPAL Standard Project Setup
+#' Creates projects with team-wide consistency
+#' 
+#' @param name Project name following CPAL conventions
+#' @param type Project type
+#' @param lead_analyst Name of lead analyst
+create_cpal_standard_project <- function(name, type = "analysis", lead_analyst = NULL) {
+  
+  # Standard features for all team projects
+  standard_features <- c("renv", "git", "github")
+  
+  # Add targets for complex projects
+  if (type %in% c("analysis", "report")) {
+    standard_features <- c(standard_features, "targets")
+  }
+  
+  start_project(
+    name = name,
+    project_type = type,
+    features = standard_features,
+    interactive = FALSE  # Consistent setup without prompts
+  )
+  
+  # Add team documentation template
+  create_team_readme(name, type, lead_analyst)
+  
+  # Set up standard folder structure
+  create_team_folders()
+  
+  invisible(here::here())
+}
+
+#' Create Team README Template
+create_team_readme <- function(name, type, lead_analyst) {
+  readme_content <- paste0("# ", name, "\n\n",
+    "**Project Type**: ", type, "\n",
+    "**Lead Analyst**: ", lead_analyst %||% "TBD", "\n",
+    "**Created**: ", Sys.Date(), "\n\n",
+    "## Team Standards\n\n",
+    "This project follows CPAL data team standards:\n\n",
+    "- Use cpaltemplates for all visualizations\n",
+    "- Follow naming conventions in `R/00_conventions.R`\n", 
+    "- Document all functions with roxygen2\n",
+    "- Use targets for workflow automation\n",
+    "- Test accessibility with `check_plot_accessibility()`\n\n",
+    "## Getting Started\n\n",
+    "```{r}\n",
+    "# Setup\n",
+    "renv::restore()\n",
+    "cpaltemplates::setup_cpal_google_fonts()\n\n",
+    "# Run analysis\n",
+    "targets::tar_make()\n",
+    "```\n"
+  )
+  
+  writeLines(readme_content, "README.md")
+}
+
+# Standard team folder structure
+create_team_folders <- function() {
+  folders <- c(
+    "R/functions",           # Reusable functions
+    "R/analysis",           # Analysis scripts
+    "data/raw",             # Original data
+    "data/processed",       # Cleaned data  
+    "outputs/reports",      # Generated reports
+    "outputs/figures",      # Publication-ready figures
+    "outputs/tables",       # Formatted tables
+    "documentation",        # Project documentation
+    "meetings"              # Meeting notes and decisions
+  )
+  
+  purrr::walk(folders, fs::dir_create)
+}
+```
+
+### **Step 2: Shared Analysis Functions Library**
+
+```{r}
+# File: R/functions/shared_cpal_functions.R
+# Library of reusable functions for CPAL data team
+
+#' Create Standard CPAL Performance Chart
+#' 
+#' @param data Data frame with performance metrics
+#' @param x_var Column name for x-axis
+#' @param y_var Column name for y-axis  
+#' @param group_var Column name for grouping (optional)
+#' @param title Chart title
+#' @return ggplot object with CPAL styling
+cpal_performance_chart <- function(data, x_var, y_var, group_var = NULL, title) {
+  
+  p <- ggplot(data, aes_string(x = x_var, y = y_var))
+  
+  if (!is.null(group_var)) {
+    p <- p + 
+      geom_col(aes_string(fill = group_var), position = "dodge") +
+      scale_fill_cpal(palette = "main")
+  } else {
+    p <- p + 
+      geom_col(fill = cpal_colors("midnight"))
+  }
+  
+  p + 
+    theme_cpal() +
+    labs(title = title, caption = "Source: CPAL Data Team") +
+    add_cpal_logo(position = "top-right", size = 0.08)
+}
+
+#' Create Standard CPAL Trend Chart
+cpal_trend_chart <- function(data, x_var, y_var, group_var = NULL, title) {
+  
+  p <- ggplot(data, aes_string(x = x_var, y = y_var))
+  
+  if (!is.null(group_var)) {
+    p <- p + 
+      geom_line(aes_string(color = group_var), size = 1.2) +
+      scale_color_cpal(palette = "main")
+  } else {
+    p <- p + 
+      geom_line(color = cpal_colors("teal"), size = 1.2)
+  }
+  
+  p +
+    theme_cpal() +
+    labs(title = title, caption = "Source: CPAL Data Team")
+}
+
+#' Create Standard CPAL Table
+cpal_standard_table <- function(data, title, subtitle = NULL) {
+  cpal_table_gt(
+    data,
+    title = title,
+    subtitle = subtitle,
+    source = "CPAL Data Team Analysis",
+    theme = "light"
+  )
+}
+
+#' Team Quality Check Function
+#' Runs standard checks on analysis outputs
+team_quality_check <- function(plot_object) {
+  
+  cat("Running CPAL team quality checks...\n")
+  
+  # Accessibility check
+  accessibility_result <- check_plot_accessibility(plot_object, verbose = FALSE)
+  
+  # Brand consistency check
+  has_cpal_theme <- "theme_cpal" %in% class(plot_object$theme)
+  has_cpal_colors <- any(grepl("cpal", plot_object$scales))
+  
+  # Results summary
+  cat("✓ Accessibility check:", ifelse(accessibility_result$overall_pass, "PASS", "NEEDS REVIEW"), "\n")
+  cat("✓ CPAL theme:", ifelse(has_cpal_theme, "PASS", "MISSING"), "\n") 
+  cat("✓ CPAL colors:", ifelse(has_cpal_colors, "PASS", "MISSING"), "\n")
+  
+  if (accessibility_result$overall_pass && has_cpal_theme && has_cpal_colors) {
+    cat("🎉 All quality checks passed!\n")
+  } else {
+    cat("⚠️  Some quality checks need attention.\n")
+  }
+  
+  invisible(list(
+    accessibility = accessibility_result,
+    theme = has_cpal_theme,
+    colors = has_cpal_colors
+  ))
+}
+```
+
+### **Step 3: Collaborative Project Template**
+
+```{r}
+# File: _targets.R - Team collaboration pipeline template
+library(targets)
+library(tarchetypes)
+
+# Team collaboration options
+tar_option_set(
+  packages = c("cpaltemplates", "dplyr", "ggplot2"),
+  format = "rds",
+  # Parallel processing for team efficiency
+  controller = crew::crew_controller_local(workers = 4)
+)
+
+list(
+  # Data preparation (Lead Analyst responsibility)
+  tar_target(
+    raw_data,
+    load_team_data(),
+    # Only lead analyst needs to run this
+    deployment = "main"
+  ),
+  
+  tar_target(
+    cleaned_data,
+    clean_team_data(raw_data),
+    deployment = "main"
+  ),
+  
+  # Analysis tasks (can be distributed across team members)
+  tar_target(
+    descriptive_analysis,
+    perform_descriptive_analysis(cleaned_data),
+    # Team member A
+    deployment = "analyst_a" 
+  ),
+  
+  tar_target(
+    regression_analysis, 
+    perform_regression_analysis(cleaned_data),
+    # Team member B
+    deployment = "analyst_b"
+  ),
+  
+  tar_target(
+    visualization_set_1,
+    create_descriptive_plots(descriptive_analysis),
+    deployment = "analyst_a"
+  ),
+  
+  tar_target(
+    visualization_set_2,
+    create_regression_plots(regression_analysis),
+    deployment = "analyst_b"
+  ),
+  
+  # Quality assurance (Senior analyst responsibility)
+  tar_target(
+    qa_results,
+    {
+      # Run quality checks on all outputs
+      qa_viz_1 <- team_quality_check(visualization_set_1)
+      qa_viz_2 <- team_quality_check(visualization_set_2)
+      
+      list(viz_1 = qa_viz_1, viz_2 = qa_viz_2)
+    },
+    deployment = "senior_analyst"
+  ),
+  
+  # Final outputs (Lead analyst integration)
+  tar_quarto(
+    team_report,
+    "reports/team-analysis-report.qmd",
+    deployment = "main"
+  ),
+  
+  tar_target(
+    team_dashboard_data,
+    prepare_dashboard_data(cleaned_data, descriptive_analysis, regression_analysis),
+    deployment = "main"
+  )
+)
+```
+
+### **Step 4: Team Knowledge Sharing Hub**
+
+```{r}
+# Create team documentation website
+create_team_knowledge_hub <- function() {
+  
+  # Create documentation project
+  start_project(
+    name = "cpal-data-team-hub",
+    project_type = "quarto-web",
+    features = c("git", "github")
+  )
+  
+  # Add team-specific content structure
+  team_content <- list(
+    "index.qmd" = create_hub_homepage(),
+    "standards.qmd" = create_standards_page(),
+    "resources.qmd" = create_resources_page(),
+    "examples.qmd" = create_examples_page(),
+    "troubleshooting.qmd" = create_troubleshooting_page()
+  )
+  
+  # Write content files
+  iwalk(team_content, ~ writeLines(.x, .y))
+  
+  # Configure for GitHub Pages deployment
+  configure_github_pages()
+}
+
+create_hub_homepage <- function() {
+  c(
+    "---",
+    "title: 'CPAL Data Team Hub'",
+    "subtitle: 'Standards, resources, and knowledge sharing'",
+    "---",
+    "",
+    "## Welcome to the CPAL Data Team Hub",
+    "",
+    "This site provides centralized access to:",
+    "",
+    "- **[Team Standards](standards.html)** - Coding conventions, quality guidelines",
+    "- **[Resources](resources.html)** - Templates, functions, datasets", 
+    "- **[Examples](examples.html)** - Complete workflow examples",
+    "- **[Troubleshooting](troubleshooting.html)** - Common issues and solutions",
+    "",
+    "## Quick Start",
+    "",
+    "```{r}",
+    "# Standard project setup",
+    "source('R/team_standards.R')",
+    "create_cpal_standard_project('my-analysis', lead_analyst = 'Your Name')",
+    "```",
+    "",
+    "## Recent Updates",
+    "",
+    "- Added new interactive dashboard templates",
+    "- Updated accessibility guidelines", 
+    "- New shared functions for common analyses"
+  )
+}
+
+create_standards_page <- function() {
+  c(
+    "---",
+    "title: 'CPAL Data Team Standards'",
+    "---",
+    "",
+    "## Code Standards",
+    "",
+    "### Naming Conventions",
+    "- Projects: `topic-analysis-YYYY` or `report-name-YYYY`",
+    "- Functions: `verb_noun()` format (e.g., `clean_survey_data()`)",
+    "- Variables: `snake_case` for everything",
+    "",
+    "### Visualization Standards",
+    "- Always use `cpaltemplates` functions",
+    "- Run `check_plot_accessibility()` before sharing",
+    "- Include CPAL logo on final outputs",
+    "- Use appropriate color palettes for data type",
+    "",
+    "### Documentation Standards",
+    "- All functions documented with roxygen2",
+    "- README.md in every project",
+    "- Clear folder organization",
+    "- Reproducible setup instructions"
+  )
+}
+```
+
+### **Step 5: Team Workflow Automation**
+
+```{r}
+# File: R/team_automation.R
+# Automated team workflows and quality assurance
+
+#' Daily Team Workflow Check
+#' Runs automated checks across all team repositories
+run_daily_team_checks <- function() {
+  
+  # Get list of active team projects
+  team_repos <- get_team_repositories()
+  
+  results <- map(team_repos, function(repo) {
+    
+    cat("Checking:", repo$name, "\n")
+    
+    # Clone or update repository
+    repo_path <- update_team_repo(repo)
+    
+    # Run quality checks
+    quality_results <- check_repo_quality(repo_path)
+    
+    # Check for stale branches
+    branch_status <- check_branch_status(repo_path)
+    
+    # Generate team report entry
+    list(
+      repo = repo$name,
+      quality = quality_results,
+      branches = branch_status,
+      last_updated = Sys.time()
+    )
+  })
+  
+  # Generate team status report
+  generate_team_status_report(results)
+  
+  # Send notifications for issues
+  send_team_notifications(results)
+}
+
+#' Weekly Team Sync Preparation
+#' Generates materials for weekly team meetings
+prepare_weekly_team_sync <- function() {
+  
+  # Collect project status from all team members
+  project_status <- collect_project_status()
+  
+  # Generate agenda with completed work and blockers
+  agenda <- generate_team_agenda(project_status)
+  
+  # Create shared dashboard with team progress
+  create_team_progress_dashboard(project_status)
+  
+  # Email agenda and dashboard to team
+  email_team_sync_materials(agenda)
+}
+
+#' Team Onboarding Automation
+#' Sets up new team members with standard tools and access
+onboard_new_team_member <- function(name, role, github_username) {
+  
+  cat("Onboarding:", name, "as", role, "\n")
+  
+  # Create personalized onboarding project
+  onboarding_project <- create_onboarding_project(name, role)
+  
+  # Set up GitHub access to team repositories  
+  add_github_team_member(github_username)
+  
+  # Generate personalized onboarding checklist
+  checklist <- create_onboarding_checklist(name, role)
+  
+  # Send welcome email with setup instructions
+  send_onboarding_email(name, checklist)
+  
+  cat("✅ Onboarding complete for", name, "\n")
+}
+```
+
+**Result:** Comprehensive team collaboration system with standardized workflows, shared resources, automated quality checks, and knowledge sharing infrastructure that scales with team growth.
+
+## Workflow Integration Best Practices
+
+### **General Integration Principles**
+
+1. **Start with standards**: Always begin workflows with `setup_cpal_google_fonts()` and `set_theme_cpal()`
+2. **Use consistent naming**: Follow CPAL conventions for projects, files, and variables
+3. **Integrate accessibility**: Run `check_plot_accessibility()` before finalizing outputs  
+4. **Maintain reproducibility**: Use renv, git, and targets for complex workflows
+5. **Document everything**: README files, code comments, and clear folder structures
+
+### **Workflow Customization Guide**
+
+**Adapt these workflows to your specific needs:**
+
+- **Modify project types**: Adjust `project_type` and `features` based on your requirements
+- **Scale complexity**: Use fewer functions for simple projects, more for comprehensive workflows
+- **Customize outputs**: Change output formats, add new deliverable types
+- **Team size adaptation**: Adjust collaboration patterns for team size and structure
+- **Timeline flexibility**: Adapt automation frequency and reporting schedules
+
+### **Quality Assurance Integration**
+
+**Build quality checks into every workflow:**
+- Test accessibility before sharing visualizations
+- Verify CPAL branding consistency across outputs  
+- Check reproducibility with fresh R sessions
+- Validate data processing steps and results
+- Review outputs for professional presentation standards
+
+---
+
+*These integrated workflows demonstrate the full power of cpaltemplates when functions work together. Adapt and combine these patterns to create workflows that meet your specific project needs while maintaining CPAL's high standards for professional, accessible, and reproducible data analysis.*
