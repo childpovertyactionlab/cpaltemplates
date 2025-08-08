@@ -1,6 +1,13 @@
 ---
 title: "Project Setup"
 subtitle: "Automated project scaffolding and modern R workflow setup with CPAL standards"
+execute:
+  echo: true        # Show all code chunks
+  eval: false       # Don't execute any code chunks by default
+  warning: false    # Don't show warnings
+  message: false    # Don't show messages
+  error: false      # Don't show errors
+  include: true     # Include chunks in output
 ---
 
 ## Why Automated Project Setup Matters

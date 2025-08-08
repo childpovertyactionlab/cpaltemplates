@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>cpaltemplates - Getting Started with cpaltemplates</title>
+<title>Getting Started with cpaltemplates – cpaltemplates</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -116,7 +116,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -130,7 +130,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Get Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-functions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-functions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Functions</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-functions">    
@@ -147,12 +147,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Plots &amp; Visualizations</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./interactive-features.html">
- <span class="dropdown-text">Interactive Features</span></a>
+    <a class="dropdown-item" href="./tables-gt.html">
+ <span class="dropdown-text">Tables &amp; Styling</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./tables-gt.html">
- <span class="dropdown-text">Tables &amp; GT Styling</span></a>
+    <a class="dropdown-item" href="./interactive-features.html">
+ <span class="dropdown-text">Interactive Features</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./project-setup.html">
@@ -165,12 +165,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="./workflow-integration.html"> 
+<span class="menu-text">Workflows</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./troubleshooting.html"> 
 <span class="menu-text">Troubleshooting</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -263,13 +267,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Before diving into installation, it’s helpful to understand <strong>why</strong> cpaltemplates exists and <strong>when</strong> you should use it:</p>
 <section id="the-problem-cpaltemplates-solves" class="level3">
 <h3 class="anchored" data-anchor-id="the-problem-cpaltemplates-solves"><strong>The Problem cpaltemplates Solves</strong></h3>
-<p><strong>Without cpaltemplates</strong>, CPAL data team members often face: - <strong>Inconsistent visual branding</strong> across reports, presentations, and dashboards - <strong>Repetitive setup tasks</strong> when starting new analysis projects<br>
-- <strong>Time spent on styling</strong> instead of focusing on analysis and insights - <strong>Difficulty onboarding new team members</strong> to CPAL’s preferred workflows and standards - <strong>Inconsistent project structures</strong> making collaboration and handoffs challenging</p>
+<p><strong>Without cpaltemplates</strong>, CPAL data team members often face: - <strong>Inconsistent visual branding</strong> across reports, presentations, and dashboards - <strong>Repetitive setup tasks</strong> when starting new analysis projects - <strong>Time spent on styling</strong> instead of focusing on analysis and insights - <strong>Difficulty onboarding new team members</strong> to CPAL’s preferred workflows and standards - <strong>Inconsistent project structures</strong> making collaboration and handoffs challenging</p>
 <p><strong>With cpaltemplates</strong>, you get: - <strong>Instant CPAL branding</strong> with consistent colors, fonts, and themes - <strong>Automated project setup</strong> with modern R best practices built-in - <strong>Standardized workflows</strong> that make team collaboration seamless - <strong>Professional-quality outputs</strong> with minimal setup time</p>
 </section>
 <section id="when-to-use-cpaltemplates" class="level3">
 <h3 class="anchored" data-anchor-id="when-to-use-cpaltemplates"><strong>When to Use cpaltemplates</strong></h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 56%">
 <col style="width: 43%">
@@ -361,14 +364,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Why explore first:</strong> Understanding what’s available helps you make informed choices about colors, themes, and styling options. This prevents the common problem of creating a visualization, then discovering there was a better palette or theme option available.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See all color palettes</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_all_palettes</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="st">"all"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in view_all_palettes(): could not find function "view_all_palettes"</code></pre>
+<pre><code>Error in view_cpal_palettes("all"): could not find function "view_cpal_palettes"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View a specific palette interactively</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_palette</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quick_palette</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-error">
-<pre><code>Error in view_palette(): could not find function "view_palette"</code></pre>
+<pre><code>Error in quick_palette(): could not find function "quick_palette"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check available themes</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(<span class="fu">formals</span>(theme_cpal))  <span class="co"># See theme parameters</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -376,7 +379,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Error: object 'theme_cpal' not found</code></pre>
 </div>
 </div>
-<p><strong>What these functions show you:</strong> - <strong><code>view_all_palettes()</code></strong> displays every color palette side-by-side, helping you choose the right one for your data type and message . - <strong><code>view_palette()</code></strong> opens an interactive interface to explore individual palettes, see color codes, and test accessibility. - <strong>Theme parameters</strong> show you all the customization options available for fine-tuning your visualizations.</p>
+<p><strong>What these functions show you:</strong> - <strong><code>view_cpal_palettes()</code></strong> displays every color palette side-by-side, helping you choose the right one for your data type and message . - <strong><code>quick_palette()</code></strong> opens an interactive interface to explore individual palettes, see color codes, and test accessibility. - <strong>Theme parameters</strong> show you all the customization options available for fine-tuning your visualizations.</p>
 </section>
 </section>
 <section id="your-first-cpal-styled-plot" class="level2">
@@ -472,7 +475,7 @@ CPAL Google Fonts setup complete!
 <section id="available-project-types" class="level3">
 <h3 class="anchored" data-anchor-id="available-project-types">Available Project Types</h3>
 <p><strong>Choosing the right project type</strong> sets up the appropriate folder structure, templates, and configuration for your specific use case:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -530,7 +533,7 @@ CPAL Google Fonts setup complete!
 <section id="available-features" class="level3">
 <h3 class="anchored" data-anchor-id="available-features">Available Features</h3>
 <p><strong>Features add functionality</strong> to any project type. Choose based on your project’s complexity and collaboration needs:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 24%">
 <col style="width: 24%">
@@ -593,7 +596,7 @@ CPAL Google Fonts setup complete!
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_cpal</span>(<span class="at">palette =</span> <span class="st">"sequential"</span>) <span class="co"># For fill aesthetics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Choosing the right palette:</strong></p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 24%">
 <col style="width: 24%">
@@ -744,7 +747,7 @@ CPAL Google Fonts setup complete!
 <h3 class="anchored" data-anchor-id="color-palette-issues">Color Palette Issues</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># View palettes to check they're loading</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_all_palettes</span>()</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="st">"all"</span>)</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check specific palette</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"main"</span>)  <span class="co"># Should return vector of hex colors</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -786,7 +789,7 @@ CPAL Google Fonts setup complete!
 <li><code>theme_cpal()</code> - Apply CPAL theme to plots</li>
 <li><code>scale_color_cpal()</code> / <code>scale_fill_cpal()</code> - Use CPAL colors</li>
 <li><code>save_cpal_plot()</code> - Save plots with CPAL standards</li>
-<li><code>view_all_palettes()</code> - See available colors</li>
+<li><code>view_cpal_palettes()</code> - See available colors</li>
 </ul>
 </section>
 <section id="getting-help" class="level3">
@@ -839,18 +842,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -882,7 +874,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -917,7 +949,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');

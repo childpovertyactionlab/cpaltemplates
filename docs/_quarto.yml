@@ -21,16 +21,16 @@ website:
             file: themes-styling.qmd
           - text: "Plots & Visualizations"
             file: plots-visualizations.qmd
+          - text: "Tables & Styling"
+            file: tables-gt.qmd
           - text: "Interactive Features"
             file: interactive-features.qmd
-          - text: "Tables & GT Styling"
-            file: tables-gt.qmd
           - text: "Project Setup"
             file: project-setup.qmd
           - text: "Utilities & Helpers"
             file: utilities-helpers.qmd
-#      - text: "Workflows"
-#        file: workflow-integration.qmd
+      - text: "Workflows"
+        file: workflow-integration.qmd
       - text: "Troubleshooting"
         file: troubleshooting.qmd
 

@@ -1,6 +1,13 @@
 ---
 title: "Troubleshooting"
 subtitle: "Comprehensive problem-solving guide for cpaltemplates issues"
+execute:
+  echo: true        # Show all code chunks
+  eval: false       # Don't execute any code chunks by default
+  warning: false    # Don't show warnings
+  message: false    # Don't show messages
+  error: false      # Don't show errors
+  include: true     # Include chunks in output
 ---
 
 ## Getting Help and Support

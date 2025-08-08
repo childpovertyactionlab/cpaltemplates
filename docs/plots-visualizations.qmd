@@ -1,6 +1,13 @@
 ---
 title: "Plots & Visualizations"
 subtitle: "Specialized plotting functions and visualization utilities for CPAL workflows"
+execute:
+  echo: true        # Show all code chunks
+  eval: false       # Don't execute any code chunks by default
+  warning: false    # Don't show warnings
+  message: false    # Don't show messages
+  error: false      # Don't show errors
+  include: true     # Include chunks in output
 ---
 
 ## Why Specialized Plotting Functions Matter

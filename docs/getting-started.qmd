@@ -16,10 +16,18 @@ Before diving into installation, it's helpful to understand **why** cpaltemplate
 
 ### **The Problem cpaltemplates Solves**
 
-**Without cpaltemplates**, CPAL data team members often face: - **Inconsistent visual branding** across reports, presentations, and dashboards - **Repetitive setup tasks** when starting new analysis projects\
-- **Time spent on styling** instead of focusing on analysis and insights - **Difficulty onboarding new team members** to CPAL's preferred workflows and standards - **Inconsistent project structures** making collaboration and handoffs challenging
+**Without cpaltemplates**, CPAL data team members often face: 
+- **Inconsistent visual branding** across reports, presentations, and dashboards 
+- **Repetitive setup tasks** when starting new analysis projects
+- **Time spent on styling** instead of focusing on analysis and insights 
+- **Difficulty onboarding new team members** to CPAL's preferred workflows and standards 
+- **Inconsistent project structures** making collaboration and handoffs challenging
 
-**With cpaltemplates**, you get: - **Instant CPAL branding** with consistent colors, fonts, and themes - **Automated project setup** with modern R best practices built-in - **Standardized workflows** that make team collaboration seamless - **Professional-quality outputs** with minimal setup time
+**With cpaltemplates**, you get: 
+- **Instant CPAL branding** with consistent colors, fonts, and themes 
+- **Automated project setup** with modern R best practices built-in 
+- **Standardized workflows** that make team collaboration seamless 
+- **Professional-quality outputs** with minimal setup time
 
 ### **When to Use cpaltemplates**
 

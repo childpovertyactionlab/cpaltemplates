@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>cpaltemplates - Colors &amp; Palettes</title>
+<title>Colors &amp; Palettes – cpaltemplates</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -100,7 +100,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="default">
 <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
@@ -120,7 +119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -134,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Get Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-functions" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-functions" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Functions</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-functions">    
@@ -169,12 +168,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
+    <a class="nav-link" href="./workflow-integration.html"> 
+<span class="menu-text">Workflows</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./troubleshooting.html"> 
 <span class="menu-text">Troubleshooting</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
-          <div class="quarto-navbar-tools">
+            <div class="quarto-navbar-tools">
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -222,6 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#advanced-usage-and-customization" id="toc-advanced-usage-and-customization" class="nav-link" data-scroll-target="#advanced-usage-and-customization">Advanced Usage and Customization</a>
   <ul class="collapse">
+  <li><a href="#exploring-available-palettes" id="toc-exploring-available-palettes" class="nav-link" data-scroll-target="#exploring-available-palettes"><strong>Exploring Available Palettes</strong></a></li>
   <li><a href="#getting-specific-colors" id="toc-getting-specific-colors" class="nav-link" data-scroll-target="#getting-specific-colors"><strong>Getting Specific Colors</strong></a></li>
   <li><a href="#integration-with-ggplot2" id="toc-integration-with-ggplot2" class="nav-link" data-scroll-target="#integration-with-ggplot2"><strong>Integration with ggplot2</strong></a></li>
   <li><a href="#exploring-and-choosing-palettes" id="toc-exploring-and-choosing-palettes" class="nav-link" data-scroll-target="#exploring-and-choosing-palettes"><strong>Exploring and Choosing Palettes</strong></a></li>
@@ -282,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <section id="when-colors-go-wrong" class="level3">
 <h3 class="anchored" data-anchor-id="when-colors-go-wrong"><strong>When Colors Go Wrong</strong></h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 33%">
@@ -328,7 +332,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="cpal-color-system-overview" class="level2">
 <h2 class="anchored" data-anchor-id="cpal-color-system-overview">CPAL Color System Overview</h2>
 <p>The cpaltemplates package provides <strong>23 distinct color palettes</strong> organized into <strong>4 main categories</strong>, each designed for specific types of data and use cases:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 22%">
 <col style="width: 31%">
@@ -384,7 +388,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="core-functions-overview" class="level2">
 <h2 class="anchored" data-anchor-id="core-functions-overview">Core Functions Overview</h2>
 <p>cpaltemplates provides <strong>7 main color functions</strong> that work together to give you complete control over CPAL’s color system:</p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 24%">
 <col style="width: 24%">
@@ -419,22 +423,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Automatic ggplot2 integration</td>
 </tr>
 <tr class="even">
-<td><code>view_all_palettes()</code></td>
-<td>Display all available palettes</td>
-<td>Visual grid display</td>
-<td>Choosing the right palette</td>
+<td><code>view_cpal_palettes()</code></td>
+<td>Display all or specific palettes with options</td>
+<td>Visual display</td>
+<td>Choosing and exploring palettes</td>
 </tr>
 <tr class="odd">
-<td><code>view_palette()</code></td>
-<td>Interactive palette explorer</td>
-<td>Interactive display</td>
-<td>Detailed palette exploration</td>
+<td><code>quick_palette()</code></td>
+<td>Simple palette preview</td>
+<td>Visual display</td>
+<td>Quick palette reference</td>
 </tr>
 <tr class="even">
-<td><code>cpal_display_palettes()</code></td>
-<td>Show specific palettes with hex codes</td>
-<td>Visual display</td>
-<td>Reference and documentation</td>
+<td><code>list_cpal_palettes()</code></td>
+<td>List available palettes with details</td>
+<td>Character vector or list</td>
+<td>Programmatic palette discovery</td>
 </tr>
 </tbody>
 </table>
@@ -500,7 +504,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"compare"</span>)   <span class="co"># Optimized for before/after comparisons</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Choosing the right categorical palette:</strong></p>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
 <col style="width: 45%">
@@ -620,7 +624,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="choosing-sequential-palette-length" class="level3">
 <h3 class="anchored" data-anchor-id="choosing-sequential-palette-length"><strong>Choosing Sequential Palette Length</strong></h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 37%">
 <col style="width: 25%">
@@ -761,6 +765,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="advanced-usage-and-customization" class="level2">
 <h2 class="anchored" data-anchor-id="advanced-usage-and-customization">Advanced Usage and Customization</h2>
+<section id="exploring-available-palettes" class="level3">
+<h3 class="anchored" data-anchor-id="exploring-available-palettes"><strong>Exploring Available Palettes</strong></h3>
+<p>The cpaltemplates package provides three complementary functions for palette exploration:</p>
+<p><strong><code>list_cpal_palettes()</code></strong> - Programmatic palette discovery - Returns palette names for use in code - Optional detailed information with descriptions and color counts - Perfect for building automated palette selection logic</p>
+<p><strong><code>quick_palette()</code></strong> - Fast visual reference<br>
+- Clean, simple display for quick reference - Optional color limiting for preview of large palettes - Ideal when you know the palette name and want a quick look</p>
+<p><strong><code>view_cpal_palettes()</code></strong> - Comprehensive exploration - All palettes overview or specific palette deep dive - Customizable display options (hex codes, compact view, etc.) - Best for choosing between multiple palettes or detailed exploration</p>
+</section>
 <section id="getting-specific-colors" class="level3">
 <h3 class="anchored" data-anchor-id="getting-specific-colors"><strong>Getting Specific Colors</strong></h3>
 <div class="cell">
@@ -802,16 +814,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Visual exploration:</strong></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See all palettes at once</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_all_palettes</span>()</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>()</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactive exploration of individual palettes</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">view_palette</span>()</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">quick_palette</span>()</span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Display specific palette with hex codes</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_display_palettes</span>(<span class="st">"main"</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_display_palettes</span>(<span class="st">"teal_seq_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">quick_palette</span>(<span class="st">"main"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">quick_palette</span>(<span class="st">"teal_seq_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p><strong>What each function shows:</strong> - <strong><code>view_all_palettes()</code></strong>: Grid layout showing every palette, perfect for comparison - <strong><code>view_palette()</code></strong>: Interactive tool with color codes and accessibility information - <strong><code>cpal_display_palettes()</code></strong>: Clean display with hex codes, ideal for documentation</p>
+<p><strong>What each function shows:</strong> - <strong><code>view_cpal_palettes()</code></strong>: Grid layout showing every palette, perfect for comparison - <strong><code>quick_palette()</code></strong>: Interactive tool with color codes and accessibility information - <strong><code>view_cpal_palettes()</code></strong>: Clean display with hex codes, ideal for documentation</p>
 </section>
 </section>
 <section id="best-practices-and-guidelines" class="level2">
@@ -819,39 +831,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="color-selection-decision-tree" class="level3">
 <h3 class="anchored" data-anchor-id="color-selection-decision-tree"><strong>Color Selection Decision Tree</strong></h3>
 <p><strong>Step 1: What type of data do you have?</strong></p>
-<div class="cell" data-fig-width="8" data-fig-height="6" data-layout-align="default">
+<div class="cell" data-layout-align="default">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>graph TD</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    A["🎨 What type of data?"] --&gt; B["📊 Categorical&lt;br/&gt;Groups, categories, classifications"]</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    A --&gt; C["📈 Sequential&lt;br/&gt;Continuous, low to high"]</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    A --&gt; D["⚖️ Diverging&lt;br/&gt;Has meaningful center point"]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    A[What type of data?] --&gt; B[Categorical&lt;br/&gt;Groups, categories, classifications]</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    A --&gt; C[Sequential&lt;br/&gt;Continuous, low to high]</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    A --&gt; D[Diverging&lt;br/&gt;Has meaningful center point]</span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    B --&gt; E["❓ How many categories?"]</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    E --&gt; F["✌️ 2-3: main_3"]</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    E --&gt; G["🍀 4: main_4"]  </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    E --&gt; H["🌈 5+: main"]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    B --&gt; E[How many categories?]</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    E --&gt; F[2-3: main_3]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    E --&gt; G[4: main_4]  </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    E --&gt; H[5+: main]</span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    C --&gt; I["💥 Visual impact needed?"]</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    I --&gt; J["📘 Standard: teal_seq_5"]</span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    I --&gt; K["⭐ High impact: yellow_teal_seq_5"]</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    C --&gt; I[Visual impact needed?]</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    I --&gt; J[Standard: teal_seq_5]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    I --&gt; K[High impact: yellow_teal_seq_5]</span>
 <span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    D --&gt; L["🔍 Level of detail?"]</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    L --&gt; M["🎯 Simple: pink_teal_3"]</span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    L --&gt; N["📋 Detailed: pink_teal_5 or pink_teal_6"]</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    style A fill:#e1f5fe</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    style B fill:#f3e5f5</span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    style C fill:#e8f5e8</span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    style D fill:#fff3e0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    D --&gt; L[Level of detail?]</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    L --&gt; M[Simple: pink_teal_3]</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    L --&gt; N[Detailed: pink_teal_5 or pink_teal_6]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-palette-guide" class="quarto-figure quarto-figure-center quarto-float anchored">
+<div id="fig-palette-decision" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-palette-guide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div aria-describedby="fig-palette-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div>
 
 </div>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-palette-guide-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: CPAL Color Palette Selection Guide
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-palette-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: CPAL Color Palette Decision Tree
 </figcaption>
 </figure>
 </div>
@@ -871,7 +878,7 @@ Figure&nbsp;1: CPAL Color Palette Selection Guide
 </section>
 <section id="common-use-cases-and-recommendations" class="level3">
 <h3 class="anchored" data-anchor-id="common-use-cases-and-recommendations"><strong>Common Use Cases and Recommendations</strong></h3>
-<table class="table">
+<table class="caption-top table">
 <colgroup>
 <col style="width: 38%">
 <col style="width: 38%">
@@ -969,7 +976,7 @@ Figure&nbsp;1: CPAL Color Palette Selection Guide
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Explore available colors</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">view_all_palettes</span>()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>()</span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Choose appropriate palette for your data type</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>my_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -1033,18 +1040,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -1076,7 +1072,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1111,7 +1147,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
