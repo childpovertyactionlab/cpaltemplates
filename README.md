@@ -1,176 +1,116 @@
-# cpaltemplates <img src="man/figures/logo.png" align="right" width="120" />
+# cpaltemplates
 
-## Package Purpose & Scope
+**NOTE:** This project is under active development, based on the 'urbntemplates' package from the Urban Institute, with modifications for Child Poverty Action Lab (CPAL) standards.
 
-**Primary Goal**: Standardize CPAL data team workflows through templates  
-**Target Areas**: Project templates, data visualizations, workflows  
-**Team**: CPAL data team internal tool  
-**Package Type**: R package for organizational standardization
+The `cpaltemplates` package provides tools and templates for managing analysis workflows at CPAL, leveraging [usethis](https://github.com/r-lib/usethis) and other packages like [ggplot2] for plotting and [extrafont] for font management.
 
----
+## Installation
 
-## 🎯 Current Package Status (Updated: August 5, 2025)
+You can install the latest version of `cpaltemplates` from GitHub:
 
-### ✅ **MAJOR MILESTONE: R CMD Check Issues RESOLVED**
-**All R CMD check errors, warnings, and notes have been successfully fixed!**
-
-#### Issues Fixed:
-- ✅ **ERROR**: `cpal_gt` function not found in examples → Fixed by adding proper alias
-- ✅ **WARNING**: Missing htmltools/htmlwidgets imports → Added comprehensive imports 
-- ✅ **WARNING**: Rd usage sections mismatch → Fixed parameter documentation
-- ✅ **NOTE**: Non-standard DEVELOPMENT_TASKS.md file → Removed
-- ✅ **NOTE**: Missing function imports → Added all required imports
-
-### 📦 **Package Development Status**
-
-#### **COMPLETED SYSTEMS (8/10 Major Components)**
-1. **Colors & Palettes** ✅ - Complete color system with accessibility checks
-2. **Themes** ✅ - 5 complete themes (classic, dark, minimal, map, print)
-3. **Interactive Visualizations** ✅ - Full ggiraph integration system
-4. **Plot Functions** ✅ - Core plotting with CPAL styling
-5. **Project Scaffolding** ✅ - Complete project template system
-6. **Utilities** ✅ - Asset management and helper functions
-7. **Font Management** ✅ - Google Fonts integration with fallbacks
-8. **Table Systems** ✅ - GT and Reactable table functions
-
-#### **IN PROGRESS (2/10 Major Components)**
-9. **Logo Functions** 🔄 - Functions exist but need template file validation
-10. **Template Files** 🔄 - Many templates exist but need systematic validation
-
----
-
-## 🔧 **Recent Changes & Fixes (August 5, 2025)**
-
-### **R CMD Check Resolution**
-- **Added Function Alias**: `cpal_gt()` now properly aliases `cpal_table_gt()`
-- **Import Statements**: Added comprehensive `@importFrom` declarations:
-  - `htmltools`: `div`, `tags`
-  - `htmlwidgets`: `prependContent`, `appendContent` 
-  - `stats`: `quantile`
-  - `dplyr`: `%>%`, `all_of`
-  - `gt`: All GT table functions
-  - `reactable`: Core reactable functions
-
-- **Documentation Fixes**: Corrected parameter mismatches in:
-  - `create_base_structure()`: Fixed `project_path`/`project_name` → `path`/`type`
-  - `create_targets_file()`: Removed non-existent `type` parameter
-  - `get_cpal_asset()`: Fixed `filename`/`subfolder` → `asset_name`/`category`
-  - `setup_git()` & `setup_renv()`: Fixed `project_path` → `path`
-  - `use_shiny_theme()`: Resolved duplicate function names
-
-- **Function Naming**: Resolved duplicate `use_shiny_theme()` functions:
-  - `themes.R` version → renamed to `get_shiny_theme_colors()`
-  - `utils.R` version → kept as `use_shiny_theme()` (file copying function)
-
----
-
-## 🧪 **Development Workflow Standards**
-
-### **Documentation Requirements**
-- **README.md as Central Hub**: All code changes documented here ✅
-- **Active Task Management**: Live checklist maintained ✅  
-- **Version Control**: Changes tracked through README ✅
-
-### **Quality Assurance Priorities**
-- **R CMD Check**: All issues resolved ✅
-- **Function Testing**: Core functions validated ✅
-- **Cross-platform Compatibility**: Font/asset handling optimized ✅
-- **Dependency Management**: All imports properly declared ✅
-
----
-
-## 📋 **CURRENT TASK LIST**
-
-### **HIGH PRIORITY (Ready for Development)**
-- [ ] **Logo System Validation**: Verify all logo template files exist and functions work
-- [ ] **Template File Audit**: Systematic check of all template files in `inst/`
-- [ ] **Testing Infrastructure**: Add comprehensive test suite with testthat
-- [ ] **Package Distribution**: Prepare for internal CPAL team distribution
-
-### **MEDIUM PRIORITY (Next Sprint)**
-- [ ] **Performance Optimization**: Profile theme rendering with large datasets
-- [ ] **Accessibility Testing**: Verify color palette accessibility compliance
-- [ ] **Documentation Enhancement**: Add more usage examples and vignettes
-- [ ] **Cross-platform Testing**: Verify font handling across Windows/Mac/Linux
-
-### **LOW PRIORITY (Future Enhancement)**
-- [ ] **Advanced Templates**: Additional project types and specialized workflows
-- [ ] **Integration Testing**: Validate with common CPAL data workflows
-- [ ] **User Feedback**: Gather feedback from CPAL data team usage
-- [ ] **CRAN Preparation**: If external distribution desired
-
----
-
-## 🎨 **Core Function Overview**
-
-### **Table Functions** 
-```r
-# Modern GT tables with CPAL styling
-cpal_gt(data, title = "My Table", theme = "light")
-cpal_table_gt(data, highlight_columns = c("var1", "var2"))
-
-# Interactive Reactable tables
-cpal_table_reactable(data, searchable = TRUE)
+``` r
+# install.packages("devtools")
+devtools::install_github("childpovertyactionlab/cpaltemplates")
 ```
 
-### **Visualization Functions**
-```r
-# CPAL-themed ggplot2
-ggplot(data, aes(x, y)) + 
-  geom_point() + 
-  theme_cpal() +
-  scale_color_cpal()
+## Usage
 
-# Interactive plots
-cpal_interactive(plot, tooltip_vars = c("x", "y"))
-```
+The package is structured around several function families:
 
-### **Project Templates**
-```r
-# Start new CPAL project
-start_project("my-analysis", type = "analysis")
-start_project("my-dashboard", type = "shiny_dashboard") 
-```
+### 1. **Project Management Functions**
 
----
+These functions help initialize new projects or add templates to existing ones.
 
-## 📚 **Key Knowledge Management Points**
+-   **`start_project()`**: Initializes a new project with a `.Rproj`, `README`, and `.gitignore`.
 
-### **Function Integration Patterns**
-- **Theme + Color Integration**: All themes work with all color palettes
-- **Interactive Compatibility**: `cpal_interactive()` applies CPAL styling automatically
-- **Export Workflow**: `save_cpal_plot()` works with any theme for consistency
+### 2. **Construct Functions**
 
-### **Development Anti-patterns Avoided**
-- ✅ Never promise functions in README without implementation
-- ✅ All template references validated before documentation
-- ✅ Dependency isolation maintained (graceful degradation)
-- ✅ Parameter interdependencies clearly documented
+These functions add related templates and documents for specific types of projects, like Shiny apps or web reports.
 
-### **Design Philosophy**
-- **CPAL Brand First**: All styling reinforces CPAL visual identity
-- **Accessibility Built-in**: Never sacrifice accessibility for visual appeal
-- **Sensible Defaults**: Functions work well with minimal configuration
-- **Team Workflow Optimization**: Prioritizes CPAL data team efficiency
+-   **`construct_shiny()`**: Adds necessary files for building a Shiny application (e.g., `app.R`, CSS).
+-   **`construct_web_report()`**: Adds files for creating a web report (e.g., `web_report.qmd`, styling).
 
----
+### 3. **Use Functions**
 
-## 🚀 **Next Steps for Development**
+These functions add individual templates or documents to an existing project.
 
-1. **Immediate**: Validate logo functions and template files
-2. **Short-term**: Add comprehensive testing infrastructure
-3. **Medium-term**: Gather user feedback and optimize performance  
-4. **Long-term**: Consider broader distribution and advanced features
+-   **`use_content()`**: Adds images or other media files to a project.
+-   **`use_css()`**: Adds a CSS or SCSS stylesheet to a specified directory.
+-   **`use_git_ignore_cpal()`**: Adds CPAL-specific `.gitignore` settings.
+-   **`use_instructions()`**: Adds instructions related to specific project types.
+-   **`use_readme_cpal()`**: Generates a CPAL-specific `README` template.
+-   **`use_shiny_app()`**: Creates a Shiny app template.
+-   **`use_web_report()`**: Generates a web report template.
 
----
+### 4. **Theme Functions**
 
-## 📖 **Development Notes**
+These functions provide pre-configured visual themes that conform to CPAL standards for [ggplot2] and Shiny apps.
 
-- **Current Version**: 1.7.0
-- **R CMD Check Status**: ✅ CLEAN (0 errors, 0 warnings, 0 notes)
-- **Last Major Update**: August 5, 2025 - R CMD check resolution
-- **Development Approach**: Internal CPAL team adoption first, then external sharing
+-   **`cpal_shiny()`**: Applies a Shiny-specific theme based on CPAL’s visual guidelines.
+-   **`theme_cpal_map()`**: Applies a map-based theme for visualizations.
+-   **`theme_cpal_print()`**: Applies a print-ready theme for clean and minimalist plots.
 
----
+### 5. **Grob and Plot Functions**
 
-*This README serves as the central hub for all cpaltemplates development tracking and documentation.*
+These functions help create and format ggplot2 plots and grobs (graphical objects).
+
+-   **`cpal_plot()`**: Combines multiple plot elements or grobs (e.g., titles, subtitles, charts) into one cohesive plot.
+-   **`cpal_title()`**: Adds a title to a plot.
+-   **`cpal_subtitle()`**: Adds a subtitle to a plot.
+-   **`cpal_note()`**: Adds a note section at the bottom of the plot.
+-   **`cpal_source()`**: Adds a source label to a plot.
+-   **`add_axis()`**: Adds or removes axis lines in a plot.
+-   **`remove_ticks()`**: Removes tick marks from specified axes.
+-   **`remove_legend()`**: Removes the legend from a ggplot2 plot.
+
+### 6. **Scale Functions**
+
+These functions provide color scales based on CPAL's style guide.
+
+-   **`scale_color_discrete()`**: Discrete color scale for categorical variables.
+-   **`scale_fill_discrete()`**: Discrete fill scale for categorical variables.
+-   **`scale_color_gradientn()`**: Continuous gradient color scale for numerical variables.
+-   **`scale_fill_gradientn()`**: Continuous gradient fill scale for numerical variables.
+-   **`scale_color_ordinal()`**: Ordinal color scale for factors.
+-   **`scale_fill_ordinal()`**: Ordinal fill scale for factors.
+
+### 7. **Utility Functions**
+
+These functions help manage fonts and templates within the package.
+
+-   **`poppins_import()`**: Imports and registers the Poppins font, which is the main font used at CPAL.
+-   **`fontawesome_install()`**: Imports and registers the FontAwesome font for use in graphics.
+
+## Example Workflow
+
+1.  **Starting a Project**:\
+    Create a new project by running:
+
+    ``` r
+    cpaltemplates::start_project("MyProject")
+    ```
+
+2.  **Adding Templates**:\
+    Use `construct_*` functions to add necessary files. For example, to add Shiny files:
+
+    ``` r
+    construct_shiny()
+    ```
+
+3.  **Creating Visualizations**:\
+    Use CPAL’s predefined themes and scales to ensure your visualizations adhere to CPAL standards:
+
+    ``` r
+    ggplot(mtcars, aes(x = wt, y = mpg)) +
+      geom_point() +
+      theme_cpal_print() +
+      scale_color_discrete()
+    ```
+
+## License
+
+This project is licensed under the MIT License.
+
+## Code of Conduct
+
+Please note that the "cpaltemplates" project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
