@@ -1,176 +1,388 @@
 # cpaltemplates <img src="man/figures/logo.png" align="right" width="120" />
 
-## Package Purpose & Scope
+<!-- badges: start -->
+[![R Package Version](https://img.shields.io/badge/version-2.0.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
+[![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/childpovertyactionlab/cpaltemplates/actions)
+[![License: GPL-3](https://img.shields.io/badge/License-GPL%203-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+<!-- badges: end -->
 
-**Primary Goal**: Standardize CPAL data team workflows through templates  
-**Target Areas**: Project templates, data visualizations, workflows  
-**Team**: CPAL data team internal tool  
-**Package Type**: R package for organizational standardization
+## Overview
 
----
+**cpaltemplates** is a comprehensive R package that provides templates, themes, and utilities for standardizing data visualizations and analyses at the Child Poverty Action Lab. This package ensures consistent branding, accessibility, and quality across all CPAL data products.
 
-## 🎯 Current Package Status (Updated: August 5, 2025)
+## Installation
 
-### ✅ **MAJOR MILESTONE: R CMD Check Issues RESOLVED**
-**All R CMD check errors, warnings, and notes have been successfully fixed!**
+You can install most recent stable version of cpaltemplates from GitHub:
 
-#### Issues Fixed:
-- ✅ **ERROR**: `cpal_gt` function not found in examples → Fixed by adding proper alias
-- ✅ **WARNING**: Missing htmltools/htmlwidgets imports → Added comprehensive imports 
-- ✅ **WARNING**: Rd usage sections mismatch → Fixed parameter documentation
-- ✅ **NOTE**: Non-standard DEVELOPMENT_TASKS.md file → Removed
-- ✅ **NOTE**: Missing function imports → Added all required imports
-
-### 📦 **Package Development Status**
-
-#### **COMPLETED SYSTEMS (8/10 Major Components)**
-1. **Colors & Palettes** ✅ - Complete color system with accessibility checks
-2. **Themes** ✅ - 5 complete themes (classic, dark, minimal, map, print)
-3. **Interactive Visualizations** ✅ - Full ggiraph integration system
-4. **Plot Functions** ✅ - Core plotting with CPAL styling
-5. **Project Scaffolding** ✅ - Complete project template system
-6. **Utilities** ✅ - Asset management and helper functions
-7. **Font Management** ✅ - Google Fonts integration with fallbacks
-8. **Table Systems** ✅ - GT and Reactable table functions
-
-#### **IN PROGRESS (2/10 Major Components)**
-9. **Logo Functions** 🔄 - Functions exist but need template file validation
-10. **Template Files** 🔄 - Many templates exist but need systematic validation
-
----
-
-## 🔧 **Recent Changes & Fixes (August 5, 2025)**
-
-### **R CMD Check Resolution**
-- **Added Function Alias**: `cpal_gt()` now properly aliases `cpal_table_gt()`
-- **Import Statements**: Added comprehensive `@importFrom` declarations:
-  - `htmltools`: `div`, `tags`
-  - `htmlwidgets`: `prependContent`, `appendContent` 
-  - `stats`: `quantile`
-  - `dplyr`: `%>%`, `all_of`
-  - `gt`: All GT table functions
-  - `reactable`: Core reactable functions
-
-- **Documentation Fixes**: Corrected parameter mismatches in:
-  - `create_base_structure()`: Fixed `project_path`/`project_name` → `path`/`type`
-  - `create_targets_file()`: Removed non-existent `type` parameter
-  - `get_cpal_asset()`: Fixed `filename`/`subfolder` → `asset_name`/`category`
-  - `setup_git()` & `setup_renv()`: Fixed `project_path` → `path`
-  - `use_shiny_theme()`: Resolved duplicate function names
-
-- **Function Naming**: Resolved duplicate `use_shiny_theme()` functions:
-  - `themes.R` version → renamed to `get_shiny_theme_colors()`
-  - `utils.R` version → kept as `use_shiny_theme()` (file copying function)
-
----
-
-## 🧪 **Development Workflow Standards**
-
-### **Documentation Requirements**
-- **README.md as Central Hub**: All code changes documented here ✅
-- **Active Task Management**: Live checklist maintained ✅  
-- **Version Control**: Changes tracked through README ✅
-
-### **Quality Assurance Priorities**
-- **R CMD Check**: All issues resolved ✅
-- **Function Testing**: Core functions validated ✅
-- **Cross-platform Compatibility**: Font/asset handling optimized ✅
-- **Dependency Management**: All imports properly declared ✅
-
----
-
-## 📋 **CURRENT TASK LIST**
-
-### **HIGH PRIORITY (Ready for Development)**
-- [ ] **Logo System Validation**: Verify all logo template files exist and functions work
-- [ ] **Template File Audit**: Systematic check of all template files in `inst/`
-- [ ] **Testing Infrastructure**: Add comprehensive test suite with testthat
-- [ ] **Package Distribution**: Prepare for internal CPAL team distribution
-
-### **MEDIUM PRIORITY (Next Sprint)**
-- [ ] **Performance Optimization**: Profile theme rendering with large datasets
-- [ ] **Accessibility Testing**: Verify color palette accessibility compliance
-- [ ] **Documentation Enhancement**: Add more usage examples and vignettes
-- [ ] **Cross-platform Testing**: Verify font handling across Windows/Mac/Linux
-
-### **LOW PRIORITY (Future Enhancement)**
-- [ ] **Advanced Templates**: Additional project types and specialized workflows
-- [ ] **Integration Testing**: Validate with common CPAL data workflows
-- [ ] **User Feedback**: Gather feedback from CPAL data team usage
-- [ ] **CRAN Preparation**: If external distribution desired
-
----
-
-## 🎨 **Core Function Overview**
-
-### **Table Functions** 
 ```r
-# Modern GT tables with CPAL styling
-cpal_gt(data, title = "My Table", theme = "light")
-cpal_table_gt(data, highlight_columns = c("var1", "var2"))
+# install.packages("devtools")
+devtools::install_github("childpovertyactionlab/cpaltemplates")
+```
+
+## Features
+
+### 🎨 Visualization System
+
+#### **Themes**
+Professional ggplot2 themes aligned with CPAL brand guidelines:
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+
+# Apply CPAL theme to any ggplot
+ggplot(mtcars, aes(mpg, wt)) +
+  geom_point() +
+  theme_cpal()  # Default CPAL theme
+
+# Available theme variants
+theme_cpal_classic()   # Traditional academic style
+theme_cpal_minimal()   # Clean, minimal design
+theme_cpal_dark()      # Dark mode for presentations
+theme_cpal_map()       # Optimized for maps
+theme_cpal_print()     # Print-ready formatting
+```
+
+#### **Color System**
+Comprehensive color palettes with accessibility built-in:
+
+```r
+# Access CPAL colors
+cpal_colors()          # Core brand colors
+cpal_colors_primary()  # Primary palette
+cpal_colors_extended() # Extended palette
+
+# Apply color scales to plots
+ggplot(diamonds, aes(cut, fill = color)) +
+  geom_bar() +
+  scale_fill_cpal() +   # Discrete colors
+  theme_cpal()
+
+# Continuous color scales
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_tile() +
+  scale_fill_cpal_c() + # Continuous colors
+  theme_cpal()
+
+# View available palettes
+view_cpal_palettes()
+list_cpal_palettes()
+```
+
+### 📊 Interactive Visualizations
+
+Transform static plots into interactive visualizations:
+
+```r
+# Create interactive plot
+p <- ggplot(mtcars, aes(mpg, wt, color = factor(cyl))) +
+  geom_point() +
+  theme_cpal()
+
+# Make it interactive with tooltips
+cpal_interactive(p, 
+  tooltip_vars = c("mpg", "wt", "cyl"),
+  hover_effect = TRUE
+)
+
+# Interactive geometric layers
+cpal_point_interactive(aes(tooltip = paste("MPG:", mpg)))
+cpal_line_interactive(aes(tooltip = paste("Value:", value)))
+cpal_col_interactive(aes(tooltip = paste("Count:", n)))
+```
+
+### 🗺️ Mapping Support
+
+Create interactive maps with CPAL styling:
+
+```r
+# Initialize a CPAL-styled map
+map <- cpal_mapgl(
+  center = c(-96.7970, 32.7767),  # Dallas coordinates
+  zoom = 10,
+  style = "light"  # or "dark", "satellite"
+)
+
+# Add data layers
+map %>%
+  cpal_mapgl_layer(
+    data = your_geojson,
+    type = "fill",
+    fillColor = cpal_colors()["teal"],
+    fillOpacity = 0.7
+  )
+```
+
+### 📋 Table Formatting
+
+Create publication-ready tables with CPAL styling:
+
+```r
+# GT tables with CPAL theme
+cpal_table_gt(mtcars,
+  title = "Motor Trend Car Data",
+  subtitle = "1974 Motor Trend US magazine",
+  highlight_columns = c("mpg", "hp")
+)
 
 # Interactive Reactable tables
-cpal_table_reactable(data, searchable = TRUE)
+cpal_table_reactable(mtcars,
+  searchable = TRUE,
+  sortable = TRUE,
+  pagination = TRUE,
+  highlight_row_on_hover = TRUE
+)
+
+# Simplified wrapper
+cpal_table(mtcars, 
+  type = "gt",        # or "reactable"
+  title = "My Table"
+)
 ```
 
-### **Visualization Functions**
+### 🚀 Project Templates
+
+Quickly scaffold new projects with CPAL standards:
+
 ```r
-# CPAL-themed ggplot2
-ggplot(data, aes(x, y)) + 
-  geom_point() + 
+# Create a new analysis project
+start_project(
+  name = "quarterly-analysis",
+  type = "analysis",
+  include_git = TRUE,
+  include_renv = TRUE
+)
+
+# Create a Shiny dashboard
+start_project(
+  name = "data-dashboard",
+  type = "shiny_dashboard"
+)
+
+# Available project types:
+# - "basic": Simple R project
+# - "analysis": Data analysis with targets
+# - "report": Quarto report template
+# - "shiny_app": Basic Shiny application
+# - "shiny_dashboard": Full dashboard
+# - "package": R package structure
+```
+
+### 📝 Quarto Templates
+
+Generate professional reports and presentations:
+
+```r
+# Create a CPAL report
+use_quarto_report(
+  title = "Quarterly Report",
+  author = "Your Name",
+  path = "reports/"
+)
+
+# Create presentation slides
+use_quarto_slides(
+  title = "Data Insights",
+  path = "presentations/"
+)
+
+# Create a web document
+use_quarto_web(
+  title = "Interactive Analysis",
+  path = "web/"
+)
+```
+
+### 🎯 Targets Workflow
+
+**STILL UNDER CONSTRUCTION**
+Set up reproducible analysis pipelines:
+
+```r
+# Add targets to existing project
+use_targets(
+  type = "analysis",  # or "etl", "modeling"
+  path = "."
+)
+```
+
+### 🔧 Utilities
+
+#### **Font Management**
+```r
+# Setup Google Fonts for consistency
+setup_cpal_google_fonts()
+
+# Get appropriate font family
+get_cpal_font_family(for_interactive = FALSE)
+```
+
+#### **Plot Export**
+```r
+# Save plots with consistent settings
+save_cpal_plot(
+  plot = my_plot,
+  filename = "analysis.png",
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+```
+
+#### **Logo Integration**
+```r
+# Add CPAL logo to plots
+my_plot + add_cpal_logo(position = "bottom-right")
+```
+
+#### **Accessibility Checking**
+```r
+# Check if colors meet WCAG standards
+check_plot_accessibility(my_plot)
+```
+
+#### **Asset Management**
+```r
+# Update package assets
+update_cpal_assets()
+
+# Get specific assets
+get_cpal_asset("logo", category = "logos")
+```
+
+## Quick Start Guide
+
+### 1. Basic Visualization
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+
+# Set up fonts (run once per session)
+setup_cpal_google_fonts()
+
+# Create a simple bar chart
+mtcars %>%
+  group_by(cyl) %>%
+  summarise(avg_mpg = mean(mpg)) %>%
+  ggplot(aes(factor(cyl), avg_mpg, fill = factor(cyl))) +
+  geom_col() +
+  scale_fill_cpal() +
   theme_cpal() +
-  scale_color_cpal()
-
-# Interactive plots
-cpal_interactive(plot, tooltip_vars = c("x", "y"))
+  labs(
+    title = "Average MPG by Cylinder Count",
+    subtitle = "Motor Trend Car Road Tests",
+    x = "Cylinders",
+    y = "Miles per Gallon",
+    fill = "Cylinders"
+  )
 ```
 
-### **Project Templates**
+### 2. Interactive Dashboard
+
 ```r
-# Start new CPAL project
-start_project("my-analysis", type = "analysis")
-start_project("my-dashboard", type = "shiny_dashboard") 
+# Create a new dashboard project
+start_project("my-dashboard", type = "shiny_dashboard")
+
+# This creates a complete dashboard structure with:
+# - app.R with CPAL theming
+# - modular structure
+# - CPAL color scheme
+# - Responsive layout
 ```
 
+### 3. Professional Report
+
+```r
+# Create a report project
+use_quarto_report(
+  title = "Annual Data Report",
+  author = "CPAL Data Team"
+)
+
+# This generates:
+# - Quarto document with CPAL styling
+# - Bibliography support
+# - Professional formatting
+# - Export to PDF/HTML/Word
+```
+
+## Package Components
+
+### Core Functions by Category
+
+| Category | Key Functions | Description |
+|----------|--------------|-------------|
+| **Themes** | `theme_cpal()`, `theme_cpal_*()` | ggplot2 themes for consistent styling |
+| **Colors** | `scale_*_cpal()`, `cpal_colors()` | Color palettes and scales |
+| **Interactive** | `cpal_interactive()`, `cpal_*_interactive()` | Interactive visualizations |
+| **Tables** | `cpal_table_gt()`, `cpal_table_reactable()` | Formatted tables |
+| **Dashboards** | `cpal_shiny()` | Shiny dashboard components |
+| **Projects** | `start_project()`, `use_*()` | Project scaffolding |
+| **Maps** | `cpal_mapgl()`, `cpal_mapgl_layer()` | Interactive mapping |
+| **Utilities** | `save_cpal_plot()`, `add_cpal_logo()` | Helper functions |
+
+## Best Practices
+
+### Visualization Guidelines
+
+1. **Always use CPAL themes** for consistency
+2. **Check accessibility** with `check_plot_accessibility()`
+3. **Use semantic color mappings** from CPAL palettes
+4. **Include descriptive titles and subtitles**
+5. **Export at 300 DPI** for print materials
+
+### Project Organization
+
+1. **Use project templates** to maintain structure
+2. **Implement targets** for reproducible workflows
+3. **Version control** with git (included in templates)
+4. **Document dependencies** with renv
+
+### Performance Tips
+
+1. **Cache interactive plots** when working with large datasets
+2. **Use appropriate table type** (GT for static, Reactable for interactive)
+3. **Optimize map layers** by simplifying geometries when needed
+
+## Requirements
+
+- R ≥ 4.3.0
+- Core dependencies: ggplot2, gt, reactable, bslib, sass
+- Optional: quarto (for reports), shiny (for apps), targets (for pipelines)
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```r
+# Clone the repository
+git clone https://github.com/childpovertyactionlab/cpaltemplates.git
+
+# Install development dependencies
+devtools::install_deps(dependencies = TRUE)
+
+# Run checks
+devtools::check()
+```
+
+## Support
+
+- **Documentation**: Full function documentation available via `?function_name`
+- **Issues**: [GitHub Issues](https://github.com/childpovertyactionlab/cpaltemplates/issues)
+- **Email**: datalab@childpovertyactionlab.org
+
+## License
+
+GPL-3 © Child Poverty Action Lab
+
+## Acknowledgments
+
+This package was developed by the Child Poverty Action Lab data team to standardize and improve data visualization practices across the organization.
+
 ---
 
-## 📚 **Key Knowledge Management Points**
-
-### **Function Integration Patterns**
-- **Theme + Color Integration**: All themes work with all color palettes
-- **Interactive Compatibility**: `cpal_interactive()` applies CPAL styling automatically
-- **Export Workflow**: `save_cpal_plot()` works with any theme for consistency
-
-### **Development Anti-patterns Avoided**
-- ✅ Never promise functions in README without implementation
-- ✅ All template references validated before documentation
-- ✅ Dependency isolation maintained (graceful degradation)
-- ✅ Parameter interdependencies clearly documented
-
-### **Design Philosophy**
-- **CPAL Brand First**: All styling reinforces CPAL visual identity
-- **Accessibility Built-in**: Never sacrifice accessibility for visual appeal
-- **Sensible Defaults**: Functions work well with minimal configuration
-- **Team Workflow Optimization**: Prioritizes CPAL data team efficiency
-
----
-
-## 🚀 **Next Steps for Development**
-
-1. **Immediate**: Validate logo functions and template files
-2. **Short-term**: Add comprehensive testing infrastructure
-3. **Medium-term**: Gather user feedback and optimize performance  
-4. **Long-term**: Consider broader distribution and advanced features
-
----
-
-## 📖 **Development Notes**
-
-- **Current Version**: 1.7.0
-- **R CMD Check Status**: ✅ CLEAN (0 errors, 0 warnings, 0 notes)
-- **Last Major Update**: August 5, 2025 - R CMD check resolution
-- **Development Approach**: Internal CPAL team adoption first, then external sharing
-
----
-
-*This README serves as the central hub for all cpaltemplates development tracking and documentation.*
+*For more examples and detailed documentation, visit the [package website](https://github.com/childpovertyactionlab/cpaltemplates).*

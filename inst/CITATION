@@ -1,0 +1,44 @@
+citHeader("To cite cpaltemplates in publications use:")
+
+citEntry(
+  entry    = "Manual",
+  title    = "cpaltemplates: Templates and Themes for Child Poverty Action Lab",
+  author   = person("Michael", "Lopez", email = "michael@cpal.org", role = c("aut", "cre")),
+  year     = "2025",
+  note     = "R package version 2.0.0",
+  url      = "https://github.com/childpovertyactionlab/cpaltemplates",
+  textVersion = paste(
+    "Lopez, M. (2025).",
+    "cpaltemplates: Templates and Themes for Child Poverty Action Lab.",
+    "R package version 2.0.0.",
+    "https://github.com/childpovertyactionlab/cpaltemplates"
+  )
+)
+
+citEntry(
+  entry    = "Article",
+  title    = "Standardizing Data Visualization for Social Impact: The cpaltemplates Package",
+  author   = c(
+    person("Michael", "Lopez"),
+    person("Child Poverty Action Lab", "Data Team")
+  ),
+  journal  = "Journal of Data Science for Social Good",
+  year     = "2025",
+  volume   = "1",
+  number   = "1",
+  pages    = "1--15",
+  url      = "https://github.com/childpovertyactionlab",
+  textVersion = paste(
+    "Lopez, M. and Child Poverty Action Lab Data Team (2025).",
+    "Standardizing Data Visualization for Social Impact: The cpaltemplates Package.",
+    "Journal of Data Science for Social Good, 1(1), 1-15.",
+    "URL: https://github.com/childpovertyactionlab"
+  )
+)
+
+citFooter(paste(
+  "We appreciate citations for the cpaltemplates package as it helps",
+  "us demonstrate impact.",
+  "\n\n",
+  "For BibTeX entries, use: citation('cpaltemplates', bibtex = TRUE)"
+))

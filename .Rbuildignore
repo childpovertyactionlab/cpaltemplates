@@ -1,13 +1,2 @@
-^LICENSE\.md$
-^CODE_OF_CONDUCT\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^data-raw$
-^README\.Rmd$
-^README-.*\.png$
-^README_files$
-^\.travis\.yml$
-^docs$
-^CODE_OF_CONDUCT.md
-^hexsticker.R
-^/figures/hexsticker.png
