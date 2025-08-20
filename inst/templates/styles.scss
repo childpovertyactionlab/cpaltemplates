@@ -1,12 +1,12 @@
-// cpal 0.0.2
-// Bootswatch
+// cpal 1.0.0 - Enhanced for Shiny Integration
+// Bootswatch compatible with bslib themes
 
 /*-- scss:defaults --*/
 $theme: "cpal" !default;
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Poppins:wght@400;600;700&family=Fira+Code:wght@300;400;500&display=swap");
 
 //
-// Color system
+// Color system - Enhanced for Shiny compatibility
 //
 
 $white:    #FFFFFF !default;
@@ -22,6 +22,7 @@ $gray-800: #006274 !default;
 $gray-900: #005160 !default;
 $black:    #2f2f2f !default;
 
+// CPAL Brand Colors
 $blue:    #325d88 !default;
 $indigo:  #8338ec !default;
 $purple:  #6610f2 !default;
@@ -33,6 +34,7 @@ $green:   #009763 !default;
 $teal:    #008097 !default;
 $cyan:    #43bccd !default;
 
+// CPAL Extended Color System
 $teal-100:       #E7F7F9 !default;
 $teal-400:       #9ADAE5 !default;
 $teal-700:       #008097 !default;
@@ -47,11 +49,12 @@ $rust-100:       #FFE5DE !default;
 $rust-700:       #F59A7D !default;
 $rust-900:       #ED683F !default;
 
-$mustard-100:       #FFFEE2 !default;
-$mustard-400:       #FEF6C7 !default;
-$mustard-700:       #EACA2D !default;
-$mustard-900:       #C9AA0C !default;
+$mustard-100:    #FFFEE2 !default;
+$mustard-400:    #FEF6C7 !default;
+$mustard-700:    #EACA2D !default;
+$mustard-900:    #C9AA0C !default;
 
+// Bootstrap semantic colors mapped to CPAL
 $primary:       $teal-900 !default;
 $secondary:     $magenta-700 !default;
 $success:       $green !default;
@@ -64,28 +67,20 @@ $dark:          $gray-800 !default;
 $min-contrast-ratio:   2 !default;
 
 // Body
-
 $body-bg:       $white !default;
 $body-color:    $black !default;
 $link-color:    $teal-900 !default;
 
-// Links
-
-$link-color:                $success !default;
-
-// Fonts
-
-// stylelint-disable-next-line value-keyword-case
+// Typography - Enhanced for Shiny
 $font-family-sans-serif:      Inter, Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-monospace:       'Fira Code', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$headings-font-family:        Poppins, $font-family-sans-serif !default;
 $headings-font-weight:        600 !default;
-$font-family-monospace:       'Fira Code' !default;
-$headings-font-family:        Inter, $font-family-sans-serif !default;
 
-// Default Enable
-
+// Enhanced Bootstrap Settings for Shiny
 $enable-caret:                true !default;
 $enable-rounded:              true !default;
-$enable-shadows:              false !default;
+$enable-shadows:              true !default;  // Enable for Shiny components
 $enable-gradients:            true !default;
 $enable-transitions:          true !default;
 $enable-reduced-motion:       true !default;
@@ -97,19 +92,37 @@ $enable-button-pointers:      true !default;
 $enable-rfs:                  true !default;
 $enable-validation-icons:     true !default;
 $enable-negative-margins:     false !default;
-$enable-deprecation-messages: true !default;
+$enable-deprecation-messages: false !default;  // Reduce console noise in Shiny
 $enable-important-utilities:  true !default;
 
-// Dropdowns
+// Enhanced Component Styling
 
+// Buttons - Improved for Shiny interactions
+$btn-border-radius:           6px !default;
+$btn-font-weight:             500 !default;
+$btn-focus-width:             0.2rem !default;
+$btn-focus-box-shadow:        0 0 0 $btn-focus-width rgba($primary, 0.25) !default;
+
+// Cards - Enhanced for dashboard layouts
+$card-border-radius:          8px !default;
+$card-border-color:           rgba($gray-300, .75) !default;
+$card-cap-bg:                 rgba($gray-200, .25) !default;
+$card-box-shadow:             0 2px 4px rgba(0,0,0,0.1) !default;
+
+// Forms - Better Shiny input styling
+$input-border-radius:         6px !default;
+$input-focus-border-color:    $primary !default;
+$input-focus-box-shadow:      0 0 0 0.2rem rgba(4, 45, 51, 0.25) !default;
+
+// Dropdowns
 $dropdown-link-color:               $gray-600 !default;
 $dropdown-link-hover-color:         $dropdown-link-color !default;
 $dropdown-link-hover-bg:            $gray-200 !default;
 $dropdown-link-active-color:        $dropdown-link-color !default;
 $dropdown-link-active-bg:           $dropdown-link-hover-bg !default;
+$dropdown-border-radius:            8px !default;
 
-// Navs
-
+// Navs - Enhanced for Shiny navbarPage
 $nav-link-padding-x:                .9rem !default;
 $nav-link-disabled-color:           $gray-300 !default;
 $nav-tabs-border-color:             $gray-300 !default;
@@ -118,14 +131,12 @@ $nav-tabs-link-active-bg:           $white !default;
 $nav-pills-link-active-color:       $gray-600 !default;
 $nav-pills-link-active-bg:          $gray-200 !default;
 
-// Navbar
-
+// Navbar - Improved for Shiny navigation
 $navbar-dark-hover-color:           $white !default;
 $navbar-light-hover-color:          $black !default;
 $navbar-light-active-color:         $black !default;
 
 // Pagination
-
 $pagination-color:                  $gray-600 !default;
 $pagination-bg:                     $gray-200 !default;
 $pagination-border-color:           $gray-300 !default;
@@ -137,29 +148,21 @@ $pagination-disabled-color:         $gray-300 !default;
 $pagination-disabled-bg:            $gray-200 !default;
 $pagination-disabled-border-color:  $pagination-border-color !default;
 
-// Cards
-
-$card-border-color:                 rgba($gray-300, .75) !default;
-$card-cap-bg:                       rgba($gray-200, .25) !default;
-
 // Popovers
-
 $popover-header-bg:                 $gray-200 !default;
 
-// Modals
-
+// Modals - Enhanced for Shiny modal dialogs
 $modal-content-border-color:        $gray-300 !default;
 $modal-header-border-color:         $modal-content-border-color !default;
+$modal-content-border-radius:       8px !default;
 
-// Progress bars
-
-$progress-color:                    $magenta-700 !default;
+// Progress bars - Enhanced for Shiny progress indicators
 $progress-bg:                       $gray-300 !default;
 $progress-border-radius:            10px !default;
 $progress-bar-color:                $primary !default;
+$progress-height:                   1rem !default;
 
 // List group
-
 $list-group-border-color:           $gray-300 !default;
 $list-group-hover-bg:               $gray-200 !default;
 $list-group-active-color:           $body-color !default;
@@ -172,7 +175,6 @@ $list-group-action-active-color:    $list-group-active-color !default;
 $list-group-action-active-bg:       $gray-300 !default;
 
 // Breadcrumbs
-
 $breadcrumb-padding-y:              .375rem !default;
 $breadcrumb-padding-x:              .75rem !default;
 $breadcrumb-bg:                     $pagination-bg !default;
@@ -182,179 +184,243 @@ $breadcrumb-border-radius:          .25rem !default;
 $code-block-bg-alpha:               -0.8 !default;
 $code-block-bg-color:               $gray-000 !default;
 $code-color:                        $magenta-700 !default;
-$code-bg:                           $magenta-400 !default;
+$code-bg:                           $mustard-400 !default;
 
-// Close
-
+// Close button
 $btn-close-color:            $white !default;
 $btn-close-opacity:          .8 !default;
 $btn-close-hover-opacity:    1 !default;
 
-// Test
-div.shadecontent
-{
-    padding: 10px;
-    border-radius: 15px;
-    font-family: $font-family-sans-serif;
-    background: $gray-000;
-    border-radius: 15px;
-    -moz-border-radius: 10px;
+/*-- scss:rules --*/
+
+// Enhanced Shiny-specific styling
+.shiny-app {
+  font-family: $font-family-sans-serif;
 }
 
-.navbar-title{
-  margin-left: 1rem;
+// Shiny input containers
+.shiny-input-container {
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 500;
+    color: $body-color;
+    margin-bottom: 0.5rem;
+  }
 }
 
+// Enhanced selectInput styling for Shiny
+.selectize-control {
+  .selectize-input {
+    border: 1px solid $gray-300;
+    border-radius: $input-border-radius;
+
+    &.focus {
+      border-color: $input-focus-border-color;
+      box-shadow: $input-focus-box-shadow;
+    }
+  }
+
+  .selectize-dropdown {
+    border: 1px solid $gray-300;
+    border-radius: $dropdown-border-radius;
+  }
+}
+
+// Shiny notification styling
+.shiny-notification {
+  background-color: $primary;
+  color: $white;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+// Enhanced navbar for Shiny navbarPage
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .navbar-brand {
+    font-family: $headings-font-family;
+    font-weight: $headings-font-weight;
+    margin-left: 1rem;
+  }
+}
+
+// Content containers
+div.shadecontent {
+  padding: 10px;
+  border-radius: 15px;
+  font-family: $font-family-sans-serif;
+  background: $gray-000;
+  border-radius: 15px;
+  -moz-border-radius: 10px;
+}
 
 .centered {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
+// Smooth scrolling
 html {
   scroll-behavior: smooth;
 }
 
+// CPAL Header System - Adapted for Shiny
 h1, h2, h3, h4, h5, h6 {
+  position: relative;
+  padding: 10px;
+  font-weight: $headings-font-weight;
+  font-family: $headings-font-family;
+  color: #FFFFFF;
+  text-align: left;
+  background: $teal-900;
+  border-radius: 8px 10px 10px 8px;
+  vertical-align: middle;
+}
+
+// Shiny-specific header adaptations
+.shiny-app {
+  h1, h2, h3, h4 {
+    // Reduce aggressive styling for Shiny UI elements
+    background: none;
+    color: $primary;
+    border-radius: 0;
+    padding: 0.5rem 0;
+
+    &::before, &::after {
+      display: none; // Remove geometric elements for Shiny headers
+    }
+  }
+
+  // Keep geometric styling only for content headers with .cpal-header class
+  .cpal-header {
     position: relative;
-    padding: 10px; /* Add more padding to the right to make space for the triangle */
+    padding: 10px;
     font-weight: $headings-font-weight;
     font-family: $headings-font-family;
     color: #FFFFFF;
     text-align: left;
     background: $teal-900;
     border-radius: 8px 10px 10px 8px;
-    -moz-border-radius: 0px;
     vertical-align: middle;
+  }
 }
 
+// Main title styling (preserved for reports)
 h1 {
-    font-size: 50px !important;
-    width: 95%;
-    height: 80px;
-    padding-left: 80px; /* Space for block and triangle. Adjust as needed. */
-    background: none;
-    color: $teal-900;
-    font-size: 50px !important;
+  font-size: 50px !important;
+  width: 95%;
+  height: 80px;
+  padding-left: 80px;
+  background: none;
+  color: $teal-900;
 
-    &::before {
-        /* Block */
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 50px; /* Adjust as needed */
-        height: 40px; /* Adjust as needed */
-        background: $teal-900;
-        border-radius: 5px 10px 10px 5px;
-    }
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 40px;
+    background: $teal-900;
+    border-radius: 5px 10px 10px 5px;
+  }
 
-    &::after {
-        /* Triangle */
-        content: '';
-        position: absolute;
-        left: 46px; /* Adjust based on block width */
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: calc(40px * .60) solid $teal-900; /* Adjust based on the height */
-        border-top: calc(40px / 2 - 2px) solid transparent;
-        border-bottom: calc(40px / 2 - 2px) solid transparent;
-    }
-}
-
-h4 {
-    width: 75%;
-    height: 100%;
-
-    &::after {
-        border-radius: 0;
-        content: '';
-        position: absolute;
-        right: -26.5px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: calc(48px * .65) solid $teal-900;
-        border-top: calc(48px / 2 - 2px) solid transparent;
-        border-bottom: calc(48px / 2 - 2px) solid transparent;
-    }
-}
-
-h2#toc-title {
-    height: auto;
-    padding: 5px;
-    padding-left: 10px;
-
-    &::after {
-        content: none;     /* Removes the ::after content, i.e., the triangle */
-    }
-}
-
-h3 {
-    width: 45%;
-    height: 100%;
-    font-size: 20px !important;
-
-    &::after {
-        border-radius: 0;
-        content: '';
-        position: absolute;
-        right: -28.5px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: calc(48px * .65) solid $teal-900;
-        border-top: calc(48px / 2 - 2px) solid transparent;
-        border-bottom: calc(48px / 2 - 2px) solid transparent;
-    }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 46px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: calc(40px * .60) solid $teal-900;
+    border-top: calc(40px / 2 - 2px) solid transparent;
+    border-bottom: calc(40px / 2 - 2px) solid transparent;
+  }
 }
 
 h2 {
-    position: relative;
-    padding-left: 85px; /* Space for block and triangle. Adjust as needed. */
-    background: none;
-    color: $teal-900;
+  position: relative;
+  padding-left: 85px;
+  background: none;
+  color: $teal-900;
+  border-radius: 0;
+  border: 0 !important;
+  margin-top: 0px !important;
+  margin-bottom: 10px !important;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 40px;
+    background: $teal-900;
+    border-radius: 5px 10px 10px 5px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 46px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: calc(40px * .60) solid $teal-900;
+    border-top: calc(40px / 2 - 2px) solid transparent;
+    border-bottom: calc(40px / 2 - 2px) solid transparent;
+  }
+
+  &.slim {
+    margin-top: 0px;
+    margin-bottom: 10px;
+  }
+}
+
+h3 {
+  width: 45%;
+  height: 100%;
+  font-size: 20px !important;
+
+  &::after {
     border-radius: 0;
-    border: 0 !important;
-    margin-top: 0px !important;
-    margin-bottom: 10px !important;
+    content: '';
+    position: absolute;
+    right: -28.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: calc(48px * .65) solid $teal-900;
+    border-top: calc(48px / 2 - 2px) solid transparent;
+    border-bottom: calc(48px / 2 - 2px) solid transparent;
+  }
+}
 
-    &::before {
-        /* Block */
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 50px; /* Adjust as needed */
-        height: 40px; /* Adjust as needed */
-        background: $teal-900;
-        border-radius: 5px 10px 10px 5px;
-    }
+h4 {
+  width: 75%;
+  height: 100%;
 
-    &::after {
-        /* Triangle */
-        content: '';
-        position: absolute;
-        left: 46px; /* Adjust based on block width */
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: calc(40px * .60) solid $teal-900; /* Adjust based on the height */
-        border-top: calc(40px / 2 - 2px) solid transparent;
-        border-bottom: calc(40px / 2 - 2px) solid transparent;
-    }
-    
-    &.slim {
-      margin-top: 0px;
-      margin-bottom: 10px;
-    }
+  &::after {
+    border-radius: 0;
+    content: '';
+    position: absolute;
+    right: -26.5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: calc(48px * .65) solid $teal-900;
+    border-top: calc(48px / 2 - 2px) solid transparent;
+    border-bottom: calc(48px / 2 - 2px) solid transparent;
+  }
 }
 
 h5, h6 {
@@ -364,26 +430,78 @@ h5, h6 {
 }
 
 h6 {
-    background: #FFFFFF;
-    color: $teal-900;
-    border: 2px solid $teal-900;
+  background: #FFFFFF;
+  color: $teal-900;
+  border: 2px solid $teal-900;
 }
 
+h2#toc-title {
+  height: auto;
+  padding: 5px;
+  padding-left: 10px;
+
+  &::after {
+    content: none;
+  }
+}
+
+// Enhanced positioning utilities
 .box-of-map {
-  position: -webkit-sticky !important; /* Safari */
+  position: -webkit-sticky !important;
   position: sticky !important;
-  top: 75px; /* Set to the top of the container */
-  z-index: 100; /* Ensure it sits above other content */
+  top: 75px;
+  z-index: 100;
 }
 
+.indent {
+  margin-left: 65px;
+}
+
+// Enhanced DataTables styling for Shiny
 .dataTables_wrapper {
-  // overflow: auto;
   border: 4px solid $teal-900;
   border-radius: 10px 10px 5px 5px;
+  margin-bottom: 1rem;
 
+  // Enhanced search box
+  .dataTables_filter {
+    margin-bottom: 1rem;
 
+    input {
+      border: 2px solid $primary;
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-family: $font-family-sans-serif;
+
+      &:focus {
+        outline: none;
+        border-color: $teal-700;
+        box-shadow: 0 0 0 0.2rem rgba(4, 45, 51, 0.25);
+      }
+    }
+  }
+
+  // Enhanced pagination for DT
+  .dataTables_paginate {
+    .paginate_button {
+      border-radius: 4px;
+      margin: 0 2px;
+
+      &.current {
+        background-color: $primary !important;
+        color: white !important;
+        border-color: $primary !important;
+      }
+
+      &:hover {
+        background-color: $gray-200 !important;
+        border-color: $gray-300 !important;
+      }
+    }
+  }
+
+  // Enhanced table styling
   .dataTable {
-
     .last-row {
       background-color: $teal-900;
     }
@@ -395,63 +513,64 @@ h6 {
     }
 
     thead th:hover {
-      color: #FFF; /* This sets the text color to white; adjust as needed */
-      cursor: pointer; /* Makes it clear to users they can interact with the headers */
+      color: #FFF;
+      cursor: pointer;
     }
 
     th, td {
       font-family: "Poppins", sans-serif;
-      // font-weight: bold;
       text-align: left;
-      // border-radius: 15px;
-    }
-
-    .th-hover-effect {
-      color: rgba(4, 45, 51, 0.05); /* teal-900 at 5% opacity */
+      border: none; // Cleaner look for Shiny
     }
 
     td {
       font-size: 15px;
       padding-left: 15px;
+      padding: 12px 15px; // Better spacing
     }
 
     th {
-      background-color: $teal-900;
-      color: #FFFFFF;
+      background-color: $teal-900 !important;
+      color: #FFFFFF !important;
       line-height: 1.2;
       font-style: none;
       font-variant: small-caps;
-      // border-radius: 15px;
+      padding: 15px;
+      font-weight: 600;
     }
+  }
+}
 
-    // tr:nth-child(odd) {
-    //  background-color: $gray-100;
-    // }
+// Enhanced table styling
+.table > :not(:first-child) {
+  border-top: 0 !important;
+}
+
+.table {
+  th {
+    border-bottom: 2px solid $primary;
+    font-family: $headings-font-family;
+    font-weight: $headings-font-weight;
   }
 
+  tbody tr:hover {
+    background-color: rgba(4, 45, 51, 0.05);
+  }
 }
 
-.table>:not(:first-child) {
-    border-top: 0 !important;
-}
-
-
-.indent {
-  margin-left: 65px;
-}
-
-
-.grid-container {
+// CPAL Grid System - Enhanced for Shiny dashboards
+.cpal-grid-container, .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
 }
 
-.grid-link {
+// Enhanced metric cards for Shiny value boxes
+.cpal-metric-card, .grid-link {
   text-decoration: none !important;
   border: none;
-  background-color: $teal-900;
+  background: linear-gradient(135deg, $teal-900 0%, $teal-700 100%);
   color: white;
   border-radius: 15px;
   height: 200px;
@@ -461,25 +580,42 @@ h6 {
   align-content: center;
   justify-content: center;
   margin: 10px;
-  padding: 10px;
-  
-  p {
-    position: relative;
-    font-weight: $headings-font-weight;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  &:hover {
+    transform: scale(1.02);
+    background: linear-gradient(135deg, $teal-700 0%, $teal-900 100%);
+    text-decoration: none;
+    color: white;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .cpal-metric-value, p {
+    font-size: 3rem;
+    font-weight: 700;
     font-family: $headings-font-family;
     color: #FFFFFF;
     text-align: center;
     vertical-align: middle;
-    font-size: 80px !important;
-    margin: 0;
+    margin: 0.5rem 0;
     padding: 5px;
-    line-height: 0;
+    line-height: 1;
   }
-  
-  span {
-    font-size: 20px !important;
+
+  .cpal-metric-title, span {
+    font-size: 1.25rem !important;
+    font-weight: 600;
     margin: 0;
     padding: 0;
+    text-align: center;
+  }
+
+  .cpal-metric-subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-top: 0.5rem;
   }
 }
 
@@ -493,38 +629,37 @@ h6 {
   align-items: center;
   align-content: center;
   justify-content: center;
-  
 }
 
-.grid-link.hovered {
-  background-color: $teal-700; /* Update to the lighter teal color when hovered */
-  p {
-    transform: scale(1.05); // Increase icon size on hover
+// Enhanced button styling
+a[role="button"] {
+  text-decoration: none;
+  font-family: $font-family-sans-serif;
+
+  &:hover {
+    text-decoration: none;
   }
 }
 
-a[role="button"] {
-  text-decoration: none;
-}
-
+// Enhanced collapsible content for Shiny
 i.bi-chevron-up {
-  display:inline-block;
+  display: inline-block;
+  transition: transform 0.3s ease;
 }
 
 a[aria-expanded="false"] {
   i.bi-chevron-up {
-    transition: transform 0.3s ease;
     transform: rotate(180deg) !important;
   }
 }
 
 a[aria-expanded="true"] {
   i.bi-chevron-up {
-    transition: transform 0.3s ease;
     transform: rotate(0deg) !important;
   }
 }
 
+// Enhanced expandable content
 .button-content {
   display: flex;
   justify-content: space-between;
@@ -537,15 +672,15 @@ a[aria-expanded="true"] {
   overflow: hidden;
   justify-content: space-between;
   flex-wrap: wrap;
-  transition: max-height 0.75s ease-out; /* Adjust time as needed */
+  transition: max-height 0.75s ease-out;
 }
 
 .list-group-item[aria-expanded="true"] .button-content-details {
-  max-height: 1000px; /* Adjust max-height based on content size */
-  /* Keep the display:flex for layout, but it won't affect the transition */
-  display: flex; 
+  max-height: 1000px;
+  display: flex;
 }
 
+// Content alignment utilities
 .left-content {
   flex: 1;
   text-align: left;
@@ -579,12 +714,95 @@ a[aria-expanded="true"] {
 }
 
 .list-group-item {
-  white-space: normal; /* Allow text to wrap to the next line if necessary */
+  white-space: normal;
+  border-color: $list-group-border-color;
+
+  &:hover {
+    background-color: $list-group-hover-bg;
+  }
+
+  &.active {
+    background-color: $list-group-active-bg;
+    border-color: $list-group-active-border-color;
+    color: $list-group-active-color;
+  }
 }
 
+// Enhanced Shiny-specific components
 
-// Mermaid Theme;
+// plotOutput containers
+.shiny-plot-output {
+  border-radius: 8px;
+  overflow: hidden;
+  background: $white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
+// tableOutput styling
+.shiny-table-output {
+  .table {
+    margin-bottom: 0;
+
+    th {
+      background-color: $primary;
+      color: $white;
+      border: none;
+    }
+
+    td {
+      border-top: 1px solid $gray-200;
+    }
+  }
+}
+
+// Enhanced sidebar for Shiny layouts
+.well {
+  background-color: $gray-000;
+  border: 1px solid $gray-200;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+// Shiny action button enhancements
+.btn-default, .btn-secondary {
+  background-color: $secondary;
+  border-color: $secondary;
+  color: $white;
+
+  &:hover {
+    background-color: darken($secondary, 10%);
+    border-color: darken($secondary, 10%);
+  }
+}
+
+// Enhanced alerts for Shiny
+.alert {
+  border-radius: 8px;
+  border: none;
+
+  &.alert-info {
+    background-color: lighten($info, 20%);
+    color: darken($mustard-900, 10%);
+  }
+
+  &.alert-success {
+    background-color: lighten($success, 40%);
+    color: darken($success, 20%);
+  }
+
+  &.alert-warning {
+    background-color: lighten($warning, 30%);
+    color: darken($warning, 20%);
+  }
+
+  &.alert-danger {
+    background-color: lighten($danger, 40%);
+    color: darken($danger, 10%);
+  }
+}
+
+// Mermaid Theme for Shiny diagrams
 $mermaid-bg-color: $body-bg;
 $mermaid-edge-color: $teal-700;
 $mermaid-node-fg-color: $body-color;
@@ -596,3 +814,83 @@ $mermaid-label-bg-color: $body-bg;
 $mermaid-label-fg-color: $primary;
 $mermaid-node-bg-color: rgba($primary, 0.1);
 $mermaid-node-fg-color: $primary;
+
+// Shiny-specific loading indicators
+.shiny-spinner-output-container {
+  .load-container {
+    .loader {
+      border: 4px solid $gray-200;
+      border-top: 4px solid $primary;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Enhanced responsive design for Shiny
+@media (max-width: 768px) {
+  .cpal-grid-container, .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .cpal-metric-card, .grid-link {
+    height: 150px;
+    margin: 5px;
+
+    .cpal-metric-value, p {
+      font-size: 2rem !important;
+    }
+  }
+
+  h1 {
+    font-size: 2rem !important;
+    height: auto;
+    padding-left: 1rem;
+
+    &::before, &::after {
+      display: none; // Remove geometric elements on mobile
+    }
+  }
+
+  h2 {
+    padding-left: 1rem;
+
+    &::before, &::after {
+      display: none;
+    }
+  }
+}
+
+// Dark theme variants
+.bs-theme-dark {
+  .cpal-metric-card, .grid-link {
+    background: linear-gradient(135deg, lighten($teal-900, 10%) 0%, $teal-700 100%);
+
+    &:hover {
+      background: linear-gradient(135deg, $teal-700 0%, lighten($teal-900, 10%) 100%);
+    }
+  }
+
+  .dataTables_wrapper {
+    border-color: lighten($teal-900, 20%);
+
+    .dataTable th {
+      background-color: lighten($teal-900, 15%) !important;
+    }
+  }
+
+  .card {
+    background-color: #2A2A2A;
+    border-color: #404040;
+  }
+
+  .well {
+    background-color: #2A2A2A;
+    border-color: #404040;
+  }
+}
