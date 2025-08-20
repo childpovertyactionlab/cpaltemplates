@@ -33,7 +33,6 @@ Suggests:
     showtext,
     sysfonts,
     quarto,
-    gdtools,
     systemfonts,
     gdtools
 License: GPL-3

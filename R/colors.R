@@ -1,8 +1,6 @@
-
 #' @importFrom grDevices colorRampPalette
-#' @importFrom graphics axis barplot image mtext par plot.new rect text
-
-#' CPAL Color Palettes
+#' @importFrom graphics axis barplot mtext par plot.new rect text
+#' #' CPAL Color Palettes
 #'
 #' Official color palettes for Child Poverty Action Lab data visualizations
 #' Based on CPAL Data Visualization Guidelines

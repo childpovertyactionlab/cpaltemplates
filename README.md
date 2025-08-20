@@ -3,7 +3,7 @@
 <!-- badges: start -->
 [![R Package Version](https://img.shields.io/badge/version-2.0.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
 [![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/childpovertyactionlab/cpaltemplates/actions)
-[![License: GPL-3](https://img.shields.io/badge/License-GPL%203-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
 ## Overview
