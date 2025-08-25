@@ -183,7 +183,7 @@ cpal_shiny <- function(variant = "default",
     # Typography - Inter with Roboto fallback
     font_scale = font_scale,
     heading_font = bslib::font_google("Poppins"),
-    base_font = bslib::font_google("Inter", "Roboto"),
+    base_font = bslib::font_google("Inter"),
     code_font = bslib::font_google("Fira Code"),
 
     # Visual enhancements

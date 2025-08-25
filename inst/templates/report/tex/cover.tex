@@ -16,39 +16,39 @@
 \definecolor{c8}{HTML}{042D33}
 
 % === Layered angled background shapes ===
-\shade[left color=c2, right color=c3, transform canvas={rotate around={45:($(current page.north west)+(0,-6)$)}}] 
+\shade[left color=c2, right color=c3, transform canvas={rotate around={45:($(current page.north west)+(0,-6)$)}}]
   ($(current page.north west)+(0,-6)$) rectangle ++(9,1.5);
 
-\shade[left color=c4, right color=c3, rounded corners=0.75cm, transform canvas={rotate around={45:($(current page.north west)+(0.5,-10)$)}}] 
+\shade[left color=c4, right color=c3, rounded corners=0.75cm, transform canvas={rotate around={45:($(current page.north west)+(0.5,-10)$)}}]
   ($(current page.north west)+(0.5,-10)$) rectangle ++(15,1.5);
 
-\shade[left color=c3, rounded corners=0.3cm, transform canvas={rotate around={45:($(current page.north west)+(1.5,-9.55)$)}}] 
+\shade[left color=c3, rounded corners=0.3cm, transform canvas={rotate around={45:($(current page.north west)+(1.5,-9.55)$)}}]
   ($(current page.north west)+(1.5,-9.55)$) rectangle ++(7,0.6);
 
-\shade[left color=c6, right color=c5, rounded corners=0.4cm, transform canvas={rotate around={45:($(current page.north)+(-1.5,-3)$)}}] 
+\shade[left color=c6, right color=c5, rounded corners=0.4cm, transform canvas={rotate around={45:($(current page.north)+(-1.5,-3)$)}}]
   ($(current page.north)+(-1.5,-3)$) rectangle ++(9,0.8);
 
-\shade[left color=c5, right color=c4, rounded corners=0.9cm, transform canvas={rotate around={45:($(current page.north)+(-3,-8)$)}}] 
+\shade[left color=c5, right color=c4, rounded corners=0.9cm, transform canvas={rotate around={45:($(current page.north)+(-3,-8)$)}}]
   ($(current page.north)+(-3,-8)$) rectangle ++(15,1.8);
 
-\shade[left color=c5, right color=c3, rounded corners=0.9cm, transform canvas={rotate around={45:($(current page.north west)+(4,-15.5)$)}}] 
+\shade[left color=c5, right color=c3, rounded corners=0.9cm, transform canvas={rotate around={45:($(current page.north west)+(4,-15.5)$)}}]
   ($(current page.north west)+(4,-15.5)$) rectangle ++(30,1.8);
 
-\shade[left color=c6, right color=c7, rounded corners=0.75cm, transform canvas={rotate around={45:($(current page.north west)+(13,-10)$)}}] 
+\shade[left color=c6, right color=c7, rounded corners=0.75cm, transform canvas={rotate around={45:($(current page.north west)+(13,-10)$)}}]
   ($(current page.north west)+(13,-10)$) rectangle ++(15,1.5);
 
-\shade[left color=c2, rounded corners=0.3cm, transform canvas={rotate around={45:($(current page.north west)+(18,-8)$)}}] 
+\shade[left color=c2, rounded corners=0.3cm, transform canvas={rotate around={45:($(current page.north west)+(18,-8)$)}}]
   ($(current page.north west)+(18,-8)$) rectangle ++(15,0.6);
 
-\shade[left color=c1, rounded corners=0.4cm, transform canvas={rotate around={45:($(current page.north west)+(19,-5.65)$)}}] 
+\shade[left color=c1, rounded corners=0.4cm, transform canvas={rotate around={45:($(current page.north west)+(19,-5.65)$)}}]
   ($(current page.north west)+(19,-5.65)$) rectangle ++(15,0.8);
 
-\shade[left color=c6, right color=c8, rounded corners=0.6cm, transform canvas={rotate around={45:($(current page.north west)+(20,-9)$)}}] 
+\shade[left color=c6, right color=c8, rounded corners=0.6cm, transform canvas={rotate around={45:($(current page.north west)+(20,-9)$)}}]
   ($(current page.north west)+(20,-9)$) rectangle ++(14,1.2);
 
 % === Vertical Date + Prepared For Block ===
 \draw[ultra thick,c8]
-($(current page.center)+(5,2)$) -- ++(0,-3cm) 
+($(current page.center)+(5,2)$) -- ++(0,-3cm)
 node[midway, left=0.4cm, text width=6cm, align=right, c7]
 {
   {\fontsize{18}{22} \selectfont \bf Prepared For} \\[6pt]
@@ -60,19 +60,19 @@ node[midway, right=0.3cm, text width=6cm, align=left, c5]
 };
 
 % === Main Report Title (smaller and safely inside page margins) ===
-\node[anchor=west, text=c8, align=left, text width=18cm] at ([xshift=-9cm,yshift=-5cm]current page.center) 
+\node[anchor=west, text=c8, align=left, text width=18cm] at ([xshift=-9cm,yshift=-5cm]current page.center)
 {
   {\fontsize{24}{28} \selectfont \textbf{Neighborhood Conditions Dashboard}} \\[0.2cm]
   {\fontsize{24}{28} \selectfont \textbf{Summary Report}}
 };
 
 % === Confidentiality tag (top-left) ===
-\node[anchor=north west, text=c7, font=\sffamily\itshape\small] 
+\node[anchor=north west, text=c7, font=\sffamily\itshape\small]
   at ([xshift=1cm,yshift=-1cm] current page.north west) {Proprietary and Confidential};
 
 % === Logo (bottom-left) ===
 \node[anchor=south west, inner sep=1cm] at (current page.south west) {
-  \includegraphics[height=50pt]{assets/cpal-logo-wide.png}
+  \includegraphics[height=50pt]{assets/images/cpal-logo-wide.png}
 };
 
 ...

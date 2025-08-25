@@ -7,8 +7,8 @@ format:
     toc: true
     toc-title: "Table of Contents"
     number-sections: true
-    include-before-body: tex/cover.tex
-    include-in-header: tex/preamble.tex
+    include-before-body: assets/tex/cover.tex
+    include-in-header: assets/tex/preamble.tex
     keep-tex: true
     geometry: margin=1in
     latex-engine: xelatex
