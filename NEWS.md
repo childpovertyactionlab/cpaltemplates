@@ -1,4 +1,13 @@
-# cpaltemplates 2.0.0
+---
+
+# cpaltemplates 2.0.1 (2025-10-09)
+
+### Bug Fixes
+* Adjusted tex file templates to contain correct file paths.
+* Created new quarto report template file with updated yaml
+# Updated theme_cpal() ggplot2 theme for appropriate quarto rendering
+
+---
 
 ## Major Release - Complete Package Overhaul
 
