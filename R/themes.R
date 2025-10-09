@@ -82,12 +82,12 @@ theme_cpal <- function(base_size = 14,
       lineheight = 0.9
     ),
 
-    # Plot titles and labels
+    # Plot titles and labels - NEW: centered title, normal size
     plot.title = ggplot2::element_text(
-      size = base_size * 12/8.5,
+      size = base_size,  # Normal size (was base_size * 12/8.5)
       family = base_family,
       face = "bold",
-      hjust = 0,
+      hjust = 0.5,  # Centered (was 0)
       color = title_color,
       margin = ggplot2::margin(b = base_size * 0.5)
     ),
@@ -99,8 +99,9 @@ theme_cpal <- function(base_size = 14,
       color = title_color,
       margin = ggplot2::margin(b = base_size * 0.5)
     ),
+    # NEW: 40% smaller caption
     plot.caption = ggplot2::element_text(
-      size = base_size * 7/8.5,
+      size = base_size * 0.7,  # 40% smaller (was base_size * 7/8.5)
       family = base_family,
       hjust = 1,
       margin = ggplot2::margin(t = base_size * 0.5),
@@ -114,23 +115,25 @@ theme_cpal <- function(base_size = 14,
       ggplot2::element_text(
         family = base_family,
         face = "italic",
-        size = base_size,
+        size = base_size * 0.9,  # NEW: 50% smaller (was base_size)
         color = if (style == "dark") text_color else midnight
       )
     } else {
       ggplot2::element_blank()
     },
     axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = base_size * 0.5)),
-    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = base_size * 0.5)),
+    # NEW: custom margin for y-axis title
+    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 15)),
+    # NEW: 30% smaller axis text
     axis.text.x = ggplot2::element_text(
       family = base_family,
-      size = base_size * 1.1,
+      size = base_size * 0.8,  # 30% smaller (was base_size * 1.1)
       face = "bold",
       color = if (style == "dark") axis_text_color else midnight
     ),
     axis.text.y = ggplot2::element_text(
       family = base_family,
-      size = base_size * 0.9,
+      size = base_size * 0.8,  # 30% smaller (was base_size * 0.9)
       face = "bold",
       color = if (style == "dark") "#999999" else neutral_dark
     ),
@@ -143,22 +146,26 @@ theme_cpal <- function(base_size = 14,
     panel.border = ggplot2::element_blank(),
     plot.background = ggplot2::element_rect(fill = bg_color, color = NA),
 
-    # Legend styling - IMPROVED with wider continuous legends
+    # Legend styling - NEW: smaller legend elements
     legend.position = legend_position,
     legend.background = ggplot2::element_blank(),
     legend.key = ggplot2::element_blank(),
     legend.text = ggplot2::element_text(
-      size = base_size * 9.5/8.5,
+      size = base_size * 0.7,  # 30% smaller (was base_size * 9.5/8.5)
       family = base_family
     ),
     legend.title = ggplot2::element_text(
-      size = base_size,
+      size = base_size * 0.7,  # 30% smaller (was base_size)
       face = "bold",
       color = if (style == "dark") title_color else midnight
     ),
-    # NEW: Wider legends for continuous scales
-    legend.key.width = ggplot2::unit(base_size * 2, "pt"),
-    legend.key.height = ggplot2::unit(base_size * 0.8, "pt"),
+    # NEW: smaller legend keys
+    legend.key.size = ggplot2::unit(0.7, "lines"),
+    legend.key.width = ggplot2::unit(0.7, "lines"),
+    legend.key.height = ggplot2::unit(0.7, "lines"),
+    # NEW: tighter legend spacing
+    legend.margin = ggplot2::margin(t = 5, b = 0, l = 0, r = 0, unit = "pt"),
+    legend.box.margin = ggplot2::margin(0, 0, 0, 0, unit = "pt"),
 
     # Facet styling
     strip.background = ggplot2::element_rect(
@@ -175,11 +182,8 @@ theme_cpal <- function(base_size = 14,
       )
     ),
 
-    # Plot margins
-    plot.margin = ggplot2::margin(
-      t = base_size, r = base_size,
-      b = base_size, l = base_size
-    )
+    # NEW: Full width margins (remove plot margins)
+    plot.margin = ggplot2::margin(0, 0, 15, 0, "pt")
   )
 
   # Grid lines (initially remove all)
