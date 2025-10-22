@@ -1,0 +1,211 @@
+// cpal 0.0.2
+// Bootswatch
+
+/*-- scss:defaults --*/
+$theme: "cpal" !default;
+
+//
+// Color system
+//
+
+$white:    #FFFFFF !default;
+$gray-000: #FAFAFA !default;
+$gray-100: #ccd4d5 !default;
+$gray-200: #9bc0c6 !default;
+$gray-300: #83b6bf !default;
+$gray-400: #6aacb8 !default;
+$gray-500: #449cac !default;
+$gray-600: #2690a3 !default;
+$gray-700: #008097 !default;
+$gray-800: #006274 !default;
+$gray-900: #005160 !default;
+$black:    #2f2f2f !default;
+
+$blue:    #325d88 !default;
+$indigo:  #8338ec !default;
+$purple:  #6610f2 !default;
+$pink:    #ff006e !default;
+$red:     #971700 !default;
+$orange:  #E98816 !default;
+$yellow:  #C9AA0C !default;
+$green:   #009763 !default;
+$teal:    #008097 !default;
+$cyan:    #43bccd !default;
+
+$teal-100:       #E7F7F9 !default;
+$teal-400:       #9ADAE5 !default;
+$teal-700:       #008097 !default;
+$teal-900:       #042D33 !default;
+
+$magenta-100:    #FEEBF2 !default;
+$magenta-400:    #FFCCDC !default;
+$magenta-700:    #ED018C !default;
+$magenta-900:    #881354 !default;
+
+$rust-100:       #FFE5DE !default;
+$rust-700:       #F59A7D !default;
+$rust-900:       #ED683F !default;
+
+$mustard-100:       #FFFEE2 !default;
+$mustard-400:       #FEF6C7 !default;
+$mustard-700:       #EACA2D !default;
+$mustard-900:       #C9AA0C !default;
+
+$primary:       $teal-700 !default;
+$secondary:     $teal-900 !default;
+$success:       $green !default;
+$info:          $mustard-400 !default;
+$warning:       $rust-900 !default;
+$danger:        $magenta-900 !default;
+$light:         $gray-200 !default;
+$dark:          $gray-800 !default;
+
+$min-contrast-ratio:   2 !default;
+
+// Body
+
+$body-bg:       $white !default;
+$body-color:    $black !default;
+$link-color:    $teal-900 !default;
+
+// Links
+
+$link-color:                $success !default;
+
+// Fonts
+
+// stylelint-disable-next-line value-keyword-case
+$font-family-sans-serif:      Roboto, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$headings-font-weight:        600 !default;
+$font-family-monospace:       'Fira Code' !default;
+$headings-font-family:         Poppins !default;
+
+// Default Enable
+
+$enable-caret:                true !default;
+$enable-rounded:              true !default;
+$enable-shadows:              false !default;
+$enable-gradients:            true !default;
+$enable-transitions:          true !default;
+$enable-reduced-motion:       true !default;
+$enable-smooth-scroll:        true !default;
+$enable-grid-classes:         true !default;
+$enable-container-classes:    true !default;
+$enable-cssgrid:              true !default;
+$enable-button-pointers:      true !default;
+$enable-rfs:                  true !default;
+$enable-validation-icons:     true !default;
+$enable-negative-margins:     false !default;
+$enable-deprecation-messages: true !default;
+$enable-important-utilities:  true !default;
+
+// Dropdowns
+
+$dropdown-link-color:               $gray-600 !default;
+$dropdown-link-hover-color:         $dropdown-link-color !default;
+$dropdown-link-hover-bg:            $gray-200 !default;
+$dropdown-link-active-color:        $dropdown-link-color !default;
+$dropdown-link-active-bg:           $dropdown-link-hover-bg !default;
+
+// Navs
+
+$nav-link-padding-x:                .9rem !default;
+$nav-link-disabled-color:           $gray-300 !default;
+$nav-tabs-border-color:             $gray-300 !default;
+$nav-tabs-link-hover-border-color:  $gray-300 !default;
+$nav-tabs-link-active-bg:           $white !default;
+$nav-pills-link-active-color:       $gray-600 !default;
+$nav-pills-link-active-bg:          $gray-200 !default;
+
+// Navbar
+
+$navbar-dark-hover-color:           $white !default;
+$navbar-light-hover-color:          $black !default;
+$navbar-light-active-color:         $black !default;
+
+// Pagination
+
+$pagination-color:                  $gray-600 !default;
+$pagination-bg:                     $gray-200 !default;
+$pagination-border-color:           $gray-300 !default;
+$pagination-hover-color:            $pagination-color !default;
+$pagination-active-color:           $pagination-color !default;
+$pagination-active-bg:              $gray-300 !default;
+$pagination-active-border-color:    $gray-300 !default;
+$pagination-disabled-color:         $gray-300 !default;
+$pagination-disabled-bg:            $gray-200 !default;
+$pagination-disabled-border-color:  $pagination-border-color !default;
+
+// Cards
+
+$card-border-color:                 rgba($gray-300, .75) !default;
+$card-cap-bg:                       rgba($gray-200, .25) !default;
+
+// Popovers
+
+$popover-header-bg:                 $gray-200 !default;
+
+// Modals
+
+$modal-content-border-color:        $gray-300 !default;
+$modal-header-border-color:         $modal-content-border-color !default;
+
+// Progress bars
+
+$progress-color:                    $magenta-700 !default;
+$progress-bg:                       $gray-300 !default;
+$progress-border-radius:            10px !default;
+$progress-bar-color:                $primary !default;
+
+// List group
+
+$list-group-border-color:           $gray-300 !default;
+$list-group-hover-bg:               $gray-200 !default;
+$list-group-active-color:           $body-color !default;
+$list-group-active-bg:              $gray-200 !default;
+$list-group-active-border-color:    $gray-300 !default;
+$list-group-disabled-color:         $gray-500 !default;
+$list-group-disabled-bg:            $white !default;
+$list-group-action-color:           $list-group-active-color !default;
+$list-group-action-active-color:    $list-group-active-color !default;
+$list-group-action-active-bg:       $gray-300 !default;
+
+// Breadcrumbs
+
+$breadcrumb-padding-y:              .375rem !default;
+$breadcrumb-padding-x:              .75rem !default;
+$breadcrumb-bg:                     $pagination-bg !default;
+$breadcrumb-border-radius:          .25rem !default;
+
+// Code blocks
+$code-block-bg-alpha:               -0.8 !default;
+$code-block-bg-color:               $gray-000 !default;
+$code-color:                        $magenta-700 !default;
+$code-bg:                           $magenta-400 !default;
+
+// Close
+
+$btn-close-color:            $white !default;
+$btn-close-opacity:          .8 !default;
+$btn-close-hover-opacity:    1 !default;
+
+// Test
+div.shadecontent
+{
+    padding: 10px;
+    border-radius: 15px;
+    font-family: $font-family-sans-serif;
+    background: $gray-000;
+    border-radius: 15px;
+    -moz-border-radius: 10px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0px;
+    font-weight: $headings-font-weight;
+    font-family: $headings-font-family;
+    text-align: center;
+    background: $teal-100;
+    border-radius: 15px;
+    -moz-border-radius: 0px;
+}
