@@ -96,10 +96,11 @@ cpal_shiny <- function(variant = "default",
                        custom_colors = NULL,
                        font_scale = 1.0,
                        enable_animations = TRUE) {
-
   # Check if bslib is available
   if (!requireNamespace("bslib", quietly = TRUE)) {
-    cli::cli_abort("Package {.pkg bslib} is required for Shiny themes. Please install with: install.packages('bslib')")
+    cli::cli_abort(
+      "Package {.pkg bslib} is required for Shiny themes. Please install with: install.packages('bslib')"
+    )
   }
 
   # Validate inputs
@@ -117,31 +118,37 @@ cpal_shiny <- function(variant = "default",
   cpal_main_colors <- cpal_colors("main")
 
   # Define base colors for different variants
-  base_colors <- switch(variant,
-                        "default" = list(
-                          bg = "#FFFFFF",
-                          fg = "#042D33",
-                          body_color = "#2F2F2F"
-                        ),
-                        "dark" = list(
-                          bg = "#1A1A1A",
-                          fg = "#FFFFFF",
-                          body_color = "#E5E5E5"
-                        ),
-                        "presentation" = list(
-                          bg = "#FAFAFA",
-                          fg = "#000000",
-                          body_color = "#1A1A1A"
-                        )
+  base_colors <- switch(
+    variant,
+    "default" = list(
+      bg = "#FFFFFF",
+      fg = "#042D33",
+      body_color = "#2F2F2F"
+    ),
+    "dark" = list(
+      bg = "#1A1A1A",
+      fg = "#FFFFFF",
+      body_color = "#E5E5E5"
+    ),
+    "presentation" = list(
+      bg = "#FAFAFA",
+      fg = "#000000",
+      body_color = "#1A1A1A"
+    )
   )
 
   # Define CPAL semantic colors
   semantic_colors <- list(
-    primary = cpal_main_colors[1],     # CPAL Dark Blue
-    secondary = cpal_main_colors[1],   # Keep consistent
-    success = cpal_main_colors[2],     # CPAL Teal
-    info = cpal_main_colors[3],        # CPAL Yellow
-    warning = cpal_main_colors[4],     # CPAL Orange
+    primary = cpal_main_colors[1],
+    # CPAL Dark Blue
+    secondary = cpal_main_colors[1],
+    # Keep consistent
+    success = cpal_main_colors[2],
+    # CPAL Teal
+    info = cpal_main_colors[3],
+    # CPAL Yellow
+    warning = cpal_main_colors[4],
+    # CPAL Orange
     danger = cpal_main_colors[5]       # CPAL Pink
   )
 
@@ -165,7 +172,6 @@ cpal_shiny <- function(variant = "default",
   # Create the BSlib theme
   theme <- bslib::bs_theme(
     version = 5,
-    bootswatch = "flatly",
 
     # Base colors
     bg = base_colors$bg,
@@ -173,7 +179,8 @@ cpal_shiny <- function(variant = "default",
     "body-color" = base_colors$body_color,
 
     # Semantic colors
-    primary = semantic_colors$primary,
+    #primary = semantic_colors$primary,
+    primary = "#007a8c",
     secondary = semantic_colors$secondary,
     success = semantic_colors$success,
     info = semantic_colors$info,
@@ -188,39 +195,105 @@ cpal_shiny <- function(variant = "default",
 
     # Visual enhancements
     "enable-gradients" = TRUE,
-    "enable-shadows" = if (variant == "presentation") FALSE else TRUE,
+    "enable-shadows" = if (variant == "presentation")
+      FALSE
+    else
+      TRUE,
     "enable-rounded" = TRUE,
     "enable-transitions" = enable_animations,
 
     # Progress bar styling
     "progress-bar-bg" = semantic_colors$primary,
-    "progress-bg" = if (variant == "dark") "#2A2A2A" else "#F8F9FA",
+    "progress-bg" = if (variant == "dark")
+      "#2A2A2A"
+    else
+      "#F8F9FA",
 
     # Navigation styling (for navbar components)
-    "navbar-light-active-color" = if (variant == "dark") base_colors$fg else "#FFFFFF",
-    "nav-link-color" = if (variant == "dark") base_colors$fg else "#FFFFFF",
-    "nav-link-hover-color" = if (variant == "dark") base_colors$fg else "#FFFFFF",
+    navbar_bg = "#ffffff",
+    "navbar-light-active-color" = if (variant == "dark")
+      base_colors$fg
+    else
+      "#FFFFFF",
+    "nav-link-color" = if (variant == "dark")
+      base_colors$fg
+    else
+      "#FFFFFF",
+    "nav-link-hover-color" = if (variant == "dark")
+      base_colors$fg
+    else
+      "#FFFFFF",
 
     # Additional CPAL-specific customizations
     "border-radius" = "6px",
-    "border-color" = if (variant == "dark") "#404040" else "#E5E5E5",
-    "input-border-color" = if (variant == "dark") "#404040" else "#CED4DA",
+    "border-color" = if (variant == "dark")
+      "#404040"
+    else
+      "#E5E5E5",
+    "input-border-color" = if (variant == "dark")
+      "#404040"
+    else
+      "#CED4DA",
     "input-focus-border-color" = semantic_colors$primary,
     "btn-border-radius" = "6px",
     "card-border-radius" = "8px"
   )
 
   # Add custom CSS for enhanced CPAL styling
-  custom_css <- paste0("
+  custom_css <- paste0(
+    "
     /* CPAL Custom Enhancements */
+
     .navbar-brand {
+      display: block;
       font-family: 'Poppins', sans-serif;
       font-weight: 600;
     }
 
+    .header-title {
+        font-weight: 400;
+        text-transform: uppercase;
+        border-left: 1px solid var(--bs-primary);
+        padding-left: 0.5rem;
+        font-size: 0.675rem;
+        letter-spacing: 0.075px;
+        color: var(--bs-primary);
+        text-transform: uppercase;
+        width: 10rem;
+        white-space:normal;
+        word-wrap: break-word;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 0.6rem 0.8rem;
+      border-radius: var(--bs-border-radius);
+      color: var(--bs-primary);
+      text-decoration: none;
+      margin-bottom: 0.1rem;
+      transition: background-color 0.2s;
+    }
+    .sidebar-link:hover {
+      background-color: var(--bs-primary);
+      color: var(--bs-white);
+    }
+    .sidebar-icon {
+      margin-right: 0.6rem;
+    }
+    .bslib-sidebar-layout>.sidebar>.sidebar-content {
+      gap: 0.1rem !important;
+    }
+
     .card {
+      font-weight: 900;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      border: 1px solid ", if (variant == "dark") "#404040" else "#E5E5E5", ";
+      border: 1px solid ",
+    if (variant == "dark")
+      "#404040"
+    else
+      "#E5E5E5",
+    ";
     }
 
     .btn {
@@ -234,13 +307,19 @@ cpal_shiny <- function(variant = "default",
 
     /* Accessibility improvements */
     .btn:focus {
-      outline: 2px solid ", semantic_colors$info, ";
+      outline: 2px solid ",
+    semantic_colors$info,
+    ";
       outline-offset: 2px;
     }
 
     /* CPAL specific components */
     .cpal-metric-card {
-      background: linear-gradient(135deg, ", semantic_colors$primary, " 0%, ", semantic_colors$success, " 100%);
+      background: linear-gradient(135deg, ",
+    semantic_colors$primary,
+    " 0%, ",
+    semantic_colors$success,
+    " 100%);
       color: white;
       border-radius: 8px;
       padding: 1.5rem;
@@ -251,7 +330,10 @@ cpal_shiny <- function(variant = "default",
       font-weight: 700;
       font-family: 'Poppins', sans-serif;
     }
-  ")
+
+    .radio-inline, .checkbox-inline {padding-left: 20px;}
+  "
+  )
 
   # Apply custom CSS to theme
   theme <- bslib::bs_add_rules(theme, custom_css)
@@ -261,10 +343,9 @@ cpal_shiny <- function(variant = "default",
   attr(theme, "cpal_version") <- "1.0.0"
   attr(theme, "created") <- Sys.time()
 
-  cli::cli_inform(c(
-    "i" = "Created CPAL Shiny theme with {.val {variant}} variant",
-    "i" = "Font scale: {.val {font_scale}}, Animations: {.val {enable_animations}}"
-  ))
+  cli::cli_inform(
+    c("i" = "Created CPAL Shiny theme with {.val {variant}} variant", "i" = "Font scale: {.val {font_scale}}, Animations: {.val {enable_animations}}")
+  )
 
   return(theme)
 }
@@ -312,7 +393,6 @@ cpal_add_scss_enhancements <- function(base_theme,
                                        include_geometric_headers = FALSE,
                                        include_datatable_enhancements = TRUE,
                                        include_metric_cards = TRUE) {
-
   # Validate base theme
   if (!inherits(base_theme, "bs_theme")) {
     cli::cli_abort("{.arg base_theme} must be a bslib theme object (from cpal_shiny() or bs_theme())")
@@ -329,7 +409,9 @@ cpal_add_scss_enhancements <- function(base_theme,
   conditional_scss <- ""
 
   if (!include_geometric_headers) {
-    conditional_scss <- paste0(conditional_scss, "
+    conditional_scss <- paste0(
+      conditional_scss,
+      "
       .shiny-app h1, .shiny-app h2, .shiny-app h3, .shiny-app h4 {
         background: none !important;
         color: var(--bs-primary) !important;
@@ -342,20 +424,26 @@ cpal_add_scss_enhancements <- function(base_theme,
       .shiny-app h3::after, .shiny-app h4::after {
         display: none !important;
       }
-    ")
+    "
+    )
   }
 
   if (!include_datatable_enhancements) {
-    conditional_scss <- paste0(conditional_scss, "
+    conditional_scss <- paste0(
+      conditional_scss,
+      "
       .dataTables_wrapper {
         border: 1px solid var(--bs-border-color) !important;
         border-radius: var(--bs-border-radius) !important;
       }
-    ")
+    "
+    )
   }
 
   if (!include_metric_cards) {
-    conditional_scss <- paste0(conditional_scss, "
+    conditional_scss <- paste0(
+      conditional_scss,
+      "
       .cpal-metric-card, .grid-link {
         background: var(--bs-primary) !important;
       }
@@ -364,7 +452,8 @@ cpal_add_scss_enhancements <- function(base_theme,
         transform: none !important;
         background: var(--bs-primary) !important;
       }
-    ")
+    "
+    )
   }
 
   # Add SCSS file and conditional styling to theme
@@ -378,12 +467,14 @@ cpal_add_scss_enhancements <- function(base_theme,
   attr(enhanced_theme, "datatable_enhanced") <- include_datatable_enhancements
   attr(enhanced_theme, "metric_cards") <- include_metric_cards
 
-  cli::cli_inform(c(
-    "i" = "Enhanced CPAL theme with SCSS styling",
-    "i" = "Geometric headers: {.val {include_geometric_headers}}",
-    "i" = "DataTable enhancements: {.val {include_datatable_enhancements}}",
-    "i" = "Metric cards: {.val {include_metric_cards}}"
-  ))
+  cli::cli_inform(
+    c(
+      "i" = "Enhanced CPAL theme with SCSS styling",
+      "i" = "Geometric headers: {.val {include_geometric_headers}}",
+      "i" = "DataTable enhancements: {.val {include_datatable_enhancements}}",
+      "i" = "Metric cards: {.val {include_metric_cards}}"
+    )
+  )
 
   return(enhanced_theme)
 }
@@ -416,7 +507,6 @@ cpal_add_scss_enhancements <- function(base_theme,
 #'
 #' @export
 cpal_export_scss <- function(path = "cpal-enhanced.scss", overwrite = FALSE) {
-
   # Check if file exists and handle overwrite
   if (file.exists(path) && !overwrite) {
     cli::cli_abort("File {.path {path}} already exists. Use {.code overwrite = TRUE} to replace it.")
@@ -436,11 +526,9 @@ cpal_export_scss <- function(path = "cpal-enhanced.scss", overwrite = FALSE) {
     cli::cli_abort("Failed to copy SCSS file to {.path {path}}")
   }
 
-  cli::cli_inform(c(
-    "v" = "Enhanced CPAL SCSS exported to {.path {path}}",
-    "i" = "Use in Quarto YAML: theme: {basename(path)}",
-    "i" = "Use in Shiny: bs_theme() %>% bs_add_rules(sass_file('{path}'))"
-  ))
+  cli::cli_inform(
+    c("v" = "Enhanced CPAL SCSS exported to {.path {path}}", "i" = "Use in Quarto YAML: theme: {basename(path)}", "i" = "Use in Shiny: bs_theme() %>% bs_add_rules(sass_file('{path}'))")
+  )
 
   invisible(path)
 }

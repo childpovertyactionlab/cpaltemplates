@@ -19,9 +19,9 @@ library(sf)
 library(tigris)
 
 # Mapbox access token setup (uncomment and set your token if needed)
-Sys.setenv(MAPBOX_PUBLIC_TOKEN='pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw')
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = 'pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw')
 
-#source("base app/template sources/dashboards.R")
+source("template sources/dashboards.R")
 
 # Load and prepare data
 data(mtcars)
@@ -34,23 +34,19 @@ mtcars_enhanced <- mtcars %>%
       mpg >= 20 ~ "Medium Efficiency",
       TRUE ~ "Low Efficiency"
     ),
-    power_category = case_when(
-      hp >= 200 ~ "High Power",
-      hp >= 110 ~ "Medium Power",
-      TRUE ~ "Low Power"
-    )
+    power_category = case_when(hp >= 200 ~ "High Power", hp >= 110 ~ "Medium Power", TRUE ~ "Low Power")
   )
 
 # Load geographic data
 message("Loading geographic data...")
 states_sf <- states(cb = TRUE, resolution = "20m") %>%
   sf::st_transform(4326) %>%
-  mutate(
-    random_value = runif(n(), 0, 100),
-    category = sample(c("Low", "Medium", "High"), n(), replace = TRUE)
-  )
+  mutate(random_value = runif(n(), 0, 100),
+         category = sample(c("Low", "Medium", "High"), n(), replace = TRUE))
 
-texas_counties_sf <- counties(state = "TX", cb = TRUE, resolution = "20m") %>%
+texas_counties_sf <- counties(state = "TX",
+                              cb = TRUE,
+                              resolution = "20m") %>%
   sf::st_transform(4326) %>%
   mutate(
     population_category = sample(c("Small", "Medium", "Large"), n(), replace = TRUE),
@@ -60,8 +56,13 @@ texas_counties_sf <- counties(state = "TX", cb = TRUE, resolution = "20m") %>%
 # Define UI
 ui <- page_sidebar(
   title = div(
-    tags$img(src = "images/CPAL_Logo_White.png", height = "30", style = "margin-right: 10px;"),
-    strong("CPAL Shiny Dashboard Template")
+    class = "d-flex align-items-center",
+    tags$img(
+      src = "images/CPAL_Logo_OneColor.png",
+      height = "30",
+      class = "me-2"
+    ),
+    tags$div("Shiny Dashboard Template", class = "header-title")
   ),
   theme = cpal_shiny(),
 
@@ -69,50 +70,61 @@ ui <- page_sidebar(
   sidebar = sidebar(
     width = 300,
 
-    # Navigation Menu
-    h4("Dashboard Sections", class = "text-primary"),
+    h6("Dashboard Elements"),
 
-    actionButton("show_inputs", "Input Components",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_typography", "Typography",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_static_charts", "Static Charts",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_charts", "Interactive Charts",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_maps", "Maps",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_tables", "Data Tables",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    actionButton("show_advanced", "Advanced Features",
-                 class = "btn-outline-primary w-100 mb-2",
-                 style = "text-align: left;"),
-
-    hr(),
+    actionLink(
+      "show_inputs",
+      class = "sidebar-link",
+      label = tagList(icon("wrench", class = "sidebar-icon"), "Input Components")
+    ),
+    actionLink(
+      "show_typography",
+      class = "sidebar-link",
+      label = tagList(icon("font", class = "sidebar-icon"), "Typography")
+    ),
+    actionLink(
+      "show_static_charts",
+      class = "sidebar-link",
+      label = tagList(icon("line-chart", class = "sidebar-icon"), "Static Charts")
+    ),
+    actionLink(
+      "show_charts",
+      class = "sidebar-link",
+      label = tagList(
+        icon("area-chart", class = "sidebar-icon"),
+        "Interactive Charts"
+      )
+    ),
+    actionLink(
+      "show_maps",
+      class = "sidebar-link",
+      label = tagList(icon("map", class = "sidebar-icon"), "Maps")
+    ),
+    actionLink(
+      "show_tables",
+      class = "sidebar-link",
+      label = tagList(icon("table", class = "sidebar-icon"), "Data Tables")
+    ),
+    actionLink(
+      "show_advanced",
+      class = "sidebar-link",
+      label = tagList(
+        icon("superpowers", class = "sidebar-icon"),
+        "Advanced Features"
+      )
+    ),
 
     # Quick filters that apply globally
-#    h5("Global Filters", class = "text-secondary"),
+    #    h5("Global Filters", class = "text-secondary"),
 
-#    sliderInput("global_mpg_range", "MPG Range:",
-#                min = min(mtcars$mpg), max = max(mtcars$mpg),
-#                value = c(15, 25), step = 0.5),
+    #    sliderInput("global_mpg_range", "MPG Range:",
+    #                min = min(mtcars$mpg), max = max(mtcars$mpg),
+    #                value = c(15, 25), step = 0.5),
 
-#    selectInput("global_cyl_select", "Cylinders:",
-#                choices = sort(unique(mtcars$cyl)),
-#                selected = unique(mtcars$cyl),
-#                multiple = TRUE)
+    #    selectInput("global_cyl_select", "Cylinders:",
+    #                choices = sort(unique(mtcars$cyl)),
+    #                selected = unique(mtcars$cyl),
+    #                multiple = TRUE)
   ),
 
   # Main Content Area
@@ -123,8 +135,10 @@ ui <- page_sidebar(
     conditionalPanel(
       condition = "output.current_section == 'inputs'",
       h1("Input Components Showcase"),
-      p("Explore the full range of input widgets available in Shiny and shinyWidgets packages.",
-        class = "lead"),
+      p(
+        "Explore the full range of input widgets available in Shiny and shinyWidgets packages.",
+        class = "lead"
+      ),
 
       layout_columns(
         col_widths = c(5, 7),
@@ -149,105 +163,177 @@ ui <- page_sidebar(
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Slider Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Function: "), tags$code("sliderInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("sliderInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  sliderInput("mpg_range", "MPG Range (Range Slider):",
-                              min = min(mtcars$mpg), max = max(mtcars$mpg),
-                              value = c(15, 25), step = 0.5),
+                  sliderInput(
+                    "mpg_range",
+                    "MPG Range (Range Slider):",
+                    min = min(mtcars$mpg),
+                    max = max(mtcars$mpg),
+                    value = c(15, 25),
+                    step = 0.5
+                  ),
 
-                  sliderInput("hp_single", "Horsepower Threshold (Single Value):",
-                              min = min(mtcars$hp), max = max(mtcars$hp),
-                              value = 150),
+                  sliderInput(
+                    "hp_single",
+                    "Horsepower Threshold (Single Value):",
+                    min = min(mtcars$hp),
+                    max = max(mtcars$hp),
+                    value = 150
+                  ),
 
-                  sliderInput("transparency", "Transparency (Standard Slider):",
-                              value = 0.8, min = 0, max = 1, step = 0.1)
+                  sliderInput(
+                    "transparency",
+                    "Transparency (Standard Slider):",
+                    value = 0.8,
+                    min = 0,
+                    max = 1,
+                    step = 0.1
+                  )
                 ),
 
                 # Basic Shiny Select Inputs
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Select Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Functions: "), tags$code("selectInput(), selectizeInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("selectInput(), selectizeInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  selectInput("cyl_select", "Cylinders (Basic Multi-Select):",
-                              choices = sort(unique(mtcars$cyl)),
-                              selected = unique(mtcars$cyl),
-                              multiple = TRUE),
+                  selectInput(
+                    "cyl_select",
+                    "Cylinders (Basic Multi-Select):",
+                    choices = sort(unique(mtcars$cyl)),
+                    selected = unique(mtcars$cyl),
+                    multiple = TRUE
+                  ),
 
-                  selectizeInput("gear_select", "Gears (Selectize with Placeholder):",
-                                 choices = sort(unique(mtcars$gear)),
-                                 selected = unique(mtcars$gear),
-                                 multiple = TRUE,
-                                 options = list(placeholder = "Select gears..."))
+                  selectizeInput(
+                    "gear_select",
+                    "Gears (Selectize with Placeholder):",
+                    choices = sort(unique(mtcars$gear)),
+                    selected = unique(mtcars$gear),
+                    multiple = TRUE,
+                    options = list(placeholder = "Select gears...")
+                  )
                 ),
 
                 # Basic Shiny Checkboxes
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Checkbox Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Functions: "), tags$code("checkboxInput(), checkboxGroupInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("checkboxInput(), checkboxGroupInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
                   checkboxInput("show_trend", "Show trend line (Single Checkbox)", value = TRUE),
 
-                  checkboxGroupInput("transmission", "Transmission Type (Checkbox Group):",
-                                     choices = list("Automatic (0)" = 0, "Manual (1)" = 1),
-                                     selected = c(0, 1))
+                  checkboxGroupInput(
+                    "transmission",
+                    "Transmission Type (Checkbox Group):",
+                    choices = list("Automatic (0)" = 0, "Manual (1)" = 1),
+                    selected = c(0, 1)
+                  )
                 ),
 
                 # Basic Shiny Radio Buttons
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Radio Button Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Function: "), tags$code("radioButtons()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("radioButtons()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  radioButtons("chart_type", "Chart Type (Basic Radio):",
-                               choices = list("Scatter" = "scatter",
-                                              "Box Plot" = "box",
-                                              "Histogram" = "hist"),
-                               selected = "scatter")
+                  radioButtons(
+                    "chart_type",
+                    "Chart Type (Basic Radio):",
+                    choices = list(
+                      "Scatter" = "scatter",
+                      "Box Plot" = "box",
+                      "Histogram" = "hist"
+                    ),
+                    selected = "scatter"
+                  )
                 ),
 
                 # Basic Shiny Text Inputs
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Text Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Functions: "), tags$code("textInput(), textAreaInput(), numericInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("textInput(), textAreaInput(), numericInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  textInput("chart_title", "Chart Title (Text Input):",
-                            value = "Motor Trend Car Analysis"),
+                  textInput("chart_title", "Chart Title (Text Input):", value = "Motor Trend Car Analysis"),
 
-                  textAreaInput("chart_notes", "Chart Notes (Text Area):",
-                                value = "Analysis of 1974 Motor Trend data",
-                                rows = 3),
+                  textAreaInput(
+                    "chart_notes",
+                    "Chart Notes (Text Area):",
+                    value = "Analysis of 1974 Motor Trend data",
+                    rows = 3
+                  ),
 
-                  numericInput("point_size", "Point Size (Numeric Input):",
-                               value = 3, min = 1, max = 10)
+                  numericInput(
+                    "point_size",
+                    "Point Size (Numeric Input):",
+                    value = 3,
+                    min = 1,
+                    max = 10
+                  )
                 ),
 
                 # Basic Shiny Date and File Inputs
                 div(
                   class = "mb-3 p-3 bg-light rounded",
                   h5("Date & File Inputs", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Functions: "), tags$code("dateRangeInput(), fileInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("dateRangeInput(), fileInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  dateRangeInput("date_range", "Analysis Period (Date Range):",
-                                 start = Sys.Date() - 30,
-                                 end = Sys.Date()),
+                  dateRangeInput(
+                    "date_range",
+                    "Analysis Period (Date Range):",
+                    start = Sys.Date() - 30,
+                    end = Sys.Date()
+                  ),
 
-                  fileInput("upload_data", "Upload Custom Data (File Input):",
-                            accept = c(".csv", ".xlsx"))
+                  fileInput(
+                    "upload_data",
+                    "Upload Custom Data (File Input):",
+                    accept = c(".csv", ".xlsx")
+                  )
                 )
               )
             ),
@@ -262,113 +348,178 @@ ui <- page_sidebar(
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Enhanced Checkboxes", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("prettyCheckboxGroup()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("prettyCheckboxGroup()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  prettyCheckboxGroup("carb_pretty", "Carburetors (Pretty Checkboxes):",
-                                      choices = sort(unique(mtcars$carb)),
-                                      selected = sort(unique(mtcars$carb)),
-                                      inline = TRUE,
-                                      status = "primary",
-                                      shape = "curve")
+                  prettyCheckboxGroup(
+                    "carb_pretty",
+                    "Carburetors (Pretty Checkboxes):",
+                    choices = sort(unique(mtcars$carb)),
+                    selected = sort(unique(mtcars$carb)),
+                    inline = TRUE,
+                    status = "primary",
+                    shape = "curve"
+                  )
                 ),
 
                 # shinyWidgets Pretty Radio Buttons
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Enhanced Radio Buttons", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("prettyRadioButtons()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("prettyRadioButtons()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  prettyRadioButtons("color_scheme", "Color Scheme (Pretty Radio):",
-                                     choices = list("CPAL Primary" = "primary",
-                                                    "CPAL Secondary" = "secondary",
-                                                    "Viridis" = "viridis"),
-                                     selected = "primary",
-                                     inline = TRUE,
-                                     status = "info",
-                                     fill = TRUE)
+                  prettyRadioButtons(
+                    "color_scheme",
+                    "Color Scheme (Pretty Radio):",
+                    choices = list(
+                      "CPAL Primary" = "primary",
+                      "CPAL Secondary" = "secondary",
+                      "Viridis" = "viridis"
+                    ),
+                    selected = "primary",
+                    inline = TRUE,
+                    status = "info",
+                    fill = TRUE
+                  )
                 ),
 
                 # shinyWidgets Picker Input
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Picker Input", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("pickerInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("pickerInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  pickerInput("brand_picker", "Car Brands (Picker with Actions):",
-                              choices = unique(mtcars_enhanced$car_brand),
-                              selected = unique(mtcars_enhanced$car_brand),
-                              multiple = TRUE,
-                              options = list(`actions-box` = TRUE))
+                  pickerInput(
+                    "brand_picker",
+                    "Car Brands (Picker with Actions):",
+                    choices = unique(mtcars_enhanced$car_brand),
+                    selected = unique(mtcars_enhanced$car_brand),
+                    multiple = TRUE,
+                    options = list(`actions-box` = TRUE)
+                  )
                 ),
 
                 # shinyWidgets Color Input
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Color Picker", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("colorPickr()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("colorPickr()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  colorPickr("custom_color", "Custom Color (Color Picker):",
-                             selected = "#1f77b4")
+                  colorPickr(
+                    "custom_color",
+                    "Custom Color (Color Picker):",
+                    selected = "#1f77b4"
+                  )
                 ),
 
                 # shinyWidgets Advanced Inputs
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Advanced Widget Inputs", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Functions: "), tags$code("materialSwitch(), searchInput(), airDatepickerInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("materialSwitch(), searchInput(), airDatepickerInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  materialSwitch("show_labels", "Show Labels (Material Switch)",
-                                 value = TRUE, status = "primary"),
+                  materialSwitch(
+                    "show_labels",
+                    "Show Labels (Material Switch)",
+                    value = TRUE,
+                    status = "primary"
+                  ),
 
                   br(),
 
-                  searchInput("search_cars", "Search Cars (Search Input):",
-                              placeholder = "Enter car name..."),
+                  searchInput("search_cars", "Search Cars (Search Input):", placeholder = "Enter car name..."),
 
                   br(),
 
-                  airDatepickerInput("air_date", "Select Date (Air Date Picker):",
-                                     value = Sys.Date(),
-                                     dateFormat = "mm/dd/yyyy")
+                  airDatepickerInput(
+                    "air_date",
+                    "Select Date (Air Date Picker):",
+                    value = Sys.Date(),
+                    dateFormat = "mm/dd/yyyy"
+                  )
                 ),
 
                 # shinyWidgets Numeric Range
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Numeric Range Input", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("numericRangeInput()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("numericRangeInput()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  numericRangeInput("weight_range", "Weight Range:",
-                                    value = c(2, 4))
+                  numericRangeInput("weight_range", "Weight Range:", value = c(2, 4))
                 ),
 
                 # Progress Bars (shinyWidgets)
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Progress Indicators", class = "text-info mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("progressBar()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("progressBar()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  progressBar("demo_progress1", value = 65, status = "info",
-                              display_pct = TRUE, striped = TRUE, title = "Demo Progress 1"),
+                  progressBar(
+                    "demo_progress1",
+                    value = 65,
+                    status = "info",
+                    display_pct = TRUE,
+                    striped = TRUE,
+                    title = "Demo Progress 1"
+                  ),
 
                   br(),
 
-                  progressBar("demo_progress2", value = 85, status = "success",
-                              display_pct = TRUE, title = "Demo Progress 2")
+                  progressBar(
+                    "demo_progress2",
+                    value = 85,
+                    status = "success",
+                    display_pct = TRUE,
+                    title = "Demo Progress 2"
+                  )
                 )
               )
             ),
@@ -383,71 +534,108 @@ ui <- page_sidebar(
                 div(
                   class = "mb-3 p-3 bg-warning-subtle rounded",
                   h5("Standard Shiny Buttons", class = "text-warning mb-2"),
-                  p(tags$strong("Package: "), tags$code("shiny"), " | ",
-                    tags$strong("Functions: "), tags$code("actionButton(), downloadButton()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shiny"),
+                    " | ",
+                    tags$strong("Functions: "),
+                    tags$code("actionButton(), downloadButton()"),
+                    class = "small text-muted mb-3"
+                  ),
 
-                  actionButton("refresh_data", "Refresh Analysis",
-                               class = "btn-primary me-2 mb-2"),
+                  actionButton("refresh_data", "Refresh Analysis", class = "btn-primary me-2 mb-2"),
 
-                  downloadButton("download_report", "Download Report",
-                                 class = "btn-success me-2 mb-2"),
+                  downloadButton("download_report", "Download Report", class = "btn-success me-2 mb-2"),
 
-                  br(), br(),
+                  br(),
+                  br(),
 
-                  actionButton("show_notification", "Show Notification",
-                               class = "btn-info me-2 mb-2"),
+                  actionButton("show_notification", "Show Notification", class = "btn-info me-2 mb-2"),
 
-                  actionButton("update_progress", "Update Progress Bars",
-                               class = "btn-secondary me-2 mb-2")
+                  actionButton("update_progress", "Update Progress Bars", class = "btn-secondary me-2 mb-2")
                 ),
 
                 # Enhanced Action Buttons
                 div(
                   class = "mb-3 p-3 bg-success-subtle rounded",
                   h5("Enhanced shinyWidgets Buttons", class = "text-success mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("actionBttn()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("actionBttn()"),
+                    class = "small text-muted mb-3"
+                  ),
 
                   p("Bordered Style:", class = "fw-bold small"),
-                  actionBttn("reset_inputs", "Reset All Inputs",
-                             style = "bordered", color = "warning", size = "sm"),
+                  actionBttn(
+                    "reset_inputs",
+                    "Reset All Inputs",
+                    style = "bordered",
+                    color = "warning",
+                    size = "sm"
+                  ),
 
-                  br(), br(),
+                  br(),
+                  br(),
 
                   p("Gradient Style:", class = "fw-bold small"),
-                  actionBttn("demo_button1", "Demo Gradient",
-                             style = "gradient", color = "primary", size = "md"),
+                  actionBttn(
+                    "demo_button1",
+                    "Demo Gradient",
+                    style = "gradient",
+                    color = "primary",
+                    size = "md"
+                  ),
 
-                  br(), br(),
+                  br(),
+                  br(),
 
                   p("Fill Style:", class = "fw-bold small"),
-                  actionBttn("demo_button2", "Demo Fill",
-                             style = "fill", color = "success", size = "lg"),
+                  actionBttn(
+                    "demo_button2",
+                    "Demo Fill",
+                    style = "fill",
+                    color = "success",
+                    size = "lg"
+                  ),
 
-                  br(), br(),
+                  br(),
+                  br(),
 
                   p("Simple Style:", class = "fw-bold small"),
-                  actionBttn("demo_button3", "Demo Simple",
-                             style = "simple", color = "danger", size = "xs")
+                  actionBttn(
+                    "demo_button3",
+                    "Demo Simple",
+                    style = "simple",
+                    color = "danger",
+                    size = "xs"
+                  )
                 ),
 
                 # Dropdown Button
                 div(
                   class = "mb-3 p-3 bg-primary-subtle rounded",
                   h5("Dropdown Button", class = "text-primary mb-2"),
-                  p(tags$strong("Package: "), tags$code("shinyWidgets"), " | ",
-                    tags$strong("Function: "), tags$code("dropdown()"),
-                    class = "small text-muted mb-3"),
+                  p(
+                    tags$strong("Package: "),
+                    tags$code("shinyWidgets"),
+                    " | ",
+                    tags$strong("Function: "),
+                    tags$code("dropdown()"),
+                    class = "small text-muted mb-3"
+                  ),
 
                   dropdownButton(
                     h4("Additional Options"),
                     checkboxInput("dropdown_opt1", "Option 1", TRUE),
                     checkboxInput("dropdown_opt2", "Option 2", FALSE),
                     sliderInput("dropdown_slider", "Value", 1, 10, 5),
-                    circle = TRUE, status = "primary",
-                    icon = icon("gear"), width = "300px"
+                    circle = TRUE,
+                    status = "primary",
+                    icon = icon("gear"),
+                    width = "300px"
                   )
                 )
               )
@@ -565,10 +753,7 @@ ui <- page_sidebar(
       layout_columns(
         col_widths = c(6, 6),
 
-        card(
-          card_header("GT Table (CPAL Themed)"),
-          gt_output("gt_table")
-        ),
+        card(card_header("GT Table (CPAL Themed)"), gt_output("gt_table")),
 
         card(
           card_header("Reactable (CPAL Themed)"),
@@ -592,7 +777,10 @@ ui <- page_sidebar(
     conditionalPanel(
       condition = "output.current_section == 'typography'",
       h1("Typography Showcase"),
-      p("Demonstration of text styling options available in the CPAL theme.", class = "lead"),
+      p(
+        "Demonstration of text styling options available in the CPAL theme.",
+        class = "lead"
+      ),
 
       layout_columns(
         col_widths = 12,
@@ -611,32 +799,50 @@ ui <- page_sidebar(
           hr(),
 
           # Body text variations
-          p("This is regular body text demonstrating the standard paragraph styling used throughout the CPAL dashboard template.",
-            class = "fs-5"),
+          p(
+            "This is regular body text demonstrating the standard paragraph styling used throughout the CPAL dashboard template.",
+            class = "fs-5"
+          ),
 
-          p("This is a highlighted paragraph with important information that should stand out to users.",
-            class = "bg-light p-3 border-start border-5 border-primary"),
+          p(
+            "This is a highlighted paragraph with important information that should stand out to users.",
+            class = "bg-light p-3 border-start border-5 border-primary"
+          ),
 
-          p("This is muted text typically used for additional context or secondary information.",
-            class = "text-muted"),
+          p(
+            "This is muted text typically used for additional context or secondary information.",
+            class = "text-muted"
+          ),
 
-          p("This is small text used for captions, footnotes, or fine print.",
-            class = "small"),
+          p(
+            "This is small text used for captions, footnotes, or fine print.",
+            class = "small"
+          ),
 
           # Emphasis and styling
-          p(HTML("<strong>Bold text</strong> and <em>italic text</em> for emphasis within paragraphs.")),
+          p(
+            HTML(
+              "<strong>Bold text</strong> and <em>italic text</em> for emphasis within paragraphs."
+            )
+          ),
 
-          p(HTML('<span class="text-success">Success text</span>,
+          p(
+            HTML(
+              '<span class="text-success">Success text</span>,
                  <span class="text-danger">danger text</span>,
                  <span class="text-warning">warning text</span>, and
-                 <span class="text-info">info text</span>.')),
+                 <span class="text-info">info text</span>.'
+            )
+          ),
 
           # Code styling
           p("Inline code example:", code("mtcars %>% filter(mpg > 20)")),
 
           # Blockquote
           tags$blockquote(
-            p("This is a blockquote used for highlighting important quotes or key insights from the analysis."),
+            p(
+              "This is a blockquote used for highlighting important quotes or key insights from the analysis."
+            ),
             tags$footer("CPAL Data Analysis Team")
           ),
 
@@ -673,48 +879,91 @@ ui <- page_sidebar(
           card_header("Progress Indicators"),
 
           h5("Standard Progress Bars"),
-          progressBar("progress1", value = 65, status = "info",
-                      display_pct = TRUE, striped = TRUE),
+          progressBar(
+            "progress1",
+            value = 65,
+            status = "info",
+            display_pct = TRUE,
+            striped = TRUE
+          ),
 
-          progressBar("progress2", value = 85, status = "success",
-                      display_pct = TRUE),
+          progressBar(
+            "progress2",
+            value = 85,
+            status = "success",
+            display_pct = TRUE
+          ),
 
           br(),
 
           h5("Circular Progress (shinyWidgets)"),
-          circleButton("circle1", icon = icon("check"), status = "primary", size = "lg"),
+          circleButton(
+            "circle1",
+            icon = icon("check"),
+            status = "primary",
+            size = "lg"
+          ),
 
-          br(), br(),
+          br(),
+          br(),
 
           h5("Loading Indicators"),
           actionButton("show_loading", "Show Loading Spinner", class = "btn-primary"),
 
-          br(), br(),
+          br(),
+          br(),
 
           h5("Update Progress"),
-          actionButton("update_progress_advanced", "Update All Progress",
-                       class = "btn-info")
+          actionButton("update_progress_advanced", "Update All Progress", class = "btn-info")
         ),
 
         card(
           card_header("Alerts & Notifications"),
 
           h5("Bootstrap Alerts"),
-          div(class = "alert alert-info alert-dismissible",
-              tags$button(type = "button", class = "btn-close", `data-bs-dismiss` = "alert"),
-              tags$strong("Info!"), " This is an informational alert."),
+          div(
+            class = "alert alert-info alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Info!"),
+            " This is an informational alert."
+          ),
 
-          div(class = "alert alert-success alert-dismissible",
-              tags$button(type = "button", class = "btn-close", `data-bs-dismiss` = "alert"),
-              tags$strong("Success!"), " Operation completed successfully."),
+          div(
+            class = "alert alert-success alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Success!"),
+            " Operation completed successfully."
+          ),
 
-          div(class = "alert alert-warning alert-dismissible",
-              tags$button(type = "button", class = "btn-close", `data-bs-dismiss` = "alert"),
-              tags$strong("Warning!"), " Please review before proceeding."),
+          div(
+            class = "alert alert-warning alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Warning!"),
+            " Please review before proceeding."
+          ),
 
-          div(class = "alert alert-danger alert-dismissible",
-              tags$button(type = "button", class = "btn-close", `data-bs-dismiss` = "alert"),
-              tags$strong("Error!"), " An error has occurred."),
+          div(
+            class = "alert alert-danger alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Error!"),
+            " An error has occurred."
+          ),
 
           br(),
 
@@ -724,7 +973,8 @@ ui <- page_sidebar(
           actionButton("notif_warning", "Warning Notification", class = "btn-warning me-2"),
           actionButton("notif_message", "Message Notification", class = "btn-info"),
 
-          br(), br(),
+          br(),
+          br(),
 
           h5("Sweet Alerts (shinyWidgets)"),
           actionButton("sweet_success", "Success Alert", class = "btn-success me-2"),
@@ -762,8 +1012,7 @@ ui <- page_sidebar(
             accordion_panel(
               title = "Export Settings",
               "Choose export formats and customize output parameters.",
-              radioButtons("export_format", "Format:",
-                           choices = c("CSV", "Excel", "JSON"))
+              radioButtons("export_format", "Format:", choices = c("CSV", "Excel", "JSON"))
             ),
             accordion_panel(
               title = "Performance Options",
@@ -779,20 +1028,27 @@ ui <- page_sidebar(
 
           actionButton("show_modal", "Show Modal Dialog", class = "btn-primary"),
 
-          br(), br(),
+          br(),
+          br(),
 
           actionButton("show_modal_form", "Show Form Modal", class = "btn-secondary"),
 
-          br(), br(),
+          br(),
+          br(),
 
           h5("Cards with Actions"),
-          div(class = "card",
-              div(class = "card-header d-flex justify-content-between",
-                  "Collapsible Card",
-                  actionButton("collapse_card", icon("chevron-down"),
-                               class = "btn-sm btn-outline-secondary")),
-              div(id = "card_body", class = "card-body",
-                  "This card can be collapsed/expanded using the button in the header.")
+          div(
+            class = "card",
+            div(
+              class = "card-header d-flex justify-content-between",
+              "Collapsible Card",
+              actionButton("collapse_card", icon("chevron-down"), class = "btn-sm btn-outline-secondary")
+            ),
+            div(
+              id = "card_body",
+              class = "card-body",
+              "This card can be collapsed/expanded using the button in the header."
+            )
           )
         )
       )
@@ -823,7 +1079,6 @@ ui <- page_sidebar(
 
 # Define Server
 server <- function(input, output, session) {
-
   # Navigation state
   values <- reactiveValues(current_section = "inputs")
 
@@ -868,7 +1123,8 @@ server <- function(input, output, session) {
 
     # Apply global filters from sidebar
     if (!is.null(input$global_mpg_range)) {
-      data <- data %>% filter(mpg >= input$global_mpg_range[1] & mpg <= input$global_mpg_range[2])
+      data <- data %>% filter(mpg >= input$global_mpg_range[1] &
+                                mpg <= input$global_mpg_range[2])
     }
 
     if (!is.null(input$global_cyl_select)) {
@@ -877,7 +1133,8 @@ server <- function(input, output, session) {
 
     # Apply local filters from input components section
     if (!is.null(input$mpg_range)) {
-      data <- data %>% filter(mpg >= input$mpg_range[1] & mpg <= input$mpg_range[2])
+      data <- data %>% filter(mpg >= input$mpg_range[1] &
+                                mpg <= input$mpg_range[2])
     }
 
     if (!is.null(input$cyl_select)) {
@@ -913,23 +1170,35 @@ server <- function(input, output, session) {
                labs(title = "No data matches current filters"))
     }
 
-    p <- switch(input$chart_type,
-                "scatter" = ggplot(data, aes(x = wt, y = mpg)) +
-                  geom_point(aes(color = factor(cyl)), size = input$point_size, alpha = input$transparency) +
-                  labs(x = "Weight (1000 lbs)", y = "Miles Per Gallon", color = "Cylinders"),
+    p <- switch(
+      input$chart_type,
+      "scatter" = ggplot(data, aes(x = wt, y = mpg)) +
+        geom_point(
+          aes(color = factor(cyl)),
+          size = input$point_size,
+          alpha = input$transparency
+        ) +
+        labs(x = "Weight (1000 lbs)", y = "Miles Per Gallon", color = "Cylinders"),
 
-                "box" = ggplot(data, aes(x = factor(cyl), y = mpg)) +
-                  geom_boxplot(aes(fill = factor(cyl)), alpha = 0.7) +
-                  labs(x = "Cylinders", y = "Miles Per Gallon", fill = "Cylinders"),
+      "box" = ggplot(data, aes(x = factor(cyl), y = mpg)) +
+        geom_boxplot(aes(fill = factor(cyl)), alpha = 0.7) +
+        labs(x = "Cylinders", y = "Miles Per Gallon", fill = "Cylinders"),
 
-                "hist" = ggplot(data, aes(x = mpg)) +
-                  geom_histogram(bins = 15, fill = cpal_colors("gold"), alpha = 0.7, color = "white") +
-                  labs(x = "Miles Per Gallon", y = "Count")
+      "hist" = ggplot(data, aes(x = mpg)) +
+        geom_histogram(
+          bins = 15,
+          fill = cpal_colors("gold"),
+          alpha = 0.7,
+          color = "white"
+        ) +
+        labs(x = "Miles Per Gallon", y = "Count")
     )
 
     # Add trend line if requested for scatter plot
     if (input$chart_type == "scatter" && input$show_trend) {
-      p <- p + geom_smooth(method = "lm", se = TRUE, color = cpal_colors("orange"))
+      p <- p + geom_smooth(method = "lm",
+                           se = TRUE,
+                           color = cpal_colors("orange"))
     }
 
     # Apply color scheme
@@ -977,14 +1246,10 @@ server <- function(input, output, session) {
       hc_xAxis(title = list(text = "Weight (1000 lbs)")) %>%
       hc_yAxis(title = list(text = "Miles Per Gallon")) %>%
       hc_tooltip(pointFormat = "Weight: {point.x}<br>MPG: {point.y}<br>") %>%
-      hc_plotOptions(
-        scatter = list(
-          marker = list(radius = 5)
-        )
-      )
+      hc_plotOptions(scatter = list(marker = list(radius = 5)))
 
     # Add each cylinder group as a separate series
-    for(cyl_val in sort(unique(data$cyl))) {
+    for (cyl_val in sort(unique(data$cyl))) {
       series_data <- data %>%
         filter(cyl == cyl_val) %>%
         select(x = wt, y = mpg)
@@ -994,7 +1259,9 @@ server <- function(input, output, session) {
           data = list_parse2(series_data),
           type = "scatter",
           name = paste(cyl_val, "cylinders"),
-          color = unname(cpal_colors(c("gold", "teal", "orange"))[which(sort(unique(data$cyl)) == cyl_val)])
+          color = unname(cpal_colors(c(
+            "gold", "teal", "orange"
+          ))[which(sort(unique(data$cyl)) == cyl_val)])
         )
     }
 
@@ -1020,10 +1287,14 @@ server <- function(input, output, session) {
       hc_tooltip(pointFormat = "HP: {point.x}<br>Avg MPG: {point.y:.1f}<br>")
 
     # Add each cylinder group as a separate series
-    colors <- unname(c(cpal_colors("gold"), cpal_colors("teal"), cpal_colors("orange")))
+    colors <- unname(c(
+      cpal_colors("gold"),
+      cpal_colors("teal"),
+      cpal_colors("orange")
+    ))
     color_idx <- 1
 
-    for(cyl_val in sort(unique(data$cyl))) {
+    for (cyl_val in sort(unique(data$cyl))) {
       series_data <- data %>%
         filter(cyl == cyl_val) %>%
         select(x = hp, y = avg_mpg)
@@ -1060,24 +1331,16 @@ server <- function(input, output, session) {
     highchart() %>%
       hc_chart(type = "column") %>%
       hc_title(text = "Average MPG by Cylinder Count") %>%
-      hc_xAxis(
-        title = list(text = "Number of Cylinders"),
-        categories = as.character(data$cyl)
-      ) %>%
+      hc_xAxis(title = list(text = "Number of Cylinders"),
+               categories = as.character(data$cyl)) %>%
       hc_yAxis(title = list(text = "Average MPG")) %>%
       hc_add_series(
         data = data$avg_mpg,
         name = "Average MPG",
         color = unname(cpal_colors("gold")),
-        dataLabels = list(
-          enabled = TRUE,
-          format = "{y:.1f}"
-        )
+        dataLabels = list(enabled = TRUE, format = "{y:.1f}")
       ) %>%
-      hc_tooltip(
-        headerFormat = "Cylinders: {point.key}<br>",
-        pointFormat = "Avg MPG: {point.y}<br>Cars: "
-      )
+      hc_tooltip(headerFormat = "Cylinders: {point.key}<br>", pointFormat = "Avg MPG: {point.y}<br>Cars: ")
   })
 
   output$highchart_heatmap <- renderHighchart({
@@ -1095,14 +1358,8 @@ server <- function(input, output, session) {
     highchart() %>%
       hc_chart(type = "heatmap") %>%
       hc_title(text = "Correlation Matrix") %>%
-      hc_xAxis(
-        categories = colnames(cor_data),
-        title = ""
-      ) %>%
-      hc_yAxis(
-        categories = rownames(cor_data),
-        title = ""
-      ) %>%
+      hc_xAxis(categories = colnames(cor_data), title = "") %>%
+      hc_yAxis(categories = rownames(cor_data), title = "") %>%
       hc_colorAxis(
         min = -1,
         max = 1,
@@ -1122,18 +1379,17 @@ server <- function(input, output, session) {
           select(x, y, value) %>%
           list_parse(),
         borderWidth = 1,
-        dataLabels = list(
-          enabled = TRUE,
-          format = "{point.value:.2f}"
-        )
+        dataLabels = list(enabled = TRUE, format = "{point.value:.2f}")
       ) %>%
       hc_tooltip(
-        formatter = JS("function () {
+        formatter = JS(
+          "function () {
           return '<b>' + this.series.xAxis.categories[this.point.x] +
                  ' - ' + this.series.yAxis.categories[this.point.y] +
                  '</b><br>Correlation: <b>' +
                  Highcharts.numberFormat(this.point.value, 2) + '</b>';
-        }")
+        }"
+        )
       )
   })
 
@@ -1141,15 +1397,23 @@ server <- function(input, output, session) {
   output$ggplot_scatter <- renderPlot({
     data <- filtered_data()
 
-    ggplot(data, aes(x = wt, y = mpg, color = factor(cyl))) +
+    ggplot(data, aes(
+      x = wt,
+      y = mpg,
+      color = factor(cyl)
+    )) +
       geom_point(size = 3, alpha = 0.8) +
-      geom_smooth(method = "lm", se = TRUE, alpha = 0.2) +
+      geom_smooth(method = "lm",
+                  se = TRUE,
+                  alpha = 0.2) +
       scale_color_cpal_d() +
       theme_cpal_print() +
-      labs(title = "Weight vs MPG by Cylinders",
-           x = "Weight (1000 lbs)", y = "Miles Per Gallon",
-           color = "Cylinders") %>%
-      add_cpal_logo()
+      labs(
+        title = "Weight vs MPG by Cylinders",
+        x = "Weight (1000 lbs)",
+        y = "Miles Per Gallon",
+        color = "Cylinders"
+      )
   })
 
   output$ggplot_line <- renderPlot({
@@ -1158,15 +1422,21 @@ server <- function(input, output, session) {
       summarise(avg_mpg = mean(mpg), .groups = "drop") %>%
       arrange(cyl, hp)
 
-    ggplot(data, aes(x = hp, y = avg_mpg, color = factor(cyl))) +
+    ggplot(data, aes(
+      x = hp,
+      y = avg_mpg,
+      color = factor(cyl)
+    )) +
       geom_line(linewidth = 1.2) +
       geom_point(size = 3) +
       scale_color_cpal_d() +
       theme_cpal_print() +
-      labs(title = "Average MPG by Horsepower and Cylinders",
-           x = "Horsepower", y = "Average MPG",
-           color = "Cylinders") %>%
-      add_cpal_logo()
+      labs(
+        title = "Average MPG by Horsepower and Cylinders",
+        x = "Horsepower",
+        y = "Average MPG",
+        color = "Cylinders"
+      )
   })
 
   output$ggplot_bar <- renderPlot({
@@ -1178,9 +1448,7 @@ server <- function(input, output, session) {
       geom_col(fill = cpal_colors("gold"), alpha = 0.8) +
       geom_text(aes(label = round(`Average MPG`, 1)), vjust = -0.5) +
       theme_cpal_print() +
-      labs(title = "Average MPG by Cylinder Count",
-           x = "Number of Cylinders", y = "Average MPG") %>%
-      add_cpal_logo()
+      labs(title = "Average MPG by Cylinder Count", x = "Number of Cylinders", y = "Average MPG")
   })
 
   output$ggplot_heatmap <- renderPlot({
@@ -1197,15 +1465,24 @@ server <- function(input, output, session) {
 
     ggplot(cor_long, aes(x = var1, y = var2, fill = correlation)) +
       geom_tile(color = "white") +
-      geom_text(aes(label = round(correlation, 2)), color = "black", size = 3) +
-      scale_fill_gradient2(low = cpal_colors("orange"), mid = "white",
-                           high = cpal_colors("gold"), midpoint = 0,
-                           limits = c(-1, 1)) +
+      geom_text(aes(label = round(correlation, 2)),
+                color = "black",
+                size = 3) +
+      scale_fill_gradient2(
+        low = cpal_colors("orange"),
+        mid = "white",
+        high = cpal_colors("gold"),
+        midpoint = 0,
+        limits = c(-1, 1)
+      ) +
       theme_cpal_print() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-      labs(title = "Variable Correlation Matrix",
-           x = "", y = "", fill = "Correlation") %>%
-      add_cpal_logo()
+      labs(
+        title = "Variable Correlation Matrix",
+        x = "",
+        y = "",
+        fill = "Correlation"
+      )
   })
 
   # Tables with CPAL theming
@@ -1213,10 +1490,7 @@ server <- function(input, output, session) {
     filtered_data() %>%
       select(car_name, mpg, cyl, hp, wt, efficiency_category) %>%
       slice_head(n = 10) %>%
-      cpal_table_gt(
-        title = "Top 10 Cars (Filtered Data)",
-        subtitle = "Sorted by original dataset order"
-      )
+      cpal_table_gt(title = "Top 10 Cars (Filtered Data)", subtitle = "Sorted by original dataset order")
   })
 
   output$reactable_table <- renderReactable({
@@ -1252,7 +1526,8 @@ server <- function(input, output, session) {
   # Advanced Features - Event Handlers
   observeEvent(input$show_notification, {
     showNotification("This is a sample notification message!",
-                     type = "message", duration = 3)
+                     type = "message",
+                     duration = 3)
   })
 
   observeEvent(input$notif_default, {
@@ -1260,15 +1535,21 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$notif_error, {
-    showNotification("Error notification", type = "error", duration = 3)
+    showNotification("Error notification",
+                     type = "error",
+                     duration = 3)
   })
 
   observeEvent(input$notif_warning, {
-    showNotification("Warning notification", type = "warning", duration = 3)
+    showNotification("Warning notification",
+                     type = "warning",
+                     duration = 3)
   })
 
   observeEvent(input$notif_message, {
-    showNotification("Message notification", type = "message", duration = 3)
+    showNotification("Message notification",
+                     type = "message",
+                     duration = 3)
   })
 
   observeEvent(input$sweet_success, {
@@ -1294,7 +1575,10 @@ server <- function(input, output, session) {
   })
 
   observeEvent(input$show_loading, {
-    showNotification("Loading...", id = "loading", duration = NULL, type = "default")
+    showNotification("Loading...",
+                     id = "loading",
+                     duration = NULL,
+                     type = "default")
     Sys.sleep(2)  # Simulate loading
     removeNotification("loading")
     showNotification("Loading complete!", type = "message", duration = 2)
@@ -1321,35 +1605,43 @@ server <- function(input, output, session) {
 
   # Modal dialogs
   observeEvent(input$show_modal, {
-    showModal(modalDialog(
-      title = "Modal Dialog Example",
-      "This is a modal dialog. You can include any content here, including inputs and outputs.",
-      br(), br(),
-      "Modal dialogs are useful for:",
-      tags$ul(
-        tags$li("Collecting additional user input"),
-        tags$li("Displaying detailed information"),
-        tags$li("Confirming actions")
-      ),
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("modal_ok", "OK", class = "btn-primary")
+    showModal(
+      modalDialog(
+        title = "Modal Dialog Example",
+        "This is a modal dialog. You can include any content here, including inputs and outputs.",
+        br(),
+        br(),
+        "Modal dialogs are useful for:",
+        tags$ul(
+          tags$li("Collecting additional user input"),
+          tags$li("Displaying detailed information"),
+          tags$li("Confirming actions")
+        ),
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("modal_ok", "OK", class = "btn-primary")
+        )
       )
-    ))
+    )
   })
 
   observeEvent(input$show_modal_form, {
-    showModal(modalDialog(
-      title = "Form Modal Example",
-      textInput("modal_name", "Name:"),
-      selectInput("modal_category", "Category:",
-                  choices = c("Category A", "Category B", "Category C")),
-      textAreaInput("modal_notes", "Notes:", rows = 3),
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("modal_submit", "Submit", class = "btn-success")
+    showModal(
+      modalDialog(
+        title = "Form Modal Example",
+        textInput("modal_name", "Name:"),
+        selectInput(
+          "modal_category",
+          "Category:",
+          choices = c("Category A", "Category B", "Category C")
+        ),
+        textAreaInput("modal_notes", "Notes:", rows = 3),
+        footer = tagList(
+          modalButton("Cancel"),
+          actionButton("modal_submit", "Submit", class = "btn-success")
+        )
       )
-    ))
+    )
   })
 
   observeEvent(input$modal_ok, {
