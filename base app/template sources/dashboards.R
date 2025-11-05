@@ -210,7 +210,11 @@ cpal_shiny <- function(variant = "default",
       "#F8F9FA",
 
     # Navigation styling (for navbar components)
-    navbar_bg = "#ffffff",
+    navbar_bg = if (variant == "dark")
+      "#1A1A1A"
+    else
+      "#FFFFFF",
+
     "navbar-light-active-color" = if (variant == "dark")
       base_colors$fg
     else
@@ -264,6 +268,12 @@ cpal_shiny <- function(variant = "default",
         word-wrap: break-word;
     }
 
+    .mode-switcher {",
+        if (variant == "dark")
+          "color: #404040;"
+        else
+          "color: #E5E5E5;",
+    "}
     .sidebar-link {
       display: flex;
       align-items: center;
