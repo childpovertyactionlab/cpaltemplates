@@ -19,7 +19,7 @@ library(sf)
 library(tigris)
 
 # Mapbox access token setup (uncomment and set your token if needed)
-Sys.setenv(MAPBOX_PUBLIC_TOKEN = 'pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw')
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw")
 
 source("template sources/dashboards.R")
 
@@ -41,12 +41,16 @@ mtcars_enhanced <- mtcars %>%
 message("Loading geographic data...")
 states_sf <- states(cb = TRUE, resolution = "20m") %>%
   sf::st_transform(4326) %>%
-  mutate(random_value = runif(n(), 0, 100),
-         category = sample(c("Low", "Medium", "High"), n(), replace = TRUE))
+  mutate(
+    random_value = runif(n(), 0, 100),
+    category = sample(c("Low", "Medium", "High"), n(), replace = TRUE)
+  )
 
-texas_counties_sf <- counties(state = "TX",
-                              cb = TRUE,
-                              resolution = "20m") %>%
+texas_counties_sf <- counties(
+  state = "TX",
+  cb = TRUE,
+  resolution = "20m"
+) %>%
   sf::st_transform(4326) %>%
   mutate(
     population_category = sample(c("Small", "Medium", "Large"), n(), replace = TRUE),
@@ -71,15 +75,12 @@ ui <- page_sidebar(
     # Right side: dark mode toggle
     input_dark_mode(id = "mode", class = "mode-switcher")
   ),
-
   theme = cpal_shiny(variant = "default"),
 
   # Collapsible Sidebar Navigation
   sidebar = sidebar(
     width = 300,
-
     h6("Dashboard Elements"),
-
     actionLink(
       "show_inputs",
       class = "sidebar-link",
@@ -147,7 +148,6 @@ ui <- page_sidebar(
         "Explore the full range of input widgets available in Shiny and shinyWidgets packages.",
         class = "lead"
       ),
-
       layout_columns(
         col_widths = c(5, 7),
 
@@ -179,7 +179,6 @@ ui <- page_sidebar(
                     tags$code("sliderInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   sliderInput(
                     "mpg_range",
                     "MPG Range (Range Slider)",
@@ -188,7 +187,6 @@ ui <- page_sidebar(
                     value = c(15, 25),
                     step = 0.5
                   ),
-
                   sliderInput(
                     "hp_single",
                     "Horsepower Threshold (Single Value)",
@@ -196,7 +194,6 @@ ui <- page_sidebar(
                     max = max(mtcars$hp),
                     value = 150
                   ),
-
                   sliderInput(
                     "transparency",
                     "Transparency (Standard Slider)",
@@ -219,7 +216,6 @@ ui <- page_sidebar(
                     tags$code("selectInput(), selectizeInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   selectInput(
                     "cyl_select",
                     "Cylinders (Basic Multi-Select)",
@@ -227,7 +223,6 @@ ui <- page_sidebar(
                     selected = unique(mtcars$cyl),
                     multiple = TRUE
                   ),
-
                   selectizeInput(
                     "gear_select",
                     "Gears (Selectize with Placeholder)",
@@ -250,9 +245,7 @@ ui <- page_sidebar(
                     tags$code("checkboxInput(), checkboxGroupInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   checkboxInput("show_trend", "Show trend line (Single Checkbox)", value = TRUE),
-
                   checkboxGroupInput(
                     "transmission",
                     "Transmission Type (Checkbox Group)",
@@ -273,7 +266,6 @@ ui <- page_sidebar(
                     tags$code("radioButtons()"),
                     class = "small text-muted mb-3"
                   ),
-
                   radioButtons(
                     "chart_type",
                     "Chart Type (Basic Radio):",
@@ -298,16 +290,13 @@ ui <- page_sidebar(
                     tags$code("textInput(), textAreaInput(), numericInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   textInput("chart_title", "Chart Title (Text Input):", value = "Motor Trend Car Analysis"),
-
                   textAreaInput(
                     "chart_notes",
                     "Chart Notes (Text Area)",
                     value = "Analysis of 1974 Motor Trend data",
                     rows = 3
                   ),
-
                   numericInput(
                     "point_size",
                     "Point Size (Numeric Input)",
@@ -329,14 +318,12 @@ ui <- page_sidebar(
                     tags$code("dateRangeInput(), fileInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   dateRangeInput(
                     "date_range",
                     "Analysis Period (Date Range):",
                     start = Sys.Date() - 30,
                     end = Sys.Date()
                   ),
-
                   fileInput(
                     "upload_data",
                     "Upload Custom Data (File Input)",
@@ -364,7 +351,6 @@ ui <- page_sidebar(
                     tags$code("prettyCheckboxGroup()"),
                     class = "small text-muted mb-3"
                   ),
-
                   prettyCheckboxGroup(
                     "carb_pretty",
                     "Carburetors (Pretty Checkboxes):",
@@ -388,7 +374,6 @@ ui <- page_sidebar(
                     tags$code("prettyRadioButtons()"),
                     class = "small text-muted mb-3"
                   ),
-
                   prettyRadioButtons(
                     "color_scheme",
                     "Color Scheme (Pretty Radio):",
@@ -416,7 +401,6 @@ ui <- page_sidebar(
                     tags$code("pickerInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   pickerInput(
                     "brand_picker",
                     "Car Brands (Picker with Actions):",
@@ -439,7 +423,6 @@ ui <- page_sidebar(
                     tags$code("colorPickr()"),
                     class = "small text-muted mb-3"
                   ),
-
                   colorPickr(
                     "custom_color",
                     "Custom Color (Color Picker):",
@@ -459,14 +442,12 @@ ui <- page_sidebar(
                     tags$code("materialSwitch(), searchInput(), airDatepickerInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   materialSwitch(
                     "show_labels",
                     "Show Labels (Material Switch)",
                     value = TRUE,
                     status = "primary"
                   ),
-
                   searchInput(
                     "search_cars",
                     "Search Cars (Search Input)",
@@ -474,7 +455,6 @@ ui <- page_sidebar(
                     btnSearch = icon("magnifying-glass"),
                     btnReset = icon("xmark"),
                   ),
-
                   airDatepickerInput(
                     "air_date",
                     "Select Date (Air Date Picker)",
@@ -495,7 +475,6 @@ ui <- page_sidebar(
                     tags$code("numericRangeInput()"),
                     class = "small text-muted mb-3"
                   ),
-
                   numericRangeInput("weight_range", "Weight Range:", value = c(2, 4))
                 ),
 
@@ -511,7 +490,6 @@ ui <- page_sidebar(
                     tags$code("progressBar()"),
                     class = "small text-muted mb-3"
                   ),
-
                   progressBar(
                     "demo_progress1",
                     value = 65,
@@ -520,9 +498,7 @@ ui <- page_sidebar(
                     striped = TRUE,
                     title = "Demo Progress 1"
                   ),
-
                   br(),
-
                   progressBar(
                     "demo_progress2",
                     value = 85,
@@ -552,16 +528,12 @@ ui <- page_sidebar(
                     tags$code("actionButton(), downloadButton()"),
                     class = "small text-muted mb-3"
                   ),
-
                   actionButton("refresh_data", "Refresh Analysis", class = "btn-primary me-2 mb-2"),
                   actionButton("refresh_data", "Refresh Analysis", class = "btn-outline-primary me-2 mb-2"),
                   downloadButton("download_report", "Download Report", class = "btn-primary me-2 mb-2"),
-
                   br(),
                   br(),
-
                   actionButton("show_notification", "Show Notification", class = "btn-info me-2 mb-2"),
-
                   actionButton("update_progress", "Update Progress Bars", class = "btn-secondary me-2 mb-2")
                 ),
 
@@ -578,7 +550,6 @@ ui <- page_sidebar(
                     tags$code("dropdown()"),
                     class = "small text-muted mb-3"
                   ),
-
                   dropdown(
                     h5("Additional Options"),
                     br(),
@@ -600,7 +571,6 @@ ui <- page_sidebar(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                   )
                 ),
-
                 div(
                   class = "mb-3 p-3 bg-success-subtle rounded",
                   h5("Success Section", class = "text-success mb-3"),
@@ -608,7 +578,6 @@ ui <- page_sidebar(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                   )
                 ),
-
                 div(
                   class = "mb-3 p-3 bg-info-subtle rounded",
                   h5("Information Section", class = "text-info mb-3"),
@@ -616,7 +585,6 @@ ui <- page_sidebar(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                   )
                 ),
-
                 div(
                   class = "mb-3 p-3 bg-warning-subtle rounded",
                   h5("Warning Section", class = "text-warning mb-3"),
@@ -631,444 +599,384 @@ ui <- page_sidebar(
                     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
                   )
                 )
+              )
+            )
+          )
+        ),
 
+        # Main Visualization Area
+        card(
+          card_header("Dynamic Visualization"),
+          plotOutput("main_plot", height = "500px"),
+          br(),
+
+          # Value boxes
+          layout_columns(
+            col_widths = c(3, 3, 3, 3),
+            value_box(
+              title = "Average MPG",
+              value = textOutput("avg_mpg"),
+              showcase = icon("gas-pump"),
+              theme = value_box_theme(bg = cpal_colors("gold"))
+            ),
+            value_box(
+              title = "Total Cars",
+              value = textOutput("total_cars"),
+              showcase = icon("car"),
+              theme = value_box_theme(bg = cpal_colors("teal"))
+            ),
+            value_box(
+              title = "Max Horsepower",
+              value = textOutput("max_hp"),
+              showcase = icon("bolt"),
+              theme = value_box_theme(bg = cpal_colors("orange"))
+            ),
+            value_box(
+              title = "Avg Weight",
+              value = textOutput("avg_weight"),
+              showcase = icon("weight-hanging"),
+              theme = value_box_theme(bg = cpal_colors("pink"))
             )
           )
         )
-      ),
-
-      # Main Visualization Area
-      card(
-        card_header("Dynamic Visualization"),
-        plotOutput("main_plot", height = "500px"),
-
-        br(),
-
-        # Value boxes
-        layout_columns(
-          col_widths = c(3, 3, 3, 3),
-          value_box(
-            title = "Average MPG",
-            value = textOutput("avg_mpg"),
-            showcase = icon("gas-pump"),
-            theme = value_box_theme(bg = cpal_colors("gold"))
-          ),
-          value_box(
-            title = "Total Cars",
-            value = textOutput("total_cars"),
-            showcase = icon("car"),
-            theme = value_box_theme(bg = cpal_colors("teal"))
-          ),
-          value_box(
-            title = "Max Horsepower",
-            value = textOutput("max_hp"),
-            showcase = icon("bolt"),
-            theme = value_box_theme(bg = cpal_colors("orange"))
-          ),
-          value_box(
-            title = "Avg Weight",
-            value = textOutput("avg_weight"),
-            showcase = icon("weight-hanging"),
-            theme = value_box_theme(bg = cpal_colors("pink"))
-          )
-        )
       )
-    )
-  ),
-
-  # Interactive Charts Section
-  conditionalPanel(
-    condition = "output.current_section == 'charts'",
-    h1("Interactive Charts"),
-    p("Explore interactive visualizations using highcharter.", class = "lead"),
-
-    layout_columns(
-      col_widths = c(6, 6),
-
-      card(
-        card_header("Scatter Plot"),
-        highchartOutput("highchart_scatter", height = "400px")
-      ),
-
-      card(
-        card_header("Line Chart"),
-        highchartOutput("highchart_line", height = "400px")
-      ),
-
-      card(
-        card_header("Bar Chart"),
-        highchartOutput("highchart_bar", height = "400px")
-      ),
-
-      card(
-        card_header("Correlation Matrix"),
-        highchartOutput("highchart_heatmap", height = "400px")
-      )
-    )
-  ),
-
-  # Static Charts Section
-  conditionalPanel(
-    condition = "output.current_section == 'static_charts'",
-    h1("Static Charts"),
-    p("Static visualizations using ggplot2 with CPAL theming.", class = "lead"),
-
-    layout_columns(
-      col_widths = c(6, 6),
-
-      card(
-        card_header("Scatter Plot"),
-        plotOutput("ggplot_scatter", height = "400px")
-      ),
-
-      card(
-        card_header("Line Chart"),
-        plotOutput("ggplot_line", height = "400px")
-      ),
-
-      card(
-        card_header("Bar Chart"),
-        plotOutput("ggplot_bar", height = "400px")
-      ),
-
-      card(
-        card_header("Correlation Matrix"),
-        plotOutput("ggplot_heatmap", height = "400px")
-      )
-    )
-  ),
-
-  # Data Tables Section
-  conditionalPanel(
-    condition = "output.current_section == 'tables'",
-    h1("Data Tables"),
-    p("Compare different table packages with CPAL theming.", class = "lead"),
-
-    layout_columns(
-      col_widths = c(6, 6),
-
-      card(card_header("GT Table (CPAL Themed)"), gt_output("gt_table")),
-
-      card(
-        card_header("Reactable (CPAL Themed)"),
-        reactableOutput("reactable_table")
-      ),
-
-      card(
-        card_header("DT Table (Full Features)"),
-        DT::dataTableOutput("dt_table"),
-        full_screen = TRUE
-      ),
-
-      card(
-        card_header("Summary Statistics"),
-        verbatimTextOutput("summary_stats")
-      )
-    )
-  ),
-
-  # Typography Section (unchanged)
-  conditionalPanel(
-    condition = "output.current_section == 'typography'",
-    h1("Typography Showcase"),
-    p(
-      "Demonstration of text styling options available in the CPAL theme.",
-      class = "lead"
     ),
 
-    layout_columns(
-      col_widths = 12,
-
-      card(
-        card_header("CPAL Typography Showcase"),
-
-        # Headers
-        h1("H1 Header - Main Dashboard Title", class = "text-primary"),
-        h2("H2 Header - Section Title", class = "text-secondary"),
-        h3("H3 Header - Subsection Title", class = "text-info"),
-        h4("H4 Header - Component Title"),
-        h5("H5 Header - Small Section"),
-        h6("H6 Header - Minor Detail"),
-
-        hr(),
-
-        # Body text variations
-        p(
-          "This is regular body text demonstrating the standard paragraph styling used throughout the CPAL dashboard template.",
-          class = "fs-5"
+    # Interactive Charts Section
+    conditionalPanel(
+      condition = "output.current_section == 'charts'",
+      h1("Interactive Charts"),
+      p("Explore interactive visualizations using highcharter.", class = "lead"),
+      layout_columns(
+        col_widths = c(6, 6),
+        card(
+          card_header("Scatter Plot"),
+          highchartOutput("highchart_scatter", height = "400px")
         ),
-
-        p(
-          "This is a highlighted paragraph with important information that should stand out to users.",
-          class = "bg-light p-3 border-start border-5 border-primary"
+        card(
+          card_header("Line Chart"),
+          highchartOutput("highchart_line", height = "400px")
         ),
-
-        p(
-          "This is muted text typically used for additional context or secondary information.",
-          class = "text-muted"
+        card(
+          card_header("Bar Chart"),
+          highchartOutput("highchart_bar", height = "400px")
         ),
+        card(
+          card_header("Correlation Matrix"),
+          highchartOutput("highchart_heatmap", height = "400px")
+        )
+      )
+    ),
 
-        p(
-          "This is small text used for captions, footnotes, or fine print.",
-          class = "small"
+    # Static Charts Section
+    conditionalPanel(
+      condition = "output.current_section == 'static_charts'",
+      h1("Static Charts"),
+      p("Static visualizations using ggplot2 with CPAL theming.", class = "lead"),
+      layout_columns(
+        col_widths = c(6, 6),
+        card(
+          card_header("Scatter Plot"),
+          plotOutput("ggplot_scatter", height = "400px")
         ),
-
-        # Emphasis and styling
-        p(
-          HTML(
-            "<strong>Bold text</strong> and <em>italic text</em> for emphasis within paragraphs."
-          )
+        card(
+          card_header("Line Chart"),
+          plotOutput("ggplot_line", height = "400px")
         ),
+        card(
+          card_header("Bar Chart"),
+          plotOutput("ggplot_bar", height = "400px")
+        ),
+        card(
+          card_header("Correlation Matrix"),
+          plotOutput("ggplot_heatmap", height = "400px")
+        )
+      )
+    ),
 
-        p(
-          HTML(
-            '<span class="text-success">Success text</span>,
+    # Data Tables Section
+    conditionalPanel(
+      condition = "output.current_section == 'tables'",
+      h1("Data Tables"),
+      p("Compare different table packages with CPAL theming.", class = "lead"),
+      layout_columns(
+        col_widths = c(6, 6),
+        card(card_header("GT Table (CPAL Themed)"), gt_output("gt_table")),
+        card(
+          card_header("Reactable (CPAL Themed)"),
+          reactableOutput("reactable_table")
+        ),
+        card(
+          card_header("DT Table (Full Features)"),
+          DT::dataTableOutput("dt_table"),
+          full_screen = TRUE
+        ),
+        card(
+          card_header("Summary Statistics"),
+          verbatimTextOutput("summary_stats")
+        )
+      )
+    ),
+
+    # Typography Section (unchanged)
+    conditionalPanel(
+      condition = "output.current_section == 'typography'",
+      h1("Typography Showcase"),
+      p(
+        "Demonstration of text styling options available in the CPAL theme.",
+        class = "lead"
+      ),
+      layout_columns(
+        col_widths = 12,
+        card(
+          card_header("CPAL Typography Showcase"),
+
+          # Headers
+          h1("H1 Header - Main Dashboard Title", class = "text-primary"),
+          h2("H2 Header - Section Title", class = "text-secondary"),
+          h3("H3 Header - Subsection Title", class = "text-info"),
+          h4("H4 Header - Component Title"),
+          h5("H5 Header - Small Section"),
+          h6("H6 Header - Minor Detail"),
+          hr(),
+
+          # Body text variations
+          p(
+            "This is regular body text demonstrating the standard paragraph styling used throughout the CPAL dashboard template.",
+            class = "fs-5"
+          ),
+          p(
+            "This is a highlighted paragraph with important information that should stand out to users.",
+            class = "bg-light p-3 border-start border-5 border-primary"
+          ),
+          p(
+            "This is muted text typically used for additional context or secondary information.",
+            class = "text-muted"
+          ),
+          p(
+            "This is small text used for captions, footnotes, or fine print.",
+            class = "small"
+          ),
+
+          # Emphasis and styling
+          p(
+            HTML(
+              "<strong>Bold text</strong> and <em>italic text</em> for emphasis within paragraphs."
+            )
+          ),
+          p(
+            HTML(
+              '<span class="text-success">Success text</span>,
                  <span class="text-danger">danger text</span>,
                  <span class="text-warning">warning text</span>, and
                  <span class="text-info">info text</span>.'
-          )
-        ),
-
-        # Code styling
-        p("Inline code example:", code("mtcars %>% filter(mpg > 20)")),
-
-        # Blockquote
-        tags$blockquote(
-          p(
-            "This is a blockquote used for highlighting important quotes or key insights from the analysis."
+            )
           ),
-          tags$footer("CPAL Data Analysis Team")
-        ),
 
-        # Lists
-        h4("List Examples"),
-        p("Unordered list:"),
-        tags$ul(
-          tags$li("First insight from data analysis"),
-          tags$li("Second key finding"),
-          tags$li("Third important observation")
-        ),
+          # Code styling
+          p("Inline code example:", code("mtcars %>% filter(mpg > 20)")),
 
-        p("Ordered list:"),
-        tags$ol(
-          tags$li("Data collection and cleaning"),
-          tags$li("Exploratory data analysis"),
-          tags$li("Statistical modeling"),
-          tags$li("Results interpretation")
-        )
-      )
-    )
-  ),
-
-  # Advanced Features Section
-  conditionalPanel(
-    condition = "output.current_section == 'advanced'",
-    h1("Advanced Features"),
-    p("Progress indicators, alerts, and notifications.", class = "lead"),
-
-    layout_columns(
-      col_widths = c(6, 6),
-
-      card(
-        card_header("Progress Indicators"),
-
-        h5("Standard Progress Bars"),
-        progressBar(
-          "progress1",
-          value = 65,
-          status = "info",
-          display_pct = TRUE,
-          striped = TRUE
-        ),
-
-        progressBar(
-          "progress2",
-          value = 85,
-          status = "success",
-          display_pct = TRUE
-        ),
-
-        br(),
-
-        h5("Circular Progress (shinyWidgets)"),
-        circleButton(
-          "circle1",
-          icon = icon("check"),
-          status = "primary",
-          size = "lg"
-        ),
-
-        br(),
-        br(),
-
-        h5("Loading Indicators"),
-        actionButton("show_loading", "Show Loading Spinner", class = "btn-primary"),
-
-        br(),
-        br(),
-
-        h5("Update Progress"),
-        actionButton("update_progress_advanced", "Update All Progress", class = "btn-info")
-      ),
-
-      card(
-        card_header("Alerts & Notifications"),
-
-        h5("Bootstrap Alerts"),
-        div(
-          class = "alert alert-info alert-dismissible",
-          tags$button(
-            type = "button",
-            class = "btn-close",
-            `data-bs-dismiss` = "alert"
+          # Blockquote
+          tags$blockquote(
+            p(
+              "This is a blockquote used for highlighting important quotes or key insights from the analysis."
+            ),
+            tags$footer("CPAL Data Analysis Team")
           ),
-          tags$strong("Info!"),
-          " This is an informational alert."
-        ),
 
-        div(
-          class = "alert alert-success alert-dismissible",
-          tags$button(
-            type = "button",
-            class = "btn-close",
-            `data-bs-dismiss` = "alert"
+          # Lists
+          h4("List Examples"),
+          p("Unordered list:"),
+          tags$ul(
+            tags$li("First insight from data analysis"),
+            tags$li("Second key finding"),
+            tags$li("Third important observation")
           ),
-          tags$strong("Success!"),
-          " Operation completed successfully."
-        ),
-
-        div(
-          class = "alert alert-warning alert-dismissible",
-          tags$button(
-            type = "button",
-            class = "btn-close",
-            `data-bs-dismiss` = "alert"
-          ),
-          tags$strong("Warning!"),
-          " Please review before proceeding."
-        ),
-
-        div(
-          class = "alert alert-danger alert-dismissible",
-          tags$button(
-            type = "button",
-            class = "btn-close",
-            `data-bs-dismiss` = "alert"
-          ),
-          tags$strong("Error!"),
-          " An error has occurred."
-        ),
-
-        br(),
-
-        h5("Notification Actions"),
-        actionButton("notif_default", "Default Notification", class = "btn-secondary me-2"),
-        actionButton("notif_error", "Error Notification", class = "btn-danger me-2"),
-        actionButton("notif_warning", "Warning Notification", class = "btn-warning me-2"),
-        actionButton("notif_message", "Message Notification", class = "btn-info"),
-
-        br(),
-        br(),
-
-        h5("Sweet Alerts (shinyWidgets)"),
-        actionButton("sweet_success", "Success Alert", class = "btn-success me-2"),
-        actionButton("sweet_confirm", "Confirmation Dialog", class = "btn-primary")
-      ),
-
-      card(
-        card_header("Tooltips & Popovers"),
-
-        h5("Tooltips"),
-        p("Hover over these elements to see tooltips:"),
-
-        div(
-          class = "d-flex gap-3",
-          actionButton("tooltip1", "Top Tooltip", class = "btn-outline-primary") %>%
-            bslib::tooltip("This tooltip appears on top"),
-
-          actionButton("tooltip2", "Right Tooltip", class = "btn-outline-secondary") %>%
-            bslib::tooltip("This tooltip appears on the right", placement = "right"),
-
-          actionButton("tooltip3", "Bottom Tooltip", class = "btn-outline-info") %>%
-            bslib::tooltip("This tooltip appears on the bottom", placement = "bottom")
-        ),
-
-        br(),
-
-        h5("Accordions"),
-        accordion(
-          accordion_panel(
-            title = "Data Processing Options",
-            "Configure advanced data processing parameters here.",
-            checkboxInput("adv_option1", "Enable advanced processing"),
-            sliderInput("adv_threshold", "Threshold", 0, 100, 50)
-          ),
-          accordion_panel(
-            title = "Export Settings",
-            "Choose export formats and customize output parameters.",
-            radioButtons("export_format", "Format:", choices = c("CSV", "Excel", "JSON"))
-          ),
-          accordion_panel(
-            title = "Performance Options",
-            "Optimize dashboard performance settings.",
-            checkboxInput("enable_cache", "Enable caching"),
-            numericInput("cache_time", "Cache duration (minutes):", 60)
-          )
-        )
-      ),
-
-      card(
-        card_header("Modal Dialogs"),
-
-        actionButton("show_modal", "Show Modal Dialog", class = "btn-primary"),
-
-        br(),
-        br(),
-
-        actionButton("show_modal_form", "Show Form Modal", class = "btn-secondary"),
-
-        br(),
-        br(),
-
-        h5("Cards with Actions"),
-        div(
-          class = "card",
-          div(
-            class = "card-header d-flex justify-content-between",
-            "Collapsible Card",
-            actionButton("collapse_card", icon("chevron-down"), class = "btn-sm btn-outline-secondary")
-          ),
-          div(
-            id = "card_body",
-            class = "card-body",
-            "This card can be collapsed/expanded using the button in the header."
+          p("Ordered list:"),
+          tags$ol(
+            tags$li("Data collection and cleaning"),
+            tags$li("Exploratory data analysis"),
+            tags$li("Statistical modeling"),
+            tags$li("Results interpretation")
           )
         )
       )
-    )
-  ),
+    ),
 
-  # Maps Section
-  conditionalPanel(
-    condition = "output.current_section == 'maps'",
-    h1("Maps"),
-    p("Interactive maps using the mapgl package.", class = "lead"),
+    # Advanced Features Section
+    conditionalPanel(
+      condition = "output.current_section == 'advanced'",
+      h1("Advanced Features"),
+      p("Progress indicators, alerts, and notifications.", class = "lead"),
+      layout_columns(
+        col_widths = c(6, 6),
+        card(
+          card_header("Progress Indicators"),
+          h5("Standard Progress Bars"),
+          progressBar(
+            "progress1",
+            value = 65,
+            status = "info",
+            display_pct = TRUE,
+            striped = TRUE
+          ),
+          progressBar(
+            "progress2",
+            value = 85,
+            status = "success",
+            display_pct = TRUE
+          ),
+          br(),
+          h5("Circular Progress (shinyWidgets)"),
+          circleButton(
+            "circle1",
+            icon = icon("check"),
+            status = "primary",
+            size = "lg"
+          ),
+          br(),
+          br(),
+          h5("Loading Indicators"),
+          actionButton("show_loading", "Show Loading Spinner", class = "btn-primary"),
+          br(),
+          br(),
+          h5("Update Progress"),
+          actionButton("update_progress_advanced", "Update All Progress", class = "btn-info")
+        ),
+        card(
+          card_header("Alerts & Notifications"),
+          h5("Bootstrap Alerts"),
+          div(
+            class = "alert alert-info alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Info!"),
+            " This is an informational alert."
+          ),
+          div(
+            class = "alert alert-success alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Success!"),
+            " Operation completed successfully."
+          ),
+          div(
+            class = "alert alert-warning alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Warning!"),
+            " Please review before proceeding."
+          ),
+          div(
+            class = "alert alert-danger alert-dismissible",
+            tags$button(
+              type = "button",
+              class = "btn-close",
+              `data-bs-dismiss` = "alert"
+            ),
+            tags$strong("Error!"),
+            " An error has occurred."
+          ),
+          br(),
+          h5("Notification Actions"),
+          actionButton("notif_default", "Default Notification", class = "btn-secondary me-2"),
+          actionButton("notif_error", "Error Notification", class = "btn-danger me-2"),
+          actionButton("notif_warning", "Warning Notification", class = "btn-warning me-2"),
+          actionButton("notif_message", "Message Notification", class = "btn-info"),
+          br(),
+          br(),
+          h5("Sweet Alerts (shinyWidgets)"),
+          actionButton("sweet_success", "Success Alert", class = "btn-success me-2"),
+          actionButton("sweet_confirm", "Confirmation Dialog", class = "btn-primary")
+        ),
+        card(
+          card_header("Tooltips & Popovers"),
+          h5("Tooltips"),
+          p("Hover over these elements to see tooltips:"),
+          div(
+            class = "d-flex gap-3",
+            actionButton("tooltip1", "Top Tooltip", class = "btn-outline-primary") %>%
+              bslib::tooltip("This tooltip appears on top"),
+            actionButton("tooltip2", "Right Tooltip", class = "btn-outline-secondary") %>%
+              bslib::tooltip("This tooltip appears on the right", placement = "right"),
+            actionButton("tooltip3", "Bottom Tooltip", class = "btn-outline-info") %>%
+              bslib::tooltip("This tooltip appears on the bottom", placement = "bottom")
+          ),
+          br(),
+          h5("Accordions"),
+          accordion(
+            accordion_panel(
+              title = "Data Processing Options",
+              "Configure advanced data processing parameters here.",
+              checkboxInput("adv_option1", "Enable advanced processing"),
+              sliderInput("adv_threshold", "Threshold", 0, 100, 50)
+            ),
+            accordion_panel(
+              title = "Export Settings",
+              "Choose export formats and customize output parameters.",
+              radioButtons("export_format", "Format:", choices = c("CSV", "Excel", "JSON"))
+            ),
+            accordion_panel(
+              title = "Performance Options",
+              "Optimize dashboard performance settings.",
+              checkboxInput("enable_cache", "Enable caching"),
+              numericInput("cache_time", "Cache duration (minutes):", 60)
+            )
+          )
+        ),
+        card(
+          card_header("Modal Dialogs"),
+          actionButton("show_modal", "Show Modal Dialog", class = "btn-primary"),
+          br(),
+          br(),
+          actionButton("show_modal_form", "Show Form Modal", class = "btn-secondary"),
+          br(),
+          br(),
+          h5("Cards with Actions"),
+          div(
+            class = "card",
+            div(
+              class = "card-header d-flex justify-content-between",
+              "Collapsible Card",
+              actionButton("collapse_card", icon("chevron-down"), class = "btn-sm btn-outline-secondary")
+            ),
+            div(
+              id = "card_body",
+              class = "card-body",
+              "This card can be collapsed/expanded using the button in the header."
+            )
+          )
+        )
+      )
+    ),
 
-    layout_columns(
-      col_widths = c(6, 6),
-
-      card(
-        card_header("United States - State Level"),
-        mapboxglOutput("us_states_map", height = "500px")
-      ),
-
-      card(
-        card_header("Texas Counties"),
-        mapboxglOutput("texas_counties_map", height = "500px")
+    # Maps Section
+    conditionalPanel(
+      condition = "output.current_section == 'maps'",
+      h1("Maps"),
+      p("Interactive maps using the mapgl package.", class = "lead"),
+      layout_columns(
+        col_widths = c(6, 6),
+        card(
+          card_header("United States - State Level"),
+          mapboxglOutput("us_states_map", height = "500px")
+        ),
+        card(
+          card_header("Texas Counties"),
+          mapboxglOutput("texas_counties_map", height = "500px")
+        )
       )
     )
   )
-)
 )
 
 # Define Server
@@ -1077,14 +985,18 @@ server <- function(input, output, session) {
   session$setCurrentTheme(cpal_shiny(variant = "default"))
 
   # Mode change
-  observeEvent(input$mode, {
-    variant <- if (input$mode == "dark")
-      "dark"
-    else
-      "default"
-    theme <- cpal_shiny(variant = variant)
-    session$setCurrentTheme(theme)
-  }, ignoreInit = TRUE)
+  observeEvent(input$mode,
+    {
+      variant <- if (input$mode == "dark") {
+        "dark"
+      } else {
+        "default"
+      }
+      theme <- cpal_shiny(variant = variant)
+      session$setCurrentTheme(theme)
+    },
+    ignoreInit = TRUE
+  )
 
   # Navigation state
   values <- reactiveValues(current_section = "inputs")
@@ -1131,7 +1043,7 @@ server <- function(input, output, session) {
     # Apply global filters from sidebar
     if (!is.null(input$global_mpg_range)) {
       data <- data %>% filter(mpg >= input$global_mpg_range[1] &
-                                mpg <= input$global_mpg_range[2])
+        mpg <= input$global_mpg_range[2])
     }
 
     if (!is.null(input$global_cyl_select)) {
@@ -1141,7 +1053,7 @@ server <- function(input, output, session) {
     # Apply local filters from input components section
     if (!is.null(input$mpg_range)) {
       data <- data %>% filter(mpg >= input$mpg_range[1] &
-                                mpg <= input$mpg_range[2])
+        mpg <= input$mpg_range[2])
     }
 
     if (!is.null(input$cyl_select)) {
@@ -1173,12 +1085,11 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(ggplot() +
-               theme_cpal_print() +
-               labs(title = "No data matches current filters"))
+        theme_cpal_print() +
+        labs(title = "No data matches current filters"))
     }
 
-    p <- switch(
-      input$chart_type,
+    p <- switch(input$chart_type,
       "scatter" = ggplot(data, aes(x = wt, y = mpg)) +
         geom_point(
           aes(color = factor(cyl)),
@@ -1186,11 +1097,9 @@ server <- function(input, output, session) {
           alpha = input$transparency
         ) +
         labs(x = "Weight (1000 lbs)", y = "Miles Per Gallon", color = "Cylinders"),
-
       "box" = ggplot(data, aes(x = factor(cyl), y = mpg)) +
         geom_boxplot(aes(fill = factor(cyl)), alpha = 0.7) +
         labs(x = "Cylinders", y = "Miles Per Gallon", fill = "Cylinders"),
-
       "hist" = ggplot(data, aes(x = mpg)) +
         geom_histogram(
           bins = 15,
@@ -1203,9 +1112,11 @@ server <- function(input, output, session) {
 
     # Add trend line if requested for scatter plot
     if (input$chart_type == "scatter" && input$show_trend) {
-      p <- p + geom_smooth(method = "lm",
-                           se = TRUE,
-                           color = cpal_colors("orange"))
+      p <- p + geom_smooth(
+        method = "lm",
+        se = TRUE,
+        color = cpal_colors("orange")
+      )
     }
 
     # Apply color scheme
@@ -1216,8 +1127,10 @@ server <- function(input, output, session) {
     }
 
     p + theme_cpal_print() +
-      labs(title = input$chart_title,
-           caption = input$chart_notes) +
+      labs(
+        title = input$chart_title,
+        caption = input$chart_notes
+      ) +
       theme(plot.title = element_text(size = 16, color = cpal_colors("gold")))
   })
 
@@ -1244,7 +1157,7 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-               hc_title(text = "No data matches current filters"))
+        hc_title(text = "No data matches current filters"))
     }
 
     # Create separate series for each cylinder group
@@ -1283,7 +1196,7 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-               hc_title(text = "No data matches current filters"))
+        hc_title(text = "No data matches current filters"))
     }
 
     # Create the base chart
@@ -1332,14 +1245,16 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-               hc_title(text = "No data matches current filters"))
+        hc_title(text = "No data matches current filters"))
     }
 
     highchart() %>%
       hc_chart(type = "column") %>%
       hc_title(text = "Average MPG by Cylinder Count") %>%
-      hc_xAxis(title = list(text = "Number of Cylinders"),
-               categories = as.character(data$cyl)) %>%
+      hc_xAxis(
+        title = list(text = "Number of Cylinders"),
+        categories = as.character(data$cyl)
+      ) %>%
       hc_yAxis(title = list(text = "Average MPG")) %>%
       hc_add_series(
         data = data$avg_mpg,
@@ -1354,7 +1269,7 @@ server <- function(input, output, session) {
     # Create correlation matrix
     if (nrow(filtered_data()) == 0) {
       return(highchart() %>%
-               hc_title(text = "No data matches current filters"))
+        hc_title(text = "No data matches current filters"))
     }
 
     cor_data <- filtered_data() %>%
@@ -1410,9 +1325,11 @@ server <- function(input, output, session) {
       color = factor(cyl)
     )) +
       geom_point(size = 3, alpha = 0.8) +
-      geom_smooth(method = "lm",
-                  se = TRUE,
-                  alpha = 0.2) +
+      geom_smooth(
+        method = "lm",
+        se = TRUE,
+        alpha = 0.2
+      ) +
       scale_color_cpal_d() +
       theme_cpal_print() +
       labs(
@@ -1473,8 +1390,9 @@ server <- function(input, output, session) {
     ggplot(cor_long, aes(x = var1, y = var2, fill = correlation)) +
       geom_tile(color = "white") +
       geom_text(aes(label = round(correlation, 2)),
-                color = "black",
-                size = 3) +
+        color = "black",
+        size = 3
+      ) +
       scale_fill_gradient2(
         low = cpal_colors("orange"),
         mid = "white",
@@ -1533,8 +1451,9 @@ server <- function(input, output, session) {
   # Advanced Features - Event Handlers
   observeEvent(input$show_notification, {
     showNotification("This is a sample notification message!",
-                     type = "message",
-                     duration = 3)
+      type = "message",
+      duration = 3
+    )
   })
 
   observeEvent(input$notif_default, {
@@ -1543,20 +1462,23 @@ server <- function(input, output, session) {
 
   observeEvent(input$notif_error, {
     showNotification("Error notification",
-                     type = "error",
-                     duration = 3)
+      type = "error",
+      duration = 3
+    )
   })
 
   observeEvent(input$notif_warning, {
     showNotification("Warning notification",
-                     type = "warning",
-                     duration = 3)
+      type = "warning",
+      duration = 3
+    )
   })
 
   observeEvent(input$notif_message, {
     showNotification("Message notification",
-                     type = "message",
-                     duration = 3)
+      type = "message",
+      duration = 3
+    )
   })
 
   observeEvent(input$sweet_success, {
@@ -1583,10 +1505,11 @@ server <- function(input, output, session) {
 
   observeEvent(input$show_loading, {
     showNotification("Loading...",
-                     id = "loading",
-                     duration = NULL,
-                     type = "default")
-    Sys.sleep(2)  # Simulate loading
+      id = "loading",
+      duration = NULL,
+      type = "default"
+    )
+    Sys.sleep(2) # Simulate loading
     removeNotification("loading")
     showNotification("Loading complete!", type = "message", duration = 2)
   })

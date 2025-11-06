@@ -53,7 +53,8 @@
 #'   sidebarLayout(
 #'     sidebarPanel(
 #'       selectInput("program", "Select Program:",
-#'                   choices = c("Education", "Housing", "Health"))
+#'         choices = c("Education", "Housing", "Health")
+#'       )
 #'     ),
 #'     mainPanel(
 #'       plotOutput("program_plot")
@@ -118,8 +119,7 @@ cpal_shiny <- function(variant = "default",
   cpal_main_colors <- cpal_colors("main")
 
   # Define base colors for different variants
-  base_colors <- switch(
-    variant,
+  base_colors <- switch(variant,
     "default" = list(
       bg = "#FFFFFF",
       fg = "#007A8C",
@@ -149,7 +149,7 @@ cpal_shiny <- function(variant = "default",
     # CPAL Yellow
     warning = cpal_main_colors[4],
     # CPAL Orange
-    danger = cpal_main_colors[5]       # CPAL Pink
+    danger = cpal_main_colors[5] # CPAL Pink
   )
 
   # Apply custom color overrides if provided
@@ -179,7 +179,7 @@ cpal_shiny <- function(variant = "default",
     "body-color" = base_colors$body_color,
 
     # Semantic colors
-    #primary = semantic_colors$primary,
+    # primary = semantic_colors$primary,
     primary = "#007a8c",
     secondary = semantic_colors$secondary,
     success = semantic_colors$success,
@@ -195,61 +195,66 @@ cpal_shiny <- function(variant = "default",
 
     # Visual enhancements
     "enable-gradients" = TRUE,
-    "enable-shadows" = if (variant == "presentation")
+    "enable-shadows" = if (variant == "presentation") {
       FALSE
-    else
-      TRUE,
+    } else {
+      TRUE
+    },
     "enable-rounded" = TRUE,
     "enable-transitions" = enable_animations,
 
     # Progress bar styling
     "progress-bar-bg" = semantic_colors$primary,
-    "progress-bg" = if (variant == "dark")
+    "progress-bg" = if (variant == "dark") {
       "#2A2A2A"
-    else
-      "#F8F9FA",
+    } else {
+      "#F8F9FA"
+    },
 
     # Navigation styling (for navbar components)
-    navbar_bg = if (variant == "dark")
+    navbar_bg = if (variant == "dark") {
       "#1A1A1A"
-    else
-      "#FFFFFF",
-
-    "navbar-light-active-color" = if (variant == "dark")
+    } else {
+      "#FFFFFF"
+    },
+    "navbar-light-active-color" = if (variant == "dark") {
       base_colors$fg
-    else
-      "#FFFFFF",
-
-    "nav-link-color" = if (variant == "dark")
+    } else {
+      "#FFFFFF"
+    },
+    "nav-link-color" = if (variant == "dark") {
       base_colors$fg
-    else
-      "#1A1A1A",
-
-    "nav-link-hover-color" = if (variant == "dark")
+    } else {
+      "#1A1A1A"
+    },
+    "nav-link-hover-color" = if (variant == "dark") {
       base_colors$fg
-    else
-      "#1A1A1A",
-
-    "nav-tabs-link-active-border-color" = if(variant == "dark")
+    } else {
+      "#1A1A1A"
+    },
+    "nav-tabs-link-active-border-color" = if (variant == "dark") {
       base_colors$fg
-     else
-       "#007a8c #007a8c #FFFFFF",
-
-     "nav-tabs-border-color" = if(variant == "dark")
+    } else {
+      "#007a8c #007a8c #FFFFFF"
+    },
+    "nav-tabs-border-color" = if (variant == "dark") {
       base_colors$fg
-     else
-      semantic_colors$primary,
+    } else {
+      semantic_colors$primary
+    },
 
     # Additional CPAL-specific customizations
     "border-radius" = "6px",
-    "border-color" = if (variant == "dark")
+    "border-color" = if (variant == "dark") {
       "#404040"
-    else
-      "#E5E5E5",
-    "input-border-color" = if (variant == "dark")
+    } else {
+      "#E5E5E5"
+    },
+    "input-border-color" = if (variant == "dark") {
       "#404040"
-    else
-      "#CED4DA",
+    } else {
+      "#CED4DA"
+    },
     "input-focus-border-color" = semantic_colors$primary,
     "btn-border-radius" = "6px",
     "card-border-radius" = "8px"
@@ -281,10 +286,11 @@ cpal_shiny <- function(variant = "default",
     }
 
     .mode-switcher {",
-        if (variant == "dark")
-          "color: #404040;"
-        else
-          "color: #E5E5E5;",
+    if (variant == "dark") {
+      "color: #404040;"
+    } else {
+      "color: #E5E5E5;"
+    },
     "}
     .sidebar-link {
       display: flex;
@@ -311,10 +317,11 @@ cpal_shiny <- function(variant = "default",
       font-weight: 900;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       border: 1px solid ",
-    if (variant == "dark")
+    if (variant == "dark") {
       "#404040"
-    else
-      "#E5E5E5",
+    } else {
+      "#E5E5E5"
+    },
     ";
     }
 
@@ -408,7 +415,7 @@ cpal_shiny <- function(variant = "default",
 #' ui <- fluidPage(
 #'   theme = cpal_shiny() %>%
 #'     cpal_add_scss_enhancements(
-#'       include_geometric_headers = FALSE,  # Keep Shiny headers simple
+#'       include_geometric_headers = FALSE, # Keep Shiny headers simple
 #'       include_datatable_enhancements = TRUE,
 #'       include_metric_cards = TRUE
 #'     ),
