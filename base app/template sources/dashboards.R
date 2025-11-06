@@ -354,6 +354,13 @@ cpal_shiny <- function(variant = "default",
     }
 
     .radio-inline, .checkbox-inline {padding-left: 20px;}
+    .shiny-input-checkboxgroup label ~ .shiny-options-group,
+    .shiny-input-radiogroup label ~ .shiny-options-group {
+      margin-top: inherit !important;
+    }
+    .shiny-input-container-inline .shiny-options-group {
+     row-gap: 1rem;
+    }
   "
   )
 
