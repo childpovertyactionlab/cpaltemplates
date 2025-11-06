@@ -169,8 +169,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Sliders
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Slider Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Slider Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),
@@ -209,8 +209,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Select Inputs
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Select Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Select Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),
@@ -240,8 +240,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Checkboxes
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Checkbox Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Checkbox Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),
@@ -263,8 +263,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Radio Buttons
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Radio Button Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Radio Button Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),
@@ -288,8 +288,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Text Inputs
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Text Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Text Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),
@@ -319,8 +319,8 @@ ui <- page_sidebar(
 
                 # Basic Shiny Date and File Inputs
                 div(
-                  class = "mb-3 p-3 bg-light rounded",
-                  h5("Date & File Inputs", class = "text-primary mb-2"),
+                  class = "mb-3 p-3 rounded",
+                  h5("Date & File Inputs", class = "text-primary mb-3"),
                   p(
                     tags$strong("Package: "),
                     tags$code("shiny"),

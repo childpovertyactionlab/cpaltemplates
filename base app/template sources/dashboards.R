@@ -122,7 +122,7 @@ cpal_shiny <- function(variant = "default",
     variant,
     "default" = list(
       bg = "#FFFFFF",
-      fg = "#042D33",
+      fg = "#007A8C",
       body_color = "#2F2F2F"
     ),
     "dark" = list(
@@ -219,14 +219,26 @@ cpal_shiny <- function(variant = "default",
       base_colors$fg
     else
       "#FFFFFF",
+
     "nav-link-color" = if (variant == "dark")
       base_colors$fg
     else
-      "#FFFFFF",
+      "#1A1A1A",
+
     "nav-link-hover-color" = if (variant == "dark")
       base_colors$fg
     else
-      "#FFFFFF",
+      "#1A1A1A",
+
+    "nav-tabs-link-active-border-color" = if(variant == "dark")
+      base_colors$fg
+     else
+       "#007a8c #007a8c #FFFFFF",
+
+     "nav-tabs-border-color" = if(variant == "dark")
+      base_colors$fg
+     else
+      semantic_colors$primary,
 
     # Additional CPAL-specific customizations
     "border-radius" = "6px",
