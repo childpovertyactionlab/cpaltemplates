@@ -102,3 +102,5 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+# Ignore all .DS_Store files recursively
+**/.DS_Store

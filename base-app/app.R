@@ -21,14 +21,14 @@ library(tigris)
 Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw")
 
 # Source utility and template files
-source("template sources/dashboards.R")
-source("template sources/colors.R")
-source("template sources/themes.R")
-source("template sources/interactive.R")
-source("template sources/tables.R")
-source("template sources/utils.R")
-source("template sources/projects.R")
-source("template sources/plots.R")
+source("template-sources/dashboards.R")
+source("template-sources/colors.R")
+source("template-sources/themes.R")
+source("template-sources/interactive.R")
+source("template-sources/tables.R")
+source("template-sources/utils.R")
+source("template-sources/projects.R")
+source("template-sources/plots.R")
 
 
 # Load and prepare data
