@@ -67,14 +67,14 @@ texas_counties_sf <- counties(
 
 # Define UI
 ui <- page_sidebar(
-  
+
   # App Title and Mode switcher
-  title = source("../views/header-ui.R")$value,
+  title = source("views/header-ui.R")$value,
 
   theme = cpal_shiny(variant = "default"),
 
   # Collapsible Sidebar Navigation
-  sidebar = source("../views/sidebar-ui.R")$value,
+  sidebar = source("views/sidebar-ui.R")$value,
 
   # Main Content Area
   div(
@@ -83,43 +83,43 @@ ui <- page_sidebar(
     # Input Components Section
     conditionalPanel(
       condition = "output.current_section == 'inputs'",
-      source("../views/input-components-ui.R")$value
+      source("views/input-components-ui.R")$value
     ),
 
     # Interactive Charts Section
     conditionalPanel(
       condition = "output.current_section == 'charts'",
-      source("../views/interactive-charts-ui.R")$value
+      source("views/interactive-charts-ui.R")$value
     ),
 
     # Static Charts Section
     conditionalPanel(
       condition = "output.current_section == 'static_charts'",
-      source("../views/static-charts-ui.R")$value
+      source("views/static-charts-ui.R")$value
     ),
 
     # Data Tables Section
     conditionalPanel(
       condition = "output.current_section == 'tables'",
-      source("../views/data-tables-ui.R")$value
+      source("views/data-tables-ui.R")$value
     ),
 
     # Typography Section (unchanged)
     conditionalPanel(
       condition = "output.current_section == 'typography'",
-      source("../views/typography-ui.R")$value
+      source("views/typography-ui.R")$value
     ),
 
     # Advanced Features Section
     conditionalPanel(
       condition = "output.current_section == 'advanced'",
-      source("../views/advanced-features-ui.R")$value
+      source("views/advanced-features-ui.R")$value
     ),
 
     # Maps Section
     conditionalPanel(
       condition = "output.current_section == 'maps'",
-      source("../views/maps-ui.R")$value
+      source("views/maps-ui.R")$value
     ),
   )
 )
