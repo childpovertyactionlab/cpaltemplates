@@ -67,22 +67,10 @@ texas_counties_sf <- counties(
 
 # Define UI
 ui <- page_sidebar(
-  title = div(
-    class = "d-flex align-items-center justify-content-between w-100",
-    # Left side: logo + title
-    div(
-      class = "d-flex align-items-center",
-      tags$img(
-        src = "images/CPAL_Logo_OneColor.png",
-        height = "30",
-        class = "me-2"
-      ),
-      tags$div("Shiny Dashboard Template", class = "header-title")
-    ),
+  
+  # App Title and Mode switcher
+  title = source("../views/header-ui.R")$value,
 
-    # Right side: dark mode toggle
-    input_dark_mode(id = "mode", class = "mode-switcher")
-  ),
   theme = cpal_shiny(variant = "default"),
 
   # Collapsible Sidebar Navigation
