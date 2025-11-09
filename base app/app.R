@@ -17,9 +17,10 @@ library(mapgl)
 library(sf)
 library(tigris)
 
-# Mapbox access token setup (uncomment and set your token if needed)
+# Set environment variables
 Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw")
 
+# Source utility and template files
 source("template sources/dashboards.R")
 source("template sources/colors.R")
 source("template sources/themes.R")
@@ -85,63 +86,7 @@ ui <- page_sidebar(
   theme = cpal_shiny(variant = "default"),
 
   # Collapsible Sidebar Navigation
-  sidebar = sidebar(
-    width = 300,
-    h6("Dashboard Elements"),
-    actionLink(
-      "show_inputs",
-      class = "sidebar-link",
-      label = tagList(icon("wrench", class = "sidebar-icon"), "Input Components")
-    ),
-    actionLink(
-      "show_typography",
-      class = "sidebar-link",
-      label = tagList(icon("font", class = "sidebar-icon"), "Typography")
-    ),
-    actionLink(
-      "show_static_charts",
-      class = "sidebar-link",
-      label = tagList(icon("line-chart", class = "sidebar-icon"), "Static Charts")
-    ),
-    actionLink(
-      "show_charts",
-      class = "sidebar-link",
-      label = tagList(
-        icon("area-chart", class = "sidebar-icon"),
-        "Interactive Charts"
-      )
-    ),
-    actionLink(
-      "show_maps",
-      class = "sidebar-link",
-      label = tagList(icon("map", class = "sidebar-icon"), "Maps")
-    ),
-    actionLink(
-      "show_tables",
-      class = "sidebar-link",
-      label = tagList(icon("table", class = "sidebar-icon"), "Data Tables")
-    ),
-    actionLink(
-      "show_advanced",
-      class = "sidebar-link",
-      label = tagList(
-        icon("superpowers", class = "sidebar-icon"),
-        "Advanced Features"
-      )
-    ),
-
-    # Quick filters that apply globally
-    #    h5("Global Filters", class = "text-secondary"),
-
-    #    sliderInput("global_mpg_range", "MPG Range:",
-    #                min = min(mtcars$mpg), max = max(mtcars$mpg),
-    #                value = c(15, 25), step = 0.5),
-
-    #    selectInput("global_cyl_select", "Cylinders:",
-    #                choices = sort(unique(mtcars$cyl)),
-    #                selected = unique(mtcars$cyl),
-    #                multiple = TRUE)
-  ),
+  sidebar = source("views/sidebar-ui.R")$value,
 
   # Main Content Area
   div(
