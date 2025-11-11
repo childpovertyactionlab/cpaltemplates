@@ -49,16 +49,12 @@ mtcars_enhanced <- mtcars %>%
 message("Loading geographic data...")
 states_sf <- states(cb = TRUE, resolution = "20m") %>%
   sf::st_transform(4326) %>%
-  mutate(
-    random_value = runif(n(), 0, 100),
-    category = sample(c("Low", "Medium", "High"), n(), replace = TRUE)
-  )
+  mutate(random_value = runif(n(), 0, 100),
+         category = sample(c("Low", "Medium", "High"), n(), replace = TRUE))
 
-texas_counties_sf <- counties(
-  state = "TX",
-  cb = TRUE,
-  resolution = "20m"
-) %>%
+texas_counties_sf <- counties(state = "TX",
+                              cb = TRUE,
+                              resolution = "20m") %>%
   sf::st_transform(4326) %>%
   mutate(
     population_category = sample(c("Small", "Medium", "Large"), n(), replace = TRUE),
@@ -67,7 +63,6 @@ texas_counties_sf <- counties(
 
 # Define UI
 ui <- page_sidebar(
-
   # App Title and Mode switcher
   title = source("views/header-ui.R")$value,
 
@@ -81,46 +76,25 @@ ui <- page_sidebar(
     id = "main_content",
 
     # Input Components Section
-    conditionalPanel(
-      condition = "output.current_section == 'inputs'",
-      source("views/input-components-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'inputs'", source("views/input-components-ui.R")$value),
 
     # Interactive Charts Section
-    conditionalPanel(
-      condition = "output.current_section == 'charts'",
-      source("views/interactive-charts-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'charts'", source("views/interactive-charts-ui.R")$value),
 
     # Static Charts Section
-    conditionalPanel(
-      condition = "output.current_section == 'static_charts'",
-      source("views/static-charts-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'static_charts'", source("views/static-charts-ui.R")$value),
 
     # Data Tables Section
-    conditionalPanel(
-      condition = "output.current_section == 'tables'",
-      source("views/data-tables-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'tables'", source("views/data-tables-ui.R")$value),
 
     # Typography Section (unchanged)
-    conditionalPanel(
-      condition = "output.current_section == 'typography'",
-      source("views/typography-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'typography'", source("views/typography-ui.R")$value),
 
     # Advanced Features Section
-    conditionalPanel(
-      condition = "output.current_section == 'advanced'",
-      source("views/advanced-features-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'advanced'", source("views/advanced-features-ui.R")$value),
 
     # Maps Section
-    conditionalPanel(
-      condition = "output.current_section == 'maps'",
-      source("views/maps-ui.R")$value
-    ),
+    conditionalPanel(condition = "output.current_section == 'maps'", source("views/maps-ui.R")$value),
   )
 )
 
@@ -130,18 +104,15 @@ server <- function(input, output, session) {
   session$setCurrentTheme(cpal_shiny(variant = "default"))
 
   # Mode change
-  observeEvent(input$mode,
-    {
-      variant <- if (input$mode == "dark") {
-        "dark"
-      } else {
-        "default"
-      }
-      theme <- cpal_shiny(variant = variant)
-      session$setCurrentTheme(theme)
-    },
-    ignoreInit = TRUE
-  )
+  observeEvent(input$mode, {
+    variant <- if (input$mode == "dark") {
+      "dark"
+    } else {
+      "default"
+    }
+    theme <- cpal_shiny(variant = variant)
+    session$setCurrentTheme(theme)
+  }, ignoreInit = TRUE)
 
   # Navigation state
   values <- reactiveValues(current_section = "inputs")
@@ -188,7 +159,7 @@ server <- function(input, output, session) {
     # Apply global filters from sidebar
     if (!is.null(input$global_mpg_range)) {
       data <- data %>% filter(mpg >= input$global_mpg_range[1] &
-        mpg <= input$global_mpg_range[2])
+                                mpg <= input$global_mpg_range[2])
     }
 
     if (!is.null(input$global_cyl_select)) {
@@ -198,7 +169,7 @@ server <- function(input, output, session) {
     # Apply local filters from input components section
     if (!is.null(input$mpg_range)) {
       data <- data %>% filter(mpg >= input$mpg_range[1] &
-        mpg <= input$mpg_range[2])
+                                mpg <= input$mpg_range[2])
     }
 
     if (!is.null(input$cyl_select)) {
@@ -230,11 +201,12 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(ggplot() +
-        theme_cpal_print() +
-        labs(title = "No data matches current filters"))
+               theme_cpal_print() +
+               labs(title = "No data matches current filters"))
     }
 
-    p <- switch(input$chart_type,
+    p <- switch(
+      input$chart_type,
       "scatter" = ggplot(data, aes(x = wt, y = mpg)) +
         geom_point(
           aes(color = factor(cyl)),
@@ -257,11 +229,9 @@ server <- function(input, output, session) {
 
     # Add trend line if requested for scatter plot
     if (input$chart_type == "scatter" && input$show_trend) {
-      p <- p + geom_smooth(
-        method = "lm",
-        se = TRUE,
-        color = cpal_colors("orange")
-      )
+      p <- p + geom_smooth(method = "lm",
+                           se = TRUE,
+                           color = cpal_colors("orange"))
     }
 
     # Apply color scheme
@@ -272,10 +242,8 @@ server <- function(input, output, session) {
     }
 
     p + theme_cpal_print() +
-      labs(
-        title = input$chart_title,
-        caption = input$chart_notes
-      ) +
+      labs(title = input$chart_title,
+           caption = input$chart_notes) +
       theme(plot.title = element_text(size = 16, color = cpal_colors("gold")))
   })
 
@@ -302,7 +270,7 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-        hc_title(text = "No data matches current filters"))
+               hc_title(text = "No data matches current filters"))
     }
 
     # Create separate series for each cylinder group
@@ -341,7 +309,7 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-        hc_title(text = "No data matches current filters"))
+               hc_title(text = "No data matches current filters"))
     }
 
     # Create the base chart
@@ -390,16 +358,14 @@ server <- function(input, output, session) {
 
     if (nrow(data) == 0) {
       return(highchart() %>%
-        hc_title(text = "No data matches current filters"))
+               hc_title(text = "No data matches current filters"))
     }
 
     highchart() %>%
       hc_chart(type = "column") %>%
       hc_title(text = "Average MPG by Cylinder Count") %>%
-      hc_xAxis(
-        title = list(text = "Number of Cylinders"),
-        categories = as.character(data$cyl)
-      ) %>%
+      hc_xAxis(title = list(text = "Number of Cylinders"),
+               categories = as.character(data$cyl)) %>%
       hc_yAxis(title = list(text = "Average MPG")) %>%
       hc_add_series(
         data = data$avg_mpg,
@@ -414,7 +380,7 @@ server <- function(input, output, session) {
     # Create correlation matrix
     if (nrow(filtered_data()) == 0) {
       return(highchart() %>%
-        hc_title(text = "No data matches current filters"))
+               hc_title(text = "No data matches current filters"))
     }
 
     cor_data <- filtered_data() %>%
@@ -470,11 +436,9 @@ server <- function(input, output, session) {
       color = factor(cyl)
     )) +
       geom_point(size = 3, alpha = 0.8) +
-      geom_smooth(
-        method = "lm",
-        se = TRUE,
-        alpha = 0.2
-      ) +
+      geom_smooth(method = "lm",
+                  se = TRUE,
+                  alpha = 0.2) +
       scale_color_cpal_d() +
       theme_cpal_print() +
       labs(
@@ -535,9 +499,8 @@ server <- function(input, output, session) {
     ggplot(cor_long, aes(x = var1, y = var2, fill = correlation)) +
       geom_tile(color = "white") +
       geom_text(aes(label = round(correlation, 2)),
-        color = "black",
-        size = 3
-      ) +
+                color = "black",
+                size = 3) +
       scale_fill_gradient2(
         low = cpal_colors("orange"),
         mid = "white",
@@ -596,9 +559,8 @@ server <- function(input, output, session) {
   # Advanced Features - Event Handlers
   observeEvent(input$show_notification, {
     showNotification("This is a sample notification message!",
-      type = "message",
-      duration = 3
-    )
+                     type = "message",
+                     duration = 3)
   })
 
   observeEvent(input$notif_default, {
@@ -607,23 +569,20 @@ server <- function(input, output, session) {
 
   observeEvent(input$notif_error, {
     showNotification("Error notification",
-      type = "error",
-      duration = 3
-    )
+                     type = "error",
+                     duration = 3)
   })
 
   observeEvent(input$notif_warning, {
     showNotification("Warning notification",
-      type = "warning",
-      duration = 3
-    )
+                     type = "warning",
+                     duration = 3)
   })
 
   observeEvent(input$notif_message, {
     showNotification("Message notification",
-      type = "message",
-      duration = 3
-    )
+                     type = "message",
+                     duration = 3)
   })
 
   observeEvent(input$sweet_success, {
@@ -650,10 +609,9 @@ server <- function(input, output, session) {
 
   observeEvent(input$show_loading, {
     showNotification("Loading...",
-      id = "loading",
-      duration = NULL,
-      type = "default"
-    )
+                     id = "loading",
+                     duration = NULL,
+                     type = "default")
     Sys.sleep(2) # Simulate loading
     removeNotification("loading")
     showNotification("Loading complete!", type = "message", duration = 2)

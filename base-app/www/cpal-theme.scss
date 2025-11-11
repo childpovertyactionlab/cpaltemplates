@@ -1,0 +1,109 @@
+/* CPAL Theme SCSS */
+// Base styles
+body {
+  font-family: $font-family;
+  font-size: $font-size-base;
+  background-color: $background-color-light;
+  color: $text-color-light;
+}
+
+.navbar-brand {
+  display: block;
+  font-family: $font-family;
+  font-weight: 600;
+}
+
+.header-title {
+  font-weight: 400;
+  text-transform: uppercase;
+  border-left: 1px solid $primary;
+  padding-left: 0.5rem;
+  font-size: 0.675rem;
+  letter-spacing: 0.075px;
+  color: $primary;
+  width: 10rem;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.mode-switcher {
+  color: $primary;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  color: $primary;
+  text-decoration: none;
+  margin-bottom: 0.1rem;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $primary;
+    color: $background-color-light;
+  }
+}
+
+.sidebar-icon {
+  margin-right: 0.6rem;
+}
+
+.bslib-sidebar-layout > .sidebar > .sidebar-content {
+  gap: 0.1rem !important;
+}
+
+.card {
+  font-weight: 900;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid $border-color-light;
+}
+
+.btn {
+  font-weight: 500;
+  text-transform: none;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
+}
+
+/* Accessibility improvements */
+.btn:focus {
+  outline: 2px solid $secondary;
+  outline-offset: 2px;
+}
+
+/* CPAL specific components */
+.cpal-metric-card {
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.cpal-metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: $font-family;
+}
+
+.radio-inline, .checkbox-inline {
+  padding-left: 20px;
+}
+
+.shiny-input-checkboxgroup label ~ .shiny-options-group,
+.shiny-input-radiogroup label ~ .shiny-options-group {
+  margin-top: inherit !important;
+}
+
+.shiny-input-container-inline .shiny-options-group {
+  row-gap: 1rem;
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+    min-width: 300px;
+    width: 100% !important;
+    width: 100%;
+}

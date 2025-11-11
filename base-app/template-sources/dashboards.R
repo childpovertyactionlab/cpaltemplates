@@ -115,41 +115,47 @@ cpal_shiny <- function(variant = "default",
     cli::cli_abort("{.arg enable_animations} must be TRUE or FALSE")
   }
 
-  # Get CPAL colors - integrate with existing color system
-  cpal_main_colors <- cpal_colors("main")
-
-  # Define base colors for different variants
-  base_colors <- switch(variant,
-    "default" = list(
+  # Centralized variant-specific settings
+  variant_settings <- list(
+    default = list(
       bg = "#FFFFFF",
       fg = "#007A8C",
-      body_color = "#2F2F2F"
+      body_color = "#2F2F2F",
+      navbar_bg = "#FFFFFF",
+      progress_bg = "#F8F9FA",
+      border_color = "#E5E5E5"
     ),
-    "dark" = list(
+    dark = list(
       bg = "#1A1A1A",
       fg = "#FFFFFF",
-      body_color = "#E5E5E5"
+      body_color = "#E5E5E5",
+      navbar_bg = "#1A1A1A",
+      progress_bg = "#2A2A2A",
+      border_color = "#404040"
     ),
-    "presentation" = list(
+    presentation = list(
       bg = "#FAFAFA",
       fg = "#000000",
-      body_color = "#1A1A1A"
+      body_color = "#1A1A1A",
+      navbar_bg = "#FFFFFF",
+      progress_bg = "#F8F9FA",
+      border_color = "#E5E5E5"
     )
   )
 
-  # Define CPAL semantic colors
+  settings <- variant_settings[[variant]]
+
+  # Get CPAL colors - integrate with existing color system
+  cpal_main_colors <- cpal_colors("main")
+
+  # Define semantic colors
   semantic_colors <- list(
     primary = cpal_main_colors[1],
-    # CPAL Dark Blue
     secondary = cpal_main_colors[1],
-    # Keep consistent
     success = cpal_main_colors[2],
-    # CPAL Teal
     info = cpal_main_colors[3],
-    # CPAL Yellow
     warning = cpal_main_colors[4],
-    # CPAL Orange
-    danger = cpal_main_colors[5] # CPAL Pink
+    danger = cpal_main_colors[5]
   )
 
   # Apply custom color overrides if provided
@@ -158,221 +164,59 @@ cpal_shiny <- function(variant = "default",
       cli::cli_abort("{.arg custom_colors} must be a named list")
     }
 
-    # Validate custom colors are valid CSS colors (basic check)
-    valid_color_names <- names(semantic_colors)
-    invalid_names <- setdiff(names(custom_colors), valid_color_names)
-    if (length(invalid_names) > 0) {
-      cli::cli_warn("Unknown color names ignored: {.val {invalid_names}}")
-    }
-
     # Override semantic colors
-    semantic_colors <- modifyList(semantic_colors, custom_colors[names(custom_colors) %in% valid_color_names])
+    semantic_colors <- modifyList(semantic_colors, custom_colors)
   }
 
   # Create the BSlib theme
   theme <- bslib::bs_theme(
     version = 5,
-
-    # Base colors
-    bg = base_colors$bg,
-    fg = base_colors$fg,
-    "body-color" = base_colors$body_color,
-
-    # Semantic colors
-    # primary = semantic_colors$primary,
-    primary = "#007a8c",
-    secondary = semantic_colors$secondary,
+    bg = settings$bg,
+    fg = settings$fg,
+    "body-color" = settings$body_color,
+    primary = "#007A8C",
+    secondary = "#007A8C",
     success = semantic_colors$success,
     info = semantic_colors$info,
     warning = semantic_colors$warning,
     danger = semantic_colors$danger,
-
-    # Typography - Inter with Roboto fallback
     font_scale = font_scale,
     heading_font = bslib::font_google("Poppins"),
     base_font = bslib::font_google("Inter"),
     code_font = bslib::font_google("Fira Code"),
-
-    # Visual enhancements
-    "enable-gradients" = TRUE,
+    "font-family" = "'Poppins', sans-serif;",
+    "enable-transitions" = enable_animations,
     "enable-shadows" = if (variant == "presentation") {
       FALSE
     } else {
       TRUE
     },
     "enable-rounded" = TRUE,
-    "enable-transitions" = enable_animations,
-
-    # Progress bar styling
     "progress-bar-bg" = semantic_colors$primary,
-    "progress-bg" = if (variant == "dark") {
-      "#2A2A2A"
-    } else {
-      "#F8F9FA"
-    },
-
-    # Navigation styling (for navbar components)
-    navbar_bg = if (variant == "dark") {
-      "#1A1A1A"
-    } else {
-      "#FFFFFF"
-    },
-    "navbar-light-active-color" = if (variant == "dark") {
-      base_colors$fg
-    } else {
-      "#FFFFFF"
-    },
-    "nav-link-color" = if (variant == "dark") {
-      base_colors$fg
-    } else {
-      "#1A1A1A"
-    },
-    "nav-link-hover-color" = if (variant == "dark") {
-      base_colors$fg
-    } else {
-      "#1A1A1A"
-    },
-    "nav-tabs-link-active-border-color" = if (variant == "dark") {
-      base_colors$fg
-    } else {
-      "#007a8c #007a8c #FFFFFF"
-    },
-    "nav-tabs-border-color" = if (variant == "dark") {
-      base_colors$fg
-    } else {
-      semantic_colors$primary
-    },
-
-    # Additional CPAL-specific customizations
-    "border-radius" = "6px",
-    "border-color" = if (variant == "dark") {
-      "#404040"
-    } else {
-      "#E5E5E5"
-    },
-    "input-border-color" = if (variant == "dark") {
-      "#404040"
-    } else {
-      "#CED4DA"
-    },
-    "input-focus-border-color" = semantic_colors$primary,
+    "progress-bg" = settings$progress_bg,
+    navbar_bg = settings$navbar_bg,
+    "border-color" = settings$border_color,
+    "background-color-light" = "#FFFFFF",
+    "text-color-light" = "#222222",
+    "border-color-light" = "#E5E5E5",
     "btn-border-radius" = "6px",
-    "card-border-radius" = "8px"
+    "btn-padding-y" = "0.5rem",
+    "card-border-radius" = "8px",
+    "border-radius" = "6px",
+    "nav-tabs-border-color" = semantic_colors$primary,
+    "nav-tabs-link-active-border-color" = "#007a8c #007a8c #FFFFFF",
+    "nav-link-hover-color" = "#1A1A1A",
+    "nav-link-color" = "#1A1A1A",
+    "navbar-light-active-color" = "#FFFFFF"
   )
 
-  # Add custom CSS for enhanced CPAL styling
-  custom_css <- paste0(
-    "
-    /* CPAL Custom Enhancements */
-
-    .navbar-brand {
-      display: block;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-    }
-
-    .header-title {
-        font-weight: 400;
-        text-transform: uppercase;
-        border-left: 1px solid var(--bs-primary);
-        padding-left: 0.5rem;
-        font-size: 0.675rem;
-        letter-spacing: 0.075px;
-        color: var(--bs-primary);
-        text-transform: uppercase;
-        width: 10rem;
-        white-space:normal;
-        word-wrap: break-word;
-    }
-
-    .mode-switcher {",
-    if (variant == "dark") {
-      "color: #404040;"
-    } else {
-      "color: #E5E5E5;"
-    },
-    "}
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      padding: 0.6rem 0.8rem;
-      border-radius: var(--bs-border-radius);
-      color: var(--bs-primary);
-      text-decoration: none;
-      margin-bottom: 0.1rem;
-      transition: background-color 0.2s;
-    }
-    .sidebar-link:hover {
-      background-color: var(--bs-primary);
-      color: var(--bs-white);
-    }
-    .sidebar-icon {
-      margin-right: 0.6rem;
-    }
-    .bslib-sidebar-layout>.sidebar>.sidebar-content {
-      gap: 0.1rem !important;
-    }
-
-    .card {
-      font-weight: 900;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      border: 1px solid ",
-    if (variant == "dark") {
-      "#404040"
-    } else {
-      "#E5E5E5"
-    },
-    ";
-    }
-
-    .btn {
-      font-weight: 500;
-      text-transform: none;
-    }
-
-    .form-control:focus {
-      box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
-    }
-
-    /* Accessibility improvements */
-    .btn:focus {
-      outline: 2px solid ",
-    semantic_colors$info,
-    ";
-      outline-offset: 2px;
-    }
-
-    /* CPAL specific components */
-    .cpal-metric-card {
-      background: linear-gradient(135deg, ",
-    semantic_colors$primary,
-    " 0%, ",
-    semantic_colors$success,
-    " 100%);
-      color: white;
-      border-radius: 8px;
-      padding: 1.5rem;
-    }
-
-    .cpal-metric-value {
-      font-size: 2.5rem;
-      font-weight: 700;
-      font-family: 'Poppins', sans-serif;
-    }
-
-    .radio-inline, .checkbox-inline {padding-left: 20px;}
-    .shiny-input-checkboxgroup label ~ .shiny-options-group,
-    .shiny-input-radiogroup label ~ .shiny-options-group {
-      margin-top: inherit !important;
-    }
-    .shiny-input-container-inline .shiny-options-group {
-     row-gap: 1rem;
-    }
-  "
-  )
-
-  # Apply custom CSS to theme
-  theme <- bslib::bs_add_rules(theme, custom_css)
+  # Include external CSS file for enhanced CPAL styling
+  css_path <- "www/cpal-theme.scss"
+  if (file.exists(css_path)) {
+    theme <- bslib::bs_add_rules(theme, sass::sass_file(css_path))
+  } else {
+    cli::cli_warn("CSS file not found at {.path {css_path}}. Ensure it is placed correctly.")
+  }
 
   # Add informative attributes
   attr(theme, "cpal_variant") <- variant

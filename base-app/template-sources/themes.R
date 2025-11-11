@@ -570,25 +570,25 @@ get_shiny_theme_colors <- function(theme = "default", base_size = 16) {
   # Define color schemes
   themes <- list(
     default = list(
-      primary = "#004855",
+      primary = "#007A8C",
       secondary = "#FF6B35",
       background = "#FFFFFF",
       text = "#222222"
     ),
     dark = list(
-      primary = "#004855",
+      primary = "#007A8C",
       secondary = "#FF6B35",
       background = "#1a1a1a",
       text = "#f0f0f0"
     ),
     minimal = list(
-      primary = "#004855",
+      primary = "#007A8C",
       secondary = "#FF6B35",
       background = "#FFFFFF",
       text = "#222222"
     ),
     classic = list(
-      primary = "#004855",
+      primary = "#007A8C",
       secondary = "#FF6B35",
       background = "#FFFFFF",
       text = "#222222"
