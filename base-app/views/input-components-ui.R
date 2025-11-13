@@ -398,16 +398,45 @@ input_components_ui <- div(
                 tags$code("actionButton(), downloadButton()"),
                 class = "small text-muted mb-3"
               ),
-              actionButton("refresh_data", "Refresh Analysis", class = "btn-primary me-2 mb-2"),
-              actionButton("refresh_data", "Refresh Analysis", class = "btn-outline-primary me-2 mb-2"),
-              downloadButton("download_report", "Download Report", class = "btn-primary me-2 mb-2"),
-              actionButton("show_notification", "Show Notification", class = "btn-info me-2 mb-2"),
-              actionButton("update_progress", "Update Progress Bars", class = "btn-secondary me-2 mb-2"),
-              actionLink(
-                "show_static_charts",
-                class = "sidebar-link",
-                label = tagList(icon("line-chart", class = "sidebar-icon"), "Static Charts")
+              div(
+                class = "d-flex flex-column align-items-start",
+                tags$strong("Primary"),
+                actionButton("refresh_data", "Refresh Analysis", class = "btn-primary m-2")
               ),
+              div(
+                class = "d-flex flex-column align-items-start",
+                tags$strong("Outline Primary"),
+                actionButton("refresh_data", "Refresh Analysis", class = "btn-outline-primary me-2 mb-2")
+              ),
+              div(
+                class = "d-flex flex-column align-items-start",
+                tags$strong("Download"),
+                downloadButton("download_report", "Download Report", class = "btn-primary me-2 mb-2")
+              ),
+              div(
+                class = "d-flex flex-column align-items-start",
+                tags$strong("Secondary"),
+                actionButton("update_progress", "Update Progress Bars", class = "btn-secondary me-2 mb-2")
+              ),
+              div(
+                class = "d-flex flex-column",
+                tags$strong("Link button"),
+                actionLink(
+                  "show_static_charts",
+                  class = "sidebar-link",
+                  label = tagList(icon("line-chart", class = "sidebar-icon"), "Static Charts")
+                ),
+              ),
+              div(
+                class = "d-flex flex-column",
+                tags$strong("Circle button"),
+                circleButton(
+                  "circle1",
+                  icon = icon("check"),
+                  status = "primary",
+                  size = "sm"
+                )
+              )
             ),
 
 

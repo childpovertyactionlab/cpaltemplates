@@ -5,6 +5,7 @@
 # Load required libraries
 library(shiny)
 library(bslib)
+library(bsicons)
 library(ggplot2)
 library(dplyr)
 library(scales)
@@ -560,29 +561,29 @@ server <- function(input, output, session) {
   observeEvent(input$show_notification, {
     showNotification("This is a sample notification message!",
                      type = "message",
-                     duration = 3)
+                     duration = NULL)
   })
 
   observeEvent(input$notif_default, {
-    showNotification("Default notification", duration = 3)
+    showNotification("Default notification", duration = NULL)
   })
 
   observeEvent(input$notif_error, {
     showNotification("Error notification",
                      type = "error",
-                     duration = 3)
+                     duration = NULL)
   })
 
   observeEvent(input$notif_warning, {
     showNotification("Warning notification",
                      type = "warning",
-                     duration = 3)
+                     duration = NULL)
   })
 
   observeEvent(input$notif_message, {
     showNotification("Message notification",
                      type = "message",
-                     duration = 3)
+                     duration = NULL)
   })
 
   observeEvent(input$sweet_success, {
@@ -590,7 +591,8 @@ server <- function(input, output, session) {
       session = session,
       title = "Success!",
       text = "Your operation completed successfully.",
-      type = "success"
+      type = "success",
+      btn_colors = "#007A8C"
     )
   })
 
@@ -603,7 +605,8 @@ server <- function(input, output, session) {
       type = "warning",
       showCancelButton = TRUE,
       confirmButtonText = "Yes, proceed",
-      cancelButtonText = "Cancel"
+      cancelButtonText = "Cancel",
+      btn_colors = c("", "#007A8C")
     )
   })
 
@@ -670,8 +673,8 @@ server <- function(input, output, session) {
         ),
         textAreaInput("modal_notes", "Notes:", rows = 3),
         footer = tagList(
-          modalButton("Cancel"),
-          actionButton("modal_submit", "Submit", class = "btn-success")
+          modalButton("Close"),
+          actionButton("modal_submit", "Submit", class = "btn-primary")
         )
       )
     )

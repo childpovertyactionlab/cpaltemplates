@@ -176,10 +176,10 @@ cpal_shiny <- function(variant = "default",
     "body-color" = settings$body_color,
     primary = "#007A8C",
     secondary = "#007A8C",
-    success = semantic_colors$success,
-    info = semantic_colors$info,
-    warning = semantic_colors$warning,
-    danger = semantic_colors$danger,
+    success = "#2e7d32",
+    info = "#0288d1",
+    warning = "#ed6c02",
+    danger = "#d32f2f",
     font_scale = font_scale,
     heading_font = bslib::font_google("Poppins"),
     base_font = bslib::font_google("Inter"),
@@ -207,7 +207,11 @@ cpal_shiny <- function(variant = "default",
     "nav-tabs-link-active-border-color" = "#007a8c #007a8c #FFFFFF",
     "nav-link-hover-color" = "#1A1A1A",
     "nav-link-color" = "#1A1A1A",
-    "navbar-light-active-color" = "#FFFFFF"
+    "navbar-light-active-color" = "#FFFFFF",
+    "card-cap-padding-y" = "0.75rem",
+    "alert-padding-y" = "0.75rem",
+    "tooltip-bg" = "#333333",
+    "tooltip-color" = "#ffffff"
   )
 
   # Include external CSS file for enhanced CPAL styling

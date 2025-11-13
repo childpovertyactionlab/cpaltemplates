@@ -21,64 +21,65 @@ advanced_features_ui <- div(
         display_pct = TRUE
       ),
       br(),
-      h5("Circular Progress (shinyWidgets)"),
-      circleButton(
-        "circle1",
-        icon = icon("check"),
-        status = "primary",
-        size = "lg"
-      ),
-      br(),
-      br(),
+      h5("Update Progress"),
+      actionButton("update_progress_advanced", "Update All Progress", class = "btn-info"),
       h5("Loading Indicators"),
       actionButton("show_loading", "Show Loading Spinner", class = "btn-primary"),
-      br(),
-      br(),
-      h5("Update Progress"),
-      actionButton("update_progress_advanced", "Update All Progress", class = "btn-info")
     ),
     card(
       card_header("Alerts & Notifications"),
       h5("Bootstrap Alerts"),
       div(
-        class = "alert alert-info alert-dismissible",
+        class = "alert alert-info alert-dismissible d-flex align-items-start",
         tags$button(
           type = "button",
           class = "btn-close",
           `data-bs-dismiss` = "alert"
         ),
-        tags$strong("Info!"),
-        " This is an informational alert."
+        bs_icon("info-circle", class = "flex-shrink-0 alert-status-icon"),
+        div(
+          tags$strong("Info:"),
+          " This is an informational alert."
+        )
       ),
       div(
-        class = "alert alert-success alert-dismissible",
+        class = "alert alert-success alert-dismissible d-flex align-items-start",
         tags$button(
           type = "button",
           class = "btn-close",
           `data-bs-dismiss` = "alert"
         ),
-        tags$strong("Success!"),
-        " Operation completed successfully."
+        bs_icon("check-circle", class = "flex-shrink-0 alert-status-icon"),
+        div(
+          tags$strong("Success:"),
+          " Operation completed successfully."
+        )
       ),
       div(
-        class = "alert alert-warning alert-dismissible",
+        class = "alert alert-warning alert-dismissible d-flex align-items-start",
         tags$button(
           type = "button",
           class = "btn-close",
           `data-bs-dismiss` = "alert"
         ),
-        tags$strong("Warning!"),
-        " Please review before proceeding."
+        bs_icon("exclamation-diamond", class = "flex-shrink-0 alert-status-icon"),
+        div(
+          tags$strong("Warning:"),
+          " Please review before proceeding."
+        )
       ),
       div(
-        class = "alert alert-danger alert-dismissible",
+        class = "alert alert-danger alert-dismissible d-flex align-items-start",
         tags$button(
           type = "button",
           class = "btn-close",
           `data-bs-dismiss` = "alert"
         ),
-        tags$strong("Error!"),
-        " An error has occurred."
+        bs_icon("exclamation-circle", class = "flex-shrink-0 alert-status-icon"),
+        div( 
+          tags$strong("Error:"),
+          " An error has occurred. This text should wrap correctly below the strong tag but stay to the right of the icon."
+        )
       ),
       br(),
       h5("Notification Actions"),
@@ -100,9 +101,9 @@ advanced_features_ui <- div(
         class = "d-flex gap-3",
         actionButton("tooltip1", "Top Tooltip", class = "btn-outline-primary") %>%
           bslib::tooltip("This tooltip appears on top"),
-        actionButton("tooltip2", "Right Tooltip", class = "btn-outline-secondary") %>%
+        actionButton("tooltip2", "Right Tooltip", class = "btn-outline-primary") %>%
           bslib::tooltip("This tooltip appears on the right", placement = "right"),
-        actionButton("tooltip3", "Bottom Tooltip", class = "btn-outline-info") %>%
+        actionButton("tooltip3", "Bottom Tooltip", class = "btn-outline-primary") %>%
           bslib::tooltip("This tooltip appears on the bottom", placement = "bottom")
       ),
       br(),
@@ -129,17 +130,14 @@ advanced_features_ui <- div(
     ),
     card(
       card_header("Modal Dialogs"),
-      actionButton("show_modal", "Show Modal Dialog", class = "btn-primary"),
-      br(),
-      br(),
-      actionButton("show_modal_form", "Show Form Modal", class = "btn-secondary"),
-      br(),
+      actionButton("show_modal", "Show Modal Dialog", class = "btn-primary me-2"),
+      actionButton("show_modal_form", "Show Form Modal", class = "btn-secondary me-2"),
       br(),
       h5("Cards with Actions"),
       div(
         class = "card",
         div(
-          class = "card-header d-flex justify-content-between",
+          class = "card-header d-flex justify-content-between align-items-center",
           "Collapsible Card",
           actionButton("collapse_card", icon("chevron-down"), class = "btn-sm btn-outline-secondary")
         ),

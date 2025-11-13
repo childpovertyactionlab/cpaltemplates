@@ -7,6 +7,7 @@ body {
   color: $text-color-light;
 }
 
+// Header styles
 .navbar-brand {
   display: block;
   font-family: $font-family;
@@ -30,6 +31,7 @@ body {
   color: $primary;
 }
 
+// Sidebar styles
 .sidebar-link {
   display: flex;
   align-items: center;
@@ -54,43 +56,97 @@ body {
   gap: 0.1rem !important;
 }
 
+// Card
 .card {
   font-weight: 900;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: 1px solid $border-color-light;
 }
 
+.bslib-card .card-header, .bslib-card .card-footer {
+  font-size: 1rem;
+}
+
+// Alerts
+.alert-dismissible .btn-close {
+  padding: 1rem 1rem;
+}
+
+.alert-status-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.shiny-notification.shiny-notification {
+  opacity: 1;
+  padding: 1rem;
+  background-color: #FFFFFF;
+  color: #333333;
+  border-left: 0.5rem solid $primary;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-error {
+  border-left: 0.5rem solid $danger;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-warning {
+  border-left: 0.5rem solid $warning;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-success {
+  border-left: 0.5rem solid $success;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-message {
+  border-left: 0.5rem solid $info;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+div:where(.swal2-icon).swal2-success .swal2-success-ring {
+  border-color: $success !important;
+}
+
+div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{
+  background-color: $success !important;
+}
+
+div:where(.swal2-icon).swal2-error .swal2-error-ring{
+  border-color: $danger;
+}
+// Accessibility improvements
 .btn {
   font-weight: 500;
   text-transform: none;
 }
 
+.btn:focus {
+  outline: 0.125rem solid $secondary;
+  outline-offset: 0.125rem;
+}
+
+// Form elements
 .form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
 }
 
-/* Accessibility improvements */
-.btn:focus {
-  outline: 2px solid $secondary;
-  outline-offset: 2px;
-}
-
-/* CPAL specific components */
-.cpal-metric-card {
-  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
-  color: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-}
-
-.cpal-metric-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  font-family: $font-family;
-}
-
 .radio-inline, .checkbox-inline {
-  padding-left: 20px;
+  padding-left: 1.25rem;
 }
 
 .shiny-input-checkboxgroup label ~ .shiny-options-group,
@@ -106,4 +162,33 @@ body {
     min-width: 300px;
     width: 100% !important;
     width: 100%;
+}
+
+// Modal styles
+.modal-header {
+  border-bottom: 0.125rem solid $modal-header-border-color;
+  padding: 0.75rem 1.5rem;
+}
+
+// Accordion styles
+.accordion-button:not(.collapsed) {
+  color: $primary;  
+}
+
+.accordion-button:not(.collapsed)::after{
+  color: $primary;
+}         
+
+// CPAL specific components
+.cpal-metric-card {
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.cpal-metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: $font-family;
 }
