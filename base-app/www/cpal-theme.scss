@@ -1,16 +1,13 @@
 /* CPAL Theme SCSS */
 // Base styles
 body {
-  font-family: $font-family;
+  font-family: $font-family-base;
   font-size: $font-size-base;
-  background-color: $background-color-light;
-  color: $text-color-light;
 }
 
 // Header styles
 .navbar-brand {
   display: block;
-  font-family: $font-family;
   font-weight: 600;
 }
 
@@ -44,7 +41,7 @@ body {
 
   &:hover {
     background-color: $primary;
-    color: $background-color-light;
+    color: $white;
   }
 }
 
@@ -56,11 +53,15 @@ body {
   gap: 0.1rem !important;
 }
 
+.nav-link, .nav-tabs>li>a, .nav-pills>li>a, :where(ul.nav.navbar-nav > li)>a 
+{
+  font-weight: normal;
+}
+
 // Card
 .card {
-  font-weight: 900;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid $border-color-light;
+  border: 1px solid $gray-300;
 }
 
 .bslib-card .card-header, .bslib-card .card-footer {
@@ -82,7 +83,7 @@ body {
 .shiny-notification.shiny-notification {
   opacity: 1;
   padding: 1rem;
-  background-color: #FFFFFF;
+  background-color: $white;
   color: #333333;
   border-left: 0.5rem solid $primary;
   border-top: none;
@@ -141,6 +142,10 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
 }
 
 // Form elements
+.form-control{
+  border: 1px solid $primary;
+}
+
 .form-control:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
 }
@@ -190,5 +195,6 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
 .cpal-metric-value {
   font-size: 2.5rem;
   font-weight: 700;
-  font-family: $font-family;
+  font-family: $font-family-base;
 }
+

@@ -1,0 +1,41 @@
+meta:
+  name: CPAL
+  link: https://cpal.dev
+
+typography:
+  # 1. Define the fonts and their sources
+  fonts:
+    - family: "Poppins"
+      source: google
+    - family: "Inter"
+      source: google
+    - family: "Fira Code"
+      source: google
+
+  # 2. Apply the fonts to the default HTML elements
+  base:
+    family: Poppins # Use Inter as the base font
+  headings:
+    family: Poppins # Use Poppins for headings
+  monospace:
+    family: Fira Code # Use Fira Code for code blocks
+
+defaults:
+  bootstrap:
+    defaults:
+      # General Bootstrap variables
+      "enable-rounded": false
+      "link-decoration": none
+      "body-bg": "#ffffff"
+      "primary": "#007A8C"
+      "secondary": "#007A8C"
+      "success": "#2e7d32"
+      "info": "#0288d1"
+      "warning": "#ed6c02"
+      "danger": "#d32f2f"
+      "border-radius": "6px"
+      "btn-border-radius": "6px"
+      "input-border-radius": "6px"
+      "font-family-base": "'Poppins', sans-serif"
+
+ 

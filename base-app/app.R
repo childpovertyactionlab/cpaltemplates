@@ -67,6 +67,7 @@ texas_counties_sf <- counties(state = "TX",
 ui <- page_sidebar(
   # App Title and Mode switcher
   title = source("views/header-ui.R")$value,
+  theme = cpal_dasbhoard_theme(),
 
   # Collapsible Sidebar Navigation
   sidebar = source("views/sidebar-ui.R")$value,
@@ -101,19 +102,9 @@ ui <- page_sidebar(
 # Define Server
 server <- function(input, output, session) {
 
-# Apply theme BEFORE first render
-  session$onFlushed(function() {
-    isolate({
-      initial_variant <- if (isTRUE(input$dark_mode)) "dark" else "default"
-      session$setCurrentTheme(cpal_shiny(variant = initial_variant))
-    })
-  })
-
-  # handle user toggling mode afterwards
-  observeEvent(input$mode, {
-    variant <- if (input$mode == "dark") "dark" else "default"
-    session$setCurrentTheme(cpal_shiny(variant = variant))
-  })
+  observeEvent(input$dark_mode, {
+    toggle_dark_mode(mode = input$dark_mode)
+  }, ignoreInit = TRUE)
 
   # Navigation state
   values <- reactiveValues(current_section = "inputs")

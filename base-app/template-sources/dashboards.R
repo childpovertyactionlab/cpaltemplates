@@ -234,6 +234,26 @@ cpal_shiny <- function(variant = "default",
   return(theme)
 }
 
+cpal_dasbhoard_theme <- function(
+){
+  theme <- bslib::bs_theme(
+  version = 5,
+  brand = TRUE,
+  "btn-border-radius" = "6px",
+  "input-border-radius" = "6px"
+)
+  # Include external CSS file for enhanced CPAL styling
+  css_path <- "www/cpal-theme.scss"
+  if (file.exists(css_path)) {
+    theme <- bslib::bs_add_rules(theme, sass::sass_file(css_path))
+  } else {
+    cli::cli_warn("CSS file not found at {.path {css_path}}. Ensure it is placed correctly.")
+  }
+
+  return(theme)
+}
+
+
 #' Apply Enhanced CPAL SCSS Styling to Shiny Theme
 #'
 #' This function extends a basic cpal_shiny() theme by adding comprehensive
