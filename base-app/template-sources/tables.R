@@ -23,18 +23,17 @@
 #' @return GT table object
 #' @export
 cpal_table_gt <- function(data,
-                    title            = NULL,
-                    subtitle         = NULL,
-                    source           = NULL,
-                    theme            = "light",
-                    highlight_columns= NULL,
-                    bold_rows        = NULL,
-                    bold_color       = NULL,
-                    row_fill         = NULL,
-                    gradient_direction = "high_to_low",
-                    title_font       = "Inter",
-                    data_font        = "Inter") {
-
+                          title            = NULL,
+                          subtitle         = NULL,
+                          source           = NULL,
+                          theme            = "light",
+                          highlight_columns = NULL,
+                          bold_rows        = NULL,
+                          bold_color       = NULL,
+                          row_fill         = NULL,
+                          gradient_direction = "high_to_low",
+                          title_font       = "Inter",
+                          data_font        = "Inter") {
   # Set smart defaults for colors
   if (is.null(bold_color)) {
     bold_color <- cpal_colors("pink_medium")[1]
@@ -48,13 +47,15 @@ cpal_table_gt <- function(data,
     text_color <- "#2D3436"
     subtitle_color <- "#6B7280"
     row_border_color <- "#E8E8E8"
-    if (is.null(row_fill)) row_fill <- "#FFE4E1"  # Light pink
+    if (is.null(row_fill))
+      row_fill <- "#FFE4E1"  # Light pink
   } else {
     bg_color <- "#1A1A1A"
     text_color <- "#F8F9FA"
     subtitle_color <- "#9CA3AF"
     row_border_color <- "#404040"
-    if (is.null(row_fill)) row_fill <- "#4A2A2A"  # Dark pink
+    if (is.null(row_fill))
+      row_fill <- "#4A2A2A"  # Dark pink
   }
 
   # Create GT table with modern foundation
@@ -82,12 +83,12 @@ cpal_table_gt <- function(data,
       table.border.left.style = "none",
       table.border.right.style = "none",
 
-      column_labels.background.color = midnight,
+      #column_labels.background.color = midnight,
       column_labels.font.size = px(14),
       column_labels.font.weight = "bold",
       column_labels.border.top.style = "solid",
       column_labels.border.top.width = px(4),
-      column_labels.border.top.color = midnight,
+      #column_labels.border.top.color = midnight,
       column_labels.border.bottom.style = "none",
       column_labels.padding = px(16),
 
@@ -104,58 +105,66 @@ cpal_table_gt <- function(data,
     ) %>%
 
     # Foundation text styling
-    tab_style(
-      style = list(
-        cell_borders(sides = "top", color = text_color, weight = px(2), style = "solid")
-      ),
-      locations = cells_title()
-    ) %>%
-    tab_style(
-      style = list(
-        cell_text(color = "#FFFFFF", weight = "bold", size = px(14)),
-        cell_fill(color = midnight)
-      ),
-      locations = cells_column_labels()
-    ) %>%
-    tab_style(
-      style = list(
-        cell_text(color = text_color, size = px(13), weight = "normal")
-      ),
-      locations = cells_body()
-    ) %>%
-    tab_style(
-      style = list(
-        cell_text(color = text_color, size = px(18), weight = "bold")
-      ),
-      locations = cells_title()
-    )
+    tab_style(style = list(
+      cell_borders(
+        sides = "top",
+        color = text_color,
+        weight = px(2),
+        style = "solid"
+      )
+    ), locations = cells_title()) %>%
+    tab_style(style = list(
+      cell_text(
+        color = "#FFFFFF",
+        weight = "bold",
+        size = px(14)
+      )
+     #cell_fill(color = midnight)
+    ),
+    locations = cells_column_labels()) %>%
+    tab_style(style = list(cell_text(
+      color = text_color,
+      size = px(13),
+      weight = "normal"
+    )), locations = cells_body()) %>%
+    tab_style(style = list(cell_text(
+      color = text_color,
+      size = px(18),
+      weight = "bold"
+    )), locations = cells_title())
 
   # SMART FEATURE 1: Column gradient highlighting (lighter teals for readability)
   if (!is.null(highlight_columns)) {
-
     # Use LIGHTER teal shades so text stays readable
     teal_colors <- c(
-      "#F0FDFA",  # Very light teal (almost white)
-      cpal_colors("teal_lightest")[1],  # Lightest from palette
-      cpal_colors("teal_light")[1],     # Light from palette
+      "#F0FDFA",
+      # Very light teal (almost white)
+      cpal_colors("teal_lightest")[1],
+      # Lightest from palette
+      cpal_colors("teal_light")[1],
+      # Light from palette
       cpal_colors("teal_medium")[1]     # Medium (NOT dark - keeps text readable)
     )
 
     for (col in highlight_columns) {
       if (col %in% names(data) && is.numeric(data[[col]])) {
-
         col_values <- data[[col]]
-        breaks <- quantile(col_values, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
+        breaks <- quantile(col_values,
+                           probs = c(0, 0.25, 0.5, 0.75, 1),
+                           na.rm = TRUE)
 
         for (i in 1:nrow(data)) {
           value <- col_values[i]
           if (!is.na(value)) {
-
             # Determine quartile
-            color_index <- if (value <= breaks[2]) 1
-            else if (value <= breaks[3]) 2
-            else if (value <= breaks[4]) 3
-            else 4
+            color_index <- if (value <= breaks[2])
+              1
+            else if (value <= breaks[3])
+              2
+            else if (value <= breaks[4])
+              3
+            else
+              4
 
             # Reverse if needed
             if (gradient_direction == "low_to_high") {
@@ -178,15 +187,21 @@ cpal_table_gt <- function(data,
   if (!is.null(bold_rows) && bold_rows %in% names(data)) {
     rows_to_style <- which(data[[bold_rows]] == 1)
     if (length(rows_to_style) > 0) {
-
       # White text for dark theme, pink text for light theme
-      highlight_text_color <- if (theme == "dark") "#FFFFFF" else bold_color
+      highlight_text_color <- if (theme == "dark")
+        "#FFFFFF"
+      else
+        bold_color
 
       gt_table <- gt_table %>%
         tab_style(
           style = list(
             cell_fill(color = row_fill),
-            cell_text(color = highlight_text_color, weight = "bold", size = px(13))
+            cell_text(
+              color = highlight_text_color,
+              weight = "bold",
+              size = px(13)
+            )
           ),
           locations = cells_body(rows = rows_to_style)
         )
@@ -196,31 +211,39 @@ cpal_table_gt <- function(data,
   # Add CSS for modern styling
   gt_table <- gt_table %>%
     opt_css(
-      css = paste0("
+      css = paste0(
+        "
       .gt_col_headings {
         border-radius: 8px 8px 0 0;
         overflow: hidden;
         border-bottom: none !important;
       }
       .gt_heading .gt_title {
-        font-size: 18px !important;
+        font-size: 16px !important;
         font-weight: bold !important;
-        color: ", text_color, " !important;
+        color: ",
+        text_color,
+        " !important;
       }
       .gt_heading .gt_subtitle {
         font-size: 12px !important;
         font-weight: normal !important;
-        color: ", subtitle_color, " !important;
+        color: ",
+        subtitle_color,
+        " !important;
         margin-top: 4px;
       }
       .gt_sourcenote {
         text-align: right;
         font-size: 10px;
-        color: ", subtitle_color, ";
+        color: ",
+        subtitle_color,
+        ";
         font-style: italic;
         padding-top: 8px;
       }
-      ")
+      "
+      )
     )
 
   return(gt_table)
@@ -286,13 +309,12 @@ cpal_table_reactable <- function(data,
                                  subtitle         = NULL,
                                  source           = NULL,
                                  theme            = "light",
-                                 highlight_columns= NULL,
+                                 highlight_columns = NULL,
                                  bold_rows        = NULL,
                                  bold_only_rows   = NULL,
                                  data_bar_columns = NULL,
                                  bold_color       = NULL,
                                  row_fill         = NULL,
-                                 gradient_direction = "high_to_low",
 
                                  # Interactive features
                                  searchable       = TRUE,
@@ -302,8 +324,8 @@ cpal_table_reactable <- function(data,
                                  filterable       = FALSE,
                                  show_page_size_options = TRUE,
                                  striped          = FALSE,
-                                 compact          = FALSE) {
-
+                                 compact          = FALSE,
+                                 ...) {
   # Load required packages
   if (!requireNamespace("reactable", quietly = TRUE)) {
     stop("Package 'reactable' is required but not installed.")
@@ -329,10 +351,11 @@ cpal_table_reactable <- function(data,
     text_color <- "#2D3436"
     subtitle_color <- "#6B7280"
     border_color <- "#E8E8E8"
-    search_bg <- "#F8F9FA"
-    hover_color <- "#F5F5F5"  # Light gray instead of teal
+    search_bg <- "#FFFFFF"
+    hover_color <- "#2F2F2F"  
     striped_color <- "#F9F9F9"  # Light gray for striped rows
-    if (is.null(row_fill)) row_fill <- "#F8E5F0"  # Very light pink
+    if (is.null(row_fill))
+      row_fill <- "#F8E5F0"  # Very light pink
   } else {
     bg_color <- "#1A1A1A"
     text_color <- "#F8F9FA"
@@ -341,52 +364,38 @@ cpal_table_reactable <- function(data,
     search_bg <- "#404448"
     hover_color <- "#2A2A2A"  # Dark gray
     striped_color <- "#2A2A2A"  # Dark gray for striped
-    if (is.null(row_fill)) row_fill <- "#4A2A2A"  # Dark pink
+    if (is.null(row_fill))
+      row_fill <- "#4A2A2A"  # Dark pink
   }
-
-  # Define CPAL teal gradient colors (excludes midnight for better text contrast)
-  cpal_teal_colors <- c(
-    teal_lightest,  # #D8EFF4 - Very light teal
-    teal_light,     # #95CFDA - Light teal
-    teal_medium,    # #008097 - Medium teal
-    "#005F6B"       # Darker teal but not as dark as midnight for better text contrast
-  )
 
   # Create style functions with proper closure to avoid loop variable issues
   create_combined_style <- function(current_col_name) {
-    # Pre-calculate gradient info if needed for this column
-    gradient_info <- NULL
-    if (!is.null(highlight_columns) && current_col_name %in% highlight_columns && is.numeric(data[[current_col_name]])) {
+    if (!is.null(highlight_columns) &&
+        current_col_name %in% highlight_columns &&
+        is.numeric(data[[current_col_name]])) {
       col_values <- data[[current_col_name]]
-      breaks <- quantile(col_values, probs = c(0, 0.25, 0.5, 0.75, 1), na.rm = TRUE)
-      gradient_info <- list(breaks = breaks, colors = cpal_teal_colors, direction = gradient_direction)
+      breaks <- quantile(col_values,
+                         probs = c(0, 0.25, 0.5, 0.75, 1),
+                         na.rm = TRUE)
     }
 
     # Return style function with proper closure
     function(value, index) {
-      # Row highlighting takes priority over gradients
       if (!is.null(bold_rows) && bold_rows %in% names(data) &&
-          length(data[[bold_rows]]) >= index && data[[bold_rows]][index] == 1) {
-        return(list(backgroundColor = row_fill, fontWeight = "bold", color = bold_color))
+          length(data[[bold_rows]]) >= index &&
+          data[[bold_rows]][index] == 1) {
+        return(list(
+          backgroundColor = row_fill,
+          fontWeight = "bold",
+          color = bold_color
+        ))
       }
 
-      if (!is.null(bold_only_rows) && bold_only_rows %in% names(data) &&
-          length(data[[bold_only_rows]]) >= index && data[[bold_only_rows]][index] == 1) {
+      if (!is.null(bold_only_rows) &&
+          bold_only_rows %in% names(data) &&
+          length(data[[bold_only_rows]]) >= index &&
+          data[[bold_only_rows]][index] == 1) {
         return(list(fontWeight = "bold"))
-      }
-
-      # Apply gradient highlighting if configured and no row highlighting
-      if (!is.null(gradient_info) && !is.na(value)) {
-        color_index <- if (value <= gradient_info$breaks[2]) 1
-        else if (value <= gradient_info$breaks[3]) 2
-        else if (value <= gradient_info$breaks[4]) 3
-        else 4
-
-        if (gradient_info$direction == "low_to_high") {
-          color_index <- 5 - color_index
-        }
-
-        return(list(backgroundColor = gradient_info$colors[color_index]))
       }
 
       return(NULL)
@@ -398,16 +407,18 @@ cpal_table_reactable <- function(data,
 
   # Process each column
   for (col_name in names(data)) {
-    col_def <- reactable::colDef(
-      name = col_name,
-      sortable = sortable,
-      filterable = filterable
-    )
+    col_def <- reactable::colDef(name = col_name,
+                                 sortable = sortable,
+                                 filterable = filterable)
 
     # Hide indicator columns
     should_hide <- FALSE
-    if (!is.null(bold_rows) && col_name == bold_rows) should_hide <- TRUE
-    if (!is.null(bold_only_rows) && col_name == bold_only_rows) should_hide <- TRUE
+    if (!is.null(bold_rows) &&
+        col_name == bold_rows)
+      should_hide <- TRUE
+    if (!is.null(bold_only_rows) &&
+        col_name == bold_only_rows)
+      should_hide <- TRUE
 
     if (should_hide) {
       col_def$show <- FALSE
@@ -417,13 +428,15 @@ cpal_table_reactable <- function(data,
     }
 
     # Add CPAL data bars with row styling integration
-    if (!is.null(data_bar_columns) && col_name %in% data_bar_columns && is.numeric(data[[col_name]])) {
+    if (!is.null(data_bar_columns) &&
+        col_name %in% data_bar_columns && is.numeric(data[[col_name]])) {
       col_values <- data[[col_name]]
       max_val <- max(col_values, na.rm = TRUE)
       min_val <- min(col_values, na.rm = TRUE)
 
       col_def$cell <- function(value, index) {
-        if (is.na(value)) return("")
+        if (is.na(value))
+          return("")
 
         # Calculate bar width as percentage (0-100%)
         if (max_val == min_val) {
@@ -436,10 +449,20 @@ cpal_table_reactable <- function(data,
         # Apply row styling to data bar cells
         cell_style <- list(position = "relative", background = "transparent")
         if (!is.null(bold_rows) && bold_rows %in% names(data) &&
-            length(data[[bold_rows]]) >= index && data[[bold_rows]][index] == 1) {
-          cell_style <- c(cell_style, list(backgroundColor = row_fill, fontWeight = "bold", color = bold_color))
-        } else if (!is.null(bold_only_rows) && bold_only_rows %in% names(data) &&
-                   length(data[[bold_only_rows]]) >= index && data[[bold_only_rows]][index] == 1) {
+            length(data[[bold_rows]]) >= index &&
+            data[[bold_rows]][index] == 1) {
+          cell_style <- c(
+            cell_style,
+            list(
+              backgroundColor = row_fill,
+              fontWeight = "bold",
+              color = bold_color
+            )
+          )
+        } else if (!is.null(bold_only_rows) &&
+                   bold_only_rows %in% names(data) &&
+                   length(data[[bold_only_rows]]) >= index &&
+                   data[[bold_only_rows]][index] == 1) {
           cell_style <- c(cell_style, list(fontWeight = "bold"))
         }
 
@@ -453,7 +476,8 @@ cpal_table_reactable <- function(data,
               left = "0",
               width = bar_width,
               height = "100%",
-              backgroundColor = teal_medium,  # Use CPAL teal medium
+              backgroundColor = teal_medium,
+              # Use CPAL teal medium
               opacity = "0.4",
               borderRadius = "2px"
             )
@@ -476,32 +500,51 @@ cpal_table_reactable <- function(data,
 
   # Construct header and footer blocks
   header_block <- if (!is.null(title) || !is.null(subtitle)) {
-    title_color <- if (theme == "light") midnight else "#FFFFFF"
-    subtitle_color_final <- if (theme == "light") "#6B7280" else "#9CA3AF"
+    title_color <- if (theme == "light")
+      midnight
+    else
+      "#FFFFFF"
+    subtitle_color_final <- if (theme == "light")
+      "#6B7280"
+    else
+      "#9CA3AF"
 
-    htmltools::tags$div(
-      style = "text-align: center; margin-bottom: 16px; font-family: Inter, system-ui, sans-serif;",
-      if (!is.null(title)) {
-        htmltools::tags$h3(
-          title,
-          style = paste0("margin: 0; font-weight: bold; font-size: 20px; color: ", title_color, "; border-top: 3px solid ", midnight, "; padding-top: 8px;")
+    htmltools::tags$div(style = "text-align: center; margin-bottom: 16px; font-family: Inter, system-ui, sans-serif;", if (!is.null(title)) {
+      htmltools::tags$h3(
+        title,
+        style = paste0(
+          "margin: 0; font-weight: bold; font-size: 20px; color: ",
+          title_color,
+          "; border-top: 3px solid ",
+          midnight,
+          "; padding-top: 8px;"
         )
-      },
-      if (!is.null(subtitle)) {
-        htmltools::tags$p(
-          subtitle,
-          style = paste0("margin: 4px 0 0 0; font-size: 14px; color: ", subtitle_color_final, ";")
+      )
+    }, if (!is.null(subtitle)) {
+      htmltools::tags$p(
+        subtitle,
+        style = paste0(
+          "margin: 4px 0 0 0; font-size: 14px; color: ",
+          subtitle_color_final,
+          ";"
         )
-      }
-    )
+      )
+    })
   } else {
     NULL
   }
 
   footer_block <- if (!is.null(source)) {
-    subtitle_color_final <- if (theme == "light") "#6B7280" else "#9CA3AF"
+    subtitle_color_final <- if (theme == "light")
+      "#6B7280"
+    else
+      "#9CA3AF"
     htmltools::tags$div(
-      style = paste0("text-align: right; margin-top: 8px; font-size: 10px; color: ", subtitle_color_final, "; font-style: italic; font-family: Inter, system-ui, sans-serif;"),
+      style = paste0(
+        "text-align: right; margin-top: 8px; font-size: 10px; color: ",
+        subtitle_color_final,
+        "; font-style: italic; font-family: Inter, system-ui, sans-serif;"
+      ),
       paste("Source:", source)
     )
   } else {
@@ -511,7 +554,8 @@ cpal_table_reactable <- function(data,
   # Build the table
   reactable_table <- reactable::reactable(
     data,
-    columns = columns_list,
+    height = 600,
+    showSortable = TRUE,
     searchable = searchable,
     pagination = pagination,
     defaultPageSize = page_size,
@@ -526,81 +570,67 @@ cpal_table_reactable <- function(data,
       color = text_color,
       backgroundColor = bg_color,
       borderColor = border_color,
-      stripedColor = if(striped) striped_color else "transparent",
+      stripedColor = if (striped)
+        striped_color
+      else
+        "transparent",
       highlightColor = hover_color,
 
       # Header styling with CPAL midnight - centered text, only end corners rounded
       headerStyle = list(
-        backgroundColor = midnight,  # CPAL midnight #004855
-        color = "#FFFFFF",
         fontWeight = "bold",
-        fontSize = "14px",
-        fontFamily = "Inter, system-ui, sans-serif",
-        textAlign = "center",  # Center header text
-        borderTop = paste0("4px solid ", midnight),
-        borderRadius = "0px"  # Remove individual cell rounding
+        textAlign = "center",
+        # Center header text
+        borderTop = paste0("2px solid ", "#007A8C"),
+        borderBottom = paste0("2px solid ", "#007A8C"),
+        borderRadius = "0"  # Remove individual cell rounding
       ),
 
       # Cell styling
       cellStyle = list(
-        fontSize = "13px",
-        fontFamily = "Inter, system-ui, sans-serif",
+        fontSize = "14px",
         padding = "12px 16px"
       ),
 
       # Search box styling
       searchInputStyle = list(
         backgroundColor = search_bg,
-        border = paste0("1px solid ", border_color),
+        border = paste0("1px solid ", "#007A8C"),
         borderRadius = "6px",
         fontSize = "13px",
-        fontFamily = "Inter, system-ui, sans-serif",
-        color = text_color,
-        padding = "8px 12px"
+        padding = "8px 12px",
+        width = "30%",
+        # focus style
+        "&:focus" = list(
+          borderColor = "#007A8C",
+          boxShadow = "0 0 0 0.2rem rgba(0,72,85,0.25)"
+        )
       ),
-
+    
       # Pagination styling
       paginationStyle = list(
         color = text_color,
-        fontSize = "13px",
-        fontFamily = "Inter, system-ui, sans-serif"
+        fontSize = "13px"
       ),
 
       # Page size selector styling
       selectStyle = list(
         backgroundColor = search_bg,
-        border = paste0("1px solid ", border_color),
+        border = paste0("1px solid ", "#007A8C"),
         borderRadius = "6px",
-        color = text_color,
-        fontSize = "13px",
-        fontFamily = "Inter, system-ui, sans-serif"
-      )
-    )
+        color = "#007A8C",
+        fontSize = "13px"
+      ),
+
+      # Page button styling
+      pageButtonActiveStyle = list(color = "#007A8C"),
+      pageButtonStyle = list(color = "#007A8C"),
+      pageButtonCurrentStyle = list(color = "#007A8C", fontWeight = "700"),
+    ),
+    ...
   )
 
-  # Enhanced CSS for headers - force CPAL styling
-  enhanced_css <- htmltools::tags$style(paste0("
-    /* Force header colors and styling */
-    .ReactTable .rt-thead .rt-tr .rt-th {
-      background-color: ", midnight, " !important;
-      color: #FFFFFF !important;
-      border-top: 4px solid ", midnight, " !important;
-      text-align: center !important;
-      font-family: 'Inter', system-ui, sans-serif !important;
-      font-weight: bold !important;
-      font-size: 14px !important;
-      border-radius: 0px !important;
-    }
-    /* Round only the end header corners */
-    .ReactTable .rt-thead .rt-tr .rt-th:first-child {
-      border-top-left-radius: 8px !important;
-    }
-    .ReactTable .rt-thead .rt-tr .rt-th:last-child {
-      border-top-right-radius: 8px !important;
-    }
-  "))
 
-  reactable_table <- htmlwidgets::prependContent(reactable_table, enhanced_css)
 
   # Inject header and footer
   if (!is.null(header_block)) {

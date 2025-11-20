@@ -31,6 +31,7 @@ source("template-sources/utils.R")
 source("template-sources/projects.R")
 source("template-sources/plots.R")
 
+setup_cpal_google_fonts()
 
 # Load and prepare data
 data(mtcars)
@@ -67,8 +68,6 @@ ui <- page_sidebar(
   # App Title and Mode switcher
   title = source("views/header-ui.R")$value,
 
-  theme = cpal_shiny(variant = "default"),
-
   # Collapsible Sidebar Navigation
   sidebar = source("views/sidebar-ui.R")$value,
 
@@ -101,19 +100,20 @@ ui <- page_sidebar(
 
 # Define Server
 server <- function(input, output, session) {
-  # Set session theme
-  session$setCurrentTheme(cpal_shiny(variant = "default"))
 
-  # Mode change
+# Apply theme BEFORE first render
+  session$onFlushed(function() {
+    isolate({
+      initial_variant <- if (isTRUE(input$dark_mode)) "dark" else "default"
+      session$setCurrentTheme(cpal_shiny(variant = initial_variant))
+    })
+  })
+
+  # handle user toggling mode afterwards
   observeEvent(input$mode, {
-    variant <- if (input$mode == "dark") {
-      "dark"
-    } else {
-      "default"
-    }
-    theme <- cpal_shiny(variant = variant)
-    session$setCurrentTheme(theme)
-  }, ignoreInit = TRUE)
+    variant <- if (input$mode == "dark") "dark" else "default"
+    session$setCurrentTheme(cpal_shiny(variant = variant))
+  })
 
   # Navigation state
   values <- reactiveValues(current_section = "inputs")
@@ -529,12 +529,19 @@ server <- function(input, output, session) {
 
   output$reactable_table <- renderReactable({
     filtered_data() %>%
-      select(car_name, mpg, cyl, hp, wt, gear, carb, efficiency_category) %>%
+    select(car_name, mpg, cyl, hp, wt, efficiency_category) %>%
       cpal_table_reactable(
         searchable = TRUE,
         pagination = TRUE,
+        filterable = TRUE,
         striped = TRUE,
-        highlight = TRUE
+        highlight = TRUE,
+        columns = list(
+          car_name = colDef(name = "Car Model", sticky = "left"),
+          mpg = colDef(name = "Miles/Gallon"),
+          wt = colDef(name = "Weight"),
+          efficiency_category = colDef(name = "Efficiency")
+        )
       )
   })
 
