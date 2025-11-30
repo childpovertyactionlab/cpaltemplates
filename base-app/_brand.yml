@@ -14,17 +14,18 @@ typography:
 
   # 2. Apply the fonts to the default HTML elements
   base:
-    family: Poppins # Use Inter as the base font
+    family: Poppins 
   headings:
-    family: Poppins # Use Poppins for headings
+    family: Poppins 
   monospace:
-    family: Fira Code # Use Fira Code for code blocks
-
+    family: Fira Code 
 defaults:
   bootstrap:
     defaults:
       # General Bootstrap variables
-      "enable-rounded": false
+      "enable-rounded": true
+      "enable-shadows": true
+      "enable-transitions": true
       "link-decoration": none
       "body-bg": "#ffffff"
       "primary": "#007A8C"
@@ -36,6 +37,22 @@ defaults:
       "border-radius": "6px"
       "btn-border-radius": "6px"
       "input-border-radius": "6px"
+      "input-border-color": "#007A8C"
       "font-family-base": "'Poppins', sans-serif"
+      "bg": "#FFFFFF"
+      "fg": "#007A8C"
+      "body-color": "#2F2F2F"
+      "progress-bar-bg": "#007A8C"
+      "progress-bg": "#F8F9FA"
+      #"border-color": "#E5E5E5"
+      "background-color-light": "#FFFFFF"
+      "text-color-light": "#222222"
+      #"border-color-light": "#E5E5E5"
+      "btn-padding-y": "0.5rem"
+      "card-border-radius": "8px"
+      "card-cap-padding-y": "0.75rem"
+      "alert-padding-y": "0.75rem"
+      "tooltip-bg": "#333333"
+      "tooltip-color": "#ffffff"
 
  

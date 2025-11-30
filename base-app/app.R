@@ -515,7 +515,37 @@ server <- function(input, output, session) {
     filtered_data() %>%
       select(car_name, mpg, cyl, hp, wt, efficiency_category) %>%
       slice_head(n = 10) %>%
-      cpal_table_gt(title = "Top 10 Cars (Filtered Data)", subtitle = "Sorted by original dataset order")
+      cpal_table_gt(title = "Top 10 Cars (Filtered Data)", subtitle = "Sorted by original dataset order") %>%
+      cols_label(
+        car_name = "Car Model",
+        mpg = "MPG (Miles Per Gallon)",
+        cyl = "Cylinders",
+        hp = "Horsepower",
+        wt = "Weight (lbs)",
+        efficiency_category = "Efficiency"
+      )
+  })
+
+    output$gt_table_reactable <- render_gt({
+    filtered_data() %>%
+      select(car_name, mpg, cyl, hp, wt, efficiency_category) %>%
+      #slice_head(n = 10) %>%
+      cpal_table_gt(title = "Top 10 Cars (Filtered Data)", subtitle = "Sorted by original dataset order") %>%
+      cols_label(
+        car_name = "Car Model",
+        mpg = "MPG (Miles Per Gallon)",
+        cyl = "Cylinders",
+        hp = "Horsepower",
+        wt = "Weight (lbs)",
+        efficiency_category = "Efficiency"
+      ) %>%
+      opt_interactive(
+        use_pagination = TRUE,
+        use_page_size_select = TRUE, # Allows users to select page size
+        page_size_default = 10,      # Default number of rows per page
+        use_search = TRUE,            # Optional: Adds a global search bar
+      )%>%
+      opt_row_striping()
   })
 
   output$reactable_table <- renderReactable({

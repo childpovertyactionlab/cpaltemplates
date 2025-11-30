@@ -61,7 +61,7 @@ body {
 // Card
 .card {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: 1px solid $gray-300;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .bslib-card .card-header, .bslib-card .card-footer {
@@ -130,6 +130,7 @@ div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{
 div:where(.swal2-icon).swal2-error .swal2-error-ring{
   border-color: $danger;
 }
+
 // Accessibility improvements
 .btn {
   font-weight: 500;
@@ -198,3 +199,256 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
   font-family: $font-family-base;
 }
 
+// Reactable table styles
+.reactable {
+  font-family: $font-family-base;
+
+  .rt-tr-header .rt-th{
+    border-top: 2px solid $primary;
+    border-bottom: 2px solid $primary;
+  }
+
+  .rt-tr {
+    color: $body-color;
+    
+    &:hover {
+      background-color: $table-hover-bg;
+    }
+  }
+
+  .rt-tr-group.rt-tr-selected {
+    // Apply the primary brand color as the background
+    background-color: $table-active-bg;
+    
+    // Change text color to ensure contrast (e.g., white text on a blue background)
+    color: $table-active-color;
+    
+    // Ensure all cells inside inherit the text color
+    .rt-td, .rt-th {
+      color: inherit;
+    }
+  }
+
+  // Also update input fields background which might default to dark grey
+  .rt-search, .rt-page-size-select {
+      border: 1px solid $primary !important;
+  }
+
+  .rt-search:focus{
+      box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
+  }
+
+  .rt-pagination {
+    border-top: 1px solid $border-color !important;
+  }
+
+  .rt-table{
+    border-top: none !important;
+  }
+
+  .rt-th{
+    font-weight: bold !important;
+  }
+
+  // Ensure high contrast for all text within the table when in dark mode
+  [data-bs-theme="dark"] & {
+    // Use a light gray for high contrast text on a dark background
+    background: none;
+    color: $body-color-dark !important;
+
+    .rt-tr {
+      color: $body-color-dark !important; 
+    }
+    
+    .rt-td {
+      border-top: 1px solid $border-color-dark !important;
+    }
+
+    .rt-tr-striped-sticky {
+      background-color: #212529 !important;
+    }
+
+    // Also update input fields background which might default to dark grey
+    .rt-search, .rt-page-size-select {
+        background: none;
+        border: 1px solid $primary !important;
+        color: $body-color-dark; // Ensure text in search is white too
+    }
+
+    .rt-pagination {
+      border-top: 1px solid $border-color-dark !important;
+      color: $body-color-dark !important;
+    }
+
+    .rt-tr-striped-sticky:hover {
+      background-color: $table-hover-bg !important;
+    }
+  }
+}
+
+[data-bs-theme="dark"] .Reactable,
+[data-bs-theme="dark"] .ReactTable {
+  background-color: $body-bg-dark; // Darker gray for dark mode
+}
+
+// gt table styles
+.gt_table {
+  background-color: $body-bg-dark !important;
+  color: $body-color-dark !important;
+  font-family: $font-family-base !important;
+  width: 100% !important;
+  border: none !important;
+
+  /* Default light theme odd row background */
+  tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: $table-hover-bg;
+  }
+
+  .gt_table_body {
+    background-color: $body-bg;
+    color: $body-color;
+    border-bottom: 1px solid $border-color !important;
+  }
+
+  .gt_bottom_border {
+    border-bottom: 2px solid $primary !important;
+  }
+
+  .gt_col_headings {
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    color: $body-color;
+    border-top: 2px solid $primary !important;
+    border-bottom: 2px solid $primary !important;
+    font-weight: bold !important;
+  }
+
+  .gt_col_heading {
+    font-weight: bold !important;
+  }
+
+  .gt_heading {
+    /* Base styles for the heading section */
+    .gt_title {
+      font-size: 16px !important;
+      font-weight: bold !important;
+    }
+
+    .gt_subtitle {
+      font-size: 12px !important;
+      font-weight: normal !important;
+      margin-top: 4px;
+    }
+  }
+
+  .gt_sourcenote {
+    text-align: right;
+    font-size: 10px;
+    font-style: italic;
+    padding-top: 8px;
+  }
+
+  .gt_row {
+    border-top: 1px solid $border-color !important;
+  }
+}
+
+[data-bs-theme="dark"] {
+  .gt_col_headings,
+  .gt_col_heading,
+  .gt_heading,
+  .gt_table_body,
+  .gt_sourcenote {
+    background-color: $body-bg-dark !important;
+    color: $body-color-dark !important;
+  }
+    /* Target nested text within heading components if needed */
+    .gt_heading {
+      background-color: $body-bg-dark !important; /* Ensures the whole heading area is dark */
+      color: $body-color-dark !important;
+      border-top: none !important; /* Removes primary border from dark mode heading */
+
+      .gt_title,
+      .gt_subtitle {
+        background-color: $body-bg-dark !important;
+        color: $body-color-dark !important; /* Ensure text color inherits properly */
+      }
+    }
+
+    .gt_col_headings, .gt_col_heading, .gt_table_body {
+      background-color: $body-bg-dark !important; /* Ensures the whole heading area is dark */
+      color: $body-color-dark !important;
+    }
+
+    .gt_bottom_border {
+      border-bottom: 1px solid $border-color-dark !important; /* Adjust primary border in dark mode */
+    }
+
+    .gt_table_body {
+      border-bottom: 1px solid $border-color-dark !important;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #212529 !important; /* Dark theme odd row background */
+    }
+
+    tr:hover {
+      background-color: $table-hover-bg !important;
+    }
+
+    .gt_row {
+      border-top: 1px solid $border-color-dark !important;
+    }
+  }
+
+// highcharts
+
+[data-bs-theme="dark"] {
+  .highcharts-background {
+    fill: $body-bg-dark !important;
+  }
+
+  .highcharts-axis-lines {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-yaxis-grid .highcharts-grid-line,
+  .highcharts-xaxis .highcharts-axis-line,
+  .highcharts-tick {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-axis-labels,
+  .highcharts-title,
+  .highcharts-subtitle,
+  .highcharts-legend-item text,
+  .highcharts-axis-title,
+  .highcharts-tooltip text,
+  .highcharts-xaxis-labels text,
+  .highcharts-yaxis-labels text,
+  .highcharts-data-labels text {
+    fill: $body-color-dark !important;
+  }
+
+  .highcharts-xaxis-labels text,
+  .highcharts-yaxis-labels text {
+    color: $body-color-dark !important; 
+  }
+
+  .highcharts-tooltip-box {
+    fill: $body-bg-dark !important;
+    stroke: $body-color-dark !important;
+  }
+
+  .highcharts-column-series rect {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-text-outline {
+    stroke-width: 0 !important;
+  }
+}

@@ -171,31 +171,27 @@ cpal_shiny <- function(variant = "default",
   # Create the BSlib theme
   theme <- bslib::bs_theme(
     version = 5,
-    bg = settings$bg,
-    fg = settings$fg,
-    "body-color" = settings$body_color,
+    brand = TRUE,
+    bg = "#FFFFFF",
+    fg = "#007A8C",
+    "body-color" = "#2F2F2F",
     primary = "#007A8C",
     secondary = "#007A8C",
     success = "#2e7d32",
     info = "#0288d1",
     warning = "#ed6c02",
     danger = "#d32f2f",
-    font_scale = font_scale,
     heading_font = bslib::font_google("Poppins"),
     base_font = bslib::font_google("Inter"),
     code_font = bslib::font_google("Fira Code"),
     "font-family" = "'Poppins', sans-serif;",
-    "enable-transitions" = enable_animations,
-    "enable-shadows" = if (variant == "presentation") {
-      FALSE
-    } else {
-      TRUE
-    },
+    "enable-transitions" = TRUE,
+    "enable-shadows" = TRUE,
     "enable-rounded" = TRUE,
-    "progress-bar-bg" = semantic_colors$primary,
-    "progress-bg" = settings$progress_bg,
-    navbar_bg = settings$navbar_bg,
-    "border-color" = settings$border_color,
+    "progress-bar-bg" = "#007A8C",
+    "progress-bg" = "#F8F9FA",
+    navbar_bg = "#FFFFFF",
+    "border-color" = "#E5E5E5",
     "background-color-light" = "#FFFFFF",
     "text-color-light" = "#222222",
     "border-color-light" = "#E5E5E5",
@@ -203,7 +199,7 @@ cpal_shiny <- function(variant = "default",
     "btn-padding-y" = "0.5rem",
     "card-border-radius" = "8px",
     "border-radius" = "6px",
-    "nav-tabs-border-color" = semantic_colors$primary,
+    "nav-tabs-border-color" = "#007A8C",
     "nav-tabs-link-active-border-color" = "#007a8c #007a8c #FFFFFF",
     "nav-link-hover-color" = "#1A1A1A",
     "nav-link-color" = "#1A1A1A",
@@ -237,11 +233,9 @@ cpal_shiny <- function(variant = "default",
 cpal_dasbhoard_theme <- function(
 ){
   theme <- bslib::bs_theme(
-  version = 5,
-  brand = TRUE,
-  "btn-border-radius" = "6px",
-  "input-border-radius" = "6px"
-)
+    version = 5,
+    brand = TRUE
+  )
   # Include external CSS file for enhanced CPAL styling
   css_path <- "www/cpal-theme.scss"
   if (file.exists(css_path)) {
@@ -249,6 +243,10 @@ cpal_dasbhoard_theme <- function(
   } else {
     cli::cli_warn("CSS file not found at {.path {css_path}}. Ensure it is placed correctly.")
   }
+
+  attr(theme, "cpal_variant") <- "dashboard"
+  attr(theme, "cpal_version") <- "1.0.0"
+  attr(theme, "created") <- Sys.time()
 
   return(theme)
 }
