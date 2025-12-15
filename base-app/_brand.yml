@@ -1,6 +1,32 @@
+# _brand.yml (UPDATED)
+
 meta:
   name: CPAL
   link: https://cpal.dev
+
+color:
+  palette:
+    pink: "#E83E8C"
+    blue: "#007BFF"
+    cyan: "#17A2B8"
+    teal: "#007A8C"
+    green: "#28A745"
+    yellow: "#FFD700"
+    orange: "#FF7F50"
+    red: "#FF3333"
+    purple: "#6F42C1"
+    indigo: "#6610F2"
+    black: "#1A1A1A"
+    white: "#F8F8F8"
+  foreground: black
+  background: white
+  primary: "#007A8C"
+  success: green
+  info: cyan
+  warning: yellow
+  danger: orange
+  light: white
+  dark: black
 
 typography:
   # 1. Define the fonts and their sources
@@ -19,40 +45,27 @@ typography:
     family: Poppins 
   monospace:
     family: Fira Code 
+    
 defaults:
   bootstrap:
     defaults:
-      # General Bootstrap variables
       "enable-rounded": true
       "enable-shadows": true
       "enable-transitions": true
       "link-decoration": none
-      "body-bg": "#ffffff"
-      "primary": "#007A8C"
-      "secondary": "#007A8C"
-      "success": "#2e7d32"
-      "info": "#0288d1"
-      "warning": "#ed6c02"
-      "danger": "#d32f2f"
       "border-radius": "6px"
       "btn-border-radius": "6px"
       "input-border-radius": "6px"
-      "input-border-color": "#007A8C"
-      "font-family-base": "'Poppins', sans-serif"
-      "bg": "#FFFFFF"
-      "fg": "#007A8C"
-      "body-color": "#2F2F2F"
-      "progress-bar-bg": "#007A8C"
-      "progress-bg": "#F8F9FA"
-      #"border-color": "#E5E5E5"
-      "background-color-light": "#FFFFFF"
-      "text-color-light": "#222222"
-      #"border-color-light": "#E5E5E5"
-      "btn-padding-y": "0.5rem"
       "card-border-radius": "8px"
+      "input-border-color": teal
+      "progress-bar-bg": teal
+      "progress-bg": light_neutral
       "card-cap-padding-y": "0.75rem"
       "alert-padding-y": "0.75rem"
       "tooltip-bg": "#333333"
-      "tooltip-color": "#ffffff"
+      "tooltip-color": white
+      "bg-light": "#F8F8F8"
+      "bg-dark": "#1A1A1A"
+
 
  

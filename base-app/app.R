@@ -17,6 +17,7 @@ library(highcharter)
 library(mapgl)
 library(sf)
 library(tigris)
+library(thematic)
 
 # Set environment variables
 Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.eyJ1IjoiY3BhbGFuYWx5dGljcyIsImEiOiJjbHg5ODAwMGUxaTRtMmpwdGNscms3ZnJmIn0.D6yaemYNkijMo1naveeLbw")
@@ -102,9 +103,13 @@ ui <- page_sidebar(
 # Define Server
 server <- function(input, output, session) {
 
-  observeEvent(input$dark_mode, {
-    toggle_dark_mode(mode = input$dark_mode)
-  }, ignoreInit = TRUE)
+# Turn on thematic global theming before defining plots
+thematic::thematic_on()
+
+
+  # observeEvent(input$dark_mode_toggle, {
+  #   toggle_dark_mode(mode = input$dark_mode_toggle)
+  # }, ignoreInit = TRUE)
 
   # Navigation state
   values <- reactiveValues(current_section = "inputs")
@@ -189,15 +194,14 @@ server <- function(input, output, session) {
 
   # Main plot (Input Components section)
   output$main_plot <- renderPlot({
-    data <- filtered_data()
+   data <- filtered_data()
 
-    if (nrow(data) == 0) {
+    if(nrow(data) == 0) {
       return(ggplot() +
-               theme_cpal_print() +
-               labs(title = "No data matches current filters"))
+              labs(title = "No data matches current filters"))
     }
 
-    p <- switch(
+    p <-switch(
       input$chart_type,
       "scatter" = ggplot(data, aes(x = wt, y = mpg)) +
         geom_point(
@@ -212,8 +216,6 @@ server <- function(input, output, session) {
       "hist" = ggplot(data, aes(x = mpg)) +
         geom_histogram(
           bins = 15,
-          fill = cpal_colors("gold"),
-          alpha = 0.7,
           color = "white"
         ) +
         labs(x = "Miles Per Gallon", y = "Count")
@@ -222,22 +224,35 @@ server <- function(input, output, session) {
     # Add trend line if requested for scatter plot
     if (input$chart_type == "scatter" && input$show_trend) {
       p <- p + geom_smooth(method = "lm",
-                           se = TRUE,
-                           color = cpal_colors("orange"))
+                           se = TRUE)
     }
 
-    # Apply color scheme
-    if (input$color_scheme == "primary") {
-      p <- p + scale_color_cpal_d() + scale_fill_cpal_d()
-    } else if (input$color_scheme == "secondary") {
-      p <- p + scale_color_cpal_d(palette = "secondary") + scale_fill_cpal_d(palette = "secondary")
-    }
-
-    p + theme_cpal_print() +
-      labs(title = input$chart_title,
+    # Apply title caption changes
+    p + labs(title = input$chart_title,
            caption = input$chart_notes) +
-      theme(plot.title = element_text(size = 16, color = cpal_colors("gold")))
+    theme(
+      plot.title = element_text(
+        face = "bold", 
+        size = 18, 
+        hjust = 0.5 
+      ),
+      plot.subtitle = element_text(
+        size = 16,  
+        hjust = 0.5      
+      ),
+      axis.title = element_text(
+        size = 16,
+        face = "bold"
+      ),
+      axis.text = element_text(
+        size = 14
+      ),
+      legend.title = element_text(size = 16, face = "bold"),
+      legend.text = element_text(size = 14),
+      legend.position = "bottom"
+    )
   })
+
 
   # Value boxes
   output$avg_mpg <- renderText({
@@ -432,7 +447,6 @@ server <- function(input, output, session) {
                   se = TRUE,
                   alpha = 0.2) +
       scale_color_cpal_d() +
-      theme_cpal_print() +
       labs(
         title = "Weight vs MPG by Cylinders",
         x = "Weight (1000 lbs)",
@@ -455,7 +469,6 @@ server <- function(input, output, session) {
       geom_line(linewidth = 1.2) +
       geom_point(size = 3) +
       scale_color_cpal_d() +
-      theme_cpal_print() +
       labs(
         title = "Average MPG by Horsepower and Cylinders",
         x = "Horsepower",
@@ -470,9 +483,8 @@ server <- function(input, output, session) {
       summarise(`Average MPG` = mean(mpg), .groups = "drop")
 
     ggplot(data, aes(x = factor(cyl), y = `Average MPG`)) +
-      geom_col(fill = cpal_colors("gold"), alpha = 0.8) +
+      geom_col(fill = get_primary_color(), alpha = 0.8) +
       geom_text(aes(label = round(`Average MPG`, 1)), vjust = -0.5) +
-      theme_cpal_print() +
       labs(title = "Average MPG by Cylinder Count", x = "Number of Cylinders", y = "Average MPG")
   })
 
@@ -500,7 +512,6 @@ server <- function(input, output, session) {
         midpoint = 0,
         limits = c(-1, 1)
       ) +
-      theme_cpal_print() +
       theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
       labs(
         title = "Variable Correlation Matrix",

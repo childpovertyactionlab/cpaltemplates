@@ -13,5 +13,5 @@ header_ui <- div(
   ),
 
   # Right side: dark mode toggle
-  input_dark_mode(id = "mode", class = "mode-switcher", mode = NULL)
+  input_dark_mode(id = "dark_mode_toggle", class = "mode-switcher", mode = NULL)
 )

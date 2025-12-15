@@ -72,7 +72,6 @@ cpal_table_gt <- function(data,
 #'                      source = "CPAL Data Team",
 #'                      highlight_columns = c("mpg", "hp"),
 #'                      bold_rows = "high_performance",
-#'                      theme = "light",
 #'                      filterable = TRUE)
 #'
 cpal_table_reactable <- function(data,
