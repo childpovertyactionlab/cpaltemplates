@@ -1,13 +1,30 @@
-#' Generate a Shiny BSlib Theme with CPAL Standards
+#' Create CPAL Dashboard Theme
 #'
-#' This function generates a customized BSlib theme for Shiny applications according to
-#' Child Poverty Action Lab (CPAL) visual standards. It integrates with the cpaltemplates
-#' color system and provides consistent branding across web applications.
+#' Initializes a Bootstrap 5 theme using `bslib` that automatically incorporates 
+#' brand settings from `_brand.yml`. It also attempts to load an additional 
+#' SCSS layer for custom CPAL-specific styling components.
 #'
-#' The theme is based on Bootstrap 5 with custom CPAL colors, typography, and component
-#' styling. It ensures accessibility compliance and maintains visual consistency with
-#' other CPAL data visualizations created using cpaltemplates.
-
+#' @return A `bs_theme` object with added CPAL metadata attributes:
+#' \itemize{
+#'   \item \code{cpal_variant}: Set to "dashboard".
+#'   \item \code{cpal_version}: The version of the template (currently 1.0.0).
+#'   \item \code{created}: Timestamp of theme initialization.
+#' }
+#' 
+#' @details 
+#' The function looks for a file at `www/cpal-theme.scss`. If found, these rules 
+#' are compiled into the theme. If missing, a warning is issued via `cli`, but 
+#' the base Bootstrap theme is still returned.
+#'
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#' ui <- fluidPage(
+#'   theme = cpal_dasbhoard_theme(),
+#'   h1("CPAL Dashboard")
+#' )
+#' }
+#' @export
 cpal_dasbhoard_theme <- function(
 ){
   theme <- bslib::bs_theme(
@@ -29,29 +46,36 @@ cpal_dasbhoard_theme <- function(
   return(theme)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#' 
 #' Save Enhanced CPAL SCSS File to Project
 #'
-#' Exports the enhanced CPAL SCSS file to your project directory for use
-#' in Quarto documents, standalone CSS compilation, or custom Shiny styling.
+#' Exports the enhanced CPAL SCSS source file from the package internal library 
+#' to a local directory. This is useful for Quarto documents, standalone CSS 
+#' compilation, or manual injection into Shiny apps.
 #'
 #' @param path Character string specifying where to save the SCSS file.
-#'   Default is "cpal-enhanced.scss" in current working directory.
-#' @param overwrite Logical. Whether to overwrite existing file.
+#'   Default is "cpal-enhanced.scss" in the current working directory.
+#' @param overwrite Logical. Whether to overwrite an existing file at the destination.
 #'
-#' @return Invisibly returns the file path where SCSS was saved
+#' @return Invisibly returns the character path where the SCSS was saved.
+#'
+#' @section Usage in Quarto:
+#' To use the exported file in Quarto, reference it in your YAML header:
+#' \preformatted{
+#' format:
+#'   html:
+#'     theme: cpal-enhanced.scss
+#' }
 #'
 #' @examples
 #' \dontrun{
 #' # Export to current directory
 #' cpal_export_scss()
 #'
-#' # Export to specific location
-#' cpal_export_scss("assets/styles/cpal-theme.scss")
-#'
-#' # For use in Quarto YAML:
-#' # format:
-#' #   html:
-#' #     theme: cpal-enhanced.scss
+#' # Export to specific location with overwrite
+#' cpal_export_scss("assets/styles/cpal-theme.scss", overwrite = TRUE)
 #' }
 #'
 #' @export

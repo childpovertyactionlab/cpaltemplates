@@ -1,12 +1,18 @@
 #' CPAL GT Table
 #'
-#' Creates a CPAL-styled GT table.
+#' Generates a static, publication-quality table using the `gt` framework, 
+#' styled according to CPAL brand guidelines.
 #'
-#' @param data Data frame
-#' @param title Table title
-#' @param subtitle Table subtitle
-#' @param source Source note
-#' @return GT table object
+#' @param data A data frame or tibble.
+#' @param title Character. The main title of the table.
+#' @param subtitle Character. The subtitle of the table (appears below the title).
+#' @param source Character. Source attribution text; automatically prefixed with "Source: ".
+#'
+#' @return A `gt_tbl` object.
+#' 
+#' @family Tables
+#' @seealso [cpal_table_reactable()] for interactive versions.
+#' 
 #' @export
 cpal_table_gt <- function(data,
                           title            = NULL,
@@ -32,48 +38,53 @@ cpal_table_gt <- function(data,
 
 #' CPAL Reactable Table - Complete Interactive Table System
 #'
-#' Creates a CPAL-styled interactive table with modern foundation and smart features.
-#' Sister function to cpal_table_gt() with enhanced interactivity.
+#' Creates a CPAL-styled interactive table using `reactable`. This function 
+#' integrates with the CPAL SCSS theme and provides advanced features like 
+#' row highlighting and data bars.
 #'
-#' @param data Data frame to display
-#' @param title Optional table title
-#' @param subtitle Optional table subtitle
-#' @param source Optional source attribution
-#' @param bold_rows Column name containing 1/0 values for row highlighting with background (optional)
-#' @param bold_only_rows Column name containing 1/0 values for bold text only (no background) (optional)
-#' @param bold_color Color for bold text
-#' @param searchable Enable search functionality (default: TRUE)
-#' @param pagination Enable pagination (default: TRUE)
-#' @param page_size Default number of rows per page (default: 10)
-#' @param sortable Enable column sorting (default: TRUE)
-#' @param filterable Enable column filtering (default: FALSE)
-#' @param show_page_size_options Show page size selector (default: TRUE)
-#' @param striped Enable striped rows (default: FALSE)
-#' @param compact Use compact styling (default: FALSE)
-#' @return Reactable table object with CPAL styling
+#' @param data Data frame to display.
+#' @param title Character. Optional table title rendered as an <h3> tag.
+#' @param subtitle Character. Optional table subtitle rendered as a <p> tag.
+#' @param source Character. Optional source attribution rendered in the footer.
+#' @param highlight_columns Character vector. Names of columns to apply specific highlighting.
+#' @param bold_rows Column name (string). Column should contain 1/0 values; 1 triggers a highlighted background.
+#' @param bold_only_rows Column name (string). Column should contain 1/0 values; 1 triggers bold text only.
+#' @param data_bar_columns Character vector. Names of columns to render as inline data bars.
+#' @param searchable Logical. Enable a global search bar (default: TRUE).
+#' @param pagination Logical. Enable pagination (default: TRUE).
+#' @param page_size Integer. Number of rows per page (default: 10).
+#' @param sortable Logical. Enable column sorting (default: TRUE).
+#' @param filterable Logical. Enable per-column filtering (default: FALSE).
+#' @param show_page_size_options Logical. Show the "rows per page" selector (default: TRUE).
+#' @param striped Logical. Enable zebra-striping for rows (default: FALSE).
+#' @param compact Logical. Use reduced cell padding (default: FALSE).
+#' @param ... Additional arguments passed to [reactable::reactable()].
+#'
+#' @return A `reactable` HTML widget object.
+#' 
+#' @section Custom Styling:
+#' This function applies the CSS class `.reactable-cpal` to the container. 
+#' Styling (colors, fonts) should be managed via the `cpal-enhanced.scss` file.
+#'
+#' @importFrom reactable reactable reactableTheme
+#' @importFrom htmltools tags
+#' @importFrom htmlwidgets prependContent appendContent
+#' 
+#' @family Tables
 #' @export
 #'
 #' @examples
 #' # Basic interactive table
 #' cpal_table_reactable(mtcars, title = "Car Data", source = "Motor Trend")
 #'
-#'
-#' # With row highlighting (requires 1/0 column)
-#' mtcars$high_performance <- ifelse(mtcars$hp > 200, 1, 0)
-#' cpal_table_reactable(mtcars, bold_rows = "high_performance")
-#'
-#' # Bold text only (no background)
-#' cpal_table_reactable(mtcars, bold_only_rows = "high_performance")
-#'
 #' # All features combined
+#' mtcars$high_performance <- ifelse(mtcars$hp > 200, 1, 0)
 #' cpal_table_reactable(mtcars,
 #'                      title = "Complete Car Analysis",
-#'                      subtitle = "All features working together",
 #'                      source = "CPAL Data Team",
 #'                      highlight_columns = c("mpg", "hp"),
 #'                      bold_rows = "high_performance",
 #'                      filterable = TRUE)
-#'
 cpal_table_reactable <- function(data,
                                  title            = NULL,
                                  subtitle         = NULL,
