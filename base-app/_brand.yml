@@ -64,8 +64,8 @@ defaults:
       "alert-padding-y": "0.75rem"
       "tooltip-bg": "#333333"
       "tooltip-color": white
-      "bg-light": "#F8F8F8"
-      "bg-dark": "#1A1A1A"
+      "bg-light": white
+      "bg-dark": black
 
 
  
