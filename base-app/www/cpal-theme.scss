@@ -200,9 +200,13 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
 }
 
 // Reactable table styles
+.Reactable {
+  background-color: $body-bg !important;
+}
+
 .reactable {
   font-family: $font-family-base;
-
+  background-color: $body-bg !important;
   .rt-tr-header .rt-th{
     border-top: 2px solid $primary;
     border-bottom: 2px solid $primary;
@@ -216,6 +220,10 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
     }
   }
 
+  .rt-td {
+    border-top: 1px solid $border-color !important;
+  }
+  
   .rt-tr-group.rt-tr-selected {
     // Apply the primary brand color as the background
     background-color: $table-active-bg;
@@ -232,6 +240,7 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
   // Also update input fields background which might default to dark grey
   .rt-search, .rt-page-size-select {
       border: 1px solid $primary !important;
+      background-color: transparent !important;
   }
 
   .rt-search:focus{
@@ -248,6 +257,10 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
 
   .rt-th{
     font-weight: bold !important;
+  }
+
+  .rt-tr-striped-sticky {
+    background-color: rgba(0,0,0,.03);
   }
 
   // Ensure high contrast for all text within the table when in dark mode
@@ -288,13 +301,18 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
 
 [data-bs-theme="dark"] .Reactable,
 [data-bs-theme="dark"] .ReactTable {
-  background-color: $body-bg-dark; // Darker gray for dark mode
+  background-color: $body-bg-dark !important; // Darker gray for dark mode
+}
+
+.gt_heading {
+  background-color: $body-bg !important;
+  color: $body-color !important;
 }
 
 // gt table styles
 .gt_table {
-  background-color: $body-bg-dark !important;
-  color: $body-color-dark !important;
+  background-color: $body-bg !important;
+  color: $body-color !important;
   font-family: $font-family-base !important;
   width: 100% !important;
   border: none !important;
@@ -328,10 +346,13 @@ div:where(.swal2-icon).swal2-error .swal2-error-ring{
   }
 
   .gt_col_heading {
+    background-color: $body-bg !important;
+    color: $body-color !important;
     font-weight: bold !important;
   }
 
   .gt_heading {
+    background-color: $body-bg !important;
     /* Base styles for the heading section */
     .gt_title {
       font-size: 16px !important;
