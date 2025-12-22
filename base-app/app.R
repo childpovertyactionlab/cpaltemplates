@@ -230,7 +230,7 @@ thematic::thematic_on()
     # Apply title caption changes
     p + labs(title = input$chart_title,
            caption = input$chart_notes) +
-    theme(
+    ggplot2::theme(
       plot.title = element_text(
         face = "bold", 
         size = 18, 
@@ -517,7 +517,7 @@ thematic::thematic_on()
         midpoint = 0,
         limits = c(-1, 1)
       ) +
-      theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+      ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
       labs(
         title = "Variable Correlation Matrix",
         x = "",
