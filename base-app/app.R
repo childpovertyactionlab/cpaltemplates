@@ -288,6 +288,12 @@ thematic::thematic_on()
       hc_tooltip(pointFormat = "Weight: {point.x}<br>MPG: {point.y}<br>") %>%
       hc_plotOptions(scatter = list(marker = list(radius = 5)))
 
+    # 1. Define the palette names you want to use
+    target_colors <- c("yellow", "teal", "orange")
+
+    # 2. Use sapply to get a named vector of hex codes from your get_color function
+    brand_palette <- sapply(target_colors, cpal_get_color)
+
     # Add each cylinder group as a separate series
     for (cyl_val in sort(unique(data$cyl))) {
       series_data <- data %>%
@@ -299,9 +305,8 @@ thematic::thematic_on()
           data = list_parse2(series_data),
           type = "scatter",
           name = paste(cyl_val, "cylinders"),
-          color = unname(cpal_colors(c(
-            "gold", "teal", "orange"
-          ))[which(sort(unique(data$cyl)) == cyl_val)])
+           # Select the hex code from our brand_palette vector
+          color = unname(brand_palette[which(sort(unique(data$cyl)) == cyl_val)])
         )
     }
 
@@ -328,9 +333,9 @@ thematic::thematic_on()
 
     # Add each cylinder group as a separate series
     colors <- unname(c(
-      cpal_colors("gold"),
-      cpal_colors("teal"),
-      cpal_colors("orange")
+      cpal_get_color("yellow"),
+      cpal_get_color("teal"),
+      cpal_get_color("orange")
     ))
     color_idx <- 1
 
@@ -377,7 +382,7 @@ thematic::thematic_on()
       hc_add_series(
         data = data$avg_mpg,
         name = "Average MPG",
-        color = unname(cpal_colors("gold")),
+        color = unname(cpal_get_color("yellow")),
         dataLabels = list(enabled = TRUE, format = "{y:.1f}")
       ) %>%
       hc_tooltip(headerFormat = "Cylinders: {point.key}<br>", pointFormat = "Avg MPG: {point.y}<br>Cars: ")
@@ -403,8 +408,8 @@ thematic::thematic_on()
       hc_colorAxis(
         min = -1,
         max = 1,
-        minColor = unname(cpal_colors("orange")),
-        maxColor = unname(cpal_colors("gold"))
+        minColor = unname(cpal_get_color("orange")),
+        maxColor = unname(cpal_get_color("yellow"))
       ) %>%
       hc_add_series(
         name = "Correlation",
@@ -483,7 +488,7 @@ thematic::thematic_on()
       summarise(`Average MPG` = mean(mpg), .groups = "drop")
 
     ggplot(data, aes(x = factor(cyl), y = `Average MPG`)) +
-      geom_col(fill = get_primary_color(), alpha = 0.8) +
+      geom_col(fill = cpal_get_primary_color(), alpha = 0.8) +
       geom_text(aes(label = round(`Average MPG`, 1)), vjust = -0.5) +
       labs(title = "Average MPG by Cylinder Count", x = "Number of Cylinders", y = "Average MPG")
   })
@@ -506,9 +511,9 @@ thematic::thematic_on()
                 color = "black",
                 size = 3) +
       scale_fill_gradient2(
-        low = cpal_colors("orange"),
-        mid = "white",
-        high = cpal_colors("gold"),
+        low = cpal_get_color("orange"),
+        mid = cpal_get_color("white"),
+        high = cpal_get_color("yellow"),
         midpoint = 0,
         limits = c(-1, 1)
       ) +
@@ -745,7 +750,7 @@ thematic::thematic_on()
       add_fill_layer(
         id = "states",
         source = states_sf,
-        fill_color = unname(cpal_colors("gold")),
+        fill_color = unname(cpal_get_color("yellow")),
         fill_opacity = 0.5
       )
   })
@@ -760,7 +765,7 @@ thematic::thematic_on()
       add_fill_layer(
         id = "counties",
         source = texas_counties_sf,
-        fill_color = unname(cpal_colors("teal")),
+        fill_color = unname(cpal_get_primary_color()),
         fill_opacity = 0.5
       )
   })

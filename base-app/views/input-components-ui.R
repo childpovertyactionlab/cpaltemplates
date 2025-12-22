@@ -524,19 +524,19 @@ input_components_ui <- div(
           title = "Total Cars",
           value = textOutput("total_cars"),
           showcase = icon("car"),
-          #theme = value_box_theme(bg = cpal_colors("teal"))
+          theme = value_box_theme(bg = cpal_get_color("teal"))
         ),
         value_box(
           title = "Max Horsepower",
           value = textOutput("max_hp"),
           showcase = icon("bolt"),
-          #theme = value_box_theme(bg = cpal_colors("orange"))
+          theme = value_box_theme(bg = cpal_get_color("orange"))
         ),
         value_box(
           title = "Avg Weight",
           value = textOutput("avg_weight"),
           showcase = icon("weight-hanging"),
-          #theme = value_box_theme(bg = cpal_colors("pink"))
+          theme = value_box_theme(bg = cpal_get_color("pink"))
         )
       )
     )

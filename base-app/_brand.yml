@@ -20,7 +20,7 @@ color:
     white: "#F8F8F8"
   foreground: black
   background: white
-  primary: "#007A8C"
+  primary: teal
   success: green
   info: cyan
   warning: yellow
