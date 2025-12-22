@@ -1,3 +1,6 @@
+#' @section TODO:
+#' - Please verify that this function is still needed and works as intended.
+#' 
 #' Setup CPAL Google Fonts for all plot types
 #'
 #' Comprehensive font setup that downloads and registers Inter and Roboto
@@ -129,6 +132,9 @@ setup_cpal_google_fonts <- function(force_refresh = FALSE, verbose = TRUE) {
   return(invisible(results))
 }
 
+#' @section TODO:
+#' - Please verify that this function is still needed and works as intended.
+#' 
 #' Get CPAL font family with Google Fonts priority
 #'
 #' Returns the best available CPAL font with Inter priority and Roboto fallback
@@ -195,6 +201,9 @@ get_cpal_font_family <- function(for_interactive = FALSE, setup_if_missing = TRU
   }
 }
 
+#' @section TODO:
+#' - Please verify that this function is still needed and works as intended.
+#' 
 #' Create interactive CPAL plots with ggiraph
 #'
 #' Wrapper functions to create interactive versions of ggplot2 plots

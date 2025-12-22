@@ -1,4 +1,7 @@
 
+#' #' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Save CPAL-styled plots
 #'
 #' Save ggplot2 plots with standard CPAL dimensions and settings
@@ -73,6 +76,9 @@ save_cpal_plot <- function(plot,
   invisible(NULL)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Create CPAL-branded color/fill scales
 #'
 #' These functions provide additional options beyond the basic scale_color_cpal()
@@ -93,6 +99,9 @@ scale_color_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...
   ggplot2::scale_color_gradientn(colors = pal, ...)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' @rdname scale_cpal_extended
 #' @export
 scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...) {
@@ -101,6 +110,9 @@ scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...)
   ggplot2::scale_fill_gradientn(colors = pal, ...)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' @rdname scale_cpal_extended
 #' @export
 scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
@@ -109,6 +121,9 @@ scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   ggplot2::scale_color_manual(values = pal, ...)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' @rdname scale_cpal_extended
 #' @export
 scale_fill_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
@@ -117,6 +132,9 @@ scale_fill_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   ggplot2::scale_fill_manual(values = pal, ...)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Add CPAL logo to plots
 #'
 #' Add the CPAL logo to a ggplot2 plot in a specified position.
@@ -236,6 +254,9 @@ add_cpal_logo <- function(plot,
     )
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Create a formatted table with CPAL styling
 #'
 #' This is a wrapper around gt that applies CPAL styling automatically
@@ -302,6 +323,9 @@ cpal_table <- function(data, title = NULL, subtitle = NULL,
   return(tbl)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Check plot accessibility
 #'
 #' Performs basic accessibility checks on a ggplot object

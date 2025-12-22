@@ -240,6 +240,9 @@ use_shiny_dashboard <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Add simple Shiny app to an existing project
 #'
 #' Adds a basic Shiny application template (simpler than dashboard).
@@ -280,6 +283,9 @@ use_shiny_app <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
+#' @section TODO:
+#' - Please verify that this function is needed and works as intended.
+#'
 #' Add custom CPAL Shiny theme to an existing project
 #'
 #' Adds custom CSS theme files for enhanced Shiny dashboard styling.
