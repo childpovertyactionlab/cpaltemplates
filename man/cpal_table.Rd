@@ -2,7 +2,7 @@
 % Please edit documentation in R/plots.R
 \name{cpal_table}
 \alias{cpal_table}
-\title{Create a formatted table with CPAL styling}
+\title{Create a Formatted Table with CPAL Styling}
 \usage{
 cpal_table(
   data,
@@ -13,19 +13,19 @@ cpal_table(
 )
 }
 \arguments{
-\item{data}{Data frame to display as table}
+\item{data}{Data frame to display as table.}
 
-\item{title}{Optional table title}
+\item{title}{Optional table title.}
 
-\item{subtitle}{Optional table subtitle}
+\item{subtitle}{Optional table subtitle.}
 
-\item{font_family}{Font family to use (default: "Inter")}
+\item{font_family}{Font family to use (default: cpal_font_family()).}
 
-\item{...}{Additional arguments passed to gt()}
+\item{...}{Additional arguments passed to gt().}
 }
 \value{
-gt table object
+A gt table object with CPAL styling applied.
 }
 \description{
-This is a wrapper around gt that applies CPAL styling automatically
+This is a wrapper around gt that applies CPAL styling automatically.
 }

@@ -1,489 +1,423 @@
 ---
-title: "Plots & Visualizations"
-subtitle: "Specialized plotting functions and visualization utilities for CPAL workflows"
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+title: "Plots & Output"
+subtitle: "Creating and exporting CPAL visualizations"
 ---
 
-## Why Specialized Plotting Functions Matter
+## Overview
 
-While CPAL themes and colors provide the visual foundation, **specialized plotting functions solve specific challenges that arise in professional data visualization workflows.** These functions bridge the gap between ggplot2's flexibility and CPAL's specific needs.
+This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations.
 
-### **Common Plotting Challenges**
+---
 
-| **Challenge** | **Standard ggplot2 Approach** | **CPAL Solution** |
-|---------------|-------------------------------|------------------|
-| **Consistent output sizing** | Remember ggsave parameters | `save_cpal_plot()` with preset dimensions |
-| **Mixed continuous/discrete scales** | Manual scale management | Extended scale functions with clear naming |
-| **Professional branding** | Manual logo placement | `add_cpal_logo()` with smart positioning |
-| **Table styling** | Raw gt/kable output | `cpal_table()` with CPAL branding |
-| **Accessibility compliance** | Manual checking | `check_plot_accessibility()` automated testing |
+## Saving Plots
 
-### **What CPAL Plotting Functions Provide**
+### `save_cpal_plot()`
 
-- **Automated best practices**: Functions encode professional visualization standards
-- **Workflow optimization**: Reduce repetitive tasks and decision fatigue  
-- **Quality assurance**: Built-in accessibility and branding consistency
-- **Output reliability**: Consistent results across different environments and users
+Save plots with standardized CPAL dimensions and settings.
 
-## CPAL Plotting Function Overview
-
-The cpaltemplates package provides **8 specialized plotting functions** that enhance and extend ggplot2 for CPAL workflows:
-
-| **Function** | **Category** | **Purpose** | **Key Benefit** |
-|--------------|--------------|-------------|-----------------|
-| `save_cpal_plot()` | **Output Management** | Professional plot saving with CPAL standards | Consistent sizing and quality |
-| `add_cpal_logo()` | **Branding** | Smart logo integration | Automatic brand recognition |
-| `cpal_table()` | **Tables** | CPAL-styled table creation | Consistent table branding |
-| `check_plot_accessibility()` | **Quality Assurance** | Automated accessibility testing | Ensures inclusive design |
-| `scale_color_cpal_c()` | **Color Scales** | Continuous color scales | Explicit continuous mapping |
-| `scale_fill_cpal_c()` | **Color Scales** | Continuous fill scales | Explicit continuous mapping |
-| `scale_color_cpal_d()` | **Color Scales** | Discrete color scales | Explicit discrete mapping |
-| `scale_fill_cpal_d()` | **Color Scales** | Discrete fill scales | Explicit discrete mapping |
-
-## Professional Plot Output: save_cpal_plot()
-
-### **Why Use save_cpal_plot() Instead of ggsave()**
-
-**The problem with ggsave():** You need to remember optimal dimensions, DPI settings, file formats, and background colors for different use cases. **Inconsistent saving leads to unprofessional-looking outputs.**
-
-**CPAL solution:** `save_cpal_plot()` encodes professional standards and provides preset dimensions optimized for common CPAL use cases.
-
-```{r}
-# Instead of this (requires remembering settings)
-ggsave("plot.png", width = 8, height = 6, dpi = 300, bg = "white")
-
-# Use this (professional standards built-in)
-save_cpal_plot(plot, "plot.png")
+```r
+save_cpal_plot(
+  plot,
+  filename,
+  size = "default",
+  dpi = 300,
+  bg = "white",
+  ...
+)
 ```
 
-### **Size Presets for Different Use Cases**
-
-**Understanding the presets:** Each size is optimized for specific viewing contexts and output formats.
-
-```{r}
-# Default: Perfect for most reports and documents
-save_cpal_plot(plot, "report_chart.png", size = "default")  # 8×6 inches
-
-# Slide: Optimized for presentation screens  
-save_cpal_plot(plot, "presentation_chart.png", size = "slide")  # 10×7.5 inches
-
-# Half: Compact for multi-plot layouts
-save_cpal_plot(plot, "compact_chart.png", size = "half")  # 6×4 inches
-
-# Third: Small spaces, thumbnail views
-save_cpal_plot(plot, "thumbnail_chart.png", size = "third")  # 4×3 inches
-
-# Custom: When standard sizes don't fit your need
-save_cpal_plot(plot, "custom_chart.png", size = c(12, 8))  # Custom width × height
-```
-
-### **Size Selection Decision Guide**
-
-| **Output Context** | **Recommended Size** | **Reasoning** |
-|-------------------|--------------------|--------------| 
-| **Word/PDF reports** | `"default"` (8×6) | Optimal readability without overwhelming page |
-| **PowerPoint slides** | `"slide"` (10×7.5) | Fills slide area, readable from presentation distance |
-| **Dashboard panels** | `"half"` (6×4) | Compact but clear for multi-chart layouts |
-| **Email/quick sharing** | `"half"` (6×4) | Loads quickly, readable on mobile devices |
-| **Poster presentations** | `c(16, 12)` | Large format for viewing from distance |
-| **Web articles/blogs** | `"default"` or `c(10, 6)` | Good web resolution, fast loading |
-| **Social media** | `c(8, 8)` or `c(10, 10)` | Square formats work well on platforms |
-
-### **Advanced Output Parameters**
-
-```{r}
-# High-resolution for print materials
-save_cpal_plot(plot, "print_version.png", dpi = 600, size = "default")
-
-# Transparent background for overlays
-save_cpal_plot(plot, "overlay.png", bg = "transparent", size = "half")
-
-# Pass additional ggsave parameters
-save_cpal_plot(plot, "special.pdf", size = "slide", device = "pdf", useDingbats = FALSE)
-```
-
-**When to adjust parameters:**
-- **Print materials**: Use higher DPI (600) for crisp printing
-- **Overlay graphics**: Transparent backgrounds for layering
-- **PDF output**: Consider text embedding and font compatibility
-- **Web optimization**: Balance quality vs. file size
-
-## Extended Color Scale Functions
-
-### **Why Explicit Scale Functions Exist**
-
-**The clarity problem:** ggplot2's automatic discrete/continuous detection sometimes guesses wrong, especially with factors that represent continuous values or continuous variables used categorically.
-
-**CPAL solution:** Explicit functions that clearly state your intention and ensure correct color mapping.
-
-### **Continuous Scale Functions**
-
-**When your data represents continuous values** (quantities, measurements, scales):
-
-```{r}
-# Continuous color mapping (points, lines by continuous variable)
-ggplot(data, aes(x = year, y = value, color = temperature)) +
-  geom_point() +
-  scale_color_cpal_c(palette = "teal_seq_5")  # Explicit continuous
-
-# Continuous fill mapping (heatmaps, choropleths)  
-ggplot(map_data, aes(x = long, y = lat, fill = population_density)) +
-  geom_polygon() +
-  scale_fill_cpal_c(palette = "yellow_teal_seq_5")  # Explicit continuous
-```
-
-**Available continuous palettes:**
-- `"teal_seq_4"`, `"teal_seq_5"`, `"teal_seq_6"` - Single-hue progressions
-- `"yellow_teal_seq_4"`, `"yellow_teal_seq_5"`, `"yellow_teal_seq_6"` - Multi-hue progressions
-- `"pink_teal_3"`, `"pink_teal_5"`, `"pink_teal_6"` - Diverging scales
-
-### **Discrete Scale Functions**
-
-**When your data represents distinct categories** (groups, classifications, types):
-
-```{r}
-# Discrete color mapping (points, lines by category)
-ggplot(data, aes(x = month, y = sales, color = department)) +
-  geom_line(size = 1) +
-  scale_color_cpal_d(palette = "main")  # Explicit discrete
-
-# Discrete fill mapping (bars, areas by category)
-ggplot(data, aes(x = quarter, y = revenue, fill = division)) +
-  geom_col(position = "dodge") +
-  scale_fill_cpal_d(palette = "main_4")  # Explicit discrete
-```
-
-**Available discrete palettes:**
-- `"main"`, `"main_3"`, `"main_4"`, `"main_gray"` - Primary categorical palettes
-- `"blues"`, `"compare"` - Specialized two-color palettes
-
-### **When to Use Explicit vs. Standard Scale Functions**
-
-```{r}
-# Use explicit functions when:
-# 1. ggplot2 might guess wrong about your data type
-temperature_factor <- as.factor(temperature_numeric)  # Factor but should be continuous
-scale_color_cpal_c(palette = "teal_seq_5")  # Force continuous treatment
-
-# 2. You want to be absolutely clear about your intentions
-scale_fill_cpal_d(palette = "main")  # Clearly discrete categories
-
-# 3. You're working with complex data transformations
-mutate(temperature_binned = cut(temperature, breaks = 5)) %>%
-  scale_fill_cpal_c(palette = "teal_seq_5")  # Binned continuous data
-```
-
-## Logo Integration: add_cpal_logo()
-
-*(See detailed coverage in [Themes & Styling](themes-styling.qmd#logo-integration-with-cpal-themes))*
-
-### **Quick Reference**
-
-**Basic logo addition:**
-```{r}
-plot |> add_cpal_logo()  # Smart defaults
-```
-
-**Strategic positioning:**
-```{r}
-# Choose based on plot content
-add_cpal_logo(plot, position = "top-right")    # Default safe choice
-add_cpal_logo(plot, position = "bottom-left")  # Maps, traditional placement
-add_cpal_logo(plot, size = 0.06)              # Subtle for complex plots
-add_cpal_logo(plot, size = 0.12)              # Prominent for presentations
-```
-
-## Table Creation: cpal_table()
-
-### **Why a Specialized Table Function**
-
-**The challenge:** Creating professional tables that match CPAL's visual branding requires consistent font choices, colors, spacing, and styling. **Raw gt or kable output looks generic and unprofessional.**
-
-```{r}
-# Instead of generic table output
-gt::gt(data)  # Generic styling, inconsistent with CPAL branding
-
-# Use CPAL-branded table creation
-cpal_table(data, 
-          title = "Q4 Performance Summary",
-          subtitle = "Key metrics by division")
-```
-
-### **Table Features and Customization**
-
-```{r}
-# Basic branded table
-cpal_table(performance_data,
-          title = "Department Performance",
-          subtitle = "Q4 2024 Results")
-
-# Custom font integration
-cpal_table(data,
-          font_family = "Inter",  # Matches CPAL theme fonts
-          title = "Financial Overview")
-
-# Integration with other gt features
-cpal_table(data, title = "Summary") %>%
-  gt::fmt_currency(columns = revenue) %>%
-  gt::tab_source_note("Source: Internal data")
-```
-
-**When to use cpal_table():**
-- **Executive summaries**: Professional appearance for stakeholder reports
-- **Dashboard components**: Consistent styling with other CPAL elements
-- **Report appendices**: Statistical tables that need professional formatting
-- **Presentation slides**: Tables that complement CPAL-themed visualizations
-
-**Technical requirements:**
-```{r}
-# Requires gt package
-install.packages("gt")
-
-# Function provides helpful error if gt is missing
-cpal_table(data)  # Informative error message if dependency missing
-```
-
-## Accessibility Testing: check_plot_accessibility()
-
-### **Why Automated Accessibility Testing Matters**
-
-**The inclusion imperative:** Approximately 8% of men and 0.5% of women have some form of color vision deficiency. **Without accessibility testing, your visualizations may exclude significant portions of your audience.**
-
-**CPAL commitment:** All CPAL visualizations should be accessible to users with different visual capabilities.
-
-```{r}
-# Test any ggplot for accessibility issues
-accessibility_results <- check_plot_accessibility(my_plot)
-
-# Detailed testing with recommendations
-check_plot_accessibility(complex_plot, verbose = TRUE)
-```
-
-### **What the Function Checks**
-
-**Accessibility dimensions tested:**
-
-1. **Color contrast**: Sufficient contrast between elements
-2. **Color blind safety**: Distinctness for different color vision types  
-3. **Text size**: Readability across different viewing conditions
-4. **Alt text**: Presence of descriptive text for screen readers
-
-### **Understanding Test Results**
-
-```{r}
-# Example usage and interpretation
-plot_to_test <- ggplot(data, aes(x = category, y = value, fill = type)) +
-  geom_col() +
-  scale_fill_cpal(palette = "main") +
-  theme_cpal() +
-  labs(title = "Performance by Category and Type")
-
-results <- check_plot_accessibility(plot_to_test, verbose = TRUE)
-
-# Results structure:
-# $color_contrast - Pass/fail for contrast ratios
-# $color_blind_safe - Assessment for different color vision types  
-# $text_size - Evaluation of font sizes for readability
-# $alt_text - Check for descriptive text elements
-```
-
-### **Acting on Accessibility Results**
-
-**Common issues and solutions:**
-
-| **Issue Found** | **Solution** | **CPAL Implementation** |
-|-----------------|--------------|-------------------------|
-| **Poor color contrast** | Increase contrast between elements | Use `theme_cpal_print()` for high contrast |
-| **Colors too similar** | Switch to high-contrast palette | Use `"compare"` palette for binary comparisons |
-| **Text too small** | Increase base font size | `theme_cpal(base_size = 16)` or larger |
-| **Missing alt text** | Add descriptive labels | Comprehensive `labs()` with descriptions |
-
-```{r}
-# Improving accessibility based on test results
-accessible_plot <- ggplot(data, aes(x = category, y = value, fill = type)) +
-  geom_col() +
-  scale_fill_cpal(palette = "compare") +  # High contrast palette
-  theme_cpal(base_size = 16) +           # Larger text
-  labs(
-    title = "Performance Comparison by Category",
-    subtitle = "Blue bars show Type A, orange bars show Type B",  # Alt text
-    x = "Business Category", 
-    y = "Performance Score"
-  )
-
-# Verify improvements
-check_plot_accessibility(accessible_plot, verbose = TRUE)
-```
-
-## Workflow Integration Examples
-
-### **Complete Professional Workflow**
-
-```{r}
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `plot` | A ggplot2 object |
+| `filename` | Output filename (extension determines format) |
+| `size` | Preset name or custom `c(width, height)` in inches |
+| `dpi` | Resolution (default: 300) |
+| `bg` | Background color (default: "white") |
+| `...` | Additional arguments passed to `ggsave()` |
+
+#### Size Presets
+
+| Preset | Dimensions (inches) | Aspect Ratio | Use Case |
+|--------|--------------------:|:------------:|----------|
+| `default` | 8 × 5 | 16:10 | General purpose |
+| `slide` | 10 × 5.625 | 16:9 | Presentations |
+| `half` | 4 × 3 | 4:3 | Half-page figures |
+| `third` | 2.5 × 2 | 5:4 | Small inline figures |
+| `square` | 5 × 5 | 1:1 | Square format |
+| `wide` | 12 × 4 | 3:1 | Panoramic charts |
+| `tall` | 5 × 8 | 5:8 | Vertical format |
+
+#### Examples
+
+```r
 library(cpaltemplates)
 library(ggplot2)
 
-# 1. Set up session with accessibility in mind
-setup_cpal_google_fonts()
-set_theme_cpal("default", base_size = 16)  # Larger text for accessibility
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
+  labs(title = "Fuel Efficiency") +
+  theme_cpal()
 
-# 2. Create visualization with explicit scale choices
-performance_plot <- ggplot(quarterly_data, aes(x = quarter, y = revenue, fill = division)) +
-  geom_col(position = "dodge") +
-  scale_fill_cpal_d(palette = "main_4") +  # Explicit discrete mapping
-  labs(
-    title = "Quarterly Revenue Performance",
-    subtitle = "Revenue by division showing growth trends",
-    x = "Quarter", 
-    y = "Revenue ($ millions)",
-    fill = "Division",
-    caption = "Data: Financial reporting system"
-  ) |>
-  add_cpal_logo(position = "top-right", size = 0.09)  # Professional branding
+# Save with default size
+save_cpal_plot(p, "efficiency_plot.png")
 
-# 3. Test for accessibility compliance
-accessibility_check <- check_plot_accessibility(performance_plot)
+# Save for presentations
+save_cpal_plot(p, "efficiency_slide.png", size = "slide")
 
-# 4. Save with appropriate dimensions for intended use
-save_cpal_plot(performance_plot, "quarterly_revenue_report.png", size = "default")
-save_cpal_plot(performance_plot, "quarterly_revenue_slide.png", size = "slide")
-```
+# Custom dimensions
+save_cpal_plot(p, "efficiency_custom.png", size = c(10, 6))
 
-### **Multi-Output Workflow**
+# Higher resolution for print
+save_cpal_plot(p, "efficiency_print.png", size = "default", dpi = 600)
 
-```{r}
-# Create base visualization
-base_plot <- ggplot(trend_data, aes(x = date, y = metric, color = category)) +
-  geom_line(size = 1) +
-  scale_color_cpal_d(palette = "main") +
-  labs(
-    title = "Trend Analysis Over Time",
-    x = "Date", 
-    y = "Metric Value",
-    color = "Category"
-  )
+# PDF output
+save_cpal_plot(p, "efficiency.pdf", size = "default")
 
-# Customize for different outputs
-report_version <- base_plot + 
-  theme_cpal(base_size = 14) |>
-  add_cpal_logo(position = "bottom-right", size = 0.08)
-
-presentation_version <- base_plot + 
-  theme_cpal(base_size = 18) |>  # Larger for presentation
-  add_cpal_logo(position = "top-right", size = 0.10)
-
-web_version <- base_plot + 
-  theme_cpal_minimal(base_size = 12) |>  # Clean for web
-  add_cpal_logo(position = "top-right", size = 0.06)
-
-# Save optimized versions
-save_cpal_plot(report_version, "trend_report.png", size = "default")
-save_cpal_plot(presentation_version, "trend_slide.png", size = "slide") 
-save_cpal_plot(web_version, "trend_web.png", size = "half")
-```
-
-## Best Practices and Guidelines
-
-### **Function Selection Decision Tree**
-
-```{mermaid}
-graph TD
-    A[What do you need?] --> B[Save plot]
-    A --> C[Add branding]
-    A --> D[Create table]
-    A --> E[Color scaling]
-    A --> F[Check accessibility]
-    
-    B --> G[save_cpal_plot with size preset]
-    C --> H[add_cpal_logo with smart positioning]  
-    D --> I[cpal_table with CPAL styling]
-    
-    E --> J[Data type?]
-    J --> K[Continuous: scale_*_cpal_c]
-    J --> L[Discrete: scale_*_cpal_d]
-    
-    F --> M[check_plot_accessibility before sharing]
-```
-
-### **Quality Assurance Workflow**
-
-**Every professional visualization should go through these steps:**
-
-1. **Create with CPAL standards**: Use theme and color functions
-2. **Add explicit scales**: Use `_c()` or `_d()` functions for clarity
-3. **Include branding**: Add logo with `add_cpal_logo()`
-4. **Test accessibility**: Run `check_plot_accessibility()`
-5. **Save appropriately**: Use `save_cpal_plot()` with correct size preset
-
-### **Common Mistakes and Solutions**
-
-❌ **Don't do this:**
-```{r}
-# Mixing different quality standards
-plot1 + theme_cpal()
-ggsave("plot1.png", width = 6, height = 4)  # Inconsistent with CPAL standards
-
-plot2 + theme_minimal()  # Not CPAL branded
-save_cpal_plot(plot2, "plot2.png")  # Mixed approach
-```
-
-✅ **Do this instead:**
-```{r}
-# Consistent professional approach
-plot1 + theme_cpal() |> add_cpal_logo()
-save_cpal_plot(plot1, "plot1.png", size = "default")
-
-plot2 + theme_cpal() |> add_cpal_logo()
-save_cpal_plot(plot2, "plot2.png", size = "default")
-```
-
-## Troubleshooting Common Issues
-
-### **Save Function Problems**
-
-**Issue**: Plots look different when saved vs. displayed
-```{r}
-# Check your plot object before saving
-print(my_plot)  # Verify it looks correct
-
-# Use consistent background settings
-save_cpal_plot(my_plot, "test.png", bg = "white")  # Explicit background
-
-# Test with different sizes
-save_cpal_plot(my_plot, "test_default.png", size = "default")
-save_cpal_plot(my_plot, "test_slide.png", size = "slide")
-```
-
-### **Scale Function Issues**
-
-**Issue**: Colors not mapping as expected
-```{r}
-# Check your data type
-str(your_data$color_variable)  # Is it factor, numeric, character?
-
-# Use explicit scale functions to force correct treatment
-scale_color_cpal_c(palette = "teal_seq_5")  # Force continuous
-scale_color_cpal_d(palette = "main")        # Force discrete
-```
-
-### **Logo Placement Problems**
-
-**Issue**: Logo interferes with plot elements
-```{r}
-# Try different positions
-add_cpal_logo(plot, position = "top-left")     # If legend is on right
-add_cpal_logo(plot, position = "bottom-left")  # If caption is on right
-
-# Adjust logo size
-add_cpal_logo(plot, size = 0.06)  # Smaller for complex plots
+# Transparent background
+save_cpal_plot(p, "efficiency_transparent.png", bg = "transparent")
 ```
 
 ---
 
-*The CPAL plotting functions provide professional polish and workflow optimization for your data visualizations. Use them consistently to ensure high-quality, accessible, and professionally branded outputs across all your analytical work.*
+## Adding Branding
+
+### `add_cpal_logo()`
+
+Add the CPAL logo to any ggplot2 visualization.
+
+```r
+add_cpal_logo(
+  plot,
+  position = c("top-right", "top-left", "bottom-right", "bottom-left"),
+  size = 0.09,
+  logo_path = NULL
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `plot` | A ggplot2 object |
+| `position` | Logo placement |
+| `size` | Logo size as proportion of plot (0-1) |
+| `logo_path` | Custom logo path (auto-detects CPAL logo) |
+
+#### Features
+
+- **Auto-detection**: Automatically uses white logo for dark themes
+- **Proper sizing**: Maintains aspect ratio
+- **Non-intrusive**: Places logo outside the plot area
+
+#### Examples
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#007A8C") +
+  theme_cpal()
+
+# Default: top-right
+p_logo <- add_cpal_logo(p)
+
+# Bottom-left placement
+p_logo <- add_cpal_logo(p, position = "bottom-left")
+
+# Larger logo
+p_logo <- add_cpal_logo(p, size = 0.12)
+
+# Smaller logo
+p_logo <- add_cpal_logo(p, size = 0.06)
+
+# Works with dark theme (auto-selects white logo)
+p_dark <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#95CFDA") +
+  theme_cpal_dark()
+
+p_dark_logo <- add_cpal_logo(p_dark)  # Uses white logo
+
+# Custom logo
+p_custom <- add_cpal_logo(p, logo_path = "path/to/custom_logo.png")
+```
+
+---
+
+## Accessibility Checking
+
+### `check_plot_accessibility()`
+
+Analyze a plot for accessibility issues.
+
+```r
+check_plot_accessibility(plot, verbose = TRUE)
+```
+
+#### What It Checks
+
+1. **Text Size**: Ensures text elements are large enough to read
+2. **Color Contrast**: Validates colors against WCAG standards
+3. **Colorblind Safety**: Checks if colors are distinguishable
+4. **Data-to-Ink Ratio**: Identifies unnecessary visual elements
+
+#### Examples
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point() +
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+# Run accessibility check
+check_plot_accessibility(p)
+#> Checking plot accessibility...
+#>
+#> ── Text Size ──
+#> ✓ Title size: 18pt (OK)
+#> ✓ Axis text size: 12pt (OK)
+#> ✓ Legend text size: 12pt (OK)
+#>
+#> ── Color Contrast ──
+#> ✓ All colors pass WCAG AA on white background
+#>
+#> ── Colorblind Safety ──
+#> ✓ Color palette is distinguishable for common colorblindness types
+#>
+#> Overall: PASS
+
+# Quiet mode (returns TRUE/FALSE)
+is_accessible <- check_plot_accessibility(p, verbose = FALSE)
+```
+
+---
+
+## Workflow: Complete Plot Creation
+
+### Step-by-Step Example
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+
+# 1. Prepare data
+plot_data <- mtcars |>
+  mutate(
+    cylinders = factor(cyl),
+    transmission = ifelse(am == 1, "Manual", "Automatic")
+  )
+
+# 2. Create the visualization
+p <- ggplot(plot_data, aes(x = wt, y = mpg, color = cylinders)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency by Vehicle Weight",
+    subtitle = "Analysis of 32 automobile models",
+    x = "Weight (1,000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders",
+    caption = "Source: Motor Trend, 1974"
+  ) +
+  theme_cpal()
+
+# 3. Check accessibility
+check_plot_accessibility(p)
+
+# 4. Add branding
+p_branded <- add_cpal_logo(p, position = "top-right")
+
+# 5. Save in multiple formats
+save_cpal_plot(p_branded, "efficiency_report.png", size = "default")
+save_cpal_plot(p_branded, "efficiency_slide.png", size = "slide")
+save_cpal_plot(p_branded, "efficiency_print.pdf", size = "default", dpi = 600)
+```
+
+---
+
+## Size Selection Guide
+
+### By Output Context
+
+| Context | Recommended Size | Notes |
+|---------|-----------------|-------|
+| PowerPoint slide | `"slide"` | 16:9 aspect ratio |
+| Word document (full width) | `"default"` | Good for letter-size |
+| Word document (half page) | `"half"` | Side-by-side layouts |
+| PDF report | `"default"` | Standard dimensions |
+| Email/web | `"default"` or `"slide"` | Good balance |
+| Social media | `"square"` | Instagram, Twitter |
+| Dashboard | `"wide"` | Horizontal layouts |
+| Infographic | `"tall"` | Vertical scrolling |
+
+### DPI Guidelines
+
+| Output | Recommended DPI |
+|--------|-----------------|
+| Screen/web | 72-150 |
+| Standard print | 300 |
+| High-quality print | 600 |
+| Large format | 150-300 |
+
+```r
+# Web/screen
+save_cpal_plot(p, "web.png", dpi = 150)
+
+# Print quality
+save_cpal_plot(p, "print.png", dpi = 300)
+
+# High-res print
+save_cpal_plot(p, "highres.png", dpi = 600)
+```
+
+---
+
+## Output Formats
+
+### Supported Formats
+
+| Extension | Type | Best For |
+|-----------|------|----------|
+| `.png` | Raster | Web, presentations, general use |
+| `.jpg` | Raster | Photos, web (smaller files) |
+| `.pdf` | Vector | Print, publications, scaling |
+| `.svg` | Vector | Web, interactive, scaling |
+| `.eps` | Vector | LaTeX, professional printing |
+| `.tiff` | Raster | High-quality print, archival |
+
+### Format Selection
+
+```r
+# PNG for web/presentations (most common)
+save_cpal_plot(p, "plot.png")
+
+# PDF for print/publications
+save_cpal_plot(p, "plot.pdf")
+
+# SVG for web with scaling
+save_cpal_plot(p, "plot.svg")
+
+# TIFF for journals requiring it
+save_cpal_plot(p, "plot.tiff", dpi = 600)
+```
+
+---
+
+## Common Patterns
+
+### Batch Processing
+
+```r
+library(purrr)
+
+# Create multiple plots
+plots <- list(
+  cyl4 = filter(mtcars, cyl == 4),
+  cyl6 = filter(mtcars, cyl == 6),
+  cyl8 = filter(mtcars, cyl == 8)
+) |>
+  map(~{
+    ggplot(.x, aes(x = wt, y = mpg)) +
+      geom_point(color = "#007A8C") +
+      theme_cpal()
+  })
+
+# Save all plots
+iwalk(plots, ~{
+  save_cpal_plot(.x, paste0("efficiency_", .y, ".png"))
+})
+```
+
+### Report Figure Set
+
+```r
+# Create consistent figures for a report
+create_report_figure <- function(data, title, filename) {
+  p <- ggplot(data, aes(x = wt, y = mpg)) +
+    geom_point(color = "#007A8C") +
+    labs(title = title) +
+    theme_cpal_print()
+
+  p_logo <- add_cpal_logo(p, position = "bottom-right", size = 0.07)
+
+  save_cpal_plot(p_logo, filename, size = "default", dpi = 300)
+
+  invisible(p_logo)
+}
+
+# Generate figures
+create_report_figure(mtcars, "Figure 1: All Vehicles", "fig1.png")
+create_report_figure(filter(mtcars, cyl == 4), "Figure 2: 4-Cylinder", "fig2.png")
+```
+
+### Presentation Deck
+
+```r
+# Create slides-ready plots
+slides <- list(
+  list(data = mtcars, title = "Overview"),
+  list(data = filter(mtcars, am == 1), title = "Manual Transmission"),
+  list(data = filter(mtcars, am == 0), title = "Automatic Transmission")
+)
+
+for (i in seq_along(slides)) {
+  p <- ggplot(slides[[i]]$data, aes(x = wt, y = mpg, color = factor(cyl))) +
+    geom_point(size = 4) +
+    scale_color_cpal("main_3") +
+    labs(title = slides[[i]]$title) +
+    theme_cpal(base_size = 20)  # Larger for slides
+
+  save_cpal_plot(p, sprintf("slide_%02d.png", i), size = "slide")
+}
+```
+
+---
+
+## Troubleshooting
+
+### Logo Not Appearing
+
+```r
+# Check that cowplot is installed
+if (!requireNamespace("cowplot", quietly = TRUE)) {
+  install.packages("cowplot")
+}
+
+# Check that magick is installed
+if (!requireNamespace("magick", quietly = TRUE)) {
+  install.packages("magick")
+}
+```
+
+### Fonts Not Rendering in Saved Files
+
+```r
+# Ensure fonts are registered before saving
+setup_cpal_google_fonts()
+
+# For PDF output, use Cairo device
+save_cpal_plot(p, "plot.pdf", device = cairo_pdf)
+```
+
+### File Size Too Large
+
+```r
+# Reduce DPI for web
+save_cpal_plot(p, "plot.png", dpi = 150)
+
+# Use JPEG for photos
+save_cpal_plot(p, "plot.jpg", quality = 85)
+
+# Simplify the plot
+p_simple <- p + theme(panel.grid = element_blank())
+save_cpal_plot(p_simple, "plot.png")
+```
+
+---
+
+## Next Steps
+
+- [Colors & Palettes](colors-palettes.qmd) - Color system reference
+- [Themes & Styling](themes-styling.qmd) - Theme customization
+- [Interactive Features](interactive-features.qmd) - Creating interactive plots

@@ -1,694 +1,423 @@
 ---
 title: "Project Setup"
-subtitle: "Automated project scaffolding and modern R workflow setup with CPAL standards"
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+subtitle: "Creating standardized CPAL project structures"
 ---
 
-## Why Automated Project Setup Matters
+## Overview
 
-**Starting a new project the traditional way takes 30-60 minutes of manual setup and often results in inconsistent structures across team members.** This leads to:
+cpaltemplates provides a comprehensive project scaffolding system with 7 functions that help you quickly set up new projects with CPAL branding, consistent structure, and best practices built in.
 
-- **Wasted time** on repetitive setup tasks instead of analysis
-- **Inconsistent collaboration** when team members use different project structures
-- **Missing best practices** like version control, dependency management, and reproducible workflows
-- **Delayed onboarding** for new team members who don't know CPAL's preferred setup
+---
 
-### **The CPAL Project Setup Solution**
+## Quick Start
 
-**cpaltemplates transforms project creation into a 2-3 minute process** with enterprise-grade best practices built in:
+```r
+library(cpaltemplates)
 
-| **Traditional Manual Setup** | **CPAL Automated Setup** |
-|------------------------------|--------------------------|
-| 30-60 minutes of configuration | 2-3 minutes with `start_project()` |
-| Inconsistent structures across team | Standardized CPAL project templates |
-| Manual folder creation and organization | Automated optimal folder structure |
-| Forgetting best practices setup | Built-in renv, git, targets integration |
-| Generic README and documentation | CPAL-branded project documentation |
-| No onboarding guidance | Automated next steps and instructions |
-
-### **What CPAL Project Setup Provides**
-
-- **Instant professional structure**: Optimal folder organization for each project type
-- **Modern R workflows**: renv, git, targets, testing infrastructure built-in
-- **CPAL branding integration**: Logos, themes, colors, fonts automatically included
-- **Template-driven development**: Starting code that follows CPAL standards
-- **Intelligent guidance**: Interactive setup and automated next steps
-
-## CPAL Project System Overview
-
-The cpaltemplates project system consists of **17 functions** organized into a hierarchical workflow:
-
-### **Core Function: start_project()**
-**The main entry point** that orchestrates the entire project creation process:
-
-```{r}
-# Interactive guided setup (recommended for new users)
-start_project()
-
-# Direct setup for experienced users
+# Create a new data analysis project
 start_project(
-  name = "my-analysis",
-  project_type = "analysis", 
-  features = c("renv", "git", "targets")
-)
-```
-
-### **Supporting Functions (16 specialized functions)**
-
-| **Category** | **Functions** | **Purpose** |
-|--------------|---------------|-------------|
-| **Project Structure** | `create_base_structure()`, `create_rproj()`, `copy_assets()` | Folder creation, RStudio integration, CPAL assets |
-| **Project Types** | `setup_analysis()`, `setup_quarto_report()`, `setup_quarto_slides()`, `setup_quarto_web()`, `setup_shiny_dashboard()`, `setup_shiny_app()`, `setup_package()` | Template-specific setup for each project type |
-| **Modern Workflows** | `create_targets_file()`, `setup_renv()`, `setup_git()` | Reproducibility, dependency management, version control |
-| **Documentation** | `create_gitignore()`, `create_project_readme()`, `show_project_next_steps()` | Project documentation and guidance |
-
-## Project Types and When to Use Them
-
-### **Analysis Projects**
-**Perfect for:** Exploratory data analysis, research projects, ad-hoc investigations
-
-```{r}
-start_project(
-  name = "poverty-analysis-2024",
+  name = "dallas-housing-analysis",
   project_type = "analysis",
-  features = c("renv", "git", "targets")
+  features = c("git", "renv", "targets")
 )
 ```
 
-**What you get:**
-- **Folder structure**: `R/`, `data/`, `outputs/`, `figures/`, `reports/`
-- **Template scripts**: Analysis starter code with CPAL theming
-- **Modern workflows**: Optional renv, git, targets integration
-- **Documentation**: README with analysis project guidelines
+---
 
-**Folder structure created:**
-```
-poverty-analysis-2024/
-├── R/                    # Analysis scripts
-│   └── analysis.R        # Starter analysis template
-├── data/                 # Raw and processed data
-│   ├── raw/
-│   └── processed/
-├── outputs/              # Final outputs and deliverables
-├── figures/              # Generated plots and charts
-├── reports/              # Analysis reports
-├── assets/               # CPAL branding assets
-└── README.md             # Project documentation
-```
+## Main Function: `start_project()`
 
-### **Quarto Report Projects**  
-**Perfect for:** Formal reports, publications, stakeholder deliverables
+The primary entry point for creating new projects.
 
-```{r}
+### Syntax
+
+```r
 start_project(
-  name = "annual-impact-report",
-  project_type = "quarto-report", 
-  features = c("renv", "git")
+  name,
+  path = ".",
+  project_type = c("analysis", "quarto-report", "quarto-slides",
+                   "quarto-web", "shiny-dashboard", "shiny-app", "package"),
+  interactive = TRUE,
+  features = NULL,
+  open = TRUE,
+  overwrite = FALSE
 )
 ```
 
-**What you get:**
-- **Quarto integration**: Pre-configured `_quarto.yml` with CPAL branding
-- **Report templates**: Professional report structure with CPAL theming
-- **Asset integration**: CPAL logos, CSS, and fonts automatically included
-- **Publishing-ready**: Configured for PDF, HTML, and Word outputs
+### Arguments
 
-**Key files created:**
-```
-annual-impact-report/
-├── report.qmd            # Main report template
-├── _quarto.yml           # CPAL-configured Quarto settings
-├── assets/
-│   ├── cpal-logo.png
-│   ├── cpal.css          # CPAL report styling
-│   └── references.bib    # Bibliography template
-├── R/                    # Analysis scripts for report
-└── outputs/              # Rendered reports
-```
+| Argument | Description |
+|----------|-------------|
+| `name` | Project name (will be the folder name) |
+| `path` | Parent directory for the project (default: current directory) |
+| `project_type` | Type of project to create (see below) |
+| `interactive` | If TRUE, guides you through setup with prompts |
+| `features` | Vector of features to enable: "renv", "git", "github", "targets", "tests" |
+| `open` | If TRUE, opens the new project in RStudio |
+| `overwrite` | If TRUE, overwrites existing project |
 
-### **Quarto Slides Projects**
-**Perfect for:** Presentations, workshops, conference talks
+### Project Types
 
-```{r}
+| Type | Description | Key Files Created |
+|------|-------------|-------------------|
+| `analysis` | Data analysis with targets pipeline | `_targets.R`, `R/`, `data/`, `output/` |
+| `quarto-report` | Branded Quarto report | `report.qmd`, `_brand.yml`, `styles.css` |
+| `quarto-slides` | Presentation slides | `slides.qmd`, `_brand.yml` |
+| `quarto-web` | Multi-page website | `_quarto.yml`, `index.qmd`, pages |
+| `shiny-dashboard` | Full-featured dashboard | `app.R`, `modules/`, `www/`, `_brand.yml` |
+| `shiny-app` | Simple Shiny app | `app.R`, `www/`, styles |
+| `package` | R package development | `DESCRIPTION`, `R/`, `man/`, tests |
+
+### Examples
+
+```r
+# Interactive mode - guides you through options
+start_project("my-project", interactive = TRUE)
+
+# Non-interactive with specific options
 start_project(
-  name = "board-presentation-q4",
-  project_type = "quarto-slides",
-  features = c("renv", "git")
-)
-```
-
-**What you get:**
-- **Slide templates**: CPAL-branded Quarto slides with theme integration
-- **Asset management**: Automatic logo and image handling
-- **Multiple formats**: HTML slides, PDF exports, speaker notes
-- **Interactive elements**: Support for interactive plots and tables
-
-### **Quarto Website Projects**
-**Perfect for:** Multi-page reports, project documentation, resource hubs
-
-```{r}
-start_project(
-  name = "policy-resource-hub",
-  project_type = "quarto-web",
-  features = c("renv", "git", "github")
-)
-```
-
-**What you get:**
-- **Website structure**: Multi-page navigation with CPAL branding
-- **Content templates**: Multiple page types (about, resources, data)
-- **Publishing configuration**: Ready for GitHub Pages or other hosting
-- **CPAL styling**: Complete website theme matching CPAL brand guidelines
-
-### **Shiny Dashboard Projects**
-**Perfect for:** Interactive dashboards, executive summaries, real-time monitoring
-
-```{r}
-start_project(
-  name = "program-performance-dashboard",
-  project_type = "shiny-dashboard", 
-  features = c("renv", "git")
-)
-```
-
-**What you get:**
-- **Dashboard framework**: Modular Shiny dashboard with CPAL theming
-- **Interactive components**: Pre-configured plots, tables, and controls
-- **CPAL UI theme**: Consistent branding across all dashboard elements
-- **Modular structure**: Organized code for maintainable dashboards
-
-**Dashboard structure:**
-```
-program-performance-dashboard/
-├── app.R                 # Main dashboard app
-├── R/
-│   ├── ui.R             # User interface components
-│   ├── server.R         # Server logic
-│   └── modules/         # Dashboard modules
-├── data/                # Dashboard data
-└── www/                 # Static web assets
-    └── cpal-theme.css   # Dashboard styling
-```
-
-### **Shiny App Projects**
-**Perfect for:** Interactive applications, calculators, data exploration tools
-
-```{r}
-start_project(
-  name = "cost-calculator-tool",
-  project_type = "shiny-app",
-  features = c("renv", "git")
-)
-```
-
-**What you get:**
-- **Simple app structure**: Clean Shiny app with CPAL styling
-- **UI templates**: CPAL-branded user interface components
-- **Interactive examples**: Starter code for common app patterns
-- **Deployment ready**: Configured for easy publishing
-
-### **R Package Projects**
-**Perfect for:** Reusable functions, internal tools, sharing code across projects
-
-```{r}
-start_project(
-  name = "cpalutils",
-  project_type = "package",
-  features = c("renv", "git", "tests")
-)
-```
-
-**What you get:**
-- **Package structure**: Complete R package skeleton with CPAL standards
-- **Documentation setup**: roxygen2 configuration for function documentation
-- **Testing framework**: testthat integration for reliable code
-- **CPAL package standards**: Consistent with cpaltemplates package structure
-
-## Feature Integration
-
-### **Modern Workflow Features**
-
-**Available features can be combined with any project type:**
-
-#### **renv - Dependency Management**
-```{r}
-start_project(
-  name = "reproducible-analysis",
-  features = c("renv")  # Enables renv
-)
-```
-
-**What renv provides:**
-- **Isolated package library**: Project-specific package versions
-- **Reproducibility**: Same package versions across team members
-- **Easy collaboration**: `renv::restore()` installs exact dependencies
-- **Version control**: `renv.lock` tracks package versions
-
-**When to use renv:**
-- **All collaborative projects** (strongly recommended)
-- **Projects with specific package version requirements**
-- **Long-term projects** that need stability over time
-- **Projects that will be shared** outside the immediate team
-
-#### **git - Version Control**
-```{r}
-start_project(
-  name = "version-controlled-project", 
-  features = c("git")  # Initializes git repository
-)
-```
-
-**What git integration provides:**
-- **Automatic repository initialization**: `git init` and first commit
-- **CPAL-optimized .gitignore**: Excludes appropriate files for R projects
-- **README integration**: Git-ready project documentation
-- **Branching-ready structure**: Organized for team collaboration workflows
-
-#### **targets - Workflow Automation**
-```{r}
-start_project(
-  name = "complex-analysis",
-  features = c("targets")  # Adds targets pipeline
-)
-```
-
-**What targets provides:**
-- **Automated dependencies**: Tracks which outputs need updating
-- **Efficient re-running**: Only runs code that needs to be updated
-- **Reproducible workflows**: Clear documentation of analysis steps
-- **Parallel processing**: Can run independent tasks simultaneously
-
-**When to use targets:**
-- **Multi-step analyses** with data processing → modeling → reporting
-- **Long-running computations** that you don't want to repeat unnecessarily
-- **Complex projects** with multiple interdependent outputs
-- **Team projects** where clear workflow documentation is important
-
-#### **tests - Testing Infrastructure**
-```{r}
-start_project(
-  name = "reliable-package",
-  project_type = "package",
-  features = c("tests")  # Adds testthat testing
-)
-```
-
-**What testing provides:**
-- **testthat framework**: Industry-standard R testing
-- **Test organization**: Structured `tests/` directory
-- **Quality assurance**: Automated verification of function behavior
-- **Continuous integration**: Ready for automated testing workflows
-
-### **Feature Combination Strategies**
-
-**Recommended combinations for common scenarios:**
-
-| **Project Scenario** | **Recommended Features** | **Why This Combination** |
-|---------------------|-------------------------|-------------------------|
-| **Simple analysis** | `c("renv", "git")` | Version control + reproducibility |
-| **Team collaboration** | `c("renv", "git", "github")` | Add GitHub for sharing |
-| **Complex analysis** | `c("renv", "git", "targets")` | Add workflow automation |
-| **Package development** | `c("renv", "git", "tests")` | Add testing for reliability |
-| **Long-term project** | `c("renv", "git", "targets")` | Maximum reproducibility |
-| **Quick prototype** | `c("git")` | Minimal overhead, version control |
-
-## Interactive vs. Direct Project Creation
-
-### **Interactive Mode (Recommended for New Users)**
-
-```{r}
-# Guided setup with prompts and explanations
-start_project()
-```
-
-**What interactive mode does:**
-1. **Prompts for project name** with validation
-2. **Explains project types** with use case examples  
-3. **Recommends features** based on project type
-4. **Confirms choices** before creating project
-5. **Provides next steps** after creation
-
-**Benefits of interactive mode:**
-- **Educational**: Learn about options and best practices
-- **Prevents mistakes**: Validation and confirmation steps
-- **Guided decision-making**: Recommendations based on use cases
-- **Onboarding-friendly**: Perfect for new team members
-
-### **Direct Mode (Efficient for Experienced Users)**
-
-```{r}
-# Immediate creation with specified parameters
-start_project(
-  name = "quarterly-analysis",
-  project_type = "analysis",
-  features = c("renv", "git", "targets"),
+  name = "quarterly-report",
+  project_type = "quarto-report",
+  features = c("git"),
   interactive = FALSE
 )
-```
 
-**Benefits of direct mode:**
-- **Speed**: Instant project creation without prompts
-- **Automation**: Can be scripted or templated
-- **Consistency**: Same setup every time
-- **Batch creation**: Create multiple similar projects
-
-### **Advanced Configuration Options**
-
-```{r}
-# Full parameter specification
+# Create in specific directory
 start_project(
-  name = "custom-project",
-  path = "/path/to/projects",      # Custom parent directory
-  project_type = "analysis",
-  interactive = FALSE,
-  features = c("renv", "git"),
-  open = TRUE,                     # Open in RStudio automatically  
-  overwrite = FALSE                # Don't overwrite existing directories
-)
-```
-
-## Project Templates and Customization
-
-### **Understanding Template System**
-
-**CPAL projects use a template system** that creates starting files customized for each project type:
-
-#### **Template File Structure**
-```
-inst/templates/
-├── analysis/
-│   └── analysis_template.R.tpl    # Analysis starter code
-├── quarto-report/
-│   ├── report.qmd.tpl             # Report template
-│   └── _quarto.yml.tpl            # Quarto configuration
-├── shiny/
-│   ├── app_dashboard.R.tpl        # Dashboard template
-│   └── app_simple.R.tpl           # Simple app template
-├── assets/
-│   ├── images/                    # CPAL logos and graphics
-│   └── css/                       # CPAL styling files
-└── rproj.tpl                      # RStudio project template
-```
-
-#### **Template Variable Replacement**
-
-**Templates use `{{variable}}` syntax for customization:**
-```{r}
-# In template file:
-project_name <- "{{PROJECT_NAME}}"
-author <- "{{AUTHOR}}" 
-date <- "{{DATE}}"
-
-# Becomes in generated file:
-project_name <- "poverty-analysis-2024"
-author <- "CPAL Data Team"
-date <- "2024-03-15"
-```
-
-### **Asset Integration**
-
-**Every project automatically includes CPAL assets:**
-- **Logos**: PNG and SVG versions in multiple sizes
-- **CSS files**: CPAL styling for web outputs
-- **Font specifications**: Google Fonts integration setup
-- **Color definitions**: CPAL color palette references
-
-## Workflow Integration Examples
-
-### **Complete Analysis Workflow**
-
-```{r}
-# 1. Create analysis project
-start_project(
-  name = "housing-affordability-study",
-  project_type = "analysis", 
-  features = c("renv", "git", "targets")
-)
-
-# 2. Project opens automatically with:
-# - Analysis template with CPAL theming
-# - Folder structure for data and outputs  
-# - renv initialized for reproducibility
-# - Git repository with initial commit
-# - targets pipeline for workflow automation
-
-# 3. Ready to start with CPAL-standard analysis
-```
-
-### **Report Generation Workflow**
-
-```{r}
-# 1. Create report project
-start_project(
-  name = "annual-impact-report-2024",
-  project_type = "quarto-report",
-  features = c("renv", "git", "github")
-)
-
-# 2. Project includes:
-# - CPAL-branded Quarto report template
-# - Pre-configured PDF/HTML/Word output  
-# - CPAL logos, CSS, and styling
-# - GitHub integration for collaboration
-# - Professional folder structure
-
-# 3. Ready to write report with CPAL branding
-```
-
-### **Dashboard Development Workflow**
-
-```{r}
-# 1. Create dashboard project
-start_project(
-  name = "program-monitoring-dashboard",
+  name = "housing-dashboard",
+  path = "~/projects",
   project_type = "shiny-dashboard",
-  features = c("renv", "git")
+  features = c("git", "renv")
 )
-
-# 2. Project provides:
-# - Modular dashboard structure
-# - CPAL UI theming and components
-# - Interactive plot and table templates
-# - Professional dashboard layout
-# - Deployment-ready configuration
-
-# 3. Ready to build dashboard with CPAL branding
 ```
 
-### **Package Development Workflow**
+---
 
-```{r}
-# 1. Create package project  
+## Adding Components to Existing Projects
+
+These functions add specific components to an existing project without creating a new one.
+
+### `use_quarto_report()`
+
+Add Quarto report capability to an existing project.
+
+```r
+use_quarto_report(path = ".", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `report.qmd` - Main report template with CPAL styling
+- `_brand.yml` - Brand configuration
+- `references.bib` - Bibliography template
+
+**Example:**
+
+```r
+# Add report to current project
+use_quarto_report()
+
+# Add to specific directory
+use_quarto_report("my-project/")
+```
+
+---
+
+### `use_quarto_slides()`
+
+Add Quarto presentation slides to an existing project.
+
+```r
+use_quarto_slides(path = ".", filename = "slides", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `{filename}.qmd` - Revealjs presentation template
+- `_brand.yml` - Brand configuration
+
+**Example:**
+
+```r
+# Add slides with default name
+use_quarto_slides()
+
+# Custom filename
+use_quarto_slides(filename = "quarterly-presentation")
+```
+
+---
+
+### `use_quarto_web()`
+
+Add Quarto website structure to an existing project.
+
+```r
+use_quarto_web(path = ".", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `_quarto.yml` - Website configuration
+- `index.qmd` - Home page
+- `about.qmd` - About page template
+- `_brand.yml` - Brand configuration
+- `styles.css` - Custom styles
+
+**Example:**
+
+```r
+# Add website structure
+use_quarto_web()
+```
+
+---
+
+### `use_shiny_dashboard()`
+Add a full-featured Shiny dashboard to an existing project.
+
+```r
+use_shiny_dashboard(path = ".", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `app.R` - Main application file
+- `modules/` - Modular UI/server components
+- `www/` - Static assets (CSS, images)
+- `_brand.yml` - Brand configuration
+- `R/` - Helper functions
+
+**Example:**
+
+```r
+# Add dashboard to current project
+use_shiny_dashboard()
+```
+
+---
+
+### `use_shiny_app()`
+
+Add a simple Shiny application to an existing project.
+
+```r
+use_shiny_app(path = ".", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `app.R` - Simple Shiny application
+- `www/styles.css` - CPAL styling
+
+**Example:**
+
+```r
+# Add simple app
+use_shiny_app()
+```
+
+---
+
+### `use_shiny_theme()`
+
+Add CPAL CSS theme files for Shiny.
+
+```r
+use_shiny_theme(path = ".", theme_name = "cpal", overwrite = FALSE)
+```
+
+**Creates:**
+
+- `www/{theme_name}.css` - CPAL-styled CSS
+
+**Example:**
+
+```r
+# Add default theme
+use_shiny_theme()
+
+# Custom theme name
+use_shiny_theme(theme_name = "dashboard-theme")
+```
+
+---
+
+### `use_targets()`
+
+Add a targets pipeline to an existing project.
+
+```r
+use_targets(path = ".", type = c("basic", "analysis", "report"), overwrite = FALSE)
+```
+
+| Type | Description |
+|------|-------------|
+| `basic` | Minimal `_targets.R` setup |
+| `analysis` | Full analysis pipeline with data → model → output |
+| `report` | Analysis pipeline plus Quarto report rendering |
+
+**Example:**
+
+```r
+# Add basic targets
+use_targets(type = "basic")
+
+# Full analysis pipeline
+use_targets(type = "analysis")
+```
+
+---
+
+## Project Structure Examples
+
+### Analysis Project
+
+```
+my-analysis/
+├── _targets.R          # Pipeline definition
+├── R/
+│   ├── functions.R     # Analysis functions
+│   └── utils.R         # Helper utilities
+├── data/
+│   ├── raw/            # Original data
+│   └── processed/      # Cleaned data
+├── output/
+│   ├── figures/        # Generated plots
+│   └── tables/         # Generated tables
+├── _brand.yml          # Brand configuration
+├── renv.lock           # Package versions
+└── README.md
+```
+
+### Shiny Dashboard Project
+
+```
+my-dashboard/
+├── app.R               # Main application
+├── modules/
+│   ├── mod_overview.R  # Overview tab module
+│   ├── mod_data.R      # Data explorer module
+│   └── mod_charts.R    # Charts module
+├── R/
+│   └── helpers.R       # Utility functions
+├── www/
+│   ├── styles.css      # Custom styles
+│   └── images/         # Logos, icons
+├── _brand.yml          # Brand configuration
+└── README.md
+```
+
+### Quarto Report Project
+
+```
+my-report/
+├── report.qmd          # Main report
+├── _brand.yml          # Brand configuration
+├── styles.css          # Custom styles
+├── references.bib      # Bibliography
+├── data/               # Data files
+├── figures/            # Generated figures
+└── README.md
+```
+
+---
+
+## Feature Options
+
+When using `start_project()`, you can enable various features:
+
+| Feature | Description |
+|---------|-------------|
+| `git` | Initialize git repository with `.gitignore` |
+| `github` | Set up GitHub integration (requires `gh` CLI) |
+| `renv` | Initialize renv for package management |
+| `targets` | Add targets pipeline for reproducibility |
+| `tests` | Set up testthat testing infrastructure |
+
+```r
+# Enable all features
 start_project(
-  name = "cpalanalysis",
-  project_type = "package",
-  features = c("renv", "git", "tests")
+  "my-project",
+  project_type = "analysis",
+  features = c("git", "renv", "targets", "tests")
 )
-
-# 2. Project establishes:
-# - Complete package structure (R/, man/, tests/, etc.)
-# - DESCRIPTION file with CPAL metadata
-# - roxygen2 documentation setup
-# - testthat testing framework
-# - Git repository for version control
-
-# 3. Ready to develop functions following CPAL standards
 ```
 
-## Best Practices and Guidelines
+---
 
-### **Project Naming Conventions**
+## Best Practices
 
-**Follow CPAL standards for consistent project organization:**
+### 1. Use Interactive Mode for New Projects
 
-| **Project Type** | **Naming Pattern** | **Examples** |
-|------------------|-------------------|-------------|
-| **Analysis** | `topic-analysis-YYYY` | `poverty-analysis-2024`, `education-gaps-analysis-2024` |
-| **Reports** | `report-name-YYYY` | `annual-impact-report-2024`, `quarterly-update-q4-2024` |
-| **Dashboards** | `topic-dashboard` | `program-monitoring-dashboard`, `financial-performance-dashboard` |
-| **Tools/Apps** | `tool-name-tool` | `cost-calculator-tool`, `data-entry-tool` |
-| **Packages** | `cpal[purpose]` | `cpalanalysis`, `cpaldata`, `cpalreports` |
-
-### **Feature Selection Guidelines**
-
-**Strategic feature selection based on project characteristics:**
-
-#### **Always Recommended**
-- **`renv`**: For any project that will be shared or needs reproducibility
-- **`git`**: For version control and backup (almost always recommended)
-
-#### **Situational Recommendations**  
-- **`github`**: When collaborating with external partners or open-sourcing
-- **`targets`**: For complex, multi-step analyses with dependencies
-- **`tests`**: Essential for package development, optional for analysis projects
-
-### **Project Organization Standards**
-
-**Consistent folder structure across all CPAL projects:**
-
-```
-project-name/
-├── R/                    # All R scripts and functions
-├── data/                 # Data files (raw/ and processed/)
-├── outputs/              # Final deliverables and results
-├── figures/              # Generated plots and visualizations  
-├── assets/               # CPAL branding and static assets
-├── reports/              # Generated reports and documents
-└── README.md             # Project documentation
+```r
+# Let the wizard guide you
+start_project("my-project", interactive = TRUE)
 ```
 
-### **Documentation Standards**
+### 2. Start with Analysis, Add Components Later
 
-**Every CPAL project should include:**
-1. **Descriptive README.md** with project purpose and setup instructions
-2. **Clear folder organization** with logical file placement
-3. **CPAL branding consistency** using provided assets
-4. **Reproducible setup** through renv or clear dependency documentation
+```r
+# Create base project
+start_project("research-project", project_type = "analysis")
 
-## Troubleshooting Project Creation
+# Later, add a report
+use_quarto_report("research-project/")
 
-### **Common Issues and Solutions**
-
-#### **Permission Errors**
-```
-Error: cannot create directory
-```
-**Solution:** Check write permissions in target directory
-```{r}
-# Try different path
-start_project(name = "test", path = "~/Documents/projects")
-
-# Or check permissions
-file.access(".", mode = 2)  # Should return 0 for write access
+# Add slides for presentation
+use_quarto_slides("research-project/", filename = "results-presentation")
 ```
 
-#### **RStudio Integration Issues**
-```
-Project created but didn't open in RStudio
-```
-**Solution:** Check RStudio installation and settings
-```{r}
-# Manually open project
-start_project(name = "test", open = FALSE)
-# Then open the .Rproj file in RStudio
+### 3. Always Use Version Control
+
+```r
+# Include git from the start
+start_project("important-analysis", features = c("git", "renv"))
 ```
 
-#### **Template File Errors**
+### 4. Use renv for Reproducibility
+
+```r
+# Lock package versions
+start_project("client-report", features = c("renv"))
 ```
-Error: template file not found
+
+---
+
+## Troubleshooting
+
+### Project Already Exists
+
+```r
+# Use overwrite to replace
+start_project("existing-project", overwrite = TRUE)
 ```
-**Solution:** Reinstall cpaltemplates or check installation
-```{r}
-# Verify package installation
+
+### RStudio Doesn't Open Project
+
+```r
+# Disable auto-open
+start_project("my-project", open = FALSE)
+
+# Open manually later
+rstudioapi::openProject("my-project")
+```
+
+### Missing Templates
+
+If templates aren't copying correctly:
+
+```r
+# Check package installation
 packageVersion("cpaltemplates")
 
-# Check template files
-system.file("templates", package = "cpaltemplates")
-```
-
-#### **Git/GitHub Issues**
-```
-Git initialization failed
-```
-**Solution:** Check git installation and GitHub credentials
-```{r}
-# Check git installation
-system("git --version")
-
-# Initialize git manually if needed
-gert::git_init()
-```
-
-### **Dependency Management**
-
-**Required packages for full functionality:**
-```{r}
-# Core dependencies (always installed with cpaltemplates)
-# ggplot2, cli, fs
-
-# Optional dependencies (installed as needed)
-install.packages(c("renv", "gert", "yaml", "quarto"))
-```
-
-**Package-specific requirements:**
-- **renv feature**: Requires `renv` package
-- **git feature**: Requires `gert` package and system git
-- **Quarto projects**: Requires `quarto` package and system Quarto
-- **GitHub integration**: Requires GitHub authentication setup
-
-### **Performance Optimization**
-
-**For faster project creation:**
-- **Use direct mode** (`interactive = FALSE`) when you know what you want
-- **Skip optional features** for simple prototypes
-- **Pre-install dependencies** (renv, gert, yaml) to avoid installation delays
-
-## Advanced Usage Patterns
-
-### **Scripted Project Creation**
-
-**Create multiple similar projects programmatically:**
-```{r}
-# Create a series of analysis projects
-project_names <- c("q1-analysis", "q2-analysis", "q3-analysis", "q4-analysis")
-project_path <- "~/projects/quarterly-analyses"
-
-for(name in project_names) {
-  start_project(
-    name = name,
-    path = project_path,
-    project_type = "analysis",
-    features = c("renv", "git"),
-    interactive = FALSE,
-    open = FALSE
-  )
-}
-```
-
-### **Custom Project Configurations**
-
-**Define standard configurations for common project types:**
-```{r}
-# Standard CPAL analysis configuration
-cpal_analysis_config <- list(
-  project_type = "analysis",
-  features = c("renv", "git", "targets"),
-  interactive = FALSE
-)
-
-# Apply to new projects
-start_project(
-  name = "new-analysis",
-  project_type = cpal_analysis_config$project_type,
-  features = cpal_analysis_config$features,
-  interactive = cpal_analysis_config$interactive
-)
-```
-
-### **Team Standardization**
-
-**Ensure consistent project setup across team members:**
-```{r}
-# Team standard function
-create_cpal_analysis <- function(name) {
-  start_project(
-    name = name,
-    project_type = "analysis",
-    features = c("renv", "git", "targets"),
-    interactive = FALSE
-  )
-}
-
-# Team members use standardized function
-create_cpal_analysis("poverty-trends-analysis")
+# Reinstall if needed
+remotes::install_github("childpovertyactionlab/cpaltemplates")
 ```
 
 ---
 
-*The CPAL project setup system transforms hours of manual configuration into minutes of automated, professional project creation. Use it consistently to ensure all team projects follow modern best practices and maintain CPAL branding standards.*
+## Next Steps
+
+- [Brand & Assets](brand-assets.qmd) - Managing brand configuration
+- [Shiny Dashboards](shiny-dashboards.qmd) - Building dashboards with CPAL theming
+- [Workflows](workflow-integration.qmd) - Complete project workflows

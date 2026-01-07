@@ -1,2 +1,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^\.claude$
+^CLAUDE\.md$
+^CODE_OF_CONDUCT\.md$
+^CONTRIBUTING\.md$
+^PACKAGE_REVIEW\.md$
+^FUNCTION_REFERENCE\.md$
+^base-app$
+^docs$
+^LICENSE$

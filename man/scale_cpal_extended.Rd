@@ -6,7 +6,7 @@
 \alias{scale_fill_cpal_c}
 \alias{scale_color_cpal_d}
 \alias{scale_fill_cpal_d}
-\title{Create CPAL-branded color/fill scales}
+\title{CPAL Extended Color/Fill Scales}
 \usage{
 scale_color_cpal_c(palette = "sequential_teal", reverse = FALSE, ...)
 
@@ -17,14 +17,14 @@ scale_color_cpal_d(palette = "categorical", reverse = FALSE, ...)
 scale_fill_cpal_d(palette = "categorical", reverse = FALSE, ...)
 }
 \arguments{
-\item{palette}{Palette name or custom colors}
+\item{palette}{Palette name or custom colors.}
 
-\item{reverse}{Reverse the palette order}
+\item{reverse}{Reverse the palette order.}
 
-\item{...}{Additional arguments passed to scale functions}
+\item{...}{Additional arguments passed to scale functions.}
 }
 \value{
-A ggplot2 scale object for continuous or discrete color/fill mappings
+A ggplot2 scale object for continuous or discrete color/fill mappings.
 }
 \description{
 These functions provide additional options beyond the basic scale_color_cpal()

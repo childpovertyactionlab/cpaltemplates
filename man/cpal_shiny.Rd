@@ -32,16 +32,20 @@ Set to FALSE for reduced motion accessibility.}
 A [bslib::bs_theme()] object for use in Shiny applications.
 }
 \description{
+`r lifecycle::badge("deprecated")`
+
+This function is deprecated. Please use [cpal_dashboard_theme()] instead,
+which integrates with `_brand.yml` for more flexible theming.
+
 This function generates a customized BSlib theme for Shiny applications according to
 Child Poverty Action Lab (CPAL) visual standards. It integrates with the cpaltemplates
 color system and provides consistent branding across web applications.
-}
-\details{
+
 The theme is based on Bootstrap 5 with custom CPAL colors, typography, and component
 styling. It ensures accessibility compliance and maintains visual consistency with
 other CPAL data visualizations created using cpaltemplates.
-
-
+}
+\details{
 The theme automatically integrates with CPAL color standards:
 \itemize{
   \item Primary/Secondary: CPAL Dark Blue (#042D33)

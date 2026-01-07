@@ -2,14 +2,35 @@
 % Please edit documentation in R/utils.R
 \name{cpal_font_family}
 \alias{cpal_font_family}
-\title{Get CPAL Font Family (Simple Version)}
+\alias{cpal_font_family_fallback}
+\title{Get CPAL Font Family}
 \usage{
-cpal_font_family()
+cpal_font_family(
+  type = c("plot", "interactive", "table", "print"),
+  setup = FALSE
+)
+
+cpal_font_family_fallback()
+}
+\arguments{
+\item{type}{Character. Type of output: "plot" (default), "interactive", "table", or "print"}
+
+\item{setup}{Logical. If TRUE, attempts to set up fonts if not available (default: FALSE)}
 }
 \value{
-Character string of font family name
+Character string of font family name ("Inter", "Roboto", or "sans")
 }
 \description{
-Simple wrapper that returns the preferred CPAL font family.
-This is a simplified version that works with gt tables.
+Returns the preferred CPAL font family name. This is the main entry point
+for getting font family names for use in plots, tables, and other outputs.
+}
+\examples{
+# Get font for regular plots
+cpal_font_family()
+
+# Get font for interactive ggiraph plots
+cpal_font_family("interactive")
+
+# Get font and set up if missing
+cpal_font_family(setup = TRUE)
 }

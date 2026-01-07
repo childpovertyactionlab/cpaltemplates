@@ -18,9 +18,8 @@ Displays simple color palette preview (called for side effects)
 Display a simple, clean preview of any CPAL palette
 }
 \examples{
-# Quick preview of main palette
+\dontrun{
 quick_palette("main")
-
-# Preview first 3 colors of a sequential palette
 quick_palette("teal_seq_6", n_colors = 3)
+}
 }

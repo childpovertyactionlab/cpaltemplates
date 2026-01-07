@@ -1,0 +1,501 @@
+---
+title: "Maps & Geographic"
+subtitle: "Creating geographic visualizations with CPAL styling"
+---
+
+## Overview
+
+cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps.
+
+---
+
+## Quick Start
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+library(sf)
+
+# Static map with ggplot2
+ggplot(geo_data) +
+  geom_sf(aes(fill = value)) +
+  scale_fill_cpal_c("teal_seq_5") +
+  theme_cpal_map()
+```
+
+---
+
+## Static Maps with ggplot2
+
+### `theme_cpal_map()`
+
+A specialized theme for geographic visualizations.
+
+```r
+theme_cpal_map(base_size = 14, base_family = NULL, ...)
+```
+
+#### Features
+
+- No axis lines or gridlines
+- Minimal chrome
+- Clean background
+- Optimized for map layers
+
+#### Examples
+
+```r
+library(sf)
+library(ggplot2)
+
+# Basic choropleth
+ggplot(counties_sf) +
+  geom_sf(aes(fill = population), color = "white", linewidth = 0.2) +
+  scale_fill_cpal_c("teal_seq_5") +
+  labs(
+    title = "Population by County",
+    fill = "Population"
+  ) +
+  theme_cpal_map()
+
+# With points overlay
+ggplot() +
+  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
+  geom_sf(data = points, aes(color = category), size = 2) +
+  scale_color_cpal("main_3") +
+  theme_cpal_map()
+```
+
+---
+
+## Color Scales for Maps
+
+### Sequential Scales (Choropleth)
+
+```r
+# Single-hue teal gradient
+scale_fill_cpal_c("teal_seq_5")
+
+# Multi-hue gradient
+scale_fill_cpal_c("yellow_teal_seq_5")
+```
+
+### Diverging Scales (Change/Difference)
+
+```r
+# Pink to teal through neutral
+scale_fill_cpal_c("pink_teal_5")
+```
+
+### Categorical Scales (Types/Categories)
+
+```r
+# Discrete categories
+scale_fill_cpal("main_3")
+scale_color_cpal("main")
+```
+
+---
+
+## Interactive Maps with mapgl
+
+### `cpal_mapgl()`
+
+Create mapgl maps with Dallas area defaults and CPAL styling.
+
+```r
+cpal_mapgl(
+  style = NULL,
+  bounds = NULL,
+  ...
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `style` | Map style (default: light) |
+| `bounds` | Bounding box for initial view |
+| `...` | Additional arguments to mapgl |
+
+::: {.callout-note}
+## Mapbox Token Required
+Interactive maps require a Mapbox access token. Set it as an environment variable:
+```r
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = "your_token_here")
+```
+:::
+
+#### Examples
+
+```r
+library(mapgl)
+
+# Basic Dallas-area map
+cpal_mapgl()
+
+# With custom bounds
+cpal_mapgl(bounds = c(-97.5, 32.5, -96.5, 33.1))
+```
+
+---
+
+### `cpal_mapgl_layer()`
+
+Add CPAL-styled layers to mapgl maps.
+
+```r
+cpal_mapgl_layer(
+  map,
+  id,
+  source,
+  type = c("fill", "line", "circle", "symbol"),
+  paint = NULL,
+  ...
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `map` | A mapgl map object |
+| `id` | Unique layer ID |
+| `source` | Data source (sf object, URL, etc.) |
+| `type` | Layer type |
+| `paint` | Paint properties (colors, opacity, etc.) |
+| `...` | Additional layer options |
+
+#### Examples
+
+```r
+# Add a fill layer
+cpal_mapgl() |>
+  cpal_mapgl_layer(
+    id = "neighborhoods",
+    source = neighborhoods_sf,
+    type = "fill",
+    paint = list(
+      "fill-color" = "#007A8C",
+      "fill-opacity" = 0.6
+    )
+  )
+
+# Add a circle layer
+cpal_mapgl() |>
+  cpal_mapgl_layer(
+    id = "locations",
+    source = locations_sf,
+    type = "circle",
+    paint = list(
+      "circle-color" = "#C3257B",
+      "circle-radius" = 6,
+      "circle-opacity" = 0.8
+    )
+  )
+```
+
+---
+
+## Choropleth Maps
+
+### Basic Choropleth
+
+```r
+library(sf)
+library(ggplot2)
+
+# Prepare data
+tracts <- st_read("census_tracts.geojson") |>
+  mutate(poverty_rate = poverty_pop / total_pop)
+
+# Create choropleth
+ggplot(tracts) +
+  geom_sf(aes(fill = poverty_rate), color = "white", linewidth = 0.1) +
+  scale_fill_cpal_c("teal_seq_5", labels = scales::percent) +
+  labs(
+    title = "Poverty Rate by Census Tract",
+    subtitle = "Dallas County, TX",
+    fill = "Poverty Rate"
+  ) +
+  theme_cpal_map()
+```
+
+### Binned Choropleth
+
+```r
+# Create bins
+tracts <- tracts |>
+  mutate(
+    poverty_bin = cut(
+      poverty_rate,
+      breaks = c(0, 0.1, 0.2, 0.3, 0.5, 1),
+      labels = c("<10%", "10-20%", "20-30%", "30-50%", ">50%")
+    )
+  )
+
+ggplot(tracts) +
+  geom_sf(aes(fill = poverty_bin), color = "white", linewidth = 0.1) +
+  scale_fill_cpal("teal_seq_5") +
+  labs(fill = "Poverty Rate") +
+  theme_cpal_map()
+```
+
+---
+
+## Point Maps
+
+### Basic Points
+
+```r
+ggplot() +
+  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
+  geom_sf(data = locations, color = "#007A8C", size = 2) +
+  theme_cpal_map()
+```
+
+### Sized Points (Bubble Map)
+
+```r
+ggplot() +
+  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
+  geom_sf(
+    data = locations,
+    aes(size = population),
+    color = "#007A8C",
+    alpha = 0.6
+  ) +
+  scale_size_continuous(range = c(1, 10)) +
+  theme_cpal_map()
+```
+
+### Colored Points
+
+```r
+ggplot() +
+  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
+  geom_sf(
+    data = locations,
+    aes(color = category),
+    size = 3
+  ) +
+  scale_color_cpal("main_3") +
+  theme_cpal_map()
+```
+
+---
+
+## Interactive Maps with ggiraph
+
+```r
+library(ggiraph)
+
+# Interactive choropleth
+p <- ggplot(tracts) +
+  geom_sf_interactive(
+    aes(
+      fill = poverty_rate,
+      tooltip = paste0(name, ": ", scales::percent(poverty_rate)),
+      data_id = geoid
+    ),
+    color = "white",
+    linewidth = 0.1
+  ) +
+  scale_fill_cpal_c("teal_seq_5") +
+  theme_cpal_map()
+
+cpal_interactive(p)
+```
+
+---
+
+## Map Layouts
+
+### With Inset
+
+```r
+library(cowplot)
+
+# Main map
+main_map <- ggplot(dallas_tracts) +
+  geom_sf(aes(fill = value)) +
+  scale_fill_cpal_c("teal_seq_5") +
+  theme_cpal_map()
+
+# Inset showing Texas
+inset <- ggplot(texas) +
+  geom_sf(fill = "#EBEBEB") +
+  geom_sf(data = dallas_county, fill = "#007A8C") +
+  theme_void()
+
+# Combine
+ggdraw() +
+  draw_plot(main_map) +
+  draw_plot(inset, x = 0.7, y = 0.1, width = 0.25, height = 0.25)
+```
+
+### Faceted Maps
+
+```r
+ggplot(tracts) +
+  geom_sf(aes(fill = value)) +
+  scale_fill_cpal_c("teal_seq_5") +
+  facet_wrap(~year) +
+  theme_cpal_map() +
+  theme(strip.text = element_text(size = 12, face = "bold"))
+```
+
+---
+
+## North Arrow and Scale Bar
+
+```r
+library(ggspatial)
+
+ggplot(tracts) +
+  geom_sf(aes(fill = value)) +
+  scale_fill_cpal_c("teal_seq_5") +
+  annotation_scale(
+    location = "bl",
+    bar_cols = c("#004855", "white")
+  ) +
+  annotation_north_arrow(
+    location = "tr",
+    style = north_arrow_minimal(fill = "#004855")
+  ) +
+  theme_cpal_map()
+```
+
+---
+
+## Basemaps
+
+### With OpenStreetMap Tiles
+
+```r
+library(ggspatial)
+
+ggplot() +
+  annotation_map_tile(type = "cartolight", zoom = 11) +
+  geom_sf(
+    data = locations,
+    color = "#007A8C",
+    size = 3
+  ) +
+  theme_cpal_map()
+```
+
+### Custom Basemap Styling
+
+```r
+# For mapgl
+cpal_mapgl(style = "mapbox://styles/mapbox/light-v11") |>
+  cpal_mapgl_layer(
+    id = "data_layer",
+    source = my_data,
+    type = "fill"
+  )
+```
+
+---
+
+## Complete Example
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+library(sf)
+library(dplyr)
+
+# Load data
+tracts <- st_read("dallas_tracts.geojson") |>
+  mutate(
+    poverty_pct = poverty / population * 100,
+    tooltip = paste0(
+      "<strong>", name, "</strong><br>",
+      "Population: ", scales::comma(population), "<br>",
+      "Poverty Rate: ", round(poverty_pct, 1), "%"
+    )
+  )
+
+# Create static map
+static_map <- ggplot(tracts) +
+  geom_sf(aes(fill = poverty_pct), color = "white", linewidth = 0.1) +
+  scale_fill_cpal_c(
+    "teal_seq_5",
+    name = "Poverty Rate (%)",
+    breaks = c(0, 10, 20, 30, 40)
+  ) +
+  labs(
+    title = "Child Poverty in Dallas County",
+    subtitle = "By Census Tract, 2022",
+    caption = "Source: American Community Survey"
+  ) +
+  theme_cpal_map()
+
+# Save static version
+save_cpal_plot(static_map, "dallas_poverty_map.png", size = "default")
+
+# Create interactive version
+library(ggiraph)
+
+interactive_map <- ggplot(tracts) +
+  geom_sf_interactive(
+    aes(fill = poverty_pct, tooltip = tooltip, data_id = geoid),
+    color = "white",
+    linewidth = 0.1
+  ) +
+  scale_fill_cpal_c("teal_seq_5", name = "Poverty Rate (%)") +
+  labs(title = "Child Poverty in Dallas County") +
+  theme_cpal_map()
+
+cpal_interactive(interactive_map)
+```
+
+---
+
+## Troubleshooting
+
+### Map Not Displaying
+
+```r
+# Check sf installation
+if (!requireNamespace("sf", quietly = TRUE)) {
+  install.packages("sf")
+}
+
+# Verify CRS
+st_crs(data)
+
+# Transform if needed
+data <- st_transform(data, 4326)
+```
+
+### Mapbox Token Issues
+
+```r
+# Set token
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.xxx...")
+
+# Verify it's set
+Sys.getenv("MAPBOX_PUBLIC_TOKEN")
+```
+
+### Slow Rendering
+
+```r
+# Simplify geometries
+data_simple <- st_simplify(data, dTolerance = 100)
+
+# Or reduce vertices
+data_simple <- rmapshaper::ms_simplify(data, keep = 0.1)
+```
+
+---
+
+## Next Steps
+
+- [Interactive Features](interactive-features.qmd) - More interactive options
+- [Themes & Styling](themes-styling.qmd) - Theme customization
+- [Plots & Output](plots-visualizations.qmd) - Saving maps

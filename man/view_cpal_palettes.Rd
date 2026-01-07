@@ -27,13 +27,12 @@ Displays color palette visualization (called for side effects)
 Display CPAL color palettes with improved readability and flexibility
 }
 \examples{
+\dontrun{
 # Show all palettes in overview
 view_cpal_palettes()
 
 # Show specific palette
 view_cpal_palettes("main")
 view_cpal_palettes("teal_seq_5")
-
-# Compact overview without hex codes
-view_cpal_palettes("all", show_hex = FALSE, compact = TRUE)
+}
 }

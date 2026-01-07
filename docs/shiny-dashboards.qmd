@@ -1,0 +1,549 @@
+---
+title: "Shiny Dashboards"
+subtitle: "Building branded dashboards with Bootstrap 5 theming"
+---
+
+## Overview
+
+cpaltemplates provides 5 functions for creating CPAL-branded Shiny applications and dashboards using Bootstrap 5 and bslib theming.
+
+---
+
+## Quick Start
+
+```r
+library(shiny)
+library(bslib)
+library(cpaltemplates)
+
+ui <- page_sidebar(
+  theme = cpal_dashboard_theme(),
+  title = "CPAL Dashboard",
+  sidebar = sidebar(
+    selectInput("var", "Variable", choices = names(mtcars))
+  ),
+  card(
+    card_header("Plot"),
+    plotOutput("plot")
+  )
+)
+
+server <- function(input, output) {
+  output$plot <- renderPlot({
+    ggplot(mtcars, aes(x = .data[[input$var]])) +
+      geom_histogram(fill = "#007A8C") +
+      theme_cpal()
+  })
+}
+
+shinyApp(ui, server)
+```
+
+---
+
+## Main Theme Function
+
+### `cpal_dashboard_theme()`
+
+Creates a Bootstrap 5 theme using the `_brand.yml` configuration.
+
+```r
+cpal_dashboard_theme()
+```
+
+#### Features
+
+- CPAL brand colors automatically applied
+- Bootstrap 5 components styled
+- Google Fonts (Poppins, Inter) integrated
+- Consistent component styling
+
+#### Usage
+
+```r
+library(shiny)
+library(bslib)
+
+# With page_sidebar
+ui <- page_sidebar(
+  theme = cpal_dashboard_theme(),
+  ...
+)
+
+# With page_navbar
+ui <- page_navbar(
+  theme = cpal_dashboard_theme(),
+  ...
+)
+
+# With page_fillable
+ui <- page_fillable(
+  theme = cpal_dashboard_theme(),
+  ...
+)
+```
+
+---
+
+## Dashboard Layouts
+
+### Sidebar Layout
+
+```r
+ui <- page_sidebar(
+  theme = cpal_dashboard_theme(),
+  title = "Dashboard Title",
+  sidebar = sidebar(
+    title = "Controls",
+    selectInput("x", "X Variable", choices = names(mtcars)),
+    selectInput("y", "Y Variable", choices = names(mtcars)),
+    sliderInput("size", "Point Size", 1, 10, 3)
+  ),
+  card(
+    card_header("Visualization"),
+    plotOutput("scatter")
+  )
+)
+```
+
+### Navbar Layout
+
+```r
+ui <- page_navbar(
+  theme = cpal_dashboard_theme(),
+  title = "CPAL Analytics",
+  nav_panel(
+    title = "Overview",
+    layout_columns(
+      card(card_header("Card 1"), "Content"),
+      card(card_header("Card 2"), "Content")
+    )
+  ),
+  nav_panel(
+    title = "Data",
+    card(reactableOutput("table"))
+  ),
+  nav_panel(
+    title = "About",
+    markdown("## About This Dashboard")
+  )
+)
+```
+
+### Multi-Page Dashboard
+
+```r
+ui <- page_navbar(
+  theme = cpal_dashboard_theme(),
+  title = "CPAL Data Portal",
+  nav_panel("Home", home_ui("home")),
+  nav_panel("Analysis", analysis_ui("analysis")),
+  nav_panel("Reports", reports_ui("reports")),
+  nav_spacer(),
+  nav_item(
+    tags$a(
+      href = "https://childpovertyactionlab.org",
+      "CPAL Website",
+      target = "_blank"
+    )
+  )
+)
+```
+
+---
+
+## Value Boxes
+
+### Creating Value Boxes
+
+```r
+ui <- page_fillable(
+  theme = cpal_dashboard_theme(),
+  layout_columns(
+    value_box(
+      title = "Total Population",
+      value = "2.6M",
+      showcase = bsicons::bs_icon("people"),
+      theme = "primary"
+    ),
+    value_box(
+      title = "Child Poverty Rate",
+      value = "18.2%",
+      showcase = bsicons::bs_icon("graph-down"),
+      theme = "danger"
+    ),
+    value_box(
+      title = "Schools Served",
+      value = "342",
+      showcase = bsicons::bs_icon("building"),
+      theme = "success"
+    )
+  )
+)
+```
+
+### Custom Value Box Colors
+
+```r
+value_box(
+  title = "Custom Metric",
+  value = "1,234",
+  theme_color = "#007A8C"  # CPAL teal
+)
+```
+
+---
+
+## Cards
+
+### Basic Cards
+
+```r
+card(
+  card_header("Chart Title"),
+  plotOutput("plot"),
+  card_footer("Source: CPAL Analysis")
+)
+```
+
+### Full-Height Cards
+
+```r
+card(
+  full_screen = TRUE,
+  card_header("Expandable Chart"),
+  plotOutput("plot")
+)
+```
+
+### Card with Sidebar
+
+```r
+card(
+  card_header("Interactive Analysis"),
+  layout_sidebar(
+    sidebar = sidebar(
+      selectInput("var", "Variable", choices),
+      open = "desktop"
+    ),
+    plotOutput("plot")
+  )
+)
+```
+
+---
+
+## Layout Helpers
+
+### Column Layouts
+
+```r
+# Equal columns
+layout_columns(
+  card("Column 1"),
+  card("Column 2"),
+  card("Column 3")
+)
+
+# Custom widths
+layout_columns(
+  col_widths = c(4, 8),
+  card("Narrow"),
+  card("Wide")
+)
+
+# Responsive
+layout_columns(
+  col_widths = breakpoints(
+    sm = 12,  # Stack on small screens
+    md = 6,   # 2 columns on medium
+    lg = 4    # 3 columns on large
+  ),
+  card("Card 1"),
+  card("Card 2"),
+  card("Card 3")
+)
+```
+
+### Grid Layouts
+
+```r
+layout_column_wrap(
+  width = "300px",  # Minimum width per item
+  card("Item 1"),
+  card("Item 2"),
+  card("Item 3"),
+  card("Item 4")
+)
+```
+
+---
+
+## Integrating Visualizations
+
+### ggplot2 with CPAL Theme
+
+```r
+output$plot <- renderPlot({
+  ggplot(data(), aes(x = x, y = y, color = group)) +
+    geom_point(size = 3) +
+    scale_color_cpal("main_3") +
+    theme_cpal()
+})
+```
+
+### Interactive ggiraph
+
+```r
+library(ggiraph)
+
+output$interactive_plot <- renderGirafe({
+  p <- ggplot(data(), aes(x = x, y = y)) +
+    geom_point_interactive(aes(tooltip = label)) +
+    theme_cpal()
+
+  cpal_interactive(p)
+})
+
+# In UI
+girafeOutput("interactive_plot")
+```
+
+### Reactable Tables
+
+```r
+output$table <- renderReactable({
+  cpal_table_reactable(
+    data(),
+    searchable = TRUE,
+    pagination = TRUE
+  )
+})
+
+# In UI
+reactableOutput("table")
+```
+
+---
+
+## SCSS Enhancements
+
+### `cpal_add_scss_enhancements()`
+
+Add enhanced styling to a base theme.
+
+```r
+theme <- cpal_dashboard_theme() |>
+  cpal_add_scss_enhancements()
+
+ui <- page_sidebar(
+  theme = theme,
+  ...
+)
+```
+
+#### Enhanced Features
+
+- Geometric header patterns
+- Enhanced data table styling
+- Metric card improvements
+- Better form control styling
+
+---
+
+### `cpal_export_scss()`
+
+Export the SCSS file for custom use.
+
+```r
+cpal_export_scss(path = "www/cpal_enhanced.scss")
+```
+
+---
+
+## Complete Dashboard Example
+
+```r
+library(shiny)
+library(bslib)
+library(ggplot2)
+library(dplyr)
+library(cpaltemplates)
+
+ui <- page_navbar(
+  theme = cpal_dashboard_theme(),
+  title = "CPAL Analytics Dashboard",
+
+  # Overview Tab
+  nav_panel(
+    "Overview",
+    layout_columns(
+      col_widths = c(4, 4, 4),
+      value_box(
+        "Total Records",
+        textOutput("total_records"),
+        showcase = bsicons::bs_icon("database")
+      ),
+      value_box(
+        "Average MPG",
+        textOutput("avg_mpg"),
+        showcase = bsicons::bs_icon("speedometer2")
+      ),
+      value_box(
+        "Categories",
+        textOutput("categories"),
+        showcase = bsicons::bs_icon("collection")
+      )
+    ),
+    card(
+      full_screen = TRUE,
+      card_header("Fuel Efficiency Analysis"),
+      plotOutput("main_plot")
+    )
+  ),
+
+  # Data Tab
+  nav_panel(
+    "Data Explorer",
+    card(
+      card_header("Vehicle Data"),
+      layout_sidebar(
+        sidebar = sidebar(
+          selectInput("filter_cyl", "Cylinders",
+            choices = c("All", unique(mtcars$cyl))
+          )
+        ),
+        reactableOutput("data_table")
+      )
+    )
+  ),
+
+  # About Tab
+  nav_panel(
+    "About",
+    card(
+      card_header("About This Dashboard"),
+      markdown("
+        ## CPAL Analytics Dashboard
+
+        This dashboard demonstrates the cpaltemplates package
+        integration with Shiny and bslib.
+
+        **Features:**
+        - CPAL brand colors and fonts
+        - Responsive layout
+        - Interactive visualizations
+      ")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+
+  # Reactive data
+  filtered_data <- reactive({
+    if (input$filter_cyl == "All") {
+      mtcars
+    } else {
+      filter(mtcars, cyl == as.numeric(input$filter_cyl))
+    }
+  })
+
+  # Value boxes
+  output$total_records <- renderText(nrow(filtered_data()))
+  output$avg_mpg <- renderText(round(mean(filtered_data()$mpg), 1))
+  output$categories <- renderText(n_distinct(filtered_data()$cyl))
+
+  # Main plot
+  output$main_plot <- renderPlot({
+    ggplot(filtered_data(), aes(x = wt, y = mpg, color = factor(cyl))) +
+      geom_point(size = 4, alpha = 0.8) +
+      scale_color_cpal("main_3") +
+      labs(
+        title = "Weight vs. Fuel Efficiency",
+        x = "Weight (1000 lbs)",
+        y = "Miles per Gallon",
+        color = "Cylinders"
+      ) +
+      theme_cpal()
+  })
+
+  # Data table
+  output$data_table <- renderReactable({
+    cpal_table_reactable(
+      filtered_data(),
+      searchable = TRUE,
+      pagination = TRUE,
+      page_size = 15
+    )
+  })
+}
+
+shinyApp(ui, server)
+```
+
+---
+
+## Deployment
+
+### Deploying to shinyapps.io
+
+```r
+# Ensure all dependencies are listed
+rsconnect::deployApp(
+  appDir = ".",
+  appFiles = c(
+    "app.R",
+    "www/",
+    "_brand.yml"
+  )
+)
+```
+
+### Using renv
+
+```r
+# Initialize renv
+renv::init()
+
+# Snapshot dependencies
+renv::snapshot()
+```
+
+---
+
+## Troubleshooting
+
+### Theme Not Applying
+
+```r
+# Ensure bslib is loaded
+library(bslib)
+
+# Use page_* functions, not fluidPage
+page_sidebar(...)  # Correct
+fluidPage(...)     # Won't use bslib theme
+```
+
+### Fonts Not Loading
+
+```r
+# Fonts are loaded via Google Fonts in _brand.yml
+# Check internet connectivity for font loading
+```
+
+### Bootstrap Version Issues
+
+```r
+# Ensure using Bootstrap 5
+theme <- cpal_dashboard_theme()
+theme$version  # Should be "5"
+```
+
+---
+
+## Next Steps
+
+- [Interactive Features](interactive-features.qmd) - Interactive charts
+- [Tables](tables-gt.qmd) - Table styling
+- [Brand & Assets](brand-assets.qmd) - Brand configuration

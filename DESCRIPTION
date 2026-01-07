@@ -14,13 +14,13 @@ Imports:
     rstudioapi,
     yaml,
     gert,
-    dplyr,
     gt,
     htmltools,
     htmlwidgets,
     reactable,
     magrittr,
     utils,
+    stats,
     bslib,
     sass
 Suggests:
@@ -34,7 +34,12 @@ Suggests:
     sysfonts,
     quarto,
     systemfonts,
-    gdtools
+    gdtools,
+    brand.yml,
+    thematic,
+    highcharter,
+    lifecycle,
+    patchwork
 License: GPL-3
 URL: https://github.com/childpovertyactionlab/cpaltemplates
 BugReports: https://github.com/childpovertyactionlab/cpaltemplates/issues

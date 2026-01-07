@@ -1,52 +1,115 @@
 project:
   type: website
-  title: "cpaltemplates Documentation"
-  output-dir: docs
+  output-dir: _site
+
 website:
   title: "cpaltemplates"
-  description: "R Package for CPAL Data Team Workflows"
+#  subtitle: "CPAL Data Visualization & Branding Toolkit"
+  site-url: https://childpovertyactionlab.github.io/cpaltemplates
+  repo-url: https://github.com/childpovertyactionlab/cpaltemplates
+  repo-actions: [issue, source]
 
   navbar:
-    title: "cpaltemplates"
+    background: "#007A8C"
     left:
       - text: "Home"
-        file: index.qmd
-      - text: "Get Started"
-        file: getting-started.qmd
-      - text: "Functions"
+        href: index.qmd
+      - text: "Getting Started"
+        href: getting-started.qmd
+      - text: "Guides"
         menu:
-          - text: "Colors & Palettes"
-            file: colors-palettes.qmd
-          - text: "Themes & Styling"
-            file: themes-styling.qmd
-          - text: "Plots & Visualizations"
-            file: plots-visualizations.qmd
-          - text: "Tables & Styling"
-            file: tables-gt.qmd
-          - text: "Interactive Features"
-            file: interactive-features.qmd
+          - text: "---"
+          - text: "Setup & Infrastructure"
           - text: "Project Setup"
-            file: project-setup.qmd
-          - text: "Utilities & Helpers"
-            file: utilities-helpers.qmd
+            href: project-setup.qmd
+          - text: "Brand & Assets"
+            href: brand-assets.qmd
+          - text: "---"
+          - text: "Visualization"
+          - text: "Colors & Palettes"
+            href: colors-palettes.qmd
+          - text: "Themes & Styling"
+            href: themes-styling.qmd
+          - text: "Plots & Output"
+            href: plots-visualizations.qmd
+          - text: "Tables (GT & Reactable)"
+            href: tables-gt.qmd
+          - text: "---"
+          - text: "Interactive & Web"
+          - text: "Interactive Charts"
+            href: interactive-features.qmd
+          - text: "Maps & Geographic"
+            href: maps-geographic.qmd
+          - text: "Shiny Dashboards"
+            href: shiny-dashboards.qmd
+          - text: "---"
+          - text: "Utilities"
+          - text: "Helper Functions"
+            href: utilities-helpers.qmd
       - text: "Workflows"
-        file: workflow-integration.qmd
+        href: workflow-integration.qmd
+      - text: "Reference"
+        href: function-reference.qmd
       - text: "Troubleshooting"
-        file: troubleshooting.qmd
+        href: troubleshooting.qmd
+
+  sidebar:
+    style: floating
+    search: true
+    contents:
+      - section: "Getting Started"
+        contents:
+          - index.qmd
+          - getting-started.qmd
+      - section: "Setup & Infrastructure"
+        contents:
+          - project-setup.qmd
+          - brand-assets.qmd
+      - section: "Visualization"
+        contents:
+          - colors-palettes.qmd
+          - themes-styling.qmd
+          - plots-visualizations.qmd
+          - tables-gt.qmd
+      - section: "Interactive & Web"
+        contents:
+          - interactive-features.qmd
+          - maps-geographic.qmd
+          - shiny-dashboards.qmd
+      - section: "Utilities & Reference"
+        contents:
+          - utilities-helpers.qmd
+          - workflow-integration.qmd
+          - function-reference.qmd
+          - troubleshooting.qmd
+
+  page-footer:
+    center: "Child Poverty Action Lab - Data Science Team"
+    right:
+      - icon: github
+        href: https://github.com/childpovertyactionlab/cpaltemplates
 
 format:
   html:
-    theme: cosmo
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
     toc: true
     toc-depth: 3
     code-copy: true
-    code-fold: false
-    fig-width: 8
-    fig-height: 6
-    number-sections: false
+    code-overflow: wrap
+    highlight-style: github
 
 execute:
+  freeze: auto
   echo: true
   warning: false
   message: false
-  cache: false
+
+knitr:
+  opts_chunk:
+    fig.width: 8
+    fig.height: 5
+    dpi: 150
+    out.width: "100%"

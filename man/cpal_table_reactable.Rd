@@ -9,14 +9,10 @@ cpal_table_reactable(
   title = NULL,
   subtitle = NULL,
   source = NULL,
-  theme = "light",
   highlight_columns = NULL,
   bold_rows = NULL,
   bold_only_rows = NULL,
   data_bar_columns = NULL,
-  bold_color = NULL,
-  row_fill = NULL,
-  gradient_direction = "high_to_low",
   searchable = TRUE,
   pagination = TRUE,
   page_size = 10,
@@ -24,82 +20,74 @@ cpal_table_reactable(
   filterable = FALSE,
   show_page_size_options = TRUE,
   striped = FALSE,
-  compact = FALSE
+  compact = FALSE,
+  ...
 )
 }
 \arguments{
-\item{data}{Data frame to display}
+\item{data}{Data frame to display.}
 
-\item{title}{Optional table title}
+\item{title}{Character. Optional table title rendered as an <h3> tag.}
 
-\item{subtitle}{Optional table subtitle}
+\item{subtitle}{Character. Optional table subtitle rendered as a <p> tag.}
 
-\item{source}{Optional source attribution}
+\item{source}{Character. Optional source attribution rendered in the footer.}
 
-\item{theme}{"light" or "dark"}
+\item{highlight_columns}{Character vector. Names of columns to apply specific highlighting.}
 
-\item{highlight_columns}{Vector of column names to highlight with teal gradient (optional)}
+\item{bold_rows}{Column name (string). Column should contain 1/0 values; 1 triggers a highlighted background.}
 
-\item{bold_rows}{Column name containing 1/0 values for row highlighting with background (optional)}
+\item{bold_only_rows}{Column name (string). Column should contain 1/0 values; 1 triggers bold text only.}
 
-\item{bold_only_rows}{Column name containing 1/0 values for bold text only (no background) (optional)}
+\item{data_bar_columns}{Character vector. Names of columns to render as inline data bars.}
 
-\item{data_bar_columns}{Vector of column names to add horizontal data bars (optional)}
+\item{searchable}{Logical. Enable a global search bar (default: TRUE).}
 
-\item{bold_color}{Color for bold text (default: CPAL pink)}
+\item{pagination}{Logical. Enable pagination (default: TRUE).}
 
-\item{row_fill}{Background color for highlighted rows (default: theme-appropriate)}
+\item{page_size}{Integer. Number of rows per page (default: 10).}
 
-\item{gradient_direction}{"high_to_low" or "low_to_high" for column gradients}
+\item{sortable}{Logical. Enable column sorting (default: TRUE).}
 
-\item{searchable}{Enable search functionality (default: TRUE)}
+\item{filterable}{Logical. Enable per-column filtering (default: FALSE).}
 
-\item{pagination}{Enable pagination (default: TRUE)}
+\item{show_page_size_options}{Logical. Show the "rows per page" selector (default: TRUE).}
 
-\item{page_size}{Default number of rows per page (default: 10)}
+\item{striped}{Logical. Enable zebra-striping for rows (default: FALSE).}
 
-\item{sortable}{Enable column sorting (default: TRUE)}
+\item{compact}{Logical. Use reduced cell padding (default: FALSE).}
 
-\item{filterable}{Enable column filtering (default: FALSE)}
-
-\item{show_page_size_options}{Show page size selector (default: TRUE)}
-
-\item{striped}{Enable striped rows (default: FALSE)}
-
-\item{compact}{Use compact styling (default: FALSE)}
+\item{...}{Additional arguments passed to [reactable::reactable()].}
 }
 \value{
-Reactable table object with CPAL styling
+A `reactable` HTML widget object.
 }
 \description{
-Creates a CPAL-styled interactive table with modern foundation and smart features.
-Sister function to cpal_table_gt() with enhanced interactivity.
+Creates a CPAL-styled interactive table using `reactable`. This function 
+integrates with the CPAL SCSS theme and provides advanced features like 
+row highlighting and data bars.
 }
+\section{Custom Styling}{
+
+This function applies the CSS class `.reactable-cpal` to the container. 
+Styling (colors, fonts) should be managed via the `cpal-enhanced.scss` file.
+}
+
 \examples{
 # Basic interactive table
 cpal_table_reactable(mtcars, title = "Car Data", source = "Motor Trend")
 
-# With gradient columns and data bars
-cpal_table_reactable(mtcars,
-                     highlight_columns = c("mpg", "hp"),
-                     data_bar_columns = c("disp", "qsec"))
-
-# With row highlighting (requires 1/0 column)
-mtcars$high_performance <- ifelse(mtcars$hp > 200, 1, 0)
-cpal_table_reactable(mtcars, bold_rows = "high_performance")
-
-# Bold text only (no background)
-cpal_table_reactable(mtcars, bold_only_rows = "high_performance")
-
 # All features combined
+mtcars$high_performance <- ifelse(mtcars$hp > 200, 1, 0)
 cpal_table_reactable(mtcars,
                      title = "Complete Car Analysis",
-                     subtitle = "All features working together",
                      source = "CPAL Data Team",
                      highlight_columns = c("mpg", "hp"),
-                     data_bar_columns = c("disp"),
                      bold_rows = "high_performance",
-                     theme = "light",
                      filterable = TRUE)
-
 }
+\seealso{
+Other Tables: 
+\code{\link{cpal_table_gt}()}
+}
+\concept{Tables}
