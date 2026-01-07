@@ -1,7 +1,7 @@
 # cpaltemplates <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![R Package Version](https://img.shields.io/badge/version-2.0.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
+[![R Package Version](https://img.shields.io/badge/version-2.5.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
 [![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/childpovertyactionlab/cpaltemplates/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
@@ -108,7 +108,7 @@ map %>%
   cpal_mapgl_layer(
     data = your_geojson,
     type = "fill",
-    fillColor = cpal_colors()["teal"],
+    fillColor = cpal_colors()["deep_teal"],
     fillOpacity = 0.7
   )
 ```

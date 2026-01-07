@@ -1,6 +1,6 @@
 # cpaltemplates Function Reference
 
-Complete reference for all 67 exported functions in cpaltemplates v2.0.1.
+Complete reference for all 67 exported functions in cpaltemplates v2.5.0.
 
 ---
 
@@ -39,7 +39,7 @@ cpal_colors("teal_seq_5")        # Sequential palette
 ---
 
 #### `cpal_colors_primary()`
-Returns the 5 core CPAL brand colors: midnight, teal, pink, orange, gold.
+Returns the 6 core CPAL brand colors: midnight, deep_teal, coral, sage, slate, warm_gray.
 
 ---
 
@@ -54,7 +54,7 @@ Get a single color by its exact name from `_brand.yml` (e.g., "teal_light", "pin
 ---
 
 #### `cpal_get_primary_color()`
-Returns the primary brand color (teal): `#007A8C`
+Returns the primary brand color (deep_teal): `#006878`
 
 ---
 
@@ -82,22 +82,23 @@ cpal_palettes("teal_seq_5")         # Get specific palette by name
 ---
 
 #### `cpal_palettes_sequential()`
-Returns list of 6 sequential palettes for continuous data:
-- `teal_seq_4`, `teal_seq_5`, `teal_seq_6` - Single-hue teal
-- `yellow_teal_seq_4`, `yellow_teal_seq_5`, `yellow_teal_seq_6` - Multi-hue
+Returns list of sequential palettes for continuous data:
+- `midnight_seq_4`, `midnight_seq_5`, `midnight_seq_6`, `midnight_seq_8` - Single-hue midnight
+- Legacy aliases: `teal_seq_4`, `teal_seq_5`, `teal_seq_6`
 
 ---
 
 #### `cpal_palettes_diverging()`
-Returns list of 3 diverging palettes:
-- `pink_teal_3`, `pink_teal_5`, `pink_teal_6`
+Returns list of diverging palettes:
+- `coral_midnight_3`, `coral_midnight_5`, `coral_midnight_7`, `coral_midnight_9`
+- Legacy aliases: `pink_teal_3`, `pink_teal_5`, `pink_teal_6`
 
 ---
 
 #### `cpal_palettes_categorical()`
-Returns list of 7 categorical palettes:
-- `main` (5), `main_gray` (6), `main_3`, `main_4`
-- `blues` (2), `compare` (2)
+Returns list of categorical palettes:
+- `main` (8 colors), `main_3`, `main_4`, `main_5`, `main_6`
+- `binary` (positive/negative), `status` (success/warning/error/info)
 
 ---
 
@@ -129,7 +130,7 @@ Check if two colors meet WCAG contrast requirements.
 | `large_text` | If TRUE, uses relaxed thresholds |
 
 ```r
-validate_color_contrast("#007A8C", "#FFFFFF")           # Check AA
+validate_color_contrast("#006878", "#FFFFFF")           # Check AA
 validate_color_contrast("#004855", "#FFFFFF", "AAA")    # Check AAA
 ```
 
@@ -151,8 +152,8 @@ validate_brand_colors("AAA")        # Check against stricter AAA
 Generate smooth gradient between two colors.
 
 ```r
-cpal_color_ramp("teal", "pink", n = 5)
-cpal_color_ramp("teal_lightest", "midnight", n = 10)
+cpal_color_ramp("coral", "midnight", n = 5)
+cpal_color_ramp("midnight_1", "midnight", n = 10)
 cpal_color_ramp("#FFFFFF", "#004855", n = 7)
 ```
 
@@ -162,8 +163,8 @@ cpal_color_ramp("#FFFFFF", "#004855", n = 7)
 Create gradient through multiple colors.
 
 ```r
-cpal_color_gradient(c("pink", "neutral", "teal"), n = 9)
-cpal_color_gradient(c("teal_lightest", "teal", "midnight"), n = 12)
+cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
+cpal_color_gradient(c("midnight_1", "deep_teal", "midnight"), n = 12)
 ```
 
 ---
@@ -558,19 +559,19 @@ ui <- page_sidebar(
 
 ### Getting brand colors
 ```r
-cpal_colors("teal")           # Single color
-cpal_colors_primary()         # All 5 primary colors
+cpal_colors("coral")          # Single color
+cpal_colors_primary()         # All 6 primary colors
 cpal_palettes("main")         # Categorical palette
 ```
 
 ### Checking accessibility
 ```r
 validate_brand_colors()                              # All colors
-validate_color_contrast("#007A8C", "#FFFFFF")        # Specific pair
+validate_color_contrast("#006878", "#FFFFFF")        # Specific pair
 ```
 
 ### Creating custom color gradients
 ```r
-cpal_color_ramp("teal", "pink", n = 7)
-cpal_color_gradient(c("teal_lightest", "teal", "midnight"), n = 10)
+cpal_color_ramp("coral", "midnight", n = 7)
+cpal_color_gradient(c("midnight_1", "deep_teal", "midnight"), n = 10)
 ```
