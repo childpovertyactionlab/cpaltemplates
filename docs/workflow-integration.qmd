@@ -115,10 +115,8 @@ format:
 
 ## Data Summary
 
-```{r}
-#| echo: false
+```r
 cpal_table_gt(summary_stats)
-```
 ```
 
 ---
@@ -337,8 +335,7 @@ format:
 
 ## Key Metrics {.smaller}
 
-```{r}
-#| echo: false
+```r
 library(cpaltemplates)
 
 ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
@@ -351,13 +348,11 @@ ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
 
 ## Trends Over Time
 
-```{r}
-#| echo: false
+```r
 # Time series visualization
 ggplot(data, aes(x = date, y = value)) +
   geom_line(color = "#007A8C", linewidth = 1.5) +
   theme_cpal_dark(base_size = 20)
-```
 ```
 
 ---

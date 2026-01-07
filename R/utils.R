@@ -694,8 +694,8 @@ validate_cpal_brand <- function(path = ".", verbose = TRUE) {
     return(invisible(results))
   }
 
-  # Required color palette entries
-  required_colors <- c("midnight", "teal", "pink", "orange", "gold")
+  # Required color palette entries (new color system)
+  required_colors <- c("midnight", "deep_teal", "coral", "sage", "slate", "warm_gray")
 
   # Check color palette exists
   if (is.null(brand$color) || is.null(brand$color$palette)) {

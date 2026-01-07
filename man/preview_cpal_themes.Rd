@@ -4,16 +4,24 @@
 \alias{preview_cpal_themes}
 \title{Preview All CPAL Theme Variants}
 \usage{
-preview_cpal_themes(data = NULL, save_path = NULL, width = 12, height = 10)
+preview_cpal_themes(
+  data = NULL,
+  save_path = NULL,
+  width = 14,
+  height = 12,
+  layout = c("paired", "grid", "vertical")
+)
 }
 \arguments{
 \item{data}{Optional data frame. If NULL, uses built-in sample data.}
 
 \item{save_path}{Optional file path. If provided, saves the preview as an image.}
 
-\item{width}{Width in inches for saved image (default: 12).}
+\item{width}{Width in inches for saved image (default: 14).}
 
-\item{height}{Height in inches for saved image (default: 10).}
+\item{height}{Height in inches for saved image (default: 12).}
+
+\item{layout}{Character. Layout style: "grid" (2x3), "vertical" (6x1), or "paired" (3x2). Default: "paired".}
 }
 \value{
 A patchwork object combining all theme previews (invisibly if saved).
@@ -29,5 +37,8 @@ preview_cpal_themes()
 
 # Save theme preview to file
 preview_cpal_themes(save_path = "theme_comparison.png")
+
+# Use different layout
+preview_cpal_themes(layout = "vertical")
 }
 }

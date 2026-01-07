@@ -38,11 +38,11 @@ theme_cpal <- function(base_size = 14,
   grid <- match.arg(grid, c("horizontal", "vertical", "both", "none"))
   axis_line <- match.arg(axis_line)
 
-  # CPAL color palette
+  # CPAL color palette (from brand colors)
   midnight <- "#004855"
-  neutral <- "#EBEBEB"
-  neutral_dark <- "#919191"
-  axis_line_color <- "#4a4a4a"
+  neutral <- "#E8ECEE"
+  neutral_dark <- "#9BA8AB"
+  axis_line_color <- "#5C6B73"
 
   # Font family setup
   if (base_family == "") {
@@ -85,30 +85,29 @@ theme_cpal <- function(base_size = 14,
       lineheight = 0.9
     ),
 
-    # Plot titles and labels - NEW: centered title, normal size
+    # Plot titles and labels
     plot.title = ggplot2::element_text(
-      size = base_size,  # Normal size (was base_size * 12/8.5)
+      size = base_size * 1.15,  # Slightly larger than base
       family = base_family,
       face = "bold",
-      hjust = 0.5,  # Centered (was 0)
+      hjust = 0,  # Left-aligned (standard for data viz)
       color = title_color,
-      margin = ggplot2::margin(b = base_size * 0.5)
+      margin = ggplot2::margin(b = base_size * 0.4)
     ),
     plot.subtitle = ggplot2::element_text(
-      size = base_size * 9.5/8.5,
+      size = base_size * 0.9,  # Smaller than title
       family = base_family,
       face = "plain",
       hjust = 0,
-      color = title_color,
-      margin = ggplot2::margin(b = base_size * 0.5)
+      color = if (style == "dark") "#bbbbbb" else "#666666",
+      margin = ggplot2::margin(b = base_size * 0.6)
     ),
-    # NEW: 40% smaller caption
     plot.caption = ggplot2::element_text(
-      size = base_size * 0.7,  # 40% smaller (was base_size * 7/8.5)
+      size = base_size * 0.7,
       family = base_family,
       hjust = 1,
       margin = ggplot2::margin(t = base_size * 0.5),
-      color = if (style == "dark") "#999999" else neutral_dark
+      color = if (style == "dark") "#888888" else neutral_dark
     ),
     plot.title.position = "plot",
     plot.caption.position = "plot",
@@ -117,28 +116,26 @@ theme_cpal <- function(base_size = 14,
     axis.title = if (axis_title) {
       ggplot2::element_text(
         family = base_family,
-        face = "italic",
-        size = base_size * 0.9,  # NEW: 50% smaller (was base_size)
-        color = if (style == "dark") text_color else midnight
+        face = "plain",  # Normal weight, not italic
+        size = base_size * 0.85,
+        color = if (style == "dark") "#bbbbbb" else "#555555"
       )
     } else {
       ggplot2::element_blank()
     },
     axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = base_size * 0.5)),
-    # NEW: custom margin for y-axis title
-    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = 15)),
-    # NEW: 30% smaller axis text
+    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = base_size * 0.5)),
     axis.text.x = ggplot2::element_text(
       family = base_family,
-      size = base_size * 0.8,  # 30% smaller (was base_size * 1.1)
-      face = "bold",
-      color = if (style == "dark") axis_text_color else midnight
+      size = base_size * 0.8,
+      face = "plain",  # Normal weight, not bold
+      color = if (style == "dark") axis_text_color else "#444444"
     ),
     axis.text.y = ggplot2::element_text(
       family = base_family,
-      size = base_size * 0.8,  # 30% smaller (was base_size * 0.9)
-      face = "bold",
-      color = if (style == "dark") "#999999" else neutral_dark
+      size = base_size * 0.8,
+      face = "plain",  # Normal weight, not bold
+      color = if (style == "dark") "#999999" else "#444444"
     ),
     axis.ticks = ggplot2::element_line(
       color = if (style == "dark") "#666666" else neutral_dark
@@ -185,8 +182,9 @@ theme_cpal <- function(base_size = 14,
       )
     ),
 
-    # NEW: Full width margins (remove plot margins)
-    plot.margin = ggplot2::margin(0, 0, 15, 0, "pt")
+    # Plot margins - consistent padding on all sides for better contrast
+    # when chart background differs from page background
+    plot.margin = ggplot2::margin(15, 15, 15, 15, "pt")
   )
 
   # Grid lines (initially remove all)
@@ -489,7 +487,7 @@ theme_cpal_map <- function(base_size = 16,
         family = base_family,
         hjust = 1,
         margin = ggplot2::margin(t = base_size * 0.5),
-        color = "#919191"
+        color = "#9BA8AB"
       ),
 
       # Legend styling for maps - wider for continuous scales
@@ -566,8 +564,9 @@ set_theme_cpal <- function(style = "default", base_size = 16, ...) {
 #'
 #' @param data Optional data frame. If NULL, uses built-in sample data.
 #' @param save_path Optional file path. If provided, saves the preview as an image.
-#' @param width Width in inches for saved image (default: 12).
-#' @param height Height in inches for saved image (default: 10).
+#' @param width Width in inches for saved image (default: 14).
+#' @param height Height in inches for saved image (default: 12).
+#' @param layout Character. Layout style: "grid" (2x3), "vertical" (6x1), or "paired" (3x2). Default: "paired".
 #'
 #' @return A patchwork object combining all theme previews (invisibly if saved).
 #'
@@ -580,12 +579,18 @@ set_theme_cpal <- function(style = "default", base_size = 16, ...) {
 #'
 #' # Save theme preview to file
 #' preview_cpal_themes(save_path = "theme_comparison.png")
+#'
+#' # Use different layout
+#' preview_cpal_themes(layout = "vertical")
 #' }
-preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 12, height = 10) {
+preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 14, height = 12,
+                                layout = c("paired", "grid", "vertical")) {
   # Check for patchwork
   if (!requireNamespace("patchwork", quietly = TRUE)) {
     cli::cli_abort("Package {.pkg patchwork} is required. Install with: install.packages('patchwork')")
   }
+
+  layout <- match.arg(layout)
 
   # Create sample data if not provided
   if (is.null(data)) {
@@ -597,9 +602,9 @@ preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 12, heigh
     )
   }
 
-  # Create base plot function
-  make_plot <- function(theme_func, title) {
-    ggplot2::ggplot(data, ggplot2::aes(x = x, y = y, color = group)) +
+  # Create base plot function with consistent legend handling
+  make_plot <- function(theme_func, title, show_legend = TRUE) {
+    p <- ggplot2::ggplot(data, ggplot2::aes(x = x, y = y, color = group)) +
       ggplot2::geom_line(linewidth = 1) +
       ggplot2::geom_point(size = 3) +
       scale_color_cpal("main_3") +
@@ -609,17 +614,22 @@ preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 12, heigh
         y = "Value",
         color = "Category"
       ) +
-      theme_func(base_size = 10)
+      theme_func(base_size = 11)
+
+    if (!show_legend) {
+      p <- p + ggplot2::theme(legend.position = "none")
+    }
+    p
   }
 
-  # Create all theme variants
-  p_default <- make_plot(theme_cpal, "theme_cpal() - Default")
-  p_minimal <- make_plot(theme_cpal_minimal, "theme_cpal_minimal()")
-  p_classic <- make_plot(theme_cpal_classic, "theme_cpal_classic()")
-  p_dark <- make_plot(theme_cpal_dark, "theme_cpal_dark()")
-  p_print <- make_plot(theme_cpal_print, "theme_cpal_print()")
+  # Create all theme variants - hide legend on right column to prevent overlap
+  p_default <- make_plot(theme_cpal, "theme_cpal() - Default", show_legend = TRUE)
+  p_minimal <- make_plot(theme_cpal_minimal, "theme_cpal_minimal()", show_legend = FALSE)
+  p_classic <- make_plot(theme_cpal_classic, "theme_cpal_classic()", show_legend = TRUE)
+  p_dark <- make_plot(theme_cpal_dark, "theme_cpal_dark()", show_legend = FALSE)
+  p_print <- make_plot(theme_cpal_print, "theme_cpal_print()", show_legend = TRUE)
 
-  # Create a map-style plot
+  # Create a map-style plot with matching aesthetics
   p_map <- ggplot2::ggplot(data, ggplot2::aes(x = x, y = y, fill = group)) +
     ggplot2::geom_tile(width = 0.8, height = 0.5) +
     scale_fill_cpal("main_3") +
@@ -627,17 +637,36 @@ preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 12, heigh
       title = "theme_cpal_map()",
       fill = "Category"
     ) +
-    theme_cpal_map(base_size = 10)
+    theme_cpal_map(base_size = 11) +
+    ggplot2::theme(legend.position = "none")
 
-  # Combine using patchwork
-  combined <- (p_default + p_minimal + p_classic) /
-    (p_dark + p_print + p_map) +
+  # Arrange based on layout
+  if (layout == "paired") {
+    # 3 rows, 2 columns - gives each chart more space
+    combined <- (p_default + p_minimal) /
+      (p_classic + p_dark) /
+      (p_print + p_map) +
+      patchwork::plot_layout(heights = c(1, 1, 1))
+  } else if (layout == "grid") {
+    # 2 rows, 3 columns - original layout
+    combined <- (p_default + p_minimal + p_classic) /
+      (p_dark + p_print + p_map)
+  } else {
+    # Vertical - all stacked
+    combined <- p_default / p_minimal / p_classic / p_dark / p_print / p_map
+    width <- 8
+    height <- 20
+  }
+
+  # Add title annotation
+  combined <- combined +
     patchwork::plot_annotation(
       title = "CPAL Theme Variants Comparison",
       subtitle = "Choose the theme that best fits your visualization context",
       theme = ggplot2::theme(
-        plot.title = ggplot2::element_text(size = 16, face = "bold", hjust = 0.5),
-        plot.subtitle = ggplot2::element_text(size = 12, hjust = 0.5, color = "#666666")
+        plot.title = ggplot2::element_text(size = 18, face = "bold", hjust = 0.5, color = "#004855"),
+        plot.subtitle = ggplot2::element_text(size = 13, hjust = 0.5, color = "#666666"),
+        plot.background = ggplot2::element_rect(fill = "white", color = NA)
       )
     )
 

@@ -8,60 +8,61 @@ meta:
 
 color:
   palette:
-    # === Primary Brand Colors ===
+    # === Core Brand Colors ===
     midnight: "#004855"
+    deep_teal: "#006878"
+    coral: "#E86A50"
+    sage: "#5A8A6F"
+    slate: "#5C6B73"
+    warm_gray: "#9BA8AB"
+
+    # === Legacy Colors (for backward compatibility) ===
     teal: "#007A8C"
-    pink: "#C3257B"
-    orange: "#ED683F"
-    gold: "#AB8C01"
+    gold: "#B8860B"
+    plum: "#8B5E83"
+    coral_dark: "#C75540"
 
     # === Neutral Colors ===
     white: "#FFFFFF"
-    neutral: "#EBEBEB"
-    gray: "#919191"
-    gray_blue: "#798AA1"
+    neutral: "#E8ECEE"
     black: "#1A1A1A"
 
-    # === Teal Shades (for sequential palettes) ===
-    teal_lightest: "#D8EFF4"
-    teal_lighter: "#C0E7EE"
-    teal_light: "#95CFDA"
-    teal_mid: "#47ACBD"
-    teal_dark: "#025968"
-    teal_darkest: "#043037"
+    # === Sequential Palette - Midnight (light to dark) ===
+    midnight_1: "#E8F4F6"
+    midnight_2: "#B8D9E0"
+    midnight_3: "#88BECA"
+    midnight_4: "#58A3B4"
+    midnight_5: "#28889E"
+    midnight_6: "#006D88"
+    midnight_7: "#004855"
+    midnight_8: "#002D38"
 
-    # === Pink Shades (for diverging palettes) ===
-    pink_light: "#B888AC"
-    pink_lighter: "#BB8AAC"
-    pink_muted: "#B979A2"
-    pink_neutral: "#C2BBCB"
+    # === Diverging Palette - Coral to Midnight ===
+    div_coral_1: "#C75540"
+    div_coral_2: "#E86A50"
+    div_coral_3: "#F08B78"
+    div_coral_4: "#F5ADA0"
+    div_neutral: "#E8ECEE"
+    div_teal_1: "#88BECA"
+    div_teal_2: "#58A3B4"
+    div_teal_3: "#006878"
+    div_teal_4: "#004855"
 
-    # === Teal-Pink Blend (for diverging palettes) ===
-    teal_neutral: "#A0BFC5"
-    teal_muted: "#69969E"
-    teal_gray: "#588993"
-
-    # === Multi-hue Sequential Colors ===
-    yellow: "#E5CB50"
-    green_teal: "#76A772"
-    green_muted: "#82AA6F"
-    teal_green: "#499881"
-    teal_green_mid: "#2A8E8A"
-
-    # === Additional Accent Colors ===
-    teal_blue: "#6B9BDE"
+    # === Status Colors ===
+    success: "#5A8A6F"
+    warning: "#D4A84B"
+    error: "#C75540"
+    info: "#006878"
 
   # Semantic color assignments
   foreground: black
   background: white
-  primary: teal
+  primary: deep_teal
   secondary: midnight
-  success: teal
-  info: teal_light
-  warning: gold
-  danger: orange
-  light: white
-  dark: midnight
+  success: sage
+  info: deep_teal
+  warning: warning
+  danger: coral
 
 typography:
   # 1. Define the fonts and their sources
@@ -75,12 +76,12 @@ typography:
 
   # 2. Apply the fonts to the default HTML elements
   base:
-    family: Poppins 
+    family: Poppins
   headings:
-    family: Poppins 
+    family: Poppins
   monospace:
-    family: Fira Code 
-    
+    family: Fira Code
+
 defaults:
   bootstrap:
     defaults:
@@ -92,8 +93,8 @@ defaults:
       "btn-border-radius": "6px"
       "input-border-radius": "6px"
       "card-border-radius": "8px"
-      "input-border-color": teal
-      "progress-bar-bg": teal
+      "input-border-color": deep_teal
+      "progress-bar-bg": deep_teal
       "progress-bg": white
       "card-cap-padding-y": "0.75rem"
       "alert-padding-y": "0.75rem"
@@ -101,6 +102,3 @@ defaults:
       "tooltip-color": white
       "bg-light": white
       "bg-dark": black
-
-
- 

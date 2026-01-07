@@ -15,7 +15,7 @@ A character string hex code.
 }
 \description{
 Generic helper to retrieve a specific hex code from the brand palette
-by providing its name (e.g., "pink", "orange", "indigo").
+by providing its name (e.g., "coral", "sage", "midnight").
 }
 \examples{
 cpal_get_color("orange")

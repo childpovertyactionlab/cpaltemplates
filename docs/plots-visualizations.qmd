@@ -3,9 +3,111 @@ title: "Plots & Output"
 subtitle: "Creating and exporting CPAL visualizations"
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+```
+
 ## Overview
 
 This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations.
+
+---
+
+## Plot Examples
+
+Before diving into the utility functions, here are some complete examples of CPAL-styled visualizations:
+
+### Scatter Plot with Regression
+
+```{r}
+#| label: scatter-example
+#| fig-cap: "Scatter plot with trend line"
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3, alpha = 0.8) +
+  geom_smooth(method = "lm", se = TRUE, alpha = 0.2) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Vehicle Fuel Efficiency",
+    subtitle = "Weight vs. MPG by cylinder count",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders",
+    caption = "Source: Motor Trend, 1974"
+  ) +
+  theme_cpal()
+```
+
+### Bar Chart
+
+```{r}
+#| label: bar-example
+#| fig-cap: "Bar chart with CPAL colors"
+mtcars |>
+  count(cyl) |>
+  ggplot(aes(x = factor(cyl), y = n, fill = factor(cyl))) +
+  geom_col(alpha = 0.9) +
+  geom_text(aes(label = n), vjust = -0.5, fontface = "bold", color = "#444444") +
+  scale_fill_cpal("main_3") +
+  labs(
+    title = "Vehicle Count by Cylinder",
+    x = "Number of Cylinders",
+    y = "Count"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
+```
+
+### Box Plot
+
+```{r}
+#| label: boxplot-example
+#| fig-cap: "Box plot comparing distributions"
+ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
+  geom_boxplot(alpha = 0.8, outlier.shape = 21) +
+  scale_fill_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency Distribution",
+    subtitle = "By cylinder count",
+    x = "Cylinders",
+    y = "Miles per Gallon"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
+```
+
+### Line Chart
+
+```{r}
+#| label: line-example
+#| fig-cap: "Line chart with multiple series"
+# Create time series-like data
+line_data <- data.frame(
+  year = rep(2018:2023, 3),
+  value = c(
+    cumsum(rnorm(6, 5, 2)),
+    cumsum(rnorm(6, 4, 2)),
+    cumsum(rnorm(6, 3, 2))
+  ),
+  group = rep(c("Series A", "Series B", "Series C"), each = 6)
+)
+
+ggplot(line_data, aes(x = year, y = value, color = group)) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Trend Over Time",
+    subtitle = "Multiple series comparison",
+    x = "Year",
+    y = "Value",
+    color = "Series"
+  ) +
+  theme_cpal()
+```
 
 ---
 
@@ -114,31 +216,93 @@ add_cpal_logo(
 
 #### Examples
 
-```r
+**Default position (top-right):**
+
+```{r}
+#| label: logo-default
+#| fig-cap: "Plot with CPAL logo in default position"
 p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#007A8C") +
+  geom_point(color = "#006878", size = 3) +
+  labs(
+    title = "Vehicle Fuel Efficiency",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon"
+  ) +
   theme_cpal()
 
-# Default: top-right
-p_logo <- add_cpal_logo(p)
+add_cpal_logo(p)
+```
 
-# Bottom-left placement
-p_logo <- add_cpal_logo(p, position = "bottom-left")
+**Changing position when logo overlaps data:**
 
-# Larger logo
-p_logo <- add_cpal_logo(p, size = 0.12)
+If the default top-right position overlaps your data, try a different corner:
 
-# Smaller logo
-p_logo <- add_cpal_logo(p, size = 0.06)
+```{r}
+#| label: logo-positions
+#| fig-cap: "Comparing logo positions"
+#| layout-ncol: 2
+#| fig-height: 4
 
-# Works with dark theme (auto-selects white logo)
-p_dark <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#95CFDA") +
+# Data concentrated in top-right - use bottom-left
+p_topright <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#006878", size = 3) +
+  labs(title = "Bottom-Left Logo", subtitle = "Best when data is in top-right") +
+  theme_cpal()
+
+print(add_cpal_logo(p_topright, position = "bottom-left"))
+
+# Data concentrated in bottom-left - use top-right
+p_bottomleft <- ggplot(mtcars, aes(x = mpg, y = wt)) +
+  geom_point(color = "#E86A50", size = 3) +
+  labs(title = "Top-Right Logo", subtitle = "Best when data is in bottom-left") +
+  theme_cpal()
+
+print(add_cpal_logo(p_bottomleft, position = "top-right"))
+```
+
+**Adjusting logo size:**
+
+```{r}
+#| label: logo-sizes
+#| fig-cap: "Different logo sizes"
+#| layout-ncol: 2
+#| fig-height: 4
+
+p_base <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#006878", size = 3) +
+  theme_cpal()
+
+# Smaller logo (0.06)
+print(add_cpal_logo(p_base + labs(title = "Smaller Logo (size = 0.06)"),
+              position = "bottom-right", size = 0.06))
+
+# Larger logo (0.12)
+print(add_cpal_logo(p_base + labs(title = "Larger Logo (size = 0.12)"),
+              position = "bottom-right", size = 0.12))
+```
+
+**Dark theme (auto-selects white logo):**
+
+```{r}
+#| label: logo-dark
+#| fig-cap: "Logo automatically adapts to dark theme"
+p_dark <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Dark Theme with Logo",
+    subtitle = "White logo is automatically selected",
+    color = "Cylinders"
+  ) +
   theme_cpal_dark()
 
-p_dark_logo <- add_cpal_logo(p_dark)  # Uses white logo
+add_cpal_logo(p_dark, position = "bottom-right")
+```
 
-# Custom logo
+**Custom logo path:**
+
+```r
+# Use your own logo
 p_custom <- add_cpal_logo(p, logo_path = "path/to/custom_logo.png")
 ```
 

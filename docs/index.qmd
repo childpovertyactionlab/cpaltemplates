@@ -31,6 +31,7 @@ library(dplyr)
 
 ```{r}
 #| eval: false
+#| code-fold: show
 # Install from GitHub
 remotes::install_github("childpovertyactionlab/cpaltemplates")
 
@@ -77,7 +78,7 @@ cpal_colors_primary()
 #| label: palette-visual
 #| fig-height: 3
 #| fig-cap: "CPAL color palettes"
-view_cpal_palettes(c("main", "teal_seq_5", "pink_teal_5"))
+view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
 ```
 
 [Learn more about Colors & Palettes](colors-palettes.qmd)

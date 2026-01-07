@@ -3,25 +3,174 @@ title: "Interactive Charts"
 subtitle: "Creating interactive visualizations with ggiraph"
 ---
 
+```{r}
+#| label: setup
+#| include: false
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+```
+
 ## Overview
 
 cpaltemplates provides 7 functions for creating interactive visualizations using the ggiraph package. These functions add tooltips, hover effects, and click actions to your ggplot2 charts.
+
+::: {.callout-tip}
+## Try It!
+Hover over the data points in the charts below to see interactive tooltips.
+:::
 
 ---
 
 ## Quick Start
 
-```r
-library(cpaltemplates)
-library(ggplot2)
+```{r}
+#| label: quick-start-interactive
+#| code-fold: show
 library(ggiraph)
 
+# Create data with tooltips
+mtcars_named <- mtcars |>
+  mutate(
+    car_name = rownames(mtcars),
+    tooltip = paste0(
+      "<strong>", car_name, "</strong><br>",
+      "MPG: ", mpg, "<br>",
+      "Weight: ", wt, " tons"
+    )
+  )
+
 # Create an interactive plot
-p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point_interactive(aes(tooltip = rownames(mtcars))) +
+p <- ggplot(mtcars_named, aes(x = wt, y = mpg)) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = car_name),
+    size = 3,
+    color = "#007A8C"
+  ) +
+  labs(
+    title = "Interactive Scatter Plot",
+    subtitle = "Hover over points to see details",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon"
+  ) +
   theme_cpal()
 
 cpal_interactive(p)
+```
+
+---
+
+## Interactive Examples
+
+### Colored by Group
+
+```{r}
+#| label: interactive-colored
+mtcars_colored <- mtcars |>
+  mutate(
+    car_name = rownames(mtcars),
+    tooltip = paste0(
+      "<strong>", car_name, "</strong><br>",
+      "Cylinders: ", cyl, "<br>",
+      "MPG: ", round(mpg, 1), "<br>",
+      "Horsepower: ", hp
+    )
+  )
+
+p_colored <- ggplot(mtcars_colored, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = car_name),
+    size = 4,
+    alpha = 0.8
+  ) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency by Weight",
+    subtitle = "Colored by cylinder count - hover for details",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders"
+  ) +
+  theme_cpal()
+
+cpal_interactive(p_colored)
+```
+
+### Interactive Box Plot with Points
+
+```{r}
+#| label: interactive-boxplot
+boxplot_data <- mtcars |>
+  mutate(
+    cyl_factor = factor(cyl),
+    tooltip = paste0(
+      "<strong>", rownames(mtcars), "</strong><br>",
+      "MPG: ", mpg, "<br>",
+      "Cylinders: ", cyl, "<br>",
+      "HP: ", hp
+    )
+  )
+
+p_box <- ggplot(boxplot_data, aes(x = cyl_factor, y = mpg, fill = cyl_factor)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = rownames(mtcars)),
+    position = position_jitter(width = 0.2, seed = 42),
+    size = 3, alpha = 0.8
+  ) +
+  scale_fill_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency Distribution by Cylinder Count",
+    subtitle = "Hover over points for vehicle details",
+    x = "Number of Cylinders",
+    y = "Miles per Gallon"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
+
+cpal_interactive(p_box)
+```
+
+### Interactive Line Chart
+
+```{r}
+#| label: interactive-line
+# Create time series data
+set.seed(123)
+time_data <- data.frame(
+  year = rep(2018:2023, 3),
+  value = c(
+    cumsum(c(100, rnorm(5, 8, 3))),
+    cumsum(c(80, rnorm(5, 6, 4))),
+    cumsum(c(60, rnorm(5, 10, 5)))
+  ),
+  group = rep(c("Region A", "Region B", "Region C"), each = 6)
+) |>
+  mutate(
+    tooltip = paste0(
+      "<strong>", group, "</strong><br>",
+      "Year: ", year, "<br>",
+      "Value: ", round(value, 1)
+    )
+  )
+
+p_line <- ggplot(time_data, aes(x = year, y = value, color = group, group = group)) +
+  geom_line_interactive(aes(data_id = group), linewidth = 1.2) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = group),
+    size = 4
+  ) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Growth Trends by Region",
+    subtitle = "Hover over points to see values",
+    x = "Year",
+    y = "Cumulative Value",
+    color = "Region"
+  ) +
+  theme_cpal()
+
+cpal_interactive(p_line)
 ```
 
 ---

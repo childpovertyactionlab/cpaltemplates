@@ -23,16 +23,49 @@ CPAL's 5 core brand colors form the foundation of all palettes:
 
 ```{r}
 #| label: primary-colors
+#| code-fold: show
 cpal_colors_primary()
 ```
 
-| Color | Hex | Use Case |
-|-------|-----|----------|
-| **Midnight** | `#004855` | Dark backgrounds, headers, emphasis |
-| **Teal** | `#007A8C` | Primary brand color, links, highlights |
-| **Pink** | `#C3257B` | Accent, call-to-action, contrast |
-| **Orange** | `#ED683F` | Warnings, alerts, secondary accent |
-| **Gold** | `#AB8C01` | Tertiary accent, highlights |
+```{r}
+#| label: primary-colors-table
+#| echo: false
+
+# Create a data frame with color info
+primary_colors <- data.frame(
+  Color = c("Midnight", "Deep Teal", "Coral", "Sage", "Slate", "Warm Gray"),
+  Hex = c("#004855", "#006878", "#E86A50", "#5A8A6F", "#5C6B73", "#9BA8AB"),
+  Use_Case = c(
+    "Dark backgrounds, headers, primary emphasis",
+    "Primary brand color, links, info states",
+    "Accents, alerts, negative/error states",
+    "Success states, positive indicators",
+    "Secondary text, borders, muted elements",
+    "Neutral backgrounds, disabled states"
+  )
+)
+
+# Create gt table with color swatches
+gt::gt(primary_colors) |>
+  gt::cols_label(
+    Color = "Color",
+    Hex = "Hex Code",
+    Use_Case = "Use Case"
+  ) |>
+  gt::text_transform(
+    locations = gt::cells_body(columns = Hex),
+    fn = function(x) {
+      glue::glue(
+        "<span style='display: inline-block; width: 20px; height: 20px; background-color: {x}; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'></span><code>{x}</code>"
+      )
+    }
+  ) |>
+  gt::fmt_markdown(columns = Hex) |>
+  gt::tab_options(
+    table.font.size = "14px",
+    column_labels.font.weight = "bold"
+  )
+```
 
 ---
 
@@ -48,22 +81,22 @@ The main entry point for accessing any CPAL color or palette.
 cpal_colors()
 
 # Get a single color by name
-cpal_colors("teal")
+cpal_colors("coral")
 
 # Get multiple specific colors
-cpal_colors(c("teal", "pink", "gold"))
+cpal_colors(c("midnight", "coral", "sage"))
 ```
 
 ```{r}
 #| label: cpal-colors-palettes
 # Get a palette
-cpal_colors("teal_seq_5")
+cpal_colors("midnight_seq_5")
 
 # Limit number of colors
 cpal_colors("main", n = 3)
 
 # Reverse palette order
-cpal_colors("teal_seq_5", reverse = TRUE)
+cpal_colors("midnight_seq_5", reverse = TRUE)
 ```
 
 ---
@@ -107,9 +140,9 @@ For discrete data with distinct categories:
 
 ```{r}
 #| label: categorical-palettes
-#| fig-height: 4
+#| fig-height: 5
 #| fig-cap: "Categorical palettes for discrete data"
-view_cpal_palettes(c("main", "main_3", "main_4", "main_gray"))
+view_cpal_palettes(c("main", "main_3", "main_4", "main_5", "main_6", "binary", "status"))
 ```
 
 **Usage example:**
@@ -135,7 +168,7 @@ For continuous or ordered data:
 #| label: sequential-palettes
 #| fig-height: 4
 #| fig-cap: "Sequential palettes for continuous data"
-view_cpal_palettes(c("teal_seq_4", "teal_seq_5", "teal_seq_6", "yellow_teal_seq_5"))
+view_cpal_palettes(c("midnight_seq_4", "midnight_seq_5", "midnight_seq_6", "midnight_seq_8"))
 ```
 
 **Usage example:**
@@ -145,7 +178,7 @@ view_cpal_palettes(c("teal_seq_4", "teal_seq_5", "teal_seq_6", "yellow_teal_seq_
 #| fig-cap: "Using sequential palette for continuous data"
 ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
   geom_point(size = 4) +
-  scale_color_cpal_c("teal_seq_5") +
+  scale_color_cpal_c("midnight_seq_5") +
   labs(
     title = "Fuel Efficiency by Weight",
     subtitle = "Color shows horsepower",
@@ -164,9 +197,9 @@ For data with a meaningful midpoint:
 
 ```{r}
 #| label: diverging-palettes
-#| fig-height: 3
+#| fig-height: 4
 #| fig-cap: "Diverging palettes for data with midpoints"
-view_cpal_palettes(c("pink_teal_3", "pink_teal_5", "pink_teal_6"))
+view_cpal_palettes(c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9"))
 ```
 
 **Usage example:**
@@ -183,9 +216,9 @@ change_data <- data.frame(
 ggplot(change_data, aes(x = category, y = change, fill = change)) +
   geom_col() +
   scale_fill_gradient2(
-    low = "#C3257B",
-    mid = "#EBEBEB",
-    high = "#007A8C",
+    low = "#E86A50",
+    mid = "#E8ECEE",
+    high = "#004855",
     midpoint = 0
   ) +
   labs(
@@ -238,11 +271,11 @@ Generate smooth gradient between two colors:
 
 ```{r}
 #| label: color-ramp
-# Gradient from teal to pink
-cpal_color_ramp("teal", "pink", n = 7)
+# Gradient from coral to midnight
+cpal_color_ramp("coral", "midnight", n = 7)
 
 # Using color names from brand.yml
-cpal_color_ramp("teal_lightest", "midnight", n = 5)
+cpal_color_ramp("midnight_1", "midnight", n = 5)
 ```
 
 ### `cpal_color_gradient()`
@@ -252,10 +285,11 @@ Create gradient through multiple colors:
 ```{r}
 #| label: color-gradient
 # Three-color gradient
-cpal_color_gradient(c("pink", "neutral", "teal"), n = 9)
+cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
 ```
 
 ---
+
 ## Color Validation (Accessibility)
 
 ### `validate_color_contrast()`
@@ -264,11 +298,11 @@ Check if two colors meet WCAG contrast requirements:
 
 ```{r}
 #| label: contrast-validation
-# Check teal on white (should pass AA)
-validate_color_contrast("#007A8C", "#FFFFFF")
+# Check deep_teal on white (should pass AA)
+validate_color_contrast("#006878", "#FFFFFF")
 
 # Check with AAA standard (stricter)
-validate_color_contrast("#007A8C", "#FFFFFF", level = "AAA")
+validate_color_contrast("#006878", "#FFFFFF", level = "AAA")
 
 # Midnight on white (high contrast)
 validate_color_contrast("#004855", "#FFFFFF", level = "AAA")
@@ -294,12 +328,13 @@ This function prints a detailed report showing which colors pass WCAG AA/AAA sta
 
 | Data Type | Recommended Palettes |
 |-----------|---------------------|
-| **Categories (≤3)** | `main_3`, `compare` |
-| **Categories (4-5)** | `main`, `main_4` |
-| **Categories (6+)** | `main_gray` |
-| **Sequential/Continuous** | `teal_seq_5`, `yellow_teal_seq_5` |
-| **Diverging (with midpoint)** | `pink_teal_5`, `pink_teal_3` |
-| **Binary comparison** | `compare`, `blues` |
+| **Categories (≤3)** | `main_3`, `binary` |
+| **Categories (4-5)** | `main_4`, `main_5` |
+| **Categories (6-8)** | `main_6`, `main` |
+| **Sequential/Continuous** | `midnight_seq_5`, `midnight_seq_6` |
+| **Diverging (with midpoint)** | `coral_midnight_5`, `coral_midnight_7` |
+| **Binary comparison** | `binary`, `compare` |
+| **Status indicators** | `status` |
 
 ---
 

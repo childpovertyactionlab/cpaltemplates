@@ -4,13 +4,15 @@ project:
 
 website:
   title: "cpaltemplates"
-#  subtitle: "CPAL Data Visualization & Branding Toolkit"
   site-url: https://childpovertyactionlab.github.io/cpaltemplates
   repo-url: https://github.com/childpovertyactionlab/cpaltemplates
   repo-actions: [issue, source]
 
   navbar:
-    background: "#007A8C"
+    background: "#004855"
+    logo: CPAL_Logo_White.png
+    logo-alt: "Child Poverty Action Lab"
+    search: true
     left:
       - text: "Home"
         href: index.qmd
@@ -53,36 +55,6 @@ website:
       - text: "Troubleshooting"
         href: troubleshooting.qmd
 
-  sidebar:
-    style: floating
-    search: true
-    contents:
-      - section: "Getting Started"
-        contents:
-          - index.qmd
-          - getting-started.qmd
-      - section: "Setup & Infrastructure"
-        contents:
-          - project-setup.qmd
-          - brand-assets.qmd
-      - section: "Visualization"
-        contents:
-          - colors-palettes.qmd
-          - themes-styling.qmd
-          - plots-visualizations.qmd
-          - tables-gt.qmd
-      - section: "Interactive & Web"
-        contents:
-          - interactive-features.qmd
-          - maps-geographic.qmd
-          - shiny-dashboards.qmd
-      - section: "Utilities & Reference"
-        contents:
-          - utilities-helpers.qmd
-          - workflow-integration.qmd
-          - function-reference.qmd
-          - troubleshooting.qmd
-
   page-footer:
     center: "Child Poverty Action Lab - Data Science Team"
     right:
@@ -99,7 +71,12 @@ format:
     toc-depth: 3
     code-copy: true
     code-overflow: wrap
+    code-fold: true
+    code-summary: "Show code"
     highlight-style: github
+    page-layout: article
+    grid:
+      body-width: 900px
 
 execute:
   freeze: auto
@@ -112,4 +89,4 @@ knitr:
     fig.width: 8
     fig.height: 5
     dpi: 150
-    out.width: "100%"
+    out.width: "80%"

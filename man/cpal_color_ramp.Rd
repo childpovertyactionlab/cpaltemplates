@@ -23,11 +23,11 @@ Creates a smooth gradient of colors between two specified colors.
 Useful for creating custom continuous color scales.
 }
 \examples{
-# Generate 5 colors from teal to pink
-cpal_color_ramp("teal", "pink", n = 5)
+# Generate 5 colors from coral to midnight
+cpal_color_ramp("coral", "midnight", n = 5)
 
-# Generate 10 colors from a light to dark teal
-cpal_color_ramp("teal_lightest", "midnight", n = 10)
+# Generate 10 colors from a light to dark midnight
+cpal_color_ramp("midnight_1", "midnight", n = 10)
 
 # Use custom hex codes
 cpal_color_ramp("#FFFFFF", "#004855", n = 7)

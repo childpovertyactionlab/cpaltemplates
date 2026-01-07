@@ -11,7 +11,7 @@ List of diverging color palettes
 }
 \description{
 Diverging palettes for data with a meaningful midpoint,
-built from colors in `_brand.yml`.
+built from colors in `_brand.yml`. Uses Coral to Midnight diverging scale.
 }
 \examples{
 cpal_palettes_diverging

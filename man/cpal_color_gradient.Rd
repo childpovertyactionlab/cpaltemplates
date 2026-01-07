@@ -20,8 +20,8 @@ custom palettes that transition through several CPAL brand colors.
 }
 \examples{
 # Create gradient through brand colors
-cpal_color_gradient(c("pink", "neutral", "teal"), n = 9)
+cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
 
 # Create extended sequential palette
-cpal_color_gradient(c("teal_lightest", "teal", "midnight"), n = 12)
+cpal_color_gradient(c("midnight_1", "deep_teal", "midnight"), n = 12)
 }

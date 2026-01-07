@@ -27,11 +27,11 @@ Access CPAL color palettes. All colors are sourced from `_brand.yml`.
 cpal_colors()
 
 # Get specific colors
-cpal_colors("teal")
-cpal_colors(c("teal", "orange"))
+cpal_colors("coral")
+cpal_colors(c("coral", "sage"))
 
 # Get a sequential palette
-cpal_colors("teal_seq_5")
+cpal_colors("midnight_seq_5")
 
 # Get n colors from a palette
 cpal_colors("main", n = 3)

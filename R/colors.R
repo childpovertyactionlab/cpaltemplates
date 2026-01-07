@@ -9,6 +9,9 @@
 #' @importFrom graphics axis barplot mtext par plot.new rect text
 NULL
 
+# Declare global variables used in ggplot2 aes() to avoid R CMD check notes
+utils::globalVariables(c("position", "color", "label", "text_color"))
+
 # ============================================================================
 # Brand Configuration Loading
 # ============================================================================
@@ -105,11 +108,12 @@ NULL
 #' cpal_colors_primary
 cpal_colors_primary <- function() {
   c(
-    "midnight" = .get_brand_color("midnight", "#004855"),
-    "teal"     = .get_brand_color("teal", "#007A8C"),
-    "pink"     = .get_brand_color("pink", "#C3257B"),
-    "orange"   = .get_brand_color("orange", "#ED683F"),
-    "gold"     = .get_brand_color("gold", "#AB8C01")
+    "midnight"   = .get_brand_color("midnight", "#004855"),
+    "deep_teal"  = .get_brand_color("deep_teal", "#006878"),
+    "coral"      = .get_brand_color("coral", "#E86A50"),
+    "sage"       = .get_brand_color("sage", "#5A8A6F"),
+    "slate"      = .get_brand_color("slate", "#5C6B73"),
+    "warm_gray"  = .get_brand_color("warm_gray", "#9BA8AB")
   )
 }
 
@@ -128,34 +132,38 @@ cpal_colors_primary <- function() {
 #' cpal_colors_extended
 cpal_colors_extended <- function() {
   c(
-    # Brand Colors
-    "midnight"      = .get_brand_color("midnight", "#004855"),
-    "teal"          = .get_brand_color("teal", "#007A8C"),
-    "pink"          = .get_brand_color("pink", "#C3257B"),
-    "orange"        = .get_brand_color("orange", "#ED683F"),
-    "gold"          = .get_brand_color("gold", "#AB8C01"),
+    # Core Brand Colors
+    "midnight"     = .get_brand_color("midnight", "#004855"),
+    "deep_teal"    = .get_brand_color("deep_teal", "#006878"),
+    "coral"        = .get_brand_color("coral", "#E86A50"),
+    "sage"         = .get_brand_color("sage", "#5A8A6F"),
+    "slate"        = .get_brand_color("slate", "#5C6B73"),
+    "warm_gray"    = .get_brand_color("warm_gray", "#9BA8AB"),
 
-    # Grays
-    "gray"          = .get_brand_color("gray", "#919191"),
-    "gray_blue"     = .get_brand_color("gray_blue", "#798AA1"),
-
-    # Teal shades
-    "teal_lightest" = .get_brand_color("teal_lightest", "#D8EFF4"),
-    "teal_lighter"  = .get_brand_color("teal_lighter", "#C0E7EE"),
-    "teal_light"    = .get_brand_color("teal_light", "#95CFDA"),
-    "teal_mid"      = .get_brand_color("teal_mid", "#47ACBD"),
-    "teal_dark"     = .get_brand_color("teal_dark", "#025968"),
-
-    # Pink shades
-    "pink_light"    = .get_brand_color("pink_light", "#B888AC"),
+    # Legacy Colors (backward compatibility)
+    "teal"         = .get_brand_color("teal", "#007A8C"),
+    "gold"         = .get_brand_color("gold", "#B8860B"),
+    "plum"         = .get_brand_color("plum", "#8B5E83"),
+    "coral_dark"   = .get_brand_color("coral_dark", "#C75540"),
 
     # Neutral
-    "neutral"       = .get_brand_color("neutral", "#EBEBEB"),
+    "neutral"      = .get_brand_color("neutral", "#E8ECEE"),
 
-    # Multi-hue
-    "yellow"        = .get_brand_color("yellow", "#E5CB50"),
-    "green_teal"    = .get_brand_color("green_teal", "#76A772"),
-    "teal_blue"     = .get_brand_color("teal_blue", "#6B9BDE")
+    # Sequential Palette - Midnight shades
+    "midnight_1"   = .get_brand_color("midnight_1", "#E8F4F6"),
+    "midnight_2"   = .get_brand_color("midnight_2", "#B8D9E0"),
+    "midnight_3"   = .get_brand_color("midnight_3", "#88BECA"),
+    "midnight_4"   = .get_brand_color("midnight_4", "#58A3B4"),
+    "midnight_5"   = .get_brand_color("midnight_5", "#28889E"),
+    "midnight_6"   = .get_brand_color("midnight_6", "#006D88"),
+    "midnight_7"   = .get_brand_color("midnight_7", "#004855"),
+    "midnight_8"   = .get_brand_color("midnight_8", "#002D38"),
+
+    # Status Colors
+    "success"      = .get_brand_color("success", "#5A8A6F"),
+    "warning"      = .get_brand_color("warning", "#D4A84B"),
+    "error"        = .get_brand_color("error", "#C75540"),
+    "info"         = .get_brand_color("info", "#006878")
   )
 }
 
@@ -166,6 +174,7 @@ cpal_colors_extended <- function() {
 #' CPAL Sequential Color Palettes
 #'
 #' Sequential palettes for continuous data, built from colors in `_brand.yml`.
+#' Uses the new Midnight sequential palette system.
 #'
 #' @return List of sequential color palettes
 #' @export
@@ -173,49 +182,65 @@ cpal_colors_extended <- function() {
 #' cpal_palettes_sequential
 cpal_palettes_sequential <- function() {
   list(
-    # Single-hue sequential (teal)
-    teal_seq_4 = c(
-      .get_brand_color("teal_light", "#95CFDA"),
-      .get_brand_color("teal_mid", "#47ACBD"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("midnight", "#004855")
-    ),
-    teal_seq_5 = c(
-      .get_brand_color("teal_lighter", "#C0E7EE"),
-      .get_brand_color("teal_light", "#95CFDA"),
-      .get_brand_color("teal_mid", "#47ACBD"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("midnight", "#004855")
-    ),
-    teal_seq_6 = c(
-      .get_brand_color("teal_lightest", "#D8EFF4"),
-      .get_brand_color("teal_lighter", "#C0E7EE"),
-      .get_brand_color("teal_light", "#95CFDA"),
-      .get_brand_color("teal_mid", "#47ACBD"),
-      .get_brand_color("teal", "#007A8C"),
+    # Midnight sequential (4 colors - light to dark)
+    midnight_seq_4 = c(
+      .get_brand_color("midnight_2", "#B8D9E0"),
+      .get_brand_color("midnight_4", "#58A3B4"),
+      .get_brand_color("midnight_6", "#006D88"),
       .get_brand_color("midnight", "#004855")
     ),
 
-    # Multi-hue sequential (yellow to teal)
-    yellow_teal_seq_4 = c(
-      .get_brand_color("yellow", "#E5CB50"),
-      .get_brand_color("teal_green", "#499881"),
-      .get_brand_color("teal", "#016678"),
+    # Midnight sequential (5 colors)
+    midnight_seq_5 = c(
+      .get_brand_color("midnight_1", "#E8F4F6"),
+      .get_brand_color("midnight_3", "#88BECA"),
+      .get_brand_color("midnight_5", "#28889E"),
+      .get_brand_color("midnight_6", "#006D88"),
       .get_brand_color("midnight", "#004855")
     ),
-    yellow_teal_seq_5 = c(
-      .get_brand_color("yellow", "#E5CB50"),
-      .get_brand_color("green_teal", "#76A772"),
-      .get_brand_color("teal", "#018097"),
-      .get_brand_color("teal_dark", "#025968"),
-      .get_brand_color("teal_darkest", "#043037")
+
+    # Midnight sequential (6 colors)
+    midnight_seq_6 = c(
+      .get_brand_color("midnight_1", "#E8F4F6"),
+      .get_brand_color("midnight_2", "#B8D9E0"),
+      .get_brand_color("midnight_3", "#88BECA"),
+      .get_brand_color("midnight_5", "#28889E"),
+      .get_brand_color("midnight_6", "#006D88"),
+      .get_brand_color("midnight", "#004855")
     ),
-    yellow_teal_seq_6 = c(
-      .get_brand_color("yellow", "#E5CB50"),
-      .get_brand_color("green_muted", "#82AA6F"),
-      .get_brand_color("teal_green_mid", "#2A8E8A"),
-      "#017084",  # Intermediate shade
-      "#03515E",  # Intermediate shade
+
+    # Midnight sequential (8 colors - full range)
+    midnight_seq_8 = c(
+      .get_brand_color("midnight_1", "#E8F4F6"),
+      .get_brand_color("midnight_2", "#B8D9E0"),
+      .get_brand_color("midnight_3", "#88BECA"),
+      .get_brand_color("midnight_4", "#58A3B4"),
+      .get_brand_color("midnight_5", "#28889E"),
+      .get_brand_color("midnight_6", "#006D88"),
+      .get_brand_color("midnight", "#004855"),
+      .get_brand_color("midnight_8", "#002D38")
+    ),
+
+    # Legacy aliases for backward compatibility
+    teal_seq_4 = c(
+      .get_brand_color("midnight_2", "#B8D9E0"),
+      .get_brand_color("midnight_4", "#58A3B4"),
+      .get_brand_color("midnight_6", "#006D88"),
+      .get_brand_color("midnight", "#004855")
+    ),
+    teal_seq_5 = c(
+      .get_brand_color("midnight_1", "#E8F4F6"),
+      .get_brand_color("midnight_3", "#88BECA"),
+      .get_brand_color("midnight_5", "#28889E"),
+      .get_brand_color("midnight_6", "#006D88"),
+      .get_brand_color("midnight", "#004855")
+    ),
+    teal_seq_6 = c(
+      .get_brand_color("midnight_1", "#E8F4F6"),
+      .get_brand_color("midnight_2", "#B8D9E0"),
+      .get_brand_color("midnight_3", "#88BECA"),
+      .get_brand_color("midnight_5", "#28889E"),
+      .get_brand_color("midnight_6", "#006D88"),
       .get_brand_color("midnight", "#004855")
     )
   )
@@ -228,7 +253,7 @@ cpal_palettes_sequential <- function() {
 #' CPAL Diverging Color Palettes
 #'
 #' Diverging palettes for data with a meaningful midpoint,
-#' built from colors in `_brand.yml`.
+#' built from colors in `_brand.yml`. Uses Coral to Midnight diverging scale.
 #'
 #' @return List of diverging color palettes
 #' @export
@@ -236,26 +261,66 @@ cpal_palettes_sequential <- function() {
 #' cpal_palettes_diverging
 cpal_palettes_diverging <- function() {
   list(
-    # Pink to Teal diverging
+    # Coral to Midnight diverging (3 colors)
+    coral_midnight_3 = c(
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("midnight", "#004855")
+    ),
+
+    # Coral to Midnight diverging (5 colors)
+    coral_midnight_5 = c(
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("div_coral_4", "#F5ADA0"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("div_teal_1", "#88BECA"),
+      .get_brand_color("midnight", "#004855")
+    ),
+
+    # Coral to Midnight diverging (7 colors)
+    coral_midnight_7 = c(
+      .get_brand_color("coral_dark", "#C75540"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("div_coral_4", "#F5ADA0"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("div_teal_1", "#88BECA"),
+      .get_brand_color("deep_teal", "#006878"),
+      .get_brand_color("midnight", "#004855")
+    ),
+
+    # Coral to Midnight diverging (9 colors - full range)
+    coral_midnight_9 = c(
+      .get_brand_color("div_coral_1", "#C75540"),
+      .get_brand_color("div_coral_2", "#E86A50"),
+      .get_brand_color("div_coral_3", "#F08B78"),
+      .get_brand_color("div_coral_4", "#F5ADA0"),
+      .get_brand_color("div_neutral", "#E8ECEE"),
+      .get_brand_color("div_teal_1", "#88BECA"),
+      .get_brand_color("div_teal_2", "#58A3B4"),
+      .get_brand_color("div_teal_3", "#006878"),
+      .get_brand_color("div_teal_4", "#004855")
+    ),
+
+    # Legacy aliases for backward compatibility
     pink_teal_3 = c(
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("neutral", "#EBEBEB"),
-      .get_brand_color("teal", "#007A8C")
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("midnight", "#004855")
     ),
     pink_teal_5 = c(
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("pink_lighter", "#BB8AAC"),
-      .get_brand_color("neutral", "#EBEBEB"),
-      .get_brand_color("teal_muted", "#69969E"),
-      .get_brand_color("teal", "#007A8C")
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("div_coral_4", "#F5ADA0"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("div_teal_1", "#88BECA"),
+      .get_brand_color("midnight", "#004855")
     ),
     pink_teal_6 = c(
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("pink_muted", "#B979A2"),
-      .get_brand_color("pink_neutral", "#C2BBCB"),
-      .get_brand_color("teal_neutral", "#A0BFC5"),
-      .get_brand_color("teal_gray", "#588993"),
-      .get_brand_color("teal", "#007A8C")
+      .get_brand_color("coral_dark", "#C75540"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("div_coral_4", "#F5ADA0"),
+      .get_brand_color("div_teal_1", "#88BECA"),
+      .get_brand_color("deep_teal", "#006878"),
+      .get_brand_color("midnight", "#004855")
     )
   )
 }
@@ -267,6 +332,7 @@ cpal_palettes_diverging <- function() {
 #' CPAL Categorical Color Palettes
 #'
 #' Palettes for categorical data, built from colors in `_brand.yml`.
+#' Maximum 8 colors for categorical data.
 #'
 #' @return List of categorical color palettes
 #' @export
@@ -274,46 +340,84 @@ cpal_palettes_diverging <- function() {
 #' cpal_palettes_categorical
 cpal_palettes_categorical <- function() {
   list(
-    # Brand colors for categories
+    # Full categorical palette (8 colors max)
     main = c(
       .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F"),
       .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("orange", "#ED683F"),
-      .get_brand_color("gold", "#AB8C01")
+      .get_brand_color("gold", "#B8860B"),
+      .get_brand_color("plum", "#8B5E83"),
+      .get_brand_color("slate", "#5C6B73"),
+      .get_brand_color("coral_dark", "#C75540")
     ),
 
-    # With gray for additional category
+    # 3-color categorical
+    main_3 = c(
+      .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F")
+    ),
+
+    # 4-color categorical
+    main_4 = c(
+      .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("teal", "#007A8C")
+    ),
+
+    # 5-color categorical
+    main_5 = c(
+      .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("teal", "#007A8C"),
+      .get_brand_color("gold", "#B8860B")
+    ),
+
+    # 6-color categorical
+    main_6 = c(
+      .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("teal", "#007A8C"),
+      .get_brand_color("gold", "#B8860B"),
+      .get_brand_color("plum", "#8B5E83")
+    ),
+
+    # With gray for additional category (legacy)
     main_gray = c(
       .get_brand_color("midnight", "#004855"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("sage", "#5A8A6F"),
       .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("orange", "#ED683F"),
-      .get_brand_color("gold", "#AB8C01"),
-      .get_brand_color("gray_blue", "#798AA1")
+      .get_brand_color("gold", "#B8860B"),
+      .get_brand_color("warm_gray", "#9BA8AB")
     ),
 
     # 2-color palettes
     blues = c(
       .get_brand_color("midnight", "#004855"),
-      .get_brand_color("teal", "#007A8C")
+      .get_brand_color("deep_teal", "#006878")
     ),
     compare = c(
-      .get_brand_color("gray", "#919191"),
-      .get_brand_color("teal", "#007A8C")
+      .get_brand_color("warm_gray", "#9BA8AB"),
+      .get_brand_color("deep_teal", "#006878")
     ),
 
-    # Smaller sets
-    main_3 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("pink", "#C3257B")
+    # Binary palette (positive/negative)
+    binary = c(
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("coral", "#E86A50")
     ),
-    main_4 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("pink", "#C3257B"),
-      .get_brand_color("orange", "#ED683F")
+
+    # Status colors palette
+    status = c(
+      .get_brand_color("success", "#5A8A6F"),
+      .get_brand_color("warning", "#D4A84B"),
+      .get_brand_color("error", "#C75540"),
+      .get_brand_color("info", "#006878")
     )
   )
 }
@@ -336,11 +440,11 @@ cpal_palettes_categorical <- function() {
 #' cpal_colors()
 #'
 #' # Get specific colors
-#' cpal_colors("teal")
-#' cpal_colors(c("teal", "orange"))
+#' cpal_colors("coral")
+#' cpal_colors(c("coral", "sage"))
 #'
 #' # Get a sequential palette
-#' cpal_colors("teal_seq_5")
+#' cpal_colors("midnight_seq_5")
 #'
 #' # Get n colors from a palette
 #' cpal_colors("main", n = 3)
@@ -359,26 +463,37 @@ cpal_colors <- function(palette = "primary", n = NULL, reverse = FALSE) {
     "primary" = cpal_colors_primary(),
     "extended" = extended,
 
-    # Sequential palettes
+    # Sequential palettes (new)
+    "midnight_seq_4" = cpal_palettes_sequential()$midnight_seq_4,
+    "midnight_seq_5" = cpal_palettes_sequential()$midnight_seq_5,
+    "midnight_seq_6" = cpal_palettes_sequential()$midnight_seq_6,
+    "midnight_seq_8" = cpal_palettes_sequential()$midnight_seq_8,
+    # Sequential palettes (legacy)
     "teal_seq_4" = cpal_palettes_sequential()$teal_seq_4,
     "teal_seq_5" = cpal_palettes_sequential()$teal_seq_5,
     "teal_seq_6" = cpal_palettes_sequential()$teal_seq_6,
-    "yellow_teal_seq_4" = cpal_palettes_sequential()$yellow_teal_seq_4,
-    "yellow_teal_seq_5" = cpal_palettes_sequential()$yellow_teal_seq_5,
-    "yellow_teal_seq_6" = cpal_palettes_sequential()$yellow_teal_seq_6,
 
-    # Diverging palettes
+    # Diverging palettes (new)
+    "coral_midnight_3" = cpal_palettes_diverging()$coral_midnight_3,
+    "coral_midnight_5" = cpal_palettes_diverging()$coral_midnight_5,
+    "coral_midnight_7" = cpal_palettes_diverging()$coral_midnight_7,
+    "coral_midnight_9" = cpal_palettes_diverging()$coral_midnight_9,
+    # Diverging palettes (legacy)
     "pink_teal_3" = cpal_palettes_diverging()$pink_teal_3,
     "pink_teal_5" = cpal_palettes_diverging()$pink_teal_5,
     "pink_teal_6" = cpal_palettes_diverging()$pink_teal_6,
 
     # Categorical palettes
     "main" = cpal_palettes_categorical()$main,
+    "main_3" = cpal_palettes_categorical()$main_3,
+    "main_4" = cpal_palettes_categorical()$main_4,
+    "main_5" = cpal_palettes_categorical()$main_5,
+    "main_6" = cpal_palettes_categorical()$main_6,
     "main_gray" = cpal_palettes_categorical()$main_gray,
     "blues" = cpal_palettes_categorical()$blues,
     "compare" = cpal_palettes_categorical()$compare,
-    "main_3" = cpal_palettes_categorical()$main_3,
-    "main_4" = cpal_palettes_categorical()$main_4,
+    "binary" = cpal_palettes_categorical()$binary,
+    "status" = cpal_palettes_categorical()$status,
 
     # Default to primary
     cpal_colors_primary()
@@ -415,7 +530,7 @@ cpal_get_primary_color <- function() {
 #' Get CPAL Color by Palette Name
 #'
 #' Generic helper to retrieve a specific hex code from the brand palette
-#' by providing its name (e.g., "pink", "orange", "indigo").
+#' by providing its name (e.g., "coral", "sage", "midnight").
 #'
 #' @param palette_color_name Character string matching a key in the
 #'   `color: palette:` section of _brand.yml.
@@ -529,13 +644,14 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
 
 #' View CPAL Color Palettes
 #'
-#' Display CPAL color palettes with improved readability and flexibility
+#' Display CPAL color palettes with clean, modern visualization using ggplot2
 #'
-#' @param palette Character. Name of specific palette to display, or "all" for overview
-#' @param show_hex Logical. Whether to display hex codes (default: TRUE)
-#' @param show_names Logical. Whether to display color names if available (default: TRUE)
+#' @param palette Character. Name of specific palette to display, or "all" for overview.
+#'   Can also be a vector of palette names.
+#' @param show_hex Logical. Whether to display hex codes on color swatches (default: FALSE)
+#' @param show_names Logical. Whether to display color names if available (default: FALSE)
 #' @param compact Logical. Use compact layout for overview (default: FALSE)
-#' @return Displays color palette visualization (called for side effects)
+#' @return A ggplot2 object displaying the color palette(s)
 #' @export
 #' @examples
 #' \dontrun{
@@ -545,86 +661,46 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
 #' # Show specific palette
 #' view_cpal_palettes("main")
 #' view_cpal_palettes("teal_seq_5")
+#'
+#' # Show multiple palettes
+#' view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
 #' }
-view_cpal_palettes <- function(palette = "all", show_hex = TRUE, show_names = TRUE, compact = FALSE) {
-
-  # Helper function to plot a single palette
-  plot_single_palette <- function(colors, name, show_hex = TRUE, show_names = TRUE, single_plot = FALSE) {
-    n <- length(colors)
-    if (n == 0) {
-      plot(1, 1, type = "n", xlab = "", ylab = "", main = name,
-           axes = FALSE, xlim = c(0, 1), ylim = c(0, 1))
-      text(0.5, 0.5, "No colors available", cex = 0.8)
-      return()
-    }
-
-    tryCatch({
-      if (single_plot) {
-        barplot(rep(1, n), col = colors, border = "white", space = 0.1,
-                axes = FALSE, main = name, cex.main = 1.3,
-                horiz = TRUE,
-                names.arg = if(show_hex) colors else NULL,
-                las = 1, cex.names = 0.8)
-
-        if (show_names && !is.null(names(colors))) {
-          mtext(paste(names(colors), collapse = " | "), side = 4, line = 1, cex = 0.9)
-        }
-      } else {
-        barplot(rep(1, n), col = colors, border = NA, space = 0,
-                axes = FALSE, main = name, cex.main = 0.9,
-                horiz = TRUE)
-
-        if (show_hex && !compact && n <= 6) {
-          axis(2, at = (1:n - 1) + 0.5, labels = colors,
-               las = 1, cex.axis = 0.5, tick = FALSE, line = -0.5)
-        }
-      }
-    }, error = function(e) {
-      plot(1:n, rep(1, n), type = "n", xlim = c(0.5, n + 0.5), ylim = c(0.5, 1.5),
-           axes = FALSE, xlab = "", ylab = "", main = name)
-      for (i in 1:n) {
-        rect(i - 0.4, 0.7, i + 0.4, 1.3, col = colors[i], border = "white")
-      }
-    })
-  }
+view_cpal_palettes <- function(palette = "all", show_hex = FALSE, show_names = FALSE, compact = FALSE) {
 
   # Get available palettes
   available_palettes <- list(
+    # Categorical
     "primary" = cpal_colors("primary"),
     "main" = cpal_colors("main"),
     "main_3" = cpal_colors("main_3"),
     "main_4" = cpal_colors("main_4"),
-    "main_gray" = cpal_colors("main_gray"),
+    "main_5" = cpal_colors("main_5"),
+    "main_6" = cpal_colors("main_6"),
     "blues" = cpal_colors("blues"),
     "compare" = cpal_colors("compare"),
-    "teal_seq_4" = cpal_colors("teal_seq_4"),
+    "binary" = cpal_colors("binary"),
+    "status" = cpal_colors("status"),
+    # Sequential
+    "midnight_seq_4" = cpal_colors("midnight_seq_4"),
+    "midnight_seq_5" = cpal_colors("midnight_seq_5"),
+    "midnight_seq_6" = cpal_colors("midnight_seq_6"),
+    "midnight_seq_8" = cpal_colors("midnight_seq_8"),
+    # Diverging
+    "coral_midnight_3" = cpal_colors("coral_midnight_3"),
+    "coral_midnight_5" = cpal_colors("coral_midnight_5"),
+    "coral_midnight_7" = cpal_colors("coral_midnight_7"),
+    "coral_midnight_9" = cpal_colors("coral_midnight_9"),
+    # Legacy (backward compatibility)
+    "main_gray" = cpal_colors("main_gray"),
     "teal_seq_5" = cpal_colors("teal_seq_5"),
-    "teal_seq_6" = cpal_colors("teal_seq_6"),
-    "yellow_teal_seq_4" = cpal_colors("yellow_teal_seq_4"),
-    "yellow_teal_seq_5" = cpal_colors("yellow_teal_seq_5"),
-    "yellow_teal_seq_6" = cpal_colors("yellow_teal_seq_6"),
-    "pink_teal_3" = cpal_colors("pink_teal_3"),
-    "pink_teal_5" = cpal_colors("pink_teal_5"),
-    "pink_teal_6" = cpal_colors("pink_teal_6")
+    "pink_teal_5" = cpal_colors("pink_teal_5")
   )
 
-  palette_display_names <- list(
-    "primary" = "Brand Colors",
-    "main" = "Main",
-    "main_3" = "Main (3)",
-    "main_4" = "Main (4)",
-    "main_gray" = "Main+Gray",
-    "blues" = "Blues",
-    "compare" = "Compare",
-    "teal_seq_4" = "Teal-4",
-    "teal_seq_5" = "Teal-5",
-    "teal_seq_6" = "Teal-6",
-    "yellow_teal_seq_4" = "Y-Teal-4",
-    "yellow_teal_seq_5" = "Y-Teal-5",
-    "yellow_teal_seq_6" = "Y-Teal-6",
-    "pink_teal_3" = "P-Teal-3",
-    "pink_teal_5" = "P-Teal-5",
-    "pink_teal_6" = "P-Teal-6"
+  # Palette categories for grouping in display
+  palette_categories <- list(
+    "Categorical" = c("primary", "main", "main_3", "main_4", "main_5", "main_6", "blues", "compare", "binary", "status"),
+    "Sequential" = c("midnight_seq_4", "midnight_seq_5", "midnight_seq_6", "midnight_seq_8"),
+    "Diverging" = c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9")
   )
 
   # Determine which palettes to show
@@ -642,63 +718,92 @@ view_cpal_palettes <- function(palette = "all", show_hex = TRUE, show_names = TR
     palettes_to_show <- palette
   }
 
-  n_palettes <- length(palettes_to_show)
-
-  old_par <- par(no.readonly = TRUE)
-  on.exit(par(old_par))
-
-  if (n_palettes == 1) {
-    # Single palette view
-    par(mar = c(if(show_hex) 4 else 2, 2, 3, 2))
-
-    colors <- available_palettes[[palettes_to_show]]
-    display_name <- paste("CPAL Palette:", toupper(palettes_to_show))
-
-    plot_single_palette(colors, display_name, show_hex = show_hex,
-                        show_names = show_names, single_plot = TRUE)
-
-    cat("\nPalette:", palettes_to_show, "\n")
-    cat("Number of colors:", length(colors), "\n")
-    if (show_hex) {
-      cat("Hex codes:", paste(colors, collapse = ", "), "\n")
-    }
-  } else {
-    # Multiple palette view
-    n_cols <- min(4, n_palettes)
-    n_rows <- ceiling(n_palettes / n_cols)
-
-    if (compact) {
-      par(mfrow = c(n_rows, n_cols), mar = c(2, 1, 2, 1), oma = c(1, 1, 3, 1))
-    } else {
-      par(mfrow = c(n_rows, n_cols), mar = c(3, 1, 2.5, 1), oma = c(1, 1, 3, 1))
-    }
-
-    for (palette_name in palettes_to_show) {
-      tryCatch({
-        display_name <- palette_display_names[[palette_name]]
-        if (is.null(display_name)) display_name <- palette_name
-        colors <- available_palettes[[palette_name]]
-
-        if (length(colors) > 0) {
-          plot_single_palette(colors, display_name, show_hex = show_hex && !compact,
-                              show_names = FALSE, single_plot = FALSE)
-        } else {
-          plot.new()
-          text(0.5, 0.5, paste("No colors\n", display_name), cex = 0.8)
-        }
-      }, error = function(e) {
-        plot.new()
-        text(0.5, 0.5, paste("Error:", palette_name), cex = 0.6)
-      })
-    }
-
-    title_text <- if (show_all) {
-      if (compact) "CPAL Palettes (Compact)" else "CPAL Color Palettes"
-    } else {
-      "Selected CPAL Palettes"
-    }
-    mtext(title_text, outer = TRUE, cex = 1.3, font = 2, line = 0.5)
+  # Helper function to determine text color for contrast
+  get_text_color <- function(hex_color) {
+    # Convert hex to RGB
+    rgb_vals <- grDevices::col2rgb(hex_color)
+    # Calculate relative luminance
+    luminance <- (0.299 * rgb_vals[1] + 0.587 * rgb_vals[2] + 0.114 * rgb_vals[3]) / 255
+    if (luminance > 0.5) "#333333" else "#FFFFFF"
   }
+
+  # Build data frame for plotting
+  plot_data <- do.call(rbind, lapply(palettes_to_show, function(pal_name) {
+    colors <- available_palettes[[pal_name]]
+    n <- length(colors)
+    data.frame(
+      palette = pal_name,
+      color = colors,
+      position = seq_len(n),
+      color_name = if (!is.null(names(colors))) names(colors) else paste0("Color ", seq_len(n)),
+      stringsAsFactors = FALSE
+    )
+  }))
+
+  # Calculate text colors for each swatch
+  plot_data$text_color <- sapply(plot_data$color, get_text_color)
+
+  # Create label text
+  if (show_hex && show_names) {
+    plot_data$label <- paste0(plot_data$color_name, "\n", plot_data$color)
+  } else if (show_hex) {
+    plot_data$label <- plot_data$color
+  } else if (show_names) {
+    plot_data$label <- plot_data$color_name
+  } else {
+    plot_data$label <- ""
+  }
+
+  # Order palettes for display
+  plot_data$palette <- factor(plot_data$palette, levels = rev(palettes_to_show))
+
+  # Create the plot
+  p <- ggplot2::ggplot(plot_data, ggplot2::aes(x = position, y = palette, fill = I(color))) +
+    ggplot2::geom_tile(color = "white", linewidth = 1, height = 0.85) +
+    ggplot2::scale_x_continuous(expand = c(0.02, 0.02)) +
+    ggplot2::scale_y_discrete(expand = c(0.02, 0.02)) +
+    ggplot2::coord_fixed(ratio = 0.8) +
+    ggplot2::theme_minimal(base_size = 12) +
+    ggplot2::theme(
+      axis.title = ggplot2::element_blank(),
+      axis.text.x = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_text(size = 11, face = "bold", hjust = 1, color = "#333333"),
+      axis.ticks = ggplot2::element_blank(),
+      panel.grid = ggplot2::element_blank(),
+      plot.title = ggplot2::element_text(size = 16, face = "bold", hjust = 0, color = "#004855"),
+      plot.subtitle = ggplot2::element_text(size = 11, color = "#666666", hjust = 0),
+      plot.background = ggplot2::element_rect(fill = "white", color = NA),
+      panel.background = ggplot2::element_rect(fill = "white", color = NA),
+      legend.position = "none"
+    )
+
+  # Add labels if requested
+  if (show_hex || show_names) {
+    p <- p + ggplot2::geom_text(
+      ggplot2::aes(label = label, color = I(text_color)),
+      size = if (compact) 2 else 3,
+      fontface = "bold",
+      lineheight = 0.9
+    )
+  }
+
+  # Add title
+  if (show_all) {
+    p <- p + ggplot2::labs(
+      title = "CPAL Color Palettes",
+      subtitle = "Categorical, Sequential, and Diverging palettes for data visualization"
+    )
+  } else if (length(palettes_to_show) == 1) {
+    p <- p + ggplot2::labs(
+      title = paste("CPAL Palette:", palettes_to_show)
+    )
+  } else {
+    p <- p + ggplot2::labs(
+      title = "Selected CPAL Palettes"
+    )
+  }
+
+  p
 }
 
 #' Quick Palette Preview
@@ -747,38 +852,52 @@ quick_palette <- function(palette, n_colors = NULL) {
 #' list_cpal_palettes(details = TRUE)
 list_cpal_palettes <- function(details = FALSE) {
   palette_info <- list(
-    "primary" = list(name = "Brand Colors", type = "Categorical", colors = 5,
-                     description = "CPAL brand colors for institutional use"),
-    "main" = list(name = "Main Categorical", type = "Categorical", colors = 5,
-                  description = "Primary categorical palette for data visualization"),
+    # Categorical palettes
+    "primary" = list(name = "Brand Colors", type = "Categorical", colors = 6,
+                     description = "Core CPAL brand colors"),
+    "main" = list(name = "Main Categorical (8)", type = "Categorical", colors = 8,
+                  description = "Full categorical palette for data visualization"),
     "main_3" = list(name = "Main (3 colors)", type = "Categorical", colors = 3,
-                    description = "Reduced main palette for simple comparisons"),
+                    description = "Minimal categorical for simple comparisons"),
     "main_4" = list(name = "Main (4 colors)", type = "Categorical", colors = 4,
-                    description = "Extended main palette for moderate comparisons"),
-    "main_gray" = list(name = "Main + Gray", type = "Categorical", colors = 6,
-                       description = "Main palette with gray for highlighting"),
+                    description = "Compact categorical for moderate comparisons"),
+    "main_5" = list(name = "Main (5 colors)", type = "Categorical", colors = 5,
+                    description = "Standard categorical for most use cases"),
+    "main_6" = list(name = "Main (6 colors)", type = "Categorical", colors = 6,
+                    description = "Extended categorical for complex comparisons"),
     "blues" = list(name = "Blues", type = "Categorical", colors = 2,
-                   description = "Blue tones for simple comparisons"),
+                   description = "Midnight and deep teal for blue comparisons"),
     "compare" = list(name = "Compare", type = "Categorical", colors = 2,
-                     description = "Gray and teal for before/after comparisons"),
-    "teal_seq_4" = list(name = "Teal Sequential (4)", type = "Sequential", colors = 4,
-                        description = "Light to dark teal progression"),
-    "teal_seq_5" = list(name = "Teal Sequential (5)", type = "Sequential", colors = 5,
-                        description = "Light to dark teal progression"),
-    "teal_seq_6" = list(name = "Teal Sequential (6)", type = "Sequential", colors = 6,
-                        description = "Light to dark teal progression"),
-    "yellow_teal_seq_4" = list(name = "Yellow-Teal Sequential (4)", type = "Sequential", colors = 4,
-                               description = "Yellow to teal progression"),
-    "yellow_teal_seq_5" = list(name = "Yellow-Teal Sequential (5)", type = "Sequential", colors = 5,
-                               description = "Yellow to teal progression"),
-    "yellow_teal_seq_6" = list(name = "Yellow-Teal Sequential (6)", type = "Sequential", colors = 6,
-                               description = "Yellow to teal progression"),
-    "pink_teal_3" = list(name = "Pink-Teal Diverging (3)", type = "Diverging", colors = 3,
-                         description = "Pink to teal with neutral center"),
-    "pink_teal_5" = list(name = "Pink-Teal Diverging (5)", type = "Diverging", colors = 5,
-                         description = "Pink to teal with neutral center"),
-    "pink_teal_6" = list(name = "Pink-Teal Diverging (6)", type = "Diverging", colors = 6,
-                         description = "Pink to teal with neutral center")
+                     description = "Warm gray and deep teal for before/after"),
+    "binary" = list(name = "Binary", type = "Categorical", colors = 2,
+                    description = "Sage (positive) and coral (negative)"),
+    "status" = list(name = "Status", type = "Categorical", colors = 4,
+                    description = "Success, warning, error, and info colors"),
+    # Sequential palettes
+    "midnight_seq_4" = list(name = "Midnight Sequential (4)", type = "Sequential", colors = 4,
+                            description = "Light to dark midnight progression"),
+    "midnight_seq_5" = list(name = "Midnight Sequential (5)", type = "Sequential", colors = 5,
+                            description = "Light to dark midnight progression"),
+    "midnight_seq_6" = list(name = "Midnight Sequential (6)", type = "Sequential", colors = 6,
+                            description = "Light to dark midnight progression"),
+    "midnight_seq_8" = list(name = "Midnight Sequential (8)", type = "Sequential", colors = 8,
+                            description = "Full midnight progression"),
+    # Diverging palettes
+    "coral_midnight_3" = list(name = "Coral-Midnight Diverging (3)", type = "Diverging", colors = 3,
+                              description = "Coral to midnight with neutral center"),
+    "coral_midnight_5" = list(name = "Coral-Midnight Diverging (5)", type = "Diverging", colors = 5,
+                              description = "Coral to midnight with neutral center"),
+    "coral_midnight_7" = list(name = "Coral-Midnight Diverging (7)", type = "Diverging", colors = 7,
+                              description = "Coral to midnight with neutral center"),
+    "coral_midnight_9" = list(name = "Coral-Midnight Diverging (9)", type = "Diverging", colors = 9,
+                              description = "Full coral to midnight diverging"),
+    # Legacy palettes (backward compatibility)
+    "main_gray" = list(name = "Main + Gray (Legacy)", type = "Categorical", colors = 6,
+                       description = "Legacy palette with warm gray"),
+    "teal_seq_5" = list(name = "Teal Sequential (Legacy)", type = "Sequential", colors = 5,
+                        description = "Legacy alias for midnight_seq_5"),
+    "pink_teal_5" = list(name = "Pink-Teal Diverging (Legacy)", type = "Diverging", colors = 5,
+                         description = "Legacy alias for coral_midnight_5")
   )
 
   if (details) {
@@ -1045,11 +1164,11 @@ validate_brand_colors <- function(level = c("AA", "AAA"), verbose = TRUE) {
 #' @export
 #'
 #' @examples
-#' # Generate 5 colors from teal to pink
-#' cpal_color_ramp("teal", "pink", n = 5)
+#' # Generate 5 colors from coral to midnight
+#' cpal_color_ramp("coral", "midnight", n = 5)
 #'
-#' # Generate 10 colors from a light to dark teal
-#' cpal_color_ramp("teal_lightest", "midnight", n = 10)
+#' # Generate 10 colors from a light to dark midnight
+#' cpal_color_ramp("midnight_1", "midnight", n = 10)
 #'
 #' # Use custom hex codes
 #' cpal_color_ramp("#FFFFFF", "#004855", n = 7)
@@ -1101,10 +1220,10 @@ cpal_color_ramp <- function(from, to, n = 5, include_ends = TRUE) {
 #'
 #' @examples
 #' # Create gradient through brand colors
-#' cpal_color_gradient(c("pink", "neutral", "teal"), n = 9)
+#' cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
 #'
 #' # Create extended sequential palette
-#' cpal_color_gradient(c("teal_lightest", "teal", "midnight"), n = 12)
+#' cpal_color_gradient(c("midnight_1", "deep_teal", "midnight"), n = 12)
 cpal_color_gradient <- function(colors, n = NULL) {
   if (is.null(n)) {
     n <- length(colors) * 2

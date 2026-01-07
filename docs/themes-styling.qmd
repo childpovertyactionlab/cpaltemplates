@@ -152,13 +152,35 @@ Specialized theme for maps (no axes, minimal chrome):
 
 ```{r}
 #| label: theme-map-example
-#| fig-cap: "theme_cpal_map() removes axes for maps"
-# Simulated geographic data example
-ggplot(data.frame(x = rnorm(50), y = rnorm(50), value = runif(50))) +
-  geom_point(aes(x = x, y = y, color = value), size = 4) +
-  scale_color_cpal_c("teal_seq_5") +
-  labs(title = "Map Theme Example") +
-  theme_cpal_map()
+#| fig-cap: "theme_cpal_map() with Texas county boundaries"
+#| message: false
+
+# Get Texas counties from tigris
+if (requireNamespace("tigris", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) {
+  options(tigris_use_cache = TRUE)
+  tx_counties <- tigris::counties(state = "TX", cb = TRUE, progress_bar = FALSE)
+
+  # Add sample data for coloring
+  set.seed(42)
+  tx_counties$value <- runif(nrow(tx_counties))
+
+  ggplot(tx_counties) +
+    geom_sf(aes(fill = value), color = "white", linewidth = 0.1) +
+    scale_fill_cpal_c("teal_seq_5") +
+    labs(
+      title = "Texas Counties",
+      subtitle = "Example map visualization with theme_cpal_map()",
+      fill = "Value"
+    ) +
+    theme_cpal_map()
+} else {
+  # Fallback if tigris not available
+  ggplot(data.frame(x = rnorm(50), y = rnorm(50), value = runif(50))) +
+    geom_point(aes(x = x, y = y, color = value), size = 4) +
+    scale_color_cpal_c("teal_seq_5") +
+    labs(title = "Map Theme Example", subtitle = "(Install tigris for real map data)") +
+    theme_cpal_map()
+}
 ```
 
 ---

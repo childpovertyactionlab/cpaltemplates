@@ -11,6 +11,7 @@ List of categorical color palettes
 }
 \description{
 Palettes for categorical data, built from colors in `_brand.yml`.
+Maximum 8 colors for categorical data.
 }
 \examples{
 cpal_palettes_categorical

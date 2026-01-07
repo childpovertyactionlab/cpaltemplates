@@ -1,17 +1,32 @@
 /* cpaltemplates Documentation Custom Styles */
 
-/* CPAL Brand Colors */
+/* CPAL Brand Colors - New Color System */
 :root {
+  /* Core Colors */
   --cpal-midnight: #004855;
+  --cpal-deep-teal: #006878;
+  --cpal-coral: #E86A50;
+  --cpal-sage: #5A8A6F;
+  --cpal-slate: #5C6B73;
+  --cpal-warm-gray: #9BA8AB;
+  /* Legacy (backward compatibility) */
   --cpal-teal: #007A8C;
-  --cpal-pink: #C3257B;
-  --cpal-orange: #ED683F;
-  --cpal-gold: #AB8C01;
+  --cpal-gold: #B8860B;
+  /* Status Colors */
+  --cpal-success: #5A8A6F;
+  --cpal-warning: #D4A84B;
+  --cpal-error: #C75540;
+  --cpal-info: #006878;
 }
 
 /* Navbar customization */
 .navbar {
-  background-color: var(--cpal-teal) !important;
+  background-color: var(--cpal-midnight) !important;
+}
+
+/* Logo spacing - add margin between logo and title */
+.navbar-brand img {
+  margin-right: 10px;
 }
 
 /* Code block styling */

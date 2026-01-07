@@ -11,6 +11,7 @@ List of sequential color palettes
 }
 \description{
 Sequential palettes for continuous data, built from colors in `_brand.yml`.
+Uses the new Midnight sequential palette system.
 }
 \examples{
 cpal_palettes_sequential
