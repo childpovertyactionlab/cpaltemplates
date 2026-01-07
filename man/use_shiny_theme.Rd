@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{use_shiny_theme}
 \alias{use_shiny_theme}
-\title{Add custom CPAL Shiny theme to an existing project}
+\title{Add Custom CPAL Shiny Theme to an Existing Project}
 \usage{
 use_shiny_theme(path = ".", theme_name = "cpal-theme.css", overwrite = FALSE)
 }

@@ -1,4 +1,3 @@
-
 #' Save CPAL-styled plots
 #'
 #' Save ggplot2 plots with standard CPAL dimensions and settings
@@ -73,23 +72,24 @@ save_cpal_plot <- function(plot,
   invisible(NULL)
 }
 
-#' Create CPAL-branded color/fill scales
+#' CPAL Extended Color/Fill Scales
 #'
 #' These functions provide additional options beyond the basic scale_color_cpal()
 #' and scale_fill_cpal() for specific use cases.
 #'
-#' @return A ggplot2 scale object for continuous or discrete color/fill mappings
+#' @param palette Palette name or custom colors.
+#' @param reverse Reverse the palette order.
+#' @param ... Additional arguments passed to scale functions.
+#'
+#' @return A ggplot2 scale object for continuous or discrete color/fill mappings.
+#'
 #' @name scale_cpal_extended
 NULL
 
 #' @rdname scale_cpal_extended
-#' @param palette Palette name or custom colors
-#' @param reverse Reverse the palette order
-#' @param ... Additional arguments passed to scale functions
 #' @export
 scale_color_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
-  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_color_gradientn(colors = pal, ...)
 }
 
@@ -97,7 +97,6 @@ scale_color_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...
 #' @export
 scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
-  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_fill_gradientn(colors = pal, ...)
 }
 
@@ -105,7 +104,6 @@ scale_fill_cpal_c <- function(palette = "sequential_teal", reverse = FALSE, ...)
 #' @export
 scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
-  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_color_manual(values = pal, ...)
 }
 
@@ -113,21 +111,21 @@ scale_color_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
 #' @export
 scale_fill_cpal_d <- function(palette = "categorical", reverse = FALSE, ...) {
   pal <- cpal_palette(palette, reverse = reverse)
-  # Note: cpal_palette is now fixed to return unname(colors)
   ggplot2::scale_fill_manual(values = pal, ...)
 }
 
-#' Add CPAL logo to plots
+#' Add CPAL Logo to Plots
 #'
 #' Add the CPAL logo to a ggplot2 plot in a specified position.
 #' Automatically detects dark themes and uses appropriate logo color.
 #'
-#' @param plot ggplot object
-#' @param position Position for logo: "top-right", "top-left", "bottom-right", "bottom-left"
-#' @param size Logo size as proportion of plot (default: 0.08)
-#' @param logo_path Path to logo file (uses package default if NULL)
+#' @param plot ggplot object.
+#' @param position Position for logo: "top-right", "top-left", "bottom-right", "bottom-left".
+#' @param size Logo size as proportion of plot (default: 0.09).
+#' @param logo_path Path to logo file (uses package default if NULL).
 #'
-#' @return ggplot object with logo
+#' @return ggplot object with logo added.
+#'
 #' @export
 add_cpal_logo <- function(plot,
                           position = "top-right",
@@ -236,17 +234,18 @@ add_cpal_logo <- function(plot,
     )
 }
 
-#' Create a formatted table with CPAL styling
+#' Create a Formatted Table with CPAL Styling
 #'
-#' This is a wrapper around gt that applies CPAL styling automatically
+#' This is a wrapper around gt that applies CPAL styling automatically.
 #'
-#' @param data Data frame to display as table
-#' @param title Optional table title
-#' @param subtitle Optional table subtitle
-#' @param font_family Font family to use (default: "Inter")
-#' @param ... Additional arguments passed to gt()
+#' @param data Data frame to display as table.
+#' @param title Optional table title.
+#' @param subtitle Optional table subtitle.
+#' @param font_family Font family to use (default: cpal_font_family()).
+#' @param ... Additional arguments passed to gt().
 #'
-#' @return gt table object
+#' @return A gt table object with CPAL styling applied.
+#'
 #' @export
 cpal_table <- function(data, title = NULL, subtitle = NULL,
                        font_family = cpal_font_family(), ...) {
@@ -302,14 +301,16 @@ cpal_table <- function(data, title = NULL, subtitle = NULL,
   return(tbl)
 }
 
-#' Check plot accessibility
+#' Check Plot Accessibility
 #'
-#' Performs basic accessibility checks on a ggplot object
+#' Performs basic accessibility checks on a ggplot object including
+#' text size, color contrast, and colorblind safety.
 #'
-#' @param plot ggplot object to check
-#' @param verbose Print detailed results (default: TRUE)
+#' @param plot ggplot object to check.
+#' @param verbose Print detailed results (default: TRUE).
 #'
-#' @return List with accessibility check results
+#' @return List with accessibility check results.
+#'
 #' @export
 check_plot_accessibility <- function(plot, verbose = TRUE) {
 

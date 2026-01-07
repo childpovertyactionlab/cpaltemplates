@@ -240,13 +240,15 @@ use_shiny_dashboard <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
-#' Add simple Shiny app to an existing project
+#' Add Simple Shiny App to an Existing Project
 #'
 #' Adds a basic Shiny application template (simpler than dashboard).
 #'
 #' @param path Character. Path to your project root.
 #' @param overwrite Logical. If TRUE, overwrites existing files.
+#'
 #' @return Invisibly returns the project path.
+#'
 #' @export
 use_shiny_app <- function(path = ".", overwrite = FALSE) {
   cli::cli_h3("Adding Shiny app")
@@ -280,14 +282,16 @@ use_shiny_app <- function(path = ".", overwrite = FALSE) {
   invisible(root)
 }
 
-#' Add custom CPAL Shiny theme to an existing project
+#' Add Custom CPAL Shiny Theme to an Existing Project
 #'
 #' Adds custom CSS theme files for enhanced Shiny dashboard styling.
 #'
 #' @param path Character. Path to your project root.
 #' @param theme_name Character. Name for the theme CSS file (default: "cpal-theme.css").
 #' @param overwrite Logical. If TRUE, overwrites existing files.
+#'
 #' @return Invisibly returns the project path.
+#'
 #' @export
 use_shiny_theme <- function(path = ".", theme_name = "cpal-theme.css", overwrite = FALSE) {
   cli::cli_h3("Adding CPAL Shiny theme")
@@ -568,25 +572,281 @@ get_cpal_asset <- function(asset_name, category = NULL) {
 }
 
 
-#' Get CPAL Font Family (Simple Version)
+#' Copy CPAL Brand Configuration to Project
 #'
-#' Simple wrapper that returns the preferred CPAL font family.
-#' This is a simplified version that works with gt tables.
+#' Copies the `_brand.yml` file from the cpaltemplates package to your project
+#' directory. This allows you to customize brand colors and settings locally
+#' while maintaining the standard CPAL foundation.
 #'
-#' @return Character string of font family name
+#' @param path Character. Directory where _brand.yml will be copied (default: current directory).
+#' @param overwrite Logical. If TRUE, overwrites existing _brand.yml file.
+#'
+#' @return Invisibly returns the path to the created file.
+#'
+#' @details
+#' The `_brand.yml` file is the single source of truth for CPAL brand colors,
+#' typography, and Bootstrap defaults. When present in your project directory,
+#' functions like `cpal_colors()` and `cpal_dashboard_theme()` will use the
+#' local version, allowing project-specific customization.
+#'
 #' @export
-cpal_font_family <- function() {
-  return(get_cpal_font_family(for_interactive = FALSE, setup_if_missing = FALSE))
+#'
+#' @examples
+#' \dontrun{
+#' # Copy brand file to current project
+#' use_cpal_brand()
+#'
+#' # Copy to specific directory
+#' use_cpal_brand("my-app/")
+#'
+#' # Force overwrite existing file
+#' use_cpal_brand(overwrite = TRUE)
+#' }
+use_cpal_brand <- function(path = ".", overwrite = FALSE) {
+  # Get source brand file from package
+  brand_src <- system.file("brand", "_brand.yml", package = "cpaltemplates")
+
+  if (!file.exists(brand_src) || brand_src == "") {
+    cli::cli_abort("Brand configuration file not found in package installation.")
+  }
+
+  # Create destination path
+  dest_path <- fs::path_abs(fs::path(path, "_brand.yml"))
+
+  # Check if file exists
+  if (fs::file_exists(dest_path) && !overwrite) {
+    cli::cli_abort(c(
+      "File {.path {dest_path}} already exists.",
+      "i" = "Use {.code overwrite = TRUE} to replace it."
+    ))
+  }
+
+  # Ensure directory exists
+  fs::dir_create(fs::path_dir(dest_path))
+
+  # Copy file
+  fs::file_copy(brand_src, dest_path, overwrite = overwrite)
+
+  cli::cli_alert_success("Copied {.file _brand.yml} to {.path {dest_path}}")
+  cli::cli_alert_info("Edit this file to customize CPAL brand settings for your project.")
+  cli::cli_alert_info("Functions like {.fn cpal_colors} will use your local version.")
+
+  invisible(dest_path)
 }
 
-#' CPAL Font Family Fallback
+#' Validate Brand Configuration File
 #'
-#' Returns system font fallback when CPAL fonts are not available.
-#' Used internally by theme functions.
+#' Checks that a `_brand.yml` file contains all required fields and that
+#' colors are valid hex codes. Useful for verifying customized brand files.
 #'
-#' @return Character string of fallback font family
+#' @param path Character. Path to the _brand.yml file or directory containing it.
+#' @param verbose Logical. Print detailed validation results (default: TRUE).
+#'
+#' @return List with validation results including `valid` (logical), `errors` (character vector),
+#'   and `warnings` (character vector).
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Validate brand file in current directory
+#' validate_cpal_brand()
+#'
+#' # Validate specific file
+#' validate_cpal_brand("path/to/_brand.yml")
+#' }
+validate_cpal_brand <- function(path = ".", verbose = TRUE) {
+  results <- list(
+    valid = TRUE,
+    errors = character(),
+    warnings = character()
+  )
+
+  # Determine file path
+  if (fs::is_dir(path)) {
+    brand_path <- fs::path(path, "_brand.yml")
+  } else {
+    brand_path <- path
+  }
+
+  # Check file exists
+  if (!fs::file_exists(brand_path)) {
+    results$valid <- FALSE
+    results$errors <- c(results$errors, paste("File not found:", brand_path))
+    if (verbose) {
+      cli::cli_alert_danger("Brand file not found: {.path {brand_path}}")
+    }
+    return(invisible(results))
+  }
+
+  # Read the file
+  brand <- tryCatch(
+    yaml::read_yaml(brand_path),
+    error = function(e) {
+      results$valid <<- FALSE
+      results$errors <<- c(results$errors, paste("YAML parse error:", e$message))
+      NULL
+    }
+  )
+
+  if (is.null(brand)) {
+    if (verbose) cli::cli_alert_danger("Failed to parse YAML file")
+    return(invisible(results))
+  }
+
+  # Required color palette entries (new color system)
+  required_colors <- c("midnight", "deep_teal", "coral", "sage", "slate", "warm_gray")
+
+  # Check color palette exists
+  if (is.null(brand$color) || is.null(brand$color$palette)) {
+    results$valid <- FALSE
+    results$errors <- c(results$errors, "Missing 'color.palette' section")
+  } else {
+    # Check required colors
+    for (color_name in required_colors) {
+      if (is.null(brand$color$palette[[color_name]])) {
+        results$valid <- FALSE
+        results$errors <- c(results$errors, paste("Missing required color:", color_name))
+      } else {
+        # Validate hex format
+        hex_val <- brand$color$palette[[color_name]]
+        if (!grepl("^#[0-9A-Fa-f]{6}$", hex_val)) {
+          results$valid <- FALSE
+          results$errors <- c(results$errors,
+            paste0("Invalid hex color for '", color_name, "': ", hex_val))
+        }
+      }
+    }
+
+    # Check all palette colors are valid hex
+    for (name in names(brand$color$palette)) {
+      hex_val <- brand$color$palette[[name]]
+      if (!grepl("^#[0-9A-Fa-f]{6}$", hex_val)) {
+        if (!name %in% required_colors) {  # Don't double-report
+          results$warnings <- c(results$warnings,
+            paste0("Invalid hex format for '", name, "': ", hex_val))
+        }
+      }
+    }
+  }
+
+  # Check typography section (optional but recommended)
+  if (is.null(brand$typography)) {
+    results$warnings <- c(results$warnings, "Missing 'typography' section (optional)")
+  }
+
+  # Print results if verbose
+  if (verbose) {
+    if (results$valid && length(results$warnings) == 0) {
+      cli::cli_alert_success("Brand file is valid: {.path {brand_path}}")
+      cli::cli_alert_info("Found {length(brand$color$palette)} colors in palette")
+    } else {
+      if (!results$valid) {
+        cli::cli_alert_danger("Brand file validation failed")
+        for (err in results$errors) {
+          cli::cli_li("{.strong Error}: {err}")
+        }
+      }
+      if (length(results$warnings) > 0) {
+        for (warn in results$warnings) {
+          cli::cli_li("{.strong Warning}: {warn}")
+        }
+      }
+    }
+  }
+
+  invisible(results)
+}
+
+#' Get CPAL Font Family
+#'
+#' Returns the preferred CPAL font family name. This is the main entry point
+#' for getting font family names for use in plots, tables, and other outputs.
+#'
+#' @param type Character. Type of output: "plot" (default), "interactive", "table", or "print"
+#' @param setup Logical. If TRUE, attempts to set up fonts if not available (default: FALSE)
+#'
+#' @return Character string of font family name ("Inter", "Roboto", or "sans")
+#' @export
+#'
+#' @examples
+#' # Get font for regular plots
+#' cpal_font_family()
+#'
+#' # Get font for interactive ggiraph plots
+#' cpal_font_family("interactive")
+#'
+#' # Get font and set up if missing
+#' cpal_font_family(setup = TRUE)
+cpal_font_family <- function(type = c("plot", "interactive", "table", "print"), setup = FALSE) {
+  type <- match.arg(type)
+
+
+  # For print, always use system font for compatibility
+  if (type == "print") {
+    return("sans")
+  }
+
+  for_interactive <- type == "interactive"
+
+  # Check font availability
+  inter_available <- FALSE
+  roboto_available <- FALSE
+
+  if (for_interactive) {
+    # Check ggiraph font availability
+    if (requireNamespace("gdtools", quietly = TRUE)) {
+      tryCatch({
+        registered_fonts <- gdtools::sys_fonts()
+        inter_available <- "Inter" %in% registered_fonts
+        roboto_available <- "Roboto" %in% registered_fonts
+      }, error = function(e) NULL)
+    }
+  } else {
+    # Check showtext font availability
+    if (requireNamespace("sysfonts", quietly = TRUE)) {
+      available_fonts <- sysfonts::font_families()
+      inter_available <- "Inter" %in% available_fonts
+      roboto_available <- "Roboto" %in% available_fonts
+    }
+  }
+
+  # Setup fonts if requested and not available
+
+  if ((!inter_available && !roboto_available) && setup) {
+    setup_cpal_google_fonts(verbose = FALSE)
+
+    # Recheck availability
+    if (for_interactive) {
+      if (requireNamespace("gdtools", quietly = TRUE)) {
+        tryCatch({
+          registered_fonts <- gdtools::sys_fonts()
+          inter_available <- "Inter" %in% registered_fonts
+          roboto_available <- "Roboto" %in% registered_fonts
+        }, error = function(e) NULL)
+      }
+    } else {
+      if (requireNamespace("sysfonts", quietly = TRUE)) {
+        available_fonts <- sysfonts::font_families()
+        inter_available <- "Inter" %in% available_fonts
+        roboto_available <- "Roboto" %in% available_fonts
+      }
+    }
+  }
+
+  # Return best available font
+  if (inter_available) {
+    return("Inter")
+  } else if (roboto_available) {
+    return("Roboto")
+  } else {
+    return("sans")
+  }
+}
+
+#' @rdname cpal_font_family
 #' @export
 cpal_font_family_fallback <- function() {
-  return("sans")  # System default
+  return("sans")
 }
 

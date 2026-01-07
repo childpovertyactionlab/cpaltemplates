@@ -1,4 +1,13 @@
+#' @importFrom magrittr %>%
+NULL
+
 #' Generate a Shiny BSlib Theme with CPAL Standards
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' This function is deprecated. Please use [cpal_dashboard_theme()] instead,
+#' which integrates with `_brand.yml` for more flexible theming.
 #'
 #' This function generates a customized BSlib theme for Shiny applications according to
 #' Child Poverty Action Lab (CPAL) visual standards. It integrates with the cpaltemplates
@@ -96,6 +105,12 @@ cpal_shiny <- function(variant = "default",
                        custom_colors = NULL,
                        font_scale = 1.0,
                        enable_animations = TRUE) {
+
+ # Deprecation warning
+  cli::cli_warn(c(
+    "{.fn cpal_shiny} is deprecated.",
+    "i" = "Please use {.fn cpal_dashboard_theme} instead for brand.yml integration."
+  ))
 
   # Check if bslib is available
   if (!requireNamespace("bslib", quietly = TRUE)) {
@@ -443,4 +458,92 @@ cpal_export_scss <- function(path = "cpal-enhanced.scss", overwrite = FALSE) {
   ))
 
   invisible(path)
+}
+
+
+#' Create CPAL Dashboard Theme
+#'
+#' Initializes a Bootstrap 5 theme using `bslib` that automatically incorporates
+#' brand settings from `_brand.yml`. It also attempts to load an additional
+#' SCSS layer for custom CPAL-specific styling components.
+#'
+#' This is the recommended function for new Shiny dashboards, replacing the
+#' deprecated [cpal_shiny()] function.
+#'
+#' @return A `bs_theme` object with added CPAL metadata attributes:
+#' \itemize{
+#'   \item \code{cpal_variant}: Set to "dashboard".
+#'   \item \code{cpal_version}: The version of the template (currently 1.0.0).
+#'   \item \code{created}: Timestamp of theme initialization.
+#' }
+#'
+#' @details
+#' The function first looks for the SCSS file in the package installation
+#' (`inst/scss/cpal-theme.scss`), then falls back to local paths for development.
+#' If no SCSS file is found, a warning is issued but the base Bootstrap theme
+#' is still returned.
+#'
+#' The theme uses BSlib's brand support (`brand = TRUE`) to automatically read
+#' brand configuration from `_brand.yml` in the project root or package.
+#'
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#' library(bslib)
+#'
+#' ui <- page_sidebar(
+#'   theme = cpal_dashboard_theme(),
+#'   title = "CPAL Dashboard",
+#'   sidebar = sidebar("Sidebar content"),
+#'   "Main content"
+#' )
+#'
+#' shinyApp(ui, function(input, output) {})
+#' }
+#'
+#' @seealso
+#' \code{\link{cpal_shiny}} (deprecated),
+#' \code{\link{cpal_add_scss_enhancements}} for additional SCSS customization
+#'
+#' @export
+cpal_dashboard_theme <- function() {
+  theme <- bslib::bs_theme(
+    version = 5,
+    brand = TRUE
+  )
+
+  # Try to find the SCSS file in multiple locations
+  scss_path <- system.file("scss", "cpal-theme.scss", package = "cpaltemplates")
+
+  # Fallback paths for development/demo app context
+  if (!file.exists(scss_path) || scss_path == "") {
+    local_paths <- c(
+      "www/cpal-theme.scss",
+      "../www/cpal-theme.scss",
+      "inst/scss/cpal-theme.scss"
+    )
+    for (path in local_paths) {
+      if (file.exists(path)) {
+        scss_path <- path
+        break
+      }
+    }
+  }
+
+  # Include SCSS if found
+  if (file.exists(scss_path) && scss_path != "") {
+    theme <- bslib::bs_add_rules(theme, sass::sass_file(scss_path))
+  } else {
+    cli::cli_warn(c(
+      "CPAL theme SCSS file not found.",
+      "i" = "For package use, ensure {.file inst/scss/cpal-theme.scss} exists.",
+      "i" = "For app development, place {.file cpal-theme.scss} in {.path www/}."
+    ))
+  }
+
+  attr(theme, "cpal_variant") <- "dashboard"
+  attr(theme, "cpal_version") <- "1.0.0"
+  attr(theme, "created") <- Sys.time()
+
+  return(theme)
 }

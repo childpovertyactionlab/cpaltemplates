@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:posit-dev.github.io)",
+      "WebFetch(domain:www.rdocumentation.org)",
+      "Bash(\"/c/Program Files/R/R-4.5.0/bin/Rscript.exe\" -e \"devtools::document\\(\\)\")",
+      "Bash(\"/c/Program Files/R/R-4.5.0/bin/Rscript.exe\" -e \"devtools::check\\(\\)\")",
+      "Bash(\"/c/Program Files/R/R-4.5.0/bin/Rscript.exe\" -e \"devtools::document\\(\\); devtools::check\\(\\)\")",
+      "Bash(find:*)",
+      "Bash(wc:*)",
+      "Bash(quarto render:*)",
+      "Bash(\"/c/Program Files/R/R-4.5.0/bin/Rscript.exe\" -e \"devtools::install\\(quick = TRUE, upgrade = ''never''\\)\")",
+      "Bash(ls:*)"
+    ]
+  }
+}

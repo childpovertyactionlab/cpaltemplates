@@ -1,0 +1,492 @@
+/* CPAL Theme SCSS */
+// Base styles
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+}
+
+// Header styles
+.navbar-brand {
+  display: block;
+  font-weight: 600;
+}
+
+.header-title {
+  font-weight: 400;
+  text-transform: uppercase;
+  border-left: 1px solid $primary;
+  padding-left: 0.5rem;
+  font-size: 0.675rem;
+  letter-spacing: 0.075px;
+  color: $primary;
+  width: 10rem;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.mode-switcher {
+  color: $primary;
+}
+
+// Sidebar styles
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  color: $primary;
+  text-decoration: none;
+  margin-bottom: 0.1rem;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: $primary;
+    color: $white;
+  }
+}
+
+.sidebar-icon {
+  margin-right: 0.6rem;
+}
+
+.bslib-sidebar-layout > .sidebar > .sidebar-content {
+  gap: 0.1rem !important;
+}
+
+.nav-link, .nav-tabs>li>a, .nav-pills>li>a, :where(ul.nav.navbar-nav > li)>a 
+{
+  font-weight: normal;
+}
+
+// Card
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bslib-card .card-header, .bslib-card .card-footer {
+  font-size: 1rem;
+}
+
+// Alerts
+.alert-dismissible .btn-close {
+  padding: 1rem 1rem;
+}
+
+.alert-status-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  font-size: 1.5rem;
+  margin-right: 0.75rem;
+}
+
+.alert-info {
+  --bs-alert-border-color: var(--bs-info-text-emphasis);
+}
+
+.alert-success {
+  --bs-alert-border-color: var(--bs-success-text-emphasis);
+}
+
+.alert-warning {
+  --bs-alert-border-color: var(--bs-warning-text-emphasis);
+}
+
+.alert-danger {
+  --bs-alert-border-color: var(--bs-danger-text-emphasis);
+}
+
+// Shiny notifications
+.shiny-notification.shiny-notification {
+  opacity: 1;
+  padding: 1rem;
+  background-color: $white;
+  color: #333333;
+  border-left: 0.5rem solid $primary;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-error {
+  border-left: 0.5rem solid $danger;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-warning {
+  border-left: 0.5rem solid $warning;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-success {
+  border-left: 0.5rem solid $success;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.shiny-notification.shiny-notification-message {
+  border-left: 0.5rem solid $info;
+  border-top: none;
+  border-bottom: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+}
+
+div:where(.swal2-icon).swal2-success .swal2-success-ring {
+  border-color: $success !important;
+}
+
+div:where(.swal2-icon).swal2-success [class^=swal2-success-line]{
+  background-color: $success !important;
+}
+
+div:where(.swal2-icon).swal2-error .swal2-error-ring{
+  border-color: $danger;
+}
+
+// Accessibility improvements
+.btn {
+  font-weight: 500;
+  text-transform: none;
+}
+
+.btn:focus {
+  outline: 0.125rem solid $secondary;
+  outline-offset: 0.125rem;
+}
+
+// Form elements
+.form-control{
+  border: 1px solid $primary;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
+}
+
+.radio-inline, .checkbox-inline {
+  padding-left: 1.25rem;
+}
+
+.shiny-input-checkboxgroup label ~ .shiny-options-group,
+.shiny-input-radiogroup label ~ .shiny-options-group {
+  margin-top: inherit !important;
+}
+
+.shiny-input-container-inline .shiny-options-group {
+  row-gap: 1rem;
+}
+
+.shiny-input-container:not(.shiny-input-container-inline) {
+    min-width: 300px;
+    width: 100% !important;
+    width: 100%;
+}
+
+// Modal styles
+.modal-header {
+  border-bottom: 0.125rem solid $modal-header-border-color;
+  padding: 0.75rem 1.5rem;
+}
+
+// Accordion styles
+.accordion-button:not(.collapsed) {
+  color: $primary;  
+}
+
+.accordion-button:not(.collapsed)::after{
+  color: $primary;
+}         
+
+// CPAL specific components
+.cpal-metric-card {
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.cpal-metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: $font-family-base;
+}
+
+// Reactable table styles
+.Reactable {
+  background-color: $body-bg !important;
+}
+
+.reactable {
+  font-family: $font-family-base;
+  background-color: $body-bg !important;
+  .rt-tr-header .rt-th{
+    border-top: 2px solid $primary;
+    border-bottom: 2px solid $primary;
+  }
+
+  .rt-tr {
+    color: $body-color;
+    
+    &:hover {
+      background-color: $table-hover-bg;
+    }
+  }
+
+  .rt-td {
+    border-top: 1px solid $border-color !important;
+  }
+  
+  .rt-tr-group.rt-tr-selected {
+    // Apply the primary brand color as the background
+    background-color: $table-active-bg;
+    
+    // Change text color to ensure contrast (e.g., white text on a blue background)
+    color: $table-active-color;
+    
+    // Ensure all cells inside inherit the text color
+    .rt-td, .rt-th {
+      color: inherit;
+    }
+  }
+
+  // Also update input fields background which might default to dark grey
+  .rt-search, .rt-page-size-select {
+      border: 1px solid $primary !important;
+      background-color: transparent !important;
+  }
+
+  .rt-search:focus{
+      box-shadow: 0 0 0 0.2rem rgba(0, 72, 85, 0.25);
+  }
+
+  .rt-pagination {
+    border-top: 1px solid $border-color !important;
+  }
+
+  .rt-table{
+    border-top: none !important;
+  }
+
+  .rt-th{
+    font-weight: bold !important;
+  }
+
+  .rt-tr-striped-sticky {
+    background-color: rgba(0,0,0,.03);
+  }
+
+  // Ensure high contrast for all text within the table when in dark mode
+  [data-bs-theme="dark"] & {
+    // Use a light gray for high contrast text on a dark background
+    background: none;
+    color: $body-color-dark !important;
+
+    .rt-tr {
+      color: $body-color-dark !important; 
+    }
+    
+    .rt-td {
+      border-top: 1px solid $border-color-dark !important;
+    }
+
+    .rt-tr-striped-sticky {
+      background-color: #212529 !important;
+    }
+
+    // Also update input fields background which might default to dark grey
+    .rt-search, .rt-page-size-select {
+        background: none;
+        border: 1px solid $primary !important;
+        color: $body-color-dark; // Ensure text in search is white too
+    }
+
+    .rt-pagination {
+      border-top: 1px solid $border-color-dark !important;
+      color: $body-color-dark !important;
+    }
+
+    .rt-tr-striped-sticky:hover {
+      background-color: $table-hover-bg !important;
+    }
+  }
+}
+
+[data-bs-theme="dark"] .Reactable,
+[data-bs-theme="dark"] .ReactTable {
+  background-color: $body-bg-dark !important; // Darker gray for dark mode
+}
+
+.gt_heading {
+  background-color: $body-bg !important;
+  color: $body-color !important;
+}
+
+// gt table styles
+.gt_table {
+  background-color: $body-bg !important;
+  color: $body-color !important;
+  font-family: $font-family-base !important;
+  width: 100% !important;
+  border: none !important;
+
+  /* Default light theme odd row background */
+  tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+
+  tr:hover {
+    background-color: $table-hover-bg;
+  }
+
+  .gt_table_body {
+    background-color: $body-bg;
+    color: $body-color;
+    border-bottom: 1px solid $border-color !important;
+  }
+
+  .gt_bottom_border {
+    border-bottom: 2px solid $primary !important;
+  }
+
+  .gt_col_headings {
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    color: $body-color;
+    border-top: 2px solid $primary !important;
+    border-bottom: 2px solid $primary !important;
+    font-weight: bold !important;
+  }
+
+  .gt_col_heading {
+    background-color: $body-bg !important;
+    color: $body-color !important;
+    font-weight: bold !important;
+  }
+
+  .gt_heading {
+    background-color: $body-bg !important;
+    /* Base styles for the heading section */
+    .gt_title {
+      font-size: 16px !important;
+      font-weight: bold !important;
+    }
+
+    .gt_subtitle {
+      font-size: 12px !important;
+      font-weight: normal !important;
+      margin-top: 4px;
+    }
+  }
+
+  .gt_sourcenote {
+    text-align: right;
+    font-size: 10px;
+    font-style: italic;
+    padding-top: 8px;
+  }
+
+  .gt_row {
+    border-top: 1px solid $border-color !important;
+  }
+}
+
+[data-bs-theme="dark"] {
+  .gt_col_headings,
+  .gt_col_heading,
+  .gt_heading,
+  .gt_table_body,
+  .gt_sourcenote {
+    background-color: $body-bg-dark !important;
+    color: $body-color-dark !important;
+  }
+    /* Target nested text within heading components if needed */
+    .gt_heading {
+      background-color: $body-bg-dark !important; /* Ensures the whole heading area is dark */
+      color: $body-color-dark !important;
+      border-top: none !important; /* Removes primary border from dark mode heading */
+
+      .gt_title,
+      .gt_subtitle {
+        background-color: $body-bg-dark !important;
+        color: $body-color-dark !important; /* Ensure text color inherits properly */
+      }
+    }
+
+    .gt_col_headings, .gt_col_heading, .gt_table_body {
+      background-color: $body-bg-dark !important; /* Ensures the whole heading area is dark */
+      color: $body-color-dark !important;
+    }
+
+    .gt_bottom_border {
+      border-bottom: 1px solid $border-color-dark !important; /* Adjust primary border in dark mode */
+    }
+
+    .gt_table_body {
+      border-bottom: 1px solid $border-color-dark !important;
+    }
+
+    tr:nth-child(odd) {
+      background-color: #212529 !important; /* Dark theme odd row background */
+    }
+
+    tr:hover {
+      background-color: $table-hover-bg !important;
+    }
+
+    .gt_row {
+      border-top: 1px solid $border-color-dark !important;
+    }
+  }
+
+// highcharts
+
+[data-bs-theme="dark"] {
+  .highcharts-background {
+    fill: $body-bg-dark !important;
+  }
+
+  .highcharts-axis-lines {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-yaxis-grid .highcharts-grid-line,
+  .highcharts-xaxis .highcharts-axis-line,
+  .highcharts-tick {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-axis-labels,
+  .highcharts-title,
+  .highcharts-subtitle,
+  .highcharts-legend-item text,
+  .highcharts-axis-title,
+  .highcharts-tooltip text,
+  .highcharts-xaxis-labels text,
+  .highcharts-yaxis-labels text,
+  .highcharts-data-labels text {
+    fill: $body-color-dark !important;
+  }
+
+  .highcharts-xaxis-labels text,
+  .highcharts-yaxis-labels text {
+    color: $body-color-dark !important; 
+  }
+
+  .highcharts-tooltip-box {
+    fill: $body-bg-dark !important;
+    stroke: $body-color-dark !important;
+  }
+
+  .highcharts-column-series rect {
+    stroke: $border-color-dark !important;
+  }
+
+  .highcharts-text-outline {
+    stroke-width: 0 !important;
+  }
+}

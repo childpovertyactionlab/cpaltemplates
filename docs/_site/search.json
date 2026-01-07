@@ -1,0 +1,1206 @@
+[
+  {
+    "objectID": "workflow-integration.html",
+    "href": "workflow-integration.html",
+    "title": "Workflows",
+    "section": "",
+    "text": "This guide provides complete workflow examples showing how to use cpaltemplates in real-world scenarios."
+  },
+  {
+    "objectID": "workflow-integration.html#overview",
+    "href": "workflow-integration.html#overview",
+    "title": "Workflows",
+    "section": "",
+    "text": "This guide provides complete workflow examples showing how to use cpaltemplates in real-world scenarios."
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-1-data-analysis-report",
+    "href": "workflow-integration.html#workflow-1-data-analysis-report",
+    "title": "Workflows",
+    "section": "Workflow 1: Data Analysis Report",
+    "text": "Workflow 1: Data Analysis Report\n\nObjective\nCreate a branded analysis report with visualizations, tables, and documentation.\n\n\nProject Setup\nlibrary(cpaltemplates)\n\n# Create project structure\nstart_project(\n  \"housing-analysis-2024\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)\n\n# Add Quarto report capability\nuse_quarto_report()\n\n\nAnalysis Script\n# R/analysis.R\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Setup\nsetup_cpal_google_fonts()\nset_theme_cpal()\n\n# Load data\ndata &lt;- read.csv(\"data/housing_data.csv\")\n\n# Create summary\nsummary_stats &lt;- data |&gt;\n  group_by(region) |&gt;\n  summarise(\n    n = n(),\n    avg_price = mean(price),\n    median_price = median(price),\n    .groups = \"drop\"\n  )\n\n# Visualization 1: Price distribution\np1 &lt;- ggplot(data, aes(x = price, fill = region)) +\n  geom_histogram(bins = 30, alpha = 0.7) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Housing Price Distribution\",\n    subtitle = \"By region\",\n    x = \"Price ($)\",\n    y = \"Count\"\n  ) +\n  theme_cpal()\n\nsave_cpal_plot(p1, \"output/figures/price_distribution.png\")\n\n# Visualization 2: Trend over time\np2 &lt;- ggplot(data, aes(x = date, y = price, color = region)) +\n  geom_line(linewidth = 1) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Housing Price Trends\",\n    x = \"Date\",\n    y = \"Average Price ($)\"\n  ) +\n  theme_cpal()\n\nsave_cpal_plot(p2, \"output/figures/price_trends.png\", size = \"wide\")\n\n# Create summary table\nsummary_table &lt;- summary_stats |&gt;\n  cpal_table_gt(\n    title = \"Housing Statistics by Region\",\n    source = \"Source: CPAL Housing Analysis 2024\"\n  )\n\ngtsave(summary_table, \"output/tables/summary.html\")\n\n\nQuarto Report\n---\ntitle: \"Dallas Housing Analysis\"\nauthor: \"CPAL Data Team\"\ndate: today\nformat:\n  html:\n    theme: _brand.yml\n---\n\n## Key Findings\n\n![Price Distribution](output/figures/price_distribution.png)\n\n## Trends\n\n![Price Trends](output/figures/price_trends.png)\n\n## Data Summary\n\n```r\ncpal_table_gt(summary_stats)"
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-2-shiny-dashboard",
+    "href": "workflow-integration.html#workflow-2-shiny-dashboard",
+    "title": "Workflows",
+    "section": "Workflow 2: Shiny Dashboard",
+    "text": "Workflow 2: Shiny Dashboard\n\nObjective\nBuild an interactive dashboard for data exploration.\n\n\nProject Setup\nstart_project(\n  \"data-explorer\",\n  project_type = \"shiny-dashboard\",\n  features = c(\"git\", \"renv\")\n)\n\n\napp.R\nlibrary(shiny)\nlibrary(bslib)\nlibrary(ggplot2)\nlibrary(ggiraph)\nlibrary(cpaltemplates)\n\n# Data\ndata &lt;- mtcars |&gt;\n  mutate(\n    name = rownames(mtcars),\n    cylinders = factor(cyl),\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  )\n\n# UI\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"Vehicle Data Explorer\",\n\n  nav_panel(\n    \"Overview\",\n    layout_columns(\n      col_widths = c(4, 4, 4),\n      value_box(\"Vehicles\", nrow(data), showcase = bsicons::bs_icon(\"car-front\")),\n      value_box(\"Avg MPG\", round(mean(data$mpg), 1), showcase = bsicons::bs_icon(\"speedometer\")),\n      value_box(\"Avg HP\", round(mean(data$hp), 0), showcase = bsicons::bs_icon(\"lightning\"))\n    ),\n    card(\n      full_screen = TRUE,\n      card_header(\"Fuel Efficiency Analysis\"),\n      girafeOutput(\"main_plot\")\n    )\n  ),\n\n  nav_panel(\n    \"Data Table\",\n    card(\n      card_header(\"Vehicle Database\"),\n      reactableOutput(\"data_table\")\n    )\n  )\n)\n\n# Server\nserver &lt;- function(input, output, session) {\n\n  output$main_plot &lt;- renderGirafe({\n    p &lt;- ggplot(data, aes(x = wt, y = mpg, color = cylinders)) +\n      geom_point_interactive(\n        aes(\n          tooltip = paste0(\n            \"&lt;strong&gt;\", name, \"&lt;/strong&gt;&lt;br&gt;\",\n            \"MPG: \", mpg, \"&lt;br&gt;\",\n            \"HP: \", hp\n          ),\n          data_id = cylinders\n        ),\n        size = 4\n      ) +\n      scale_color_cpal(\"main_3\") +\n      labs(\n        title = \"Weight vs. Fuel Efficiency\",\n        x = \"Weight (1000 lbs)\",\n        y = \"Miles per Gallon\"\n      ) +\n      theme_cpal()\n\n    cpal_interactive(p)\n  })\n\n  output$data_table &lt;- renderReactable({\n    cpal_table_reactable(\n      data,\n      searchable = TRUE,\n      pagination = TRUE,\n      page_size = 15\n    )\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-3-quarterly-report-automation",
+    "href": "workflow-integration.html#workflow-3-quarterly-report-automation",
+    "title": "Workflows",
+    "section": "Workflow 3: Quarterly Report Automation",
+    "text": "Workflow 3: Quarterly Report Automation\n\nObjective\nAutomate quarterly report generation with consistent branding.\n\n\nProject Setup\nstart_project(\n  \"quarterly-reports\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)\n\n\n_targets.R\nlibrary(targets)\nlibrary(tarchetypes)\nlibrary(cpaltemplates)\n\ntar_option_set(\n  packages = c(\"cpaltemplates\", \"ggplot2\", \"dplyr\", \"gt\")\n)\n\nlist(\n  # Load data\n  tar_target(\n    raw_data,\n    read.csv(\"data/quarterly_metrics.csv\")\n  ),\n\n  # Process data\n  tar_target(\n    processed_data,\n    raw_data |&gt;\n      mutate(\n        quarter = paste0(\"Q\", quarter, \" \", year),\n        change = value - lag(value)\n      )\n  ),\n\n  # Create visualizations\n  tar_target(\n    trend_plot,\n    {\n      p &lt;- ggplot(processed_data, aes(x = quarter, y = value, group = 1)) +\n        geom_line(color = \"#007A8C\", linewidth = 1.2) +\n        geom_point(color = \"#007A8C\", size = 3) +\n        labs(\n          title = \"Quarterly Performance\",\n          x = \"Quarter\",\n          y = \"Value\"\n        ) +\n        theme_cpal()\n\n      save_cpal_plot(p, \"output/trend.png\")\n      p\n    }\n  ),\n\n  # Create summary table\n  tar_target(\n    summary_table,\n    processed_data |&gt;\n      tail(4) |&gt;\n      cpal_table_gt(title = \"Recent Quarters\")\n  ),\n\n  # Render report\n  tar_quarto(\n    report,\n    \"report.qmd\",\n    extra_files = c(\"output/trend.png\")\n  )\n)"
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-4-presentation-deck",
+    "href": "workflow-integration.html#workflow-4-presentation-deck",
+    "title": "Workflows",
+    "section": "Workflow 4: Presentation Deck",
+    "text": "Workflow 4: Presentation Deck\n\nObjective\nCreate presentation slides with branded visualizations.\n\n\nProject Setup\nstart_project(\n  \"presentation-2024\",\n  project_type = \"quarto-slides\"\n)\n\n\nslides.qmd\n---\ntitle: \"CPAL Data Insights\"\nauthor: \"Data Science Team\"\nformat:\n  revealjs:\n    theme: _brand.yml\n---\n\n## Key Metrics {.smaller}\n\n```r\nlibrary(cpaltemplates)\n\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot() +\n  scale_fill_cpal(\"main_3\") +\n  labs(title = \"MPG by Cylinder Count\") +\n  theme_cpal(base_size = 20) +\n  theme(legend.position = \"none\")"
+  },
+  {
+    "objectID": "workflow-integration.html#trends-over-time",
+    "href": "workflow-integration.html#trends-over-time",
+    "title": "Workflows",
+    "section": "Trends Over Time",
+    "text": "Trends Over Time\n# Time series visualization\nggplot(data, aes(x = date, y = value)) +\n  geom_line(color = \"#007A8C\", linewidth = 1.5) +\n  theme_cpal_dark(base_size = 20)"
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-5-multi-map-report",
+    "href": "workflow-integration.html#workflow-5-multi-map-report",
+    "title": "Workflows",
+    "section": "Workflow 5: Multi-Map Report",
+    "text": "Workflow 5: Multi-Map Report\n\nObjective\nCreate a report with multiple geographic visualizations.\n\n\nMap Generation Script\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(sf)\nlibrary(dplyr)\n\nsetup_cpal_google_fonts()\n\n# Load geographic data\ntracts &lt;- st_read(\"data/dallas_tracts.geojson\")\n\n# Map 1: Population density\nmap_pop &lt;- ggplot(tracts) +\n  geom_sf(aes(fill = pop_density), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  labs(title = \"Population Density\", fill = \"Pop/sq mi\") +\n  theme_cpal_map()\n\nsave_cpal_plot(map_pop, \"maps/population.png\")\n\n# Map 2: Poverty rate\nmap_poverty &lt;- ggplot(tracts) +\n  geom_sf(aes(fill = poverty_rate), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal_c(\"pink_teal_5\") +\n  labs(title = \"Poverty Rate\", fill = \"Rate (%)\") +\n  theme_cpal_map()\n\nsave_cpal_plot(map_poverty, \"maps/poverty.png\")\n\n# Map 3: Change over time\nmap_change &lt;- ggplot(tracts) +\n  geom_sf(aes(fill = pop_change), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal_c(\"pink_teal_5\") +  # Diverging for change\n  labs(title = \"Population Change 2020-2024\", fill = \"Change (%)\") +\n  theme_cpal_map()\n\nsave_cpal_plot(map_change, \"maps/change.png\")"
+  },
+  {
+    "objectID": "workflow-integration.html#workflow-6-package-integration",
+    "href": "workflow-integration.html#workflow-6-package-integration",
+    "title": "Workflows",
+    "section": "Workflow 6: Package Integration",
+    "text": "Workflow 6: Package Integration\n\nObjective\nUse cpaltemplates as foundation for internal package.\n\n\nPackage Structure\n# Create package\nstart_project(\n  \"cpalreports\",\n  project_type = \"package\"\n)\n\n\nR/plot_wrappers.R\n#' Create standard CPAL line plot\n#' @export\ncpal_line_plot &lt;- function(data, x, y, color = NULL, title = NULL) {\n  p &lt;- ggplot2::ggplot(data, ggplot2::aes(\n    x = .data[[x]],\n    y = .data[[y]],\n    color = if (!is.null(color)) .data[[color]] else NULL\n  )) +\n    ggplot2::geom_line(linewidth = 1) +\n    cpaltemplates::theme_cpal()\n\n  if (!is.null(color)) {\n    p &lt;- p + cpaltemplates::scale_color_cpal(\"main\")\n  }\n\n  if (!is.null(title)) {\n    p &lt;- p + ggplot2::labs(title = title)\n  }\n\n  p\n}\n\n#' Create standard CPAL bar plot\n#' @export\ncpal_bar_plot &lt;- function(data, x, y, fill = NULL, title = NULL) {\n  p &lt;- ggplot2::ggplot(data, ggplot2::aes(\n    x = .data[[x]],\n    y = .data[[y]],\n    fill = if (!is.null(fill)) .data[[fill]] else NULL\n  )) +\n    ggplot2::geom_col() +\n    cpaltemplates::theme_cpal()\n\n  if (!is.null(fill)) {\n    p &lt;- p + cpaltemplates::scale_fill_cpal(\"main\")\n  }\n\n  p\n}"
+  },
+  {
+    "objectID": "workflow-integration.html#best-practices-summary",
+    "href": "workflow-integration.html#best-practices-summary",
+    "title": "Workflows",
+    "section": "Best Practices Summary",
+    "text": "Best Practices Summary\n\n1. Always Set Up Fonts First\n# At the start of every script\nlibrary(cpaltemplates)\nsetup_cpal_google_fonts()\n\n\n2. Use Consistent Sizing\n# Use size presets for consistency\nsave_cpal_plot(p, \"file.png\", size = \"slide\")  # Presentations\nsave_cpal_plot(p, \"file.png\", size = \"default\")  # Reports\n\n\n3. Check Accessibility\n# Before finalizing visualizations\ncheck_plot_accessibility(p)\n\n\n4. Use Version Control for Brand\n# Keep _brand.yml tracked\nuse_cpal_brand()  # Copy to project\n# Commit to git\n\n\n5. Document Custom Colors\n# In _brand.yml\ncolor:\n  palette:\n    # Project-specific colors with comments\n    custom_highlight: \"#FF6B6B\"  # For housing emphasis"
+  },
+  {
+    "objectID": "workflow-integration.html#next-steps",
+    "href": "workflow-integration.html#next-steps",
+    "title": "Workflows",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nGetting Started - Initial setup\nFunction Reference - Complete function list\nTroubleshooting - Common issues"
+  },
+  {
+    "objectID": "troubleshooting.html",
+    "href": "troubleshooting.html",
+    "title": "Troubleshooting",
+    "section": "",
+    "text": "# Error: package 'cpaltemplates' is not available\nSolution:\n# Install remotes if needed\ninstall.packages(\"remotes\")\n\n# Install with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\n\n# Error: package requires R &gt;= 4.3.0\nSolution:\nUpdate R to version 4.3.0 or higher. Download from CRAN.\n\n\n\n# Error: dependency 'xyz' is not available\nSolution:\n# Install dependencies manually\ninstall.packages(c(\"ggplot2\", \"bslib\", \"gt\", \"reactable\", \"ggiraph\"))\n\n# Then retry\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
+  },
+  {
+    "objectID": "troubleshooting.html#installation-issues",
+    "href": "troubleshooting.html#installation-issues",
+    "title": "Troubleshooting",
+    "section": "",
+    "text": "# Error: package 'cpaltemplates' is not available\nSolution:\n# Install remotes if needed\ninstall.packages(\"remotes\")\n\n# Install with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\n\n# Error: package requires R &gt;= 4.3.0\nSolution:\nUpdate R to version 4.3.0 or higher. Download from CRAN.\n\n\n\n# Error: dependency 'xyz' is not available\nSolution:\n# Install dependencies manually\ninstall.packages(c(\"ggplot2\", \"bslib\", \"gt\", \"reactable\", \"ggiraph\"))\n\n# Then retry\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
+  },
+  {
+    "objectID": "troubleshooting.html#font-issues",
+    "href": "troubleshooting.html#font-issues",
+    "title": "Troubleshooting",
+    "section": "Font Issues",
+    "text": "Font Issues\n\nFonts Not Rendering\nSymptoms:\n\nPlots show system fonts instead of Inter/Poppins\nWarning: “font family not found”\n\nSolutions:\n# 1. Run font setup\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# 2. Check font availability\nsysfonts::font_families()\n\n# 3. Verify showtext is enabled\nlibrary(showtext)\nshowtext_auto()\n\n# 4. Check what font is being used\ncpal_font_family(setup = TRUE)\n\n\nInteractive Plot Fonts\nSymptoms:\n\nggiraph plots show wrong fonts\nFonts work in static plots but not interactive\n\nSolutions:\n# Install required packages\ninstall.packages(c(\"gdtools\", \"systemfonts\"))\n\n# Register fonts for interactive use\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}\n\n\nPDF Font Issues\nSymptoms:\n\nFonts don’t appear in PDF output\nPDF shows rectangles instead of text\n\nSolutions:\n# Use cairo device for better font support\nggsave(\"plot.pdf\", plot, device = cairo_pdf)\n\n# Or use showtext\nlibrary(showtext)\nshowtext_auto()\nggsave(\"plot.pdf\", plot)"
+  },
+  {
+    "objectID": "troubleshooting.html#theme-issues",
+    "href": "troubleshooting.html#theme-issues",
+    "title": "Troubleshooting",
+    "section": "Theme Issues",
+    "text": "Theme Issues\n\nTheme Not Applying\nSymptoms:\n\nPlot doesn’t have CPAL styling\nDefault ggplot2 theme appears\n\nSolutions:\n# 1. Ensure theme_cpal() is in the plot\nggplot(data, aes(x, y)) +\n  geom_point() +\n  theme_cpal()  # Must be included!\n\n# 2. Check if theme is being overwritten\n# theme_cpal() should be last or near-last\nggplot(data, aes(x, y)) +\n  geom_point() +\n  other_layer() +\n  theme_cpal() +  # After other layers\n  theme(specific_override = ...)  # Specific overrides after\n\n# 3. Set default theme for session\nset_theme_cpal()\n\n\nShiny Theme Not Working\nSymptoms:\n\nDashboard shows default Bootstrap styling\nCPAL colors not appearing\n\nSolutions:\n# 1. Ensure using bslib page functions\npage_sidebar(  # Correct - bslib function\n  theme = cpal_dashboard_theme(),\n  ...\n)\n\nfluidPage(  # Wrong - doesn't support bslib themes fully\n  ...\n)\n\n# 2. Check bslib is loaded\nlibrary(bslib)\n\n# 3. Verify theme is applied\ntheme &lt;- cpal_dashboard_theme()\nprint(theme)  # Should show theme details"
+  },
+  {
+    "objectID": "troubleshooting.html#color-issues",
+    "href": "troubleshooting.html#color-issues",
+    "title": "Troubleshooting",
+    "section": "Color Issues",
+    "text": "Color Issues\n\nColors Not Showing\nSymptoms:\n\nscale_color_cpal() has no effect\nDefault ggplot2 colors appear\n\nSolutions:\n# 1. Match discrete/continuous to your data\n# For categorical data:\nscale_color_cpal(\"main\", discrete = TRUE)\n\n# For continuous data:\nscale_color_cpal_c(\"teal_seq_5\")\n\n# 2. Check palette name is valid\nlist_cpal_palettes()\n\n# 3. Verify color aesthetic is mapped\nggplot(data, aes(x, y, color = group)) +  # color must be mapped\n  geom_point() +\n  scale_color_cpal(\"main\")\n\n\nWrong Number of Colors\nSymptoms:\n\n“Insufficient values in manual scale” error\nColors don’t match number of categories\n\nSolutions:\n# Check how many categories you have\nn_distinct(data$category)\n\n# Use appropriate palette\n# For 3 categories:\nscale_color_cpal(\"main_3\")\n\n# For 5 categories:\nscale_color_cpal(\"main\")\n\n# For more categories:\nscale_color_cpal(\"main_gray\")  # 6 colors\n\n\nColor Contrast Issues\n# Check if colors meet accessibility standards\nvalidate_color_contrast(\"#007A8C\", \"#FFFFFF\")\n\n# Check all brand colors\nvalidate_brand_colors()"
+  },
+  {
+    "objectID": "troubleshooting.html#table-issues",
+    "href": "troubleshooting.html#table-issues",
+    "title": "Troubleshooting",
+    "section": "Table Issues",
+    "text": "Table Issues\n\nGT Table Not Displaying\nSymptoms:\n\nTable doesn’t render in viewer\nError about gt package\n\nSolutions:\n# 1. Install gt\ninstall.packages(\"gt\")\n\n# 2. Verify installation\nlibrary(gt)\n\n# 3. Check data is a data frame\nclass(your_data)  # Should be \"data.frame\" or \"tbl_df\"\n\n\nReactable Not Interactive\nSymptoms:\n\nTable appears static\nNo search/pagination\n\nSolutions:\n# 1. Install reactable\ninstall.packages(\"reactable\")\n\n# 2. In Shiny, use correct output function\n# UI:\nreactableOutput(\"table\")\n\n# Server:\noutput$table &lt;- renderReactable({\n  cpal_table_reactable(data)\n})"
+  },
+  {
+    "objectID": "troubleshooting.html#interactive-plot-issues",
+    "href": "troubleshooting.html#interactive-plot-issues",
+    "title": "Troubleshooting",
+    "section": "Interactive Plot Issues",
+    "text": "Interactive Plot Issues\n\nggiraph Not Working\nSymptoms:\n\nPlot is static instead of interactive\nTooltips don’t appear\n\nSolutions:\n# 1. Install ggiraph\ninstall.packages(\"ggiraph\")\n\n# 2. Use interactive geoms\ngeom_point_interactive()  # Correct\ngeom_point()              # Won't be interactive\n\n# 3. Wrap with cpal_interactive()\np &lt;- ggplot(data, aes(x, y)) +\n  geom_point_interactive(aes(tooltip = label)) +\n  theme_cpal()\n\ncpal_interactive(p)  # This renders it interactive\n\n\nInteractive in Shiny\n# Use girafeOutput and renderGirafe\n# UI:\ngirafeOutput(\"plot\")\n\n# Server:\noutput$plot &lt;- renderGirafe({\n  p &lt;- ggplot(...) +\n    geom_point_interactive(...)\n  cpal_interactive(p)\n})"
+  },
+  {
+    "objectID": "troubleshooting.html#map-issues",
+    "href": "troubleshooting.html#map-issues",
+    "title": "Troubleshooting",
+    "section": "Map Issues",
+    "text": "Map Issues\n\nMap Not Displaying\nSymptoms:\n\nEmpty plot\nError about sf\n\nSolutions:\n# 1. Install sf\ninstall.packages(\"sf\")\n\n# 2. Check data is sf object\nclass(geo_data)  # Should include \"sf\"\n\n# 3. Verify CRS\nsf::st_crs(geo_data)\n\n# 4. Transform if needed\ngeo_data &lt;- sf::st_transform(geo_data, 4326)\n\n\nMapbox Token Issues\n# Set token\nSys.setenv(MAPBOX_PUBLIC_TOKEN = \"pk.xxx...\")\n\n# Verify\nSys.getenv(\"MAPBOX_PUBLIC_TOKEN\")\n\n# Add to .Renviron for persistence\nusethis::edit_r_environ()\n# Add: MAPBOX_PUBLIC_TOKEN=pk.xxx..."
+  },
+  {
+    "objectID": "troubleshooting.html#project-scaffolding-issues",
+    "href": "troubleshooting.html#project-scaffolding-issues",
+    "title": "Troubleshooting",
+    "section": "Project Scaffolding Issues",
+    "text": "Project Scaffolding Issues\n\nTemplates Not Copying\nSymptoms:\n\nProject created but missing files\nError about templates\n\nSolutions:\n# 1. Reinstall package\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n# 2. Check templates exist\nsystem.file(\"templates\", package = \"cpaltemplates\")\n\n# 3. Try with explicit path\nstart_project(\n  \"my-project\",\n  path = normalizePath(\"~/projects\"),\n  project_type = \"analysis\"\n)\n\n\nProject Won’t Open\n# Disable auto-open\nstart_project(\"my-project\", open = FALSE)\n\n# Open manually\nrstudioapi::openProject(\"my-project\")"
+  },
+  {
+    "objectID": "troubleshooting.html#brand-file-issues",
+    "href": "troubleshooting.html#brand-file-issues",
+    "title": "Troubleshooting",
+    "section": "Brand File Issues",
+    "text": "Brand File Issues\n\n_brand.yml Not Found\n# Copy from package\nuse_cpal_brand()\n\n# Verify file exists\nfile.exists(\"_brand.yml\")\n\n\nInvalid Brand Configuration\n# Validate the file\nvalidate_cpal_brand(verbose = TRUE)\n\n# Common issues:\n# - Missing # in hex colors: \"007A8C\" should be \"#007A8C\"\n# - Invalid YAML syntax: check indentation\n# - Missing required sections"
+  },
+  {
+    "objectID": "troubleshooting.html#performance-issues",
+    "href": "troubleshooting.html#performance-issues",
+    "title": "Troubleshooting",
+    "section": "Performance Issues",
+    "text": "Performance Issues\n\nSlow Rendering\nSolutions:\n# 1. Reduce DPI for drafts\nsave_cpal_plot(p, \"draft.png\", dpi = 100)\n\n# 2. Simplify geometries for maps\ngeo_simple &lt;- sf::st_simplify(geo_data, dTolerance = 100)\n\n# 3. Sample large datasets\ndata_sample &lt;- dplyr::slice_sample(large_data, n = 1000)\n\n# 4. Use smaller SVG for interactive\ncpal_interactive(p, width_svg = 6, height_svg = 4)\n\n\nMemory Issues\n# Clear environment\nrm(list = ls())\ngc()\n\n# Use data.table for large files\nlibrary(data.table)\ndata &lt;- fread(\"large_file.csv\")"
+  },
+  {
+    "objectID": "troubleshooting.html#getting-help",
+    "href": "troubleshooting.html#getting-help",
+    "title": "Troubleshooting",
+    "section": "Getting Help",
+    "text": "Getting Help\n\nCheck Package Version\npackageVersion(\"cpaltemplates\")\n\n\nReport Issues\nGitHub Issues\nWhen reporting, include:\n\nR version: R.version.string\nPackage version: packageVersion(\"cpaltemplates\")\nOperating system\nMinimal reproducible example\nFull error message\n\n\n\nReinstall Clean\n# Remove and reinstall\nremove.packages(\"cpaltemplates\")\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE,\n  force = TRUE\n)"
+  },
+  {
+    "objectID": "troubleshooting.html#quick-fixes-checklist",
+    "href": "troubleshooting.html#quick-fixes-checklist",
+    "title": "Troubleshooting",
+    "section": "Quick Fixes Checklist",
+    "text": "Quick Fixes Checklist\n\nIs cpaltemplates loaded? library(cpaltemplates)\nAre fonts set up? setup_cpal_google_fonts()\nIs the theme applied? theme_cpal() in plot\nAre colors mapped? aes(color = ...) present\nIs scale added? scale_color_cpal() in plot\nFor interactive: using _interactive() geoms?\nFor Shiny: using page_*() functions?\nFor maps: is data an sf object?"
+  },
+  {
+    "objectID": "troubleshooting.html#see-also",
+    "href": "troubleshooting.html#see-also",
+    "title": "Troubleshooting",
+    "section": "See Also",
+    "text": "See Also\n\nGetting Started - Initial setup\nFunction Reference - All functions\nWorkflows - Complete examples"
+  },
+  {
+    "objectID": "tables-gt.html",
+    "href": "tables-gt.html",
+    "title": "Tables",
+    "section": "",
+    "text": "cpaltemplates provides 3 table functions for creating professionally styled tables:\n\ncpal_table_gt() - Static, publication-quality tables using gt\ncpal_table_reactable() - Interactive, searchable tables using reactable\ncpal_table() - Quick CPAL-styled gt tables"
+  },
+  {
+    "objectID": "tables-gt.html#overview",
+    "href": "tables-gt.html#overview",
+    "title": "Tables",
+    "section": "",
+    "text": "cpaltemplates provides 3 table functions for creating professionally styled tables:\n\ncpal_table_gt() - Static, publication-quality tables using gt\ncpal_table_reactable() - Interactive, searchable tables using reactable\ncpal_table() - Quick CPAL-styled gt tables"
+  },
+  {
+    "objectID": "tables-gt.html#quick-start",
+    "href": "tables-gt.html#quick-start",
+    "title": "Tables",
+    "section": "Quick Start",
+    "text": "Quick Start\n\n\nShow code\nmtcars |&gt;\n  head(5) |&gt;\n  select(mpg, cyl, hp, wt) |&gt;\n  cpal_table_gt(title = \"Vehicle Data Sample\")\n\n\n\n\n\n\n\n\nVehicle Data Sample\n\n\nmpg\ncyl\nhp\nwt\n\n\n\n\n21.0\n6\n110\n2.620\n\n\n21.0\n6\n110\n2.875\n\n\n22.8\n4\n93\n2.320\n\n\n21.4\n6\n110\n3.215\n\n\n18.7\n8\n175\n3.440"
+  },
+  {
+    "objectID": "tables-gt.html#gt-tables",
+    "href": "tables-gt.html#gt-tables",
+    "title": "Tables",
+    "section": "GT Tables",
+    "text": "GT Tables\n\ncpal_table_gt()\nCreate publication-quality static tables with CPAL styling.\n\n\nShow code\nmtcars |&gt;\n  head(8) |&gt;\n  select(mpg, cyl, disp, hp, wt) |&gt;\n  mutate(car = rownames(head(mtcars, 8))) |&gt;\n  select(car, everything()) |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Specifications\",\n    subtitle = \"Sample from mtcars dataset\",\n    source = \"Source: Motor Trend, 1974\"\n  )\n\n\n\n\n\n\n\n\nVehicle Specifications\n\n\nSample from mtcars dataset\n\n\ncar\nmpg\ncyl\ndisp\nhp\nwt\n\n\n\n\nMazda RX4\n21.0\n6\n160.0\n110\n2.620\n\n\nMazda RX4 Wag\n21.0\n6\n160.0\n110\n2.875\n\n\nDatsun 710\n22.8\n4\n108.0\n93\n2.320\n\n\nHornet 4 Drive\n21.4\n6\n258.0\n110\n3.215\n\n\nHornet Sportabout\n18.7\n8\n360.0\n175\n3.440\n\n\nValiant\n18.1\n6\n225.0\n105\n3.460\n\n\nDuster 360\n14.3\n8\n360.0\n245\n3.570\n\n\nMerc 240D\n24.4\n4\n146.7\n62\n3.190\n\n\n\nSource: Source: Motor Trend, 1974\n\n\n\n\n\n\n\n\n\n\nFormatted Data\n\n\nShow code\n# Create summary data\nsummary_data &lt;- mtcars |&gt;\n  group_by(cyl) |&gt;\n  summarise(\n    count = n(),\n    avg_mpg = mean(mpg),\n    avg_hp = mean(hp),\n    avg_wt = mean(wt),\n    .groups = \"drop\"\n  )\n\nsummary_data |&gt;\n  cpal_table_gt(\n    title = \"Performance by Cylinder Count\"\n  ) |&gt;\n  fmt_number(columns = c(avg_mpg, avg_hp, avg_wt), decimals = 1) |&gt;\n  cols_label(\n    cyl = \"Cylinders\",\n    count = \"Count\",\n    avg_mpg = \"Avg. MPG\",\n    avg_hp = \"Avg. HP\",\n    avg_wt = \"Avg. Weight\"\n  )\n\n\n\n\n\n\n\n\nPerformance by Cylinder Count\n\n\nCylinders\nCount\nAvg. MPG\nAvg. HP\nAvg. Weight\n\n\n\n\n4\n11\n26.7\n82.6\n2.3\n\n\n6\n7\n19.7\n122.3\n3.1\n\n\n8\n14\n15.1\n209.2\n4.0\n\n\n\n\n\n\n\n\n\n\nAdvanced GT Formatting\n\n\nShow code\n# Regional data example\nregional_data &lt;- data.frame(\n  region = c(\"North Dallas\", \"South Dallas\", \"East Dallas\", \"West Dallas\"),\n  population = c(125000, 98500, 156000, 112000),\n  growth_rate = c(0.052, -0.018, 0.087, 0.034),\n  poverty_rate = c(0.08, 0.22, 0.12, 0.15)\n)\n\nregional_data |&gt;\n  cpal_table_gt(title = \"Dallas Regional Statistics\") |&gt;\n  fmt_number(columns = population, use_seps = TRUE) |&gt;\n  fmt_percent(columns = c(growth_rate, poverty_rate), decimals = 1) |&gt;\n  cols_label(\n    region = \"Region\",\n    population = \"Population\",\n    growth_rate = \"Growth Rate\",\n    poverty_rate = \"Poverty Rate\"\n  ) |&gt;\n  tab_style(\n    style = cell_fill(color = \"#D8EFF4\"),\n    locations = cells_body(\n      columns = growth_rate,\n      rows = growth_rate &gt; 0.05\n    )\n  ) |&gt;\n  tab_style(\n    style = cell_text(color = \"#C3257B\", weight = \"bold\"),\n    locations = cells_body(\n      columns = poverty_rate,\n      rows = poverty_rate &gt; 0.15\n    )\n  )\n\n\n\n\n\n\n\n\nDallas Regional Statistics\n\n\nRegion\nPopulation\nGrowth Rate\nPoverty Rate\n\n\n\n\nNorth Dallas\n125,000.00\n5.2%\n8.0%\n\n\nSouth Dallas\n98,500.00\n−1.8%\n22.0%\n\n\nEast Dallas\n156,000.00\n8.7%\n12.0%\n\n\nWest Dallas\n112,000.00\n3.4%\n15.0%"
+  },
+  {
+    "objectID": "tables-gt.html#reactable-tables",
+    "href": "tables-gt.html#reactable-tables",
+    "title": "Tables",
+    "section": "Reactable Tables",
+    "text": "Reactable Tables\n\ncpal_table_reactable()\nCreate interactive tables with searching, sorting, and pagination.\n\n\nShow code\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"Vehicle Database\",\n    searchable = TRUE,\n    pagination = TRUE,\n    page_size = 8\n  )\n\n\n\nVehicle Database\n\n\n\n\n\n\n\nWith Column Filtering\n\n\nShow code\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  cpal_table_reactable(\n    title = \"Filterable Table\",\n    subtitle = \"Use column filters to explore data\",\n    searchable = TRUE,\n    filterable = TRUE,\n    page_size = 10\n  )\n\n\n\nFilterable Table\nUse column filters to explore data"
+  },
+  {
+    "objectID": "tables-gt.html#choosing-between-gt-and-reactable",
+    "href": "tables-gt.html#choosing-between-gt-and-reactable",
+    "title": "Tables",
+    "section": "Choosing Between GT and Reactable",
+    "text": "Choosing Between GT and Reactable\n\n\n\nFeature\nGT\nReactable\n\n\n\n\nStatic output\n✓\n\n\n\nInteractive\n\n✓\n\n\nSearchable\n\n✓\n\n\nSortable\n\n✓\n\n\nPDF/Print friendly\n✓\n\n\n\nShiny integration\n✓\n✓\n\n\nLarge datasets\n\n✓\n\n\nComplex formatting\n✓\n\n\n\nPagination\n\n✓\n\n\n\n\nRecommendations\n\n\n\nUse Case\nRecommended\n\n\n\n\nReports/PDFs\ncpal_table_gt()\n\n\nDashboards\ncpal_table_reactable()\n\n\nPresentations\ncpal_table_gt()\n\n\nData exploration\ncpal_table_reactable()\n\n\nPublications\ncpal_table_gt()\n\n\nWeb apps\ncpal_table_reactable()"
+  },
+  {
+    "objectID": "tables-gt.html#complete-example",
+    "href": "tables-gt.html#complete-example",
+    "title": "Tables",
+    "section": "Complete Example",
+    "text": "Complete Example\n\nSummary Report Table\n\n\nShow code\n# Prepare comprehensive summary\ncomprehensive_summary &lt;- mtcars |&gt;\n  group_by(cyl, am) |&gt;\n  summarise(\n    n = n(),\n    mpg_mean = mean(mpg),\n    mpg_sd = sd(mpg),\n    hp_mean = mean(hp),\n    .groups = \"drop\"\n  ) |&gt;\n  mutate(\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  ) |&gt;\n  select(-am)\n\ncomprehensive_summary |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Performance Summary\",\n    subtitle = \"Grouped by cylinder count and transmission type\",\n    source = \"Source: Motor Trend Car Road Tests (1974)\"\n  ) |&gt;\n  fmt_number(columns = c(mpg_mean, mpg_sd, hp_mean), decimals = 1) |&gt;\n  cols_label(\n    cyl = \"Cylinders\",\n    transmission = \"Transmission\",\n    n = \"Count\",\n    mpg_mean = \"Avg. MPG\",\n    mpg_sd = \"MPG SD\",\n    hp_mean = \"Avg. HP\"\n  ) |&gt;\n  tab_spanner(\n    label = \"Fuel Efficiency\",\n    columns = c(mpg_mean, mpg_sd)\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVehicle Performance Summary\n\n\nGrouped by cylinder count and transmission type\n\n\nCylinders\nCount\n\nFuel Efficiency\n\nAvg. HP\nTransmission\n\n\nAvg. MPG\nMPG SD\n\n\n\n\n4\n3\n22.9\n1.5\n84.7\nAutomatic\n\n\n4\n8\n28.1\n4.5\n81.9\nManual\n\n\n6\n4\n19.1\n1.6\n115.2\nAutomatic\n\n\n6\n3\n20.6\n0.8\n131.7\nManual\n\n\n8\n12\n15.1\n2.8\n194.2\nAutomatic\n\n\n8\n2\n15.4\n0.6\n299.5\nManual\n\n\n\nSource: Source: Motor Trend Car Road Tests (1974)"
+  },
+  {
+    "objectID": "tables-gt.html#next-steps",
+    "href": "tables-gt.html#next-steps",
+    "title": "Tables",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nShiny Dashboards - Using tables in dashboards\nThemes & Styling - Consistent styling\nWorkflows - Complete examples"
+  },
+  {
+    "objectID": "project-setup.html",
+    "href": "project-setup.html",
+    "title": "Project Setup",
+    "section": "",
+    "text": "cpaltemplates provides a comprehensive project scaffolding system with 7 functions that help you quickly set up new projects with CPAL branding, consistent structure, and best practices built in."
+  },
+  {
+    "objectID": "project-setup.html#overview",
+    "href": "project-setup.html#overview",
+    "title": "Project Setup",
+    "section": "",
+    "text": "cpaltemplates provides a comprehensive project scaffolding system with 7 functions that help you quickly set up new projects with CPAL branding, consistent structure, and best practices built in."
+  },
+  {
+    "objectID": "project-setup.html#quick-start",
+    "href": "project-setup.html#quick-start",
+    "title": "Project Setup",
+    "section": "Quick Start",
+    "text": "Quick Start\nlibrary(cpaltemplates)\n\n# Create a new data analysis project\nstart_project(\n  name = \"dallas-housing-analysis\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)"
+  },
+  {
+    "objectID": "project-setup.html#main-function-start_project",
+    "href": "project-setup.html#main-function-start_project",
+    "title": "Project Setup",
+    "section": "Main Function: start_project()",
+    "text": "Main Function: start_project()\nThe primary entry point for creating new projects.\n\nSyntax\nstart_project(\n  name,\n  path = \".\",\n  project_type = c(\"analysis\", \"quarto-report\", \"quarto-slides\",\n                   \"quarto-web\", \"shiny-dashboard\", \"shiny-app\", \"package\"),\n  interactive = TRUE,\n  features = NULL,\n  open = TRUE,\n  overwrite = FALSE\n)\n\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nname\nProject name (will be the folder name)\n\n\npath\nParent directory for the project (default: current directory)\n\n\nproject_type\nType of project to create (see below)\n\n\ninteractive\nIf TRUE, guides you through setup with prompts\n\n\nfeatures\nVector of features to enable: “renv”, “git”, “github”, “targets”, “tests”\n\n\nopen\nIf TRUE, opens the new project in RStudio\n\n\noverwrite\nIf TRUE, overwrites existing project\n\n\n\n\n\nProject Types\n\n\n\n\n\n\n\n\nType\nDescription\nKey Files Created\n\n\n\n\nanalysis\nData analysis with targets pipeline\n_targets.R, R/, data/, output/\n\n\nquarto-report\nBranded Quarto report\nreport.qmd, _brand.yml, styles.css\n\n\nquarto-slides\nPresentation slides\nslides.qmd, _brand.yml\n\n\nquarto-web\nMulti-page website\n_quarto.yml, index.qmd, pages\n\n\nshiny-dashboard\nFull-featured dashboard\napp.R, modules/, www/, _brand.yml\n\n\nshiny-app\nSimple Shiny app\napp.R, www/, styles\n\n\npackage\nR package development\nDESCRIPTION, R/, man/, tests\n\n\n\n\n\nExamples\n# Interactive mode - guides you through options\nstart_project(\"my-project\", interactive = TRUE)\n\n# Non-interactive with specific options\nstart_project(\n  name = \"quarterly-report\",\n  project_type = \"quarto-report\",\n  features = c(\"git\"),\n  interactive = FALSE\n)\n\n# Create in specific directory\nstart_project(\n  name = \"housing-dashboard\",\n  path = \"~/projects\",\n  project_type = \"shiny-dashboard\",\n  features = c(\"git\", \"renv\")\n)"
+  },
+  {
+    "objectID": "project-setup.html#adding-components-to-existing-projects",
+    "href": "project-setup.html#adding-components-to-existing-projects",
+    "title": "Project Setup",
+    "section": "Adding Components to Existing Projects",
+    "text": "Adding Components to Existing Projects\nThese functions add specific components to an existing project without creating a new one.\n\nuse_quarto_report()\nAdd Quarto report capability to an existing project.\nuse_quarto_report(path = \".\", overwrite = FALSE)\nCreates:\n\nreport.qmd - Main report template with CPAL styling\n_brand.yml - Brand configuration\nreferences.bib - Bibliography template\n\nExample:\n# Add report to current project\nuse_quarto_report()\n\n# Add to specific directory\nuse_quarto_report(\"my-project/\")\n\n\n\nuse_quarto_slides()\nAdd Quarto presentation slides to an existing project.\nuse_quarto_slides(path = \".\", filename = \"slides\", overwrite = FALSE)\nCreates:\n\n{filename}.qmd - Revealjs presentation template\n_brand.yml - Brand configuration\n\nExample:\n# Add slides with default name\nuse_quarto_slides()\n\n# Custom filename\nuse_quarto_slides(filename = \"quarterly-presentation\")\n\n\n\nuse_quarto_web()\nAdd Quarto website structure to an existing project.\nuse_quarto_web(path = \".\", overwrite = FALSE)\nCreates:\n\n_quarto.yml - Website configuration\nindex.qmd - Home page\nabout.qmd - About page template\n_brand.yml - Brand configuration\nstyles.css - Custom styles\n\nExample:\n# Add website structure\nuse_quarto_web()\n\n\n\nuse_shiny_dashboard()\nAdd a full-featured Shiny dashboard to an existing project.\nuse_shiny_dashboard(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Main application file\nmodules/ - Modular UI/server components\nwww/ - Static assets (CSS, images)\n_brand.yml - Brand configuration\nR/ - Helper functions\n\nExample:\n# Add dashboard to current project\nuse_shiny_dashboard()\n\n\n\nuse_shiny_app()\nAdd a simple Shiny application to an existing project.\nuse_shiny_app(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Simple Shiny application\nwww/styles.css - CPAL styling\n\nExample:\n# Add simple app\nuse_shiny_app()\n\n\n\nuse_shiny_theme()\nAdd CPAL CSS theme files for Shiny.\nuse_shiny_theme(path = \".\", theme_name = \"cpal\", overwrite = FALSE)\nCreates:\n\nwww/{theme_name}.css - CPAL-styled CSS\n\nExample:\n# Add default theme\nuse_shiny_theme()\n\n# Custom theme name\nuse_shiny_theme(theme_name = \"dashboard-theme\")\n\n\n\nuse_targets()\nAdd a targets pipeline to an existing project.\nuse_targets(path = \".\", type = c(\"basic\", \"analysis\", \"report\"), overwrite = FALSE)\n\n\n\nType\nDescription\n\n\n\n\nbasic\nMinimal _targets.R setup\n\n\nanalysis\nFull analysis pipeline with data → model → output\n\n\nreport\nAnalysis pipeline plus Quarto report rendering\n\n\n\nExample:\n# Add basic targets\nuse_targets(type = \"basic\")\n\n# Full analysis pipeline\nuse_targets(type = \"analysis\")"
+  },
+  {
+    "objectID": "project-setup.html#project-structure-examples",
+    "href": "project-setup.html#project-structure-examples",
+    "title": "Project Setup",
+    "section": "Project Structure Examples",
+    "text": "Project Structure Examples\n\nAnalysis Project\nmy-analysis/\n├── _targets.R          # Pipeline definition\n├── R/\n│   ├── functions.R     # Analysis functions\n│   └── utils.R         # Helper utilities\n├── data/\n│   ├── raw/            # Original data\n│   └── processed/      # Cleaned data\n├── output/\n│   ├── figures/        # Generated plots\n│   └── tables/         # Generated tables\n├── _brand.yml          # Brand configuration\n├── renv.lock           # Package versions\n└── README.md\n\n\nShiny Dashboard Project\nmy-dashboard/\n├── app.R               # Main application\n├── modules/\n│   ├── mod_overview.R  # Overview tab module\n│   ├── mod_data.R      # Data explorer module\n│   └── mod_charts.R    # Charts module\n├── R/\n│   └── helpers.R       # Utility functions\n├── www/\n│   ├── styles.css      # Custom styles\n│   └── images/         # Logos, icons\n├── _brand.yml          # Brand configuration\n└── README.md\n\n\nQuarto Report Project\nmy-report/\n├── report.qmd          # Main report\n├── _brand.yml          # Brand configuration\n├── styles.css          # Custom styles\n├── references.bib      # Bibliography\n├── data/               # Data files\n├── figures/            # Generated figures\n└── README.md"
+  },
+  {
+    "objectID": "project-setup.html#feature-options",
+    "href": "project-setup.html#feature-options",
+    "title": "Project Setup",
+    "section": "Feature Options",
+    "text": "Feature Options\nWhen using start_project(), you can enable various features:\n\n\n\nFeature\nDescription\n\n\n\n\ngit\nInitialize git repository with .gitignore\n\n\ngithub\nSet up GitHub integration (requires gh CLI)\n\n\nrenv\nInitialize renv for package management\n\n\ntargets\nAdd targets pipeline for reproducibility\n\n\ntests\nSet up testthat testing infrastructure\n\n\n\n# Enable all features\nstart_project(\n  \"my-project\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\", \"tests\")\n)"
+  },
+  {
+    "objectID": "project-setup.html#best-practices",
+    "href": "project-setup.html#best-practices",
+    "title": "Project Setup",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Use Interactive Mode for New Projects\n# Let the wizard guide you\nstart_project(\"my-project\", interactive = TRUE)\n\n\n2. Start with Analysis, Add Components Later\n# Create base project\nstart_project(\"research-project\", project_type = \"analysis\")\n\n# Later, add a report\nuse_quarto_report(\"research-project/\")\n\n# Add slides for presentation\nuse_quarto_slides(\"research-project/\", filename = \"results-presentation\")\n\n\n3. Always Use Version Control\n# Include git from the start\nstart_project(\"important-analysis\", features = c(\"git\", \"renv\"))\n\n\n4. Use renv for Reproducibility\n# Lock package versions\nstart_project(\"client-report\", features = c(\"renv\"))"
+  },
+  {
+    "objectID": "project-setup.html#troubleshooting",
+    "href": "project-setup.html#troubleshooting",
+    "title": "Project Setup",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nProject Already Exists\n# Use overwrite to replace\nstart_project(\"existing-project\", overwrite = TRUE)\n\n\nRStudio Doesn’t Open Project\n# Disable auto-open\nstart_project(\"my-project\", open = FALSE)\n\n# Open manually later\nrstudioapi::openProject(\"my-project\")\n\n\nMissing Templates\nIf templates aren’t copying correctly:\n# Check package installation\npackageVersion(\"cpaltemplates\")\n\n# Reinstall if needed\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
+  },
+  {
+    "objectID": "project-setup.html#next-steps",
+    "href": "project-setup.html#next-steps",
+    "title": "Project Setup",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nBrand & Assets - Managing brand configuration\nShiny Dashboards - Building dashboards with CPAL theming\nWorkflows - Complete project workflows"
+  },
+  {
+    "objectID": "maps-geographic.html",
+    "href": "maps-geographic.html",
+    "title": "Maps & Geographic",
+    "section": "",
+    "text": "cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps."
+  },
+  {
+    "objectID": "maps-geographic.html#overview",
+    "href": "maps-geographic.html#overview",
+    "title": "Maps & Geographic",
+    "section": "",
+    "text": "cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps."
+  },
+  {
+    "objectID": "maps-geographic.html#quick-start",
+    "href": "maps-geographic.html#quick-start",
+    "title": "Maps & Geographic",
+    "section": "Quick Start",
+    "text": "Quick Start\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(sf)\n\n# Static map with ggplot2\nggplot(geo_data) +\n  geom_sf(aes(fill = value)) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "maps-geographic.html#static-maps-with-ggplot2",
+    "href": "maps-geographic.html#static-maps-with-ggplot2",
+    "title": "Maps & Geographic",
+    "section": "Static Maps with ggplot2",
+    "text": "Static Maps with ggplot2\n\ntheme_cpal_map()\nA specialized theme for geographic visualizations.\ntheme_cpal_map(base_size = 14, base_family = NULL, ...)\n\nFeatures\n\nNo axis lines or gridlines\nMinimal chrome\nClean background\nOptimized for map layers\n\n\n\nExamples\nlibrary(sf)\nlibrary(ggplot2)\n\n# Basic choropleth\nggplot(counties_sf) +\n  geom_sf(aes(fill = population), color = \"white\", linewidth = 0.2) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  labs(\n    title = \"Population by County\",\n    fill = \"Population\"\n  ) +\n  theme_cpal_map()\n\n# With points overlay\nggplot() +\n  geom_sf(data = boundaries, fill = \"#EBEBEB\", color = \"white\") +\n  geom_sf(data = points, aes(color = category), size = 2) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "maps-geographic.html#color-scales-for-maps",
+    "href": "maps-geographic.html#color-scales-for-maps",
+    "title": "Maps & Geographic",
+    "section": "Color Scales for Maps",
+    "text": "Color Scales for Maps\n\nSequential Scales (Choropleth)\n# Single-hue teal gradient\nscale_fill_cpal_c(\"teal_seq_5\")\n\n# Multi-hue gradient\nscale_fill_cpal_c(\"yellow_teal_seq_5\")\n\n\nDiverging Scales (Change/Difference)\n# Pink to teal through neutral\nscale_fill_cpal_c(\"pink_teal_5\")\n\n\nCategorical Scales (Types/Categories)\n# Discrete categories\nscale_fill_cpal(\"main_3\")\nscale_color_cpal(\"main\")"
+  },
+  {
+    "objectID": "maps-geographic.html#interactive-maps-with-mapgl",
+    "href": "maps-geographic.html#interactive-maps-with-mapgl",
+    "title": "Maps & Geographic",
+    "section": "Interactive Maps with mapgl",
+    "text": "Interactive Maps with mapgl\n\ncpal_mapgl()\nCreate mapgl maps with Dallas area defaults and CPAL styling.\ncpal_mapgl(\n  style = NULL,\n  bounds = NULL,\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nstyle\nMap style (default: light)\n\n\nbounds\nBounding box for initial view\n\n\n...\nAdditional arguments to mapgl\n\n\n\n\n\n\n\n\n\nMapbox Token Required\n\n\n\nInteractive maps require a Mapbox access token. Set it as an environment variable:\nSys.setenv(MAPBOX_PUBLIC_TOKEN = \"your_token_here\")\n\n\n\n\nExamples\nlibrary(mapgl)\n\n# Basic Dallas-area map\ncpal_mapgl()\n\n# With custom bounds\ncpal_mapgl(bounds = c(-97.5, 32.5, -96.5, 33.1))\n\n\n\n\ncpal_mapgl_layer()\nAdd CPAL-styled layers to mapgl maps.\ncpal_mapgl_layer(\n  map,\n  id,\n  source,\n  type = c(\"fill\", \"line\", \"circle\", \"symbol\"),\n  paint = NULL,\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nmap\nA mapgl map object\n\n\nid\nUnique layer ID\n\n\nsource\nData source (sf object, URL, etc.)\n\n\ntype\nLayer type\n\n\npaint\nPaint properties (colors, opacity, etc.)\n\n\n...\nAdditional layer options\n\n\n\n\n\nExamples\n# Add a fill layer\ncpal_mapgl() |&gt;\n  cpal_mapgl_layer(\n    id = \"neighborhoods\",\n    source = neighborhoods_sf,\n    type = \"fill\",\n    paint = list(\n      \"fill-color\" = \"#007A8C\",\n      \"fill-opacity\" = 0.6\n    )\n  )\n\n# Add a circle layer\ncpal_mapgl() |&gt;\n  cpal_mapgl_layer(\n    id = \"locations\",\n    source = locations_sf,\n    type = \"circle\",\n    paint = list(\n      \"circle-color\" = \"#C3257B\",\n      \"circle-radius\" = 6,\n      \"circle-opacity\" = 0.8\n    )\n  )"
+  },
+  {
+    "objectID": "maps-geographic.html#choropleth-maps",
+    "href": "maps-geographic.html#choropleth-maps",
+    "title": "Maps & Geographic",
+    "section": "Choropleth Maps",
+    "text": "Choropleth Maps\n\nBasic Choropleth\nlibrary(sf)\nlibrary(ggplot2)\n\n# Prepare data\ntracts &lt;- st_read(\"census_tracts.geojson\") |&gt;\n  mutate(poverty_rate = poverty_pop / total_pop)\n\n# Create choropleth\nggplot(tracts) +\n  geom_sf(aes(fill = poverty_rate), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal_c(\"teal_seq_5\", labels = scales::percent) +\n  labs(\n    title = \"Poverty Rate by Census Tract\",\n    subtitle = \"Dallas County, TX\",\n    fill = \"Poverty Rate\"\n  ) +\n  theme_cpal_map()\n\n\nBinned Choropleth\n# Create bins\ntracts &lt;- tracts |&gt;\n  mutate(\n    poverty_bin = cut(\n      poverty_rate,\n      breaks = c(0, 0.1, 0.2, 0.3, 0.5, 1),\n      labels = c(\"&lt;10%\", \"10-20%\", \"20-30%\", \"30-50%\", \"&gt;50%\")\n    )\n  )\n\nggplot(tracts) +\n  geom_sf(aes(fill = poverty_bin), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal(\"teal_seq_5\") +\n  labs(fill = \"Poverty Rate\") +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "maps-geographic.html#point-maps",
+    "href": "maps-geographic.html#point-maps",
+    "title": "Maps & Geographic",
+    "section": "Point Maps",
+    "text": "Point Maps\n\nBasic Points\nggplot() +\n  geom_sf(data = boundaries, fill = \"#EBEBEB\", color = \"white\") +\n  geom_sf(data = locations, color = \"#007A8C\", size = 2) +\n  theme_cpal_map()\n\n\nSized Points (Bubble Map)\nggplot() +\n  geom_sf(data = boundaries, fill = \"#EBEBEB\", color = \"white\") +\n  geom_sf(\n    data = locations,\n    aes(size = population),\n    color = \"#007A8C\",\n    alpha = 0.6\n  ) +\n  scale_size_continuous(range = c(1, 10)) +\n  theme_cpal_map()\n\n\nColored Points\nggplot() +\n  geom_sf(data = boundaries, fill = \"#EBEBEB\", color = \"white\") +\n  geom_sf(\n    data = locations,\n    aes(color = category),\n    size = 3\n  ) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "maps-geographic.html#interactive-maps-with-ggiraph",
+    "href": "maps-geographic.html#interactive-maps-with-ggiraph",
+    "title": "Maps & Geographic",
+    "section": "Interactive Maps with ggiraph",
+    "text": "Interactive Maps with ggiraph\nlibrary(ggiraph)\n\n# Interactive choropleth\np &lt;- ggplot(tracts) +\n  geom_sf_interactive(\n    aes(\n      fill = poverty_rate,\n      tooltip = paste0(name, \": \", scales::percent(poverty_rate)),\n      data_id = geoid\n    ),\n    color = \"white\",\n    linewidth = 0.1\n  ) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  theme_cpal_map()\n\ncpal_interactive(p)"
+  },
+  {
+    "objectID": "maps-geographic.html#map-layouts",
+    "href": "maps-geographic.html#map-layouts",
+    "title": "Maps & Geographic",
+    "section": "Map Layouts",
+    "text": "Map Layouts\n\nWith Inset\nlibrary(cowplot)\n\n# Main map\nmain_map &lt;- ggplot(dallas_tracts) +\n  geom_sf(aes(fill = value)) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  theme_cpal_map()\n\n# Inset showing Texas\ninset &lt;- ggplot(texas) +\n  geom_sf(fill = \"#EBEBEB\") +\n  geom_sf(data = dallas_county, fill = \"#007A8C\") +\n  theme_void()\n\n# Combine\nggdraw() +\n  draw_plot(main_map) +\n  draw_plot(inset, x = 0.7, y = 0.1, width = 0.25, height = 0.25)\n\n\nFaceted Maps\nggplot(tracts) +\n  geom_sf(aes(fill = value)) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  facet_wrap(~year) +\n  theme_cpal_map() +\n  theme(strip.text = element_text(size = 12, face = \"bold\"))"
+  },
+  {
+    "objectID": "maps-geographic.html#north-arrow-and-scale-bar",
+    "href": "maps-geographic.html#north-arrow-and-scale-bar",
+    "title": "Maps & Geographic",
+    "section": "North Arrow and Scale Bar",
+    "text": "North Arrow and Scale Bar\nlibrary(ggspatial)\n\nggplot(tracts) +\n  geom_sf(aes(fill = value)) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  annotation_scale(\n    location = \"bl\",\n    bar_cols = c(\"#004855\", \"white\")\n  ) +\n  annotation_north_arrow(\n    location = \"tr\",\n    style = north_arrow_minimal(fill = \"#004855\")\n  ) +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "maps-geographic.html#basemaps",
+    "href": "maps-geographic.html#basemaps",
+    "title": "Maps & Geographic",
+    "section": "Basemaps",
+    "text": "Basemaps\n\nWith OpenStreetMap Tiles\nlibrary(ggspatial)\n\nggplot() +\n  annotation_map_tile(type = \"cartolight\", zoom = 11) +\n  geom_sf(\n    data = locations,\n    color = \"#007A8C\",\n    size = 3\n  ) +\n  theme_cpal_map()\n\n\nCustom Basemap Styling\n# For mapgl\ncpal_mapgl(style = \"mapbox://styles/mapbox/light-v11\") |&gt;\n  cpal_mapgl_layer(\n    id = \"data_layer\",\n    source = my_data,\n    type = \"fill\"\n  )"
+  },
+  {
+    "objectID": "maps-geographic.html#complete-example",
+    "href": "maps-geographic.html#complete-example",
+    "title": "Maps & Geographic",
+    "section": "Complete Example",
+    "text": "Complete Example\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(sf)\nlibrary(dplyr)\n\n# Load data\ntracts &lt;- st_read(\"dallas_tracts.geojson\") |&gt;\n  mutate(\n    poverty_pct = poverty / population * 100,\n    tooltip = paste0(\n      \"&lt;strong&gt;\", name, \"&lt;/strong&gt;&lt;br&gt;\",\n      \"Population: \", scales::comma(population), \"&lt;br&gt;\",\n      \"Poverty Rate: \", round(poverty_pct, 1), \"%\"\n    )\n  )\n\n# Create static map\nstatic_map &lt;- ggplot(tracts) +\n  geom_sf(aes(fill = poverty_pct), color = \"white\", linewidth = 0.1) +\n  scale_fill_cpal_c(\n    \"teal_seq_5\",\n    name = \"Poverty Rate (%)\",\n    breaks = c(0, 10, 20, 30, 40)\n  ) +\n  labs(\n    title = \"Child Poverty in Dallas County\",\n    subtitle = \"By Census Tract, 2022\",\n    caption = \"Source: American Community Survey\"\n  ) +\n  theme_cpal_map()\n\n# Save static version\nsave_cpal_plot(static_map, \"dallas_poverty_map.png\", size = \"default\")\n\n# Create interactive version\nlibrary(ggiraph)\n\ninteractive_map &lt;- ggplot(tracts) +\n  geom_sf_interactive(\n    aes(fill = poverty_pct, tooltip = tooltip, data_id = geoid),\n    color = \"white\",\n    linewidth = 0.1\n  ) +\n  scale_fill_cpal_c(\"teal_seq_5\", name = \"Poverty Rate (%)\") +\n  labs(title = \"Child Poverty in Dallas County\") +\n  theme_cpal_map()\n\ncpal_interactive(interactive_map)"
+  },
+  {
+    "objectID": "maps-geographic.html#troubleshooting",
+    "href": "maps-geographic.html#troubleshooting",
+    "title": "Maps & Geographic",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nMap Not Displaying\n# Check sf installation\nif (!requireNamespace(\"sf\", quietly = TRUE)) {\n  install.packages(\"sf\")\n}\n\n# Verify CRS\nst_crs(data)\n\n# Transform if needed\ndata &lt;- st_transform(data, 4326)\n\n\nMapbox Token Issues\n# Set token\nSys.setenv(MAPBOX_PUBLIC_TOKEN = \"pk.xxx...\")\n\n# Verify it's set\nSys.getenv(\"MAPBOX_PUBLIC_TOKEN\")\n\n\nSlow Rendering\n# Simplify geometries\ndata_simple &lt;- st_simplify(data, dTolerance = 100)\n\n# Or reduce vertices\ndata_simple &lt;- rmapshaper::ms_simplify(data, keep = 0.1)"
+  },
+  {
+    "objectID": "maps-geographic.html#next-steps",
+    "href": "maps-geographic.html#next-steps",
+    "title": "Maps & Geographic",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nInteractive Features - More interactive options\nThemes & Styling - Theme customization\nPlots & Output - Saving maps"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "cpaltemplates",
+    "section": "",
+    "text": "cpaltemplates is the official R package for the Child Poverty Action Lab (CPAL) data science team. It provides a comprehensive toolkit for creating consistently branded, accessible, and professional data visualizations, reports, and dashboards.\n\n\nConsistent Branding: Every visualization, table, and dashboard uses CPAL’s official colors, fonts, and styling.\nAccessibility First: All color palettes are designed for WCAG compliance with built-in validation tools.\nRapid Development: Start new projects with pre-configured templates."
+  },
+  {
+    "objectID": "index.html#welcome-to-cpaltemplates",
+    "href": "index.html#welcome-to-cpaltemplates",
+    "title": "cpaltemplates",
+    "section": "",
+    "text": "cpaltemplates is the official R package for the Child Poverty Action Lab (CPAL) data science team. It provides a comprehensive toolkit for creating consistently branded, accessible, and professional data visualizations, reports, and dashboards.\n\n\nConsistent Branding: Every visualization, table, and dashboard uses CPAL’s official colors, fonts, and styling.\nAccessibility First: All color palettes are designed for WCAG compliance with built-in validation tools.\nRapid Development: Start new projects with pre-configured templates."
+  },
+  {
+    "objectID": "index.html#quick-start",
+    "href": "index.html#quick-start",
+    "title": "cpaltemplates",
+    "section": "Quick Start",
+    "text": "Quick Start\n\nInstallation\n\n\nShow code\n# Install from GitHub\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n# Load the package\nlibrary(cpaltemplates)\n\n# Set up fonts (run once per session)\nsetup_cpal_google_fonts()\n\n\n\n\nYour First CPAL Plot\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    subtitle = \"Weight vs. Miles Per Gallon by Cylinder Count\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nA branded CPAL visualization"
+  },
+  {
+    "objectID": "index.html#package-features",
+    "href": "index.html#package-features",
+    "title": "cpaltemplates",
+    "section": "Package Features",
+    "text": "Package Features\n\nColor System (21 functions)\nAccess CPAL’s carefully designed color palettes:\n\n\nShow code\n# Primary brand colors\ncpal_colors_primary()\n\n\n midnight deep_teal     coral      sage     slate warm_gray \n\"#004855\" \"#006878\" \"#E86A50\" \"#5A8A6F\" \"#5C6B73\" \"#9BA8AB\" \n\n\n\n\nShow code\nview_cpal_palettes(c(\"main\", \"midnight_seq_5\", \"coral_midnight_5\"))\n\n\n\n\n\nCPAL color palettes\n\n\n\n\nLearn more about Colors & Palettes\n\n\n\nTheme System (8 functions)\nConsistent ggplot2 themes for every context:\n\n\n\nTheme\nUse Case\n\n\n\n\ntheme_cpal()\nStandard visualizations\n\n\ntheme_cpal_minimal()\nClean, minimal designs\n\n\ntheme_cpal_dark()\nDark backgrounds/presentations\n\n\ntheme_cpal_print()\nPrint-optimized output\n\n\ntheme_cpal_map()\nGeographic visualizations\n\n\n\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot(alpha = 0.8) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Cylinder Count\",\n    x = \"Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nExample using theme_cpal()\n\n\n\n\nLearn more about Themes\n\n\n\nTables (3 functions)\nProfessional tables for reports and dashboards:\n\n\nShow code\nmtcars |&gt;\n  head(6) |&gt;\n  select(mpg, cyl, hp, wt) |&gt;\n  cpal_table_gt(title = \"Vehicle Specifications\")\n\n\n\n\n\n\n\n\nVehicle Specifications\n\n\nmpg\ncyl\nhp\nwt\n\n\n\n\n21.0\n6\n110\n2.620\n\n\n21.0\n6\n110\n2.875\n\n\n22.8\n4\n93\n2.320\n\n\n21.4\n6\n110\n3.215\n\n\n18.7\n8\n175\n3.440\n\n\n18.1\n6\n105\n3.460\n\n\n\n\n\n\n\nLearn more about Tables\n\n\n\nProject Scaffolding (7 functions)\nStart new projects with pre-configured structure:\n\n\nShow code\nstart_project(\n  name = \"dallas-housing-analysis\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)\n\nuse_quarto_report()\n\n\nAvailable project types: analysis, quarto-report, quarto-slides, quarto-web, shiny-dashboard, shiny-app, package\nLearn more about Project Setup\n\n\n\nInteractive Visualizations (7 functions)\nCreate interactive charts with ggiraph:\n\n\nShow code\nlibrary(ggiraph)\n\np &lt;- ggplot(data, aes(x, y)) +\n  geom_point_interactive(aes(tooltip = label)) +\n  theme_cpal()\n\ncpal_interactive(p)\n\n\nLearn more about Interactive Features\n\n\n\nShiny Dashboards (5 functions)\nBuild branded dashboards with Bootstrap 5 theming:\n\n\nShow code\nlibrary(shiny)\nlibrary(bslib)\n\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Dashboard\",\n  sidebar = sidebar(...),\n  ...\n)\n\n\nLearn more about Shiny Dashboards"
+  },
+  {
+    "objectID": "index.html#documentation-overview",
+    "href": "index.html#documentation-overview",
+    "title": "cpaltemplates",
+    "section": "Documentation Overview",
+    "text": "Documentation Overview\n\n\n\nSection\nDescription\n\n\n\n\nGetting Started\nInstallation, setup, and first steps\n\n\nProject Setup\nCreating and configuring projects\n\n\nColors & Palettes\nComplete color system guide\n\n\nThemes & Styling\nggplot2 theme documentation\n\n\nPlots & Output\nCreating and exporting visualizations\n\n\nTables\nGT and Reactable table styling\n\n\nInteractive Features\nggiraph and interactive charts\n\n\nMaps\nGeographic visualizations\n\n\nShiny Dashboards\nDashboard theming\n\n\nBrand & Assets\nBrand file management\n\n\nUtilities\nHelper functions\n\n\nWorkflows\nEnd-to-end examples\n\n\nFunction Reference\nComplete function index\n\n\nTroubleshooting\nCommon issues and solutions"
+  },
+  {
+    "objectID": "index.html#getting-help",
+    "href": "index.html#getting-help",
+    "title": "cpaltemplates",
+    "section": "Getting Help",
+    "text": "Getting Help\n\nGitHub Issues: Report bugs or request features\nTroubleshooting Guide: Common solutions"
+  },
+  {
+    "objectID": "index.html#package-statistics",
+    "href": "index.html#package-statistics",
+    "title": "cpaltemplates",
+    "section": "Package Statistics",
+    "text": "Package Statistics\n\n67 exported functions across 8 categories\n16 color palettes designed for accessibility\n6 ggplot2 themes for different contexts\n7 project templates for rapid development"
+  },
+  {
+    "objectID": "function-reference.html",
+    "href": "function-reference.html",
+    "title": "Function Reference",
+    "section": "",
+    "text": "Color System (21 functions)\nTheme System (8 functions)\nTable Functions (3 functions)\nInteractive Visualization (7 functions)\nProject Scaffolding (9 functions)\nBrand & Asset Management (4 functions)\nUtility Functions (7 functions)"
+  },
+  {
+    "objectID": "function-reference.html#quick-navigation",
+    "href": "function-reference.html#quick-navigation",
+    "title": "Function Reference",
+    "section": "",
+    "text": "Color System (21 functions)\nTheme System (8 functions)\nTable Functions (3 functions)\nInteractive Visualization (7 functions)\nProject Scaffolding (9 functions)\nBrand & Asset Management (4 functions)\nUtility Functions (7 functions)"
+  },
+  {
+    "objectID": "function-reference.html#color-system",
+    "href": "function-reference.html#color-system",
+    "title": "Function Reference",
+    "section": "Color System",
+    "text": "Color System\n\nCore Color Functions\n\n\n\n\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_colors()\nMain entry point for accessing CPAL colors and palettes\n\n\ncpal_colors_primary()\nReturns 5 core brand colors\n\n\ncpal_colors_extended()\nReturns all 17+ colors including shades\n\n\ncpal_get_color()\nGet single color by exact name\n\n\ncpal_get_primary_color()\nReturns primary brand color (teal)\n\n\ncpal_palette()\nInternal palette wrapper for scale functions\n\n\n\n\n\nPalette Access\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_palettes()\nUnified accessor for all palettes\n\n\ncpal_palettes_sequential()\nReturns 6 sequential palettes\n\n\ncpal_palettes_diverging()\nReturns 3 diverging palettes\n\n\ncpal_palettes_categorical()\nReturns 7 categorical palettes\n\n\nlist_cpal_palettes()\nList all available palette names\n\n\nview_cpal_palettes()\nVisual display of palettes\n\n\nquick_palette()\nQuick console preview\n\n\n\n\n\nColor Validation\n\n\n\nFunction\nDescription\n\n\n\n\nvalidate_color_contrast()\nCheck WCAG contrast requirements\n\n\nvalidate_brand_colors()\nCheck all colors for accessibility\n\n\n\n\n\nColor Interpolation\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_color_ramp()\nGenerate gradient between two colors\n\n\ncpal_color_gradient()\nCreate gradient through multiple colors\n\n\n\n\n\nggplot2 Scales\n\n\n\nFunction\nDescription\n\n\n\n\nscale_color_cpal()\nDiscrete/continuous color scale\n\n\nscale_fill_cpal()\nDiscrete/continuous fill scale\n\n\nscale_color_cpal_c()\nContinuous color scale\n\n\nscale_fill_cpal_c()\nContinuous fill scale\n\n\nscale_color_cpal_d()\nDiscrete color scale\n\n\nscale_fill_cpal_d()\nDiscrete fill scale\n\n\nscale_colour_cpal()\nBritish spelling alias"
+  },
+  {
+    "objectID": "function-reference.html#theme-system",
+    "href": "function-reference.html#theme-system",
+    "title": "Function Reference",
+    "section": "Theme System",
+    "text": "Theme System\n\nggplot2 Themes\n\n\n\nFunction\nDescription\n\n\n\n\ntheme_cpal()\nMain CPAL theme with full customization\n\n\ntheme_cpal_minimal()\nMinimal variant with reduced elements\n\n\ntheme_cpal_classic()\nTraditional styling with axis lines\n\n\ntheme_cpal_dark()\nDark background variant\n\n\ntheme_cpal_print()\nPrint-optimized theme\n\n\ntheme_cpal_map()\nGeographic visualization theme\n\n\n\n\n\nTheme Management\n\n\n\nFunction\nDescription\n\n\n\n\nset_theme_cpal()\nSet CPAL theme as session default\n\n\npreview_cpal_themes()\nVisual comparison of all themes"
+  },
+  {
+    "objectID": "function-reference.html#table-functions",
+    "href": "function-reference.html#table-functions",
+    "title": "Function Reference",
+    "section": "Table Functions",
+    "text": "Table Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_table()\nQuick CPAL-styled gt table\n\n\ncpal_table_gt()\nPublication-quality static table\n\n\ncpal_table_reactable()\nInteractive searchable table"
+  },
+  {
+    "objectID": "function-reference.html#interactive-visualization",
+    "href": "function-reference.html#interactive-visualization",
+    "title": "Function Reference",
+    "section": "Interactive Visualization",
+    "text": "Interactive Visualization\n\nCore Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_interactive()\nConvert ggplot to interactive ggiraph\n\n\n\n\n\nGeom Wrappers\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_point_interactive()\nInteractive points with CPAL defaults\n\n\ncpal_line_interactive()\nInteractive lines\n\n\ncpal_col_interactive()\nInteractive columns/bars\n\n\ncpal_polygon_interactive()\nInteractive polygons\n\n\n\n\n\nMap Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_mapgl()\nCreate mapgl map with Dallas defaults\n\n\ncpal_mapgl_layer()\nAdd CPAL-styled layer to mapgl"
+  },
+  {
+    "objectID": "function-reference.html#project-scaffolding",
+    "href": "function-reference.html#project-scaffolding",
+    "title": "Function Reference",
+    "section": "Project Scaffolding",
+    "text": "Project Scaffolding\n\nMain Function\n\n\n\nFunction\nDescription\n\n\n\n\nstart_project()\nCreate new project with CPAL structure\n\n\n\n\n\nComponent Adders\n\n\n\nFunction\nDescription\n\n\n\n\nuse_quarto_report()\nAdd Quarto report to existing project\n\n\nuse_quarto_slides()\nAdd Quarto slides template\n\n\nuse_quarto_web()\nAdd Quarto website structure\n\n\nuse_shiny_dashboard()\nAdd full-featured dashboard\n\n\nuse_shiny_app()\nAdd simple Shiny app\n\n\nuse_shiny_theme()\nAdd CPAL CSS theme files\n\n\nuse_targets()\nAdd targets pipeline\n\n\n\n\n\nAsset Management\n\n\n\nFunction\nDescription\n\n\n\n\nupdate_cpal_assets()\nUpdate CSS and images to latest versions"
+  },
+  {
+    "objectID": "function-reference.html#brand-asset-management",
+    "href": "function-reference.html#brand-asset-management",
+    "title": "Function Reference",
+    "section": "Brand & Asset Management",
+    "text": "Brand & Asset Management\n\n\n\nFunction\nDescription\n\n\n\n\nuse_cpal_brand()\nCopy _brand.yml to project\n\n\nvalidate_cpal_brand()\nValidate brand configuration\n\n\nget_cpal_asset()\nGet path to package asset\n\n\nupdate_cpal_assets()\nUpdate project assets"
+  },
+  {
+    "objectID": "function-reference.html#utility-functions",
+    "href": "function-reference.html#utility-functions",
+    "title": "Function Reference",
+    "section": "Utility Functions",
+    "text": "Utility Functions\n\nFont Management\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_font_family()\nGet best available CPAL font\n\n\ncpal_font_family_fallback()\nGet system fallback font\n\n\nget_cpal_font_family()\nLegacy font accessor\n\n\nsetup_cpal_google_fonts()\nDownload and register fonts\n\n\n\n\n\nPlot Utilities\n\n\n\nFunction\nDescription\n\n\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL logo to plots\n\n\ncheck_plot_accessibility()\nCheck accessibility issues"
+  },
+  {
+    "objectID": "function-reference.html#shinydashboard-functions",
+    "href": "function-reference.html#shinydashboard-functions",
+    "title": "Function Reference",
+    "section": "Shiny/Dashboard Functions",
+    "text": "Shiny/Dashboard Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_dashboard_theme()\nBootstrap 5 theme from _brand.yml\n\n\ncpal_shiny()\nLegacy Shiny theme (deprecated)\n\n\ncpal_add_scss_enhancements()\nAdd enhanced SCSS styling\n\n\ncpal_export_scss()\nExport SCSS for custom use"
+  },
+  {
+    "objectID": "function-reference.html#function-signatures",
+    "href": "function-reference.html#function-signatures",
+    "title": "Function Reference",
+    "section": "Function Signatures",
+    "text": "Function Signatures\n\nMost Used Functions\n# Colors\ncpal_colors(palette = NULL, n = NULL, reverse = FALSE)\ncpal_colors_primary()\nscale_color_cpal(palette = \"main\", discrete = TRUE, reverse = FALSE, ...)\nscale_fill_cpal(palette = \"main\", discrete = TRUE, reverse = FALSE, ...)\n\n# Themes\ntheme_cpal(base_size = 16, base_family = NULL, style = \"default\",\n           grid = \"horizontal\", axis_line = \"x\", axis_title = TRUE,\n           legend_position = \"bottom\")\nset_theme_cpal(style = \"default\", base_size = 16, ...)\n\n# Tables\ncpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)\ncpal_table_reactable(data, title = NULL, searchable = TRUE,\n                     pagination = TRUE, page_size = 10, ...)\n\n# Interactive\ncpal_interactive(plot, width_svg = 8, height_svg = 5, ...)\n\n# Projects\nstart_project(name, path = \".\", project_type = \"analysis\",\n              interactive = TRUE, features = NULL, open = TRUE)\n\n# Utilities\nsetup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)\nsave_cpal_plot(plot, filename, size = \"default\", dpi = 300, ...)\nadd_cpal_logo(plot, position = \"top-right\", size = 0.09)"
+  },
+  {
+    "objectID": "function-reference.html#deprecated-functions",
+    "href": "function-reference.html#deprecated-functions",
+    "title": "Function Reference",
+    "section": "Deprecated Functions",
+    "text": "Deprecated Functions\n\n\n\nFunction\nReplacement\n\n\n\n\ncpal_shiny()\ncpal_dashboard_theme()\n\n\nget_cpal_font_family()\ncpal_font_family()"
+  },
+  {
+    "objectID": "function-reference.html#see-also",
+    "href": "function-reference.html#see-also",
+    "title": "Function Reference",
+    "section": "See Also",
+    "text": "See Also\n\nGetting Started - Installation and setup\nColors & Palettes - Color system details\nThemes & Styling - Theme customization\nTroubleshooting - Common issues"
+  },
+  {
+    "objectID": "brand-assets.html",
+    "href": "brand-assets.html",
+    "title": "Brand & Assets",
+    "section": "",
+    "text": "cpaltemplates provides 4 functions for managing brand configuration and assets:\n\nuse_cpal_brand() - Copy _brand.yml to your project\nvalidate_cpal_brand() - Validate brand configuration\nget_cpal_asset() - Access package assets (logos, icons)\nupdate_cpal_assets() - Update CSS and images"
+  },
+  {
+    "objectID": "brand-assets.html#overview",
+    "href": "brand-assets.html#overview",
+    "title": "Brand & Assets",
+    "section": "",
+    "text": "cpaltemplates provides 4 functions for managing brand configuration and assets:\n\nuse_cpal_brand() - Copy _brand.yml to your project\nvalidate_cpal_brand() - Validate brand configuration\nget_cpal_asset() - Access package assets (logos, icons)\nupdate_cpal_assets() - Update CSS and images"
+  },
+  {
+    "objectID": "brand-assets.html#the-_brand.yml-file",
+    "href": "brand-assets.html#the-_brand.yml-file",
+    "title": "Brand & Assets",
+    "section": "The _brand.yml File",
+    "text": "The _brand.yml File\nThe _brand.yml file is the single source of truth for all CPAL branding. It defines colors, typography, and Bootstrap settings used throughout the package.\n\nStructure\n# _brand.yml\nmeta:\n  name: Child Poverty Action Lab\n  link: https://childpovertyactionlab.org\n\ncolor:\n  palette:\n    # Primary Brand Colors\n    midnight: \"#004855\"\n    teal: \"#007A8C\"\n    pink: \"#C3257B\"\n    orange: \"#ED683F\"\n    gold: \"#AB8C01\"\n\n    # Neutrals\n    white: \"#FFFFFF\"\n    neutral: \"#EBEBEB\"\n    gray: \"#919191\"\n    black: \"#1A1A1A\"\n\n    # Extended palette...\n\n  # Semantic assignments\n  foreground: black\n  background: white\n  primary: teal\n  secondary: midnight\n  success: teal\n  warning: gold\n  danger: orange\n\ntypography:\n  fonts:\n    - family: \"Poppins\"\n      source: google\n    - family: \"Inter\"\n      source: google\n    - family: \"Fira Code\"\n      source: google\n\n  base:\n    family: Poppins\n  headings:\n    family: Poppins\n  monospace:\n    family: Fira Code\n\ndefaults:\n  bootstrap:\n    defaults:\n      \"enable-rounded\": true\n      \"enable-shadows\": true\n      \"border-radius\": \"6px\"\n      # ...more Bootstrap variables"
+  },
+  {
+    "objectID": "brand-assets.html#using-brand-in-projects",
+    "href": "brand-assets.html#using-brand-in-projects",
+    "title": "Brand & Assets",
+    "section": "Using Brand in Projects",
+    "text": "Using Brand in Projects\n\nuse_cpal_brand()\nCopy the _brand.yml file to your project for local customization.\nuse_cpal_brand(path = \".\", overwrite = FALSE)\n\nArguments\n\n\n\nArgument\nDescription\nDefault\n\n\n\n\npath\nDestination directory\nCurrent directory\n\n\noverwrite\nReplace existing file\nFALSE\n\n\n\n\n\nExamples\n# Copy to current directory\nuse_cpal_brand()\n\n# Copy to specific project\nuse_cpal_brand(\"my-dashboard/\")\n\n# Force overwrite\nuse_cpal_brand(overwrite = TRUE)\n\n# Copy to subdirectory\nuse_cpal_brand(\"project/config/\")\n\n\n\n\nvalidate_cpal_brand()\nValidate that a _brand.yml file is correctly formatted.\nvalidate_cpal_brand(path = \".\", verbose = TRUE)\n\nWhat It Checks\n\nFile Existence: Is _brand.yml present?\nRequired Sections: Does it have color, typography, defaults?\nColor Format: Are all colors valid hex codes?\nTypography: Are required font families defined?\nBootstrap Variables: Are critical Bootstrap settings present?\n\n\n\nExamples\n# Validate in current directory\nvalidate_cpal_brand()\n#&gt; Validating _brand.yml...\n#&gt; ✓ File found: _brand.yml\n#&gt; ✓ Required sections present\n#&gt; ✓ All colors are valid hex codes\n#&gt; ✓ Typography configured correctly\n#&gt; ✓ Bootstrap defaults set\n#&gt; Validation passed!\n\n# Validate specific file\nvalidate_cpal_brand(\"path/to/_brand.yml\")\n\n# Quiet mode (returns TRUE/FALSE)\nis_valid &lt;- validate_cpal_brand(verbose = FALSE)"
+  },
+  {
+    "objectID": "brand-assets.html#accessing-assets",
+    "href": "brand-assets.html#accessing-assets",
+    "title": "Brand & Assets",
+    "section": "Accessing Assets",
+    "text": "Accessing Assets\n\nget_cpal_asset()\nGet the file path to package assets (logos, icons, favicons).\nget_cpal_asset(asset_name, category = c(\"logos\", \"icons\", \"favicons\"))\n\nAvailable Assets\n\n\n\n\n\n\n\nCategory\nAssets\n\n\n\n\nlogos\nCPAL_Logo_Teal.png, CPAL_Logo_White.png, cpal-logo-wide.png\n\n\nicons\nCPAL_Icon_Teal.png, CPAL_Icon_White.png, CPAL_Skyline_*.png\n\n\nfavicons\nCPAL_favicon.ico, cpal-favicon.ico\n\n\n\n\n\nExamples\n# Get logo path\nlogo &lt;- get_cpal_asset(\"CPAL_Logo_Teal.png\", \"logos\")\n#&gt; [1] \"/path/to/package/inst/assets/logos/CPAL_Logo_Teal.png\"\n\n# Use in Shiny\ntags$img(src = logo, height = \"50px\")\n\n# Get favicon\nfavicon &lt;- get_cpal_asset(\"CPAL_favicon.ico\", \"favicons\")\n\n# Get icon\nicon &lt;- get_cpal_asset(\"CPAL_Icon_White.png\", \"icons\")\n\n\n\n\nupdate_cpal_assets()\nUpdate CSS and images in an existing project to the latest package versions.\nupdate_cpal_assets(path = \".\", components = c(\"css\", \"images\", \"all\"))\n\nExamples\n# Update everything\nupdate_cpal_assets(components = \"all\")\n\n# Update only CSS\nupdate_cpal_assets(components = \"css\")\n\n# Update only images\nupdate_cpal_assets(components = \"images\")\n\n# Update in specific project\nupdate_cpal_assets(\"my-dashboard/\", components = \"all\")"
+  },
+  {
+    "objectID": "brand-assets.html#customizing-brand",
+    "href": "brand-assets.html#customizing-brand",
+    "title": "Brand & Assets",
+    "section": "Customizing Brand",
+    "text": "Customizing Brand\n\nModifying Colors\nAfter copying _brand.yml to your project, you can customize colors:\n# _brand.yml (customized)\ncolor:\n  palette:\n    # Keep primary colors\n    teal: \"#007A8C\"\n\n    # Add custom colors for your project\n    custom_blue: \"#2E86AB\"\n    custom_green: \"#A5BE00\"\n\n  # Override semantic colors\n  primary: custom_blue  # Use your custom color as primary\n\n\nAdding Custom Fonts\ntypography:\n  fonts:\n    - family: \"Poppins\"\n      source: google\n    - family: \"Your Custom Font\"\n      source: file\n      files:\n        - path: fonts/custom-font.woff2\n          weight: 400\n\n  base:\n    family: \"Your Custom Font\"\n\n\nBootstrap Customization\ndefaults:\n  bootstrap:\n    defaults:\n      # Adjust border radius\n      \"border-radius\": \"8px\"\n\n      # Modify button styles\n      \"btn-border-radius\": \"4px\"\n      \"btn-padding-x\": \"1.5rem\"\n\n      # Card styling\n      \"card-border-radius\": \"12px\"\n      \"card-cap-padding-y\": \"1rem\""
+  },
+  {
+    "objectID": "brand-assets.html#brand-in-different-contexts",
+    "href": "brand-assets.html#brand-in-different-contexts",
+    "title": "Brand & Assets",
+    "section": "Brand in Different Contexts",
+    "text": "Brand in Different Contexts\n\nIn Quarto Documents\n# _quarto.yml\nbrand: _brand.yml\n\nformat:\n  html:\n    theme:\n      - flatly\n      - brand\n\n\nIn Shiny Dashboards\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),  # Uses _brand.yml\n  ...\n)\n\n\nIn ggplot2\n# Colors from brand are automatically available\nggplot(data, aes(color = group)) +\n  scale_color_cpal(\"main\")  # Uses brand colors\n\n# Themes use brand fonts\ntheme_cpal()  # Uses Poppins/Inter from brand"
+  },
+  {
+    "objectID": "brand-assets.html#best-practices",
+    "href": "brand-assets.html#best-practices",
+    "title": "Brand & Assets",
+    "section": "Best Practices",
+    "text": "Best Practices\n\n1. Keep _brand.yml in Version Control\n# .gitignore - DO NOT add _brand.yml\n# Keep it tracked for consistency\n\n\n2. Validate After Changes\n# Always validate after editing\nvalidate_cpal_brand()\n\n\n3. Use Semantic Colors\n# Prefer semantic names over specific colors\ncpal_colors(\"primary\")  # Better\ncpal_colors(\"teal\")     # Also works, but less flexible\n\n\n4. Document Custom Colors\ncolor:\n  palette:\n    # === Custom Project Colors ===\n    # Added for Q3 2024 housing report\n    housing_highlight: \"#FF6B6B\"\n    housing_secondary: \"#4ECDC4\""
+  },
+  {
+    "objectID": "brand-assets.html#troubleshooting",
+    "href": "brand-assets.html#troubleshooting",
+    "title": "Brand & Assets",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nBrand File Not Found\n# Check if file exists\nfile.exists(\"_brand.yml\")\n\n# Copy from package\nuse_cpal_brand()\n\n\nInvalid Hex Colors\n# Validate to find issues\nvalidate_cpal_brand()\n#&gt; ✗ Invalid color: 'pink' is not a valid hex code\n\n# Fix in _brand.yml\n# pink: \"C3257B\"  # Wrong - missing #\n# pink: \"#C3257B\" # Correct\n\n\nFonts Not Loading\n# Ensure fonts are from google or have file paths\ntypography:\n  fonts:\n    - family: \"Inter\"\n      source: google  # Will load from Google Fonts\n\n\nBootstrap Variables Not Applying\n# Ensure you're using bslib functions\npage_sidebar(theme = cpal_dashboard_theme(), ...)  # Correct\nfluidPage(...)  # Won't apply Bootstrap customizations"
+  },
+  {
+    "objectID": "brand-assets.html#asset-directory-structure",
+    "href": "brand-assets.html#asset-directory-structure",
+    "title": "Brand & Assets",
+    "section": "Asset Directory Structure",
+    "text": "Asset Directory Structure\ninst/\n├── brand/\n│   └── _brand.yml\n├── assets/\n│   ├── logos/\n│   │   ├── CPAL_Logo_Teal.png\n│   │   ├── CPAL_Logo_White.png\n│   │   └── cpal-logo-wide.png\n│   ├── icons/\n│   │   ├── CPAL_Icon_Teal.png\n│   │   ├── CPAL_Icon_White.png\n│   │   └── CPAL_Skyline_*.png\n│   └── favicons/\n│       ├── CPAL_favicon.ico\n│       └── cpal-favicon.ico\n└── scss/\n    └── cpal_enhanced.scss"
+  },
+  {
+    "objectID": "brand-assets.html#next-steps",
+    "href": "brand-assets.html#next-steps",
+    "title": "Brand & Assets",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nShiny Dashboards - Using brand in dashboards\nColors & Palettes - Color system details\nProject Setup - Creating branded projects"
+  },
+  {
+    "objectID": "colors-palettes.html",
+    "href": "colors-palettes.html",
+    "title": "Colors & Palettes",
+    "section": "",
+    "text": "The cpaltemplates color system provides 21 functions for working with CPAL’s carefully designed color palettes. All colors are sourced from _brand.yml and designed for WCAG accessibility compliance."
+  },
+  {
+    "objectID": "colors-palettes.html#overview",
+    "href": "colors-palettes.html#overview",
+    "title": "Colors & Palettes",
+    "section": "",
+    "text": "The cpaltemplates color system provides 21 functions for working with CPAL’s carefully designed color palettes. All colors are sourced from _brand.yml and designed for WCAG accessibility compliance."
+  },
+  {
+    "objectID": "colors-palettes.html#primary-brand-colors",
+    "href": "colors-palettes.html#primary-brand-colors",
+    "title": "Colors & Palettes",
+    "section": "Primary Brand Colors",
+    "text": "Primary Brand Colors\nCPAL’s 5 core brand colors form the foundation of all palettes:\n\n\nShow code\ncpal_colors_primary()\n\n\n midnight deep_teal     coral      sage     slate warm_gray \n\"#004855\" \"#006878\" \"#E86A50\" \"#5A8A6F\" \"#5C6B73\" \"#9BA8AB\" \n\n\n\n\n\n\n\n\n\n\nColor\nHex Code\nUse Case\n\n\n\n\nMidnight\n#004855; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#004855\nDark backgrounds, headers, primary emphasis\n\n\nDeep Teal\n#006878; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#006878\nPrimary brand color, links, info states\n\n\nCoral\n#E86A50; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#E86A50\nAccents, alerts, negative/error states\n\n\nSage\n#5A8A6F; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#5A8A6F\nSuccess states, positive indicators\n\n\nSlate\n#5C6B73; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#5C6B73\nSecondary text, borders, muted elements\n\n\nWarm Gray\n#9BA8AB; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#9BA8AB\nNeutral backgrounds, disabled states"
+  },
+  {
+    "objectID": "colors-palettes.html#core-color-functions",
+    "href": "colors-palettes.html#core-color-functions",
+    "title": "Colors & Palettes",
+    "section": "Core Color Functions",
+    "text": "Core Color Functions\n\ncpal_colors()\nThe main entry point for accessing any CPAL color or palette.\n\n\nShow code\n# Get all primary colors\ncpal_colors()\n\n\n midnight deep_teal     coral      sage     slate warm_gray \n\"#004855\" \"#006878\" \"#E86A50\" \"#5A8A6F\" \"#5C6B73\" \"#9BA8AB\" \n\n\nShow code\n# Get a single color by name\ncpal_colors(\"coral\")\n\n\n    coral \n\"#E86A50\" \n\n\nShow code\n# Get multiple specific colors\ncpal_colors(c(\"midnight\", \"coral\", \"sage\"))\n\n\n midnight     coral      sage \n\"#004855\" \"#E86A50\" \"#5A8A6F\" \n\n\n\n\nShow code\n# Get a palette\ncpal_colors(\"midnight_seq_5\")\n\n\n[1] \"#E8F4F6\" \"#88BECA\" \"#28889E\" \"#006D88\" \"#004855\"\n\n\nShow code\n# Limit number of colors\ncpal_colors(\"main\", n = 3)\n\n\n[1] \"#004855\" \"#E86A50\" \"#5A8A6F\"\n\n\nShow code\n# Reverse palette order\ncpal_colors(\"midnight_seq_5\", reverse = TRUE)\n\n\n[1] \"#004855\" \"#006D88\" \"#28889E\" \"#88BECA\" \"#E8F4F6\"\n\n\n\n\n\ncpal_colors_extended()\nReturns all 17+ colors including primary colors and shades:\n\n\nShow code\ncpal_colors_extended()\n\n\n  midnight  deep_teal      coral       sage      slate  warm_gray       teal \n \"#004855\"  \"#006878\"  \"#E86A50\"  \"#5A8A6F\"  \"#5C6B73\"  \"#9BA8AB\"  \"#007A8C\" \n      gold       plum coral_dark    neutral midnight_1 midnight_2 midnight_3 \n \"#B8860B\"  \"#8B5E83\"  \"#C75540\"  \"#E8ECEE\"  \"#E8F4F6\"  \"#B8D9E0\"  \"#88BECA\" \nmidnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning \n \"#58A3B4\"  \"#28889E\"  \"#006D88\"  \"#004855\"  \"#002D38\"  \"#5A8A6F\"  \"#D4A84B\" \n     error       info \n \"#C75540\"  \"#006878\""
+  },
+  {
+    "objectID": "colors-palettes.html#viewing-palettes",
+    "href": "colors-palettes.html#viewing-palettes",
+    "title": "Colors & Palettes",
+    "section": "Viewing Palettes",
+    "text": "Viewing Palettes\n\nAll Available Palettes\n\n\nShow code\nlist_cpal_palettes()\n\n\n [1] \"primary\"          \"main\"             \"main_3\"           \"main_4\"          \n [5] \"main_5\"           \"main_6\"           \"blues\"            \"compare\"         \n [9] \"binary\"           \"status\"           \"midnight_seq_4\"   \"midnight_seq_5\"  \n[13] \"midnight_seq_6\"   \"midnight_seq_8\"   \"coral_midnight_3\" \"coral_midnight_5\"\n[17] \"coral_midnight_7\" \"coral_midnight_9\" \"main_gray\"        \"teal_seq_5\"      \n[21] \"pink_teal_5\"     \n\n\n\n\nVisual Palette Display\n\n\nShow code\nview_cpal_palettes()\n\n\n\n\n\nAll CPAL color palettes"
+  },
+  {
+    "objectID": "colors-palettes.html#palette-types",
+    "href": "colors-palettes.html#palette-types",
+    "title": "Colors & Palettes",
+    "section": "Palette Types",
+    "text": "Palette Types\n\nCategorical Palettes\nFor discrete data with distinct categories:\n\n\nShow code\nview_cpal_palettes(c(\"main\", \"main_3\", \"main_4\", \"main_5\", \"main_6\", \"binary\", \"status\"))\n\n\n\n\n\nCategorical palettes for discrete data\n\n\n\n\nUsage example:\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) +\n  geom_bar() +\n  scale_fill_cpal(\"main_3\") +\n  labs(title = \"Count by Cylinder\", x = \"Cylinders\", y = \"Count\") +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nUsing categorical palette\n\n\n\n\n\n\n\nSequential Palettes\nFor continuous or ordered data:\n\n\nShow code\nview_cpal_palettes(c(\"midnight_seq_4\", \"midnight_seq_5\", \"midnight_seq_6\", \"midnight_seq_8\"))\n\n\n\n\n\nSequential palettes for continuous data\n\n\n\n\nUsage example:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +\n  geom_point(size = 4) +\n  scale_color_cpal_c(\"midnight_seq_5\") +\n  labs(\n    title = \"Fuel Efficiency by Weight\",\n    subtitle = \"Color shows horsepower\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Horsepower\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nUsing sequential palette for continuous data\n\n\n\n\n\n\n\nDiverging Palettes\nFor data with a meaningful midpoint:\n\n\nShow code\nview_cpal_palettes(c(\"coral_midnight_3\", \"coral_midnight_5\", \"coral_midnight_7\", \"coral_midnight_9\"))\n\n\n\n\n\nDiverging palettes for data with midpoints\n\n\n\n\nUsage example:\n\n\nShow code\n# Create sample data with positive and negative changes\nchange_data &lt;- data.frame(\n  category = LETTERS[1:7],\n  change = c(-15, -8, -2, 0, 5, 12, 20)\n)\n\nggplot(change_data, aes(x = category, y = change, fill = change)) +\n  geom_col() +\n  scale_fill_gradient2(\n    low = \"#E86A50\",\n    mid = \"#E8ECEE\",\n    high = \"#004855\",\n    midpoint = 0\n  ) +\n  labs(\n    title = \"Year-over-Year Change\",\n    x = \"Category\",\n    y = \"Change (%)\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nUsing diverging palette for change data"
+  },
+  {
+    "objectID": "colors-palettes.html#ggplot2-scale-functions",
+    "href": "colors-palettes.html#ggplot2-scale-functions",
+    "title": "Colors & Palettes",
+    "section": "ggplot2 Scale Functions",
+    "text": "ggplot2 Scale Functions\n\nDiscrete Scales\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Discrete Color Scale\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nUsing scale_color_cpal() for discrete data\n\n\n\n\n\n\nContinuous Scales\n\n\nShow code\nggplot(faithfuld, aes(waiting, eruptions, fill = density)) +\n  geom_tile() +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  labs(title = \"Continuous Fill Scale\") +\n  theme_cpal()\n\n\n\n\n\nUsing scale_fill_cpal_c() for continuous data"
+  },
+  {
+    "objectID": "colors-palettes.html#color-interpolation",
+    "href": "colors-palettes.html#color-interpolation",
+    "title": "Colors & Palettes",
+    "section": "Color Interpolation",
+    "text": "Color Interpolation\n\ncpal_color_ramp()\nGenerate smooth gradient between two colors:\n\n\nShow code\n# Gradient from coral to midnight\ncpal_color_ramp(\"coral\", \"midnight\", n = 7)\n\n\n[1] \"#E86A50\" \"#C16450\" \"#9A5E51\" \"#745952\" \"#4D5353\" \"#264D54\" \"#004855\"\n\n\nShow code\n# Using color names from brand.yml\ncpal_color_ramp(\"midnight_1\", \"midnight\", n = 5)\n\n\n[1] \"#E8F4F6\" \"#AEC9CD\" \"#749EA5\" \"#39737D\" \"#004855\"\n\n\n\n\ncpal_color_gradient()\nCreate gradient through multiple colors:\n\n\nShow code\n# Three-color gradient\ncpal_color_gradient(c(\"coral\", \"neutral\", \"midnight\"), n = 9)\n\n\n[1] \"#E86A50\" \"#E88A77\" \"#E8AB9F\" \"#E8CBC6\" \"#E8ECEE\" \"#AEC3C7\" \"#749AA1\"\n[8] \"#39717B\" \"#004855\""
+  },
+  {
+    "objectID": "colors-palettes.html#color-validation-accessibility",
+    "href": "colors-palettes.html#color-validation-accessibility",
+    "title": "Colors & Palettes",
+    "section": "Color Validation (Accessibility)",
+    "text": "Color Validation (Accessibility)\n\nvalidate_color_contrast()\nCheck if two colors meet WCAG contrast requirements:\n\n\nShow code\n# Check deep_teal on white (should pass AA)\nvalidate_color_contrast(\"#006878\", \"#FFFFFF\")\n\n\n$foreground\n[1] \"#006878\"\n\n$background\n[1] \"#FFFFFF\"\n\n$contrast_ratio\n[1] 6.46\n\n$level\n[1] \"AA\"\n\n$large_text\n[1] FALSE\n\n$threshold\n[1] 4.5\n\n$passes\n[1] TRUE\n\n$recommendation\n[1] \"Passes WCAG AA (ratio: 6.46:1, required: 4.5:1)\"\n\n\nShow code\n# Check with AAA standard (stricter)\nvalidate_color_contrast(\"#006878\", \"#FFFFFF\", level = \"AAA\")\n\n\n$foreground\n[1] \"#006878\"\n\n$background\n[1] \"#FFFFFF\"\n\n$contrast_ratio\n[1] 6.46\n\n$level\n[1] \"AAA\"\n\n$large_text\n[1] FALSE\n\n$threshold\n[1] 7\n\n$passes\n[1] FALSE\n\n$recommendation\n[1] \"FAILS WCAG AAA (ratio: 6.46:1, required: 7.0:1). Consider using darker foreground or lighter background.\"\n\n\nShow code\n# Midnight on white (high contrast)\nvalidate_color_contrast(\"#004855\", \"#FFFFFF\", level = \"AAA\")\n\n\n$foreground\n[1] \"#004855\"\n\n$background\n[1] \"#FFFFFF\"\n\n$contrast_ratio\n[1] 10.2\n\n$level\n[1] \"AAA\"\n\n$large_text\n[1] FALSE\n\n$threshold\n[1] 7\n\n$passes\n[1] TRUE\n\n$recommendation\n[1] \"Passes WCAG AAA (ratio: 10.20:1, required: 7.0:1)\"\n\n\n\n\nvalidate_brand_colors()\nCheck all CPAL palette colors for accessibility:\n\n\nShow code\nvalidate_brand_colors()\n\n\nThis function prints a detailed report showing which colors pass WCAG AA/AAA standards on white and dark backgrounds."
+  },
+  {
+    "objectID": "colors-palettes.html#choosing-the-right-palette",
+    "href": "colors-palettes.html#choosing-the-right-palette",
+    "title": "Colors & Palettes",
+    "section": "Choosing the Right Palette",
+    "text": "Choosing the Right Palette\n\nQuick Reference\n\n\n\n\n\n\n\nData Type\nRecommended Palettes\n\n\n\n\nCategories (≤3)\nmain_3, binary\n\n\nCategories (4-5)\nmain_4, main_5\n\n\nCategories (6-8)\nmain_6, main\n\n\nSequential/Continuous\nmidnight_seq_5, midnight_seq_6\n\n\nDiverging (with midpoint)\ncoral_midnight_5, coral_midnight_7\n\n\nBinary comparison\nbinary, compare\n\n\nStatus indicators\nstatus"
+  },
+  {
+    "objectID": "colors-palettes.html#complete-example",
+    "href": "colors-palettes.html#complete-example",
+    "title": "Colors & Palettes",
+    "section": "Complete Example",
+    "text": "Complete Example\n\n\nShow code\n# Prepare data\ncar_data &lt;- mtcars |&gt;\n  mutate(\n    cylinders = factor(cyl),\n    efficiency = ifelse(mpg &gt; median(mpg), \"High\", \"Low\")\n  )\n\n# Create visualization\nggplot(car_data, aes(x = hp, y = mpg, color = cylinders, size = wt)) +\n  geom_point(alpha = 0.7) +\n  scale_color_cpal(\"main_3\") +\n  scale_size_continuous(range = c(2, 8)) +\n  labs(\n    title = \"Vehicle Performance Analysis\",\n    subtitle = \"Fuel efficiency by horsepower, colored by cylinder count\",\n    x = \"Horsepower\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    size = \"Weight (1000 lbs)\",\n    caption = \"Source: Motor Trend Car Road Tests (1974)\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nComplete visualization with CPAL colors and theme"
+  },
+  {
+    "objectID": "colors-palettes.html#next-steps",
+    "href": "colors-palettes.html#next-steps",
+    "title": "Colors & Palettes",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nThemes & Styling - Apply consistent themes to your plots\nPlots & Output - Save and export visualizations\nBrand & Assets - Customize brand configuration"
+  },
+  {
+    "objectID": "getting-started.html",
+    "href": "getting-started.html",
+    "title": "Getting Started",
+    "section": "",
+    "text": "cpaltemplates is hosted on GitHub and can be installed using remotes or devtools:\n# Using remotes (recommended)\ninstall.packages(\"remotes\")\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n# Or using devtools\ninstall.packages(\"devtools\")\ndevtools::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n\n\ncpaltemplates requires R version 4.3.0 or higher. The package will automatically install required dependencies, but you may want to install suggested packages for full functionality:\n# Core dependencies (installed automatically)\n# fs, ggplot2, cli, yaml, gt, reactable, bslib, sass\n\n# Suggested packages for extended features\ninstall.packages(c(\n  \"ggiraph\",      # Interactive visualizations\n  \"cowplot\",      # Logo placement\n  \"magick\",       # Image processing for logos\n  \"showtext\",     # Google Fonts for static plots\n  \"sysfonts\",     # Font management\n  \"gdtools\",      # Font rendering for interactive plots\n  \"patchwork\"     # Theme preview\n))"
+  },
+  {
+    "objectID": "getting-started.html#installation",
+    "href": "getting-started.html#installation",
+    "title": "Getting Started",
+    "section": "",
+    "text": "cpaltemplates is hosted on GitHub and can be installed using remotes or devtools:\n# Using remotes (recommended)\ninstall.packages(\"remotes\")\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n# Or using devtools\ninstall.packages(\"devtools\")\ndevtools::install_github(\"childpovertyactionlab/cpaltemplates\")\n\n\n\ncpaltemplates requires R version 4.3.0 or higher. The package will automatically install required dependencies, but you may want to install suggested packages for full functionality:\n# Core dependencies (installed automatically)\n# fs, ggplot2, cli, yaml, gt, reactable, bslib, sass\n\n# Suggested packages for extended features\ninstall.packages(c(\n  \"ggiraph\",      # Interactive visualizations\n  \"cowplot\",      # Logo placement\n  \"magick\",       # Image processing for logos\n  \"showtext\",     # Google Fonts for static plots\n  \"sysfonts\",     # Font management\n  \"gdtools\",      # Font rendering for interactive plots\n  \"patchwork\"     # Theme preview\n))"
+  },
+  {
+    "objectID": "getting-started.html#initial-setup",
+    "href": "getting-started.html#initial-setup",
+    "title": "Getting Started",
+    "section": "Initial Setup",
+    "text": "Initial Setup\n\nLoading the Package\nlibrary(cpaltemplates)\n\n\nFont Setup\nCPAL visualizations use Inter (primary) and Roboto (secondary) fonts from Google Fonts. Run this setup once per R session:\n# Set up fonts for both static and interactive plots\nsetup_cpal_google_fonts()\n\n\n\n\n\n\nPro Tip\n\n\n\nAdd setup_cpal_google_fonts() to your project’s setup script or .Rprofile to ensure fonts are always available.\n\n\n\n\nVerifying Installation\nRun these commands to verify everything is working:\n# Check that colors load correctly\ncpal_colors_primary()\n#&gt;   midnight       teal       pink     orange       gold\n#&gt;  \"#004855\"  \"#007A8C\"  \"#C3257B\"  \"#ED683F\"  \"#AB8C01\"\n\n# Check that themes work\nlibrary(ggplot2)\np &lt;- ggplot(mtcars, aes(wt, mpg)) +\n  geom_point() +\n  theme_cpal()\nprint(p)\n\n# Check font availability\ncpal_font_family()\n#&gt; [1] \"Inter\"  # or \"Roboto\" or \"sans\" if fonts unavailable"
+  },
+  {
+    "objectID": "getting-started.html#understanding-the-package-structure",
+    "href": "getting-started.html#understanding-the-package-structure",
+    "title": "Getting Started",
+    "section": "Understanding the Package Structure",
+    "text": "Understanding the Package Structure\ncpaltemplates is organized into functional categories:\ncpaltemplates/\n├── Color System (21 functions)\n│   ├── Core: cpal_colors(), cpal_colors_primary(), cpal_colors_extended()\n│   ├── Palettes: cpal_palettes(), cpal_palettes_sequential(), etc.\n│   ├── Validation: validate_color_contrast(), validate_brand_colors()\n│   ├── Interpolation: cpal_color_ramp(), cpal_color_gradient()\n│   └── Scales: scale_color_cpal(), scale_fill_cpal(), etc.\n│\n├── Theme System (8 functions)\n│   ├── Themes: theme_cpal(), theme_cpal_minimal(), theme_cpal_dark(), etc.\n│   ├── Session: set_theme_cpal()\n│   └── Preview: preview_cpal_themes()\n│\n├── Tables (3 functions)\n│   ├── cpal_table(), cpal_table_gt(), cpal_table_reactable()\n│\n├── Interactive (7 functions)\n│   ├── ggiraph: cpal_interactive(), cpal_point_interactive(), etc.\n│   └── mapgl: cpal_mapgl(), cpal_mapgl_layer()\n│\n├── Project Scaffolding (7 functions)\n│   ├── start_project()\n│   └── use_*() helpers\n│\n├── Brand & Assets (4 functions)\n│   ├── use_cpal_brand(), validate_cpal_brand()\n│   └── get_cpal_asset(), update_cpal_assets()\n│\n├── Shiny/Dashboard (5 functions)\n│   ├── cpal_dashboard_theme()\n│   └── SCSS enhancements\n│\n└── Utilities (7 functions)\n    ├── Fonts: cpal_font_family(), setup_cpal_google_fonts()\n    └── Plots: save_cpal_plot(), add_cpal_logo(), check_plot_accessibility()"
+  },
+  {
+    "objectID": "getting-started.html#your-first-visualization",
+    "href": "getting-started.html#your-first-visualization",
+    "title": "Getting Started",
+    "section": "Your First Visualization",
+    "text": "Your First Visualization\nLet’s create a complete, branded visualization step by step:\n\nStep 1: Load Libraries\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n\nStep 2: Prepare Data\n# Using built-in mtcars dataset\ncar_data &lt;- mtcars |&gt;\n  mutate(\n    cylinders = factor(cyl),\n    car_name = rownames(mtcars)\n  )\n\n\nStep 3: Create the Plot\np &lt;- ggplot(car_data, aes(x = wt, y = mpg, color = cylinders)) +\n  geom_point(size = 3, alpha = 0.8) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Vehicle Weight\",\n    subtitle = \"Heavier vehicles tend to have lower fuel efficiency\",\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend Car Road Tests (1974)\"\n  ) +\n  theme_cpal()\n\nprint(p)\n\n\nStep 4: Save the Plot\n# Save with standard dimensions\nsave_cpal_plot(p, \"my_first_cpal_plot.png\", size = \"default\")\n\n# Save for slides\nsave_cpal_plot(p, \"my_first_cpal_plot_slide.png\", size = \"slide\")\n\n\nStep 5: Add Logo (Optional)\n# Add CPAL logo to the plot\np_with_logo &lt;- add_cpal_logo(p, position = \"top-right\")\nprint(p_with_logo)"
+  },
+  {
+    "objectID": "getting-started.html#quick-reference",
+    "href": "getting-started.html#quick-reference",
+    "title": "Getting Started",
+    "section": "Quick Reference",
+    "text": "Quick Reference\n\nEssential Functions\n\n\n\nTask\nFunction\n\n\n\n\nGet brand colors\ncpal_colors_primary()\n\n\nApply color scale\nscale_color_cpal(\"main\")\n\n\nApply theme\ntheme_cpal()\n\n\nSave plot\nsave_cpal_plot(p, \"file.png\")\n\n\nCreate table\ncpal_table_reactable(data)\n\n\nStart project\nstart_project(\"name\", \"analysis\")\n\n\n\n\n\nEssential Palettes\n\n\n\nPalette\nUse Case\nColors\n\n\n\n\nmain\nCategorical data\n5\n\n\nmain_3\nSimple comparisons\n3\n\n\nteal_seq_5\nSequential/continuous\n5\n\n\npink_teal_5\nDiverging data\n5\n\n\n\n\n\nEssential Themes\n\n\n\nTheme\nUse Case\n\n\n\n\ntheme_cpal()\nDefault, most situations\n\n\ntheme_cpal_minimal()\nClean, simple designs\n\n\ntheme_cpal_dark()\nPresentations, dark mode\n\n\ntheme_cpal_print()\nPrint publications"
+  },
+  {
+    "objectID": "getting-started.html#next-steps",
+    "href": "getting-started.html#next-steps",
+    "title": "Getting Started",
+    "section": "Next Steps",
+    "text": "Next Steps\nNow that you have cpaltemplates set up, explore these guides:\n\nColors & Palettes - Deep dive into the color system\nThemes & Styling - Customize your visualizations\nProject Setup - Create standardized project structures\nWorkflows - End-to-end examples"
+  },
+  {
+    "objectID": "getting-started.html#common-setup-issues",
+    "href": "getting-started.html#common-setup-issues",
+    "title": "Getting Started",
+    "section": "Common Setup Issues",
+    "text": "Common Setup Issues\n\nFonts Not Loading\nIf fonts aren’t loading correctly:\n# Force refresh fonts\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# Check what's available\ncpal_font_family(setup = TRUE)\n\n\nPackage Not Found\nIf installation fails:\n# Check R version\nR.version.string\n#&gt; Should be 4.3.0 or higher\n\n# Try with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\nInteractive Features Not Working\nFor ggiraph functionality:\n# Install ggiraph and dependencies\ninstall.packages(c(\"ggiraph\", \"gdtools\", \"systemfonts\"))\n\n# Register fonts for interactive use\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}\nSee the Troubleshooting Guide for more solutions."
+  },
+  {
+    "objectID": "interactive-features.html",
+    "href": "interactive-features.html",
+    "title": "Interactive Charts",
+    "section": "",
+    "text": "cpaltemplates provides 7 functions for creating interactive visualizations using the ggiraph package. These functions add tooltips, hover effects, and click actions to your ggplot2 charts.\n\n\n\n\n\n\nTry It!\n\n\n\nHover over the data points in the charts below to see interactive tooltips."
+  },
+  {
+    "objectID": "interactive-features.html#overview",
+    "href": "interactive-features.html#overview",
+    "title": "Interactive Charts",
+    "section": "",
+    "text": "cpaltemplates provides 7 functions for creating interactive visualizations using the ggiraph package. These functions add tooltips, hover effects, and click actions to your ggplot2 charts.\n\n\n\n\n\n\nTry It!\n\n\n\nHover over the data points in the charts below to see interactive tooltips."
+  },
+  {
+    "objectID": "interactive-features.html#quick-start",
+    "href": "interactive-features.html#quick-start",
+    "title": "Interactive Charts",
+    "section": "Quick Start",
+    "text": "Quick Start\n\n\nShow code\nlibrary(ggiraph)\n\n# Create data with tooltips\nmtcars_named &lt;- mtcars |&gt;\n  mutate(\n    car_name = rownames(mtcars),\n    tooltip = paste0(\n      \"&lt;strong&gt;\", car_name, \"&lt;/strong&gt;&lt;br&gt;\",\n      \"MPG: \", mpg, \"&lt;br&gt;\",\n      \"Weight: \", wt, \" tons\"\n    )\n  )\n\n# Create an interactive plot\np &lt;- ggplot(mtcars_named, aes(x = wt, y = mpg)) +\n  geom_point_interactive(\n    aes(tooltip = tooltip, data_id = car_name),\n    size = 3,\n    color = \"#007A8C\"\n  ) +\n  labs(\n    title = \"Interactive Scatter Plot\",\n    subtitle = \"Hover over points to see details\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal()\n\ncpal_interactive(p)"
+  },
+  {
+    "objectID": "interactive-features.html#interactive-examples",
+    "href": "interactive-features.html#interactive-examples",
+    "title": "Interactive Charts",
+    "section": "Interactive Examples",
+    "text": "Interactive Examples\n\nColored by Group\n\n\nShow code\nmtcars_colored &lt;- mtcars |&gt;\n  mutate(\n    car_name = rownames(mtcars),\n    tooltip = paste0(\n      \"&lt;strong&gt;\", car_name, \"&lt;/strong&gt;&lt;br&gt;\",\n      \"Cylinders: \", cyl, \"&lt;br&gt;\",\n      \"MPG: \", round(mpg, 1), \"&lt;br&gt;\",\n      \"Horsepower: \", hp\n    )\n  )\n\np_colored &lt;- ggplot(mtcars_colored, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point_interactive(\n    aes(tooltip = tooltip, data_id = car_name),\n    size = 4,\n    alpha = 0.8\n  ) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Weight\",\n    subtitle = \"Colored by cylinder count - hover for details\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\ncpal_interactive(p_colored)\n\n\n\n\n\n\n\n\nInteractive Box Plot with Points\n\n\nShow code\nboxplot_data &lt;- mtcars |&gt;\n  mutate(\n    cyl_factor = factor(cyl),\n    tooltip = paste0(\n      \"&lt;strong&gt;\", rownames(mtcars), \"&lt;/strong&gt;&lt;br&gt;\",\n      \"MPG: \", mpg, \"&lt;br&gt;\",\n      \"Cylinders: \", cyl, \"&lt;br&gt;\",\n      \"HP: \", hp\n    )\n  )\n\np_box &lt;- ggplot(boxplot_data, aes(x = cyl_factor, y = mpg, fill = cyl_factor)) +\n  geom_boxplot(alpha = 0.7, outlier.shape = NA) +\n  geom_point_interactive(\n    aes(tooltip = tooltip, data_id = rownames(mtcars)),\n    position = position_jitter(width = 0.2, seed = 42),\n    size = 3, alpha = 0.8\n  ) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency Distribution by Cylinder Count\",\n    subtitle = \"Hover over points for vehicle details\",\n    x = \"Number of Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\ncpal_interactive(p_box)\n\n\n\n\n\n\n\n\nInteractive Line Chart\n\n\nShow code\n# Create time series data\nset.seed(123)\ntime_data &lt;- data.frame(\n  year = rep(2018:2023, 3),\n  value = c(\n    cumsum(c(100, rnorm(5, 8, 3))),\n    cumsum(c(80, rnorm(5, 6, 4))),\n    cumsum(c(60, rnorm(5, 10, 5)))\n  ),\n  group = rep(c(\"Region A\", \"Region B\", \"Region C\"), each = 6)\n) |&gt;\n  mutate(\n    tooltip = paste0(\n      \"&lt;strong&gt;\", group, \"&lt;/strong&gt;&lt;br&gt;\",\n      \"Year: \", year, \"&lt;br&gt;\",\n      \"Value: \", round(value, 1)\n    )\n  )\n\np_line &lt;- ggplot(time_data, aes(x = year, y = value, color = group, group = group)) +\n  geom_line_interactive(aes(data_id = group), linewidth = 1.2) +\n  geom_point_interactive(\n    aes(tooltip = tooltip, data_id = group),\n    size = 4\n  ) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Growth Trends by Region\",\n    subtitle = \"Hover over points to see values\",\n    x = \"Year\",\n    y = \"Cumulative Value\",\n    color = \"Region\"\n  ) +\n  theme_cpal()\n\ncpal_interactive(p_line)"
+  },
+  {
+    "objectID": "interactive-features.html#main-function-cpal_interactive",
+    "href": "interactive-features.html#main-function-cpal_interactive",
+    "title": "Interactive Charts",
+    "section": "Main Function: cpal_interactive()",
+    "text": "Main Function: cpal_interactive()\nConvert any ggplot with interactive geoms to a fully interactive visualization.\ncpal_interactive(\n  plot,\n  width_svg = 8,\n  height_svg = 5,\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\nDefault\n\n\n\n\nplot\nA ggplot2 object with interactive geoms\n(required)\n\n\nwidth_svg\nWidth in inches\n8\n\n\nheight_svg\nHeight in inches\n5\n\n\n...\nAdditional arguments to girafe()\n\n\n\n\n\n\nStyling Features\n\nCPAL-branded hover colors\nSmooth transitions\nConsistent tooltip styling\nFont integration\n\n\n\nExamples\nlibrary(ggplot2)\nlibrary(ggiraph)\n\n# Basic interactive plot\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point_interactive(\n    aes(tooltip = paste(\"MPG:\", mpg, \"&lt;br&gt;Weight:\", wt)),\n    size = 3\n  ) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncpal_interactive(p)\n\n# Custom dimensions\ncpal_interactive(p, width_svg = 10, height_svg = 6)"
+  },
+  {
+    "objectID": "interactive-features.html#interactive-geom-wrappers",
+    "href": "interactive-features.html#interactive-geom-wrappers",
+    "title": "Interactive Charts",
+    "section": "Interactive Geom Wrappers",
+    "text": "Interactive Geom Wrappers\n\ncpal_point_interactive()\nInteractive points with CPAL defaults.\ncpal_point_interactive(\n  mapping = NULL,\n  data = NULL,\n  tooltip_var = NULL,\n  onclick_var = NULL,\n  data_id_var = NULL,\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nmapping\nAesthetic mappings\n\n\ndata\nData frame\n\n\ntooltip_var\nColumn name for tooltip text\n\n\nonclick_var\nColumn name for click action (JavaScript)\n\n\ndata_id_var\nColumn name for element ID (for highlighting)\n\n\n...\nAdditional arguments to geom_point_interactive()\n\n\n\n\n\nExamples\n# Using the wrapper\nmtcars$name &lt;- rownames(mtcars)\n\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  cpal_point_interactive(tooltip_var = \"name\", size = 3) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncpal_interactive(p)\n\n# With data ID for linked highlighting\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  cpal_point_interactive(\n    tooltip_var = \"name\",\n    data_id_var = \"cyl\"  # Hovering highlights all same-cylinder cars\n  ) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncpal_interactive(p)\n\n\n\n\ncpal_line_interactive()\nInteractive lines for time series and trend data.\ncpal_line_interactive(\n  mapping = NULL,\n  data = NULL,\n  tooltip_var = NULL,\n  onclick_var = NULL,\n  data_id_var = NULL,\n  ...\n)\n\nExamples\n# Time series data\nlibrary(dplyr)\n\ntime_data &lt;- data.frame(\n  date = seq.Date(as.Date(\"2020-01-01\"), by = \"month\", length.out = 24),\n  value = cumsum(rnorm(24, 5, 2)),\n  group = rep(c(\"A\", \"B\"), each = 12)\n)\n\np &lt;- ggplot(time_data, aes(x = date, y = value, color = group)) +\n  cpal_line_interactive(\n    aes(tooltip = paste(format(date, \"%b %Y\"), \"\\nValue:\", round(value, 1))),\n    linewidth = 1.2\n  ) +\n  scale_color_cpal(\"compare\") +\n  theme_cpal()\n\ncpal_interactive(p)\n\n\n\n\ncpal_col_interactive()\nInteractive columns for bar charts.\ncpal_col_interactive(\n  mapping = NULL,\n  data = NULL,\n  tooltip_var = NULL,\n  onclick_var = NULL,\n  data_id_var = NULL,\n  ...\n)\n\nExamples\n# Bar chart with tooltips\nbar_data &lt;- mtcars |&gt;\n  group_by(cyl) |&gt;\n  summarise(\n    avg_mpg = mean(mpg),\n    count = n(),\n    .groups = \"drop\"\n  ) |&gt;\n  mutate(\n    tooltip_text = paste0(\n      \"Cylinders: \", cyl, \"\\n\",\n      \"Avg MPG: \", round(avg_mpg, 1), \"\\n\",\n      \"Count: \", count\n    )\n  )\n\np &lt;- ggplot(bar_data, aes(x = factor(cyl), y = avg_mpg, fill = factor(cyl))) +\n  cpal_col_interactive(aes(tooltip = tooltip_text)) +\n  scale_fill_cpal(\"main_3\") +\n  labs(x = \"Cylinders\", y = \"Average MPG\") +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\ncpal_interactive(p)\n\n\n\n\ncpal_polygon_interactive()\nInteractive polygons for maps and shapes.\ncpal_polygon_interactive(\n  mapping = NULL,\n  data = NULL,\n  tooltip_var = NULL,\n  onclick_var = NULL,\n  data_id_var = NULL,\n  ...\n)\n\nExamples\n# With sf data\nlibrary(sf)\n\n# Assuming you have geographic data\nggplot(geo_data) +\n  cpal_polygon_interactive(\n    aes(fill = value, tooltip = region_name)\n  ) +\n  scale_fill_cpal_c(\"teal_seq_5\") +\n  theme_cpal_map()"
+  },
+  {
+    "objectID": "interactive-features.html#tooltip-customization",
+    "href": "interactive-features.html#tooltip-customization",
+    "title": "Interactive Charts",
+    "section": "Tooltip Customization",
+    "text": "Tooltip Customization\n\nHTML Tooltips\nTooltips support HTML formatting:\nmtcars$tooltip &lt;- paste0(\n  \"&lt;strong&gt;\", rownames(mtcars), \"&lt;/strong&gt;&lt;br&gt;\",\n  \"&lt;em&gt;Performance&lt;/em&gt;&lt;br&gt;\",\n  \"MPG: \", mtcars$mpg, \"&lt;br&gt;\",\n  \"HP: \", mtcars$hp, \"&lt;br&gt;\",\n  \"&lt;span style='color:#007A8C;'&gt;Cylinders: \", mtcars$cyl, \"&lt;/span&gt;\"\n)\n\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point_interactive(aes(tooltip = tooltip), size = 3) +\n  theme_cpal()\n\ncpal_interactive(p)\n\n\nStyling Tooltips\ncpal_interactive(\n  p,\n  options = list(\n    opts_tooltip(\n      css = \"background-color:#004855;color:white;padding:10px;border-radius:5px;\",\n      use_fill = FALSE\n    )\n  )\n)"
+  },
+  {
+    "objectID": "interactive-features.html#click-actions",
+    "href": "interactive-features.html#click-actions",
+    "title": "Interactive Charts",
+    "section": "Click Actions",
+    "text": "Click Actions\n\nJavaScript onclick\nmtcars$onclick &lt;- sprintf(\n  \"window.open('https://google.com/search?q=%s')\",\n  gsub(\" \", \"+\", rownames(mtcars))\n)\n\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point_interactive(\n    aes(tooltip = rownames(mtcars), onclick = onclick),\n    size = 3\n  ) +\n  theme_cpal()\n\ncpal_interactive(p)\n\n\nShiny Integration\n# In Shiny, use data_id for server-side handling\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point_interactive(\n    aes(tooltip = rownames(mtcars), data_id = rownames(mtcars)),\n    size = 3\n  ) +\n  theme_cpal()\n\n# Server\noutput$plot &lt;- renderGirafe({\n  cpal_interactive(p)\n})\n\nobserveEvent(input$plot_selected, {\n  selected_car &lt;- input$plot_selected\n  # Do something with the selection\n})"
+  },
+  {
+    "objectID": "interactive-features.html#linked-highlighting",
+    "href": "interactive-features.html#linked-highlighting",
+    "title": "Interactive Charts",
+    "section": "Linked Highlighting",
+    "text": "Linked Highlighting\nUse data_id to link elements across the visualization:\n# All points with same cylinder count highlight together\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point_interactive(\n    aes(\n      tooltip = rownames(mtcars),\n      data_id = factor(cyl)  # Link by cylinder count\n    ),\n    size = 3\n  ) +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncpal_interactive(p)"
+  },
+  {
+    "objectID": "interactive-features.html#multiple-geoms",
+    "href": "interactive-features.html#multiple-geoms",
+    "title": "Interactive Charts",
+    "section": "Multiple Geoms",
+    "text": "Multiple Geoms\nCombine multiple interactive geoms:\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point_interactive(\n    aes(tooltip = rownames(mtcars), data_id = factor(cyl)),\n    size = 3,\n    color = \"#007A8C\"\n  ) +\n  geom_smooth_interactive(\n    aes(tooltip = \"Trend line\"),\n    method = \"lm\",\n    color = \"#004855\",\n    fill = \"#D8EFF4\"\n  ) +\n  theme_cpal()\n\ncpal_interactive(p)"
+  },
+  {
+    "objectID": "interactive-features.html#interactive-in-shiny",
+    "href": "interactive-features.html#interactive-in-shiny",
+    "title": "Interactive Charts",
+    "section": "Interactive in Shiny",
+    "text": "Interactive in Shiny\n\nBasic Setup\nlibrary(shiny)\nlibrary(ggiraph)\nlibrary(cpaltemplates)\n\nui &lt;- fluidPage(\n  theme = cpal_dashboard_theme(),\n  girafeOutput(\"interactive_plot\")\n)\n\nserver &lt;- function(input, output) {\n  output$interactive_plot &lt;- renderGirafe({\n    p &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n      geom_point_interactive(aes(tooltip = rownames(mtcars))) +\n      scale_color_cpal(\"main_3\") +\n      theme_cpal()\n\n    cpal_interactive(p)\n  })\n}\n\nshinyApp(ui, server)\n\n\nWith Selection\nserver &lt;- function(input, output) {\n  output$interactive_plot &lt;- renderGirafe({\n    mtcars$id &lt;- rownames(mtcars)\n\n    p &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n      geom_point_interactive(\n        aes(tooltip = id, data_id = id),\n        size = 3,\n        color = \"#007A8C\"\n      ) +\n      theme_cpal()\n\n    girafe(\n      ggobj = p,\n      options = list(\n        opts_selection(type = \"single\", css = \"fill:#C3257B;stroke:#C3257B;\")\n      )\n    )\n  })\n\n  output$selected &lt;- renderText({\n    paste(\"Selected:\", input$interactive_plot_selected)\n  })\n}"
+  },
+  {
+    "objectID": "interactive-features.html#font-setup-for-interactive",
+    "href": "interactive-features.html#font-setup-for-interactive",
+    "title": "Interactive Charts",
+    "section": "Font Setup for Interactive",
+    "text": "Font Setup for Interactive\nInteractive plots require special font handling:\n# Set up fonts for interactive use\nsetup_cpal_google_fonts()\n\n# Verify interactive font\ncpal_font_family(\"interactive\")\n#&gt; [1] \"Inter\"\n\n# If fonts aren't working, try:\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}"
+  },
+  {
+    "objectID": "interactive-features.html#performance-tips",
+    "href": "interactive-features.html#performance-tips",
+    "title": "Interactive Charts",
+    "section": "Performance Tips",
+    "text": "Performance Tips\n\nLarge Datasets\n# For large datasets, sample or aggregate\nlarge_data_sample &lt;- large_data |&gt;\n  slice_sample(n = 1000)\n\n# Or aggregate\naggregated &lt;- large_data |&gt;\n  group_by(region) |&gt;\n  summarise(across(everything(), mean))\n\n\nOptimize SVG Size\n# Smaller dimensions for faster rendering\ncpal_interactive(p, width_svg = 6, height_svg = 4)\n\n\nReduce Tooltip Complexity\n# Simple tooltips render faster than HTML-heavy ones\naes(tooltip = name)  # Fast\naes(tooltip = complex_html)  # Slower"
+  },
+  {
+    "objectID": "interactive-features.html#complete-example",
+    "href": "interactive-features.html#complete-example",
+    "title": "Interactive Charts",
+    "section": "Complete Example",
+    "text": "Complete Example\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(ggiraph)\nlibrary(dplyr)\n\n# Prepare data with tooltips\nplot_data &lt;- mtcars |&gt;\n  mutate(\n    name = rownames(mtcars),\n    cylinders = factor(cyl),\n    tooltip = paste0(\n      \"&lt;strong&gt;\", name, \"&lt;/strong&gt;&lt;br&gt;\",\n      \"MPG: \", mpg, \"&lt;br&gt;\",\n      \"Horsepower: \", hp, \"&lt;br&gt;\",\n      \"Weight: \", wt, \" × 1000 lbs\"\n    )\n  )\n\n# Create interactive visualization\np &lt;- ggplot(plot_data, aes(x = wt, y = mpg, color = cylinders)) +\n  geom_point_interactive(\n    aes(tooltip = tooltip, data_id = cylinders),\n    size = 4,\n    alpha = 0.8\n  ) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    subtitle = \"Hover over points for details\",\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\n# Render interactive\ncpal_interactive(p)"
+  },
+  {
+    "objectID": "interactive-features.html#troubleshooting",
+    "href": "interactive-features.html#troubleshooting",
+    "title": "Interactive Charts",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nFonts Not Rendering\n# Install gdtools for font support\ninstall.packages(\"gdtools\")\n\n# Register fonts\nsetup_cpal_google_fonts()\ngdtools::register_gfont(\"Inter\")\n\n\nTooltips Not Appearing\n# Check that you're using interactive geoms\ngeom_point_interactive()  # Correct\ngeom_point()              # Won't show tooltips\n\n\nPlot Not Displaying\n# Ensure ggiraph is loaded\nlibrary(ggiraph)\n\n# Use cpal_interactive() or girafe()\ncpal_interactive(p)  # Correct\nprint(p)             # Static only"
+  },
+  {
+    "objectID": "interactive-features.html#next-steps",
+    "href": "interactive-features.html#next-steps",
+    "title": "Interactive Charts",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nMaps & Geographic - Interactive maps\nShiny Dashboards - Dashboard integration\nThemes & Styling - Theme customization"
+  },
+  {
+    "objectID": "plots-visualizations.html",
+    "href": "plots-visualizations.html",
+    "title": "Plots & Output",
+    "section": "",
+    "text": "This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations."
+  },
+  {
+    "objectID": "plots-visualizations.html#overview",
+    "href": "plots-visualizations.html#overview",
+    "title": "Plots & Output",
+    "section": "",
+    "text": "This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations."
+  },
+  {
+    "objectID": "plots-visualizations.html#plot-examples",
+    "href": "plots-visualizations.html#plot-examples",
+    "title": "Plots & Output",
+    "section": "Plot Examples",
+    "text": "Plot Examples\nBefore diving into the utility functions, here are some complete examples of CPAL-styled visualizations:\n\nScatter Plot with Regression\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = TRUE, alpha = 0.2) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    subtitle = \"Weight vs. MPG by cylinder count\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nScatter plot with trend line\n\n\n\n\n\n\nBar Chart\n\n\nShow code\nmtcars |&gt;\n  count(cyl) |&gt;\n  ggplot(aes(x = factor(cyl), y = n, fill = factor(cyl))) +\n  geom_col(alpha = 0.9) +\n  geom_text(aes(label = n), vjust = -0.5, fontface = \"bold\", color = \"#444444\") +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Count by Cylinder\",\n    x = \"Number of Cylinders\",\n    y = \"Count\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nBar chart with CPAL colors\n\n\n\n\n\n\nBox Plot\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot(alpha = 0.8, outlier.shape = 21) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency Distribution\",\n    subtitle = \"By cylinder count\",\n    x = \"Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nBox plot comparing distributions\n\n\n\n\n\n\nLine Chart\n\n\nShow code\n# Create time series-like data\nline_data &lt;- data.frame(\n  year = rep(2018:2023, 3),\n  value = c(\n    cumsum(rnorm(6, 5, 2)),\n    cumsum(rnorm(6, 4, 2)),\n    cumsum(rnorm(6, 3, 2))\n  ),\n  group = rep(c(\"Series A\", \"Series B\", \"Series C\"), each = 6)\n)\n\nggplot(line_data, aes(x = year, y = value, color = group)) +\n  geom_line(linewidth = 1.2) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Trend Over Time\",\n    subtitle = \"Multiple series comparison\",\n    x = \"Year\",\n    y = \"Value\",\n    color = \"Series\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nLine chart with multiple series"
+  },
+  {
+    "objectID": "plots-visualizations.html#saving-plots",
+    "href": "plots-visualizations.html#saving-plots",
+    "title": "Plots & Output",
+    "section": "Saving Plots",
+    "text": "Saving Plots\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions and settings.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nplot\nA ggplot2 object\n\n\nfilename\nOutput filename (extension determines format)\n\n\nsize\nPreset name or custom c(width, height) in inches\n\n\ndpi\nResolution (default: 300)\n\n\nbg\nBackground color (default: “white”)\n\n\n...\nAdditional arguments passed to ggsave()\n\n\n\n\n\nSize Presets\n\n\n\nPreset\nDimensions (inches)\nAspect Ratio\nUse Case\n\n\n\n\ndefault\n8 × 5\n16:10\nGeneral purpose\n\n\nslide\n10 × 5.625\n16:9\nPresentations\n\n\nhalf\n4 × 3\n4:3\nHalf-page figures\n\n\nthird\n2.5 × 2\n5:4\nSmall inline figures\n\n\nsquare\n5 × 5\n1:1\nSquare format\n\n\nwide\n12 × 4\n3:1\nPanoramic charts\n\n\ntall\n5 × 8\n5:8\nVertical format\n\n\n\n\n\nExamples\nlibrary(cpaltemplates)\nlibrary(ggplot2)\n\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Fuel Efficiency\") +\n  theme_cpal()\n\n# Save with default size\nsave_cpal_plot(p, \"efficiency_plot.png\")\n\n# Save for presentations\nsave_cpal_plot(p, \"efficiency_slide.png\", size = \"slide\")\n\n# Custom dimensions\nsave_cpal_plot(p, \"efficiency_custom.png\", size = c(10, 6))\n\n# Higher resolution for print\nsave_cpal_plot(p, \"efficiency_print.png\", size = \"default\", dpi = 600)\n\n# PDF output\nsave_cpal_plot(p, \"efficiency.pdf\", size = \"default\")\n\n# Transparent background\nsave_cpal_plot(p, \"efficiency_transparent.png\", bg = \"transparent\")"
+  },
+  {
+    "objectID": "plots-visualizations.html#adding-branding",
+    "href": "plots-visualizations.html#adding-branding",
+    "title": "Plots & Output",
+    "section": "Adding Branding",
+    "text": "Adding Branding\n\nadd_cpal_logo()\nAdd the CPAL logo to any ggplot2 visualization.\nadd_cpal_logo(\n  plot,\n  position = c(\"top-right\", \"top-left\", \"bottom-right\", \"bottom-left\"),\n  size = 0.09,\n  logo_path = NULL\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nplot\nA ggplot2 object\n\n\nposition\nLogo placement\n\n\nsize\nLogo size as proportion of plot (0-1)\n\n\nlogo_path\nCustom logo path (auto-detects CPAL logo)\n\n\n\n\n\nFeatures\n\nAuto-detection: Automatically uses white logo for dark themes\nProper sizing: Maintains aspect ratio\nNon-intrusive: Places logo outside the plot area\n\n\n\nExamples\nDefault position (top-right):\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal()\n\nadd_cpal_logo(p)\n\n\n\n\n\nPlot with CPAL logo in default position\n\n\n\n\nChanging position when logo overlaps data:\nIf the default top-right position overlaps your data, try a different corner:\n# Data concentrated in top-right - use bottom-left\np_topright &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Bottom-Left Logo\", subtitle = \"Best when data is in top-right\") +\n  theme_cpal()\n\nprint(add_cpal_logo(p_topright, position = \"bottom-left\"))\n# Data concentrated in bottom-left - use top-right\np_bottomleft &lt;- ggplot(mtcars, aes(x = mpg, y = wt)) +\n  geom_point(color = \"#E86A50\", size = 3) +\n  labs(title = \"Top-Right Logo\", subtitle = \"Best when data is in bottom-left\") +\n  theme_cpal()\n\nprint(add_cpal_logo(p_bottomleft, position = \"top-right\"))\n\n\n\nShow code\n\n\n\n\n\nComparing logo positions\n\n\n\n\n\n\nShow code\n\n\n\n\n\nComparing logo positions\n\n\n\n\n\nAdjusting logo size:\np_base &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  theme_cpal()\n\n# Smaller logo (0.06)\nprint(add_cpal_logo(p_base + labs(title = \"Smaller Logo (size = 0.06)\"),\n              position = \"bottom-right\", size = 0.06))\n# Larger logo (0.12)\nprint(add_cpal_logo(p_base + labs(title = \"Larger Logo (size = 0.12)\"),\n              position = \"bottom-right\", size = 0.12))\n\n\n\nShow code\n\n\n\n\n\nDifferent logo sizes\n\n\n\n\n\n\nShow code\n\n\n\n\n\nDifferent logo sizes\n\n\n\n\n\nDark theme (auto-selects white logo):\n\n\nShow code\np_dark &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Dark Theme with Logo\",\n    subtitle = \"White logo is automatically selected\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal_dark()\n\nadd_cpal_logo(p_dark, position = \"bottom-right\")\n\n\n\n\n\nLogo automatically adapts to dark theme\n\n\n\n\nCustom logo path:\n# Use your own logo\np_custom &lt;- add_cpal_logo(p, logo_path = \"path/to/custom_logo.png\")"
+  },
+  {
+    "objectID": "plots-visualizations.html#accessibility-checking",
+    "href": "plots-visualizations.html#accessibility-checking",
+    "title": "Plots & Output",
+    "section": "Accessibility Checking",
+    "text": "Accessibility Checking\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\n\nWhat It Checks\n\nText Size: Ensures text elements are large enough to read\nColor Contrast: Validates colors against WCAG standards\nColorblind Safety: Checks if colors are distinguishable\nData-to-Ink Ratio: Identifies unnecessary visual elements\n\n\n\nExamples\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point() +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\n# Run accessibility check\ncheck_plot_accessibility(p)\n#&gt; Checking plot accessibility...\n#&gt;\n#&gt; ── Text Size ──\n#&gt; ✓ Title size: 18pt (OK)\n#&gt; ✓ Axis text size: 12pt (OK)\n#&gt; ✓ Legend text size: 12pt (OK)\n#&gt;\n#&gt; ── Color Contrast ──\n#&gt; ✓ All colors pass WCAG AA on white background\n#&gt;\n#&gt; ── Colorblind Safety ──\n#&gt; ✓ Color palette is distinguishable for common colorblindness types\n#&gt;\n#&gt; Overall: PASS\n\n# Quiet mode (returns TRUE/FALSE)\nis_accessible &lt;- check_plot_accessibility(p, verbose = FALSE)"
+  },
+  {
+    "objectID": "plots-visualizations.html#workflow-complete-plot-creation",
+    "href": "plots-visualizations.html#workflow-complete-plot-creation",
+    "title": "Plots & Output",
+    "section": "Workflow: Complete Plot Creation",
+    "text": "Workflow: Complete Plot Creation\n\nStep-by-Step Example\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# 1. Prepare data\nplot_data &lt;- mtcars |&gt;\n  mutate(\n    cylinders = factor(cyl),\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  )\n\n# 2. Create the visualization\np &lt;- ggplot(plot_data, aes(x = wt, y = mpg, color = cylinders)) +\n  geom_point(size = 3, alpha = 0.8) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Vehicle Weight\",\n    subtitle = \"Analysis of 32 automobile models\",\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n# 3. Check accessibility\ncheck_plot_accessibility(p)\n\n# 4. Add branding\np_branded &lt;- add_cpal_logo(p, position = \"top-right\")\n\n# 5. Save in multiple formats\nsave_cpal_plot(p_branded, \"efficiency_report.png\", size = \"default\")\nsave_cpal_plot(p_branded, \"efficiency_slide.png\", size = \"slide\")\nsave_cpal_plot(p_branded, \"efficiency_print.pdf\", size = \"default\", dpi = 600)"
+  },
+  {
+    "objectID": "plots-visualizations.html#size-selection-guide",
+    "href": "plots-visualizations.html#size-selection-guide",
+    "title": "Plots & Output",
+    "section": "Size Selection Guide",
+    "text": "Size Selection Guide\n\nBy Output Context\n\n\n\nContext\nRecommended Size\nNotes\n\n\n\n\nPowerPoint slide\n\"slide\"\n16:9 aspect ratio\n\n\nWord document (full width)\n\"default\"\nGood for letter-size\n\n\nWord document (half page)\n\"half\"\nSide-by-side layouts\n\n\nPDF report\n\"default\"\nStandard dimensions\n\n\nEmail/web\n\"default\" or \"slide\"\nGood balance\n\n\nSocial media\n\"square\"\nInstagram, Twitter\n\n\nDashboard\n\"wide\"\nHorizontal layouts\n\n\nInfographic\n\"tall\"\nVertical scrolling\n\n\n\n\n\nDPI Guidelines\n\n\n\nOutput\nRecommended DPI\n\n\n\n\nScreen/web\n72-150\n\n\nStandard print\n300\n\n\nHigh-quality print\n600\n\n\nLarge format\n150-300\n\n\n\n# Web/screen\nsave_cpal_plot(p, \"web.png\", dpi = 150)\n\n# Print quality\nsave_cpal_plot(p, \"print.png\", dpi = 300)\n\n# High-res print\nsave_cpal_plot(p, \"highres.png\", dpi = 600)"
+  },
+  {
+    "objectID": "plots-visualizations.html#output-formats",
+    "href": "plots-visualizations.html#output-formats",
+    "title": "Plots & Output",
+    "section": "Output Formats",
+    "text": "Output Formats\n\nSupported Formats\n\n\n\nExtension\nType\nBest For\n\n\n\n\n.png\nRaster\nWeb, presentations, general use\n\n\n.jpg\nRaster\nPhotos, web (smaller files)\n\n\n.pdf\nVector\nPrint, publications, scaling\n\n\n.svg\nVector\nWeb, interactive, scaling\n\n\n.eps\nVector\nLaTeX, professional printing\n\n\n.tiff\nRaster\nHigh-quality print, archival\n\n\n\n\n\nFormat Selection\n# PNG for web/presentations (most common)\nsave_cpal_plot(p, \"plot.png\")\n\n# PDF for print/publications\nsave_cpal_plot(p, \"plot.pdf\")\n\n# SVG for web with scaling\nsave_cpal_plot(p, \"plot.svg\")\n\n# TIFF for journals requiring it\nsave_cpal_plot(p, \"plot.tiff\", dpi = 600)"
+  },
+  {
+    "objectID": "plots-visualizations.html#common-patterns",
+    "href": "plots-visualizations.html#common-patterns",
+    "title": "Plots & Output",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nBatch Processing\nlibrary(purrr)\n\n# Create multiple plots\nplots &lt;- list(\n  cyl4 = filter(mtcars, cyl == 4),\n  cyl6 = filter(mtcars, cyl == 6),\n  cyl8 = filter(mtcars, cyl == 8)\n) |&gt;\n  map(~{\n    ggplot(.x, aes(x = wt, y = mpg)) +\n      geom_point(color = \"#007A8C\") +\n      theme_cpal()\n  })\n\n# Save all plots\niwalk(plots, ~{\n  save_cpal_plot(.x, paste0(\"efficiency_\", .y, \".png\"))\n})\n\n\nReport Figure Set\n# Create consistent figures for a report\ncreate_report_figure &lt;- function(data, title, filename) {\n  p &lt;- ggplot(data, aes(x = wt, y = mpg)) +\n    geom_point(color = \"#007A8C\") +\n    labs(title = title) +\n    theme_cpal_print()\n\n  p_logo &lt;- add_cpal_logo(p, position = \"bottom-right\", size = 0.07)\n\n  save_cpal_plot(p_logo, filename, size = \"default\", dpi = 300)\n\n  invisible(p_logo)\n}\n\n# Generate figures\ncreate_report_figure(mtcars, \"Figure 1: All Vehicles\", \"fig1.png\")\ncreate_report_figure(filter(mtcars, cyl == 4), \"Figure 2: 4-Cylinder\", \"fig2.png\")\n\n\nPresentation Deck\n# Create slides-ready plots\nslides &lt;- list(\n  list(data = mtcars, title = \"Overview\"),\n  list(data = filter(mtcars, am == 1), title = \"Manual Transmission\"),\n  list(data = filter(mtcars, am == 0), title = \"Automatic Transmission\")\n)\n\nfor (i in seq_along(slides)) {\n  p &lt;- ggplot(slides[[i]]$data, aes(x = wt, y = mpg, color = factor(cyl))) +\n    geom_point(size = 4) +\n    scale_color_cpal(\"main_3\") +\n    labs(title = slides[[i]]$title) +\n    theme_cpal(base_size = 20)  # Larger for slides\n\n  save_cpal_plot(p, sprintf(\"slide_%02d.png\", i), size = \"slide\")\n}"
+  },
+  {
+    "objectID": "plots-visualizations.html#troubleshooting",
+    "href": "plots-visualizations.html#troubleshooting",
+    "title": "Plots & Output",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nLogo Not Appearing\n# Check that cowplot is installed\nif (!requireNamespace(\"cowplot\", quietly = TRUE)) {\n  install.packages(\"cowplot\")\n}\n\n# Check that magick is installed\nif (!requireNamespace(\"magick\", quietly = TRUE)) {\n  install.packages(\"magick\")\n}\n\n\nFonts Not Rendering in Saved Files\n# Ensure fonts are registered before saving\nsetup_cpal_google_fonts()\n\n# For PDF output, use Cairo device\nsave_cpal_plot(p, \"plot.pdf\", device = cairo_pdf)\n\n\nFile Size Too Large\n# Reduce DPI for web\nsave_cpal_plot(p, \"plot.png\", dpi = 150)\n\n# Use JPEG for photos\nsave_cpal_plot(p, \"plot.jpg\", quality = 85)\n\n# Simplify the plot\np_simple &lt;- p + theme(panel.grid = element_blank())\nsave_cpal_plot(p_simple, \"plot.png\")"
+  },
+  {
+    "objectID": "plots-visualizations.html#next-steps",
+    "href": "plots-visualizations.html#next-steps",
+    "title": "Plots & Output",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nColors & Palettes - Color system reference\nThemes & Styling - Theme customization\nInteractive Features - Creating interactive plots"
+  },
+  {
+    "objectID": "shiny-dashboards.html",
+    "href": "shiny-dashboards.html",
+    "title": "Shiny Dashboards",
+    "section": "",
+    "text": "cpaltemplates provides 5 functions for creating CPAL-branded Shiny applications and dashboards using Bootstrap 5 and bslib theming."
+  },
+  {
+    "objectID": "shiny-dashboards.html#overview",
+    "href": "shiny-dashboards.html#overview",
+    "title": "Shiny Dashboards",
+    "section": "",
+    "text": "cpaltemplates provides 5 functions for creating CPAL-branded Shiny applications and dashboards using Bootstrap 5 and bslib theming."
+  },
+  {
+    "objectID": "shiny-dashboards.html#quick-start",
+    "href": "shiny-dashboards.html#quick-start",
+    "title": "Shiny Dashboards",
+    "section": "Quick Start",
+    "text": "Quick Start\nlibrary(shiny)\nlibrary(bslib)\nlibrary(cpaltemplates)\n\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Dashboard\",\n  sidebar = sidebar(\n    selectInput(\"var\", \"Variable\", choices = names(mtcars))\n  ),\n  card(\n    card_header(\"Plot\"),\n    plotOutput(\"plot\")\n  )\n)\n\nserver &lt;- function(input, output) {\n  output$plot &lt;- renderPlot({\n    ggplot(mtcars, aes(x = .data[[input$var]])) +\n      geom_histogram(fill = \"#007A8C\") +\n      theme_cpal()\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#main-theme-function",
+    "href": "shiny-dashboards.html#main-theme-function",
+    "title": "Shiny Dashboards",
+    "section": "Main Theme Function",
+    "text": "Main Theme Function\n\ncpal_dashboard_theme()\nCreates a Bootstrap 5 theme using the _brand.yml configuration.\ncpal_dashboard_theme()\n\nFeatures\n\nCPAL brand colors automatically applied\nBootstrap 5 components styled\nGoogle Fonts (Poppins, Inter) integrated\nConsistent component styling\n\n\n\nUsage\nlibrary(shiny)\nlibrary(bslib)\n\n# With page_sidebar\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  ...\n)\n\n# With page_navbar\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  ...\n)\n\n# With page_fillable\nui &lt;- page_fillable(\n  theme = cpal_dashboard_theme(),\n  ...\n)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#dashboard-layouts",
+    "href": "shiny-dashboards.html#dashboard-layouts",
+    "title": "Shiny Dashboards",
+    "section": "Dashboard Layouts",
+    "text": "Dashboard Layouts\n\nSidebar Layout\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"Dashboard Title\",\n  sidebar = sidebar(\n    title = \"Controls\",\n    selectInput(\"x\", \"X Variable\", choices = names(mtcars)),\n    selectInput(\"y\", \"Y Variable\", choices = names(mtcars)),\n    sliderInput(\"size\", \"Point Size\", 1, 10, 3)\n  ),\n  card(\n    card_header(\"Visualization\"),\n    plotOutput(\"scatter\")\n  )\n)\n\n\nNavbar Layout\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Analytics\",\n  nav_panel(\n    title = \"Overview\",\n    layout_columns(\n      card(card_header(\"Card 1\"), \"Content\"),\n      card(card_header(\"Card 2\"), \"Content\")\n    )\n  ),\n  nav_panel(\n    title = \"Data\",\n    card(reactableOutput(\"table\"))\n  ),\n  nav_panel(\n    title = \"About\",\n    markdown(\"## About This Dashboard\")\n  )\n)\n\n\nMulti-Page Dashboard\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Data Portal\",\n  nav_panel(\"Home\", home_ui(\"home\")),\n  nav_panel(\"Analysis\", analysis_ui(\"analysis\")),\n  nav_panel(\"Reports\", reports_ui(\"reports\")),\n  nav_spacer(),\n  nav_item(\n    tags$a(\n      href = \"https://childpovertyactionlab.org\",\n      \"CPAL Website\",\n      target = \"_blank\"\n    )\n  )\n)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#value-boxes",
+    "href": "shiny-dashboards.html#value-boxes",
+    "title": "Shiny Dashboards",
+    "section": "Value Boxes",
+    "text": "Value Boxes\n\nCreating Value Boxes\nui &lt;- page_fillable(\n  theme = cpal_dashboard_theme(),\n  layout_columns(\n    value_box(\n      title = \"Total Population\",\n      value = \"2.6M\",\n      showcase = bsicons::bs_icon(\"people\"),\n      theme = \"primary\"\n    ),\n    value_box(\n      title = \"Child Poverty Rate\",\n      value = \"18.2%\",\n      showcase = bsicons::bs_icon(\"graph-down\"),\n      theme = \"danger\"\n    ),\n    value_box(\n      title = \"Schools Served\",\n      value = \"342\",\n      showcase = bsicons::bs_icon(\"building\"),\n      theme = \"success\"\n    )\n  )\n)\n\n\nCustom Value Box Colors\nvalue_box(\n  title = \"Custom Metric\",\n  value = \"1,234\",\n  theme_color = \"#007A8C\"  # CPAL teal\n)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#cards",
+    "href": "shiny-dashboards.html#cards",
+    "title": "Shiny Dashboards",
+    "section": "Cards",
+    "text": "Cards\n\nBasic Cards\ncard(\n  card_header(\"Chart Title\"),\n  plotOutput(\"plot\"),\n  card_footer(\"Source: CPAL Analysis\")\n)\n\n\nFull-Height Cards\ncard(\n  full_screen = TRUE,\n  card_header(\"Expandable Chart\"),\n  plotOutput(\"plot\")\n)\n\n\nCard with Sidebar\ncard(\n  card_header(\"Interactive Analysis\"),\n  layout_sidebar(\n    sidebar = sidebar(\n      selectInput(\"var\", \"Variable\", choices),\n      open = \"desktop\"\n    ),\n    plotOutput(\"plot\")\n  )\n)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#layout-helpers",
+    "href": "shiny-dashboards.html#layout-helpers",
+    "title": "Shiny Dashboards",
+    "section": "Layout Helpers",
+    "text": "Layout Helpers\n\nColumn Layouts\n# Equal columns\nlayout_columns(\n  card(\"Column 1\"),\n  card(\"Column 2\"),\n  card(\"Column 3\")\n)\n\n# Custom widths\nlayout_columns(\n  col_widths = c(4, 8),\n  card(\"Narrow\"),\n  card(\"Wide\")\n)\n\n# Responsive\nlayout_columns(\n  col_widths = breakpoints(\n    sm = 12,  # Stack on small screens\n    md = 6,   # 2 columns on medium\n    lg = 4    # 3 columns on large\n  ),\n  card(\"Card 1\"),\n  card(\"Card 2\"),\n  card(\"Card 3\")\n)\n\n\nGrid Layouts\nlayout_column_wrap(\n  width = \"300px\",  # Minimum width per item\n  card(\"Item 1\"),\n  card(\"Item 2\"),\n  card(\"Item 3\"),\n  card(\"Item 4\")\n)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#integrating-visualizations",
+    "href": "shiny-dashboards.html#integrating-visualizations",
+    "title": "Shiny Dashboards",
+    "section": "Integrating Visualizations",
+    "text": "Integrating Visualizations\n\nggplot2 with CPAL Theme\noutput$plot &lt;- renderPlot({\n  ggplot(data(), aes(x = x, y = y, color = group)) +\n    geom_point(size = 3) +\n    scale_color_cpal(\"main_3\") +\n    theme_cpal()\n})\n\n\nInteractive ggiraph\nlibrary(ggiraph)\n\noutput$interactive_plot &lt;- renderGirafe({\n  p &lt;- ggplot(data(), aes(x = x, y = y)) +\n    geom_point_interactive(aes(tooltip = label)) +\n    theme_cpal()\n\n  cpal_interactive(p)\n})\n\n# In UI\ngirafeOutput(\"interactive_plot\")\n\n\nReactable Tables\noutput$table &lt;- renderReactable({\n  cpal_table_reactable(\n    data(),\n    searchable = TRUE,\n    pagination = TRUE\n  )\n})\n\n# In UI\nreactableOutput(\"table\")"
+  },
+  {
+    "objectID": "shiny-dashboards.html#scss-enhancements",
+    "href": "shiny-dashboards.html#scss-enhancements",
+    "title": "Shiny Dashboards",
+    "section": "SCSS Enhancements",
+    "text": "SCSS Enhancements\n\ncpal_add_scss_enhancements()\nAdd enhanced styling to a base theme.\ntheme &lt;- cpal_dashboard_theme() |&gt;\n  cpal_add_scss_enhancements()\n\nui &lt;- page_sidebar(\n  theme = theme,\n  ...\n)\n\nEnhanced Features\n\nGeometric header patterns\nEnhanced data table styling\nMetric card improvements\nBetter form control styling\n\n\n\n\n\ncpal_export_scss()\nExport the SCSS file for custom use.\ncpal_export_scss(path = \"www/cpal_enhanced.scss\")"
+  },
+  {
+    "objectID": "shiny-dashboards.html#complete-dashboard-example",
+    "href": "shiny-dashboards.html#complete-dashboard-example",
+    "title": "Shiny Dashboards",
+    "section": "Complete Dashboard Example",
+    "text": "Complete Dashboard Example\nlibrary(shiny)\nlibrary(bslib)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(cpaltemplates)\n\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Analytics Dashboard\",\n\n  # Overview Tab\n  nav_panel(\n    \"Overview\",\n    layout_columns(\n      col_widths = c(4, 4, 4),\n      value_box(\n        \"Total Records\",\n        textOutput(\"total_records\"),\n        showcase = bsicons::bs_icon(\"database\")\n      ),\n      value_box(\n        \"Average MPG\",\n        textOutput(\"avg_mpg\"),\n        showcase = bsicons::bs_icon(\"speedometer2\")\n      ),\n      value_box(\n        \"Categories\",\n        textOutput(\"categories\"),\n        showcase = bsicons::bs_icon(\"collection\")\n      )\n    ),\n    card(\n      full_screen = TRUE,\n      card_header(\"Fuel Efficiency Analysis\"),\n      plotOutput(\"main_plot\")\n    )\n  ),\n\n  # Data Tab\n  nav_panel(\n    \"Data Explorer\",\n    card(\n      card_header(\"Vehicle Data\"),\n      layout_sidebar(\n        sidebar = sidebar(\n          selectInput(\"filter_cyl\", \"Cylinders\",\n            choices = c(\"All\", unique(mtcars$cyl))\n          )\n        ),\n        reactableOutput(\"data_table\")\n      )\n    )\n  ),\n\n  # About Tab\n  nav_panel(\n    \"About\",\n    card(\n      card_header(\"About This Dashboard\"),\n      markdown(\"\n        ## CPAL Analytics Dashboard\n\n        This dashboard demonstrates the cpaltemplates package\n        integration with Shiny and bslib.\n\n        **Features:**\n        - CPAL brand colors and fonts\n        - Responsive layout\n        - Interactive visualizations\n      \")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n\n  # Reactive data\n  filtered_data &lt;- reactive({\n    if (input$filter_cyl == \"All\") {\n      mtcars\n    } else {\n      filter(mtcars, cyl == as.numeric(input$filter_cyl))\n    }\n  })\n\n  # Value boxes\n  output$total_records &lt;- renderText(nrow(filtered_data()))\n  output$avg_mpg &lt;- renderText(round(mean(filtered_data()$mpg), 1))\n  output$categories &lt;- renderText(n_distinct(filtered_data()$cyl))\n\n  # Main plot\n  output$main_plot &lt;- renderPlot({\n    ggplot(filtered_data(), aes(x = wt, y = mpg, color = factor(cyl))) +\n      geom_point(size = 4, alpha = 0.8) +\n      scale_color_cpal(\"main_3\") +\n      labs(\n        title = \"Weight vs. Fuel Efficiency\",\n        x = \"Weight (1000 lbs)\",\n        y = \"Miles per Gallon\",\n        color = \"Cylinders\"\n      ) +\n      theme_cpal()\n  })\n\n  # Data table\n  output$data_table &lt;- renderReactable({\n    cpal_table_reactable(\n      filtered_data(),\n      searchable = TRUE,\n      pagination = TRUE,\n      page_size = 15\n    )\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "shiny-dashboards.html#deployment",
+    "href": "shiny-dashboards.html#deployment",
+    "title": "Shiny Dashboards",
+    "section": "Deployment",
+    "text": "Deployment\n\nDeploying to shinyapps.io\n# Ensure all dependencies are listed\nrsconnect::deployApp(\n  appDir = \".\",\n  appFiles = c(\n    \"app.R\",\n    \"www/\",\n    \"_brand.yml\"\n  )\n)\n\n\nUsing renv\n# Initialize renv\nrenv::init()\n\n# Snapshot dependencies\nrenv::snapshot()"
+  },
+  {
+    "objectID": "shiny-dashboards.html#troubleshooting",
+    "href": "shiny-dashboards.html#troubleshooting",
+    "title": "Shiny Dashboards",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nTheme Not Applying\n# Ensure bslib is loaded\nlibrary(bslib)\n\n# Use page_* functions, not fluidPage\npage_sidebar(...)  # Correct\nfluidPage(...)     # Won't use bslib theme\n\n\nFonts Not Loading\n# Fonts are loaded via Google Fonts in _brand.yml\n# Check internet connectivity for font loading\n\n\nBootstrap Version Issues\n# Ensure using Bootstrap 5\ntheme &lt;- cpal_dashboard_theme()\ntheme$version  # Should be \"5\""
+  },
+  {
+    "objectID": "shiny-dashboards.html#next-steps",
+    "href": "shiny-dashboards.html#next-steps",
+    "title": "Shiny Dashboards",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nInteractive Features - Interactive charts\nTables - Table styling\nBrand & Assets - Brand configuration"
+  },
+  {
+    "objectID": "themes-styling.html",
+    "href": "themes-styling.html",
+    "title": "Themes & Styling",
+    "section": "",
+    "text": "The cpaltemplates theme system provides 8 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity."
+  },
+  {
+    "objectID": "themes-styling.html#overview",
+    "href": "themes-styling.html#overview",
+    "title": "Themes & Styling",
+    "section": "",
+    "text": "The cpaltemplates theme system provides 8 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity."
+  },
+  {
+    "objectID": "themes-styling.html#quick-start",
+    "href": "themes-styling.html#quick-start",
+    "title": "Themes & Styling",
+    "section": "Quick Start",
+    "text": "Quick Start\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\", size = 3) +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nBasic plot with theme_cpal()"
+  },
+  {
+    "objectID": "themes-styling.html#theme-variants",
+    "href": "themes-styling.html#theme-variants",
+    "title": "Themes & Styling",
+    "section": "Theme Variants",
+    "text": "Theme Variants\n\ntheme_cpal() - Default Theme\nThe primary CPAL theme with full customization options.\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Weight\",\n    subtitle = \"Data from mtcars dataset\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nDefault theme_cpal()\n\n\n\n\nCustomization options:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"With Both Grid Lines\") +\n  theme_cpal(grid = \"both\", legend_position = \"right\")\n\n\n\n\n\ntheme_cpal() with grid on both axes\n\n\n\n\n\n\n\ntheme_cpal_minimal() - Clean Design\nA minimal variant with reduced visual elements:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Minimal Theme\",\n    subtitle = \"Clean, simple design\"\n  ) +\n  theme_cpal_minimal()\n\n\n\n\n\ntheme_cpal_minimal() for clean designs\n\n\n\n\n\n\n\ntheme_cpal_classic() - Traditional Style\nTraditional styling with axis lines on both x and y:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\", size = 3) +\n  geom_smooth(method = \"lm\", color = \"#004855\", fill = \"#D8EFF4\") +\n  labs(\n    title = \"Classic Theme\",\n    subtitle = \"Traditional academic style\"\n  ) +\n  theme_cpal_classic()\n\n\n\n\n\ntheme_cpal_classic() with axis lines\n\n\n\n\n\n\n\ntheme_cpal_dark() - Dark Background\nDark background variant for presentations and dark-mode applications:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Dark Theme\",\n    subtitle = \"Ideal for presentations\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal_dark()\n\n\n\n\n\ntheme_cpal_dark() for presentations\n\n\n\n\n\n\n\ntheme_cpal_print() - Print Optimized\nOptimized for printing with high contrast:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#004855\", size = 2) +\n  labs(\n    title = \"Print Theme\",\n    subtitle = \"Optimized for printing\"\n  ) +\n  theme_cpal_print()\n\n\n\n\n\ntheme_cpal_print() for publications\n\n\n\n\n\n\n\ntheme_cpal_map() - Geographic Visualizations\nSpecialized theme for maps (no axes, minimal chrome):\n\n\nShow code\n# Get Texas counties from tigris\nif (requireNamespace(\"tigris\", quietly = TRUE) && requireNamespace(\"sf\", quietly = TRUE)) {\n  options(tigris_use_cache = TRUE)\n  tx_counties &lt;- tigris::counties(state = \"TX\", cb = TRUE, progress_bar = FALSE)\n\n  # Add sample data for coloring\n  set.seed(42)\n  tx_counties$value &lt;- runif(nrow(tx_counties))\n\n  ggplot(tx_counties) +\n    geom_sf(aes(fill = value), color = \"white\", linewidth = 0.1) +\n    scale_fill_cpal_c(\"teal_seq_5\") +\n    labs(\n      title = \"Texas Counties\",\n      subtitle = \"Example map visualization with theme_cpal_map()\",\n      fill = \"Value\"\n    ) +\n    theme_cpal_map()\n} else {\n  # Fallback if tigris not available\n  ggplot(data.frame(x = rnorm(50), y = rnorm(50), value = runif(50))) +\n    geom_point(aes(x = x, y = y, color = value), size = 4) +\n    scale_color_cpal_c(\"teal_seq_5\") +\n    labs(title = \"Map Theme Example\", subtitle = \"(Install tigris for real map data)\") +\n    theme_cpal_map()\n}\n\n\n\n\n\ntheme_cpal_map() with Texas county boundaries"
+  },
+  {
+    "objectID": "themes-styling.html#theme-comparison",
+    "href": "themes-styling.html#theme-comparison",
+    "title": "Themes & Styling",
+    "section": "Theme Comparison",
+    "text": "Theme Comparison\n\nSide-by-Side Preview\n\n\nShow code\npreview_cpal_themes()\n\n\n\n\n\nComparison of all CPAL themes"
+  },
+  {
+    "objectID": "themes-styling.html#theme-parameters",
+    "href": "themes-styling.html#theme-parameters",
+    "title": "Themes & Styling",
+    "section": "Theme Parameters",
+    "text": "Theme Parameters\n\ntheme_cpal() Arguments\n\n\n\n\n\n\n\n\nArgument\nOptions\nDefault\n\n\n\n\nbase_size\nNumeric (font size in pts)\n16\n\n\nbase_family\nFont family name\nAuto-detected\n\n\nstyle\n“default”, “minimal”, “classic”, “dark”\n“default”\n\n\ngrid\n“horizontal”, “vertical”, “both”, “none”\n“horizontal”\n\n\naxis_line\n“x”, “y”, “both”, “none”\n“x”\n\n\naxis_title\nTRUE/FALSE\nTRUE\n\n\nlegend_position\n“bottom”, “right”, “top”, “left”, “none”\n“bottom”\n\n\n\n\n\nExamples with Different Parameters\n# No grid lines\np1 &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  labs(title = \"No Grid\") +\n  theme_cpal(grid = \"none\")\n\n# Vertical grid only\np2 &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  labs(title = \"Vertical Grid\") +\n  theme_cpal(grid = \"vertical\")\n\np1\np2\n\n\n\nShow code\n\n\n\n\n\ntheme_cpal() with custom parameters\n\n\n\n\n\n\nShow code\n\n\n\n\n\ntheme_cpal() with custom parameters"
+  },
+  {
+    "objectID": "themes-styling.html#session-wide-theme-setting",
+    "href": "themes-styling.html#session-wide-theme-setting",
+    "title": "Themes & Styling",
+    "section": "Session-Wide Theme Setting",
+    "text": "Session-Wide Theme Setting\n\nset_theme_cpal()\nSet a CPAL theme as the default for your entire R session:\n\n\nShow code\n# Set dark theme for entire session\nset_theme_cpal(\"dark\")\n\n# All subsequent plots use dark theme automatically\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point()  # No theme_cpal() needed!\n\n# Reset to ggplot2 default\ntheme_set(theme_gray())"
+  },
+  {
+    "objectID": "themes-styling.html#theme-selection-guide",
+    "href": "themes-styling.html#theme-selection-guide",
+    "title": "Themes & Styling",
+    "section": "Theme Selection Guide",
+    "text": "Theme Selection Guide\n\n\n\nContext\nRecommended Theme\n\n\n\n\nGeneral use\ntheme_cpal()\n\n\nSimple, clean charts\ntheme_cpal_minimal()\n\n\nAcademic papers\ntheme_cpal_classic()\n\n\nSlide presentations\ntheme_cpal_dark()\n\n\nPrint publications\ntheme_cpal_print()\n\n\nMaps\ntheme_cpal_map()"
+  },
+  {
+    "objectID": "themes-styling.html#customizing-theme-elements",
+    "href": "themes-styling.html#customizing-theme-elements",
+    "title": "Themes & Styling",
+    "section": "Customizing Theme Elements",
+    "text": "Customizing Theme Elements\nYou can combine CPAL themes with additional theme modifications:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Centered Title Example\",\n    subtitle = \"With custom styling\"\n  ) +\n  theme_cpal() +\n  theme(\n    plot.title = element_text(hjust = 0.5, color = \"#C3257B\"),\n    plot.subtitle = element_text(hjust = 0.5)\n  )\n\n\n\n\n\nCustomized theme with centered title"
+  },
+  {
+    "objectID": "themes-styling.html#complete-examples",
+    "href": "themes-styling.html#complete-examples",
+    "title": "Themes & Styling",
+    "section": "Complete Examples",
+    "text": "Complete Examples\n\nReport Chart\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = FALSE, linewidth = 1) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency Analysis\",\n    subtitle = \"Weight vs. MPG with trend lines by cylinder count\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nComplete report-ready visualization\n\n\n\n\n\n\nPresentation Slide\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot(alpha = 0.8) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency Distribution\",\n    x = \"Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal_dark(base_size = 18) +\n  theme(legend.position = \"none\")\n\n\n\n\n\nPresentation-ready visualization"
+  },
+  {
+    "objectID": "themes-styling.html#troubleshooting",
+    "href": "themes-styling.html#troubleshooting",
+    "title": "Themes & Styling",
+    "section": "Troubleshooting",
+    "text": "Troubleshooting\n\nFonts Not Rendering Correctly\n\n\nShow code\n# Reset font setup\nsetup_cpal_google_fonts(force_refresh = TRUE)\n\n# Check font availability\ncpal_font_family(setup = TRUE)\n\n\n\n\nTheme Elements Not Applying\nEnsure theme_cpal() is called after other layers but before custom theme modifications:\n\n\nShow code\nggplot(...) +\n  geom_point() +\n  scale_color_cpal() +\n  theme_cpal() +           # Base theme\n  theme(custom = ...)      # Specific overrides after"
+  },
+  {
+    "objectID": "themes-styling.html#next-steps",
+    "href": "themes-styling.html#next-steps",
+    "title": "Themes & Styling",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nColors & Palettes - Learn about CPAL color scales\nPlots & Output - Saving and exporting plots\nShiny Dashboards - Theming Shiny applications"
+  },
+  {
+    "objectID": "utilities-helpers.html",
+    "href": "utilities-helpers.html",
+    "title": "Utilities & Helpers",
+    "section": "",
+    "text": "cpaltemplates provides 7 utility functions for font management, plot operations, and accessibility checking."
+  },
+  {
+    "objectID": "utilities-helpers.html#overview",
+    "href": "utilities-helpers.html#overview",
+    "title": "Utilities & Helpers",
+    "section": "",
+    "text": "cpaltemplates provides 7 utility functions for font management, plot operations, and accessibility checking."
+  },
+  {
+    "objectID": "utilities-helpers.html#font-management",
+    "href": "utilities-helpers.html#font-management",
+    "title": "Utilities & Helpers",
+    "section": "Font Management",
+    "text": "Font Management\n\ncpal_font_family()\nGet the best available CPAL font for different contexts.\ncpal_font_family(\n  type = c(\"plot\", \"interactive\", \"table\", \"print\"),\n  setup = FALSE\n)\n\nArguments\n\n\n\nArgument\nDescription\nDefault\n\n\n\n\ntype\nContext for font usage\n“plot”\n\n\nsetup\nAttempt font setup if missing\nFALSE\n\n\n\n\n\nFont Selection\nThe function returns fonts in this priority: 1. Inter - Primary CPAL font (preferred) 2. Roboto - Secondary font 3. sans - System fallback\n\n\nExamples\n# Get font for regular plots\ncpal_font_family()\n#&gt; [1] \"Inter\"\n\n# Get font for interactive (ggiraph)\ncpal_font_family(\"interactive\")\n#&gt; [1] \"Inter\"\n\n# Get font for tables\ncpal_font_family(\"table\")\n#&gt; [1] \"Inter\"\n\n# Get font for print\ncpal_font_family(\"print\")\n#&gt; [1] \"Inter\"\n\n# Auto-setup if missing\ncpal_font_family(setup = TRUE)\n\n\n\n\ncpal_font_family_fallback()\nReturns the system font fallback.\ncpal_font_family_fallback()\n#&gt; [1] \"sans\"\n\n\n\nget_cpal_font_family()\nLegacy wrapper for backward compatibility.\nget_cpal_font_family(for_interactive = FALSE, setup_if_missing = TRUE)\n\n\n\n\n\n\nDeprecated\n\n\n\nUse cpal_font_family() instead. This function is maintained for backward compatibility.\n\n\n\n\n\nsetup_cpal_google_fonts()\nDownload and register Inter/Roboto fonts from Google Fonts.\nsetup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)\n\nArguments\n\n\n\nArgument\nDescription\nDefault\n\n\n\n\nforce_refresh\nRe-download even if fonts exist\nFALSE\n\n\nverbose\nPrint status messages\nTRUE\n\n\n\n\n\nWhat It Does\n\nDownloads Inter and Roboto from Google Fonts\nRegisters fonts with sysfonts for static plots\nRegisters fonts with gdtools for interactive plots\nEnables showtext for font rendering\n\n\n\nExamples\n# Standard setup (run once per session)\nsetup_cpal_google_fonts()\n#&gt; Setting up CPAL fonts...\n#&gt; ✓ Downloaded Inter from Google Fonts\n#&gt; ✓ Downloaded Roboto from Google Fonts\n#&gt; ✓ Registered fonts with sysfonts\n#&gt; ✓ Enabled showtext\n#&gt; Font setup complete!\n\n# Force re-download\nsetup_cpal_google_fonts(force_refresh = TRUE)\n\n# Quiet mode\nsetup_cpal_google_fonts(verbose = FALSE)"
+  },
+  {
+    "objectID": "utilities-helpers.html#plot-utilities",
+    "href": "utilities-helpers.html#plot-utilities",
+    "title": "Utilities & Helpers",
+    "section": "Plot Utilities",
+    "text": "Plot Utilities\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\nSee Plots & Output for detailed documentation.\n\n\n\nadd_cpal_logo()\nAdd CPAL logo to ggplot visualizations.\nadd_cpal_logo(\n  plot,\n  position = c(\"top-right\", \"top-left\", \"bottom-right\", \"bottom-left\"),\n  size = 0.09,\n  logo_path = NULL\n)\nSee Plots & Output for detailed documentation.\n\n\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\n\nWhat It Checks\n\nText Size - Are labels readable?\nColor Contrast - Do colors meet WCAG standards?\nColorblind Safety - Are colors distinguishable?\n\nSee Plots & Output for detailed documentation."
+  },
+  {
+    "objectID": "utilities-helpers.html#common-patterns",
+    "href": "utilities-helpers.html#common-patterns",
+    "title": "Utilities & Helpers",
+    "section": "Common Patterns",
+    "text": "Common Patterns\n\nSession Setup Script\nCreate a setup script for consistent initialization:\n# setup.R - Source at the start of analysis\n\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# Set up fonts\nsetup_cpal_google_fonts()\n\n# Set default theme for session\nset_theme_cpal()\n\n# Verify setup\nmessage(\"CPAL environment ready\")\nmessage(\"Font: \", cpal_font_family())\n\n\nR Profile Integration\nAdd to .Rprofile for automatic setup:\n# .Rprofile\nif (interactive()) {\n  setHook(\"rstudio.sessionInit\", function(newSession) {\n    if (newSession) {\n      if (requireNamespace(\"cpaltemplates\", quietly = TRUE)) {\n        cpaltemplates::setup_cpal_google_fonts(verbose = FALSE)\n      }\n    }\n  }, action = \"append\")\n}\n\n\nProject-Level Setup\n# _setup.R (sourced by targets or analysis scripts)\n\n# Font setup\ncpaltemplates::setup_cpal_google_fonts()\n\n# Set global options\noptions(\n  cpaltemplates.dpi = 300,\n  cpaltemplates.size = \"slide\"\n)"
+  },
+  {
+    "objectID": "utilities-helpers.html#font-troubleshooting",
+    "href": "utilities-helpers.html#font-troubleshooting",
+    "title": "Utilities & Helpers",
+    "section": "Font Troubleshooting",
+    "text": "Font Troubleshooting\n\nFonts Not Rendering\n# Check if fonts are available\nsysfonts::font_families()\n\n# Force setup\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# Verify\ncpal_font_family(setup = TRUE)\n\n\nInteractive Plot Fonts\n# Install required packages\ninstall.packages(c(\"gdtools\", \"systemfonts\"))\n\n# Register fonts for ggiraph\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}\n\n\nPDF/Print Fonts\n# For PDF output, use showtext\nlibrary(showtext)\nshowtext_auto()\n\n# Save with cairo device for better font support\nggsave(\"plot.pdf\", device = cairo_pdf)\n\n\nFont Fallback\n# When fonts aren't available\ntryCatch({\n  font &lt;- cpal_font_family()\n}, error = function(e) {\n  font &lt;- cpal_font_family_fallback()  # Returns \"sans\"\n})"
+  },
+  {
+    "objectID": "utilities-helpers.html#helper-functions-reference",
+    "href": "utilities-helpers.html#helper-functions-reference",
+    "title": "Utilities & Helpers",
+    "section": "Helper Functions Reference",
+    "text": "Helper Functions Reference\n\n\n\nFunction\nPurpose\n\n\n\n\ncpal_font_family()\nGet appropriate font for context\n\n\ncpal_font_family_fallback()\nGet system fallback font\n\n\nget_cpal_font_family()\nLegacy font accessor\n\n\nsetup_cpal_google_fonts()\nDownload and register fonts\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd logo to plots\n\n\ncheck_plot_accessibility()\nAccessibility analysis"
+  },
+  {
+    "objectID": "utilities-helpers.html#environment-variables",
+    "href": "utilities-helpers.html#environment-variables",
+    "title": "Utilities & Helpers",
+    "section": "Environment Variables",
+    "text": "Environment Variables\ncpaltemplates respects these environment variables:\n\n\n\nVariable\nPurpose\n\n\n\n\nMAPBOX_PUBLIC_TOKEN\nMapbox API token for maps\n\n\nCPAL_FONT_SETUP\nSkip font setup if “FALSE”\n\n\nR_CPAL_VERBOSE\nControl message verbosity\n\n\n\n# Set environment variables\nSys.setenv(MAPBOX_PUBLIC_TOKEN = \"pk.xxx...\")\nSys.setenv(CPAL_FONT_SETUP = \"TRUE\")"
+  },
+  {
+    "objectID": "utilities-helpers.html#next-steps",
+    "href": "utilities-helpers.html#next-steps",
+    "title": "Utilities & Helpers",
+    "section": "Next Steps",
+    "text": "Next Steps\n\nPlots & Output - Plot saving details\nColors & Palettes - Color validation\nTroubleshooting - Common issues"
+  }
+]

@@ -1,519 +1,229 @@
 ---
 title: "cpaltemplates"
-subtitle: "R Package for CPAL Data Team Workflow Standardization"
-format:
-  html:
-    toc: false
-    page-layout: full
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+subtitle: "CPAL Data Visualization & Branding Toolkit"
 ---
+
+```{r}
+#| label: setup
+#| include: false
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+```
 
 ## Welcome to cpaltemplates
 
-The **cpaltemplates** package transforms how the Child Poverty Action Lab (CPAL) data team creates analyses, reports, and visualizations. **Instead of spending time on formatting and setup, you can focus on insights and impact.**
+**cpaltemplates** is the official R package for the Child Poverty Action Lab (CPAL) data science team. It provides a comprehensive toolkit for creating consistently branded, accessible, and professional data visualizations, reports, and dashboards.
 
-### **Why cpaltemplates Exists**
+### Why cpaltemplates?
 
-**The Challenge:** CPAL data team members were spending significant time on repetitive tasks:
-- **30-60 minutes** setting up each new project with proper folder structure, version control, and dependencies
-- **Inconsistent branding** across visualizations, reports, and presentations  
-- **Manual styling** of every plot, table, and document to match CPAL standards
-- **Difficult onboarding** for new team members learning CPAL's preferred workflows
-- **Accessibility gaps** when visualizations weren't tested for colorblind users or proper contrast
+**Consistent Branding**: Every visualization, table, and dashboard uses CPAL's official colors, fonts, and styling.
 
-**The Solution:** cpaltemplates automates professional best practices:
-- **Quick project setup** with enterprise-grade workflows built-in
-- **Automatic CPAL branding** for all visualizations, reports, and dashboards
-- **Built-in accessibility** ensuring inclusive design from the start
-- **Standardized workflows** that scale from simple analysis to complex multi-output projects
-- **Team consistency** with shared templates, functions, and quality standards
+**Accessibility First**: All color palettes are designed for WCAG compliance with built-in validation tools.
 
-### **Impact on Your Workflow**
+**Rapid Development**: Start new projects with pre-configured templates.
 
-| **Before cpaltemplates** | **With cpaltemplates** | **Time Saved** |
-|-------------------------|----------------------|----------------|
-| Manual project setup with inconsistent structures | `start_project()` with standardized templates | 45+ minutes per project |
-| Custom styling each plot individually | `theme_cpal()` + `scale_color_cpal()` automatic styling | 10+ minutes per visualization |
-| Manual logo placement and sizing | `add_cpal_logo()` with smart positioning | 5+ minutes per branded output |
-| Learning complex interactive libraries | `cpal_interactive()` with one-function conversion | 30+ minutes per interactive viz |
-| Manual accessibility checking | `check_plot_accessibility()` automated testing | 15+ minutes per visualization |
-| Inconsistent table formatting | `cpal_table_gt()` professional styling | 20+ minutes per table |
+---
 
-**Total time savings:** **2+ hours per typical analysis project**, plus immeasurable improvements in consistency and professional quality.
+## Quick Start
 
-## Package Scope and Capabilities
-
-cpaltemplates provides **59 functions across 7 integrated systems** that work together seamlessly:
-
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-6}
-### 🎨 **Visual Design Foundation**
-
-**Colors & Palettes (7 functions)**
-- **23 distinct color palettes** Designed for different data types
-- **Accessibility built-in**: All palettes tested for colorblind users
-- **Brand consistency**: Midnight (#004855) as primary brand color, plus teal, pink, orange, gold
-- **Data-appropriate**: Sequential, diverging, categorical palettes for proper data representation
+### Installation
 
 ```{r}
-# Automatic brand-consistent colors
-scale_fill_cpal(palette = "main")
-view_cpal_palettes("all")  # Interactive exploration
-```
+#| eval: false
+#| code-fold: show
+# Install from GitHub
+remotes::install_github("childpovertyactionlab/cpaltemplates")
 
-**Themes & Styling (8 functions)**  
-- **6 theme variants** optimized for different outputs (reports, presentations, web, print, maps, dark mode)
-- **Google Fonts integration**: Inter and Roboto with cross-platform fallbacks
-- **Customizable parameters**: Grid lines, axis styling, legend positioning
-- **Session-wide consistency**: `set_theme_cpal()` for automatic application
-
-```{r}
-# Professional theming for any context
-theme_cpal()           # Most reports and presentations
-theme_cpal_dark()      # Dark backgrounds and night viewing
-theme_cpal_print()     # PDFs and printed materials
-```
-:::
-
-::: {.g-col-12 .g-col-md-6}
-### 📊 **Data Presentation Tools**
-
-**Plots & Visualizations (8 functions)**
-- **Professional output management**: `save_cpal_plot()` with preset dimensions for different uses
-- **Smart logo integration**: `add_cpal_logo()` with automatic theme detection
-- **Accessibility assurance**: `check_plot_accessibility()` for inclusive design
-- **Explicit scale control**: Clear continuous vs. discrete color mapping
-
-```{r}
-# Professional plot workflow
-plot + theme_cpal() |> 
-  add_cpal_logo() |>
-  save_cpal_plot("output.png", size = "slide")
-```
-
-**Tables & GT Styling (2 functions)**
-- **Static tables**: GT integration with CPAL branding and advanced formatting
-- **Interactive tables**: Reactable integration with sorting, filtering, data bars
-- **Consistent typography**: Automatic font coordination with plot themes
-- **Multiple output formats**: Optimized for reports, dashboards, presentations
-
-```{r}
-# Professional table creation
-cpal_table_gt(data, title = "Executive Summary",
-              highlight_columns = c("key", "metrics"))
-```
-:::
-
-:::
-
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-6}
-### ⚡ **Interactive & Dynamic Features**
-
-**Interactive Features (9 functions)**
-- **ggiraph integration**: Transform any CPAL plot into interactive exploration
-- **Geographic mapping**: Mapbox integration with Dallas-area defaults
-- **Font management**: Google Fonts working correctly in web contexts
-- **Specialized interactivity**: Point, line, column, polygon interactive geoms
-
-```{r}
-# Interactive visualization
-ggplot(data, aes(x = x, y = y)) +
-  cpal_point_interactive(aes(tooltip = "details")) +
-  theme_cpal() |>
-  cpal_interactive()
-```
-
-### 🛠️ **Project Infrastructure**
-
-**Project Setup (17 functions)**
-- **6 project types**: Analysis, Quarto reports/slides/web, Shiny dashboards/apps, R packages
-- **Modern workflows**: renv, git, GitHub, targets, testing integration
-- **Template system**: Professional starting code for every project type
-- **CPAL asset integration**: Logos, CSS, fonts automatically included
-
-```{r}
-# Complete project setup in minutes
-start_project(
-  name = "impact-analysis",
-  project_type = "analysis", 
-  features = c("renv", "git", "targets")
-)
-```
-:::
-
-::: {.g-col-12 .g-col-md-6}
-### 🔧 **Enhancement & Management**
-
-**Utilities & Helpers (12 functions)**
-- **Existing project enhancement**: Add CPAL capabilities to any project
-- **Asset management**: Update branding, access specific logos/CSS
-- **Template addition**: Quarto reports, Shiny apps, workflow automation
-- **Font utilities**: Consistent typography across all contexts
-
-```{r}
-# Enhance existing projects
-use_quarto_report()     # Add professional reporting
-use_shiny_dashboard()   # Add interactive dashboard
-update_cpal_assets()    # Refresh branding
-```
-
-### 📋 **Team Collaboration**
-
-**Workflow Integration**
-- **Complete end-to-end examples**: 5 comprehensive workflow types
-- **Team standardization**: Shared functions and quality standards
-- **Automation patterns**: Reproducible analysis pipelines
-- **Knowledge sharing**: Documentation and troubleshooting resources
-
-```{r}
-# Team-standard project creation
-create_cpal_standard_project("analysis-name", 
-                            lead_analyst = "Your Name")
-```
-:::
-
-:::
-
-## Who Should Use cpaltemplates
-
-### **Perfect for CPAL Data Team Members Who...**
-
-| **Your Situation** | **How cpaltemplates Helps** | **Key Benefits** |
-|-------------------|---------------------------|------------------|
-| **Create visualizations for reports or presentations** | Automatic CPAL branding, professional themes, accessibility testing | Consistent brand presence, time savings |
-| **Start new analysis projects regularly** | Automated project setup with best practices | 45+ minutes saved per project |
-| **Collaborate with other team members** | Standardized templates and workflows | Seamless collaboration and handoffs |
-| **Create interactive dashboards or applications** | Pre-configured Shiny templates with CPAL theming | Professional dashboards without UI expertise |
-| **Generate regular reports or presentations** | Quarto templates with CPAL branding and automation | Consistent professional outputs |
-| **Need to make visualizations accessible** | Built-in accessibility testing and colorblind-safe palettes | Inclusive design without expertise |
-| **Want to follow modern R best practices** | renv, git, targets integration in all project templates | Professional workflows without configuration |
-
-### **Less Useful If You...**
-
-- Work primarily on non-CPAL projects (package is CPAL-specific)
-- Need completely custom styling that conflicts with CPAL brand standards
-- Do only quick, internal exploratory analysis with no sharing or presentation needs
-- Work in environments where package installation is restricted
-
-## Quick Start Journey
-
-### **First-Time Setup**
-
-```{r}
-# Quick Start section
+# Load the package
 library(cpaltemplates)
-packageVersion("cpaltemplates")
 
+# Set up fonts (run once per session)
 setup_cpal_google_fonts()
-view_cpal_palettes("all")  # See all color options
-
-# First-Time Setup section  
-view_cpal_palettes("all")  # Interactive exploration
 ```
 
-### **Create Your First Professional Visualization**
+### Your First CPAL Plot
 
 ```{r}
-library(ggplot2)
-
-# Your first CPAL-branded visualization
-first_plot <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3, alpha = 0.8) +
-  scale_color_cpal(palette = "main") +     # CPAL colors
-  theme_cpal() +                           # CPAL theme
+#| label: first-plot
+#| fig-cap: "A branded CPAL visualization"
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
   labs(
-    title = "Vehicle Weight vs Fuel Efficiency",
-    subtitle = "Professional visualization with CPAL branding",
+    title = "Vehicle Fuel Efficiency",
+    subtitle = "Weight vs. Miles Per Gallon by Cylinder Count",
     x = "Weight (1000 lbs)",
-    y = "Miles per Gallon", 
-    color = "Cylinders",
-    caption = "Data: mtcars dataset"
-  ) |>
-  add_cpal_logo(position = "top-right") |> # CPAL logo
-  save_cpal_plot("my_first_cpal_plot.png") # Professional output
-
-# Check accessibility
-check_plot_accessibility(first_plot)
+    y = "Miles per Gallon",
+    color = "Cylinders"
+  ) +
+  theme_cpal()
 ```
 
-### **Start Your First CPAL Project**
+---
+
+## Package Features
+
+### Color System (21 functions)
+
+Access CPAL's carefully designed color palettes:
 
 ```{r}
-# Interactive setup guides you through choices
-start_project()
+#| label: color-preview
+# Primary brand colors
+cpal_colors_primary()
+```
 
-# Or direct setup if you know what you want
+```{r}
+#| label: palette-visual
+#| fig-height: 3
+#| fig-cap: "CPAL color palettes"
+view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
+```
+
+[Learn more about Colors & Palettes](colors-palettes.qmd)
+
+---
+
+### Theme System (8 functions)
+
+Consistent ggplot2 themes for every context:
+
+| Theme | Use Case |
+|-------|----------|
+| `theme_cpal()` | Standard visualizations |
+| `theme_cpal_minimal()` | Clean, minimal designs |
+| `theme_cpal_dark()` | Dark backgrounds/presentations |
+| `theme_cpal_print()` | Print-optimized output |
+| `theme_cpal_map()` | Geographic visualizations |
+
+```{r}
+#| label: theme-example
+#| fig-cap: "Example using theme_cpal()"
+ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
+  geom_boxplot(alpha = 0.8) +
+  scale_fill_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency by Cylinder Count",
+    x = "Cylinders",
+    y = "Miles per Gallon"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
+```
+
+[Learn more about Themes](themes-styling.qmd)
+
+---
+
+### Tables (3 functions)
+
+Professional tables for reports and dashboards:
+
+```{r}
+#| label: table-example
+mtcars |>
+  head(6) |>
+  select(mpg, cyl, hp, wt) |>
+  cpal_table_gt(title = "Vehicle Specifications")
+```
+
+[Learn more about Tables](tables-gt.qmd)
+
+---
+
+### Project Scaffolding (7 functions)
+
+Start new projects with pre-configured structure:
+
+```{r}
+#| eval: false
 start_project(
-  name = "my-first-analysis", 
+  name = "dallas-housing-analysis",
   project_type = "analysis",
-  features = c("renv", "git", "targets")
+  features = c("git", "renv", "targets")
 )
 
-# Project opens automatically with:
-# ✓ Professional folder structure
-# ✓ CPAL assets and branding
-# ✓ Modern workflow tools (renv, git, targets)
-# ✓ Template code to get started
-# ✓ Documentation and next steps
+use_quarto_report()
 ```
 
-## Real-World Impact Examples
+Available project types: analysis, quarto-report, quarto-slides, quarto-web, shiny-dashboard, shiny-app, package
 
-### **Before and After: Quarterly Report Creation**
-
-**Traditional Approach (4-6 hours):**
-1. Set up project folders manually (15 min)
-2. Configure Quarto with custom CSS (30 min)
-3. Find and resize CPAL logos (15 min)
-4. Create each visualization with manual styling (45 min each × 6 charts = 4.5 hours)
-5. Format tables manually (30 min)
-6. Test outputs and fix inconsistencies (45 min)
-
-**With cpaltemplates (45 minutes):**
-1. `start_project(project_type = "quarto-report")` (2 min)
-2. Write analysis with automatic CPAL styling (30 min)
-3. `check_plot_accessibility()` on all outputs (5 min)
-4. `quarto::quarto_render()` for professional report (3 min)
-5. Share with stakeholders (5 min)
-
-**Result:** Same professional quality, **5+ hours saved**, more consistent branding, built-in accessibility.
-
-### **Before and After: Team Onboarding**
-
-**Traditional Approach (2-3 days):**
-- Learn CPAL color codes and brand guidelines
-- Set up development environment manually
-- Learn project structure conventions
-- Understand output formatting requirements
-- Create first visualization with proper styling
-
-**With cpaltemplates (2-3 hours):**
-- `library(cpaltemplates)` and `setup_cpal_google_fonts()` 
-- `start_project()` with guided setup
-- Follow [Getting Started Guide](getting-started.qmd)
-- Create professional visualization with automatic CPAL styling
-- Access team knowledge through documentation and Notion guide
-
-**Result:** New team members productive immediately with professional-quality outputs.
-
-## Documentation Architecture
-
-This documentation system is designed for **both quick reference and comprehensive learning**:
-
-::: {.grid}
-
-::: {.g-col-12 .g-col-md-6}
-### **Function Reference Documentation**
-
-**Core Systems:**
-- [**Colors & Palettes**](colors-palettes.qmd) - 23 palettes, color theory, accessibility guidance
-- [**Themes & Styling**](themes-styling.qmd) - 8 themes, typography, logo integration
-- [**Plots & Visualizations**](plots-visualizations.qmd) - 8 functions, professional output management
-- [**Interactive Features**](interactive-features.qmd) - 9 functions, ggiraph, mapping, dashboards
-
-**Data Presentation:**
-- [**Tables & GT Styling**](tables-gt.qmd) - 4 functions, static and interactive tables
-:::
-
-::: {.g-col-12 .g-col-md-6}
-### **Workflow and Integration Guides**
-
-**Project Management:**
-- [**Project Setup**](project-setup.qmd) - 17 functions, 6 project types, modern workflows
-- [**Utilities & Helpers**](utilities-helpers.qmd) - 12 functions, existing project enhancement
-
-**Team Resources:**
-- [**Workflow Integration**](workflow-integration.qmd) - Complete end-to-end workflow examples
-- [**Troubleshooting**](troubleshooting.qmd) - Problem-solving guide with team support resources
-:::
-
-:::
-
-### **Documentation Standards**
-
-**Each documentation page includes:**
-- **Why and when guidance**: Context for choosing functions and approaches
-- **Real-world examples**: Complete, working code that solves actual problems
-- **Decision support**: Tables, flowcharts, and matrices for choosing optimal approaches
-- **Troubleshooting**: Common issues and diagnostic code for each function group
-- **Best practices**: Professional standards and quality guidelines
-- **Team integration**: How functions work together and with team workflows
-
-## Getting Started Path
-
-### **For New Team Members**
-
-1. **Start here**: [Getting Started Guide](getting-started.qmd) - Installation, setup, first plot, project creation
-2. **Explore capabilities**: Browse function group documentation to understand what's available
-3. **Follow workflows**: [Workflow Integration](workflow-integration.qmd) for complete project examples
-4. **Get help**: [Troubleshooting](troubleshooting.qmd) and CPAL Data Team Notion Guide for support
-
-### **For Experienced R Users**
-
-1. **Quick overview**: This page for package scope and capabilities
-2. **Function reference**: Jump directly to relevant function group documentation
-3. **Integration patterns**: [Workflow Integration](workflow-integration.qmd) for advanced usage
-4. **Enhancement**: [Utilities & Helpers](utilities-helpers.qmd) for adding to existing projects
-
-### **For Team Leaders and Project Managers**
-
-1. **Impact assessment**: Review time savings and consistency benefits above
-2. **Team adoption**: [Project Setup](project-setup.qmd) for standardized team workflows
-3. **Quality assurance**: Built-in accessibility and branding consistency features
-4. **Collaboration**: [Workflow Integration](workflow-integration.qmd) for multi-person project coordination
-
-## Package Philosophy and Design Principles
-
-### **Automation Over Configuration**
-
-**Smart defaults that work immediately:**
-- Colors automatically match CPAL brand guidelines
-- Themes apply professional styling without customization
-- Project templates include modern best practices by default
-- Interactive features inherit CPAL styling automatically
-
-**Customization when needed:**
-- All functions provide parameters for specific adjustments
-- Themes can be modified while maintaining brand consistency
-- Project types can be mixed and enhanced with utility functions
-- Advanced users can build on CPAL foundations
-
-### **Accessibility First**
-
-**Inclusive design built-in:**
-- All color palettes tested for colorblind accessibility
-- Automated accessibility checking with `check_plot_accessibility()`
-- High contrast themes available for visibility needs
-- Screen reader friendly table structures and labeling
-
-### **Team Collaboration Focus**
-
-**Designed for multi-person teams:**
-- Consistent outputs regardless of individual styling preferences
-- Shared templates and standards reduce coordination overhead
-- Version control and reproducibility built into project templates
-- Knowledge sharing through documentation and team resources
-
-### **Progressive Enhancement**
-
-**Start simple, add complexity as needed:**
-- Basic functions work with minimal parameters
-- Advanced features available for complex requirements  
-- Existing projects can be enhanced incrementally
-- New capabilities can be added without disrupting existing work
-
-## Success Stories and Use Cases
-
-### **Typical CPAL Use Cases**
-
-| **Project Type** | **cpaltemplates Functions Used** | **Outcome** |
-|------------------|----------------------------------|-------------|
-| **Quarterly program evaluation** | Colors, themes, plots, project setup, reporting | Professional stakeholder report with consistent branding |
-| **Board presentation preparation** | All visualization functions + slides + interactive dashboard | Coordinated presentation package with live data exploration |
-| **Ongoing program monitoring** | Interactive features, dashboard templates, automation | Real-time monitoring system with automated alerts |
-| **Research paper publication** | Full function suite with accessibility focus | Reproducible research with multiple output formats |
-| **New team member onboarding** | Project templates, documentation, troubleshooting | Productive team member within hours instead of days |
-
-### **Measurable Team Benefits**
-
-**Quality improvements:**
-- **Brand consistency** across all team outputs
-- **Universal accessibility compliance** through automated testing
-- **Reproducible workflows** with version control and dependency management
-- **Professional presentation quality** without design expertise
-
-## Technical Requirements and Compatibility
-
-### **System Requirements**
-
-**Minimum requirements:**
-- R 4.0+ (required for modern package features)
-- RStudio (recommended for optimal project integration)
-- Internet connection (for Google Fonts and template downloads)
-
-**Optional but recommended:**
-- Git (for version control features)
-- Quarto (for advanced reporting capabilities)  
-- Modern web browser (for interactive features)
-
-### **Dependency Management**
-
-**Core dependencies** (automatically installed):
-- ggplot2, cli, fs - Essential for all cpaltemplates functions
-
-**Optional dependencies** (installed as needed):
-- ggiraph, reactable, mapgl - For interactive features
-- gt - For advanced table formatting
-- renv, gert, yaml - For project management features
-- cowplot, magick - For logo integration
-
-**Graceful degradation:** All functions provide helpful error messages and alternatives when optional packages are missing.
-
-## Getting Support and Contributing
-
-### **When You Need Help**
-
-1. **Function-specific help**: Use `?function_name` for detailed parameter documentation
-2. **Common issues**: Check [Troubleshooting](troubleshooting.qmd) for systematic problem-solving
-3. **Team support**: Use CPAL Data Team Notion Guide for team-specific guidance and to connect with team members
-4. **Advanced workflows**: Review [Workflow Integration](workflow-integration.qmd) for complete examples
-
-### **Contributing to Team Knowledge**
-
-**Help improve cpaltemplates for everyone:**
-- **Document solutions**: Add new troubleshooting discoveries to CPAL Data Team Notion Guide
-- **Share workflows**: Contribute successful project patterns to team knowledge base
-- **Report issues**: Use team communication channels to report bugs or suggest improvements
-- **Mentor others**: Help onboard new team members using your cpaltemplates experience
-
-### **Package Evolution**
-
-**cpaltemplates continues evolving based on CPAL team needs:**
-- New functions added based on common team requirements
-- Templates updated to reflect changing best practices
-- Branding assets refreshed to match organizational updates
-- Documentation improved based on team feedback and common questions
+[Learn more about Project Setup](project-setup.qmd)
 
 ---
 
-## Ready to Transform Your Workflow?
+### Interactive Visualizations (7 functions)
 
-**Start with what you need most:**
+Create interactive charts with ggiraph:
 
-::: {.grid}
+```{r}
+#| eval: false
+library(ggiraph)
 
-::: {.g-col-12 .g-col-md-4}
-### **New to cpaltemplates?**
-[**Getting Started →**](getting-started.qmd)
+p <- ggplot(data, aes(x, y)) +
+  geom_point_interactive(aes(tooltip = label)) +
+  theme_cpal()
 
-Installation, setup, and your first professional visualization in 10 minutes.
-:::
+cpal_interactive(p)
+```
 
-::: {.g-col-12 .g-col-md-4}  
-### **Need specific functions?**
-[**Function Reference →**](colors-palettes.qmd)
-
-Detailed documentation for colors, themes, plots, tables, and interactive features.
-:::
-
-::: {.g-col-12 .g-col-md-4}
-### **Want complete workflows?**
-[**Integration Examples →**](workflow-integration.qmd)
-
-End-to-end workflows for analysis, reporting, dashboards, and team collaboration.
-:::
-
-:::
+[Learn more about Interactive Features](interactive-features.qmd)
 
 ---
 
-*cpaltemplates is developed and maintained by the CPAL Data Team to transform data analysis workflows from time-consuming, inconsistent processes into efficient, professional, and collaborative systems that amplify your analytical impact.*
+### Shiny Dashboards (5 functions)
+
+Build branded dashboards with Bootstrap 5 theming:
+
+```{r}
+#| eval: false
+library(shiny)
+library(bslib)
+
+ui <- page_sidebar(
+  theme = cpal_dashboard_theme(),
+  title = "CPAL Dashboard",
+  sidebar = sidebar(...),
+  ...
+)
+```
+
+[Learn more about Shiny Dashboards](shiny-dashboards.qmd)
+
+---
+
+## Documentation Overview
+
+| Section | Description |
+|---------|-------------|
+| [Getting Started](getting-started.qmd) | Installation, setup, and first steps |
+| [Project Setup](project-setup.qmd) | Creating and configuring projects |
+| [Colors & Palettes](colors-palettes.qmd) | Complete color system guide |
+| [Themes & Styling](themes-styling.qmd) | ggplot2 theme documentation |
+| [Plots & Output](plots-visualizations.qmd) | Creating and exporting visualizations |
+| [Tables](tables-gt.qmd) | GT and Reactable table styling |
+| [Interactive Features](interactive-features.qmd) | ggiraph and interactive charts |
+| [Maps](maps-geographic.qmd) | Geographic visualizations |
+| [Shiny Dashboards](shiny-dashboards.qmd) | Dashboard theming |
+| [Brand & Assets](brand-assets.qmd) | Brand file management |
+| [Utilities](utilities-helpers.qmd) | Helper functions |
+| [Workflows](workflow-integration.qmd) | End-to-end examples |
+| [Function Reference](function-reference.qmd) | Complete function index |
+| [Troubleshooting](troubleshooting.qmd) | Common issues and solutions |
+
+---
+
+## Getting Help
+
+- GitHub Issues: [Report bugs or request features](https://github.com/childpovertyactionlab/cpaltemplates/issues)
+- Troubleshooting Guide: [Common solutions](troubleshooting.qmd)
+
+---
+
+## Package Statistics
+
+- 67 exported functions across 8 categories
+- 16 color palettes designed for accessibility
+- 6 ggplot2 themes for different contexts
+- 7 project templates for rapid development

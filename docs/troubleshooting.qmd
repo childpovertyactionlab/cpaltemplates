@@ -1,1001 +1,526 @@
 ---
 title: "Troubleshooting"
-subtitle: "Comprehensive problem-solving guide for cpaltemplates issues"
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+subtitle: "Common issues and solutions"
 ---
 
-## Getting Help and Support
+## Installation Issues
 
-**When you encounter issues with cpaltemplates, you have multiple support resources:**
+### Package Not Found
 
-### **Primary Support Resources**
+```r
+# Error: package 'cpaltemplates' is not available
+```
 
-1. **This troubleshooting guide** - Common issues and step-by-step solutions
-2. **CPAL Data Team Notion Guide** - Internal team knowledge base with additional troubleshooting tips, FAQ, and team-specific solutions
-3. **Team member support** - Other CPAL data team members who have likely encountered similar issues
-4. **Package documentation** - Function-specific help with `?function_name`
+**Solution:**
 
-### **How to Get Help Effectively**
+```r
+# Install remotes if needed
+install.packages("remotes")
 
-**Before reaching out for help:**
-1. **Check this guide first** for your specific issue
-2. **Try the diagnostic code** provided in each section
-3. **Check the CPAL Data Team Notion Guide** for team-specific solutions and recent issue reports
+# Install with dependencies
+remotes::install_github(
+  "childpovertyactionlab/cpaltemplates",
+  dependencies = TRUE
+)
+```
 
-**When asking for help from team members:**
-1. **Include your diagnostic output** from the troubleshooting code
-2. **Describe what you were trying to accomplish** and what happened instead
-3. **Share your code** (use the CPAL Data Team Notion Guide for code sharing best practices)
-4. **Mention what you've already tried** from this troubleshooting guide
+### R Version Error
 
-**Document solutions in Notion:** When you or team members find solutions to new issues, add them to the CPAL Data Team Notion Guide to help future team members.
+```r
+# Error: package requires R >= 4.3.0
+```
 
-## Installation and Package Issues
+**Solution:**
 
-### **cpaltemplates Won't Install**
+Update R to version 4.3.0 or higher. Download from [CRAN](https://cran.r-project.org/).
+
+### Dependency Conflicts
+
+```r
+# Error: dependency 'xyz' is not available
+```
+
+**Solution:**
+
+```r
+# Install dependencies manually
+install.packages(c("ggplot2", "bslib", "gt", "reactable", "ggiraph"))
+
+# Then retry
+remotes::install_github("childpovertyactionlab/cpaltemplates")
+```
+
+---
+
+## Font Issues
+
+### Fonts Not Rendering
 
 **Symptoms:**
-- Error messages during package installation
-- Functions not available after `library(cpaltemplates)`
-- Dependencies failing to install
 
-**Diagnostic Steps:**
-```{r}
-# Check R version (cpaltemplates requires R 4.0+)
-R.version.string
-
-# Check if devtools is installed
-packageVersion("devtools")
-
-# Try basic installation diagnostics
-install.packages("devtools")
-devtools::session_info()
-```
+- Plots show system fonts instead of Inter/Poppins
+- Warning: "font family not found"
 
 **Solutions:**
 
-#### **R Version Too Old**
-```{r}
-# Check required R version
-R.version.string
-
-# If R < 4.0, update R and try again
-# Visit: https://cloud.r-project.org/
-```
-
-#### **GitHub Access Issues**
-```{r}
-# Test GitHub connection
-devtools::install_github("hadley/ggplot2")  # Test with public repo
-
-# If this fails, check internet connection and proxy settings
-# See CPAL Data Team Notion Guide for network configuration help
-```
-
-#### **Dependency Installation Failures**
-```{r}
-# Install core dependencies manually
-install.packages(c("ggplot2", "cli", "fs"))
-
-# Then try cpaltemplates installation
-# devtools::install_github("cpal-org/cpaltemplates")
-```
-
-**Still having issues?** Check the CPAL Data Team Notion Guide troubleshooting section for network-specific installation instructions and team member solutions.
-
-### **Functions Not Available After Loading**
-
-**Symptoms:**
-- `library(cpaltemplates)` loads without error
-- Specific functions show "object not found" errors
-
-**Diagnostic Steps:**
-```{r}
-# Check package loading
-library(cpaltemplates)
-
-# List available functions
-ls("package:cpaltemplates")
-
-# Check specific function availability
-exists("theme_cpal")
-exists("cpal_colors")
-```
-
-**Solutions:**
-```{r}
-# Restart R session and try again
-.rs.restartR()  # In RStudio
-library(cpaltemplates)
-
-# If still issues, reinstall package
-remove.packages("cpaltemplates")
-# devtools::install_github("cpal-org/cpaltemplates")
-```
-
-## Font and Typography Issues
-
-### **Google Fonts Not Displaying**
-
-**Symptoms:**
-- Plots show generic system fonts instead of Inter/Roboto
-- Font setup completes without error but fonts don't appear
-
-**Diagnostic Steps:**
-```{r}
-# Check font setup status
-setup_cpal_google_fonts(verbose = TRUE)
-
-# Check font availability
-get_cpal_font_family(for_interactive = FALSE)
-get_cpal_font_family(for_interactive = TRUE)
-
-# Test font in simple plot
-library(ggplot2)
-test_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point() +
-  theme_cpal(base_family = "Inter") +
-  labs(title = "Font Test Plot")
-
-print(test_plot)
-```
-
-**Solutions:**
-
-#### **Network/Firewall Issues**
-```{r}
-# Try forced refresh
+```r
+# 1. Run font setup
 setup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)
 
-# If network blocked, use fallback fonts
-theme_cpal(base_family = cpal_font_family_fallback())
+# 2. Check font availability
+sysfonts::font_families()
+
+# 3. Verify showtext is enabled
+library(showtext)
+showtext_auto()
+
+# 4. Check what font is being used
+cpal_font_family(setup = TRUE)
 ```
 
-#### **System Permissions**
-```{r}
-# Check if sysfonts package can write to system
-library(sysfonts)
-sysfonts::font_add_google("Inter", "Inter")
-
-# If permission denied, use system fonts
-theme_cpal(base_family = "sans")
-```
-
-#### **Platform-Specific Issues**
-```{r}
-# Windows: May need manual font installation
-# Mac: Check system font book
-# Linux: May need fontconfig update
-
-# Universal fallback approach
-safe_theme <- theme_cpal(base_family = cpal_font_family_fallback())
-```
-
-**Need platform-specific help?** Check the CPAL Data Team Notion Guide for platform-specific font troubleshooting and ask team members about their setup on similar systems.
-
-### **Fonts Different in Interactive vs Static Plots**
+### Interactive Plot Fonts
 
 **Symptoms:**
-- Static plots show correct fonts
-- Interactive plots revert to system fonts
 
-**Diagnostic Steps:**
-```{r}
-# Check interactive font setup
-get_cpal_font_family(for_interactive = TRUE)
-
-# Test interactive font rendering
-library(ggiraph)
-test_interactive <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point_interactive(aes(tooltip = "test")) +
-  theme_cpal()
-
-cpal_interactive(test_interactive)
-```
-
-**Solutions:**
-```{r}
-# Force interactive font refresh
-setup_cpal_google_fonts(force_refresh = TRUE)
-
-# Use explicit font specification for interactive
-theme_cpal(base_family = "Inter")  # Explicit specification
-
-# If persistent issues, use fallback
-theme_cpal(base_family = cpal_font_family_fallback())
-```
-
-## Color and Theme Issues
-
-### **Colors Not Appearing as Expected**
-
-**Symptoms:**
-- Colors appear different than documentation examples
-- Palettes showing generic colors instead of CPAL colors
-
-**Diagnostic Steps:**
-```{r}
-# Test color system
-cpal_colors("primary")  # Should show hex codes
-
-# Test specific palettes
-cpal_colors("main")
-cpal_colors("teal_seq_5")
-
-# View all palettes
-view_all_palettes()  # Should display color grid
-
-# Test in plot
-test_plot <- ggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) +
-  geom_bar() +
-  scale_fill_cpal(palette = "main")
-
-print(test_plot)
-```
+- ggiraph plots show wrong fonts
+- Fonts work in static plots but not interactive
 
 **Solutions:**
 
-#### **Package Loading Issues**
-```{r}
-# Reload package
-detach("package:cpaltemplates", unload = TRUE)
-library(cpaltemplates)
-
-# Check for conflicts
-conflicts(detail = TRUE)
-```
-
-#### **Display Calibration Issues**
-```{r}
-# Colors may look different on different monitors
-# Save plot and check exported version
-save_cpal_plot(test_plot, "color_test.png")
-# Check color_test.png file for true colors
-
-# Compare with hex codes
-cpal_colors("main")  # Check actual hex values
-```
-
-### **Themes Not Applied Correctly**
-
-**Symptoms:**
-- Plots still look like default ggplot2 theme
-- Theme settings not taking effect
-
-**Diagnostic Steps:**
-```{r}
-# Test theme application
-library(ggplot2)
-
-# Test theme object creation
-theme_obj <- theme_cpal()
-class(theme_obj)  # Should be "theme" "gg"
-
-# Test theme application
-test_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point() +
-  theme_cpal() +
-  labs(title = "Theme Test")
-
-print(test_plot)
-```
-
-**Solutions:**
-```{r}
-# Try explicit theme setting
-set_theme_cpal("default")
-
-# Check for theme conflicts
-library(ggplot2)
-theme_set(theme_cpal())  # Set as default
-
-# If fonts missing, use fallback
-theme_cpal(base_family = cpal_font_family_fallback())
-```
-
-**Still having theme issues?** The CPAL Data Team Notion Guide has additional theme troubleshooting examples and team member solutions for specific scenarios.
-
-## Project Creation and Setup Issues
-
-### **start_project() Fails**
-
-**Symptoms:**
-- Permission denied errors
-- Project creation starts but doesn't complete
-- RStudio doesn't open new project
-
-**Diagnostic Steps:**
-```{r}
-# Check write permissions
-file.access(".", mode = 2)  # Should return 0
-
-# Test basic directory creation
-test_dir <- tempdir()
-dir.create(file.path(test_dir, "test_project"))
-file.exists(file.path(test_dir, "test_project"))
-
-# Check RStudio availability
-.Platform$GUI  # Should show "RStudio" if in RStudio
-
-# Test with minimal options
-start_project(
-  name = "test-minimal",
-  project_type = "analysis", 
-  features = NULL,  # No extra features
-  interactive = FALSE,
-  open = FALSE  # Don't try to open
-)
-```
-
-**Solutions:**
-
-#### **Permission Issues**
-```{r}
-# Try different location
-start_project(
-  name = "test-project",
-  path = "~/Documents",  # User directory usually has permissions
-  project_type = "analysis"
-)
-
-# Check disk space
-# Make sure target drive has sufficient space
-```
-
-#### **Template File Issues**
-```{r}
-# Check template availability
-system.file("templates", package = "cpaltemplates")
-
-# If empty, reinstall package
-remove.packages("cpaltemplates")
-# devtools::install_github("cpal-org/cpaltemplates")
-```
-
-#### **RStudio Integration Issues**
-```{r}
-# Create project without opening
-start_project(
-  name = "manual-open-test",
-  open = FALSE
-)
-
-# Then manually open the .Rproj file in RStudio
-```
-
-### **Template Files Not Found**
-
-**Symptoms:**
-- "template file not found" errors
-- Missing assets or CSS files in created projects
-
-**Diagnostic Steps:**
-```{r}
-# Check package installation integrity
-system.file("templates/analysis/analysis_template.R.tpl", package = "cpaltemplates")
-system.file("templates/assets/css/cpal.css.tpl", package = "cpaltemplates")
-
-# List all available templates
-templates_dir <- system.file("templates", package = "cpaltemplates")
-list.files(templates_dir, recursive = TRUE)
-```
-
-**Solutions:**
-```{r}
-# Reinstall package to restore templates
-remove.packages("cpaltemplates")
-# Install fresh copy
-# devtools::install_github("cpal-org/cpaltemplates")
-
-# Verify installation
-packageVersion("cpaltemplates")
-system.file("templates", package = "cpaltemplates")
-```
-
-**Template issues persist?** Check the CPAL Data Team Notion Guide for known template file issues and alternative installation approaches shared by team members.
-
-## Visualization and Output Issues
-
-### **save_cpal_plot() Not Working**
-
-**Symptoms:**
-- Plots not saving to expected location
-- Saved plots look different than displayed plots
-- File size or quality issues
-
-**Diagnostic Steps:**
-```{r}
-# Test plot object
-library(ggplot2)
-test_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point() +
-  theme_cpal()
-
-print(test_plot)  # Verify plot displays correctly
-
-# Test basic save
-save_cpal_plot(test_plot, "test_save.png")
-
-# Check if file was created
-file.exists("test_save.png")
-file.info("test_save.png")
-```
-
-**Solutions:**
-
-#### **File Path Issues**
-```{r}
-# Use full path specification
-save_cpal_plot(test_plot, file.path(getwd(), "outputs", "test.png"))
-
-# Create output directory if missing
-dir.create("outputs", showWarnings = FALSE)
-save_cpal_plot(test_plot, "outputs/test.png")
-```
-
-#### **Plot Object Issues**
-```{r}
-# Verify plot is valid ggplot object
-class(test_plot)  # Should include "ggplot"
-
-# Check for plot errors
-ggplot2::ggplot_build(test_plot)  # Should complete without error
-```
-
-#### **Permission or Space Issues**
-```{r}
-# Check write permissions
-file.access(dirname("test.png"), mode = 2)
-
-# Check disk space
-# Ensure adequate space for plot files
-
-# Try temporary directory
-temp_file <- file.path(tempdir(), "test.png")
-save_cpal_plot(test_plot, temp_file)
-```
-
-### **Interactive Features Not Working**
-
-**Symptoms:**
-- Interactive plots display as static
-- Hover effects not working
-- Dashboard not loading properly
-
-**Diagnostic Steps:**
-```{r}
-# Check required packages
-packageVersion("ggiraph")
-packageVersion("reactable")
-packageVersion("mapgl")
-
-# Test basic interactivity
-library(ggiraph)
-test_interactive <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point_interactive(aes(tooltip = "test tooltip")) +
-  theme_cpal()
-
-cpal_interactive(test_interactive)
-```
-
-**Solutions:**
-
-#### **Package Dependencies**
-```{r}
-# Install missing interactive packages
-install.packages(c("ggiraph", "reactable", "plotly"))
-
-# Restart R session
-.rs.restartR()
-library(cpaltemplates)
-```
-
-#### **Browser Compatibility**
-```{r}
-# Try different browser for viewing interactive outputs
-# Chrome, Firefox, Safari, Edge all have different capabilities
-
-# Check JavaScript console for errors
-# Right-click → Inspect → Console in browser
-```
-
-#### **Data Size Issues**
-```{r}
-# Reduce data for interactive plots
-large_data %>%
-  slice_sample(n = 1000) %>%  # Sample for performance
-  ggplot(aes(x = x, y = y)) +
-  cpal_point_interactive(aes(tooltip = "simplified"))
-```
-
-**Interactive issues persisting?** The CPAL Data Team Notion Guide has browser-specific troubleshooting tips and interactive visualization performance optimization guidance from team members.
-
-## Data and Analysis Issues
-
-### **Color Palettes Don't Match Data**
-
-**Symptoms:**
-- Too many/few colors for your data categories
-- Colors imply wrong relationships (sequential for categorical, etc.)
-
-**Diagnostic Steps:**
-```{r}
-# Check your data structure
-str(your_data$category_variable)
-length(unique(your_data$category_variable))
-
-# Check palette length
-length(cpal_colors("main"))          # 5 colors
-length(cpal_colors("teal_seq_5"))    # 5 colors
-length(cpal_colors("main_3"))        # 3 colors
-
-# Test palette with your data
-unique_categories <- unique(your_data$category_variable)
-length(unique_categories)
-```
-
-**Solutions:**
-
-#### **Too Many Categories for Palette**
-```{r}
-# Option 1: Use larger palette
-scale_fill_cpal(palette = "categorical")  # More colors available
-
-# Option 2: Simplify categories
-your_data %>%
-  mutate(category_simplified = case_when(
-    category %in% c("A", "B", "C") ~ category,
-    TRUE ~ "Other"
-  )) %>%
-  ggplot(aes(x = x, y = y, fill = category_simplified)) +
-  scale_fill_cpal(palette = "main_4")  # Now fits 4-color palette
-```
-
-#### **Wrong Palette Type for Data**
-```{r}
-# For continuous data, use sequential palettes
-scale_fill_cpal(palette = "teal_seq_5", discrete = FALSE)
-
-# For categorical data, use categorical palettes  
-scale_fill_cpal(palette = "main")
-
-# For data with meaningful center, use diverging
-scale_fill_cpal(palette = "pink_teal_5", discrete = FALSE)
-```
-
-### **Accessibility Checks Failing**
-
-**Symptoms:**
-- `check_plot_accessibility()` reports failures
-- Colors too similar for colorblind users
-- Text too small for readability
-
-**Diagnostic Steps:**
-```{r}
-# Run detailed accessibility check
-accessibility_results <- check_plot_accessibility(your_plot, verbose = TRUE)
-
-# Check specific issues
-print(accessibility_results)
-```
-
-**Solutions:**
-
-#### **Color Contrast Issues**
-```{r}
-# Use high-contrast palette
-scale_fill_cpal(palette = "compare")  # Maximum contrast
-
-# Or increase contrast with theme
-theme_cpal_print()  # High contrast theme
-```
-
-#### **Text Size Issues**
-```{r}
-# Increase base font size
-theme_cpal(base_size = 16)  # Larger text
-
-# For presentations
-theme_cpal(base_size = 18)  # Even larger
-```
-
-#### **Colorblind Accessibility**
-```{r}
-# Test with colorblind-safe palettes
-scale_fill_cpal(palette = "main")  # Tested for colorblind safety
-
-# Add pattern or shape aesthetics as backup
-ggplot(data, aes(x = x, y = y, color = category, shape = category)) +
-  geom_point(size = 3) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal()
-```
-
-**Need accessibility guidance?** The CPAL Data Team Notion Guide has detailed accessibility checklists and team standards for inclusive visualization design.
-
-## Project Integration and Workflow Issues
-
-### **Targets Pipeline Errors**
-
-**Symptoms:**
-- `tar_make()` fails with errors
-- Dependencies not updating correctly
-- Pipeline runs but outputs are incorrect
-
-**Diagnostic Steps:**
-```{r}
-# Check targets setup
-library(targets)
-
-# Verify pipeline structure
-tar_manifest()
-
-# Check for syntax errors
-tar_validate()
-
-# Test individual targets
-tar_load(target_name)  # Load specific target for testing
-```
-
-**Solutions:**
-
-#### **Dependency Issues**
-```{r}
-# Check package availability
-tar_option_set(packages = c("cpaltemplates", "dplyr", "ggplot2"))
-
-# Install missing packages
-install.packages(c("targets", "tarchetypes"))
-```
-
-#### **Function Path Issues**
-```{r}
-# Make sure custom functions are sourced
-tar_source("R/functions/")  # Source all function files
-
-# Or define functions within pipeline
-tar_target(
-  my_data,
-  {
-    source("R/analysis_functions.R")
-    process_data(raw_data)
-  }
-)
-```
-
-#### **File Path Issues**
-```{r}
-# Use here package for reliable paths
-library(here)
-
-tar_target(
-  data_file,
-  read.csv(here("data", "raw", "input.csv"))
-)
-```
-
-**Targets troubleshooting can be complex.** The CPAL Data Team Notion Guide has team-specific targets pipeline examples and common configuration issues with solutions from experienced team members.
-
-### **Quarto Rendering Errors**
-
-**Symptoms:**
-- Quarto documents won't render
-- Missing images or assets in output
-- Formatting not applied correctly
-
-**Diagnostic Steps:**
-```{r}
-# Check Quarto installation
-system("quarto --version")
-
-# Test basic rendering
-quarto::quarto_render("simple_test.qmd")
-
-# Check file paths in document
-# Make sure all referenced files exist
-```
-
-**Solutions:**
-
-#### **Asset Path Issues**
-```{r}
-# Verify asset files exist
-file.exists("assets/css/cpal.css")
-file.exists("assets/images/cpal-logo.png")
-
-# Update asset paths if needed
-update_cpal_assets()
-```
-
-#### **R Code Execution Errors**
-```{r}
-# Test R code chunks individually
-# Copy chunk code and run in console
-
-# Add error handling to chunks
-#| error: true
-#| warning: false
-```
-
-#### **Quarto Configuration Issues**
-```{r}
-# Check _quarto.yml syntax
-yaml::yaml.load_file("_quarto.yml")
-
-# Validate Quarto project
-system("quarto check")
-```
-
-## Shiny Application Issues
-
-### **Dashboard Not Loading**
-
-**Symptoms:**
-- Shiny app fails to start
-- Dashboard displays errors or blank sections
-- Interactive elements not responding
-
-**Diagnostic Steps:**
-```{r}
-# Test basic Shiny functionality
-library(shiny)
-
-# Check required packages
-packageVersion("shinydashboard")
-packageVersion("reactable")
-packageVersion("plotly")
-
-# Test app in console
-shiny::runApp()
-
-# Check R console for error messages
-```
-
-**Solutions:**
-
-#### **Package Dependencies**
-```{r}
-# Install Shiny ecosystem packages
-install.packages(c("shiny", "shinydashboard", "DT", "plotly"))
-
-# Restart R and try again
-.rs.restartR()
-```
-
-#### **Data Loading Issues**
-```{r}
-# Check data files exist
-file.exists("data/dashboard_data.rds")
-
-# Test data loading independently
-test_data <- readRDS("data/dashboard_data.rds")
-str(test_data)
-```
-
-#### **CSS Theme Issues**
-```{r}
-# Check CSS file exists
-file.exists("www/cpal-theme.css")
-
-# Update Shiny theme
-use_shiny_theme()
-
-# Test without custom CSS
-# Comment out CSS link temporarily
-```
-
-### **Interactive Tables Not Displaying**
-
-**Symptoms:**
-- Tables show as blank or with errors
-- Reactable features not working
-- Table formatting not applied
-
-**Diagnostic Steps:**
-```{r}
-# Test reactable directly
-library(reactable)
-reactable(mtcars)  # Should work with basic data
-
-# Test CPAL table function
-cpal_table_interactive(mtcars)
-
-# Check data structure
-str(your_data)
-head(your_data)
-```
-
-**Solutions:**
-```{r}
-# Check for data issues
-# Remove non-standard characters, handle NAs
-clean_data <- your_data %>%
-  mutate(across(where(is.character), ~ iconv(.x, to = "UTF-8"))) %>%
-  replace_na(list(numeric_col = 0, char_col = ""))
-
-cpal_table_interactive(clean_data)
-```
-
-**Shiny and interactive issues can be complex.** The CPAL Data Team Notion Guide has extensive Shiny troubleshooting resources and team members who can provide specific guidance for dashboard and interactive application issues.
-
-## Performance and Memory Issues
-
-### **Slow Rendering or Out of Memory**
-
-**Symptoms:**
-- Plots taking very long to render
-- R session crashes or freezes
-- "Cannot allocate memory" errors
-
-**Diagnostic Steps:**
-```{r}
-# Check data size
-object.size(your_data)
-nrow(your_data)
-ncol(your_data)
-
-# Check memory usage
-gc()  # Garbage collection
-memory.size()  # Windows only
-```
-
-**Solutions:**
-
-#### **Large Dataset Issues**
-```{r}
-# Sample data for visualization
-large_data %>%
-  slice_sample(n = 5000) %>%  # Reasonable size for plotting
-  ggplot(aes(x = x, y = y)) +
-  geom_point(alpha = 0.5) +  # Transparency helps with overplotting
-  theme_cpal()
-```
-
-#### **Interactive Performance**
-```{r}
-# Reduce interactive data size
-dashboard_data %>%
-  filter(recent_data_only) %>%  # Focus on relevant subset
-  cpal_table_interactive(defaultPageSize = 25)  # Reasonable page size
-```
-
-#### **Memory Management**
-```{r}
-# Clear unused objects
-rm(large_unused_object)
-gc()
-
-# Process data in chunks if needed
-# See CPAL Data Team Notion Guide for chunking strategies
-```
-
-## Cross-Platform and Environment Issues
-
-### **Windows-Specific Issues**
-
-**Common problems:**
-- Font rendering differences
-- File path separator issues
-- Package compilation problems
-
-**Solutions:**
-```{r}
-# Use forward slashes or file.path()
-file.path("data", "raw", "file.csv")  # Cross-platform safe
-
-# Windows font fallbacks
-if (.Platform$OS.type == "windows") {
-  theme_cpal(base_family = "Arial")  # Windows-safe font
+```r
+# Install required packages
+install.packages(c("gdtools", "systemfonts"))
+
+# Register fonts for interactive use
+if (requireNamespace("gdtools", quietly = TRUE)) {
+  gdtools::register_gfont("Inter")
+  gdtools::register_gfont("Roboto")
 }
 ```
 
-### **Mac-Specific Issues**
+### PDF Font Issues
 
-**Common problems:**
-- Quartz device issues with fonts
-- Package installation from source
+**Symptoms:**
 
-**Solutions:**
-```{r}
-# Mac graphics device
-if (capabilities("cairo")) {
-  options(device = grDevices::png)
-}
-
-# Font setup for Mac
-if (Sys.info()["sysname"] == "Darwin") {
-  setup_cpal_google_fonts(force_refresh = TRUE)
-}
-```
-
-### **Server/Cloud Environment Issues**
-
-**Common problems:**
-- No GUI capabilities
-- Font installation restrictions
-- Limited package installation
+- Fonts don't appear in PDF output
+- PDF shows rectangles instead of text
 
 **Solutions:**
-```{r}
-# Server-safe setup
-if (!interactive()) {
-  # Use fallback fonts
-  theme_cpal(base_family = cpal_font_family_fallback())
-  
-  # Use headless graphics
-  options(device = function(...) {
-    grDevices::png(..., type = "cairo-png")
-  })
-}
+
+```r
+# Use cairo device for better font support
+ggsave("plot.pdf", plot, device = cairo_pdf)
+
+# Or use showtext
+library(showtext)
+showtext_auto()
+ggsave("plot.pdf", plot)
 ```
-
-**Platform-specific issues vary widely.** The CPAL Data Team Notion Guide has detailed troubleshooting for specific server environments, cloud platforms, and operating system configurations used by team members.
-
-## Getting Additional Help
-
-### **When This Guide Isn't Enough**
-
-1. **Check the CPAL Data Team Notion Guide** for:
-   - Recent issue reports and solutions
-   - Team-specific configuration guidance
-   - Advanced troubleshooting techniques
-   - Known issues and workarounds
-
-2. **Ask team members** who may have encountered similar issues:
-   - Use team Slack/communication channels
-   - Reference the Notion guide for effective help-seeking practices
-   - Share diagnostic output and code snippets
-
-3. **Document new solutions** in the CPAL Data Team Notion Guide:
-   - Add new issues and solutions you discover
-   - Update existing entries with additional context
-   - Help future team members with your troubleshooting experience
-
-### **Creating Effective Issue Reports**
-
-**When reporting issues to team members or in the Notion guide:**
-
-#### **Include Essential Information**
-```{r}
-# System information
-sessionInfo()
-
-# Package versions
-packageVersion("cpaltemplates")
-packageVersion("ggplot2")
-
-# Error messages (copy exact text)
-# Steps to reproduce
-# What you expected vs. what happened
-```
-
-#### **Minimal Reproducible Example**
-```{r}
-library(cpaltemplates)
-library(ggplot2)
-
-# Simplest code that reproduces the issue
-simple_plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point() +
-  theme_cpal()
-
-# What fails here...
-```
-
-### **Contributing Solutions Back to Team**
-
-**Help your team by documenting solutions:**
-1. **Update Notion guide** when you solve new issues
-2. **Share workarounds** that work in your environment
-3. **Suggest improvements** to common workflows  
-4. **Provide platform-specific guidance** for your setup
 
 ---
 
-*Most cpaltemplates issues have straightforward solutions. Use this guide systematically, leverage the CPAL Data Team Notion Guide for team-specific context, and don't hesitate to ask team members for help. Troubleshooting is part of the learning process, and documenting solutions helps the entire team.*
+## Theme Issues
+
+### Theme Not Applying
+
+**Symptoms:**
+
+- Plot doesn't have CPAL styling
+- Default ggplot2 theme appears
+
+**Solutions:**
+
+```r
+# 1. Ensure theme_cpal() is in the plot
+ggplot(data, aes(x, y)) +
+  geom_point() +
+  theme_cpal()  # Must be included!
+
+# 2. Check if theme is being overwritten
+# theme_cpal() should be last or near-last
+ggplot(data, aes(x, y)) +
+  geom_point() +
+  other_layer() +
+  theme_cpal() +  # After other layers
+  theme(specific_override = ...)  # Specific overrides after
+
+# 3. Set default theme for session
+set_theme_cpal()
+```
+
+### Shiny Theme Not Working
+
+**Symptoms:**
+
+- Dashboard shows default Bootstrap styling
+- CPAL colors not appearing
+
+**Solutions:**
+
+```r
+# 1. Ensure using bslib page functions
+page_sidebar(  # Correct - bslib function
+  theme = cpal_dashboard_theme(),
+  ...
+)
+
+fluidPage(  # Wrong - doesn't support bslib themes fully
+  ...
+)
+
+# 2. Check bslib is loaded
+library(bslib)
+
+# 3. Verify theme is applied
+theme <- cpal_dashboard_theme()
+print(theme)  # Should show theme details
+```
+
+---
+
+## Color Issues
+
+### Colors Not Showing
+
+**Symptoms:**
+
+- `scale_color_cpal()` has no effect
+- Default ggplot2 colors appear
+
+**Solutions:**
+
+```r
+# 1. Match discrete/continuous to your data
+# For categorical data:
+scale_color_cpal("main", discrete = TRUE)
+
+# For continuous data:
+scale_color_cpal_c("teal_seq_5")
+
+# 2. Check palette name is valid
+list_cpal_palettes()
+
+# 3. Verify color aesthetic is mapped
+ggplot(data, aes(x, y, color = group)) +  # color must be mapped
+  geom_point() +
+  scale_color_cpal("main")
+```
+
+### Wrong Number of Colors
+
+**Symptoms:**
+
+- "Insufficient values in manual scale" error
+- Colors don't match number of categories
+
+**Solutions:**
+
+```r
+# Check how many categories you have
+n_distinct(data$category)
+
+# Use appropriate palette
+# For 3 categories:
+scale_color_cpal("main_3")
+
+# For 5 categories:
+scale_color_cpal("main")
+
+# For more categories:
+scale_color_cpal("main_gray")  # 6 colors
+```
+
+### Color Contrast Issues
+
+```r
+# Check if colors meet accessibility standards
+validate_color_contrast("#007A8C", "#FFFFFF")
+
+# Check all brand colors
+validate_brand_colors()
+```
+
+---
+
+## Table Issues
+
+### GT Table Not Displaying
+
+**Symptoms:**
+
+- Table doesn't render in viewer
+- Error about gt package
+
+**Solutions:**
+
+```r
+# 1. Install gt
+install.packages("gt")
+
+# 2. Verify installation
+library(gt)
+
+# 3. Check data is a data frame
+class(your_data)  # Should be "data.frame" or "tbl_df"
+```
+
+### Reactable Not Interactive
+
+**Symptoms:**
+
+- Table appears static
+- No search/pagination
+
+**Solutions:**
+
+```r
+# 1. Install reactable
+install.packages("reactable")
+
+# 2. In Shiny, use correct output function
+# UI:
+reactableOutput("table")
+
+# Server:
+output$table <- renderReactable({
+  cpal_table_reactable(data)
+})
+```
+
+---
+
+## Interactive Plot Issues
+
+### ggiraph Not Working
+
+**Symptoms:**
+
+- Plot is static instead of interactive
+- Tooltips don't appear
+
+**Solutions:**
+
+```r
+# 1. Install ggiraph
+install.packages("ggiraph")
+
+# 2. Use interactive geoms
+geom_point_interactive()  # Correct
+geom_point()              # Won't be interactive
+
+# 3. Wrap with cpal_interactive()
+p <- ggplot(data, aes(x, y)) +
+  geom_point_interactive(aes(tooltip = label)) +
+  theme_cpal()
+
+cpal_interactive(p)  # This renders it interactive
+```
+
+### Interactive in Shiny
+
+```r
+# Use girafeOutput and renderGirafe
+# UI:
+girafeOutput("plot")
+
+# Server:
+output$plot <- renderGirafe({
+  p <- ggplot(...) +
+    geom_point_interactive(...)
+  cpal_interactive(p)
+})
+```
+
+---
+
+## Map Issues
+
+### Map Not Displaying
+
+**Symptoms:**
+
+- Empty plot
+- Error about sf
+
+**Solutions:**
+
+```r
+# 1. Install sf
+install.packages("sf")
+
+# 2. Check data is sf object
+class(geo_data)  # Should include "sf"
+
+# 3. Verify CRS
+sf::st_crs(geo_data)
+
+# 4. Transform if needed
+geo_data <- sf::st_transform(geo_data, 4326)
+```
+
+### Mapbox Token Issues
+
+```r
+# Set token
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.xxx...")
+
+# Verify
+Sys.getenv("MAPBOX_PUBLIC_TOKEN")
+
+# Add to .Renviron for persistence
+usethis::edit_r_environ()
+# Add: MAPBOX_PUBLIC_TOKEN=pk.xxx...
+```
+
+---
+
+## Project Scaffolding Issues
+
+### Templates Not Copying
+
+**Symptoms:**
+
+- Project created but missing files
+- Error about templates
+
+**Solutions:**
+
+```r
+# 1. Reinstall package
+remotes::install_github("childpovertyactionlab/cpaltemplates")
+
+# 2. Check templates exist
+system.file("templates", package = "cpaltemplates")
+
+# 3. Try with explicit path
+start_project(
+  "my-project",
+  path = normalizePath("~/projects"),
+  project_type = "analysis"
+)
+```
+
+### Project Won't Open
+
+```r
+# Disable auto-open
+start_project("my-project", open = FALSE)
+
+# Open manually
+rstudioapi::openProject("my-project")
+```
+
+---
+
+## Brand File Issues
+
+### _brand.yml Not Found
+
+```r
+# Copy from package
+use_cpal_brand()
+
+# Verify file exists
+file.exists("_brand.yml")
+```
+
+### Invalid Brand Configuration
+
+```r
+# Validate the file
+validate_cpal_brand(verbose = TRUE)
+
+# Common issues:
+# - Missing # in hex colors: "007A8C" should be "#007A8C"
+# - Invalid YAML syntax: check indentation
+# - Missing required sections
+```
+
+---
+
+## Performance Issues
+
+### Slow Rendering
+
+**Solutions:**
+
+```r
+# 1. Reduce DPI for drafts
+save_cpal_plot(p, "draft.png", dpi = 100)
+
+# 2. Simplify geometries for maps
+geo_simple <- sf::st_simplify(geo_data, dTolerance = 100)
+
+# 3. Sample large datasets
+data_sample <- dplyr::slice_sample(large_data, n = 1000)
+
+# 4. Use smaller SVG for interactive
+cpal_interactive(p, width_svg = 6, height_svg = 4)
+```
+
+### Memory Issues
+
+```r
+# Clear environment
+rm(list = ls())
+gc()
+
+# Use data.table for large files
+library(data.table)
+data <- fread("large_file.csv")
+```
+
+---
+
+## Getting Help
+
+### Check Package Version
+
+```r
+packageVersion("cpaltemplates")
+```
+
+### Report Issues
+
+[GitHub Issues](https://github.com/childpovertyactionlab/cpaltemplates/issues)
+
+When reporting, include:
+
+1. R version: `R.version.string`
+2. Package version: `packageVersion("cpaltemplates")`
+3. Operating system
+4. Minimal reproducible example
+5. Full error message
+
+### Reinstall Clean
+
+```r
+# Remove and reinstall
+remove.packages("cpaltemplates")
+remotes::install_github(
+  "childpovertyactionlab/cpaltemplates",
+  dependencies = TRUE,
+  force = TRUE
+)
+```
+
+---
+
+## Quick Fixes Checklist
+
+- [ ] Is cpaltemplates loaded? `library(cpaltemplates)`
+- [ ] Are fonts set up? `setup_cpal_google_fonts()`
+- [ ] Is the theme applied? `theme_cpal()` in plot
+- [ ] Are colors mapped? `aes(color = ...)` present
+- [ ] Is scale added? `scale_color_cpal()` in plot
+- [ ] For interactive: using `_interactive()` geoms?
+- [ ] For Shiny: using `page_*()` functions?
+- [ ] For maps: is data an sf object?
+
+---
+
+## See Also
+
+- [Getting Started](getting-started.qmd) - Initial setup
+- [Function Reference](function-reference.qmd) - All functions
+- [Workflows](workflow-integration.qmd) - Complete examples

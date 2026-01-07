@@ -16,9 +16,6 @@ Character vector of palette names, or detailed list if details=TRUE
 Get a list of all available CPAL color palettes with descriptions
 }
 \examples{
-# Simple list
 list_cpal_palettes()
-
-# Detailed information
 list_cpal_palettes(details = TRUE)
 }

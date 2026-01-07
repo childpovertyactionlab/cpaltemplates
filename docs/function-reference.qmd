@@ -1,0 +1,251 @@
+---
+title: "Function Reference"
+subtitle: "Complete index of all 67 exported functions"
+---
+
+## Quick Navigation
+
+- [Color System](#color-system) (21 functions)
+- [Theme System](#theme-system) (8 functions)
+- [Table Functions](#table-functions) (3 functions)
+- [Interactive Visualization](#interactive-visualization) (7 functions)
+- [Project Scaffolding](#project-scaffolding) (9 functions)
+- [Brand & Asset Management](#brand-asset-management) (4 functions)
+- [Utility Functions](#utility-functions) (7 functions)
+
+---
+
+## Color System {#color-system}
+
+### Core Color Functions
+
+| Function | Description |
+|----------|-------------|
+| `cpal_colors()` | Main entry point for accessing CPAL colors and palettes |
+| `cpal_colors_primary()` | Returns 5 core brand colors |
+| `cpal_colors_extended()` | Returns all 17+ colors including shades |
+| `cpal_get_color()` | Get single color by exact name |
+| `cpal_get_primary_color()` | Returns primary brand color (teal) |
+| `cpal_palette()` | Internal palette wrapper for scale functions |
+
+### Palette Access
+
+| Function | Description |
+|----------|-------------|
+| `cpal_palettes()` | Unified accessor for all palettes |
+| `cpal_palettes_sequential()` | Returns 6 sequential palettes |
+| `cpal_palettes_diverging()` | Returns 3 diverging palettes |
+| `cpal_palettes_categorical()` | Returns 7 categorical palettes |
+| `list_cpal_palettes()` | List all available palette names |
+| `view_cpal_palettes()` | Visual display of palettes |
+| `quick_palette()` | Quick console preview |
+
+### Color Validation
+
+| Function | Description |
+|----------|-------------|
+| `validate_color_contrast()` | Check WCAG contrast requirements |
+| `validate_brand_colors()` | Check all colors for accessibility |
+
+### Color Interpolation
+
+| Function | Description |
+|----------|-------------|
+| `cpal_color_ramp()` | Generate gradient between two colors |
+| `cpal_color_gradient()` | Create gradient through multiple colors |
+
+### ggplot2 Scales
+
+| Function | Description |
+|----------|-------------|
+| `scale_color_cpal()` | Discrete/continuous color scale |
+| `scale_fill_cpal()` | Discrete/continuous fill scale |
+| `scale_color_cpal_c()` | Continuous color scale |
+| `scale_fill_cpal_c()` | Continuous fill scale |
+| `scale_color_cpal_d()` | Discrete color scale |
+| `scale_fill_cpal_d()` | Discrete fill scale |
+| `scale_colour_cpal()` | British spelling alias |
+
+---
+
+## Theme System {#theme-system}
+
+### ggplot2 Themes
+
+| Function | Description |
+|----------|-------------|
+| `theme_cpal()` | Main CPAL theme with full customization |
+| `theme_cpal_minimal()` | Minimal variant with reduced elements |
+| `theme_cpal_classic()` | Traditional styling with axis lines |
+| `theme_cpal_dark()` | Dark background variant |
+| `theme_cpal_print()` | Print-optimized theme |
+| `theme_cpal_map()` | Geographic visualization theme |
+
+### Theme Management
+
+| Function | Description |
+|----------|-------------|
+| `set_theme_cpal()` | Set CPAL theme as session default |
+| `preview_cpal_themes()` | Visual comparison of all themes |
+
+---
+
+## Table Functions {#table-functions}
+
+| Function | Description |
+|----------|-------------|
+| `cpal_table()` | Quick CPAL-styled gt table |
+| `cpal_table_gt()` | Publication-quality static table |
+| `cpal_table_reactable()` | Interactive searchable table |
+
+---
+
+## Interactive Visualization {#interactive-visualization}
+
+### Core Functions
+
+| Function | Description |
+|----------|-------------|
+| `cpal_interactive()` | Convert ggplot to interactive ggiraph |
+
+### Geom Wrappers
+
+| Function | Description |
+|----------|-------------|
+| `cpal_point_interactive()` | Interactive points with CPAL defaults |
+| `cpal_line_interactive()` | Interactive lines |
+| `cpal_col_interactive()` | Interactive columns/bars |
+| `cpal_polygon_interactive()` | Interactive polygons |
+
+### Map Functions
+
+| Function | Description |
+|----------|-------------|
+| `cpal_mapgl()` | Create mapgl map with Dallas defaults |
+| `cpal_mapgl_layer()` | Add CPAL-styled layer to mapgl |
+
+---
+
+## Project Scaffolding {#project-scaffolding}
+
+### Main Function
+
+| Function | Description |
+|----------|-------------|
+| `start_project()` | Create new project with CPAL structure |
+
+### Component Adders
+
+| Function | Description |
+|----------|-------------|
+| `use_quarto_report()` | Add Quarto report to existing project |
+| `use_quarto_slides()` | Add Quarto slides template |
+| `use_quarto_web()` | Add Quarto website structure |
+| `use_shiny_dashboard()` | Add full-featured dashboard |
+| `use_shiny_app()` | Add simple Shiny app |
+| `use_shiny_theme()` | Add CPAL CSS theme files |
+| `use_targets()` | Add targets pipeline |
+
+### Asset Management
+
+| Function | Description |
+|----------|-------------|
+| `update_cpal_assets()` | Update CSS and images to latest versions |
+
+---
+
+## Brand & Asset Management {#brand-asset-management}
+
+| Function | Description |
+|----------|-------------|
+| `use_cpal_brand()` | Copy _brand.yml to project |
+| `validate_cpal_brand()` | Validate brand configuration |
+| `get_cpal_asset()` | Get path to package asset |
+| `update_cpal_assets()` | Update project assets |
+
+---
+
+## Utility Functions {#utility-functions}
+
+### Font Management
+
+| Function | Description |
+|----------|-------------|
+| `cpal_font_family()` | Get best available CPAL font |
+| `cpal_font_family_fallback()` | Get system fallback font |
+| `get_cpal_font_family()` | Legacy font accessor |
+| `setup_cpal_google_fonts()` | Download and register fonts |
+
+### Plot Utilities
+
+| Function | Description |
+|----------|-------------|
+| `save_cpal_plot()` | Save with standard dimensions |
+| `add_cpal_logo()` | Add CPAL logo to plots |
+| `check_plot_accessibility()` | Check accessibility issues |
+
+---
+
+## Shiny/Dashboard Functions
+
+| Function | Description |
+|----------|-------------|
+| `cpal_dashboard_theme()` | Bootstrap 5 theme from _brand.yml |
+| `cpal_shiny()` | Legacy Shiny theme (deprecated) |
+| `cpal_add_scss_enhancements()` | Add enhanced SCSS styling |
+| `cpal_export_scss()` | Export SCSS for custom use |
+
+---
+
+## Function Signatures
+
+### Most Used Functions
+
+```r
+# Colors
+cpal_colors(palette = NULL, n = NULL, reverse = FALSE)
+cpal_colors_primary()
+scale_color_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
+scale_fill_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
+
+# Themes
+theme_cpal(base_size = 16, base_family = NULL, style = "default",
+           grid = "horizontal", axis_line = "x", axis_title = TRUE,
+           legend_position = "bottom")
+set_theme_cpal(style = "default", base_size = 16, ...)
+
+# Tables
+cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)
+cpal_table_reactable(data, title = NULL, searchable = TRUE,
+                     pagination = TRUE, page_size = 10, ...)
+
+# Interactive
+cpal_interactive(plot, width_svg = 8, height_svg = 5, ...)
+
+# Projects
+start_project(name, path = ".", project_type = "analysis",
+              interactive = TRUE, features = NULL, open = TRUE)
+
+# Utilities
+setup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)
+save_cpal_plot(plot, filename, size = "default", dpi = 300, ...)
+add_cpal_logo(plot, position = "top-right", size = 0.09)
+```
+
+---
+
+## Deprecated Functions
+
+| Function | Replacement |
+|----------|-------------|
+| `cpal_shiny()` | `cpal_dashboard_theme()` |
+| `get_cpal_font_family()` | `cpal_font_family()` |
+
+---
+
+## See Also
+
+- [Getting Started](getting-started.qmd) - Installation and setup
+- [Colors & Palettes](colors-palettes.qmd) - Color system details
+- [Themes & Styling](themes-styling.qmd) - Theme customization
+- [Troubleshooting](troubleshooting.qmd) - Common issues

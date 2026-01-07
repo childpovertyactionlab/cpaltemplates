@@ -2,7 +2,7 @@
 % Please edit documentation in R/colors.R
 \name{cpal_colors}
 \alias{cpal_colors}
-\title{Get CPAL Colors}
+\title{CPAL Color Palettes}
 \usage{
 cpal_colors(palette = "primary", n = NULL, reverse = FALSE)
 }
@@ -17,18 +17,21 @@ cpal_colors(palette = "primary", n = NULL, reverse = FALSE)
 Character vector of hex colors
 }
 \description{
-Access CPAL color palettes
+Official color palettes for Child Poverty Action Lab data visualizations.
+All colors are loaded from `_brand.yml` as the single source of truth.
+
+Access CPAL color palettes. All colors are sourced from `_brand.yml`.
 }
 \examples{
 # Get primary colors
 cpal_colors()
 
 # Get specific colors
-cpal_colors("teal")
-cpal_colors(c("teal", "orange"))
+cpal_colors("coral")
+cpal_colors(c("coral", "sage"))
 
 # Get a sequential palette
-cpal_colors("teal_seq_5")
+cpal_colors("midnight_seq_5")
 
 # Get n colors from a palette
 cpal_colors("main", n = 3)

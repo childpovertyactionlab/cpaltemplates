@@ -4,49 +4,28 @@
 \alias{cpal_table_gt}
 \title{CPAL GT Table}
 \usage{
-cpal_table_gt(
-  data,
-  title = NULL,
-  subtitle = NULL,
-  source = NULL,
-  theme = "light",
-  highlight_columns = NULL,
-  bold_rows = NULL,
-  bold_color = NULL,
-  row_fill = NULL,
-  gradient_direction = "high_to_low",
-  title_font = "Inter",
-  data_font = "Inter"
-)
+cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL)
 }
 \arguments{
-\item{data}{Data frame}
+\item{data}{A data frame or tibble.}
 
-\item{title}{Table title}
+\item{title}{Character. The main title of the table.}
 
-\item{subtitle}{Table subtitle}
+\item{subtitle}{Character. The subtitle of the table (appears below the title).}
 
-\item{source}{Source note}
-
-\item{theme}{Theme ('light' or 'dark')}
-
-\item{highlight_columns}{Columns to highlight}
-
-\item{bold_rows}{Rows to make bold}
-
-\item{bold_color}{Color for bold text}
-
-\item{row_fill}{Row fill color}
-
-\item{gradient_direction}{Gradient direction}
-
-\item{title_font}{Title font}
-
-\item{data_font}{Data font}
+\item{source}{Character. Source attribution text; automatically prefixed with "Source: ".}
 }
 \value{
-GT table object
+A `gt_tbl` object.
 }
 \description{
-Creates a CPAL-styled GT table.
+Generates a static, publication-quality table using the `gt` framework,
+styled according to CPAL brand guidelines.
 }
+\seealso{
+[cpal_table_reactable()] for interactive versions.
+
+Other Tables: 
+\code{\link{cpal_table_reactable}()}
+}
+\concept{Tables}

@@ -1,831 +1,724 @@
 ---
-title: "Interactive Features"
-subtitle: "Interactive visualizations, maps, and dynamic elements with CPAL branding"
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+title: "Interactive Charts"
+subtitle: "Creating interactive visualizations with ggiraph"
 ---
 
-## Why Interactive Visualizations Matter
-
-**Static visualizations tell one story. Interactive visualizations let your audience explore the data and discover their own insights.** This is especially powerful for:
-
--   **Stakeholder engagement**: Decision-makers can explore different scenarios and dig deeper into areas of interest
--   **Complex datasets**: Users can filter, zoom, and focus on specific subsets of data
--   **Presentations**: Real-time exploration during meetings and discussions
--   **Self-service analytics**: Empowering non-technical users to answer their own questions
-
-### **The Challenge with Interactive Visualizations**
-
-| **Common Problem** | **Why It Happens** | **CPAL Solution** |
-|------------------------|------------------------|------------------------|
-| **Inconsistent branding** | Interactive packages use different default styles | Automatic CPAL theming and fonts |
-| **Complex setup** | Interactive libraries have steep learning curves | Simple wrapper functions |
-| **Font compatibility** | Web fonts don't work the same way as plot fonts | Integrated Google Fonts setup |
-| **Technical barriers** | Dependencies and package conflicts | Graceful error handling and guidance |
-| **Dallas-focused mapping** | Generic maps don't highlight Dallas area | Pre-configured Dallas bounds and styling |
-
-### **What CPAL Interactive Features Provide**
-
-- **Seamless integration**: Interactive elements automatically inherit CPAL branding
-- **Simplified workflow**: Complex interactive functionality with simple function calls
-- **Font consistency**: Google Fonts work correctly in interactive outputs
-- **Local relevance**: Maps pre-configured for Dallas/Texas geography
-- **Quality assurance**: Built-in best practices and error handling
-
-## CPAL Interactive Function Overview
-
-The cpaltemplates package provides **9 interactive functions** organized into 4 categories:
-
-| **Category** | **Functions** | **Purpose** | **Key Technology** |
-|------------------|------------------|------------------|------------------|
-| **Font Management** | `setup_cpal_google_fonts()`, `get_cpal_font_family()` | Typography for interactive elements | Google Fonts integration |
-| **Plot Interactivity** | `cpal_interactive()`, `cpal_point_interactive()`, `cpal_col_interactive()`, `cpal_line_interactive()`, `cpal_polygon_interactive()` | Interactive visualizations | ggiraph integration |
-| **Geographic Maps** | `cpal_mapgl()`, `cpal_mapgl_layer()` | Interactive mapping | Mapbox GL JS integration |
-| **Interactive Tables** | `cpal_table_reactable()` | Dynamic data tables | reactable integration |
-
-## Font Management for Interactive Elements
-
-### **Why Font Setup is Critical for Interactive Visualizations**
-
-**The web font challenge:** Interactive visualizations render in web browsers, which handle fonts differently than static R plots. **Without proper setup, your interactive visualizations will use generic system fonts that don't match CPAL branding.**
-
 ```{r}
-# Always start interactive sessions with font setup
-setup_cpal_google_fonts()
-```
-
-### **Understanding Font Integration**
-
-**What happens during setup:** 
-1. **Downloads Google Fonts**: Inter and Roboto from Google's servers 
-2. **Registers for static plots**: Makes fonts available to ggplot2 
-3. **Configures for web rendering**: Sets up fonts for HTML/JavaScript output 
-4. **Creates fallbacks**: Ensures graceful degradation on different systems
-
-```{r}
-# Comprehensive font setup with feedback
-setup_cpal_google_fonts(
-  force_refresh = FALSE,  # Re-download fonts if needed
-  verbose = TRUE         # Show detailed setup progress
-)
-
-# Check which fonts are available
-current_font <- get_cpal_font_family(for_interactive = TRUE)
-```
-
-### **Font Selection Logic**
-
-**Automatic font priority system:** 
-1. **Inter (preferred)**: Modern, clean, excellent for interactive elements 
-2. **Roboto (fallback)**: Reliable, web-optimized alternative 
-3. **System fonts (backup)**: Sans-serif system fonts if Google Fonts unavailable
-
-## Interactive Plot Creation with ggiraph
-
-### **Basic Interactive Plotting with cpal_interactive()**
-
-**Transform any CPAL plot into an interactive version:**
-
-```{r}
-#| eval: true
-library(ggplot2)
-library(ggiraph)
+#| label: setup
+#| include: false
 library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+```
 
-# Start with font setup
-setup_cpal_google_fonts()
+## Overview
 
-# Create a regular CPAL plot with interactive elements
-plot <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+cpaltemplates provides 7 functions for creating interactive visualizations using the ggiraph package. These functions add tooltips, hover effects, and click actions to your ggplot2 charts.
+
+::: {.callout-tip}
+## Try It!
+Hover over the data points in the charts below to see interactive tooltips.
+:::
+
+---
+
+## Quick Start
+
+```{r}
+#| label: quick-start-interactive
+#| code-fold: show
+library(ggiraph)
+
+# Create data with tooltips
+mtcars_named <- mtcars |>
+  mutate(
+    car_name = rownames(mtcars),
+    tooltip = paste0(
+      "<strong>", car_name, "</strong><br>",
+      "MPG: ", mpg, "<br>",
+      "Weight: ", wt, " tons"
+    )
+  )
+
+# Create an interactive plot
+p <- ggplot(mtcars_named, aes(x = wt, y = mpg)) +
   geom_point_interactive(
-    aes(tooltip = paste("Car:", rownames(mtcars), 
-                       "\nWeight:", wt, 
-                       "\nMPG:", mpg)),
-    color = cpal_colors("teal"),
-    size = 3
-  ) +
-  theme_cpal() +
-  labs(title = "Interactive Car Performance Data")
-
-# Convert to interactive with CPAL styling
-interactive_plot <- cpal_interactive(plot)
-
-interactive_plot
-```
-
-### **What cpal_interactive() Does Automatically**
-
-**Behind-the-scenes optimizations:** 
-- **Font integration**: Ensures Google Fonts render correctly in browsers 
-- **CPAL styling**: Applies consistent hover effects and interaction styling 
-- **Responsive design**: Automatically adjusts to container sizes 
-- **Performance optimization**: Configures efficient rendering settings
-
-### **Customizing Interactive Output**
-
-```{r}
-#| eval: true
-# Control output dimensions
-cpal_interactive(plot, width_svg = 10, height_svg = 6)
-
-# Pass additional options to underlying ggiraph
-cpal_interactive(
-  plot, 
-  width_svg = 8, 
-  height_svg = 5,
-  opts_hover(css = "fill:orange;stroke:red;")
-)
-```
-
-**When to customize dimensions:** 
-- **Dashboard panels**: Smaller dimensions (6×4) for compact layouts 
-- **Presentation displays**: Larger dimensions (12×8) for big screens 
-- **Web articles**: Standard dimensions (8×5) for balanced appearance
-
-## Specialized Interactive Geoms
-
-### **Why Specialized Interactive Geoms**
-
-**The complexity problem:** ggiraph provides powerful interactivity but requires understanding of tooltip syntax, aesthetic mappings, and interactive parameters. **CPAL's specialized geoms simplify this complexity with smart defaults and consistent styling.**
-
-### **cpal_point_interactive() - Interactive Scatter Plots**
-
-**Perfect for:** Scatter plots, bubble charts, any point-based visualization where users need to explore individual data points.
-
-```{r}
-#| eval: true
-
-# Simple interactive points with automatic tooltips
-library(ggplot2)
-library(cpaltemplates)
-library(ggiraph)
-
-# Create realistic marketing spend and revenue data by educational program
-set.seed(101)
-sales_data <- data.frame(
-  marketing_spend = runif(15, min = 5000, max = 50000),
-  revenue = runif(15, min = 50000, max = 500000),
-  division = rep(c("K-12 Programs", "Adult Education", "Community Outreach"), each = 5),
-  company_name = c("Lincoln Elementary", "Roosevelt Middle", "Washington High", "Jefferson Academy", "Madison Charter",
-                   "Adult Learning Center", "Workforce Development", "ESL Institute", "Skills Training Hub", "Career College",
-                   "Community Center East", "Public Library System", "Youth Development", "Senior Programs", "Health Education")
-)
-
-# Add some correlation between marketing spend and revenue
-sales_data$revenue <- sales_data$revenue + 3 * sales_data$marketing_spend + rnorm(15, 0, 20000)
-
-# Simple interactive plot
-ggplot(sales_data, aes(x = marketing_spend, y = revenue)) +
-  cpal_point_interactive(
-    aes(color = division),
-    tooltip_var = "company_name",  # Simple tooltip
-    size = 3
-  ) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal() +
-  labs(
-    title = "Marketing Spend vs Revenue by Division",
-    x = "Marketing Spend ($)",
-    y = "Revenue ($)",
-    color = "Program Division"
-  ) +
-  scale_x_continuous(labels = scales::dollar_format()) +
-  scale_y_continuous(labels = scales::dollar_format())
-
-```
-
-```{r}
-#| eval: true
-
-# Advanced interactive points with custom tooltips
-library(ggplot2)
-library(cpaltemplates)
-library(ggiraph)
-
-# Create performance data for different departments
-set.seed(202)
-performance_data <- data.frame(
-  efficiency = runif(12, min = 0.65, max = 0.95),
-  satisfaction = runif(12, min = 3.2, max = 4.8),
-  department = rep(c("Mathematics", "English", "Science", "History"), each = 3),
-  department_id = paste0("DEPT_", sprintf("%03d", 1:12)),
-  stringsAsFactors = FALSE
-)
-
-# Advanced interactive plot
-ggplot(performance_data, aes(x = efficiency, y = satisfaction)) +
-  cpal_point_interactive(
-    aes(
-      color = department,
-      tooltip = paste("Department:", department,
-                     "\nEfficiency:", scales::percent(efficiency, accuracy = 1),
-                     "\nSatisfaction:", round(satisfaction, 2), "/ 5.0")
-    ),
-    onclick_var = "department_id",  # Click actions
-    data_id_var = "department",     # For linking with other elements
-    size = 4
-  ) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal() +
-  labs(
-    title = "Department Performance: Efficiency vs Satisfaction",
-    subtitle = "Interactive scatter plot with detailed tooltips",
-    x = "Operational Efficiency (%)",
-    y = "Staff Satisfaction Score",
-    color = "Department"
-  ) +
-  scale_x_continuous(labels = scales::percent_format()) +
-  scale_y_continuous(limits = c(3, 5), breaks = seq(3, 5, 0.5))
-```
-
-### **cpal_col_interactive() - Interactive Bar Charts**
-
-**Perfect for:** Bar charts, column charts, any visualization where users need to compare values across categories.
-
-```{r}
-#| eval: true
-
-# Interactive bar chart with hover details
-library(ggplot2)
-library(cpaltemplates)
-library(ggiraph)
-
-# Create realistic quarterly enrollment revenue data
-quarterly_data <- data.frame(
-  quarter = c("Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"),
-  revenue = c(2450000, 2680000, 2520000, 2890000),  # Revenue in dollars
-  growth_rate = c(0.08, 0.15, -0.02, 0.18)  # Quarter-over-quarter growth rates
-)
-
-# Ensure proper quarter ordering
-quarterly_data$quarter <- factor(quarterly_data$quarter, 
-                                levels = c("Q1 2024", "Q2 2024", "Q3 2024", "Q4 2024"))
-
-# Create interactive bar chart
-ggplot(quarterly_data, aes(x = quarter, y = revenue)) +
-  cpal_col_interactive(
-    aes(
-      fill = quarter,
-      tooltip = paste("Quarter:", quarter,
-                     "\nRevenue:", scales::dollar(revenue, scale = 1e-6, suffix = "M"),
-                     "\nGrowth:", scales::percent(growth_rate, accuracy = 1))
-    ),
-    width = 0.7
-  ) +
-  scale_fill_cpal(palette = "main_4") +
-  theme_cpal() +
-  labs(
-    title = "Quarterly Revenue Performance",
-    subtitle = "2024 Enrollment Revenue with Growth Rates",
-    x = "",
-    y = "Revenue ($ Millions)",
-    fill = ""
-  ) +
-  scale_y_continuous(
-    labels = scales::dollar_format(scale = 1e-6, suffix = "M"),
-    limits = c(0, 3000000),
-    breaks = seq(0, 3000000, 500000)
-  ) +
-  theme(legend.position = "none")  # Remove redundant legend since x-axis shows quarters
-```
-
-### **cpal_line_interactive() - Interactive Line Charts**
-
-**Perfect for:** Time series, trend analysis, any connected data where users want to see specific values along the line.
-
-```{r}
-#| eval: true
-
-# Interactive time series with detailed hover information
-library(ggplot2)
-library(cpaltemplates)
-library(ggiraph)
-
-# Create realistic time series data for student enrollment trends
-set.seed(303)
-dates <- seq(as.Date("2023-08-01"), as.Date("2024-06-30"), by = "month")
-
-trend_data <- data.frame(
-  date = rep(dates, times = 3),
-  category = rep(c("K-12 Enrollment", "Adult Education", "Community Programs"), each = length(dates)),
-  stringsAsFactors = FALSE
-)
-
-# Create realistic seasonal enrollment patterns
-trend_data$metric <- ifelse(trend_data$category == "K-12 Enrollment",
-                           8500 + 200 * sin(2 * pi * as.numeric(format(trend_data$date, "%m")) / 12) + 
-                           cumsum(c(0, rnorm(length(dates)-1, mean = 50, sd = 100)))[match(trend_data$date, dates)],
-                    ifelse(trend_data$category == "Adult Education",
-                           2200 + 150 * sin(2 * pi * (as.numeric(format(trend_data$date, "%m")) + 3) / 12) + 
-                           cumsum(c(0, rnorm(length(dates)-1, mean = 25, sd = 50)))[match(trend_data$date, dates)],
-                           1100 + 100 * sin(2 * pi * (as.numeric(format(trend_data$date, "%m")) + 6) / 12) + 
-                           cumsum(c(0, rnorm(length(dates)-1, mean = 15, sd = 30)))[match(trend_data$date, dates)]
-                    ))
-
-# Ensure non-negative values
-trend_data$metric <- pmax(trend_data$metric, 0)
-
-# Create interactive time series plot
-ggplot(trend_data, aes(x = date, y = metric, color = category, group = category)) +
-  cpal_line_interactive(
-    aes(
-      tooltip = paste("Date:", format(date, "%B %d, %Y"),
-                     "\nEnrollment:", scales::comma(round(metric, 0)),
-                     "\nProgram:", category)
-    ),
-    size = 1.5
-  ) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal() +
-  labs(
-    title = "Student Enrollment Trends Over Time",
-    subtitle = "Monthly enrollment across program types (Aug 2023 - Jun 2024)",
-    x = "",
-    y = "Student Enrollment",
-    color = "Program Type"
-  ) +
-  scale_y_continuous(labels = scales::comma_format()) +
-  scale_x_date(
-    date_breaks = "2 months", 
-    date_labels = "%b %Y",
-    expand = expansion(mult = c(0.02, 0.02))
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-### **cpal_polygon_interactive() - Interactive Maps and Areas**
-
-**Perfect for:** Geographic visualizations, choropleth maps, any area-based data where users need regional details.
-
-```{r}
-#| eval: true
-
-# Interactive choropleth map
-library(ggplot2)
-library(maps)
-library(cpaltemplates)
-library(ggiraph)
-# Get Texas county map data
-texas_counties <- map_data("county", region = "texas")
-
-# Create realistic educational data for Texas counties (sample of major counties)
-set.seed(404)
-county_education_data <- data.frame(
-  subregion = c("harris", "dallas", "tarrant", "bexar", "travis", "collin", "denton", 
-                "fort bend", "montgomery", "williamson", "galveston", "brazoria",
-                "el paso", "jefferson", "nueces"),
-  county_name = c("Harris", "Dallas", "Tarrant", "Bexar", "Travis", "Collin", "Denton",
-                  "Fort Bend", "Montgomery", "Williamson", "Galveston", "Brazoria", 
-                  "El Paso", "Jefferson", "Nueces"),
-  dropout_rate = c(0.08, 0.12, 0.09, 0.11, 0.07, 0.05, 0.06, 0.04, 0.08, 0.05, 
-                   0.10, 0.09, 0.14, 0.13, 0.15),  # High school dropout rates
-  student_population = c(215000, 158000, 97000, 118000, 84000, 63000, 75000,
-                        78000, 52000, 48000, 41000, 38000, 61000, 26000, 35000),
-  stringsAsFactors = FALSE
-)
-
-# Join geographic data with education data
-texas_counties <- merge(texas_counties, county_education_data, 
-                       by = "subregion", all.x = TRUE)
-
-# Create interactive choropleth map
-ggplot(texas_counties, aes(x = long, y = lat, group = group)) +
-  cpal_polygon_interactive(
-    aes(
-      fill = dropout_rate,
-      tooltip = paste("County:", county_name,
-                     "\nDropout Rate:", scales::percent(dropout_rate, accuracy = 0.1),
-                     "\nStudent Population:", scales::comma(student_population))
-    )
-  ) +
-  scale_fill_cpal(palette = "teal_seq_5", discrete = FALSE, 
-                  na.value = "grey90",
-                  name = "High School\nDropout Rate") +
-  theme_cpal_map() +
-  labs(
-    title = "Texas County High School Dropout Rates",
-    subtitle = "Interactive map showing educational outcomes by county",
-    caption = "Data for major Texas counties"
-  ) +
-  coord_map("albers", lat0 = 25, lat1 = 35) +
-  guides(fill = guide_colorbar(title.position = "top", 
-                              barwidth = 12, barheight = 0.8))
-```
-
-## Interactive Mapping with Mapbox
-
-### **Why Specialized Mapping Functions**
-
-**Geographic context for CPAL:** Much of CPAL's work focuses on the Dallas-Fort Worth area and Texas. **Generic mapping tools require extensive configuration to highlight relevant geographic areas and use appropriate styling.**
-
-**CPAL mapping advantages:** 
-- **Dallas-area defaults**: Pre-configured bounds and zoom levels 
-- **CPAL styling**: Consistent colors and branding 
-- **Performance optimization**: Efficient rendering for web deployment 
-- **Local relevance**: Focus on Texas geography and demographics
-
-### **cpal_mapgl() - Interactive Base Maps**
-
-**Creating Dallas-focused interactive maps:**
-
-**THIS SECTION IS STILL UNDER CONSTRUCTION DEFAULTS WILL CHANGE IN THE FUTURE**
-
-```{r}
-library(mapgl)
-
-# Basic Dallas-area map with CPAL defaults
-dallas_map <- cpal_mapgl()
-
-# Customized geographic bounds
-custom_map <- cpal_mapgl(
-  style = "mapbox://styles/mapbox/light-v11",
-  bounds = list(
-    west = -97.5,   # Extend further west
-    east = -96.0,   # Extend further east  
-    south = 32.0,   # Include more southern areas
-    north = 33.5    # Include more northern areas
-  )
-)
-```
-
-**Available map styles:** 
-- `"mapbox://styles/mapbox/light-v11"` - Clean, professional (default) 
-- `"mapbox://styles/mapbox/dark-v11"` - Dark mode for presentations 
-- `"mapbox://styles/mapbox/streets-v12"` - Detailed street information 
-- `"mapbox://styles/mapbox/satellite-streets-v12"` - Aerial imagery with labels
-
-### **cpal_mapgl_layer() - Adding Data Layers**
-
-**Layering CPAL data on interactive maps:**
-
-```{r}
-# Add choropleth layer with CPAL styling
-dallas_map <- cpal_mapgl() %>%
-  cpal_mapgl_layer(
-    id = "school_districts",
-    source = school_district_geojson,
-    type = "fill",
-    paint = list(
-      `fill-color` = list(
-        "interpolate", list("linear"), list("get", "test_scores"),
-        60, cpal_colors("pink"),      # Low scores
-        75, cpal_colors("gold"),      # Medium scores  
-        90, cpal_colors("teal")       # High scores
-      ),
-      `fill-opacity` = 0.7
-    )
-  )
-
-# Add point layer for individual schools
-dallas_map <- dallas_map %>%
-  cpal_mapgl_layer(
-    id = "schools",
-    source = schools_geojson,
-    type = "circle",
-    paint = list(
-      `circle-color` = cpal_colors("midnight"),
-      `circle-radius` = list(
-        "interpolate", list("linear"), list("get", "enrollment"),
-        100, 3,    # Small schools
-        1000, 8    # Large schools
-      )
-    )
-  )
-```
-
-## Interactive Tables with reactable
-
-### **When to Use Interactive Tables**
-
-**Interactive tables excel when:** 
-- **Users need to sort and filter data**: Self-service exploration 
-- **Displaying detailed datasets**: More information than fits in visualizations 
-- **Combining with other interactive elements**: Dashboard integration 
-- **Showing precise values**: When exact numbers matter more than trends
-
-### **cpal_table_reactable() - Branded Interactive Tables**
-
-The following example is a basic example, but further information on table themes can be found in the [**Tables Examples Page→**](tables-gt.qmd)
-
-```{r}
-#| eval: true
-
-# Basic interactive table with CPAL styling
-library(reactable)
-library(cpaltemplates)
-
-# Create realistic student performance data
-performance_data <- data.frame(
-  School = c("Lincoln Elementary", "Roosevelt Middle", "Washington High", "Jefferson Academy", 
-             "Madison Charter", "Adams Elementary", "Wilson Middle", "Franklin High"),
-  Grade_Level = c("K-5", "6-8", "9-12", "K-12", "K-12", "K-5", "6-8", "9-12"),
-  Enrollment = c(485, 620, 1250, 890, 340, 390, 580, 1180),
-  Math_Proficiency = c(78, 72, 65, 81, 85, 75, 68, 70),
-  Reading_Proficiency = c(82, 76, 71, 84, 88, 79, 73, 74),
-  Attendance_Rate = c(94.2, 91.8, 87.5, 95.1, 96.3, 93.7, 89.2, 88.9)
-)
-
-# Basic interactive table
-cpal_table_reactable(performance_data,
-                     title = "Campus Performance on State Assessments",
-                     source = "Fake generated data")
-```
-
-### **Integration with CPAL Visualizations**
-
-**Creating comprehensive interactive dashboards:**
-
-```{r}
-# Interactive plot
-library(ggplot2)
-library(cpaltemplates)
-
-# Create summary data for overview chart
-summary_data <- data.frame(
-  category = c("Elementary Schools", "Middle Schools", "High Schools", "Charter Schools", "Adult Programs"),
-  value = c(145, 78, 52, 23, 15),  # Number of schools/programs
-  stringsAsFactors = FALSE
-)
-
-interactive_chart <- ggplot(summary_data, aes(x = category, y = value)) +
-  cpal_col_interactive(
-    aes(
-      fill = category,
-      tooltip = paste("Category:", category, "\nCount:", value, "schools/programs")
-    )
-  ) +
-  scale_fill_cpal(palette = "main") +
-  theme_cpal() +
-  labs(
-    title = "CPAL Educational Programs Overview", 
-    x = "", 
-    y = "Number of Programs"
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-# Apply interactivity to the completed ggplot object
-interactive_chart <- cpal_interactive(interactive_chart)
-
-# Complementary interactive table with detailed breakdown
-detailed_data <- data.frame(
-  School_Name = c("Lincoln Elementary", "Roosevelt Middle", "Washington High", "Jefferson Academy",
-                  "Madison Charter", "Adult Learning Center", "Adams Elementary", "Wilson Middle",
-                  "Franklin High", "Community College Prep", "Skills Development Center", "ESL Institute"),
-  Program_Type = c("Elementary Schools", "Middle Schools", "High Schools", "Charter Schools",
-                   "Charter Schools", "Adult Programs", "Elementary Schools", "Middle Schools", 
-                   "High Schools", "Adult Programs", "Adult Programs", "Adult Programs"),
-  Enrollment = c(485, 620, 1250, 890, 340, 280, 390, 580, 1180, 150, 95, 120),
-  Staff_Count = c(32, 45, 89, 58, 28, 15, 26, 38, 82, 8, 6, 9),
-  Performance_Score = c(87, 78, 72, 91, 94, 82, 85, 76, 74, 88, 90, 86),
-  Budget_Thousands = c(2400, 3200, 6800, 4500, 1800, 1200, 2100, 2900, 6200, 750, 480, 650)
-)
-
-detailed_table <- cpal_table_reactable(
-  detailed_data,
-  searchable = TRUE,
-  striped = TRUE,
-  highlight = TRUE
-  )
-
-# Both use consistent CPAL fonts and styling automatically
-interactive_chart
-detailed_table
-```
-
-## Workflow Integration and Best Practices
-
-### **Complete Interactive Workflow**
-
-```{r}
-library(cpaltemplates)
-library(ggplot2)
-library(ggiraph)
-
-# 1. Essential setup for interactive session
-setup_cpal_google_fonts(verbose = TRUE)
-
-# 2. Create base visualization with interactive elements
-base_plot <- ggplot(analysis_data, aes(x = metric1, y = metric2)) +
-  cpal_point_interactive(
-    aes(
-      color = category,
-      tooltip = paste("Category:", category,
-                     "\nMetric 1:", round(metric1, 2),
-                     "\nMetric 2:", round(metric2, 2),
-                     "\nDetails:", additional_info)
-    ),
+    aes(tooltip = tooltip, data_id = car_name),
     size = 3,
+    color = "#007A8C"
+  ) +
+  labs(
+    title = "Interactive Scatter Plot",
+    subtitle = "Hover over points to see details",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon"
+  ) +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+---
+
+## Interactive Examples
+
+### Colored by Group
+
+```{r}
+#| label: interactive-colored
+mtcars_colored <- mtcars |>
+  mutate(
+    car_name = rownames(mtcars),
+    tooltip = paste0(
+      "<strong>", car_name, "</strong><br>",
+      "Cylinders: ", cyl, "<br>",
+      "MPG: ", round(mpg, 1), "<br>",
+      "Horsepower: ", hp
+    )
+  )
+
+p_colored <- ggplot(mtcars_colored, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = car_name),
+    size = 4,
     alpha = 0.8
   ) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal(base_size = 14) +
+  scale_color_cpal("main_3") +
   labs(
-    title = "Interactive Analysis Dashboard",
-    subtitle = "Hover for details, click for more information"
+    title = "Fuel Efficiency by Weight",
+    subtitle = "Colored by cylinder count - hover for details",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders"
+  ) +
+  theme_cpal()
+
+cpal_interactive(p_colored)
+```
+
+### Interactive Box Plot with Points
+
+```{r}
+#| label: interactive-boxplot
+boxplot_data <- mtcars |>
+  mutate(
+    cyl_factor = factor(cyl),
+    tooltip = paste0(
+      "<strong>", rownames(mtcars), "</strong><br>",
+      "MPG: ", mpg, "<br>",
+      "Cylinders: ", cyl, "<br>",
+      "HP: ", hp
+    )
   )
 
-# 3. Convert to interactive with optimal settings
-interactive_dashboard <- cpal_interactive(
-  base_plot,
-  width_svg = 10,
-  height_svg = 6
-)
+p_box <- ggplot(boxplot_data, aes(x = cyl_factor, y = mpg, fill = cyl_factor)) +
+  geom_boxplot(alpha = 0.7, outlier.shape = NA) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = rownames(mtcars)),
+    position = position_jitter(width = 0.2, seed = 42),
+    size = 3, alpha = 0.8
+  ) +
+  scale_fill_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency Distribution by Cylinder Count",
+    subtitle = "Hover over points for vehicle details",
+    x = "Number of Cylinders",
+    y = "Miles per Gallon"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
 
-# 4. Create complementary interactive table
-data_table <- cpal_table_interactive(
-  analysis_data,
-  defaultPageSize = 15,
-  searchable = TRUE,
-  showPageInfo = TRUE
-)
-
-# Both elements now have consistent CPAL branding and fonts
+cpal_interactive(p_box)
 ```
 
-### **Interactive Visualization Decision Tree**
-
-```{mermaid}
-graph TD
-    A[What type of interaction do you need?] --> B[Explore individual data points]
-    A --> C[Geographic exploration]  
-    A --> D[Data filtering and sorting]
-    A --> E[Hover details on existing plot]
-    
-    B --> F[cpal_point_interactive]
-    C --> G[cpal_mapgl + layers]
-    D --> H[cpal_table_interactive]
-    E --> I[cpal_interactive]
-    
-    F --> J[Choose: tooltip_var, onclick_var, data_id_var]
-    G --> K[Choose: bounds, style, paint properties]
-    H --> L[Choose: pagination, searchable, columns]
-    I --> M[Choose: width_svg, height_svg]
-```
-
-### **Performance Optimization Guidelines**
-
-**Interactive visualizations can become slow with large datasets. Optimize by:**
-
-1.  **Data size management:**
+### Interactive Line Chart
 
 ```{r}
-# Limit data points for interactive elements
-large_data %>% 
-  slice_sample(n = 1000) %>%  # Sample for interactivity
-  ggplot(aes(x = x, y = y)) +
-  cpal_point_interactive(tooltip_var = "label")
-```
-
-2.  **Efficient tooltip content:**
-
-```{r}
-# Keep tooltips concise and pre-computed
-data %>%
+#| label: interactive-line
+# Create time series data
+set.seed(123)
+time_data <- data.frame(
+  year = rep(2018:2023, 3),
+  value = c(
+    cumsum(c(100, rnorm(5, 8, 3))),
+    cumsum(c(80, rnorm(5, 6, 4))),
+    cumsum(c(60, rnorm(5, 10, 5)))
+  ),
+  group = rep(c("Region A", "Region B", "Region C"), each = 6)
+) |>
   mutate(
-    tooltip_text = paste("Value:", round(value, 1))  # Pre-compute
-  ) %>%
-  ggplot(aes(x = category, y = value)) +
-  cpal_col_interactive(aes(tooltip = tooltip_text))
-```
-
-3.  **Appropriate rendering dimensions:**
-
-```{r}
-# Match dimensions to container for optimal performance
-cpal_interactive(plot, width_svg = 8, height_svg = 5)  # Standard
-```
-
-### **Common Interactive Visualization Patterns**
-
-#### **Dashboard Panel Pattern**
-
-```{r}
-# Compact interactive elements for dashboard layouts
-dashboard_plot <- ggplot(kpi_data, aes(x = month, y = kpi)) +
-  cpal_line_interactive(
-    aes(tooltip = paste("Month:", month, "\nKPI:", round(kpi, 1))),
-    color = cpal_colors("teal")
-  ) +
-  theme_cpal_minimal(base_size = 12) +
-  labs(title = "KPI Trend")
-
-cpal_interactive(dashboard_plot, width_svg = 6, height_svg = 4)
-```
-
-#### **Presentation Exploration Pattern**
-
-```{r}
-# Large interactive display for presentation exploration
-presentation_plot <- ggplot(complex_data, aes(x = factor1, y = outcome)) +
-  cpal_point_interactive(
-    aes(
-      color = category,
-      size = importance,
-      tooltip = detailed_tooltip_text
+    tooltip = paste0(
+      "<strong>", group, "</strong><br>",
+      "Year: ", year, "<br>",
+      "Value: ", round(value, 1)
     )
+  )
+
+p_line <- ggplot(time_data, aes(x = year, y = value, color = group, group = group)) +
+  geom_line_interactive(aes(data_id = group), linewidth = 1.2) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = group),
+    size = 4
   ) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal(base_size = 16)
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Growth Trends by Region",
+    subtitle = "Hover over points to see values",
+    x = "Year",
+    y = "Cumulative Value",
+    color = "Region"
+  ) +
+  theme_cpal()
 
-cpal_interactive(presentation_plot, width_svg = 12, height_svg = 8)
+cpal_interactive(p_line)
 ```
 
-## Troubleshooting Interactive Features
+---
 
-### **Font Issues in Interactive Outputs**
+## Main Function: `cpal_interactive()`
 
-**Problem**: Interactive plots show generic fonts instead of Inter/Roboto
+Convert any ggplot with interactive geoms to a fully interactive visualization.
 
-```{r}
-# Solution: Verify font setup
-setup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)
-
-# Check font availability
-get_cpal_font_family(for_interactive = TRUE)
-
-# If fonts still not working, check system requirements
-# Interactive fonts require internet connection for Google Fonts
+```r
+cpal_interactive(
+  plot,
+  width_svg = 8,
+  height_svg = 5,
+  ...
+)
 ```
 
-### **Interactive Elements Not Responding**
+#### Arguments
 
-**Problem**: Hover and click effects not working
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `plot` | A ggplot2 object with interactive geoms | (required) |
+| `width_svg` | Width in inches | 8 |
+| `height_svg` | Height in inches | 5 |
+| `...` | Additional arguments to `girafe()` |
 
-```{r}
-# Check ggiraph installation
-install.packages("ggiraph")
+#### Styling Features
+
+- CPAL-branded hover colors
+- Smooth transitions
+- Consistent tooltip styling
+- Font integration
+
+#### Examples
+
+```r
+library(ggplot2)
 library(ggiraph)
 
-# Verify interactive geom syntax
-# Make sure you're using *_interactive() geoms, not regular geoms
-geom_point_interactive(aes(tooltip = "text"))  # Correct
-geom_point(aes(tooltip = "text"))              # Won't work
-```
-
-### **Map Display Issues**
-
-**Problem**: Maps not loading or displaying incorrectly
-
-```{r}
-# Check mapgl installation
-install.packages("mapgl")
-
-# Verify Mapbox requirements (may need API key for advanced features)
-# Basic styles work without API key, custom styles may require one
-```
-
-### **Performance Issues**
-
-**Problem**: Interactive visualizations loading slowly
-
-```{r}
-# Reduce data size
-data %>% slice_sample(n = 500) %>% # Sample data
-
-# Simplify tooltips
-aes(tooltip = short_label)  # Instead of complex paste() statements
-
-# Use appropriate dimensions
-cpal_interactive(plot, width_svg = 6, height_svg = 4)  # Smaller for faster rendering
-```
-
-## Advanced Integration Examples
-
-### **Multi-Panel Interactive Dashboard**
-
-```{r}
-# Create coordinated interactive elements
-overview_chart <- create_overview_plot() %>% cpal_interactive()
-detail_table <- cpal_table_interactive(detailed_data)
-geographic_map <- cpal_mapgl() %>% add_data_layers()
-
-# All elements share consistent CPAL branding and fonts
-```
-
-### **Presentation-Ready Interactive Elements**
-
-```{r}
-# Large-format interactive for live presentation
-presentation_interactive <- ggplot(key_findings, aes(x = factor, y = impact)) +
-  cpal_col_interactive(
-    aes(
-      fill = factor,
-      tooltip = paste("Factor:", factor,
-                     "\nImpact Score:", round(impact, 1),
-                     "\nDetails:", description)
-    )
+# Basic interactive plot
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point_interactive(
+    aes(tooltip = paste("MPG:", mpg, "<br>Weight:", wt)),
+    size = 3
   ) +
-  scale_fill_cpal(palette = "main") +
-  theme_cpal(base_size = 18) +
-  labs(title = "Key Impact Factors") %>%
-  cpal_interactive(width_svg = 12, height_svg = 8)
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+cpal_interactive(p)
+
+# Custom dimensions
+cpal_interactive(p, width_svg = 10, height_svg = 6)
 ```
 
-------------------------------------------------------------------------
+---
 
-*Interactive features transform static CPAL visualizations into engaging, explorable experiences. Use them to empower your audience to discover insights, explore data relationships, and engage more deeply with your analysis while maintaining consistent CPAL branding and professional quality.*
+## Interactive Geom Wrappers
+
+### `cpal_point_interactive()`
+
+Interactive points with CPAL defaults.
+
+```r
+cpal_point_interactive(
+  mapping = NULL,
+  data = NULL,
+  tooltip_var = NULL,
+  onclick_var = NULL,
+  data_id_var = NULL,
+  ...
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `mapping` | Aesthetic mappings |
+| `data` | Data frame |
+| `tooltip_var` | Column name for tooltip text |
+| `onclick_var` | Column name for click action (JavaScript) |
+| `data_id_var` | Column name for element ID (for highlighting) |
+| `...` | Additional arguments to `geom_point_interactive()` |
+
+#### Examples
+
+```r
+# Using the wrapper
+mtcars$name <- rownames(mtcars)
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  cpal_point_interactive(tooltip_var = "name", size = 3) +
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+cpal_interactive(p)
+
+# With data ID for linked highlighting
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  cpal_point_interactive(
+    tooltip_var = "name",
+    data_id_var = "cyl"  # Hovering highlights all same-cylinder cars
+  ) +
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+---
+
+### `cpal_line_interactive()`
+
+Interactive lines for time series and trend data.
+
+```r
+cpal_line_interactive(
+  mapping = NULL,
+  data = NULL,
+  tooltip_var = NULL,
+  onclick_var = NULL,
+  data_id_var = NULL,
+  ...
+)
+```
+
+#### Examples
+
+```r
+# Time series data
+library(dplyr)
+
+time_data <- data.frame(
+  date = seq.Date(as.Date("2020-01-01"), by = "month", length.out = 24),
+  value = cumsum(rnorm(24, 5, 2)),
+  group = rep(c("A", "B"), each = 12)
+)
+
+p <- ggplot(time_data, aes(x = date, y = value, color = group)) +
+  cpal_line_interactive(
+    aes(tooltip = paste(format(date, "%b %Y"), "\nValue:", round(value, 1))),
+    linewidth = 1.2
+  ) +
+  scale_color_cpal("compare") +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+---
+
+### `cpal_col_interactive()`
+Interactive columns for bar charts.
+
+```r
+cpal_col_interactive(
+  mapping = NULL,
+  data = NULL,
+  tooltip_var = NULL,
+  onclick_var = NULL,
+  data_id_var = NULL,
+  ...
+)
+```
+
+#### Examples
+
+```r
+# Bar chart with tooltips
+bar_data <- mtcars |>
+  group_by(cyl) |>
+  summarise(
+    avg_mpg = mean(mpg),
+    count = n(),
+    .groups = "drop"
+  ) |>
+  mutate(
+    tooltip_text = paste0(
+      "Cylinders: ", cyl, "\n",
+      "Avg MPG: ", round(avg_mpg, 1), "\n",
+      "Count: ", count
+    )
+  )
+
+p <- ggplot(bar_data, aes(x = factor(cyl), y = avg_mpg, fill = factor(cyl))) +
+  cpal_col_interactive(aes(tooltip = tooltip_text)) +
+  scale_fill_cpal("main_3") +
+  labs(x = "Cylinders", y = "Average MPG") +
+  theme_cpal() +
+  theme(legend.position = "none")
+
+cpal_interactive(p)
+```
+
+---
+
+### `cpal_polygon_interactive()`
+
+Interactive polygons for maps and shapes.
+
+```r
+cpal_polygon_interactive(
+  mapping = NULL,
+  data = NULL,
+  tooltip_var = NULL,
+  onclick_var = NULL,
+  data_id_var = NULL,
+  ...
+)
+```
+
+#### Examples
+
+```r
+# With sf data
+library(sf)
+
+# Assuming you have geographic data
+ggplot(geo_data) +
+  cpal_polygon_interactive(
+    aes(fill = value, tooltip = region_name)
+  ) +
+  scale_fill_cpal_c("teal_seq_5") +
+  theme_cpal_map()
+```
+
+---
+
+## Tooltip Customization
+
+### HTML Tooltips
+
+Tooltips support HTML formatting:
+
+```r
+mtcars$tooltip <- paste0(
+  "<strong>", rownames(mtcars), "</strong><br>",
+  "<em>Performance</em><br>",
+  "MPG: ", mtcars$mpg, "<br>",
+  "HP: ", mtcars$hp, "<br>",
+  "<span style='color:#007A8C;'>Cylinders: ", mtcars$cyl, "</span>"
+)
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point_interactive(aes(tooltip = tooltip), size = 3) +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+### Styling Tooltips
+
+```r
+cpal_interactive(
+  p,
+  options = list(
+    opts_tooltip(
+      css = "background-color:#004855;color:white;padding:10px;border-radius:5px;",
+      use_fill = FALSE
+    )
+  )
+)
+```
+
+---
+
+## Click Actions
+
+### JavaScript onclick
+
+```r
+mtcars$onclick <- sprintf(
+  "window.open('https://google.com/search?q=%s')",
+  gsub(" ", "+", rownames(mtcars))
+)
+
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point_interactive(
+    aes(tooltip = rownames(mtcars), onclick = onclick),
+    size = 3
+  ) +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+### Shiny Integration
+
+```r
+# In Shiny, use data_id for server-side handling
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point_interactive(
+    aes(tooltip = rownames(mtcars), data_id = rownames(mtcars)),
+    size = 3
+  ) +
+  theme_cpal()
+
+# Server
+output$plot <- renderGirafe({
+  cpal_interactive(p)
+})
+
+observeEvent(input$plot_selected, {
+  selected_car <- input$plot_selected
+  # Do something with the selection
+})
+```
+
+---
+
+## Linked Highlighting
+
+Use `data_id` to link elements across the visualization:
+
+```r
+# All points with same cylinder count highlight together
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point_interactive(
+    aes(
+      tooltip = rownames(mtcars),
+      data_id = factor(cyl)  # Link by cylinder count
+    ),
+    size = 3
+  ) +
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+---
+
+## Multiple Geoms
+
+Combine multiple interactive geoms:
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point_interactive(
+    aes(tooltip = rownames(mtcars), data_id = factor(cyl)),
+    size = 3,
+    color = "#007A8C"
+  ) +
+  geom_smooth_interactive(
+    aes(tooltip = "Trend line"),
+    method = "lm",
+    color = "#004855",
+    fill = "#D8EFF4"
+  ) +
+  theme_cpal()
+
+cpal_interactive(p)
+```
+
+---
+
+## Interactive in Shiny
+
+### Basic Setup
+
+```r
+library(shiny)
+library(ggiraph)
+library(cpaltemplates)
+
+ui <- fluidPage(
+  theme = cpal_dashboard_theme(),
+  girafeOutput("interactive_plot")
+)
+
+server <- function(input, output) {
+  output$interactive_plot <- renderGirafe({
+    p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+      geom_point_interactive(aes(tooltip = rownames(mtcars))) +
+      scale_color_cpal("main_3") +
+      theme_cpal()
+
+    cpal_interactive(p)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+### With Selection
+
+```r
+server <- function(input, output) {
+  output$interactive_plot <- renderGirafe({
+    mtcars$id <- rownames(mtcars)
+
+    p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+      geom_point_interactive(
+        aes(tooltip = id, data_id = id),
+        size = 3,
+        color = "#007A8C"
+      ) +
+      theme_cpal()
+
+    girafe(
+      ggobj = p,
+      options = list(
+        opts_selection(type = "single", css = "fill:#C3257B;stroke:#C3257B;")
+      )
+    )
+  })
+
+  output$selected <- renderText({
+    paste("Selected:", input$interactive_plot_selected)
+  })
+}
+```
+
+---
+
+## Font Setup for Interactive
+
+Interactive plots require special font handling:
+
+```r
+# Set up fonts for interactive use
+setup_cpal_google_fonts()
+
+# Verify interactive font
+cpal_font_family("interactive")
+#> [1] "Inter"
+
+# If fonts aren't working, try:
+if (requireNamespace("gdtools", quietly = TRUE)) {
+  gdtools::register_gfont("Inter")
+  gdtools::register_gfont("Roboto")
+}
+```
+
+---
+
+## Performance Tips
+
+### Large Datasets
+
+```r
+# For large datasets, sample or aggregate
+large_data_sample <- large_data |>
+  slice_sample(n = 1000)
+
+# Or aggregate
+aggregated <- large_data |>
+  group_by(region) |>
+  summarise(across(everything(), mean))
+```
+
+### Optimize SVG Size
+
+```r
+# Smaller dimensions for faster rendering
+cpal_interactive(p, width_svg = 6, height_svg = 4)
+```
+
+### Reduce Tooltip Complexity
+
+```r
+# Simple tooltips render faster than HTML-heavy ones
+aes(tooltip = name)  # Fast
+aes(tooltip = complex_html)  # Slower
+```
+
+---
+
+## Complete Example
+
+```r
+library(cpaltemplates)
+library(ggplot2)
+library(ggiraph)
+library(dplyr)
+
+# Prepare data with tooltips
+plot_data <- mtcars |>
+  mutate(
+    name = rownames(mtcars),
+    cylinders = factor(cyl),
+    tooltip = paste0(
+      "<strong>", name, "</strong><br>",
+      "MPG: ", mpg, "<br>",
+      "Horsepower: ", hp, "<br>",
+      "Weight: ", wt, " × 1000 lbs"
+    )
+  )
+
+# Create interactive visualization
+p <- ggplot(plot_data, aes(x = wt, y = mpg, color = cylinders)) +
+  geom_point_interactive(
+    aes(tooltip = tooltip, data_id = cylinders),
+    size = 4,
+    alpha = 0.8
+  ) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Vehicle Fuel Efficiency",
+    subtitle = "Hover over points for details",
+    x = "Weight (1,000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders"
+  ) +
+  theme_cpal()
+
+# Render interactive
+cpal_interactive(p)
+```
+
+---
+
+## Troubleshooting
+
+### Fonts Not Rendering
+
+```r
+# Install gdtools for font support
+install.packages("gdtools")
+
+# Register fonts
+setup_cpal_google_fonts()
+gdtools::register_gfont("Inter")
+```
+
+### Tooltips Not Appearing
+
+```r
+# Check that you're using interactive geoms
+geom_point_interactive()  # Correct
+geom_point()              # Won't show tooltips
+```
+
+### Plot Not Displaying
+
+```r
+# Ensure ggiraph is loaded
+library(ggiraph)
+
+# Use cpal_interactive() or girafe()
+cpal_interactive(p)  # Correct
+print(p)             # Static only
+```
+
+---
+
+## Next Steps
+
+- [Maps & Geographic](maps-geographic.qmd) - Interactive maps
+- [Shiny Dashboards](shiny-dashboards.qmd) - Dashboard integration
+- [Themes & Styling](themes-styling.qmd) - Theme customization

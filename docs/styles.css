@@ -1,0 +1,138 @@
+/* cpaltemplates Documentation Custom Styles */
+
+/* CPAL Brand Colors - New Color System */
+:root {
+  /* Core Colors */
+  --cpal-midnight: #004855;
+  --cpal-deep-teal: #006878;
+  --cpal-coral: #E86A50;
+  --cpal-sage: #5A8A6F;
+  --cpal-slate: #5C6B73;
+  --cpal-warm-gray: #9BA8AB;
+  /* Legacy (backward compatibility) */
+  --cpal-teal: #007A8C;
+  --cpal-gold: #B8860B;
+  /* Status Colors */
+  --cpal-success: #5A8A6F;
+  --cpal-warning: #D4A84B;
+  --cpal-error: #C75540;
+  --cpal-info: #006878;
+}
+
+/* Navbar customization */
+.navbar {
+  background-color: var(--cpal-midnight) !important;
+}
+
+/* Logo spacing - add margin between logo and title */
+.navbar-brand img {
+  margin-right: 10px;
+}
+
+/* Code block styling */
+pre.sourceCode {
+  border-left: 3px solid var(--cpal-teal);
+  background-color: #f8f9fa;
+}
+
+/* Function reference styling */
+.function-signature {
+  background-color: #e9ecef;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+/* Color swatch display */
+.color-swatch {
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 1px solid #ddd;
+}
+
+/* Parameter tables */
+.param-table {
+  font-size: 0.9rem;
+}
+
+.param-table th {
+  background-color: var(--cpal-midnight);
+  color: white;
+}
+
+/* Callout customization */
+.callout-tip {
+  border-left-color: var(--cpal-teal) !important;
+}
+
+.callout-warning {
+  border-left-color: var(--cpal-orange) !important;
+}
+
+.callout-important {
+  border-left-color: var(--cpal-pink) !important;
+}
+
+/* Feature cards for landing page */
+.feature-card {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.feature-card h3 {
+  color: var(--cpal-teal);
+  margin-top: 0;
+}
+
+/* Quick reference tables */
+.quick-ref-table {
+  font-size: 0.85rem;
+}
+
+.quick-ref-table code {
+  background-color: #f1f3f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Deprecated function styling */
+.deprecated {
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+.deprecated::before {
+  content: "DEPRECATED: ";
+  font-weight: bold;
+  color: #856404;
+}
+
+/* Recommended function styling */
+.recommended {
+  background-color: #d4edda;
+  border: 1px solid #28a745;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+.recommended::before {
+  content: "RECOMMENDED: ";
+  font-weight: bold;
+  color: #155724;
+}

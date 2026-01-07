@@ -1,652 +1,334 @@
 ---
 title: "Utilities & Helpers"
-subtitle: "Template management, asset handling, and utility functions for existing projects"
-execute:
-  echo: true        # Show all code chunks
-  eval: false       # Don't execute any code chunks by default
-  warning: false    # Don't show warnings
-  message: false    # Don't show messages
-  error: false      # Don't show errors
-  include: true     # Include chunks in output
+subtitle: "Font management and utility functions"
 ---
 
-## Why Utility Functions Matter for Existing Projects
+## Overview
 
-**Not every project starts with cpaltemplates.** You may have existing analyses, legacy projects, or inherited codebases that need CPAL capabilities added incrementally. **Rather than starting over, utility functions let you add CPAL features to any existing project.**
+cpaltemplates provides 7 utility functions for font management, plot operations, and accessibility checking.
 
-### **The Existing Project Challenge**
+---
 
-| **Situation** | **Traditional Approach** | **CPAL Solution** |
-|---------------|------------------------|------------------|
-| **Need to add reporting to analysis project** | Manually configure Quarto, copy assets, set up templates | `use_quarto_report()` - instant professional reporting |
-| **Want to create dashboard from existing analysis** | Learn Shiny, set up structure, configure themes | `use_shiny_dashboard()` - modular dashboard ready |
-| **Legacy project needs CPAL branding** | Manually copy logos, update CSS, modify themes | `update_cpal_assets()` - automatic asset refresh |
-| **Add workflow automation to existing work** | Learn targets, configure pipeline, set up structure | `use_targets()` - instant reproducible workflow |
-| **Need CPAL fonts in existing project** | Research font setup, configure manually | `cpal_font_family()` - automatic font management |
+## Font Management
 
-### **What CPAL Utilities Provide**
+### `cpal_font_family()`
 
-- **Non-destructive enhancement**: Add capabilities without disrupting existing work
-- **Modular functionality**: Add only what you need, when you need it
-- **Consistent integration**: CPAL standards applied to any project structure
-- **Asset management**: Automatic handling of logos, CSS, fonts, and templates
-- **Template-driven additions**: Professional templates adapted to your existing project
+Get the best available CPAL font for different contexts.
 
-## CPAL Utilities Function Overview
-
-The cpaltemplates package provides **12 utility functions** organized into 4 categories:
-
-| **Category** | **Functions** | **Purpose** |
-|--------------|---------------|-------------|
-| **Template Addition** | `use_quarto_report()`, `use_quarto_slides()`, `use_quarto_web()`, `use_shiny_dashboard()`, `use_shiny_app()`, `use_shiny_theme()` | Add complete new capabilities to existing projects |
-| **Workflow Enhancement** | `use_targets()` | Add modern R workflow automation |
-| **Asset Management** | `update_cpal_assets()`, `copy_cpal_assets()`, `get_cpal_asset()` | Manage CPAL branding assets and files |
-| **Font Utilities** | `cpal_font_family()`, `cpal_font_family_fallback()` | Consistent font management across contexts |
-
-## Template Addition Functions
-
-### **use_quarto_report() - Add Professional Reporting**
-
-**When to use:** Transform analysis projects into publication-ready reports with professional CPAL branding.
-
-```{r}
-# Add Quarto reporting to your existing analysis project
-use_quarto_report()
-
-# Specify different project location
-use_quarto_report(path = "/path/to/existing/project")
-
-# Overwrite existing Quarto files if needed
-use_quarto_report(overwrite = TRUE)
+```r
+cpal_font_family(
+  type = c("plot", "interactive", "table", "print"),
+  setup = FALSE
+)
 ```
 
-**What gets added to your project:**
-```
-your-existing-project/
-├── report.qmd           # Professional report template
-├── _quarto.yml          # CPAL-configured Quarto settings  
-├── assets/
-│   ├── css/
-│   │   └── cpal.css     # CPAL report styling
-│   ├── images/
-│   │   └── cpal-logo.png # CPAL branding
-│   └── tex/
-│       └── cpal.tex     # LaTeX template for PDF output
-├── R/                   # Helper functions for report
-│   └── report-helpers.R
-└── outputs/             # Rendered reports directory
-```
+#### Arguments
 
-**Perfect for:**
-- **Turning analysis into stakeholder reports**: Transform R scripts into professional documents
-- **Adding documentation to research projects**: Create publication-ready summaries
-- **Executive briefings**: Generate branded reports for leadership
-- **Grant applications**: Professional document formatting with CPAL branding
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `type` | Context for font usage | "plot" |
+| `setup` | Attempt font setup if missing | FALSE |
 
-### **use_quarto_slides() - Add Presentation Capability**
+#### Font Selection
 
-**When to use:** Create professional presentations directly from your analysis data.
+The function returns fonts in this priority:
+1. **Inter** - Primary CPAL font (preferred)
+2. **Roboto** - Secondary font
+3. **sans** - System fallback
 
-```{r}
-# Add slides to existing project
-use_quarto_slides()
+#### Examples
 
-# Custom slide filename
-use_quarto_slides(filename = "board-presentation.qmd")
+```r
+# Get font for regular plots
+cpal_font_family()
+#> [1] "Inter"
 
-# Specify project location
-use_quarto_slides(path = "/path/to/project", filename = "q4-results.qmd")
-```
+# Get font for interactive (ggiraph)
+cpal_font_family("interactive")
+#> [1] "Inter"
 
-**What gets added:**
-- **CPAL-branded slide template** with consistent theming
-- **Interactive plot integration** ready for live presentations
-- **Multiple output formats** (HTML slides, PDF, PowerPoint)
-- **Speaker notes capability** for presentation delivery
-- **Asset integration** with automatic logo and image handling
+# Get font for tables
+cpal_font_family("table")
+#> [1] "Inter"
 
-**Perfect for:**
-- **Conference presentations**: Professional slides with CPAL branding
-- **Board meetings**: Executive-level presentations
-- **Team presentations**: Internal sharing with consistent format
-- **Training workshops**: Educational content with CPAL identity
+# Get font for print
+cpal_font_family("print")
+#> [1] "Inter"
 
-### **use_quarto_web() - Add Website/Documentation**
-
-**When to use:** Transform projects into comprehensive websites or multi-page documentation.
-
-```{r}
-# Add website capability to existing project  
-use_quarto_web()
-
-# Specify location and handle existing files
-use_quarto_web(path = "/path/to/project", overwrite = TRUE)
+# Auto-setup if missing
+cpal_font_family(setup = TRUE)
 ```
 
-**What gets added:**
-```
-your-existing-project/
-├── _quarto.yml          # Website configuration
-├── index.qmd            # Homepage
-├── about.qmd            # About page  
-├── resources.qmd        # Resources page
-├── data.qmd             # Data documentation page
-├── _site/               # Rendered website
-└── assets/              # CPAL website styling and assets
-```
+---
 
-**Perfect for:**
-- **Project documentation hubs**: Comprehensive project information sites
-- **Resource collections**: Centralized access to data, reports, tools
-- **Research portfolios**: Showcase multiple related analyses
-- **Team collaboration sites**: Shared knowledge bases
+### `cpal_font_family_fallback()`
 
-### **use_shiny_dashboard() - Add Interactive Dashboard**
+Returns the system font fallback.
 
-**When to use:** Transform static analysis into interactive dashboards for ongoing monitoring or stakeholder engagement.
-
-```{r}
-# Add complete dashboard framework to existing project
-use_shiny_dashboard()
-
-# Handle existing files
-use_shiny_dashboard(path = "/path/to/project", overwrite = TRUE)
-```
-
-**What gets added:**
-```
-your-existing-project/
-├── app.R                # Main dashboard application
-├── R/
-│   ├── ui.R            # User interface components
-│   ├── server.R        # Server logic
-│   ├── global.R        # Global variables and data loading
-│   └── modules/        # Modular dashboard components
-│       ├── overview_module.R
-│       └── detail_module.R
-├── www/
-│   ├── cpal-theme.css  # Dashboard styling
-│   └── custom.js       # Custom JavaScript (if needed)
-└── data/               # Dashboard data directory
-```
-
-**Dashboard features included:**
-- **Modular architecture**: Organized, maintainable code structure
-- **CPAL UI theming**: Consistent branding across all dashboard elements
-- **Interactive plot templates**: Ready-to-use cpaltemplates integration
-- **Data loading framework**: Structured data handling for dashboards
-- **Responsive design**: Works on desktop and mobile devices
-
-**Perfect for:**
-- **Executive dashboards**: KPI monitoring with real-time updates
-- **Program monitoring**: Track outcomes and performance metrics
-- **Financial dashboards**: Revenue, costs, and performance tracking
-- **Public data displays**: Community-facing data exploration tools
-
-### **use_shiny_app() - Add Simple Interactive App**
-
-**When to use:** Create focused interactive applications (simpler than full dashboards).
-
-```{r}
-# Add simple Shiny app template
-use_shiny_app()
-
-# Customize location and file handling
-use_shiny_app(path = "/path/to/project", overwrite = FALSE)
-```
-
-**What gets added:**
-- **Simple app structure**: Streamlined Shiny application template
-- **CPAL UI styling**: Consistent branding without dashboard complexity
-- **Interactive examples**: Starter code for common app patterns
-- **Deployment configuration**: Ready for shinyapps.io or internal deployment
-
-**Perfect for:**
-- **Calculators and tools**: Cost calculators, impact estimators
-- **Data entry forms**: Structured data collection applications
-- **Single-purpose tools**: Focused functionality applications
-- **Prototype development**: Testing interactive concepts quickly
-
-### **use_shiny_theme() - Add Enhanced Shiny Styling**
-
-**When to use:** Upgrade existing Shiny applications with professional CPAL theming.
-
-```{r}
-# Add CPAL theme to existing Shiny app
-use_shiny_theme()
-
-# Custom theme filename
-use_shiny_theme(theme_name = "custom-cpal-theme.css")
-
-# Apply to specific project
-use_shiny_theme(path = "/path/to/shiny/project")
-```
-
-**What the theme provides:**
-- **CPAL color integration**: Midnight, teal, pink, orange, gold color schemes
-- **Typography consistency**: Inter and Roboto font integration
-- **Component styling**: Buttons, inputs, outputs styled to CPAL standards
-- **Responsive behavior**: Mobile-friendly interface adjustments
-- **Accessibility enhancements**: High contrast and readable interface elements
-
-## Workflow Enhancement Functions
-
-### **use_targets() - Add Workflow Automation**
-
-**When to use:** Add reproducible workflow automation to existing analysis projects with multiple steps or dependencies.
-
-```{r}
-# Add basic targets pipeline
-use_targets()
-
-# Specify pipeline type based on your project
-use_targets(type = "analysis")    # For data analysis workflows
-use_targets(type = "report")      # For report generation workflows  
-use_targets(type = "basic")       # For simple automation needs
-
-# Apply to specific project
-use_targets(path = "/path/to/project", type = "analysis")
-```
-
-**What gets added:**
-```
-your-existing-project/
-├── _targets.R           # Main targets pipeline configuration
-├── R/
-│   ├── functions.R      # Custom functions for pipeline
-│   └── packages.R       # Package loading and configuration
-└── targets-config/      # Pipeline configuration files
-    └── setup.R
-```
-
-**Pipeline types explained:**
-
-#### **Analysis Pipeline (`type = "analysis"`)**
-**Perfect for:** Multi-step data analysis with clear dependencies
-```{r}
-# Example pipeline structure created:
-# 1. Load and clean raw data
-# 2. Perform statistical analysis  
-# 3. Create visualizations
-# 4. Generate summary outputs
-# Each step only runs when dependencies change
-```
-
-#### **Report Pipeline (`type = "report"`)**
-**Perfect for:** Automated report generation with data dependencies
-```{r}
-# Example pipeline structure created:
-# 1. Process latest data
-# 2. Update analysis results
-# 3. Render report with current data
-# 4. Generate multiple output formats
-# Report auto-updates when data changes
-```
-
-#### **Basic Pipeline (`type = "basic"`)**
-**Perfect for:** Simple automation needs or learning targets
-```{r}
-# Example pipeline structure created:
-# 1. Load data
-# 2. Create summary
-# 3. Generate output
-# Minimal setup for getting started with targets
-```
-
-**When targets adds value:**
-- **Complex analyses**: Multiple data sources, processing steps, modeling
-- **Regular updates**: Analysis that runs periodically with new data
-- **Collaborative projects**: Clear documentation of analysis dependencies
-- **Long-running computations**: Efficient re-running when inputs change
-
-## Asset Management Functions
-
-### **update_cpal_assets() - Refresh Project Branding**
-
-**When to use:** Update existing projects with the latest CPAL branding assets, logos, and styling.
-
-```{r}
-# Update all CPAL assets in current project
-update_cpal_assets()
-
-# Update specific asset types
-update_cpal_assets(components = "css")      # Only CSS files
-update_cpal_assets(components = "images")   # Only logos and images
-update_cpal_assets(components = "all")      # Everything (default)
-
-# Update assets in specific project
-update_cpal_assets(path = "/path/to/project", components = "all")
-```
-
-**What gets updated:**
-
-#### **CSS Components**
-- **Updated CPAL styling**: Latest color schemes, typography, spacing
-- **New theme variants**: Additional styling options and improvements
-- **Enhanced accessibility**: Improved contrast and screen reader compatibility
-- **Cross-platform fixes**: Better rendering across different browsers and devices
-
-#### **Image Components**
-- **New logo variants**: Additional size options, color variations
-- **Updated brand assets**: Refreshed logos, icons, favicons
-- **Optimized images**: Better compression, web-optimized formats
-- **Complete icon sets**: Expanded library of CPAL-branded icons
-
-**Perfect for:**
-- **Legacy project updates**: Bring old projects up to current CPAL standards
-- **Periodic maintenance**: Keep project branding current with organizational changes
-- **New team members**: Ensure consistent branding across inherited projects
-- **Pre-publication refresh**: Update assets before sharing or publishing
-
-### **get_cpal_asset() - Access Specific Assets**
-
-**When to use:** Programmatically access specific CPAL assets for custom integrations or special use cases.
-
-```{r}
-# Get the main CPAL logo
-logo_path <- get_cpal_asset("CPAL_Logo_Teal.png")
-
-# Get specific asset with category
-icon_path <- get_cpal_asset("CPAL_Icon_White.png", category = "icons")
-favicon_path <- get_cpal_asset("cpal-favicon.ico", category = "favicons")
-
-# Use in your code
-if (!is.null(logo_path)) {
-  # Asset exists and can be used
-  knitr::include_graphics(logo_path)
-}
-```
-
-**Available asset categories:**
-- **`logos`**: Full CPAL logos in multiple colors and formats
-- **`icons`**: CPAL icon variants for different backgrounds
-- **`favicons`**: Website favicon and app icons
-- **`css`**: CPAL styling files for different contexts
-
-**Perfect for:**
-- **Custom integrations**: Programmatic asset handling in functions
-- **Conditional asset loading**: Check asset availability before use
-- **Dynamic branding**: Runtime selection of appropriate assets
-- **Template development**: Building reusable templates with asset integration
-
-## Font Utility Functions
-
-### **cpal_font_family() - Consistent Font Management**
-
-**When to use:** Get the preferred CPAL font family for use in tables, plots, or other contexts where you need explicit font specification.
-
-```{r}
-# Get current CPAL font family
-current_font <- cpal_font_family()
-
-# Use in gt tables
-gt_table %>%
-  tab_options(table.font.names = cpal_font_family())
-
-# Use in custom ggplot themes  
-theme_custom <- theme_minimal(base_family = cpal_font_family())
-```
-
-**What this function does:**
-- **Returns preferred font**: "Inter" if available, with intelligent fallbacks
-- **Cross-platform compatibility**: Handles font availability differences
-- **Consistent with themes**: Matches font choices in CPAL theme functions
-- **Simple integration**: One function call for font consistency
-
-### **cpal_font_family_fallback() - Reliable Font Backup**
-
-**When to use:** Ensure font availability in contexts where Google Fonts might not be accessible (servers, restricted environments, print outputs).
-
-```{r}
-# Get reliable system font fallback
-fallback_font <- cpal_font_family_fallback()
-
-# Use in server environments or when Google Fonts unavailable
-theme_server_safe <- theme_cpal(base_family = cpal_font_family_fallback())
-
-# Use in print-optimized outputs
-print_theme <- theme_cpal_print(base_family = cpal_font_family_fallback())
-```
-
-## Integration Workflows and Examples
-
-### **Transforming Analysis to Full Project**
-
-**Scenario:** You have an existing data analysis that needs professional reporting and interactive dashboard capabilities.
-
-```{r}
-# Starting point: analysis-only project
-# your-analysis/
-# ├── analysis.R
-# ├── data/
-# └── outputs/
-
-# Step 1: Add professional reporting capability
-use_quarto_report()
-
-# Step 2: Add interactive dashboard for stakeholders  
-use_shiny_dashboard()
-
-# Step 3: Add workflow automation for regular updates
-use_targets(type = "analysis")
-
-# Step 4: Ensure latest CPAL branding
-update_cpal_assets()
-
-# Result: Comprehensive project with analysis + reporting + dashboard + automation
-```
-
-### **Upgrading Legacy Project**
-
-**Scenario:** Inherited project needs CPAL standards and modern workflows.
-
-```{r}
-# Step 1: Update all branding to current CPAL standards
-update_cpal_assets(components = "all")
-
-# Step 2: Add presentation capability for stakeholder meetings
-use_quarto_slides(filename = "stakeholder-presentation.qmd")
-
-# Step 3: Add workflow automation to handle manual processes
-use_targets(type = "report")
-
-# Step 4: Create web documentation for the project
-use_quarto_web()
-
-# Result: Modernized project with CPAL branding and professional workflows
-```
-
-### **Building Modular Capabilities**
-
-**Scenario:** Different projects need different combinations of CPAL capabilities.
-
-```{r}
-# Project A: Analysis + Dashboard
-use_shiny_dashboard()
-use_targets(type = "analysis")
-
-# Project B: Analysis + Reporting + Presentation
-use_quarto_report() 
-use_quarto_slides()
-
-# Project C: Comprehensive Documentation Hub
-use_quarto_web()
-use_quarto_slides()
-update_cpal_assets()
-
-# Each project gets exactly what it needs without unnecessary complexity
-```
-
-## Best Practices and Guidelines
-
-### **Function Selection Decision Guide**
-
-```{mermaid}
-graph TD
-    A[What do you want to add to existing project?] --> B[Reporting capability]
-    A --> C[Interactive features]
-    A --> D[Workflow automation]
-    A --> E[Updated branding]
-    A --> F[Font consistency]
-    
-    B --> G[use_quarto_report for documents]
-    B --> H[use_quarto_slides for presentations]  
-    B --> I[use_quarto_web for multi-page sites]
-    
-    C --> J[use_shiny_dashboard for comprehensive dashboards]
-    C --> K[use_shiny_app for simple applications]
-    C --> L[use_shiny_theme for styling existing apps]
-    
-    D --> M[use_targets for workflow automation]
-    
-    E --> N[update_cpal_assets for refreshed branding]
-    E --> O[get_cpal_asset for specific assets]
-    
-    F --> P[cpal_font_family for standard fonts]
-    F --> Q[cpal_font_family_fallback for reliability]
-```
-
-### **Safe Integration Practices**
-
-**Always backup before major changes:**
-```{r}
-# Check what exists before adding capabilities
-list.files(".", recursive = TRUE)
-
-# Use overwrite = FALSE (default) to avoid accidents
-use_quarto_report(overwrite = FALSE)
-
-# Test additions in development branch if using git
-```
-
-**Progressive enhancement strategy:**
-1. **Start small**: Add one capability at a time
-2. **Test integration**: Verify each addition works with your existing code
-3. **Document changes**: Update README and project documentation
-4. **Team communication**: Inform collaborators about new capabilities
-
-### **Performance Considerations**
-
-**Asset management:**
-- **Use `update_cpal_assets()` periodically**, not constantly
-- **Specify component types** (`"css"` or `"images"`) for targeted updates
-- **Check asset availability** with `get_cpal_asset()` before using in functions
-
-**Template additions:**
-- **Add templates incrementally** rather than all at once
-- **Consider project complexity** - not every project needs every capability
-- **Test resource requirements** - Shiny dashboards need more resources than reports
-
-## Troubleshooting Utility Functions
-
-### **File Conflicts and Overwrites**
-
-**Problem:** Utility function conflicts with existing files
-```{r}
-# Check what files would be created first
-use_quarto_report(overwrite = FALSE)  # Will warn about conflicts
-
-# Backup important files before overwriting
-file.copy("important_file.qmd", "important_file.qmd.backup")
-
-# Then proceed with overwrite if needed
-use_quarto_report(overwrite = TRUE)
-```
-
-### **Template File Errors**
-
-**Problem:** Template files not found or corrupted
-```{r}
-# Check package installation
-system.file("templates", package = "cpaltemplates")
-
-# Verify specific template exists
-system.file("templates/quarto/report.qmd.tpl", package = "cpaltemplates")
-
-# Reinstall package if templates missing
-# devtools::install_github("cpal-org/cpaltemplates")
-```
-
-### **Asset Update Issues**
-
-**Problem:** Assets not updating or copying correctly
-```{r}
-# Check write permissions in project directory
-file.access(".", mode = 2)  # Should return 0 for write access
-
-# Manually verify asset sources
-system.file("assets", package = "cpaltemplates")
-
-# Force refresh with specific components
-update_cpal_assets(components = "images")
-```
-
-### **Font Function Issues**
-
-**Problem:** Font functions returning unexpected results
-```{r}
-# Check font setup status
-setup_cpal_google_fonts(verbose = TRUE)
-
-# Verify font availability
-get_cpal_font_family(for_interactive = FALSE)
-
-# Use fallback if primary fonts unavailable
+```r
 cpal_font_family_fallback()
-```
-
-## Advanced Usage Patterns
-
-### **Scripted Project Enhancement**
-
-**Automate utility application across multiple projects:**
-```{r}
-# Function to standardize existing projects
-standardize_project <- function(project_path) {
-  # Update branding
-  update_cpal_assets(path = project_path)
-  
-  # Add reporting if not present
-  if (!file.exists(file.path(project_path, "_quarto.yml"))) {
-    use_quarto_report(path = project_path)
-  }
-  
-  # Add targets if complex analysis detected
-  r_files <- list.files(file.path(project_path, "R"), pattern = "\\.R$")
-  if (length(r_files) > 3) {
-    use_targets(path = project_path, type = "analysis")
-  }
-}
-
-# Apply to multiple projects
-project_dirs <- c("project-a", "project-b", "project-c")
-lapply(project_dirs, standardize_project)
-```
-
-### **Conditional Capability Addition**
-
-**Add capabilities based on project characteristics:**
-```{r}
-# Smart capability addition based on project content
-enhance_project <- function(path = ".") {
-  # Add dashboard if data files detected
-  if (length(list.files(file.path(path, "data"))) > 0) {
-    use_shiny_dashboard(path = path)
-  }
-  
-  # Add slides if presentation needed
-  if (any(grepl("presentation|slides", list.files(path, recursive = TRUE)))) {
-    use_quarto_slides(path = path)
-  }
-  
-  # Add targets if multiple R scripts
-  r_scripts <- list.files(file.path(path, "R"), pattern = "\\.R$") 
-  if (length(r_scripts) > 2) {
-    use_targets(path = path, type = "analysis")
-  }
-}
+#> [1] "sans"
 ```
 
 ---
 
-*CPAL utility functions provide flexible, non-destructive ways to enhance existing projects with professional capabilities. Use them to incrementally add CPAL standards, modern workflows, and advanced features to any R project without disrupting existing work.*
+### `get_cpal_font_family()`
+
+Legacy wrapper for backward compatibility.
+
+```r
+get_cpal_font_family(for_interactive = FALSE, setup_if_missing = TRUE)
+```
+
+::: {.callout-note}
+## Deprecated
+Use `cpal_font_family()` instead. This function is maintained for backward compatibility.
+:::
+
+---
+
+### `setup_cpal_google_fonts()`
+
+Download and register Inter/Roboto fonts from Google Fonts.
+
+```r
+setup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)
+```
+
+#### Arguments
+
+| Argument | Description | Default |
+|----------|-------------|---------|
+| `force_refresh` | Re-download even if fonts exist | FALSE |
+| `verbose` | Print status messages | TRUE |
+
+#### What It Does
+
+1. Downloads Inter and Roboto from Google Fonts
+2. Registers fonts with `sysfonts` for static plots
+3. Registers fonts with `gdtools` for interactive plots
+4. Enables `showtext` for font rendering
+
+#### Examples
+
+```r
+# Standard setup (run once per session)
+setup_cpal_google_fonts()
+#> Setting up CPAL fonts...
+#> ✓ Downloaded Inter from Google Fonts
+#> ✓ Downloaded Roboto from Google Fonts
+#> ✓ Registered fonts with sysfonts
+#> ✓ Enabled showtext
+#> Font setup complete!
+
+# Force re-download
+setup_cpal_google_fonts(force_refresh = TRUE)
+
+# Quiet mode
+setup_cpal_google_fonts(verbose = FALSE)
+```
+
+---
+
+## Plot Utilities
+
+### `save_cpal_plot()`
+
+Save plots with standardized CPAL dimensions.
+
+```r
+save_cpal_plot(
+  plot,
+  filename,
+  size = "default",
+  dpi = 300,
+  bg = "white",
+  ...
+)
+```
+
+See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+
+---
+
+### `add_cpal_logo()`
+
+Add CPAL logo to ggplot visualizations.
+
+```r
+add_cpal_logo(
+  plot,
+  position = c("top-right", "top-left", "bottom-right", "bottom-left"),
+  size = 0.09,
+  logo_path = NULL
+)
+```
+
+See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+
+---
+
+### `check_plot_accessibility()`
+
+Analyze a plot for accessibility issues.
+
+```r
+check_plot_accessibility(plot, verbose = TRUE)
+```
+
+#### What It Checks
+
+1. **Text Size** - Are labels readable?
+2. **Color Contrast** - Do colors meet WCAG standards?
+3. **Colorblind Safety** - Are colors distinguishable?
+
+See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+
+---
+
+## Common Patterns
+
+### Session Setup Script
+
+Create a setup script for consistent initialization:
+
+```r
+# setup.R - Source at the start of analysis
+
+library(cpaltemplates)
+library(ggplot2)
+library(dplyr)
+
+# Set up fonts
+setup_cpal_google_fonts()
+
+# Set default theme for session
+set_theme_cpal()
+
+# Verify setup
+message("CPAL environment ready")
+message("Font: ", cpal_font_family())
+```
+
+### R Profile Integration
+
+Add to `.Rprofile` for automatic setup:
+```r
+# .Rprofile
+if (interactive()) {
+  setHook("rstudio.sessionInit", function(newSession) {
+    if (newSession) {
+      if (requireNamespace("cpaltemplates", quietly = TRUE)) {
+        cpaltemplates::setup_cpal_google_fonts(verbose = FALSE)
+      }
+    }
+  }, action = "append")
+}
+```
+
+### Project-Level Setup
+
+```r
+# _setup.R (sourced by targets or analysis scripts)
+
+# Font setup
+cpaltemplates::setup_cpal_google_fonts()
+
+# Set global options
+options(
+  cpaltemplates.dpi = 300,
+  cpaltemplates.size = "slide"
+)
+```
+
+---
+
+## Font Troubleshooting
+
+### Fonts Not Rendering
+
+```r
+# Check if fonts are available
+sysfonts::font_families()
+
+# Force setup
+setup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)
+
+# Verify
+cpal_font_family(setup = TRUE)
+```
+
+### Interactive Plot Fonts
+
+```r
+# Install required packages
+install.packages(c("gdtools", "systemfonts"))
+
+# Register fonts for ggiraph
+if (requireNamespace("gdtools", quietly = TRUE)) {
+  gdtools::register_gfont("Inter")
+  gdtools::register_gfont("Roboto")
+}
+```
+
+### PDF/Print Fonts
+
+```r
+# For PDF output, use showtext
+library(showtext)
+showtext_auto()
+
+# Save with cairo device for better font support
+ggsave("plot.pdf", device = cairo_pdf)
+```
+
+### Font Fallback
+
+```r
+# When fonts aren't available
+tryCatch({
+  font <- cpal_font_family()
+}, error = function(e) {
+  font <- cpal_font_family_fallback()  # Returns "sans"
+})
+```
+
+---
+
+## Helper Functions Reference
+
+| Function | Purpose |
+|----------|---------|
+| `cpal_font_family()` | Get appropriate font for context |
+| `cpal_font_family_fallback()` | Get system fallback font |
+| `get_cpal_font_family()` | Legacy font accessor |
+| `setup_cpal_google_fonts()` | Download and register fonts |
+| `save_cpal_plot()` | Save with standard dimensions |
+| `add_cpal_logo()` | Add logo to plots |
+| `check_plot_accessibility()` | Accessibility analysis |
+
+---
+
+## Environment Variables
+
+cpaltemplates respects these environment variables:
+
+| Variable | Purpose |
+|----------|---------|
+| `MAPBOX_PUBLIC_TOKEN` | Mapbox API token for maps |
+| `CPAL_FONT_SETUP` | Skip font setup if "FALSE" |
+| `R_CPAL_VERBOSE` | Control message verbosity |
+
+```r
+# Set environment variables
+Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.xxx...")
+Sys.setenv(CPAL_FONT_SETUP = "TRUE")
+```
+
+---
+
+## Next Steps
+
+- [Plots & Output](plots-visualizations.qmd) - Plot saving details
+- [Colors & Palettes](colors-palettes.qmd) - Color validation
+- [Troubleshooting](troubleshooting.qmd) - Common issues

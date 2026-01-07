@@ -2,18 +2,19 @@
 % Please edit documentation in R/interactive.R
 \name{get_cpal_font_family}
 \alias{get_cpal_font_family}
-\title{Get CPAL font family with Google Fonts priority}
+\title{Get CPAL Font Family with Google Fonts Priority}
 \usage{
 get_cpal_font_family(for_interactive = FALSE, setup_if_missing = TRUE)
 }
 \arguments{
-\item{for_interactive}{Logical. Optimize for ggiraph compatibility}
+\item{for_interactive}{Logical. Optimize for ggiraph compatibility.}
 
-\item{setup_if_missing}{Logical. Try to setup fonts if not available (default: TRUE)}
+\item{setup_if_missing}{Logical. Try to setup fonts if not available (default: TRUE).}
 }
 \value{
-Character string with font family
+Character string with font family name.
 }
 \description{
-Returns the best available CPAL font with Inter priority and Roboto fallback
+Returns the best available CPAL font with Inter priority and Roboto fallback.
+This function is a wrapper around [cpal_font_family()] for backward compatibility.
 }

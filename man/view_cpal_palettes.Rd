@@ -6,27 +6,29 @@
 \usage{
 view_cpal_palettes(
   palette = "all",
-  show_hex = TRUE,
-  show_names = TRUE,
+  show_hex = FALSE,
+  show_names = FALSE,
   compact = FALSE
 )
 }
 \arguments{
-\item{palette}{Character. Name of specific palette to display, or "all" for overview}
+\item{palette}{Character. Name of specific palette to display, or "all" for overview.
+Can also be a vector of palette names.}
 
-\item{show_hex}{Logical. Whether to display hex codes (default: TRUE)}
+\item{show_hex}{Logical. Whether to display hex codes on color swatches (default: FALSE)}
 
-\item{show_names}{Logical. Whether to display color names if available (default: TRUE)}
+\item{show_names}{Logical. Whether to display color names if available (default: FALSE)}
 
 \item{compact}{Logical. Use compact layout for overview (default: FALSE)}
 }
 \value{
-Displays color palette visualization (called for side effects)
+A ggplot2 object displaying the color palette(s)
 }
 \description{
-Display CPAL color palettes with improved readability and flexibility
+Display CPAL color palettes with clean, modern visualization using ggplot2
 }
 \examples{
+\dontrun{
 # Show all palettes in overview
 view_cpal_palettes()
 
@@ -34,6 +36,7 @@ view_cpal_palettes()
 view_cpal_palettes("main")
 view_cpal_palettes("teal_seq_5")
 
-# Compact overview without hex codes
-view_cpal_palettes("all", show_hex = FALSE, compact = TRUE)
+# Show multiple palettes
+view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
+}
 }

@@ -1,571 +1,376 @@
 ---
 title: "Colors & Palettes"
-subtitle: "CPAL's comprehensive color system for data visualization"
-execute:
-  echo: true        # Show code for learning
-  eval: false       # Don't execute by default (installation/examples)
-  warning: false    # Clean output
-  message: false    # Clean output
-  error: false      # Clean output
-  include: true     # Include all chunks
+subtitle: "Complete guide to the CPAL color system"
 ---
 
-## Why Color Matters in Data Visualization
-
-Color is one of the most powerful tools in data visualization, but it's also one of the most commonly misused. **Poor color choices can mislead your audience, make data inaccessible to colorblind users, or simply make your visualizations look unprofessional.**
-
-The cpaltemplates color system solves these problems by providing:
-
--   **Brand consistency**: All colors align with CPAL's visual identity
--   **Accessibility built-in**: All palettes are tested for colorblind accessibility\
--   **Data-type appropriate**: Different palettes optimized for different kinds of data
--   **Professional quality**: Colors chosen by design professionals, not left to chance
-
-### **When Colors Go Wrong**
-
-| **Common Problem** | **Why It Happens** | **CPAL Solution** |
-|------------------------|------------------------|-----------------------|
-| **Categories look ranked** | Using sequential colors for unordered categories | Categorical palettes with distinct, unordered colors |
-| **Can't see differences** | Colors too similar or poor contrast | High-contrast palettes tested for visibility |
-| **Colorblind users excluded** | No testing for color vision deficiency | All palettes verified for colorblind accessibility |
-| **Inconsistent branding** | Random color choices across projects | Standardized brand color system |
-| **Data misinterpreted** | Wrong palette type for data structure | Clear guidance on palette selection |
-
-## CPAL Color System Overview
-
-The cpaltemplates package provides **23 distinct color palettes** organized into **4 main categories**, each designed for specific types of data and use cases:
-
-| **Category** | **Palettes Available** | **Purpose** | **When to Use** |
-|-----------------|-----------------------|-----------------|-----------------|
-| **Brand Colors** | 2 palettes | Core CPAL colors | Individual color needs, brand elements |
-| **Categorical** | 8 palettes | Unordered categories | Groups, categories, classifications |
-| **Sequential** | 6 palettes | Continuous data | Quantities, ranks, progressions |
-| **Diverging** | 3 palettes | Data with meaningful center | Changes from baseline, comparisons |
-
-### **The Science Behind the Choices**
-
-**Why these specific colors?** CPAL's color palettes are built on color theory principles:
-
--   **Perceptual uniformity**: Equal visual steps between colors represent equal data steps
--   **Cultural considerations**: Colors chosen to avoid cultural biases or negative associations
--   **Technical requirements**: Colors work across digital displays, print, and projection
--   **Accessibility standards**: Meet WCAG guidelines for color contrast and colorblind visibility
-
-## Core Functions Overview
-
-cpaltemplates provides **7 main color functions** that work together to give you complete control over CPAL's color system:
-
-| **Function** | **Purpose** | **Returns** | **Primary Use** |
-|------------------|------------------|------------------|--------------------|
-| `cpal_colors()` | Get specific colors or palettes | Vector of hex codes | Building custom visualizations |
-| `scale_color_cpal()` | Apply CPAL colors to ggplot2 color aesthetic | ggplot2 scale object | Automatic ggplot2 integration |
-| `scale_fill_cpal()` | Apply CPAL colors to ggplot2 fill aesthetic | ggplot2 scale object | Automatic ggplot2 integration |
-| `view_cpal_palettes()` | Display all or specific palettes with options | Visual display | Choosing and exploring palettes |
-| `quick_palette()` | Simple palette preview | Visual display | Quick palette reference |
-| `list_cpal_palettes()` | List available palettes with details | Character vector or list | Programmatic palette discovery |
-## Brand Colors: CPAL's Core Identity
-
-### **Primary Colors**
-
-**When to use:** Individual color needs, accent colors, brand elements in visualizations.
-
 ```{r}
-# Get CPAL's primary brand colors
-cpal_colors("primary")
-
-# Access individual colors by name
-cpal_colors("midnight")  # CPAL's primary brand color: #004855
-cpal_colors("teal")      # CPAL's signature teal: #008097
-cpal_colors("pink")      # Brand pink: #C3257B  
-cpal_colors("orange")    # Brand orange: #ED683F
-cpal_colors("gold")      # Brand gold: #AB8C01
-```
-
-**CPAL's primary color palette:** 
-- **Midnight (#004855)**: CPAL's main brand color, deep and authoritative, used throughout the organization 
-- **Teal (#008097)**: CPAL's signature color, professional and trustworthy 
-- **Pink (#C3257B)**: Energy and passion, used for highlights and callouts 
-- **Orange (#ED683F)**: Warmth and engagement, great for calls-to-action 
-- **Gold (#AB8C01)**: Premium feel, used for emphasis and key findings
-
-### **Extended Colors**
-
-**When to use:** When you need more color options than the primary set, but still want brand consistency.
-
-```{r}
-# Get the full extended palette
-cpal_colors("extended")
-```
-
-**What's included:** The extended palette includes primary colors plus additional shades and complementary colors that maintain brand consistency while providing more variety for complex visualizations.
-
-**Practical applications:** - Complex charts with many categories - Dashboard elements that need varied but consistent colors\
-- Supporting visual elements that shouldn't compete with primary colors
-
-## Categorical Palettes: For Groups and Classifications
-
-**The challenge with categorical data:** Categories have no inherent order, so colors shouldn't imply ranking or progression. Traditional rainbow palettes often create false hierarchies.
-
-**CPAL's solution:** Carefully selected colors that are visually distinct but don't suggest any ordering.
-
-### **Main Categorical Palette**
-
-**When to use:** Most categorical visualizations with 2-5 categories.
-
-```{r}
-# The most commonly used categorical palette
-cpal_colors("main")
-
-# Use in ggplot2
-ggplot(data, aes(x = variable, fill = category)) +
-  geom_col() +
-  scale_fill_cpal(palette = "main")
-```
-
-**What makes this palette special:** 
-- **5 distinct colors** that work well together 
-- **No implied ordering** - each color has equal visual weight 
-- **High contrast** ensures categories are easily distinguishable 
-- **Colorblind safe** - maintains distinctness for all color vision types
-
-### **Extended Categorical Options**
-
-```{r}
-# For fewer categories, use optimized subsets
-cpal_colors("main_3")    # Perfect for 3-category data
-cpal_colors("main_4")    # Optimal for 4-category data
-
-# For special cases
-cpal_colors("main_gray") # Includes neutral gray for "other/none" category
-cpal_colors("blues")     # Two-color palette for binary comparisons
-cpal_colors("compare")   # Optimized for before/after comparisons
-```
-
-**Choosing the right categorical palette:**
-
-| **Your Data** | **Recommended Palette** | **Why** |
-|----------------------|---------------------------------|-----------------|
-| 2-3 categories | `"main_3"` | Optimal color spacing, maximum distinction |
-| 4 categories | `"main_4"` | Balanced set without visual overload |
-| 5+ categories | `"main"` | Full palette, but consider simplifying data |
-| Binary comparison | `"compare"` | High contrast, clear opposition |
-| Has "other/none" category | `"main_gray"` | Gray appropriately de-emphasizes |
-
-### **Common Categorical Color Mistakes to Avoid**
-
-❌ **Don't do this:**
-
-```{r}
-# Using sequential colors for categories (implies false order)
-scale_fill_gradient(low = "lightblue", high = "darkblue")
-```
-
-✅ **Do this instead:**
-
-```{r}
-# Use categorical colors that don't imply order
-scale_fill_cpal(palette = "main")
-```
-
-## Sequential Palettes: For Continuous Data
-
-**The principle:** Sequential data goes from low to high, and colors should visually represent this progression. Light-to-dark or single-hue progressions work best.
-
-**When to use sequential palettes:** - Population counts, ages, income levels - Percentages, probabilities, rates\
-- Any continuous measure without a meaningful center point - Heatmaps, choropleths, and intensity visualizations
-
-### **Single-Hue Sequential (Teal)**
-
-**Best for:** Most continuous data visualization needs.
-
-```{r}
-#| eval: true
-
-# Different lengths for different needs
-#cpal_colors("teal_seq_4")  # 4 color steps
-#cpal_colors("teal_seq_5")  # 5 color steps  
-#cpal_colors("teal_seq_6")  # 6 color steps
-
-# Create example data for heatmap demonstration
-library(ggplot2)
+#| label: setup
+#| include: false
 library(cpaltemplates)
-# Generate a correlation matrix from mtcars dataset
-correlation_data <- cor(mtcars[, c("mpg", "hp", "wt", "qsec", "disp")])
-
-# Convert correlation matrix to long format for ggplot2
-heatmap_data <- expand.grid(
-  x = rownames(correlation_data),
-  y = colnames(correlation_data)
-)
-heatmap_data$correlation <- as.vector(correlation_data)
-
-# Use in ggplot2 with real data
-ggplot(heatmap_data, aes(x = x, y = y, fill = correlation)) +
-  geom_tile() +
-  scale_fill_cpal(palette = "teal_seq_5", discrete = FALSE) +
-  labs(
-    title = "Vehicle Characteristics Correlation Matrix",
-    x = "",
-    y = "",
-    fill = "Correlation"
-  ) +
-  theme_cpal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-**Why teal for sequential?** 
-- **Brand consistency**: Uses CPAL's signature color 
-- **Perceptual uniformity**: Even visual steps represent equal data steps 
-- **Print friendly**: Works well in both color and grayscale 
-- **Professional appearance**: Sophisticated, not overwhelming
-
-### **Multi-Hue Sequential (Yellow-Teal)**
-
-**Best for:** When you want more visual interest or need to distinguish between multiple sequential variables.
-
-```{r}
-# Multi-hue options
-cpal_colors("yellow_teal_seq_4")
-cpal_colors("yellow_teal_seq_5") 
-cpal_colors("yellow_teal_seq_6")
-```
-
-**When to choose multi-hue over single-hue:** 
-- **Multiple related measures**: Comparing different rates or counts 
-- **High visual impact needed**: Presentations, dashboards, key findings 
-- **Complex visualizations**: Where single-hue might be too subtle 
-- **Avoiding confusion**: When other elements use teal
-
-**Color progression explanation:** - **Yellow (#E5CB50)**: Represents low values, warm and approachable 
-- **Green-Teal transition**: Middle values, natural progression\
-- **Dark Teal (#004855)**: High values, professional and serious
-
-### **Choosing Sequential Palette Length**
-
-| **Number of Colors** | **Best For** | **Example Use Cases** |
-|---------------------------|------------------|---------------------------|
-| **4 colors** | Simple continuous data, clear distinctions | Quartiles, basic heatmaps, simple choropleths |
-| **5 colors** | **Most common choice**, balanced detail | Quintiles, most continuous visualizations |
-| **6 colors** | Complex data needing fine distinctions | Detailed heatmaps, precise geographic data |
-
-## Diverging Palettes: For Data with a Meaningful Center
-
-**The concept:** Some data has a natural center point where values above and below have different meanings. Diverging palettes use contrasting colors on each side of this center.
-
-**Classic use cases:** 
-- **Change from baseline**: Profit/loss, above/below average, improvement/decline 
-- **Survey data**: Agree/disagree, satisfaction scales, political leaning 
-- **Statistical data**: Positive/negative correlations, z-scores, residuals 
-- **Geographic data**: Temperature anomalies, election margins
-
-### **Pink-Teal Diverging**
-
-**Why this combination?** Pink and teal are complementary colors that create maximum visual contrast while maintaining CPAL brand consistency.
-
-```{r}
-# Different granularity options
-cpal_colors("pink_teal_3")  # Simple: negative, neutral, positive
-cpal_colors("pink_teal_5")  # Moderate: adds nuance
-cpal_colors("pink_teal_6")  # Detailed: maximum distinction
-```
-
-**Color psychology in the diverging palette:** 
-- **Pink side**: Often represents "negative" changes, but the color choice is intentionally less harsh than red 
-- **Gray center**: Neutral, no change, baseline values 
-- **Teal side**: "Positive" changes, using CPAL's signature optimistic color
-
-### **Practical Applications**
-
-**Example 1: Survey Results**
-
-```{r}
-#| eval: true
-
-# Likert scale data (Strongly Disagree to Strongly Agree)
 library(ggplot2)
-library(cpaltemplates)
+library(dplyr)
+```
 
-# Create realistic survey data
-set.seed(123)  # For reproducible example
-survey_data <- data.frame(
-  question = rep(c("Job Satisfaction", "Work-Life Balance", "Team Collaboration", "Career Growth"), each = 100),
-  response = sample(
-    c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"),
-    400,
-    replace = TRUE,
-    prob = c(0.1, 0.2, 0.3, 0.3, 0.1)  # Realistic distribution
+## Overview
+
+The cpaltemplates color system provides 21 functions for working with CPAL's carefully designed color palettes. All colors are sourced from `_brand.yml` and designed for WCAG accessibility compliance.
+
+---
+
+## Primary Brand Colors
+
+CPAL's 5 core brand colors form the foundation of all palettes:
+
+```{r}
+#| label: primary-colors
+#| code-fold: show
+cpal_colors_primary()
+```
+
+```{r}
+#| label: primary-colors-table
+#| echo: false
+
+# Create a data frame with color info
+primary_colors <- data.frame(
+  Color = c("Midnight", "Deep Teal", "Coral", "Sage", "Slate", "Warm Gray"),
+  Hex = c("#004855", "#006878", "#E86A50", "#5A8A6F", "#5C6B73", "#9BA8AB"),
+  Use_Case = c(
+    "Dark backgrounds, headers, primary emphasis",
+    "Primary brand color, links, info states",
+    "Accents, alerts, negative/error states",
+    "Success states, positive indicators",
+    "Secondary text, borders, muted elements",
+    "Neutral backgrounds, disabled states"
   )
 )
 
-# Ensure proper factor ordering for Likert responses
-survey_data$response <- factor(survey_data$response, 
-                              levels = c("Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"))
-
-# Create the plot
-ggplot(survey_data, aes(x = question, fill = response)) +
-  geom_bar(position = "stack") +
-  scale_fill_cpal(palette = "pink_teal_5") +
-  theme_cpal() +
-  labs(
-    title = "Employee Survey Results",
-    x = "",
-    y = "Number of Responses",
-    fill = ""
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# Create gt table with color swatches
+gt::gt(primary_colors) |>
+  gt::cols_label(
+    Color = "Color",
+    Hex = "Hex Code",
+    Use_Case = "Use Case"
+  ) |>
+  gt::text_transform(
+    locations = gt::cells_body(columns = Hex),
+    fn = function(x) {
+      glue::glue(
+        "<span style='display: inline-block; width: 20px; height: 20px; background-color: {x}; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'></span><code>{x}</code>"
+      )
+    }
+  ) |>
+  gt::fmt_markdown(columns = Hex) |>
+  gt::tab_options(
+    table.font.size = "14px",
+    column_labels.font.weight = "bold"
+  )
 ```
 
-**Example 2: Performance vs. Target**
+---
+
+## Core Color Functions
+
+### `cpal_colors()`
+
+The main entry point for accessing any CPAL color or palette.
 
 ```{r}
-#| eval: true
+#| label: cpal-colors-examples
+# Get all primary colors
+cpal_colors()
 
-# Performance above/below target
-library(ggplot2)
-library(cpaltemplates)
-# Create realistic performance data for different departments
-set.seed(456)  # For reproducible example
-performance_data <- data.frame(
-  department = c("Mathematics", "English", "Science", "History", "Art", 
-                "Physical Education", "Music", "Computer Science"),
-  variance_from_target = c(12.5, -8.2, 15.3, -3.1, 6.7, -12.4, 9.8, 18.2)
-)
+# Get a single color by name
+cpal_colors("coral")
 
-# Alternative: could use random data that's more variable
-# performance_data$variance_from_target <- runif(8, min = -20, max = 25)
-
-# Create the plot
-ggplot(performance_data, aes(x = department, y = variance_from_target, 
-                            fill = variance_from_target)) +
-  geom_col() +
-  scale_fill_cpal(palette = "pink_teal_6", discrete = FALSE) +
-  theme_cpal() +
-  labs(
-    title = "Department Performance vs. Target Goals",
-    subtitle = "Positive values indicate above target, negative values below target",
-    x = "Department",
-    y = "Variance from Target (%)",
-    fill = "Performance\nVariance"
-  ) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  geom_hline(yintercept = 0, linetype = "dashed", color = "black", alpha = 0.7)
+# Get multiple specific colors
+cpal_colors(c("midnight", "coral", "sage"))
 ```
 
-### **Critical Design Decisions**
-
-**Center point matters:** Make sure your data actually has a meaningful center. If not, use sequential palettes instead.
-
-❌ **Don't use diverging for:** - Age groups (no meaningful center) - Income levels (zero isn't meaningful for most analyses) - Geographic regions (no inherent center)
-
-✅ **Do use diverging for:** - Change scores (zero = no change) - Performance vs. benchmarks (benchmark = center) - Balance measures (balanced = center)
-
-## Advanced Usage and Customization
-
-### **Exploring Available Palettes**
-
-The cpaltemplates package provides three complementary functions for palette exploration:
-
-**`list_cpal_palettes()`** - Programmatic palette discovery
-- Returns palette names for use in code
-- Optional detailed information with descriptions and color counts
-- Perfect for building automated palette selection logic
-
-**`quick_palette()`** - Fast visual reference  
-- Clean, simple display for quick reference
-- Optional color limiting for preview of large palettes
-- Ideal when you know the palette name and want a quick look
-
-**`view_cpal_palettes()`** - Comprehensive exploration
-- All palettes overview or specific palette deep dive
-- Customizable display options (hex codes, compact view, etc.)
-- Best for choosing between multiple palettes or detailed exploration
-
-### **Getting Specific Colors**
-
 ```{r}
-# Get individual colors by name
-cpal_colors(c("teal", "pink", "orange"))
+#| label: cpal-colors-palettes
+# Get a palette
+cpal_colors("midnight_seq_5")
 
-# Get first N colors from any palette
+# Limit number of colors
 cpal_colors("main", n = 3)
 
-# Reverse any palette
-cpal_colors("main", reverse = TRUE)
+# Reverse palette order
+cpal_colors("midnight_seq_5", reverse = TRUE)
 ```
 
-### **Integration with ggplot2**
+---
 
-**For discrete data:**
+### `cpal_colors_extended()`
+
+Returns all 17+ colors including primary colors and shades:
 
 ```{r}
-# Automatic color selection based on your data
-scale_color_cpal(palette = "main")
-scale_fill_cpal(palette = "main") 
+#| label: extended-colors
+cpal_colors_extended()
 ```
 
-**For continuous data:**
+---
+
+## Viewing Palettes
+
+### All Available Palettes
 
 ```{r}
-# Set discrete = FALSE for continuous scales
-scale_color_cpal(palette = "teal_seq_5", discrete = FALSE)
-scale_fill_cpal(palette = "pink_teal_5", discrete = FALSE)
+#| label: list-palettes
+list_cpal_palettes()
 ```
 
-**Advanced ggplot2 options:**
+### Visual Palette Display
 
 ```{r}
-# Reverse palette direction
-scale_fill_cpal(palette = "main", reverse = TRUE)
-
-# Pass additional arguments to underlying ggplot2 scales
-scale_color_cpal(palette = "main", name = "Categories", guide = guide_legend(ncol = 2))
-```
-
-### **Exploring and Choosing Palettes**
-
-**Visual exploration:**
-
-```{r}
-# See all palettes at once
+#| label: view-all-palettes
+#| fig-height: 8
+#| fig-cap: "All CPAL color palettes"
 view_cpal_palettes()
-
-# Interactive exploration of individual palettes
-quick_palette()
-
-# Display specific palette with hex codes
-quick_palette("main")
-quick_palette("teal_seq_5")
 ```
 
-**What each function shows:** 
-- **`view_cpal_palettes()`**: Grid layout showing every palette, perfect for comparison 
-- **`quick_palette()`**: Interactive tool with color codes and accessibility information 
-- **`view_cpal_palettes()`**: Clean display with hex codes, ideal for documentation
+---
 
-## Best Practices and Guidelines
+## Palette Types
 
-### **Color Selection Decision Tree**
+### Categorical Palettes
 
-**Step 1: What type of data do you have?**
-
-```{mermaid}
-%%| label: fig-palette-decision
-%%| fig-cap: "CPAL Color Palette Decision Tree"
-
-graph TD
-    A[What type of data?] --> B[Categorical<br/>Groups, categories, classifications]
-    A --> C[Sequential<br/>Continuous, low to high]
-    A --> D[Diverging<br/>Has meaningful center point]
-    
-    B --> E[How many categories?]
-    E --> F[2-3: main_3]
-    E --> G[4: main_4]  
-    E --> H[5+: main]
-    
-    C --> I[Visual impact needed?]
-    I --> J[Standard: teal_seq_5]
-    I --> K[High impact: yellow_teal_seq_5]
-    
-    D --> L[Level of detail?]
-    L --> M[Simple: pink_teal_3]
-    L --> N[Detailed: pink_teal_5 or pink_teal_6]
-```
-
-### **Accessibility Considerations**
-
-**All CPAL palettes are designed to be accessible, but here are best practices:**
-
-1.  **Test your visualizations** with colorblind simulation tools
-2.  **Don't rely only on color** to convey information - use shapes, patterns, or labels too\
-3.  **Provide legends** and clear labeling for all color-coded elements
-4.  **Consider your audience** - some contexts may need higher contrast
-
-### **Common Use Cases and Recommendations**
-
-| **Visualization Type** | **Recommended Palette** | **Why** |
-|----------------------------|----------------------------|-----------------|
-| **Bar/column charts** | `"main"` for categories, `"teal_seq_5"` for values | Clear categorical distinction or value progression |
-| **Line charts** | `"main"` for multiple lines | Distinct line identification |
-| **Scatter plots** | `"main"` for groups, `"teal_seq_5"` for density | Group identification or density visualization |
-| **Heatmaps** | `"teal_seq_5"` or `"yellow_teal_seq_5"` | Clear intensity progression |
-| **Geographic maps** | `"teal_seq_5"` for quantities, `"pink_teal_5"` for comparisons | Geographic data best practices |
-| **Dashboards** | Mix of `"main"` and `"teal_seq_5"` | Consistent brand presence |
-
-### **Performance and Technical Considerations**
-
-**Color rendering:** All CPAL colors are specified in hex format for consistency across platforms and outputs.
-
-**File size:** Color complexity doesn't significantly impact file sizes, so choose based on visual needs rather than technical constraints.
-
-**Print considerations:** All palettes are tested for print reproduction, but sequential palettes generally print more reliably than complex categorical ones.
-
-## Troubleshooting Common Issues
-
-### **Colors Not Appearing**
+For discrete data with distinct categories:
 
 ```{r}
-# Check if colors are loading properly
-cpal_colors("main")  # Should return hex codes
-
-# If empty, try refreshing
-library(cpaltemplates)
+#| label: categorical-palettes
+#| fig-height: 5
+#| fig-cap: "Categorical palettes for discrete data"
+view_cpal_palettes(c("main", "main_3", "main_4", "main_5", "main_6", "binary", "status"))
 ```
 
-### **Colors Look Different Than Expected**
-
-**Possible causes:** - **Display calibration**: Colors appear different on different monitors - **RStudio viewer**: Colors may render differently in RStudio vs. exported files - **File format**: PNG vs. PDF may show slight color differences
-
-**Solutions:**
+**Usage example:**
 
 ```{r}
-# Always preview exported files
-save_cpal_plot(your_plot, "test.png")
-
-# Use consistent export settings
-save_cpal_plot(your_plot, "final.png", dpi = 300, bg = "white")
+#| label: categorical-example
+#| fig-cap: "Using categorical palette"
+ggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) +
+  geom_bar() +
+  scale_fill_cpal("main_3") +
+  labs(title = "Count by Cylinder", x = "Cylinders", y = "Count") +
+  theme_cpal() +
+  theme(legend.position = "none")
 ```
 
-### **Palette Too Long/Short for Data**
+---
+
+### Sequential Palettes
+
+For continuous or ordered data:
 
 ```{r}
-# Automatically adjust to your data length
-cpal_colors("main", n = 7)  # Gets 7 colors even if palette has 5
-
-# Or choose appropriate palette length
-cpal_colors("teal_seq_6")   # For 6-level data
+#| label: sequential-palettes
+#| fig-height: 4
+#| fig-cap: "Sequential palettes for continuous data"
+view_cpal_palettes(c("midnight_seq_4", "midnight_seq_5", "midnight_seq_6", "midnight_seq_8"))
 ```
 
-## Examples and Implementation
-
-### **Complete Workflow Example**
+**Usage example:**
 
 ```{r}
-library(cpaltemplates)
-library(ggplot2)
+#| label: sequential-example
+#| fig-cap: "Using sequential palette for continuous data"
+ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
+  geom_point(size = 4) +
+  scale_color_cpal_c("midnight_seq_5") +
+  labs(
+    title = "Fuel Efficiency by Weight",
+    subtitle = "Color shows horsepower",
+    x = "Weight (1000 lbs)",
+    y = "Miles per Gallon",
+    color = "Horsepower"
+  ) +
+  theme_cpal()
+```
 
-# Step 1: Explore available colors
-view_cpal_palettes()
+---
 
-# Step 2: Choose appropriate palette for your data type
-my_data <- data.frame(
-  category = c("A", "B", "C", "D"),
-  value = c(25, 40, 35, 20)
+### Diverging Palettes
+
+For data with a meaningful midpoint:
+
+```{r}
+#| label: diverging-palettes
+#| fig-height: 4
+#| fig-cap: "Diverging palettes for data with midpoints"
+view_cpal_palettes(c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9"))
+```
+
+**Usage example:**
+
+```{r}
+#| label: diverging-example
+#| fig-cap: "Using diverging palette for change data"
+# Create sample data with positive and negative changes
+change_data <- data.frame(
+  category = LETTERS[1:7],
+  change = c(-15, -8, -2, 0, 5, 12, 20)
 )
 
-# Step 3: Create visualization with CPAL colors
-p <- ggplot(my_data, aes(x = category, y = value, fill = category)) +
+ggplot(change_data, aes(x = category, y = change, fill = change)) +
   geom_col() +
-  scale_fill_cpal(palette = "main_4") +  # 4 categories = main_4
-  theme_cpal() +
+  scale_fill_gradient2(
+    low = "#E86A50",
+    mid = "#E8ECEE",
+    high = "#004855",
+    midpoint = 0
+  ) +
   labs(
-    title = "Sample Categorical Data",
-    subtitle = "Using CPAL's main_4 categorical palette"
-  )
-
-# Step 4: Save with CPAL standards
-save_cpal_plot(p, "my_visualization.png")
+    title = "Year-over-Year Change",
+    x = "Category",
+    y = "Change (%)"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
 ```
 
-------------------------------------------------------------------------
+---
 
-*The CPAL color system provides the foundation for all effective data visualization. Choose palettes based on your data type, consider your audience's needs, and always prioritize accessibility and clarity over visual complexity.*
+## ggplot2 Scale Functions
+
+### Discrete Scales
+
+```{r}
+#| label: discrete-scale-example
+#| fig-cap: "Using scale_color_cpal() for discrete data"
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Discrete Color Scale",
+    color = "Cylinders"
+  ) +
+  theme_cpal()
+```
+
+### Continuous Scales
+
+```{r}
+#| label: continuous-scale-example
+#| fig-cap: "Using scale_fill_cpal_c() for continuous data"
+ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
+  geom_tile() +
+  scale_fill_cpal_c("teal_seq_5") +
+  labs(title = "Continuous Fill Scale") +
+  theme_cpal()
+```
+
+---
+
+## Color Interpolation
+
+### `cpal_color_ramp()`
+
+Generate smooth gradient between two colors:
+
+```{r}
+#| label: color-ramp
+# Gradient from coral to midnight
+cpal_color_ramp("coral", "midnight", n = 7)
+
+# Using color names from brand.yml
+cpal_color_ramp("midnight_1", "midnight", n = 5)
+```
+
+### `cpal_color_gradient()`
+
+Create gradient through multiple colors:
+
+```{r}
+#| label: color-gradient
+# Three-color gradient
+cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
+```
+
+---
+
+## Color Validation (Accessibility)
+
+### `validate_color_contrast()`
+
+Check if two colors meet WCAG contrast requirements:
+
+```{r}
+#| label: contrast-validation
+# Check deep_teal on white (should pass AA)
+validate_color_contrast("#006878", "#FFFFFF")
+
+# Check with AAA standard (stricter)
+validate_color_contrast("#006878", "#FFFFFF", level = "AAA")
+
+# Midnight on white (high contrast)
+validate_color_contrast("#004855", "#FFFFFF", level = "AAA")
+```
+
+### `validate_brand_colors()`
+
+Check all CPAL palette colors for accessibility:
+
+```{r}
+#| label: brand-validation
+#| eval: false
+validate_brand_colors()
+```
+
+This function prints a detailed report showing which colors pass WCAG AA/AAA standards on white and dark backgrounds.
+
+---
+
+## Choosing the Right Palette
+
+### Quick Reference
+
+| Data Type | Recommended Palettes |
+|-----------|---------------------|
+| **Categories (≤3)** | `main_3`, `binary` |
+| **Categories (4-5)** | `main_4`, `main_5` |
+| **Categories (6-8)** | `main_6`, `main` |
+| **Sequential/Continuous** | `midnight_seq_5`, `midnight_seq_6` |
+| **Diverging (with midpoint)** | `coral_midnight_5`, `coral_midnight_7` |
+| **Binary comparison** | `binary`, `compare` |
+| **Status indicators** | `status` |
+
+---
+
+## Complete Example
+
+```{r}
+#| label: complete-example
+#| fig-cap: "Complete visualization with CPAL colors and theme"
+# Prepare data
+car_data <- mtcars |>
+  mutate(
+    cylinders = factor(cyl),
+    efficiency = ifelse(mpg > median(mpg), "High", "Low")
+  )
+
+# Create visualization
+ggplot(car_data, aes(x = hp, y = mpg, color = cylinders, size = wt)) +
+  geom_point(alpha = 0.7) +
+  scale_color_cpal("main_3") +
+  scale_size_continuous(range = c(2, 8)) +
+  labs(
+    title = "Vehicle Performance Analysis",
+    subtitle = "Fuel efficiency by horsepower, colored by cylinder count",
+    x = "Horsepower",
+    y = "Miles per Gallon",
+    color = "Cylinders",
+    size = "Weight (1000 lbs)",
+    caption = "Source: Motor Trend Car Road Tests (1974)"
+  ) +
+  theme_cpal()
+```
+
+---
+
+## Next Steps
+
+- [Themes & Styling](themes-styling.qmd) - Apply consistent themes to your plots
+- [Plots & Output](plots-visualizations.qmd) - Save and export visualizations
+- [Brand & Assets](brand-assets.qmd) - Customize brand configuration

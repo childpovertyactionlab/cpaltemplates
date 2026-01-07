@@ -2,21 +2,21 @@
 % Please edit documentation in R/plots.R
 \name{add_cpal_logo}
 \alias{add_cpal_logo}
-\title{Add CPAL logo to plots}
+\title{Add CPAL Logo to Plots}
 \usage{
 add_cpal_logo(plot, position = "top-right", size = 0.09, logo_path = NULL)
 }
 \arguments{
-\item{plot}{ggplot object}
+\item{plot}{ggplot object.}
 
-\item{position}{Position for logo: "top-right", "top-left", "bottom-right", "bottom-left"}
+\item{position}{Position for logo: "top-right", "top-left", "bottom-right", "bottom-left".}
 
-\item{size}{Logo size as proportion of plot (default: 0.08)}
+\item{size}{Logo size as proportion of plot (default: 0.09).}
 
-\item{logo_path}{Path to logo file (uses package default if NULL)}
+\item{logo_path}{Path to logo file (uses package default if NULL).}
 }
 \value{
-ggplot object with logo
+ggplot object with logo added.
 }
 \description{
 Add the CPAL logo to a ggplot2 plot in a specified position.

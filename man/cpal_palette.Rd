@@ -12,10 +12,9 @@ cpal_palette(palette = "primary", reverse = FALSE)
 \item{reverse}{Logical. Should the palette be reversed?}
 }
 \value{
-A vector of colors
+A vector of colors (unnamed for ggplot2 compatibility)
 }
 \description{
 Helper function to retrieve CPAL color palettes with optional reversal.
 This is a wrapper around cpal_colors() for use in scale functions.
 }
-\keyword{internal}

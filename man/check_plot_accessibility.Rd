@@ -2,18 +2,19 @@
 % Please edit documentation in R/plots.R
 \name{check_plot_accessibility}
 \alias{check_plot_accessibility}
-\title{Check plot accessibility}
+\title{Check Plot Accessibility}
 \usage{
 check_plot_accessibility(plot, verbose = TRUE)
 }
 \arguments{
-\item{plot}{ggplot object to check}
+\item{plot}{ggplot object to check.}
 
-\item{verbose}{Print detailed results (default: TRUE)}
+\item{verbose}{Print detailed results (default: TRUE).}
 }
 \value{
-List with accessibility check results
+List with accessibility check results.
 }
 \description{
-Performs basic accessibility checks on a ggplot object
+Performs basic accessibility checks on a ggplot object including
+text size, color contrast, and colorblind safety.
 }

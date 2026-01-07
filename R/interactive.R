@@ -1,11 +1,13 @@
-#' Setup CPAL Google Fonts for all plot types
+#' Setup CPAL Google Fonts for All Plot Types
 #'
 #' Comprehensive font setup that downloads and registers Inter and Roboto
-#' from Google Fonts for use in both regular and interactive plots
+#' from Google Fonts for use in both regular and interactive plots.
 #'
 #' @param force_refresh Logical. Force re-download of fonts (default: FALSE)
 #' @param verbose Logical. Show detailed setup messages (default: TRUE)
-#' @return List with setup results
+#'
+#' @return List with setup results including success status for each font type.
+#'
 #' @export
 setup_cpal_google_fonts <- function(force_refresh = FALSE, verbose = TRUE) {
 
@@ -129,83 +131,36 @@ setup_cpal_google_fonts <- function(force_refresh = FALSE, verbose = TRUE) {
   return(invisible(results))
 }
 
-#' Get CPAL font family with Google Fonts priority
+#' Get CPAL Font Family with Google Fonts Priority
 #'
-#' Returns the best available CPAL font with Inter priority and Roboto fallback
+#' Returns the best available CPAL font with Inter priority and Roboto fallback.
+#' This function is a wrapper around [cpal_font_family()] for backward compatibility.
 #'
-#' @param for_interactive Logical. Optimize for ggiraph compatibility
-#' @param setup_if_missing Logical. Try to setup fonts if not available (default: TRUE)
-#' @return Character string with font family
+#' @param for_interactive Logical. Optimize for ggiraph compatibility.
+#' @param setup_if_missing Logical. Try to setup fonts if not available (default: TRUE).
+#'
+#' @return Character string with font family name.
+#'
 #' @export
 get_cpal_font_family <- function(for_interactive = FALSE, setup_if_missing = TRUE) {
-
-  # Try Inter first
-  inter_available <- FALSE
-  roboto_available <- FALSE
-
-  if (for_interactive) {
-    # Check ggiraph font availability
-    if (requireNamespace("gdtools", quietly = TRUE)) {
-      tryCatch({
-        registered_fonts <- gdtools::sys_fonts()
-        inter_available <- "Inter" %in% registered_fonts
-        roboto_available <- "Roboto" %in% registered_fonts
-      }, error = function(e) {
-        # gdtools check failed
-      })
-    }
-  } else {
-    # Check showtext font availability
-    if (requireNamespace("sysfonts", quietly = TRUE)) {
-      available_fonts <- sysfonts::font_families()
-      inter_available <- "Inter" %in% available_fonts
-      roboto_available <- "Roboto" %in% available_fonts
-    }
-  }
-
-  # If fonts not available and setup allowed, try to set them up
-  if ((!inter_available && !roboto_available) && setup_if_missing) {
-    setup_result <- setup_cpal_google_fonts(verbose = FALSE)
-
-    # Recheck availability after setup
-    if (for_interactive) {
-      if (requireNamespace("gdtools", quietly = TRUE)) {
-        tryCatch({
-          registered_fonts <- gdtools::sys_fonts()
-          inter_available <- "Inter" %in% registered_fonts
-          roboto_available <- "Roboto" %in% registered_fonts
-        }, error = function(e) {})
-      }
-    } else {
-      if (requireNamespace("sysfonts", quietly = TRUE)) {
-        available_fonts <- sysfonts::font_families()
-        inter_available <- "Inter" %in% available_fonts
-        roboto_available <- "Roboto" %in% available_fonts
-      }
-    }
-  }
-
-  # Return best available font
-  if (inter_available) {
-    return("Inter")
-  } else if (roboto_available) {
-    return("Roboto")
-  } else {
-    return("sans")  # Final fallback
-  }
+  type <- if (for_interactive) "interactive" else "plot"
+  cpal_font_family(type = type, setup = setup_if_missing)
 }
 
-#' Create interactive CPAL plots with ggiraph
+#' Create Interactive CPAL Plots with ggiraph
 #'
-#' Wrapper functions to create interactive versions of ggplot2 plots
+#' Wrapper function to create interactive versions of ggplot2 plots
 #' while maintaining CPAL styling. Uses Google Fonts (Inter/Roboto) automatically.
 #'
-#' @param plot A ggplot2 object to make interactive
-#' @param width_svg SVG width in inches (default: 8)
-#' @param height_svg SVG height in inches (default: 5)
-#' @param ... Additional arguments passed to girafe()
-#' @return A girafe object
+#' @param plot A ggplot2 object to make interactive.
+#' @param width_svg SVG width in inches (default: 8).
+#' @param height_svg SVG height in inches (default: 5).
+#' @param ... Additional arguments passed to girafe().
+#'
+#' @return A girafe object.
+#'
 #' @export
+#'
 #' @examples
 #' \dontrun{
 #' library(ggplot2)

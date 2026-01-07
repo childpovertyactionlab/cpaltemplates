@@ -1,408 +1,284 @@
 ---
-title: "Getting Started with cpaltemplates"
-subtitle: "Essential setup and first steps for CPAL data team workflows"
-execute:
-  echo: true        # Show code for learning
-  eval: false       # Don't execute by default (installation/examples)
-  warning: false    # Clean output
-  message: false    # Clean output
-  error: false      # Clean output
-  include: true     # Include all chunks
+title: "Getting Started"
+subtitle: "Installation, setup, and your first CPAL visualization"
 ---
-
-## Why Use cpaltemplates?
-
-Before diving into installation, it's helpful to understand **why** cpaltemplates exists and **when** you should use it:
-
-### **The Problem cpaltemplates Solves**
-
-**Without cpaltemplates**, CPAL data team members often face: 
-- **Inconsistent visual branding** across reports, presentations, and dashboards 
-- **Repetitive setup tasks** when starting new analysis projects
-- **Time spent on styling** instead of focusing on analysis and insights 
-- **Difficulty onboarding new team members** to CPAL's preferred workflows and standards 
-- **Inconsistent project structures** making collaboration and handoffs challenging
-
-**With cpaltemplates**, you get: 
-- **Instant CPAL branding** with consistent colors, fonts, and themes 
-- **Automated project setup** with modern R best practices built-in 
-- **Standardized workflows** that make team collaboration seamless 
-- **Professional-quality outputs** with minimal setup time
-
-### **When to Use cpaltemplates**
-
-| **Use cpaltemplates when you...** | **Skip it when you...** |
-|-----------------------------------------|-------------------------------|
-| Create visualizations for CPAL reports, presentations, or external sharing | Are doing quick, internal exploratory analysis with no sharing |
-| Start any new data analysis or reporting project | Are working on non-CPAL projects or personal work |
-| Want consistent branding across your work | Need completely custom styling that conflicts with CPAL standards |
-| Collaborate with other CPAL data team members | Are prototyping ideas where appearance doesn't matter |
-| Create dashboards or interactive visualizations | Are working with existing projects that already have established styling |
 
 ## Installation
 
-### Install the Package
+### From GitHub
 
-```{r}
-# Install from GitHub (adjust method based on your setup)
-# devtools::install_github("childpovertyactionlab/cpaltemplates")
+cpaltemplates is hosted on GitHub and can be installed using `remotes` or `devtools`:
+```r
+# Using remotes (recommended)
+install.packages("remotes")
+remotes::install_github("childpovertyactionlab/cpaltemplates")
 
-# Or if using renv in your project:
-# renv::install("childpovertyactionlab/cpaltemplates")
+# Or using devtools
+install.packages("devtools")
+devtools::install_github("childpovertyactionlab/cpaltemplates")
+```
 
+### Dependencies
+
+cpaltemplates requires R version 4.3.0 or higher. The package will automatically install required dependencies, but you may want to install suggested packages for full functionality:
+
+```r
+# Core dependencies (installed automatically)
+# fs, ggplot2, cli, yaml, gt, reactable, bslib, sass
+
+# Suggested packages for extended features
+install.packages(c(
+  "ggiraph",      # Interactive visualizations
+  "cowplot",      # Logo placement
+  "magick",       # Image processing for logos
+  "showtext",     # Google Fonts for static plots
+  "sysfonts",     # Font management
+  "gdtools",      # Font rendering for interactive plots
+  "patchwork"     # Theme preview
+))
+```
+
+---
+
+## Initial Setup
+
+### Loading the Package
+
+```r
 library(cpaltemplates)
 ```
 
-**Why these installation methods?** - **GitHub installation** ensures you get the latest version with newest features - **renv integration** maintains package version consistency across team projects and prevents dependency conflicts
+### Font Setup
 
-### Verify Installation
+CPAL visualizations use **Inter** (primary) and **Roboto** (secondary) fonts from Google Fonts. Run this setup once per R session:
 
-```{r}
-#| eval: true
-#| error: true
-# Check that key functions are available
-packageVersion("cpaltemplates")
-
-# Test basic functionality
-library(ggplot2)
-theme_cpal()  # Should return a ggplot2 theme object
-```
-
-**What this verification does:** Confirms that cpaltemplates is properly installed and that its core theming functionality integrates correctly with ggplot2, which is essential for all CPAL data visualizations.
-
-## Essential Setup
-
-### 1. Set Up Google Fonts
-
-**Why fonts matter:** Typography is a crucial part of CPAL's visual identity. Using consistent, professional fonts across all outputs creates cohesive branding and improves readability. Without proper font setup, your plots will fall back to system defaults, which vary by computer and may not match CPAL standards.
-
-**When to run this:** Execute once per R session, typically at the start of your analysis. If you restart R, you'll need to run it again.
-
-```{r}
-# Download and register CPAL fonts
+```r
+# Set up fonts for both static and interactive plots
 setup_cpal_google_fonts()
-
-# This will:
-# - Download Inter and Roboto from Google Fonts
-# - Register them for use in plots
-# - Set up fallbacks for cross-platform compatibility
 ```
 
-**What happens behind the scenes:** - **Inter font** becomes the default for all text elements (clean, modern sans-serif) - **Roboto font** provides fallback options and specialized use cases - **Cross-platform compatibility** ensures fonts work on Windows, Mac, and Linux - **Caching** means fonts are downloaded once and reused
+::: {.callout-tip}
+## Pro Tip
+Add `setup_cpal_google_fonts()` to your project's setup script or `.Rprofile` to ensure fonts are always available.
+:::
 
-**Troubleshooting:** If fonts don't appear to work, it's usually due to system permissions or network restrictions. The function includes automatic fallbacks to system fonts that are visually similar.
+### Verifying Installation
 
-### 2. View Available Resources
+Run these commands to verify everything is working:
 
-**Why explore first:** Understanding what's available helps you make informed choices about colors, themes, and styling options. This prevents the common problem of creating a visualization, then discovering there was a better palette or theme option available.
+```r
+# Check that colors load correctly
+cpal_colors_primary()
+#>   midnight       teal       pink     orange       gold
+#>  "#004855"  "#007A8C"  "#C3257B"  "#ED683F"  "#AB8C01"
 
-```{r}
-#| eval: true
-#| error: true
-# See all color palettes
-view_cpal_palettes("all")
-
-# View a specific palette interactively
-quick_palette()
-
-# Check available themes
-names(formals(theme_cpal))  # See theme parameters
-```
-
-**What these functions show you:** 
-- **`view_cpal_palettes()`** displays every color palette side-by-side, helping you choose the right one for your data type and message . 
-- **`quick_palette()`** opens an interactive interface to explore individual palettes, see color codes, and test accessibility. 
-- **Theme parameters** show you all the customization options available for fine-tuning your visualizations.
-
-## Your First CPAL-Styled Plot
-
-**Why start with a complete example:** Seeing immediate results builds confidence and demonstrates the value of cpaltemplates. This example incorporates the most commonly used functions and produces a professional-quality output.
-
-```{r}
-#| eval: true
+# Check that themes work
 library(ggplot2)
-library(cpaltemplates)
-
-# Ensure fonts are set up
-setup_cpal_google_fonts()
-
-# Create a sample plot
-p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3, alpha = 0.8) +
-  scale_color_cpal(palette = "main") +
-  theme_cpal() +
-  labs(
-    title = "Vehicle Weight vs Fuel Efficiency",
-    subtitle = "Grouped by number of cylinders",
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon",
-    color = "Cylinders",
-    caption = "Data: mtcars dataset"
-  )
-
-# Display the plot
+p <- ggplot(mtcars, aes(wt, mpg)) +
+  geom_point() +
+  theme_cpal()
 print(p)
 
-# Save with CPAL standards
-save_cpal_plot(p, "my_first_cpal_plot.png")
+# Check font availability
+cpal_font_family()
+#> [1] "Inter"  # or "Roboto" or "sans" if fonts unavailable
 ```
 
-**Breaking down what each piece does:**
+---
 
--   **`scale_color_cpal(palette = "main")`**: Applies CPAL's primary color palette to the points. This ensures your categorical variables use colors that are visually distinct, accessible to colorblind users, and consistent with CPAL branding.
+## Understanding the Package Structure
 
--   **`theme_cpal()`**: Transforms the overall appearance to match CPAL standards - adjusts fonts, grid lines, background, spacing, and text sizes for professional presentation quality.
+cpaltemplates is organized into functional categories:
 
--   **`save_cpal_plot()`**: Saves your plot with standardized dimensions, resolution, and file settings that work well for reports, presentations, and web use. No need to remember optimal DPI or size settings.
-
-**When to use this approach:** This pattern works for most CPAL visualizations. Use it as your default starting point, then customize as needed for specific requirements.
-
-## Starting a New Project
-
-### Why Use cpaltemplates for Project Setup?
-
-**The traditional approach** to starting a new R project often involves: - Creating a folder manually - Setting up an RStudio project file - Creating a basic folder structure - Configuring version control - Setting up package management - Writing boilerplate code for common tasks
-
-**This can take 30-60 minutes** and often results in inconsistent structures across team members.
-
-**cpaltemplates automates this** into a 2-3 minute process with CPAL-optimized defaults, ensuring every team member starts with the same professional foundation.
-
-### Interactive Project Setup
-
-**When to use:** When you're not sure exactly what you need, want to be guided through options, or are new to project setup.
-
-```{r}
-# This will guide you through project setup with prompts
-start_project()
+```
+cpaltemplates/
+├── Color System (21 functions)
+│   ├── Core: cpal_colors(), cpal_colors_primary(), cpal_colors_extended()
+│   ├── Palettes: cpal_palettes(), cpal_palettes_sequential(), etc.
+│   ├── Validation: validate_color_contrast(), validate_brand_colors()
+│   ├── Interpolation: cpal_color_ramp(), cpal_color_gradient()
+│   └── Scales: scale_color_cpal(), scale_fill_cpal(), etc.
+│
+├── Theme System (8 functions)
+│   ├── Themes: theme_cpal(), theme_cpal_minimal(), theme_cpal_dark(), etc.
+│   ├── Session: set_theme_cpal()
+│   └── Preview: preview_cpal_themes()
+│
+├── Tables (3 functions)
+│   ├── cpal_table(), cpal_table_gt(), cpal_table_reactable()
+│
+├── Interactive (7 functions)
+│   ├── ggiraph: cpal_interactive(), cpal_point_interactive(), etc.
+│   └── mapgl: cpal_mapgl(), cpal_mapgl_layer()
+│
+├── Project Scaffolding (7 functions)
+│   ├── start_project()
+│   └── use_*() helpers
+│
+├── Brand & Assets (4 functions)
+│   ├── use_cpal_brand(), validate_cpal_brand()
+│   └── get_cpal_asset(), update_cpal_assets()
+│
+├── Shiny/Dashboard (5 functions)
+│   ├── cpal_dashboard_theme()
+│   └── SCSS enhancements
+│
+└── Utilities (7 functions)
+    ├── Fonts: cpal_font_family(), setup_cpal_google_fonts()
+    └── Plots: save_cpal_plot(), add_cpal_logo(), check_plot_accessibility()
 ```
 
-The interactive setup will ask you about: - **Project name and location**: Where to create your project folder - **Project type**: Analysis, Quarto report, Shiny app, etc. (see table below) - **Features to include**: Git, renv, targets, etc. (see table below)\
-- **Whether to open in RStudio**: Automatically switches to your new project
+---
 
-**Benefits of interactive mode:** - **Prevents mistakes**: Guides you through decisions with explanations - **Educational**: Shows you what options exist and why you might choose them - **Flexible**: You can select exactly what you need for this specific project
+## Your First Visualization
 
-### Direct Project Creation
+Let's create a complete, branded visualization step by step:
 
-**When to use:** When you know exactly what you want and want to create projects quickly, especially for similar types of work.
+### Step 1: Load Libraries
 
-```{r}
-# Create an analysis project with modern workflow tools
-start_project(
-  name = "my-analysis-project",
-  path = "~/projects",  # Adjust to your preferred location
-  project_type = "analysis",
-  features = c("renv", "git", "targets"),
-  interactive = FALSE,
-  open = TRUE  # Opens in RStudio when complete
-)
-```
-
-**Why these specific choices:** - **`project_type = "analysis"`**: Sets up folder structure optimized for data analysis with scripts, data folders, and output directories - **`features = c("renv", "git", "targets")`**: - **renv**: Ensures package versions are consistent and reproducible - **git**: Sets up version control for tracking changes and collaboration - **targets**: Makes complex analyses reproducible and efficient with workflow automation - **`interactive = FALSE`**: Skips prompts and uses your specified settings - **`open = TRUE`**: Automatically opens the new project in RStudio
-
-### Available Project Types
-
-**Choosing the right project type** sets up the appropriate folder structure, templates, and configuration for your specific use case:
-
-| Project Type | Description | Best For | What You Get |
-|------------------|------------------|------------------|------------------|
-| `"analysis"` | Data analysis with R scripts and notebooks | Exploratory analysis, research projects, one-off investigations | Scripts folder, data folder, outputs folder, analysis templates |
-| `"quarto-report"` | Quarto document with CPAL styling | Reports for stakeholders, research publications, formal documentation | Quarto templates, CPAL CSS styling, bibliography setup, assets folder |
-| `"quarto-slides"` | Quarto presentation slides | Presentations, workshops, conference talks | Slide templates with CPAL branding, speaker notes, embedded plots |
-| `"shiny-dashboard"` | Shiny dashboard with CPAL theming | Interactive dashboards for ongoing monitoring, executive summaries | Dashboard templates, CPAL UI theme, layout components |
-| `"shiny-app"` | Shiny application | Interactive applications, data exploration tools, calculators | App structure, CPAL styling, deployment configuration |
-| `"package"` | R package development | Creating reusable functions, internal tools, sharing code | Package skeleton, documentation setup, testing framework |
-
-### Available Features
-
-**Features add functionality** to any project type. Choose based on your project's complexity and collaboration needs:
-
-| Feature | Description | Recommended For | What It Adds |
-|------------------|------------------|-------------------|------------------|
-| `"renv"` | Package management with renv | **All projects** - ensures reproducibility | Lockfile, isolated package library, consistent versions across team |
-| `"git"` | Git version control setup | **All collaborative projects** | Git repository, .gitignore, initial commit, README |
-| `"github"` | GitHub repository creation | Projects shared outside your computer | Automatic GitHub repo creation, remote connection |
-| `"targets"` | targets pipeline for reproducibility | **Complex analyses** with multiple steps | Workflow automation, dependency tracking, caching |
-| `"tests"` | Testing infrastructure | **Package development**, functions you'll reuse | Testing framework, example tests, continuous integration setup |
-
-**Common feature combinations:** - **Simple analysis**: `c("renv", "git")` - Version control and package management - **Team project**: `c("renv", "git", "github")` - Add sharing via GitHub\
-- **Complex analysis**: `c("renv", "git", "targets")` - Add workflow automation - **Package development**: `c("renv", "git", "tests")` - Add testing framework
-
-## Essential Workflow Functions
-
-### Color and Styling
-
-**Why color choice matters:** Different types of data require different color approaches. Using the wrong palette can make your data harder to understand or even misleading.
-
-```{r}
-# Use CPAL color palettes in your plots
-scale_color_cpal(palette = "main")      # For color aesthetics
-scale_fill_cpal(palette = "sequential") # For fill aesthetics
-```
-
-**Choosing the right palette:**
-
-| Palette Type | When to Use | Example Data | Visual Effect |
-|------------------|------------------|------------------|-------------------|
-| `"main"` | **Categorical data** with no inherent order | Different departments, product categories, survey responses | Visually distinct colors that don't imply ranking |
-| `"sequential"` | **Continuous data** that goes from low to high | Population counts, percentages, ages, income | Light to dark progression shows magnitude |
-| `"diverging"` | **Data with a meaningful center point** | Change from baseline, survey agreement scales, temperature anomalies | Distinct colors for above/below center |
-| `"categorical"` | **Many categories** (more than main palette) | States, school districts, detailed classifications | Extended set of distinct colors |
-
-**Common mistakes to avoid:** - Using sequential palettes for categorical data (implies false ranking) - Using categorical palettes for continuous data (loses magnitude information) - Using too many categories with categorical palettes (becomes hard to distinguish)
-
-### Themes for Different Outputs
-
-```{r}
-# Choose the right theme for your output:
-theme_cpal()          # Default theme for reports
-theme_cpal_minimal()  # Clean theme with minimal elements
-theme_cpal_print()    # Optimized for printing
-theme_cpal_web()      # Optimized for web display
-theme_cpal_dark()     # Dark theme variant
-theme_cpal_map()      # Specialized for maps
-```
-
-### Saving Plots
-
-```{r}
-# Save with standard CPAL dimensions and settings
-save_cpal_plot(plot_object, "filename.png")
-
-# Available size presets:
-save_cpal_plot(p, "plot.png", size = "default")  # 8x6 inches
-save_cpal_plot(p, "plot.png", size = "slide")    # 10x7.5 inches  
-save_cpal_plot(p, "plot.png", size = "half")     # 6x4 inches
-save_cpal_plot(p, "plot.png", size = "third")    # 4x3 inches
-
-# Custom dimensions:
-save_cpal_plot(p, "plot.png", size = c(12, 8))   # width, height in inches
-```
-
-## Adding Templates to Existing Projects
-
-If you already have a project and want to add CPAL templates:
-
-```{r}
-# Add Quarto reporting capability
-use_quarto_report()
-
-# Add Shiny dashboard templates
-use_shiny_dashboard()
-
-# Add targets pipeline
-use_targets()
-
-# Update CPAL assets (logos, CSS, etc.)
-update_cpal_assets()
-```
-
-## Common Workflows
-
-### Basic Data Visualization Workflow
-
-```{r}
+```r
 library(cpaltemplates)
 library(ggplot2)
-
-# 1. Set up fonts
-setup_cpal_google_fonts()
-
-# 2. Create your plot
-plot <- your_data |>
-  ggplot(aes(x = variable1, y = variable2)) +
-  geom_point() +
-  scale_color_cpal() +
-  theme_cpal() +
-  labs(title = "Your Title")
-
-# 3. Save with CPAL standards
-save_cpal_plot(plot, "analysis_plot.png")
+library(dplyr)
 ```
 
-### Report Generation Workflow
+### Step 2: Prepare Data
 
-```{r}
-# 1. Start a Quarto report project
-start_project(
-  name = "quarterly-report",
-  project_type = "quarto-report",
-  features = c("renv", "git")
-)
-
-# 2. Or add reporting to existing project
-use_quarto_report()
-
-# 3. Use CPAL styling in your Quarto documents
-# (Templates will include proper YAML headers and CSS)
+```r
+# Using built-in mtcars dataset
+car_data <- mtcars |>
+  mutate(
+    cylinders = factor(cyl),
+    car_name = rownames(mtcars)
+  )
 ```
 
-## Troubleshooting Common Issues
+### Step 3: Create the Plot
 
-### Font Issues
+```r
+p <- ggplot(car_data, aes(x = wt, y = mpg, color = cylinders)) +
+  geom_point(size = 3, alpha = 0.8) +
+  scale_color_cpal("main_3") +
+  labs(
+    title = "Fuel Efficiency by Vehicle Weight",
+    subtitle = "Heavier vehicles tend to have lower fuel efficiency",
+    x = "Weight (1,000 lbs)",
+    y = "Miles per Gallon",
+    color = "Cylinders",
+    caption = "Source: Motor Trend Car Road Tests (1974)"
+  ) +
+  theme_cpal()
 
-If fonts aren't displaying correctly:
-
-```{r}
-# Force refresh fonts
-setup_cpal_google_fonts(force_refresh = TRUE)
-
-# Check what fonts are available
-get_cpal_font_family()
-
-# Use fallback fonts if needed
-theme_cpal(base_family = cpal_font_family_fallback())
+print(p)
 ```
 
-### Color Palette Issues
+### Step 4: Save the Plot
 
-```{r}
-# View palettes to check they're loading
-view_cpal_palettes("all")
+```r
+# Save with standard dimensions
+save_cpal_plot(p, "my_first_cpal_plot.png", size = "default")
 
-# Check specific palette
-cpal_colors("main")  # Should return vector of hex colors
+# Save for slides
+save_cpal_plot(p, "my_first_cpal_plot_slide.png", size = "slide")
 ```
 
-### Project Creation Issues
+### Step 5: Add Logo (Optional)
 
-```{r}
-# Check if you have write permissions to the target directory
-# Make sure RStudio is not already open with a project
-# Try with overwrite = TRUE if directory exists:
-start_project(name = "test", overwrite = TRUE)
+```r
+# Add CPAL logo to the plot
+p_with_logo <- add_cpal_logo(p, position = "top-right")
+print(p_with_logo)
 ```
 
-## Next Steps
-
-Now that you have the basics:
-
-1.  **Explore Function Groups**: Check out detailed documentation for:
-
--   [Colors & Palettes](colors-palettes.qmd) - Complete color system
--   [Themes & Styling](themes-styling.qmd) - All theme variants and customization
--   [Project Setup](project-setup.qmd) - Advanced project configuration
-
-2.  **See Real Examples**: Visit [Workflow Integration](workflow-integration.qmd) for complete workflow examples
-
-3.  **Interactive Features**: Learn about interactive plots and maps in [Interactive Features](interactive-features.qmd)
+---
 
 ## Quick Reference
 
-### Most Important Functions
+### Essential Functions
 
--   `setup_cpal_google_fonts()` - Set up fonts (run once per session)
--   `start_project()` - Create new CPAL project
--   `theme_cpal()` - Apply CPAL theme to plots
--   `scale_color_cpal()` / `scale_fill_cpal()` - Use CPAL colors
--   `save_cpal_plot()` - Save plots with CPAL standards
--   `view_cpal_palettes()` - See available colors
+| Task | Function |
+|------|----------|
+| Get brand colors | `cpal_colors_primary()` |
+| Apply color scale | `scale_color_cpal("main")` |
+| Apply theme | `theme_cpal()` |
+| Save plot | `save_cpal_plot(p, "file.png")` |
+| Create table | `cpal_table_reactable(data)` |
+| Start project | `start_project("name", "analysis")` |
 
-### Getting Help
+### Essential Palettes
 
--   Use `?function_name` for detailed help on any function
--   Check [Troubleshooting](troubleshooting.qmd) for common issues
--   Contact CPAL Data Team for support
+| Palette | Use Case | Colors |
+|---------|----------|--------|
+| `main` | Categorical data | 5 |
+| `main_3` | Simple comparisons | 3 |
+| `teal_seq_5` | Sequential/continuous | 5 |
+| `pink_teal_5` | Diverging data | 5 |
 
-------------------------------------------------------------------------
+### Essential Themes
 
-*Ready to start using cpaltemplates in your workflow? Pick a function group from the navigation menu to dive deeper, or jump into [Workflow Integration](workflow-integration.qmd) for complete examples.*
+| Theme | Use Case |
+|-------|----------|
+| `theme_cpal()` | Default, most situations |
+| `theme_cpal_minimal()` | Clean, simple designs |
+| `theme_cpal_dark()` | Presentations, dark mode |
+| `theme_cpal_print()` | Print publications |
+
+---
+
+## Next Steps
+
+Now that you have cpaltemplates set up, explore these guides:
+
+1. **[Colors & Palettes](colors-palettes.qmd)** - Deep dive into the color system
+2. **[Themes & Styling](themes-styling.qmd)** - Customize your visualizations
+3. **[Project Setup](project-setup.qmd)** - Create standardized project structures
+4. **[Workflows](workflow-integration.qmd)** - End-to-end examples
+
+---
+
+## Common Setup Issues
+
+### Fonts Not Loading
+
+If fonts aren't loading correctly:
+
+```r
+# Force refresh fonts
+setup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)
+
+# Check what's available
+cpal_font_family(setup = TRUE)
+```
+
+### Package Not Found
+
+If installation fails:
+
+```r
+# Check R version
+R.version.string
+#> Should be 4.3.0 or higher
+
+# Try with dependencies
+remotes::install_github(
+  "childpovertyactionlab/cpaltemplates",
+  dependencies = TRUE
+)
+```
+
+### Interactive Features Not Working
+
+For ggiraph functionality:
+
+```r
+# Install ggiraph and dependencies
+install.packages(c("ggiraph", "gdtools", "systemfonts"))
+
+# Register fonts for interactive use
+if (requireNamespace("gdtools", quietly = TRUE)) {
+  gdtools::register_gfont("Inter")
+  gdtools::register_gfont("Roboto")
+}
+```
+
+See the [Troubleshooting Guide](troubleshooting.qmd) for more solutions.

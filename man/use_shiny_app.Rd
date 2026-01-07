@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{use_shiny_app}
 \alias{use_shiny_app}
-\title{Add simple Shiny app to an existing project}
+\title{Add Simple Shiny App to an Existing Project}
 \usage{
 use_shiny_app(path = ".", overwrite = FALSE)
 }
