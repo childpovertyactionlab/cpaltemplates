@@ -1,5 +1,54 @@
 ---
 
+# cpaltemplates 2.5.0 (2026-01-07)
+
+## Major Release - New Color System & Shiny Dashboard Enhancements
+
+### 🎨 New Color System
+
+Complete overhaul of the CPAL color palette system:
+
+#### Core Brand Colors (6 colors)
+* **midnight** (#004855) - Dark backgrounds, headers, primary emphasis
+* **deep_teal** (#006878) - Primary brand color, links, info states
+* **coral** (#E86A50) - Accents, alerts, negative/error states
+* **sage** (#5A8A6F) - Success states, positive indicators
+* **slate** (#5C6B73) - Secondary text, borders, muted elements
+* **warm_gray** (#9BA8AB) - Neutral backgrounds, disabled states
+
+#### New Palette Types
+* **Categorical**: `main` (8 colors), `main_3`, `main_4`, `main_5`, `main_6`, `binary`, `status`
+* **Sequential**: `midnight_seq_4`, `midnight_seq_5`, `midnight_seq_6`, `midnight_seq_8`
+* **Diverging**: `coral_midnight_3`, `coral_midnight_5`, `coral_midnight_7`, `coral_midnight_9`
+
+#### Legacy Support
+* Old palette names (`teal_seq_*`, `pink_teal_*`) aliased to new palettes for backward compatibility
+
+### 🖥️ Shiny Dashboard Improvements
+
+* **Brand.yml Integration**: Dashboard themes now fully powered by `_brand.yml` configuration
+* **Dark/Light Mode**: Fixed dark mode styling and theme switching
+* **Alert Styles**: Improved alert border styles and color consistency
+* **Table Styling**: Enhanced table appearance in dashboards
+* **Modular UI Structure**: Refactored demo app with modular view components
+* **Bootstrap 5 Theming**: `cpal_dashboard_theme()` now recommended over deprecated `cpal_shiny()`
+
+### 📖 Documentation
+
+* Complete Quarto documentation site rebuild
+* Updated all examples to use new color system
+* Fixed multi-plot rendering in documentation
+* Added comprehensive color palette reference tables
+* GitHub Pages deployment fix (output directly to docs/)
+
+### 🔧 Technical Changes
+
+* Refactored R functions into modular files (colors.R, themes.R, tables.R, utils.R, etc.)
+* Updated `validate_cpal_brand()` for new color requirements
+* Package passes `devtools::check()` with 0 errors, 0 warnings, 0 notes
+
+---
+
 # cpaltemplates 2.0.1 (2025-10-09)
 
 ### Bug Fixes
