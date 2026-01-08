@@ -168,12 +168,14 @@ theme_cpal <- function(base_size = 14,
       ),
 
       # Axis ticks - let thematic control color
-      axis.ticks = ggplot2::element_line(inherit.blank = TRUE),
+      axis.ticks = ggplot2::element_line(colour = NA, inherit.blank = TRUE),
 
-      # Panel - use element_blank so thematic controls background
-      panel.background = ggplot2::element_blank(),
+      # Panel - use element_rect with NA fill to inherit thematic's colors
+      # Note: element_blank() causes grid lines to inherit white from theme_gray
+      # which is invisible on light backgrounds. Using NA lets thematic compute proper colors.
+      panel.background = ggplot2::element_rect(fill = NA, colour = NA),
       panel.border = ggplot2::element_blank(),
-      plot.background = ggplot2::element_blank(),
+      plot.background = ggplot2::element_rect(fill = NA, colour = NA),
 
       # Legend
       legend.position = legend_position,
@@ -213,24 +215,24 @@ theme_cpal <- function(base_size = 14,
     )
 
     # Grid lines - let thematic control colors
+    # Use colour = NA to signal thematic should compute the color (not inherit theme_gray's white)
     # Don't blank the parent element - only blank specific gridlines we don't want
-    # This allows thematic to control the color of the ones we do want
     if (grid == "horizontal") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.y = ggplot2::element_line(colour = NA, linewidth = 0.25, inherit.blank = TRUE),
         panel.grid.major.x = ggplot2::element_blank(),
         panel.grid.minor = ggplot2::element_blank()
       )
     } else if (grid == "vertical") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_line(colour = NA, linewidth = 0.25, inherit.blank = TRUE),
         panel.grid.major.y = ggplot2::element_blank(),
         panel.grid.minor = ggplot2::element_blank()
       )
     } else if (grid == "both") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
-        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.y = ggplot2::element_line(colour = NA, linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_line(colour = NA, linewidth = 0.25, inherit.blank = TRUE),
         panel.grid.minor = ggplot2::element_blank()
       )
     } else {
@@ -241,21 +243,21 @@ theme_cpal <- function(base_size = 14,
       )
     }
 
-    # Axis lines - same approach as gridlines: don't blank the parent, only blank what we don't want
+    # Axis lines - same approach as gridlines: use colour = NA to let thematic compute
     if (axis_line == "x") {
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.x.bottom = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE),
         axis.line.y = ggplot2::element_blank()
       )
     } else if (axis_line == "y") {
       theme <- theme + ggplot2::theme(
-        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE),
         axis.line.x = ggplot2::element_blank()
       )
     } else if (axis_line == "both") {
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
-        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
+        axis.line.x.bottom = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE)
       )
     } else {
       # axis_line == "none"
@@ -268,8 +270,8 @@ theme_cpal <- function(base_size = 14,
     } else if (style == "classic") {
       # Classic style always shows both axis lines
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
-        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
+        axis.line.x.bottom = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(colour = NA, linewidth = 0.5, inherit.blank = TRUE)
       )
     }
 
