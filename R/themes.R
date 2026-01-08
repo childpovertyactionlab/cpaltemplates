@@ -98,85 +98,96 @@ theme_cpal <- function(base_size = 14,
     # Only set structural elements (sizes, margins, fonts, positions)
 
     theme <- theme + ggplot2::theme(
-      # Text base - font only, no color
+      # Text base - font only, colour inherits from theme_gray
       text = ggplot2::element_text(
         family = base_family,
         size = base_size,
-        lineheight = 0.9
+        lineheight = 0.9,
+        inherit.blank = TRUE
       ),
 
-      # Plot titles - structure only
+      # Plot titles
       plot.title = ggplot2::element_text(
         size = base_size * 1.15,
         family = base_family,
         face = "bold",
         hjust = 0,
-        margin = ggplot2::margin(b = base_size * 0.4)
+        margin = ggplot2::margin(b = base_size * 0.4),
+        inherit.blank = TRUE
       ),
       plot.subtitle = ggplot2::element_text(
         size = base_size * 0.9,
         family = base_family,
         face = "plain",
         hjust = 0,
-        margin = ggplot2::margin(b = base_size * 0.6)
+        margin = ggplot2::margin(b = base_size * 0.6),
+        inherit.blank = TRUE
       ),
       plot.caption = ggplot2::element_text(
         size = base_size * 0.7,
         family = base_family,
         hjust = 1,
-        margin = ggplot2::margin(t = base_size * 0.5)
+        margin = ggplot2::margin(t = base_size * 0.5),
+        inherit.blank = TRUE
       ),
       plot.title.position = "plot",
       plot.caption.position = "plot",
 
-      # Axis titles - structure only
+      # Axis titles
       axis.title = if (axis_title) {
         ggplot2::element_text(
           family = base_family,
           face = "plain",
-          size = base_size * 0.85
+          size = base_size * 0.85,
+          inherit.blank = TRUE
         )
       } else {
         ggplot2::element_blank()
       },
       axis.title.x = ggplot2::element_text(
-        margin = ggplot2::margin(t = base_size * 0.5)
+        margin = ggplot2::margin(t = base_size * 0.5),
+        inherit.blank = TRUE
       ),
       axis.title.y = ggplot2::element_text(
-        margin = ggplot2::margin(r = base_size * 0.5)
+        margin = ggplot2::margin(r = base_size * 0.5),
+        inherit.blank = TRUE
       ),
 
-      # Axis text - structure only
+      # Axis text
       axis.text.x = ggplot2::element_text(
         family = base_family,
         size = base_size * 0.8,
-        face = "plain"
+        face = "plain",
+        inherit.blank = TRUE
       ),
       axis.text.y = ggplot2::element_text(
         family = base_family,
         size = base_size * 0.8,
-        face = "plain"
+        face = "plain",
+        inherit.blank = TRUE
       ),
 
       # Axis ticks - let thematic control color
       axis.ticks = ggplot2::element_line(),
 
-      # Panel - let thematic control background
+      # Panel - use element_blank so thematic controls background
       panel.background = ggplot2::element_blank(),
       panel.border = ggplot2::element_blank(),
       plot.background = ggplot2::element_blank(),
 
-      # Legend - structure only
+      # Legend
       legend.position = legend_position,
       legend.background = ggplot2::element_blank(),
       legend.key = ggplot2::element_blank(),
       legend.text = ggplot2::element_text(
         size = base_size * 0.7,
-        family = base_family
+        family = base_family,
+        inherit.blank = TRUE
       ),
       legend.title = ggplot2::element_text(
         size = base_size * 0.7,
-        face = "bold"
+        face = "bold",
+        inherit.blank = TRUE
       ),
       legend.key.size = ggplot2::unit(0.7, "lines"),
       legend.key.width = ggplot2::unit(0.7, "lines"),
@@ -184,7 +195,7 @@ theme_cpal <- function(base_size = 14,
       legend.margin = ggplot2::margin(t = 5, b = 0, l = 0, r = 0, unit = "pt"),
       legend.box.margin = ggplot2::margin(0, 0, 0, 0, unit = "pt"),
 
-      # Strip - let thematic control colors
+      # Strip
       strip.background = ggplot2::element_blank(),
       strip.text = ggplot2::element_text(
         family = base_family,
@@ -193,7 +204,8 @@ theme_cpal <- function(base_size = 14,
         margin = ggplot2::margin(
           base_size * 0.3, base_size * 0.3,
           base_size * 0.3, base_size * 0.3
-        )
+        ),
+        inherit.blank = TRUE
       ),
 
       # Plot margins
