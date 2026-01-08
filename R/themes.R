@@ -168,7 +168,7 @@ theme_cpal <- function(base_size = 14,
       ),
 
       # Axis ticks - let thematic control color
-      axis.ticks = ggplot2::element_line(),
+      axis.ticks = ggplot2::element_line(inherit.blank = TRUE),
 
       # Panel - use element_blank so thematic controls background
       panel.background = ggplot2::element_blank(),
@@ -220,12 +220,12 @@ theme_cpal <- function(base_size = 14,
 
     if (grid == "horizontal" || grid == "both") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25)
+        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE)
       )
     }
     if (grid == "vertical" || grid == "both") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25)
+        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE)
       )
     }
 
@@ -234,12 +234,12 @@ theme_cpal <- function(base_size = 14,
 
     if (axis_line == "x" || axis_line == "both") {
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5)
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
       )
     }
     if (axis_line == "y" || axis_line == "both") {
       theme <- theme + ggplot2::theme(
-        axis.line.y.left = ggplot2::element_line(linewidth = 0.5)
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
       )
     }
 
@@ -248,8 +248,8 @@ theme_cpal <- function(base_size = 14,
       theme <- theme + ggplot2::theme(axis.ticks = ggplot2::element_blank())
     } else if (style == "classic") {
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5),
-        axis.line.y.left = ggplot2::element_line(linewidth = 0.5)
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
       )
     }
 
