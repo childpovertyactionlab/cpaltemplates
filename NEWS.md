@@ -1,5 +1,47 @@
 ---
 
+# cpaltemplates 2.6.0 (2026-01-08)
+## Thematic Package Compatibility for Dark Mode Support
+
+### New Features
+
+* **`theme_cpal_auto()`**: New theme function designed for use with the `thematic` package. Applies CPAL styling for fonts, sizes, and spacing while allowing thematic to control background and text colors for automatic light/dark mode support in Shiny apps.
+
+* **`thematic` parameter for `theme_cpal()`**: Added new `thematic = FALSE` parameter. When set to `TRUE`, color-related theme elements are set to `NA` to allow the thematic package to inherit and control them based on the app's CSS.
+
+* **`set_theme_cpal("auto")`**: The `set_theme_cpal()` function now accepts `"auto"` as a style option to set the thematic-compatible theme as default.
+
+### Usage Example
+
+```r
+library(shiny)
+library(thematic)
+library(cpaltemplates)
+
+server <- function(input, output, session) {
+thematic::thematic_on()
+
+output$my_plot <- renderPlot({
+  ggplot(data, aes(x, y)) +
+    geom_point() +
+    scale_color_cpal_d() +
+    theme_cpal_auto()
+})
+}
+```
+
+### Technical Details
+
+When `thematic = TRUE` or using `theme_cpal_auto()`:
+- Background fills (`panel.background`, `plot.background`, `strip.background`) are set to `NA`
+- Text colors (title, subtitle, caption, axis text, legend text) are set to `NA`
+- Grid and axis line colors are set to `NA`
+- This allows the thematic package to control these colors based on the Shiny app's light/dark mode CSS
+
+CPAL data color scales (`scale_color_cpal_d()`, `scale_fill_cpal_d()`, etc.) continue to use CPAL brand colors regardless of dark mode setting.
+
+---
+
 # cpaltemplates 2.5.0 (2026-01-07)
 
 ## Major Release - New Color System & Shiny Dashboard Enhancements
@@ -54,7 +96,7 @@ Complete overhaul of the CPAL color palette system:
 ### Bug Fixes
 * Adjusted tex file templates to contain correct file paths.
 * Created new quarto report template file with updated yaml
-# Updated theme_cpal() ggplot2 theme for appropriate quarto rendering
+* Updated theme_cpal() ggplot2 theme for appropriate quarto rendering
 
 ---
 

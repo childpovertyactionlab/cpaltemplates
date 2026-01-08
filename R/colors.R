@@ -539,8 +539,8 @@ cpal_get_primary_color <- function() {
 #' @export
 #'
 #' @examples
-#' cpal_get_color("orange")
-#' cpal_get_color("teal")
+#' cpal_get_color("coral")
+#' cpal_get_color("midnight")
 cpal_get_color <- function(palette_color_name) {
   brand <- .load_cpal_brand()
 
