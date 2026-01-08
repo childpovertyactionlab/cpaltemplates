@@ -212,41 +212,61 @@ theme_cpal <- function(base_size = 14,
       plot.margin = ggplot2::margin(15, 15, 15, 15, "pt")
     )
 
-    # Grid lines - let thematic control colors via element_line() defaults
-    theme <- theme + ggplot2::theme(
-      panel.grid.major = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank()
-    )
-
-    if (grid == "horizontal" || grid == "both") {
+    # Grid lines - let thematic control colors
+    # Don't blank the parent element - only blank specific gridlines we don't want
+    # This allows thematic to control the color of the ones we do want
+    if (grid == "horizontal") {
       theme <- theme + ggplot2::theme(
-        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE)
+        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    } else if (grid == "vertical") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.y = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    } else if (grid == "both") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    } else {
+      # grid == "none"
+      theme <- theme + ggplot2::theme(
+        panel.grid.major = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
       )
     }
-    if (grid == "vertical" || grid == "both") {
-      theme <- theme + ggplot2::theme(
-        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE)
-      )
-    }
 
-    # Axis lines
-    theme <- theme + ggplot2::theme(axis.line = ggplot2::element_blank())
-
-    if (axis_line == "x" || axis_line == "both") {
+    # Axis lines - same approach as gridlines: don't blank the parent, only blank what we don't want
+    if (axis_line == "x") {
       theme <- theme + ggplot2::theme(
-        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y = ggplot2::element_blank()
       )
-    }
-    if (axis_line == "y" || axis_line == "both") {
+    } else if (axis_line == "y") {
       theme <- theme + ggplot2::theme(
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.x = ggplot2::element_blank()
+      )
+    } else if (axis_line == "both") {
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
         axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
       )
+    } else {
+      # axis_line == "none"
+      theme <- theme + ggplot2::theme(axis.line = ggplot2::element_blank())
     }
 
     # Style-specific adjustments
     if (style == "minimal") {
       theme <- theme + ggplot2::theme(axis.ticks = ggplot2::element_blank())
     } else if (style == "classic") {
+      # Classic style always shows both axis lines
       theme <- theme + ggplot2::theme(
         axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
         axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
