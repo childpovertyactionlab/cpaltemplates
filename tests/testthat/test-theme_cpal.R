@@ -2,17 +2,33 @@
 
 test_that("theme_cpal creates valid theme", {
   library(ggplot2)
-  
+
   # Test basic theme creation
   theme <- theme_cpal()
   expect_s3_class(theme, "theme")
   expect_s3_class(theme, "gg")
-  
+
   # Test theme variants
   expect_s3_class(theme_cpal_minimal(), "theme")
   expect_s3_class(theme_cpal_dark(), "theme")
   expect_s3_class(theme_cpal_map(), "theme")
   expect_s3_class(theme_cpal_print(), "theme")
+  expect_s3_class(theme_cpal_auto(), "theme")
+})
+
+test_that("theme_cpal thematic parameter works", {
+  library(ggplot2)
+
+
+  # Test thematic parameter creates valid theme
+  theme_auto <- theme_cpal(thematic = TRUE)
+  expect_s3_class(theme_auto, "theme")
+  expect_s3_class(theme_auto, "gg")
+
+  # Test theme_cpal_auto convenience function
+  theme_auto2 <- theme_cpal_auto()
+  expect_s3_class(theme_auto2, "theme")
+  expect_s3_class(theme_auto2, "gg")
 })
 
 test_that("theme_cpal parameters work correctly", {

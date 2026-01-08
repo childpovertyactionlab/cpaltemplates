@@ -18,6 +18,6 @@ Generic helper to retrieve a specific hex code from the brand palette
 by providing its name (e.g., "coral", "sage", "midnight").
 }
 \examples{
-cpal_get_color("orange")
-cpal_get_color("teal")
+cpal_get_color("coral")
+cpal_get_color("midnight")
 }

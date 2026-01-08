@@ -16,6 +16,10 @@ utils::globalVariables(c("x", "y", "group"))
 #' @param axis_line Axis line position: "x", "y", "both", or "none" (default: "x")
 #' @param axis_title Include axis titles (default: TRUE)
 #' @param legend_position Legend position (default: "bottom")
+#' @param thematic Logical. If TRUE, allows the thematic package to control
+#'   background and text colors for automatic light/dark mode support in Shiny
+#'   apps. When enabled, color-related theme elements are set to NA so they
+#'   inherit from thematic's auto-detected colors. Default: FALSE.
 #'
 #' @return A ggplot2 theme object
 #' @export
@@ -27,7 +31,8 @@ theme_cpal <- function(base_size = 14,
                        grid = c("horizontal", "vertical", "both", "none"),
                        axis_line = c("x", "y", "both", "none"),
                        axis_title = TRUE,
-                       legend_position = "bottom") {
+                       legend_position = "bottom",
+                       thematic = FALSE) {
 
   style <- match.arg(style)
 
@@ -61,18 +66,38 @@ theme_cpal <- function(base_size = 14,
   )
 
   # Style-specific colors
-  if (style == "dark") {
+  # When thematic = TRUE, colors are set to NA to allow thematic package control
+  if (thematic) {
+    # Let thematic control these colors for light/dark mode support
+    bg_color <- NA
+    title_color <- NA
+    text_color <- NA
+    grid_color <- NA
+    axis_text_color <- NA
+    subtitle_color <- NA
+    caption_color <- NA
+    axis_title_color <- NA
+    strip_bg_color <- NA
+  } else if (style == "dark") {
     bg_color <- "#1a1a1a"
     title_color <- "#f0f0f0"
     text_color <- "#f0f0f0"
     grid_color <- "#333333"
     axis_text_color <- "#e0e0e0"
+    subtitle_color <- "#bbbbbb"
+    caption_color <- "#888888"
+    axis_title_color <- "#bbbbbb"
+    strip_bg_color <- "#2a2a2a"
   } else {
     bg_color <- "white"
     title_color <- midnight
     text_color <- "#222222"
     grid_color <- neutral
     axis_text_color <- midnight
+    subtitle_color <- "#666666"
+    caption_color <- neutral_dark
+    axis_title_color <- "#555555"
+    strip_bg_color <- neutral
   }
 
   # Apply the main theme customizations
@@ -99,7 +124,7 @@ theme_cpal <- function(base_size = 14,
       family = base_family,
       face = "plain",
       hjust = 0,
-      color = if (style == "dark") "#bbbbbb" else "#666666",
+      color = subtitle_color,
       margin = ggplot2::margin(b = base_size * 0.6)
     ),
     plot.caption = ggplot2::element_text(
@@ -107,7 +132,7 @@ theme_cpal <- function(base_size = 14,
       family = base_family,
       hjust = 1,
       margin = ggplot2::margin(t = base_size * 0.5),
-      color = if (style == "dark") "#888888" else neutral_dark
+      color = caption_color
     ),
     plot.title.position = "plot",
     plot.caption.position = "plot",
@@ -118,7 +143,7 @@ theme_cpal <- function(base_size = 14,
         family = base_family,
         face = "plain",  # Normal weight, not italic
         size = base_size * 0.85,
-        color = if (style == "dark") "#bbbbbb" else "#555555"
+        color = axis_title_color
       )
     } else {
       ggplot2::element_blank()
@@ -129,16 +154,16 @@ theme_cpal <- function(base_size = 14,
       family = base_family,
       size = base_size * 0.8,
       face = "plain",  # Normal weight, not bold
-      color = if (style == "dark") axis_text_color else "#444444"
+      color = axis_text_color
     ),
     axis.text.y = ggplot2::element_text(
       family = base_family,
       size = base_size * 0.8,
       face = "plain",  # Normal weight, not bold
-      color = if (style == "dark") "#999999" else "#444444"
+      color = if (thematic) NA else if (style == "dark") "#999999" else "#444444"
     ),
     axis.ticks = ggplot2::element_line(
-      color = if (style == "dark") "#666666" else neutral_dark
+      color = if (thematic) NA else if (style == "dark") "#666666" else neutral_dark
     ),
 
     # Panel styling
@@ -152,12 +177,13 @@ theme_cpal <- function(base_size = 14,
     legend.key = ggplot2::element_blank(),
     legend.text = ggplot2::element_text(
       size = base_size * 0.7,  # 30% smaller (was base_size * 9.5/8.5)
-      family = base_family
+      family = base_family,
+      color = if (thematic) NA else text_color
     ),
     legend.title = ggplot2::element_text(
       size = base_size * 0.7,  # 30% smaller (was base_size)
       face = "bold",
-      color = if (style == "dark") title_color else midnight
+      color = if (thematic) NA else if (style == "dark") title_color else midnight
     ),
     # NEW: smaller legend keys
     legend.key.size = ggplot2::unit(0.7, "lines"),
@@ -169,13 +195,13 @@ theme_cpal <- function(base_size = 14,
 
     # Facet styling
     strip.background = ggplot2::element_rect(
-      fill = if (style == "dark") "#2a2a2a" else neutral
+      fill = strip_bg_color, color = NA
     ),
     strip.text = ggplot2::element_text(
       family = base_family,
       face = "bold",
       size = base_size * 9.5/8.5,
-      color = if (style == "dark") title_color else midnight,
+      color = if (thematic) NA else if (style == "dark") title_color else midnight,
       margin = ggplot2::margin(
         base_size * 0.3, base_size * 0.3,
         base_size * 0.3, base_size * 0.3
@@ -218,7 +244,7 @@ theme_cpal <- function(base_size = 14,
   if (axis_line == "x" || axis_line == "both") {
     theme <- theme + ggplot2::theme(
       axis.line.x.bottom = ggplot2::element_line(
-        color = if (style == "dark") "#666666" else axis_line_color,
+        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
         linewidth = 0.5
       )
     )
@@ -226,7 +252,7 @@ theme_cpal <- function(base_size = 14,
   if (axis_line == "y" || axis_line == "both") {
     theme <- theme + ggplot2::theme(
       axis.line.y.left = ggplot2::element_line(
-        color = if (style == "dark") "#666666" else axis_line_color,
+        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
         linewidth = 0.5
       )
     )
@@ -240,17 +266,67 @@ theme_cpal <- function(base_size = 14,
   } else if (style == "classic") {
     theme <- theme + ggplot2::theme(
       axis.line.x.bottom = ggplot2::element_line(
-        color = if (style == "dark") "#666666" else axis_line_color,
+        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
         linewidth = 0.5
       ),
       axis.line.y.left = ggplot2::element_line(
-        color = if (style == "dark") "#666666" else axis_line_color,
+        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
         linewidth = 0.5
       )
     )
   }
 
   return(theme)
+}
+
+#' CPAL Theme with Thematic Auto-theming Support
+#'
+#' A variant of theme_cpal() designed for use with the thematic package.
+#' Applies CPAL styling for fonts, sizes, and spacing while allowing
+#' thematic to control background and text colors for automatic
+#' light/dark mode support in Shiny apps.
+#'
+#' This is a convenience wrapper around `theme_cpal(thematic = TRUE)`.
+#'
+#' @inheritParams theme_cpal
+#' @return A ggplot2 theme object compatible with thematic auto-theming
+#' @export
+#' @examples
+#' \dontrun{
+#' library(shiny)
+#' library(thematic)
+#'
+#' # In server function:
+#' thematic::thematic_on()
+#'
+#' output$my_plot <- renderPlot({
+#'   ggplot(data, aes(x, y)) +
+#'     geom_point() +
+#'     theme_cpal_auto()
+#' })
+#' }
+#' @seealso [theme_cpal()] for the standard theme with explicit colors
+theme_cpal_auto <- function(base_size = 14,
+                            base_family = "",
+                            base_line_size = base_size / 22,
+                            base_rect_size = base_size / 22,
+                            grid = c("horizontal", "vertical", "both", "none"),
+                            axis_line = c("x", "y", "both", "none"),
+                            axis_title = TRUE,
+                            legend_position = "bottom") {
+
+  theme_cpal(
+    base_size = base_size,
+    base_family = base_family,
+    base_line_size = base_line_size,
+    base_rect_size = base_rect_size,
+    style = "default",  # Base style, colors will be controlled by thematic
+    grid = grid,
+    axis_line = axis_line,
+    axis_title = axis_title,
+    legend_position = legend_position,
+    thematic = TRUE
+  )
 }
 
 #' CPAL Dark Theme
@@ -542,6 +618,7 @@ theme_cpal_map <- function(base_size = 16,
 set_theme_cpal <- function(style = "default", base_size = 16, ...) {
   theme_func <- switch(style,
                        "default" = theme_cpal,
+                       "auto" = theme_cpal_auto,
                        "dark" = theme_cpal_dark,
                        "minimal" = theme_cpal_minimal,
                        "classic" = theme_cpal_classic,
