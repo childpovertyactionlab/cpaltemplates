@@ -65,20 +65,8 @@ theme_cpal <- function(base_size = 14,
     base_rect_size = base_rect_size
   )
 
-  # Style-specific colors
-  # When thematic = TRUE, colors are set to NA to allow thematic package control
-  if (thematic) {
-    # Let thematic control these colors for light/dark mode support
-    bg_color <- NA
-    title_color <- NA
-    text_color <- NA
-    grid_color <- NA
-    axis_text_color <- NA
-    subtitle_color <- NA
-    caption_color <- NA
-    axis_title_color <- NA
-    strip_bg_color <- NA
-  } else if (style == "dark") {
+  # Set colors based on style (only used when thematic = FALSE)
+  if (style == "dark") {
     bg_color <- "#1a1a1a"
     title_color <- "#f0f0f0"
     text_color <- "#f0f0f0"
@@ -88,6 +76,8 @@ theme_cpal <- function(base_size = 14,
     caption_color <- "#888888"
     axis_title_color <- "#bbbbbb"
     strip_bg_color <- "#2a2a2a"
+    axis_ticks_color <- "#666666"
+    axis_line_style_color <- "#666666"
   } else {
     bg_color <- "white"
     title_color <- midnight
@@ -98,182 +88,359 @@ theme_cpal <- function(base_size = 14,
     caption_color <- neutral_dark
     axis_title_color <- "#555555"
     strip_bg_color <- neutral
+    axis_ticks_color <- neutral_dark
+    axis_line_style_color <- axis_line_color
   }
 
-  # Apply the main theme customizations
-  theme <- theme + ggplot2::theme(
-    # Base text styling
-    text = ggplot2::element_text(
-      family = base_family,
-      colour = text_color,
-      size = base_size,
-      lineheight = 0.9
-    ),
+  # Build theme differently based on thematic mode
+  if (thematic) {
+    # THEMATIC MODE: Don't set colors - let thematic control them
+    # Only set structural elements (sizes, margins, fonts, positions)
 
-    # Plot titles and labels
-    plot.title = ggplot2::element_text(
-      size = base_size * 1.15,  # Slightly larger than base
-      family = base_family,
-      face = "bold",
-      hjust = 0,  # Left-aligned (standard for data viz)
-      color = title_color,
-      margin = ggplot2::margin(b = base_size * 0.4)
-    ),
-    plot.subtitle = ggplot2::element_text(
-      size = base_size * 0.9,  # Smaller than title
-      family = base_family,
-      face = "plain",
-      hjust = 0,
-      color = subtitle_color,
-      margin = ggplot2::margin(b = base_size * 0.6)
-    ),
-    plot.caption = ggplot2::element_text(
-      size = base_size * 0.7,
-      family = base_family,
-      hjust = 1,
-      margin = ggplot2::margin(t = base_size * 0.5),
-      color = caption_color
-    ),
-    plot.title.position = "plot",
-    plot.caption.position = "plot",
-
-    # Axis styling
-    axis.title = if (axis_title) {
-      ggplot2::element_text(
+    theme <- theme + ggplot2::theme(
+      # Text base - font only, colour inherits from theme_gray
+      text = ggplot2::element_text(
         family = base_family,
-        face = "plain",  # Normal weight, not italic
-        size = base_size * 0.85,
-        color = axis_title_color
+        size = base_size,
+        lineheight = 0.9,
+        inherit.blank = TRUE
+      ),
+
+      # Plot titles
+      plot.title = ggplot2::element_text(
+        size = base_size * 1.15,
+        family = base_family,
+        face = "bold",
+        hjust = 0,
+        margin = ggplot2::margin(b = base_size * 0.4),
+        inherit.blank = TRUE
+      ),
+      plot.subtitle = ggplot2::element_text(
+        size = base_size * 0.9,
+        family = base_family,
+        face = "plain",
+        hjust = 0,
+        margin = ggplot2::margin(b = base_size * 0.6),
+        inherit.blank = TRUE
+      ),
+      plot.caption = ggplot2::element_text(
+        size = base_size * 0.7,
+        family = base_family,
+        hjust = 1,
+        margin = ggplot2::margin(t = base_size * 0.5),
+        inherit.blank = TRUE
+      ),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+
+      # Axis titles
+      axis.title = if (axis_title) {
+        ggplot2::element_text(
+          family = base_family,
+          face = "plain",
+          size = base_size * 0.85,
+          inherit.blank = TRUE
+        )
+      } else {
+        ggplot2::element_blank()
+      },
+      axis.title.x = ggplot2::element_text(
+        margin = ggplot2::margin(t = base_size * 0.5),
+        inherit.blank = TRUE
+      ),
+      axis.title.y = ggplot2::element_text(
+        margin = ggplot2::margin(r = base_size * 0.5),
+        inherit.blank = TRUE
+      ),
+
+      # Axis text
+      axis.text.x = ggplot2::element_text(
+        family = base_family,
+        size = base_size * 0.8,
+        face = "plain",
+        inherit.blank = TRUE
+      ),
+      axis.text.y = ggplot2::element_text(
+        family = base_family,
+        size = base_size * 0.8,
+        face = "plain",
+        inherit.blank = TRUE
+      ),
+
+      # Axis ticks - let thematic control color
+      axis.ticks = ggplot2::element_line(inherit.blank = TRUE),
+
+      # Panel - use element_blank so thematic controls background
+      panel.background = ggplot2::element_blank(),
+      panel.border = ggplot2::element_blank(),
+      plot.background = ggplot2::element_blank(),
+
+      # Legend
+      legend.position = legend_position,
+      legend.background = ggplot2::element_blank(),
+      legend.key = ggplot2::element_blank(),
+      legend.text = ggplot2::element_text(
+        size = base_size * 0.7,
+        family = base_family,
+        inherit.blank = TRUE
+      ),
+      legend.title = ggplot2::element_text(
+        size = base_size * 0.7,
+        face = "bold",
+        inherit.blank = TRUE
+      ),
+      legend.key.size = ggplot2::unit(0.7, "lines"),
+      legend.key.width = ggplot2::unit(0.7, "lines"),
+      legend.key.height = ggplot2::unit(0.7, "lines"),
+      legend.margin = ggplot2::margin(t = 5, b = 0, l = 0, r = 0, unit = "pt"),
+      legend.box.margin = ggplot2::margin(0, 0, 0, 0, unit = "pt"),
+
+      # Strip
+      strip.background = ggplot2::element_blank(),
+      strip.text = ggplot2::element_text(
+        family = base_family,
+        face = "bold",
+        size = base_size * 9.5 / 8.5,
+        margin = ggplot2::margin(
+          base_size * 0.3, base_size * 0.3,
+          base_size * 0.3, base_size * 0.3
+        ),
+        inherit.blank = TRUE
+      ),
+
+      # Plot margins
+      plot.margin = ggplot2::margin(15, 15, 15, 15, "pt")
+    )
+
+    # Grid lines - let thematic control colors
+    # Don't blank the parent element - only blank specific gridlines we don't want
+    # This allows thematic to control the color of the ones we do want
+    if (grid == "horizontal") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    } else if (grid == "vertical") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.y = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
+      )
+    } else if (grid == "both") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.y = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.major.x = ggplot2::element_line(linewidth = 0.25, inherit.blank = TRUE),
+        panel.grid.minor = ggplot2::element_blank()
       )
     } else {
-      ggplot2::element_blank()
-    },
-    axis.title.x = ggplot2::element_text(margin = ggplot2::margin(t = base_size * 0.5)),
-    axis.title.y = ggplot2::element_text(margin = ggplot2::margin(r = base_size * 0.5)),
-    axis.text.x = ggplot2::element_text(
-      family = base_family,
-      size = base_size * 0.8,
-      face = "plain",  # Normal weight, not bold
-      color = axis_text_color
-    ),
-    axis.text.y = ggplot2::element_text(
-      family = base_family,
-      size = base_size * 0.8,
-      face = "plain",  # Normal weight, not bold
-      color = if (thematic) NA else if (style == "dark") "#999999" else "#444444"
-    ),
-    axis.ticks = ggplot2::element_line(
-      color = if (thematic) NA else if (style == "dark") "#666666" else neutral_dark
-    ),
-
-    # Panel styling
-    panel.background = ggplot2::element_rect(fill = bg_color, color = NA),
-    panel.border = ggplot2::element_blank(),
-    plot.background = ggplot2::element_rect(fill = bg_color, color = NA),
-
-    # Legend styling - NEW: smaller legend elements
-    legend.position = legend_position,
-    legend.background = ggplot2::element_blank(),
-    legend.key = ggplot2::element_blank(),
-    legend.text = ggplot2::element_text(
-      size = base_size * 0.7,  # 30% smaller (was base_size * 9.5/8.5)
-      family = base_family,
-      color = if (thematic) NA else text_color
-    ),
-    legend.title = ggplot2::element_text(
-      size = base_size * 0.7,  # 30% smaller (was base_size)
-      face = "bold",
-      color = if (thematic) NA else if (style == "dark") title_color else midnight
-    ),
-    # NEW: smaller legend keys
-    legend.key.size = ggplot2::unit(0.7, "lines"),
-    legend.key.width = ggplot2::unit(0.7, "lines"),
-    legend.key.height = ggplot2::unit(0.7, "lines"),
-    # NEW: tighter legend spacing
-    legend.margin = ggplot2::margin(t = 5, b = 0, l = 0, r = 0, unit = "pt"),
-    legend.box.margin = ggplot2::margin(0, 0, 0, 0, unit = "pt"),
-
-    # Facet styling
-    strip.background = ggplot2::element_rect(
-      fill = strip_bg_color, color = NA
-    ),
-    strip.text = ggplot2::element_text(
-      family = base_family,
-      face = "bold",
-      size = base_size * 9.5/8.5,
-      color = if (thematic) NA else if (style == "dark") title_color else midnight,
-      margin = ggplot2::margin(
-        base_size * 0.3, base_size * 0.3,
-        base_size * 0.3, base_size * 0.3
+      # grid == "none"
+      theme <- theme + ggplot2::theme(
+        panel.grid.major = ggplot2::element_blank(),
+        panel.grid.minor = ggplot2::element_blank()
       )
-    ),
+    }
 
-    # Plot margins - consistent padding on all sides for better contrast
-    # when chart background differs from page background
-    plot.margin = ggplot2::margin(15, 15, 15, 15, "pt")
-  )
-
-  # Grid lines (initially remove all)
-  theme <- theme + ggplot2::theme(
-    panel.grid.major = ggplot2::element_blank(),
-    panel.grid.minor = ggplot2::element_blank()
-  )
-
-  # Add back specific grid lines based on grid parameter
-  if (grid == "horizontal" || grid == "both") {
-    theme <- theme + ggplot2::theme(
-      panel.grid.major.y = ggplot2::element_line(
-        color = grid_color,
-        linewidth = 0.25
+    # Axis lines - same approach as gridlines: don't blank the parent, only blank what we don't want
+    if (axis_line == "x") {
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y = ggplot2::element_blank()
       )
-    )
-  }
-  if (grid == "vertical" || grid == "both") {
-    theme <- theme + ggplot2::theme(
-      panel.grid.major.x = ggplot2::element_line(
-        color = grid_color,
-        linewidth = 0.25
+    } else if (axis_line == "y") {
+      theme <- theme + ggplot2::theme(
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.x = ggplot2::element_blank()
       )
-    )
-  }
-
-  # Axis lines (initially remove all)
-  theme <- theme + ggplot2::theme(axis.line = ggplot2::element_blank())
-
-  # Add back specific axis lines based on axis_line parameter
-  if (axis_line == "x" || axis_line == "both") {
-    theme <- theme + ggplot2::theme(
-      axis.line.x.bottom = ggplot2::element_line(
-        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
-        linewidth = 0.5
+    } else if (axis_line == "both") {
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
       )
-    )
-  }
-  if (axis_line == "y" || axis_line == "both") {
-    theme <- theme + ggplot2::theme(
-      axis.line.y.left = ggplot2::element_line(
-        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
-        linewidth = 0.5
-      )
-    )
-  }
+    } else {
+      # axis_line == "none"
+      theme <- theme + ggplot2::theme(axis.line = ggplot2::element_blank())
+    }
 
-  # Style-specific modifications
-  if (style == "minimal") {
+    # Style-specific adjustments
+    if (style == "minimal") {
+      theme <- theme + ggplot2::theme(axis.ticks = ggplot2::element_blank())
+    } else if (style == "classic") {
+      # Classic style always shows both axis lines
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE),
+        axis.line.y.left = ggplot2::element_line(linewidth = 0.5, inherit.blank = TRUE)
+      )
+    }
+
+  } else {
+    # STANDARD MODE: Set explicit CPAL colors
+
     theme <- theme + ggplot2::theme(
-      axis.ticks = ggplot2::element_blank()
-    )
-  } else if (style == "classic") {
-    theme <- theme + ggplot2::theme(
-      axis.line.x.bottom = ggplot2::element_line(
-        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
-        linewidth = 0.5
+      # Text base
+      text = ggplot2::element_text(
+        family = base_family,
+        colour = text_color,
+        size = base_size,
+        lineheight = 0.9
       ),
-      axis.line.y.left = ggplot2::element_line(
-        color = if (thematic) NA else if (style == "dark") "#666666" else axis_line_color,
-        linewidth = 0.5
-      )
+
+      # Plot titles
+      plot.title = ggplot2::element_text(
+        size = base_size * 1.15,
+        family = base_family,
+        face = "bold",
+        hjust = 0,
+        color = title_color,
+        margin = ggplot2::margin(b = base_size * 0.4)
+      ),
+      plot.subtitle = ggplot2::element_text(
+        size = base_size * 0.9,
+        family = base_family,
+        face = "plain",
+        hjust = 0,
+        color = subtitle_color,
+        margin = ggplot2::margin(b = base_size * 0.6)
+      ),
+      plot.caption = ggplot2::element_text(
+        size = base_size * 0.7,
+        family = base_family,
+        hjust = 1,
+        margin = ggplot2::margin(t = base_size * 0.5),
+        color = caption_color
+      ),
+      plot.title.position = "plot",
+      plot.caption.position = "plot",
+
+      # Axis titles
+      axis.title = if (axis_title) {
+        ggplot2::element_text(
+          family = base_family,
+          face = "plain",
+          size = base_size * 0.85,
+          color = axis_title_color
+        )
+      } else {
+        ggplot2::element_blank()
+      },
+      axis.title.x = ggplot2::element_text(
+        margin = ggplot2::margin(t = base_size * 0.5)
+      ),
+      axis.title.y = ggplot2::element_text(
+        margin = ggplot2::margin(r = base_size * 0.5)
+      ),
+
+      # Axis text
+      axis.text.x = ggplot2::element_text(
+        family = base_family,
+        size = base_size * 0.8,
+        face = "plain",
+        color = axis_text_color
+      ),
+      axis.text.y = ggplot2::element_text(
+        family = base_family,
+        size = base_size * 0.8,
+        face = "plain",
+        color = if (style == "dark") "#999999" else "#444444"
+      ),
+
+      # Axis ticks
+      axis.ticks = ggplot2::element_line(color = axis_ticks_color),
+
+      # Panel
+      panel.background = ggplot2::element_rect(fill = bg_color, color = NA),
+      panel.border = ggplot2::element_blank(),
+      plot.background = ggplot2::element_rect(fill = bg_color, color = NA),
+
+      # Legend
+      legend.position = legend_position,
+      legend.background = ggplot2::element_blank(),
+      legend.key = ggplot2::element_blank(),
+      legend.text = ggplot2::element_text(
+        size = base_size * 0.7,
+        family = base_family,
+        color = text_color
+      ),
+      legend.title = ggplot2::element_text(
+        size = base_size * 0.7,
+        face = "bold",
+        color = if (style == "dark") title_color else midnight
+      ),
+      legend.key.size = ggplot2::unit(0.7, "lines"),
+      legend.key.width = ggplot2::unit(0.7, "lines"),
+      legend.key.height = ggplot2::unit(0.7, "lines"),
+      legend.margin = ggplot2::margin(t = 5, b = 0, l = 0, r = 0, unit = "pt"),
+      legend.box.margin = ggplot2::margin(0, 0, 0, 0, unit = "pt"),
+
+      # Strip
+      strip.background = ggplot2::element_rect(fill = strip_bg_color, color = NA),
+      strip.text = ggplot2::element_text(
+        family = base_family,
+        face = "bold",
+        size = base_size * 9.5 / 8.5,
+        color = if (style == "dark") title_color else midnight,
+        margin = ggplot2::margin(
+          base_size * 0.3, base_size * 0.3,
+          base_size * 0.3, base_size * 0.3
+        )
+      ),
+
+      # Plot margins
+      plot.margin = ggplot2::margin(15, 15, 15, 15, "pt")
     )
+
+    # Grid lines
+    theme <- theme + ggplot2::theme(
+      panel.grid.major = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank()
+    )
+
+    if (grid == "horizontal" || grid == "both") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.y = ggplot2::element_line(color = grid_color, linewidth = 0.25)
+      )
+    }
+    if (grid == "vertical" || grid == "both") {
+      theme <- theme + ggplot2::theme(
+        panel.grid.major.x = ggplot2::element_line(color = grid_color, linewidth = 0.25)
+      )
+    }
+
+    # Axis lines
+    theme <- theme + ggplot2::theme(axis.line = ggplot2::element_blank())
+
+    if (axis_line == "x" || axis_line == "both") {
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(
+          color = axis_line_style_color,
+          linewidth = 0.5
+        )
+      )
+    }
+    if (axis_line == "y" || axis_line == "both") {
+      theme <- theme + ggplot2::theme(
+        axis.line.y.left = ggplot2::element_line(
+          color = axis_line_style_color,
+          linewidth = 0.5
+        )
+      )
+    }
+
+    # Style-specific adjustments
+    if (style == "minimal") {
+      theme <- theme + ggplot2::theme(axis.ticks = ggplot2::element_blank())
+    } else if (style == "classic") {
+      theme <- theme + ggplot2::theme(
+        axis.line.x.bottom = ggplot2::element_line(
+          color = axis_line_style_color,
+          linewidth = 0.5
+        ),
+        axis.line.y.left = ggplot2::element_line(
+          color = axis_line_style_color,
+          linewidth = 0.5
+        )
+      )
+    }
   }
 
   return(theme)
