@@ -13,7 +13,7 @@ library(dplyr)
 
 ## Overview
 
-The cpaltemplates theme system provides 8 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL's visual identity.
+The cpaltemplates theme system provides 11 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL's visual identity.
 
 ---
 
@@ -269,6 +269,7 @@ theme_set(theme_gray())
 | Slide presentations | `theme_cpal_dark()` |
 | Print publications | `theme_cpal_print()` |
 | Maps | `theme_cpal_map()` |
+| Shiny dark/light mode | `theme_cpal_switch()` |
 
 ---
 

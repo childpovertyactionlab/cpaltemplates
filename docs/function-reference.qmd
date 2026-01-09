@@ -1,17 +1,18 @@
 ---
 title: "Function Reference"
-subtitle: "Complete index of all 67 exported functions"
+subtitle: "Complete index of all 72 exported functions"
 ---
 
 ## Quick Navigation
 
 - [Color System](#color-system) (21 functions)
-- [Theme System](#theme-system) (8 functions)
+- [Theme System](#theme-system) (11 functions)
 - [Table Functions](#table-functions) (3 functions)
 - [Interactive Visualization](#interactive-visualization) (7 functions)
 - [Project Scaffolding](#project-scaffolding) (9 functions)
 - [Brand & Asset Management](#brand-asset-management) (4 functions)
 - [Utility Functions](#utility-functions) (7 functions)
+- [Highcharter Themes](#highcharter-themes) (3 functions)
 
 ---
 
@@ -80,6 +81,12 @@ subtitle: "Complete index of all 67 exported functions"
 | `theme_cpal_dark()` | Dark background variant |
 | `theme_cpal_print()` | Print-optimized theme |
 | `theme_cpal_map()` | Geographic visualization theme |
+n### Theme Switching (Shiny)
+
+| Function | Description |
+|----------|-------------|
+| `theme_cpal_switch()` | Returns light or dark theme based on mode |
+| `make_theme_reactive()` | Creates reactive theme for Shiny apps |
 
 ### Theme Management
 
@@ -213,6 +220,12 @@ theme_cpal(base_size = 16, base_family = NULL, style = "default",
            grid = "horizontal", axis_line = "x", axis_title = TRUE,
            legend_position = "bottom")
 set_theme_cpal(style = "default", base_size = 16, ...)
+n# Theme Switching (Shiny)
+theme_cpal_switch(mode = "light", ...)
+make_theme_reactive(input, toggle_id = "dark_mode_toggle", ...)
+
+# Highcharter Themes
+hc_theme_cpal_switch(mode = "light")
 
 # Tables
 cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)
@@ -234,12 +247,23 @@ add_cpal_logo(plot, position = "top-right", size = 0.09)
 
 ---
 
+n## Highcharter Themes {#highcharter-themes}
+
+| Function | Description |
+|----------|-------------|
+| `hc_theme_cpal_light()` | Highcharter theme for light mode |
+| `hc_theme_cpal_dark()` | Highcharter theme for dark mode |
+| `hc_theme_cpal_switch()` | Returns appropriate Highcharter theme based on mode |
+
+---
+
 ## Deprecated Functions
 
 | Function | Replacement |
 |----------|-------------|
 | `cpal_shiny()` | `cpal_dashboard_theme()` |
 | `get_cpal_font_family()` | `cpal_font_family()` |
+| `theme_cpal_auto()` | `theme_cpal_switch()` |
 
 ---
 

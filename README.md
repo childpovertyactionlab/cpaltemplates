@@ -1,7 +1,7 @@
 # cpaltemplates <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![R Package Version](https://img.shields.io/badge/version-2.5.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
+[![R Package Version](https://img.shields.io/badge/version-2.6.1-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
 [![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/childpovertyactionlab/cpaltemplates/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
@@ -41,6 +41,10 @@ theme_cpal_minimal()   # Clean, minimal design
 theme_cpal_dark()      # Dark mode for presentations
 theme_cpal_map()       # Optimized for maps
 theme_cpal_print()     # Print-ready formatting
+
+# Shiny dark/light mode switching
+theme_cpal_switch(input$dark_mode_toggle)  # Returns appropriate theme
+make_theme_reactive(input)  # Creates reusable reactive theme
 ```
 
 #### **Color System**
@@ -314,11 +318,11 @@ use_quarto_report(
 
 | Category | Key Functions | Description |
 |----------|--------------|-------------|
-| **Themes** | `theme_cpal()`, `theme_cpal_*()` | ggplot2 themes for consistent styling |
+| **Themes** | `theme_cpal()`, `theme_cpal_*()`, `theme_cpal_switch()` | ggplot2 themes for consistent styling |
 | **Colors** | `scale_*_cpal()`, `cpal_colors()` | Color palettes and scales |
 | **Interactive** | `cpal_interactive()`, `cpal_*_interactive()` | Interactive visualizations |
 | **Tables** | `cpal_table_gt()`, `cpal_table_reactable()` | Formatted tables |
-| **Dashboards** | `cpal_shiny()` | Shiny dashboard components |
+| **Dashboards** | `cpal_dashboard_theme()`, `make_theme_reactive()` | Shiny dashboard components |
 | **Projects** | `start_project()`, `use_*()` | Project scaffolding |
 | **Maps** | `cpal_mapgl()`, `cpal_mapgl_layer()` | Interactive mapping |
 | **Utilities** | `save_cpal_plot()`, `add_cpal_logo()` | Helper functions |

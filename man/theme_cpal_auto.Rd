@@ -2,7 +2,7 @@
 % Please edit documentation in R/themes.R
 \name{theme_cpal_auto}
 \alias{theme_cpal_auto}
-\title{CPAL Theme with Thematic Auto-theming Support}
+\title{CPAL Theme with Thematic Auto-theming Support (Deprecated)}
 \usage{
 theme_cpal_auto(
   base_size = 14,
@@ -33,32 +33,12 @@ theme_cpal_auto(
 \item{legend_position}{Legend position (default: "bottom")}
 }
 \value{
-A ggplot2 theme object compatible with thematic auto-theming
+A ggplot2 theme object
 }
 \description{
-A variant of theme_cpal() designed for use with the thematic package.
-Applies CPAL styling for fonts, sizes, and spacing while allowing
-thematic to control background and text colors for automatic
-light/dark mode support in Shiny apps.
-}
-\details{
-This is a convenience wrapper around `theme_cpal(thematic = TRUE)`.
-}
-\examples{
-\dontrun{
-library(shiny)
-library(thematic)
+`r lifecycle::badge("deprecated")`
 
-# In server function:
-thematic::thematic_on()
-
-output$my_plot <- renderPlot({
-  ggplot(data, aes(x, y)) +
-    geom_point() +
-    theme_cpal_auto()
-})
+`theme_cpal_auto()` is deprecated. Please use [theme_cpal_switch()] instead,
+which provides direct light/dark mode switching without requiring the thematic package.
 }
-}
-\seealso{
-[theme_cpal()] for the standard theme with explicit colors
-}
+\keyword{internal}

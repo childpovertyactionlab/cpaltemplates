@@ -448,33 +448,75 @@ theme_cpal <- function(base_size = 14,
   return(theme)
 }
 
-#' CPAL Theme with Thematic Auto-theming Support
+#' Reactive Theme Switcher for CPAL
 #'
-#' A variant of theme_cpal() designed for use with the thematic package.
-#' Applies CPAL styling for fonts, sizes, and spacing while allowing
-#' thematic to control background and text colors for automatic
-#' light/dark mode support in Shiny apps.
+#' Returns the appropriate CPAL theme based on the current mode.
+#' Use this in Shiny apps to switch between light and dark themes
+#' without requiring the thematic package.
 #'
-#' This is a convenience wrapper around `theme_cpal(thematic = TRUE)`.
-#'
-#' @inheritParams theme_cpal
-#' @return A ggplot2 theme object compatible with thematic auto-theming
+#' @param mode Character: "light" or "dark" (typically from input$dark_mode_toggle)
+#' @param ... Additional arguments passed to the underlying theme function
+#' @return A ggplot2 theme object
 #' @export
 #' @examples
 #' \dontrun{
-#' library(shiny)
-#' library(thematic)
+#' # In a Shiny server function:
+#' output$my_plot <- renderPlot({
+#'   ggplot(data, aes(x, y)) +
+#'     geom_point() +
+#'     theme_cpal_switch(input$dark_mode_toggle)
+#' })
+#' }
+#' @seealso [make_theme_reactive()] for creating a reusable reactive theme
+theme_cpal_switch <- function(mode = "light", ...) {
+  if (is.null(mode) || mode == "light") {
+    theme_cpal(...)
+  } else {
+    theme_cpal_dark(...)
+  }
+}
+
+#' Reactive Theme for Shiny (Function Factory)
 #'
+#' Creates a reactive expression that returns the appropriate theme.
+#' Call this once in your server function to create a reusable theme reactive.
+#'
+#' @param input The Shiny input object
+#' @param toggle_id The ID of the dark mode toggle input (default: "dark_mode_toggle")
+#' @param ... Additional arguments passed to theme functions
+#' @return A reactive expression that returns a ggplot2 theme
+#' @export
+#' @examples
+#' \dontrun{
 #' # In server function:
-#' thematic::thematic_on()
+#' current_theme <- make_theme_reactive(input)
 #'
 #' output$my_plot <- renderPlot({
 #'   ggplot(data, aes(x, y)) +
 #'     geom_point() +
-#'     theme_cpal_auto()
+#'     current_theme()
 #' })
 #' }
-#' @seealso [theme_cpal()] for the standard theme with explicit colors
+#' @seealso [theme_cpal_switch()] for direct theme switching
+make_theme_reactive <- function(input, toggle_id = "dark_mode_toggle", ...) {
+  shiny::reactive({
+    mode <- input[[toggle_id]]
+    theme_cpal_switch(mode, ...)
+  })
+}
+
+#' CPAL Theme with Thematic Auto-theming Support (Deprecated)
+#'
+#' @description
+#' `r lifecycle::badge("deprecated")`
+#'
+#' `theme_cpal_auto()` is deprecated. Please use [theme_cpal_switch()] instead,
+#' which provides direct light/dark mode switching without requiring the thematic package.
+#'
+#' @inheritParams theme_cpal
+#' @return A ggplot2 theme object
+#' @export
+#' @keywords internal
 theme_cpal_auto <- function(base_size = 14,
                             base_family = "",
                             base_line_size = base_size / 22,
@@ -484,12 +526,18 @@ theme_cpal_auto <- function(base_size = 14,
                             axis_title = TRUE,
                             legend_position = "bottom") {
 
+  lifecycle::deprecate_warn(
+    "2.6.0",
+    "theme_cpal_auto()",
+    "theme_cpal_switch()"
+  )
+
   theme_cpal(
     base_size = base_size,
     base_family = base_family,
     base_line_size = base_line_size,
     base_rect_size = base_rect_size,
-    style = "default",  # Base style, colors will be controlled by thematic
+    style = "default",
     grid = grid,
     axis_line = axis_line,
     axis_title = axis_title,
@@ -787,7 +835,6 @@ theme_cpal_map <- function(base_size = 16,
 set_theme_cpal <- function(style = "default", base_size = 16, ...) {
   theme_func <- switch(style,
                        "default" = theme_cpal,
-                       "auto" = theme_cpal_auto,
                        "dark" = theme_cpal_dark,
                        "minimal" = theme_cpal_minimal,
                        "classic" = theme_cpal_classic,
@@ -924,4 +971,183 @@ preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 14, heigh
   }
 
   combined
+}
+
+# =============================================================================
+# HIGHCHARTER THEME SWITCHING
+# =============================================================================
+
+#' CPAL Light Theme for Highcharter
+#'
+#' Returns a Highcharter theme configured with CPAL light mode colors.
+#'
+#' @return A Highcharter theme object
+#' @export
+#' @examples
+#' \dontrun{
+#' library(highcharter)
+#' hchart(mtcars, "scatter", hcaes(wt, mpg)) %>%
+#'   hc_add_theme(hc_theme_cpal_light())
+#' }
+hc_theme_cpal_light <- function() {
+  if (!requireNamespace("highcharter", quietly = TRUE)) {
+    cli::cli_abort("Package {.pkg highcharter} is required. Install with: install.packages('highcharter')")
+  }
+
+  highcharter::hc_theme(
+    chart = list(
+      backgroundColor = "#FFFFFF",
+      style = list(
+        fontFamily = "Inter, Roboto, sans-serif"
+      )
+    ),
+    title = list(
+      style = list(
+        color = "#004855",
+        fontWeight = "bold",
+        fontSize = "16px"
+      )
+    ),
+    subtitle = list(
+      style = list(
+        color = "#666666",
+        fontSize = "12px"
+      )
+    ),
+    xAxis = list(
+      gridLineColor = "#E8ECEE",
+      lineColor = "#5C6B73",
+      tickColor = "#5C6B73",
+      labels = list(
+        style = list(color = "#004855")
+      ),
+      title = list(
+        style = list(color = "#555555")
+      )
+    ),
+    yAxis = list(
+      gridLineColor = "#E8ECEE",
+      lineColor = "#5C6B73",
+      tickColor = "#5C6B73",
+      labels = list(
+        style = list(color = "#444444")
+      ),
+      title = list(
+        style = list(color = "#555555")
+      )
+    ),
+    legend = list(
+      itemStyle = list(
+        color = "#222222"
+      ),
+      itemHoverStyle = list(
+        color = "#004855"
+      )
+    ),
+    tooltip = list(
+      backgroundColor = "#FFFFFF",
+      style = list(
+        color = "#222222"
+      )
+    )
+  )
+}
+
+#' CPAL Dark Theme for Highcharter
+#'
+#' Returns a Highcharter theme configured with CPAL dark mode colors.
+#'
+#' @return A Highcharter theme object
+#' @export
+#' @examples
+#' \dontrun{
+#' library(highcharter)
+#' hchart(mtcars, "scatter", hcaes(wt, mpg)) %>%
+#'   hc_add_theme(hc_theme_cpal_dark())
+#' }
+hc_theme_cpal_dark <- function() {
+  if (!requireNamespace("highcharter", quietly = TRUE)) {
+    cli::cli_abort("Package {.pkg highcharter} is required. Install with: install.packages('highcharter')")
+  }
+
+  highcharter::hc_theme(
+    chart = list(
+      backgroundColor = "#1a1a1a",
+      style = list(
+        fontFamily = "Inter, Roboto, sans-serif"
+      )
+    ),
+    title = list(
+      style = list(
+        color = "#f0f0f0",
+        fontWeight = "bold",
+        fontSize = "16px"
+      )
+    ),
+    subtitle = list(
+      style = list(
+        color = "#bbbbbb",
+        fontSize = "12px"
+      )
+    ),
+    xAxis = list(
+      gridLineColor = "#333333",
+      lineColor = "#666666",
+      tickColor = "#666666",
+      labels = list(
+        style = list(color = "#e0e0e0")
+      ),
+      title = list(
+        style = list(color = "#bbbbbb")
+      )
+    ),
+    yAxis = list(
+      gridLineColor = "#333333",
+      lineColor = "#666666",
+      tickColor = "#666666",
+      labels = list(
+        style = list(color = "#999999")
+      ),
+      title = list(
+        style = list(color = "#bbbbbb")
+      )
+    ),
+    legend = list(
+      itemStyle = list(
+        color = "#f0f0f0"
+      ),
+      itemHoverStyle = list(
+        color = "#FFFFFF"
+      )
+    ),
+    tooltip = list(
+      backgroundColor = "#2a2a2a",
+      style = list(
+        color = "#f0f0f0"
+      )
+    )
+  )
+}
+
+#' Highcharter Theme Switcher for CPAL
+#'
+#' Returns the appropriate CPAL Highcharter theme based on the current mode.
+#'
+#' @param mode Character: "light" or "dark" (typically from input$dark_mode_toggle)
+#' @return A Highcharter theme object
+#' @export
+#' @examples
+#' \dontrun{
+#' # In a Shiny server function:
+#' output$my_chart <- renderHighchart({
+#'   hchart(data, "scatter", hcaes(x, y)) %>%
+#'     hc_add_theme(hc_theme_cpal_switch(input$dark_mode_toggle))
+#' })
+#' }
+hc_theme_cpal_switch <- function(mode = "light") {
+  if (is.null(mode) || mode == "light") {
+    hc_theme_cpal_light()
+  } else {
+    hc_theme_cpal_dark()
+  }
 }
