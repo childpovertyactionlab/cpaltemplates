@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -172,11 +138,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Themes &amp; Styling</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./plots-visualizations.html">
- <span class="dropdown-text">Plots &amp; Output</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./tables-gt.html">
+    <a class="dropdown-item" href="./tables-styling.html">
  <span class="dropdown-text">Tables (GT &amp; Reactable)</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
@@ -198,12 +160,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="./function-reference.html" aria-current="page"> 
-<span class="menu-text">Reference</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="./troubleshooting.html"> 
 <span class="menu-text">Troubleshooting</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./function-reference.html" aria-current="page"> 
+<span class="menu-text">Reference</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -251,7 +213,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#main-function" id="toc-main-function" class="nav-link" data-scroll-target="#main-function">Main Function</a></li>
   <li><a href="#component-adders" id="toc-component-adders" class="nav-link" data-scroll-target="#component-adders">Component Adders</a></li>
-  <li><a href="#asset-management" id="toc-asset-management" class="nav-link" data-scroll-target="#asset-management">Asset Management</a></li>
   </ul></li>
   <li><a href="#brand-asset-management" id="toc-brand-asset-management" class="nav-link" data-scroll-target="#brand-asset-management">Brand &amp; Asset Management</a></li>
   <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link" data-scroll-target="#utility-functions">Utility Functions</a>
@@ -260,10 +221,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#plot-utilities" id="toc-plot-utilities" class="nav-link" data-scroll-target="#plot-utilities">Plot Utilities</a></li>
   </ul></li>
   <li><a href="#shinydashboard-functions" id="toc-shinydashboard-functions" class="nav-link" data-scroll-target="#shinydashboard-functions">Shiny/Dashboard Functions</a></li>
-  <li><a href="#function-signatures" id="toc-function-signatures" class="nav-link" data-scroll-target="#function-signatures">Function Signatures</a>
-  <ul class="collapse">
-  <li><a href="#most-used-functions" id="toc-most-used-functions" class="nav-link" data-scroll-target="#most-used-functions">Most Used Functions</a></li>
-  </ul></li>
   <li><a href="#deprecated-functions" id="toc-deprecated-functions" class="nav-link" data-scroll-target="#deprecated-functions">Deprecated Functions</a></li>
   <li><a href="#see-also" id="toc-see-also" class="nav-link" data-scroll-target="#see-also">See Also</a></li>
   </ul>
@@ -292,17 +249,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p>This page provides a complete index of all exported functions in cpaltemplates, organized by category. Use the navigation below to jump to specific sections, or browse the full list for function signatures and descriptions.</p>
+<div class="status-legend">
+<p><span><span class="status-ready">✓</span> Ready to use</span> <span><span class="status-dev">●</span> In development</span> <span><span class="status-revamp">✗</span> Under review</span></p>
+</div>
+<hr>
 <section id="quick-navigation" class="level2">
 <h2 class="anchored" data-anchor-id="quick-navigation">Quick Navigation</h2>
 <ul>
 <li><a href="#color-system">Color System</a> (22 functions)</li>
 <li><a href="#theme-system">Theme System</a> (11 functions)</li>
-<li><a href="#table-functions">Table Functions</a> (3 functions)</li>
+<li><a href="#table-functions">Table Functions</a> (1 function)</li>
 <li><a href="#highcharter-functions">Highcharter Functions</a> (18 functions)</li>
 <li><a href="#map-functions">Map Functions</a> (2 functions)</li>
-<li><a href="#project-scaffolding">Project Scaffolding</a> (9 functions)</li>
+<li><a href="#project-scaffolding">Project Scaffolding</a> (8 functions)</li>
 <li><a href="#brand-asset-management">Brand &amp; Asset Management</a> (4 functions)</li>
-<li><a href="#utility-functions">Utility Functions</a> (7 functions)</li>
+<li><a href="#utility-functions">Utility Functions</a> (6 functions)</li>
 <li><a href="#shinydashboard-functions">Shiny/Dashboard Functions</a> (4 functions)</li>
 </ul>
 <hr>
@@ -313,41 +275,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="core-color-functions">Core Color Functions</h3>
 <table class="table">
 <colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
 </colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_colors()</code></td>
 <td>Main entry point for accessing CPAL colors and palettes</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_color()</code></td>
 <td>Get a single color by name</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_colors_primary()</code></td>
 <td>Returns 5 core brand colors</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_colors_extended()</code></td>
 <td>Returns all 17+ colors including shades</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_get_color()</code></td>
 <td>Get single color by exact name</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_get_primary_color()</code></td>
 <td>Returns primary brand color (teal)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_palette()</code></td>
 <td>Internal palette wrapper for scale functions</td>
 </tr>
@@ -357,38 +328,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="palette-access" class="level3">
 <h3 class="anchored" data-anchor-id="palette-access">Palette Access</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_palettes()</code></td>
 <td>Unified accessor for all palettes</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_palettes_sequential()</code></td>
 <td>Returns 6 sequential palettes</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_palettes_diverging()</code></td>
 <td>Returns 3 diverging palettes</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_palettes_categorical()</code></td>
 <td>Returns 7 categorical palettes</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>list_cpal_palettes()</code></td>
 <td>List all available palette names</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>view_cpal_palettes()</code></td>
 <td>Visual display of palettes</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>quick_palette()</code></td>
 <td>Quick console preview</td>
 </tr>
@@ -398,18 +382,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="color-validation" class="level3">
 <h3 class="anchored" data-anchor-id="color-validation">Color Validation</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>validate_color_contrast()</code></td>
 <td>Check WCAG contrast requirements</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>validate_brand_colors()</code></td>
 <td>Check all colors for accessibility</td>
 </tr>
@@ -419,18 +411,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="color-interpolation" class="level3">
 <h3 class="anchored" data-anchor-id="color-interpolation">Color Interpolation</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_color_ramp()</code></td>
 <td>Generate gradient between two colors</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_color_gradient()</code></td>
 <td>Create gradient through multiple colors</td>
 </tr>
@@ -440,38 +440,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ggplot2-scales" class="level3">
 <h3 class="anchored" data-anchor-id="ggplot2-scales">ggplot2 Scales</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_color_cpal()</code></td>
 <td>Discrete/continuous color scale</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_fill_cpal()</code></td>
 <td>Discrete/continuous fill scale</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_color_cpal_c()</code></td>
 <td>Continuous color scale</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_fill_cpal_c()</code></td>
 <td>Continuous fill scale</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_color_cpal_d()</code></td>
 <td>Discrete color scale</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_fill_cpal_d()</code></td>
 <td>Discrete fill scale</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>scale_colour_cpal()</code></td>
 <td>British spelling alias</td>
 </tr>
@@ -485,34 +498,46 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ggplot2-themes" class="level3">
 <h3 class="anchored" data-anchor-id="ggplot2-themes">ggplot2 Themes</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal()</code></td>
 <td>Main CPAL theme with full customization</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>theme_cpal_minimal()</code></td>
 <td>Minimal variant with reduced elements</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>theme_cpal_classic()</code></td>
 <td>Traditional styling with axis lines</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_dark()</code></td>
 <td>Dark background variant</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>theme_cpal_print()</code></td>
 <td>Print-optimized theme</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>theme_cpal_map()</code></td>
 <td>Geographic visualization theme</td>
 </tr>
@@ -522,18 +547,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="theme-switching-shiny" class="level3">
 <h3 class="anchored" data-anchor-id="theme-switching-shiny">Theme Switching (Shiny)</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_switch()</code></td>
 <td>Returns light or dark theme based on mode</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>make_theme_reactive()</code></td>
 <td>Creates reactive theme for Shiny apps</td>
 </tr>
@@ -543,18 +576,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="theme-management" class="level3">
 <h3 class="anchored" data-anchor-id="theme-management">Theme Management</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>set_theme_cpal()</code></td>
 <td>Set CPAL theme as session default</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>preview_cpal_themes()</code></td>
 <td>Visual comparison of all themes</td>
 </tr>
@@ -565,25 +606,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="table-functions" class="level2">
 <h2 class="anchored" data-anchor-id="table-functions">Table Functions</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Table functions are currently under review. See <a href="./tables-styling.html">Tables</a> for current documentation.</p>
+</div>
+</div>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>cpal_table()</code></td>
-<td>Quick CPAL-styled gt table</td>
-</tr>
-<tr class="even">
-<td><code>cpal_table_gt()</code></td>
-<td>Publication-quality static table</td>
-</tr>
-<tr class="odd">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
 <td><code>cpal_table_reactable()</code></td>
-<td>Interactive searchable table</td>
+<td>Interactive searchable table with CPAL styling</td>
 </tr>
 </tbody>
 </table>
@@ -594,26 +647,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="theme-functions" class="level3">
 <h3 class="anchored" data-anchor-id="theme-functions">Theme Functions</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_theme_cpal_light()</code></td>
 <td>Highcharter theme for light mode</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_theme_cpal_dark()</code></td>
 <td>Highcharter theme for dark mode</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_theme_cpal_switch()</code></td>
 <td>Returns appropriate theme based on mode</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_cpal_theme()</code></td>
 <td>Apply CPAL theme to a chart</td>
 </tr>
@@ -624,21 +687,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="color-functions">Color Functions</h3>
 <table class="table">
 <colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
 </colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_colors_cpal()</code></td>
 <td>Apply CPAL color palette to chart series</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_colorAxis_cpal()</code></td>
 <td>Apply sequential/diverging gradient to color axis</td>
 </tr>
@@ -648,26 +715,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="formatting-helpers" class="level3">
 <h3 class="anchored" data-anchor-id="formatting-helpers">Formatting Helpers</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_cpal_number_format()</code></td>
 <td>Set global Highcharts number formatting</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_tooltip_cpal()</code></td>
 <td>Create formatted tooltips with prefix/suffix</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_yaxis_cpal()</code></td>
 <td>Format y-axis with scaling and labels</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_linetype_cpal()</code></td>
 <td>Toggle between line and spline styles</td>
 </tr>
@@ -678,41 +755,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="chart-type-helpers">Chart Type Helpers</h3>
 <table class="table">
 <colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
 </colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_histogram_cpal()</code></td>
 <td>Create CPAL-styled histogram with auto-binning</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_lollipop_cpal()</code></td>
 <td>Create lollipop chart (stem + dot)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_dumbbell_cpal()</code></td>
 <td>Create dumbbell chart (compare two values)</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_boxplot_style_cpal()</code></td>
 <td>Apply CPAL styling to boxplot series</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_waterfall_colors_cpal()</code></td>
 <td>Auto-color waterfall chart data</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_treemap_data_cpal()</code></td>
 <td>Build hierarchical treemap data with CPAL colors</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_treemap_style_cpal()</code></td>
 <td>Apply CPAL level styling to treemaps</td>
 </tr>
@@ -722,14 +808,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="logo-branding" class="level3">
 <h3 class="anchored" data-anchor-id="logo-branding">Logo &amp; Branding</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>hc_add_cpal_logo()</code></td>
 <td>Add CPAL logo to Highcharts widget</td>
 </tr>
@@ -740,19 +833,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="map-functions" class="level2">
 <h2 class="anchored" data-anchor-id="map-functions">Map Functions</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Map functions are currently under review. See <a href="./maps-geographic.html">Maps &amp; Geographic</a> for current documentation.</p>
+</div>
+</div>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
 <td><code>cpal_mapgl()</code></td>
 <td>Create mapgl map with Dallas defaults</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
 <td><code>cpal_mapgl_layer()</code></td>
 <td>Add CPAL-styled layer to mapgl</td>
 </tr>
@@ -762,17 +876,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="project-scaffolding" class="level2">
 <h2 class="anchored" data-anchor-id="project-scaffolding">Project Scaffolding</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Template files generated by scaffolding functions are under review and may be updated.</p>
+</div>
+</div>
 <section id="main-function" class="level3">
 <h3 class="anchored" data-anchor-id="main-function">Main Function</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>start_project()</code></td>
 <td>Create new project with CPAL structure</td>
 </tr>
@@ -782,57 +916,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="component-adders" class="level3">
 <h3 class="anchored" data-anchor-id="component-adders">Component Adders</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_quarto_report()</code></td>
 <td>Add Quarto report to existing project</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_quarto_slides()</code></td>
 <td>Add Quarto slides template</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_quarto_web()</code></td>
 <td>Add Quarto website structure</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_shiny_dashboard()</code></td>
 <td>Add full-featured dashboard</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_shiny_app()</code></td>
 <td>Add simple Shiny app</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_shiny_theme()</code></td>
 <td>Add CPAL CSS theme files</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>use_targets()</code></td>
 <td>Add targets pipeline</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="asset-management" class="level3">
-<h3 class="anchored" data-anchor-id="asset-management">Asset Management</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Function</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>update_cpal_assets()</code></td>
-<td>Update CSS and images to latest versions</td>
 </tr>
 </tbody>
 </table>
@@ -842,26 +972,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="brand-asset-management" class="level2">
 <h2 class="anchored" data-anchor-id="brand-asset-management">Brand &amp; Asset Management</h2>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>use_cpal_brand()</code></td>
 <td>Copy _brand.yml to project</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>validate_cpal_brand()</code></td>
 <td>Validate brand configuration</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>get_cpal_asset()</code></td>
 <td>Get path to package asset</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>update_cpal_assets()</code></td>
 <td>Update project assets</td>
 </tr>
@@ -874,22 +1014,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="font-management" class="level3">
 <h3 class="anchored" data-anchor-id="font-management">Font Management</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_font_family()</code></td>
 <td>Get best available CPAL font</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_font_family_fallback()</code></td>
 <td>Get system fallback font</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>setup_cpal_google_fonts()</code></td>
 <td>Download and register fonts</td>
 </tr>
@@ -899,22 +1048,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="plot-utilities" class="level3">
 <h3 class="anchored" data-anchor-id="plot-utilities">Plot Utilities</h3>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>save_cpal_plot()</code></td>
 <td>Save with standard dimensions</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>add_cpal_logo()</code></td>
 <td>Add CPAL logo to ggplot2 plots</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>check_plot_accessibility()</code></td>
 <td>Check accessibility issues</td>
 </tr>
@@ -926,85 +1084,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="shinydashboard-functions" class="level2">
 <h2 class="anchored" data-anchor-id="shinydashboard-functions">Shiny/Dashboard Functions</h2>
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
+<th style="text-align: center;">Status</th>
 <th>Function</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_dashboard_theme()</code></td>
 <td>Bootstrap 5 theme from _brand.yml</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_shiny()</code></td>
 <td>Legacy Shiny theme (deprecated)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>cpal_add_scss_enhancements()</code></td>
 <td>Add enhanced SCSS styling</td>
 </tr>
 <tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
 <td><code>cpal_export_scss()</code></td>
 <td>Export SCSS for custom use</td>
 </tr>
 </tbody>
 </table>
 <hr>
-</section>
-<section id="function-signatures" class="level2">
-<h2 class="anchored" data-anchor-id="function-signatures">Function Signatures</h2>
-<section id="most-used-functions" class="level3">
-<h3 class="anchored" data-anchor-id="most-used-functions">Most Used Functions</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Colors</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="at">palette =</span> <span class="cn">NULL</span>, <span class="at">n =</span> <span class="cn">NULL</span>, <span class="at">reverse =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color</span>(name)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors_primary</span>()</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_color_cpal</span>(<span class="at">palette =</span> <span class="st">"main"</span>, <span class="at">discrete =</span> <span class="cn">TRUE</span>, <span class="at">reverse =</span> <span class="cn">FALSE</span>, ...)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_cpal</span>(<span class="at">palette =</span> <span class="st">"main"</span>, <span class="at">discrete =</span> <span class="cn">TRUE</span>, <span class="at">reverse =</span> <span class="cn">FALSE</span>, ...)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Themes</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_cpal</span>(<span class="at">base_size =</span> <span class="dv">16</span>, <span class="at">base_family =</span> <span class="cn">NULL</span>, <span class="at">style =</span> <span class="st">"default"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">grid =</span> <span class="st">"horizontal"</span>, <span class="at">axis_line =</span> <span class="st">"x"</span>, <span class="at">axis_title =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">legend_position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set_theme_cpal</span>(<span class="at">style =</span> <span class="st">"default"</span>, <span class="at">base_size =</span> <span class="dv">16</span>, ...)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Theme Switching (Shiny)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_cpal_switch</span>(<span class="at">mode =</span> <span class="st">"light"</span>, ...)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">make_theme_reactive</span>(input, <span class="at">toggle_id =</span> <span class="st">"dark_mode_toggle"</span>, ...)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Highcharter</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_cpal_theme</span>(hc, <span class="at">mode =</span> <span class="st">"light"</span>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_colors_cpal</span>(hc, <span class="at">palette =</span> <span class="st">"main"</span>, <span class="at">n =</span> <span class="cn">NULL</span>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_colorAxis_cpal</span>(hc, <span class="at">type =</span> <span class="st">"sequential"</span>, <span class="at">min =</span> <span class="cn">NULL</span>, <span class="at">max =</span> <span class="cn">NULL</span>)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_tooltip_cpal</span>(hc, <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">prefix =</span> <span class="st">""</span>, <span class="at">suffix =</span> <span class="st">""</span>)</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_yaxis_cpal</span>(hc, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">prefix =</span> <span class="st">""</span>, <span class="at">suffix =</span> <span class="st">""</span>, <span class="at">divide_by =</span> <span class="dv">1</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_histogram_cpal</span>(data, <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">title =</span> <span class="cn">NULL</span>, ...)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_lollipop_cpal</span>(categories, values, <span class="at">name =</span> <span class="st">"Value"</span>, <span class="at">title =</span> <span class="cn">NULL</span>, ...)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_dumbbell_cpal</span>(categories, values_start, values_end, ...)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_add_cpal_logo</span>(hc, <span class="at">position =</span> <span class="st">"bottom-right"</span>, <span class="at">mode =</span> <span class="st">"light"</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">hc_theme_cpal_switch</span>(<span class="at">mode =</span> <span class="st">"light"</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Tables</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_table_gt</span>(data, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">subtitle =</span> <span class="cn">NULL</span>, <span class="at">source =</span> <span class="cn">NULL</span>, ...)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_table_reactable</span>(data, <span class="at">title =</span> <span class="cn">NULL</span>, <span class="at">searchable =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                     <span class="at">pagination =</span> <span class="cn">TRUE</span>, <span class="at">page_size =</span> <span class="dv">10</span>, ...)</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Maps</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_mapgl</span>(<span class="at">center =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">96.797</span>, <span class="fl">32.779</span>), <span class="at">zoom =</span> <span class="dv">10</span>, <span class="at">style =</span> <span class="st">"light"</span>, ...)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_mapgl_layer</span>(map, data, <span class="at">type =</span> <span class="st">"fill"</span>, <span class="at">source_layer =</span> <span class="cn">NULL</span>, ...)</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co"># Projects</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(name, <span class="at">path =</span> <span class="st">"."</span>, <span class="at">project_type =</span> <span class="st">"analysis"</span>,</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>              <span class="at">interactive =</span> <span class="cn">TRUE</span>, <span class="at">features =</span> <span class="cn">NULL</span>, <span class="at">open =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Utilities</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">setup_cpal_google_fonts</span>(<span class="at">force_refresh =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="fu">save_cpal_plot</span>(plot, filename, <span class="at">size =</span> <span class="st">"default"</span>, <span class="at">dpi =</span> <span class="dv">300</span>, ...)</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(plot, <span class="at">position =</span> <span class="st">"top-right"</span>, <span class="at">size =</span> <span class="fl">0.09</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
 </section>
 <section id="deprecated-functions" class="level2">
 <h2 class="anchored" data-anchor-id="deprecated-functions">Deprecated Functions</h2>

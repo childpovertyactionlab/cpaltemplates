@@ -25,7 +25,7 @@
     "href": "utilities-helpers.html#plot-utilities",
     "title": "Utilities & Helpers",
     "section": "Plot Utilities",
-    "text": "Plot Utilities\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\nSee Plots & Output for detailed documentation.\n\n\n\nadd_cpal_logo()\nAdd CPAL logo to ggplot visualizations.\nadd_cpal_logo(\n  plot,\n  position = c(\"top-right\", \"top-left\", \"bottom-right\", \"bottom-left\"),\n  size = 0.09,\n  logo_path = NULL\n)\nSee Plots & Output for detailed documentation.\n\n\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\n\nWhat It Checks\n\nText Size - Are labels readable?\nColor Contrast - Do colors meet WCAG standards?\nColorblind Safety - Are colors distinguishable?\n\nSee Plots & Output for detailed documentation."
+    "text": "Plot Utilities\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\nSee Themes & Styling for detailed documentation.\n\n\n\nadd_cpal_logo()\nAdd CPAL logo to ggplot visualizations.\nadd_cpal_logo(\n  plot,\n  position = c(\"top-right\", \"top-left\", \"bottom-right\", \"bottom-left\"),\n  size = 0.09,\n  logo_path = NULL\n)\nSee Themes & Styling for detailed documentation.\n\n\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\n\nWhat It Checks\n\nText Size - Are labels readable?\nColor Contrast - Do colors meet WCAG standards?\nColorblind Safety - Are colors distinguishable?\n\nSee Themes & Styling for detailed documentation."
   },
   {
     "objectID": "utilities-helpers.html#common-patterns",
@@ -60,224 +60,147 @@
     "href": "utilities-helpers.html#next-steps",
     "title": "Utilities & Helpers",
     "section": "Next Steps",
-    "text": "Next Steps\n\nPlots & Output - Plot saving details\nColors & Palettes - Color validation\nTroubleshooting - Common issues"
+    "text": "Next Steps\n\nThemes & Styling - Plot saving and branding\nColors & Palettes - Color validation\nTroubleshooting - Common issues"
   },
   {
     "objectID": "themes-styling.html",
     "href": "themes-styling.html",
     "title": "Themes & Styling",
     "section": "",
-    "text": "The cpaltemplates theme system provides 11 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity."
-  },
-  {
-    "objectID": "themes-styling.html#overview",
-    "href": "themes-styling.html#overview",
-    "title": "Themes & Styling",
-    "section": "",
-    "text": "The cpaltemplates theme system provides 11 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity."
+    "text": "cpaltemplates provides consistent theming for both static (ggplot2) and interactive (Highcharter) visualizations. This page covers theme selection by use case, customization options, and utility functions for saving and branding your plots.\nFor chart-specific examples, see the ggplot2 Gallery and Highcharter Gallery."
   },
   {
     "objectID": "themes-styling.html#quick-start",
     "href": "themes-styling.html#quick-start",
     "title": "Themes & Styling",
     "section": "Quick Start",
-    "text": "Quick Start\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\", size = 3) +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nBasic plot with theme_cpal()"
+    "text": "Quick Start\n\nggplot2\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Fuel Efficiency by Weight\", color = \"Cylinders\") +\n  theme_cpal()\n\n\n\n\n\nBasic ggplot2 with theme_cpal()\n\n\n\n\n\n\nHighcharter\nlibrary(highcharter)\n\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg, group = factor(cyl))) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal(\"main_3\") |&gt;\n  hc_title(text = \"Fuel Efficiency by Weight\")"
   },
   {
-    "objectID": "themes-styling.html#theme-variants",
-    "href": "themes-styling.html#theme-variants",
+    "objectID": "themes-styling.html#theme-selection-by-use-case",
+    "href": "themes-styling.html#theme-selection-by-use-case",
     "title": "Themes & Styling",
-    "section": "Theme Variants",
-    "text": "Theme Variants\n\ntheme_cpal() - Default Theme\nThe primary CPAL theme with full customization options.\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Weight\",\n    subtitle = \"Data from mtcars dataset\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nDefault theme_cpal()\n\n\n\n\nCustomization options:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"With Both Grid Lines\") +\n  theme_cpal(grid = \"both\", legend_position = \"right\")\n\n\n\n\n\ntheme_cpal() with grid on both axes\n\n\n\n\n\n\n\ntheme_cpal_minimal() - Clean Design\nA minimal variant with reduced visual elements:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Minimal Theme\",\n    subtitle = \"Clean, simple design\"\n  ) +\n  theme_cpal_minimal()\n\n\n\n\n\ntheme_cpal_minimal() for clean designs\n\n\n\n\n\n\n\ntheme_cpal_classic() - Traditional Style\nTraditional styling with axis lines on both x and y:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\", size = 3) +\n  geom_smooth(method = \"lm\", color = \"#004855\", fill = \"#D8EFF4\") +\n  labs(\n    title = \"Classic Theme\",\n    subtitle = \"Traditional academic style\"\n  ) +\n  theme_cpal_classic()\n\n\n\n\n\ntheme_cpal_classic() with axis lines\n\n\n\n\n\n\n\ntheme_cpal_dark() - Dark Background\nDark background variant for presentations and dark-mode applications:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Dark Theme\",\n    subtitle = \"Ideal for presentations\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal_dark()\n\n\n\n\n\ntheme_cpal_dark() for presentations\n\n\n\n\n\n\n\ntheme_cpal_print() - Print Optimized\nOptimized for printing with high contrast:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#004855\", size = 2) +\n  labs(\n    title = \"Print Theme\",\n    subtitle = \"Optimized for printing\"\n  ) +\n  theme_cpal_print()\n\n\n\n\n\ntheme_cpal_print() for publications\n\n\n\n\n\n\n\ntheme_cpal_map() - Geographic Visualizations\nSpecialized theme for maps (no axes, minimal chrome):\n\n\nShow code\n# Get Texas counties from tigris\nif (requireNamespace(\"tigris\", quietly = TRUE) && requireNamespace(\"sf\", quietly = TRUE)) {\n  options(tigris_use_cache = TRUE)\n  tx_counties &lt;- tigris::counties(state = \"TX\", cb = TRUE, progress_bar = FALSE)\n\n  # Add sample data for coloring\n  set.seed(42)\n  tx_counties$value &lt;- runif(nrow(tx_counties))\n\n  ggplot(tx_counties) +\n    geom_sf(aes(fill = value), color = \"white\", linewidth = 0.1) +\n    scale_fill_cpal_c(\"teal_seq_5\") +\n    labs(\n      title = \"Texas Counties\",\n      subtitle = \"Example map visualization with theme_cpal_map()\",\n      fill = \"Value\"\n    ) +\n    theme_cpal_map()\n} else {\n  # Fallback if tigris not available\n  ggplot(data.frame(x = rnorm(50), y = rnorm(50), value = runif(50))) +\n    geom_point(aes(x = x, y = y, color = value), size = 4) +\n    scale_color_cpal_c(\"teal_seq_5\") +\n    labs(title = \"Map Theme Example\", subtitle = \"(Install tigris for real map data)\") +\n    theme_cpal_map()\n}\n\n\n\n\n\ntheme_cpal_map() with Texas county boundaries"
+    "section": "Theme Selection by Use Case",
+    "text": "Theme Selection by Use Case\n\n\n\n\n\n\n\n\nUse Case\nggplot2 Theme\nHighcharter Theme\n\n\n\n\nGeneral purpose\ntheme_cpal()\nhc_cpal_theme()\n\n\nDark mode / presentations\ntheme_cpal_dark()\nhc_cpal_theme(\"dark\")\n\n\nPrint publications\ntheme_cpal_print()\n-\n\n\nAcademic papers\ntheme_cpal_classic()\n-\n\n\nMinimal / clean\ntheme_cpal_minimal()\n-\n\n\nMaps\ntheme_cpal_map()\n-\n\n\nShiny (reactive)\ntheme_cpal_switch()\nhc_theme_cpal_switch()"
   },
   {
-    "objectID": "themes-styling.html#theme-comparison",
-    "href": "themes-styling.html#theme-comparison",
+    "objectID": "themes-styling.html#ggplot2-themes",
+    "href": "themes-styling.html#ggplot2-themes",
     "title": "Themes & Styling",
-    "section": "Theme Comparison",
-    "text": "Theme Comparison\n\nSide-by-Side Preview\n\n\nShow code\npreview_cpal_themes()\n\n\n\n\n\nComparison of all CPAL themes"
+    "section": "ggplot2 Themes",
+    "text": "ggplot2 Themes\n\ntheme_cpal() - Default Theme\nThe primary CPAL theme with full customization options.\ntheme_cpal(\n  base_size = 16,\n  base_family = NULL,\n  style = \"default\",\n\n  grid = \"horizontal\",\n  axis_line = \"x\",\n  axis_title = TRUE,\n  legend_position = \"bottom\"\n)\n\nParameters\n\n\n\n\n\n\n\n\nArgument\nOptions\nDefault\n\n\n\n\nbase_size\nNumeric (font size in pts)\n16\n\n\ngrid\n“horizontal”, “vertical”, “both”, “none”\n“horizontal”\n\n\naxis_line\n“x”, “y”, “both”, “none”\n“x”\n\n\nlegend_position\n“bottom”, “right”, “top”, “left”, “none”\n“bottom”\n\n\n\n\n\n\n\nTheme Variants\n\n\n\n\n\n\nNote\n\n\n\ntheme_cpal_minimal(), theme_cpal_classic(), theme_cpal_print(), and theme_cpal_map() are currently under review and may be modified.\n\n\n\n\n\n\n\n\n\n\nTheme\nDescription\nBest For\n\n\n\n\ntheme_cpal()\nFull-featured default\nGeneral use\n\n\ntheme_cpal_dark()\nDark background\nPresentations, dark mode\n\n\ntheme_cpal_minimal()\nReduced visual elements\nClean, simple charts\n\n\ntheme_cpal_classic()\nAxis lines on both axes\nAcademic style\n\n\ntheme_cpal_print()\nHigh contrast\nPrint publications\n\n\ntheme_cpal_map()\nNo axes, minimal chrome\nGeographic visualizations\n\n\n\n\n\n\ntheme_cpal_dark() - Dark Mode\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Dark Theme Example\", color = \"Cylinders\") +\n  theme_cpal_dark()\n\n\n\n\n\nDark theme for presentations\n\n\n\n\n\n\n\nSession-Wide Theme Setting\nSet a CPAL theme as the default for your entire R session:\n# Set dark theme for entire session\nset_theme_cpal(\"dark\")\n\n# All subsequent plots use dark theme automatically\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point()  # No theme_cpal() needed\n\n# Reset to ggplot2 default\ntheme_set(theme_gray())\n\n\n\nTheme Comparison\n\n\nShow code\npreview_cpal_themes()\n\n\n\n\n\nComparison of all ggplot2 themes"
   },
   {
-    "objectID": "themes-styling.html#theme-parameters",
-    "href": "themes-styling.html#theme-parameters",
+    "objectID": "themes-styling.html#highcharter-themes",
+    "href": "themes-styling.html#highcharter-themes",
     "title": "Themes & Styling",
-    "section": "Theme Parameters",
-    "text": "Theme Parameters\n\ntheme_cpal() Arguments\n\n\n\n\n\n\n\n\nArgument\nOptions\nDefault\n\n\n\n\nbase_size\nNumeric (font size in pts)\n16\n\n\nbase_family\nFont family name\nAuto-detected\n\n\nstyle\n“default”, “minimal”, “classic”, “dark”\n“default”\n\n\ngrid\n“horizontal”, “vertical”, “both”, “none”\n“horizontal”\n\n\naxis_line\n“x”, “y”, “both”, “none”\n“x”\n\n\naxis_title\nTRUE/FALSE\nTRUE\n\n\nlegend_position\n“bottom”, “right”, “top”, “left”, “none”\n“bottom”\n\n\n\n\n\nExamples with Different Parameters\n# No grid lines\np1 &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  labs(title = \"No Grid\") +\n  theme_cpal(grid = \"none\")\n\n# Vertical grid only\np2 &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  labs(title = \"Vertical Grid\") +\n  theme_cpal(grid = \"vertical\")\n\np1\np2\n\n\n\nShow code\n\n\n\n\n\ntheme_cpal() with custom parameters\n\n\n\n\n\n\nShow code\n\n\n\n\n\ntheme_cpal() with custom parameters"
+    "section": "Highcharter Themes",
+    "text": "Highcharter Themes\n\nhc_cpal_theme() - Apply Theme to Chart\nApply CPAL styling to any Highcharter chart.\nhc_cpal_theme(hc, mode = \"light\")\n\n\n\nArgument\nDescription\n\n\n\n\nhc\nA highchart object\n\n\nmode\n“light” or “dark”\n\n\n\n\nExample\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal(\"main\") |&gt;\n  hc_title(text = \"Scatter Plot\") |&gt;\n  hc_add_cpal_logo()\n\n\n\n\nTheme Functions\n\n\n\nFunction\nDescription\n\n\n\n\nhc_theme_cpal_light()\nReturns light mode theme object\n\n\nhc_theme_cpal_dark()\nReturns dark mode theme object\n\n\nhc_theme_cpal_switch(mode)\nReturns theme based on mode parameter\n\n\nhc_cpal_theme(hc, mode)\nApplies theme to a chart\n\n\n\n\n\n\nhc_colors_cpal() - Apply Color Palette\nhc_colors_cpal(hc, palette = \"main\", n = NULL)\n\n\n\nArgument\nDescription\n\n\n\n\nhc\nA highchart object\n\n\npalette\nPalette name (e.g., “main”, “main_3”, “diverging”)\n\n\nn\nNumber of colors (auto-detected if NULL)\n\n\n\n\n\n\nhc_add_cpal_logo() - Add Branding\nhc_add_cpal_logo(hc, position = \"bottom-right\", mode = \"light\")"
   },
   {
-    "objectID": "themes-styling.html#session-wide-theme-setting",
-    "href": "themes-styling.html#session-wide-theme-setting",
+    "objectID": "themes-styling.html#darklight-mode-switching-shiny",
+    "href": "themes-styling.html#darklight-mode-switching-shiny",
     "title": "Themes & Styling",
-    "section": "Session-Wide Theme Setting",
-    "text": "Session-Wide Theme Setting\n\nset_theme_cpal()\nSet a CPAL theme as the default for your entire R session:\n\n\nShow code\n# Set dark theme for entire session\nset_theme_cpal(\"dark\")\n\n# All subsequent plots use dark theme automatically\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point()  # No theme_cpal() needed!\n\n# Reset to ggplot2 default\ntheme_set(theme_gray())"
+    "section": "Dark/Light Mode Switching (Shiny)",
+    "text": "Dark/Light Mode Switching (Shiny)\nFor Shiny applications that support dark/light mode toggles.\n\nggplot2: theme_cpal_switch()\ntheme_cpal_switch(mode = \"light\", ...)\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode)\n})\n\n\nggplot2: make_theme_reactive()\nCreate a reusable reactive theme:\nserver &lt;- function(input, output, session) {\n  current_theme &lt;- make_theme_reactive(input, toggle_id = \"dark_mode\")\n\n  output$plot1 &lt;- renderPlot({\n    ggplot(data1, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n}\n\n\nHighcharter: hc_theme_cpal_switch()\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_add_theme(hc_theme_cpal_switch(input$dark_mode)) |&gt;\n    hc_colors_cpal(\"main\")\n})"
   },
   {
-    "objectID": "themes-styling.html#theme-selection-guide",
-    "href": "themes-styling.html#theme-selection-guide",
+    "objectID": "themes-styling.html#saving-exporting-plots",
+    "href": "themes-styling.html#saving-exporting-plots",
     "title": "Themes & Styling",
-    "section": "Theme Selection Guide",
-    "text": "Theme Selection Guide\n\n\n\nContext\nRecommended Theme\n\n\n\n\nGeneral use\ntheme_cpal()\n\n\nSimple, clean charts\ntheme_cpal_minimal()\n\n\nAcademic papers\ntheme_cpal_classic()\n\n\nSlide presentations\ntheme_cpal_dark()\n\n\nPrint publications\ntheme_cpal_print()\n\n\nMaps\ntheme_cpal_map()\n\n\nShiny dark/light mode\ntheme_cpal_switch()"
+    "section": "Saving & Exporting Plots",
+    "text": "Saving & Exporting Plots\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\n\nSize Presets\n\n\n\nPreset\nDimensions\nUse Case\n\n\n\n\n\"default\"\n8 × 5\nGeneral purpose\n\n\n\"slide\"\n10 × 5.625\nPresentations (16:9)\n\n\n\"half\"\n4 × 3\nHalf-page figures\n\n\n\"square\"\n5 × 5\nSocial media\n\n\n\"wide\"\n12 × 4\nDashboards\n\n\n\"tall\"\n5 × 8\nVertical layouts\n\n\n\n\n\nExamples\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  theme_cpal()\n\n# Default size\nsave_cpal_plot(p, \"plot.png\")\n\n# Presentation slide\nsave_cpal_plot(p, \"slide.png\", size = \"slide\")\n\n# Custom dimensions\nsave_cpal_plot(p, \"custom.png\", size = c(10, 6))\n\n# High-res print\nsave_cpal_plot(p, \"print.png\", dpi = 600)\n\n# PDF output\nsave_cpal_plot(p, \"plot.pdf\")"
   },
   {
-    "objectID": "themes-styling.html#customizing-theme-elements",
-    "href": "themes-styling.html#customizing-theme-elements",
+    "objectID": "themes-styling.html#adding-branding",
+    "href": "themes-styling.html#adding-branding",
     "title": "Themes & Styling",
-    "section": "Customizing Theme Elements",
-    "text": "Customizing Theme Elements\nYou can combine CPAL themes with additional theme modifications:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Centered Title Example\",\n    subtitle = \"With custom styling\"\n  ) +\n  theme_cpal() +\n  theme(\n    plot.title = element_text(hjust = 0.5, color = \"#C3257B\"),\n    plot.subtitle = element_text(hjust = 0.5)\n  )\n\n\n\n\n\nCustomized theme with centered title"
+    "section": "Adding Branding",
+    "text": "Adding Branding\n\nadd_cpal_logo() - ggplot2\nAdd the CPAL logo to any ggplot2 visualization.\nadd_cpal_logo(\n  plot,\n  position = \"top-right\",\n  size = 0.09,\n  logo_path = NULL\n)\n\n\n\nArgument\nDescription\n\n\n\n\nposition\n“top-right”, “top-left”, “bottom-right”, “bottom-left”\n\n\nsize\nLogo size as proportion of plot (0-1)\n\n\n\nFeatures: - Auto-detects white logo for dark themes - Maintains aspect ratio - Places logo outside the plot area\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Vehicle Fuel Efficiency\") +\n  theme_cpal()\n\nadd_cpal_logo(p, position = \"bottom-right\")\n\n\n\n\n\nPlot with CPAL logo\n\n\n\n\n\n\nhc_add_cpal_logo() - Highcharter\nhchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_add_cpal_logo(position = \"bottom-right\")"
   },
   {
-    "objectID": "themes-styling.html#complete-examples",
-    "href": "themes-styling.html#complete-examples",
+    "objectID": "themes-styling.html#accessibility-checking",
+    "href": "themes-styling.html#accessibility-checking",
     "title": "Themes & Styling",
-    "section": "Complete Examples",
-    "text": "Complete Examples\n\nReport Chart\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = FALSE, linewidth = 1) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency Analysis\",\n    subtitle = \"Weight vs. MPG with trend lines by cylinder count\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nComplete report-ready visualization\n\n\n\n\n\n\nPresentation Slide\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot(alpha = 0.8) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency Distribution\",\n    x = \"Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal_dark(base_size = 18) +\n  theme(legend.position = \"none\")\n\n\n\n\n\nPresentation-ready visualization"
+    "section": "Accessibility Checking",
+    "text": "Accessibility Checking\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\nChecks performed: - Text size (readable) - Color contrast (WCAG standards) - Colorblind safety - Data-to-ink ratio\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point() +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncheck_plot_accessibility(p)\n#&gt; ✓ All colors pass WCAG AA\n#&gt; ✓ Color palette is colorblind-safe\n#&gt; Overall: PASS"
   },
   {
-    "objectID": "themes-styling.html#troubleshooting",
-    "href": "themes-styling.html#troubleshooting",
+    "objectID": "themes-styling.html#quick-reference",
+    "href": "themes-styling.html#quick-reference",
     "title": "Themes & Styling",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nFonts Not Rendering Correctly\n\n\nShow code\n# Reset font setup\nsetup_cpal_google_fonts(force_refresh = TRUE)\n\n# Check font availability\ncpal_font_family(setup = TRUE)\n\n\n\n\nTheme Elements Not Applying\nEnsure theme_cpal() is called after other layers but before custom theme modifications:\n\n\nShow code\nggplot(...) +\n  geom_point() +\n  scale_color_cpal() +\n  theme_cpal() +           # Base theme\n  theme(custom = ...)      # Specific overrides after"
+    "section": "Quick Reference",
+    "text": "Quick Reference\n\nggplot2 Functions\n\n\n\nFunction\nPurpose\n\n\n\n\ntheme_cpal()\nDefault CPAL theme\n\n\ntheme_cpal_dark()\nDark background theme\n\n\ntheme_cpal_minimal()\nMinimal styling\n\n\ntheme_cpal_classic()\nTraditional with axis lines\n\n\ntheme_cpal_print()\nPrint-optimized\n\n\ntheme_cpal_map()\nGeographic visualizations\n\n\ntheme_cpal_switch()\nReactive light/dark switching\n\n\nset_theme_cpal()\nSet session default\n\n\npreview_cpal_themes()\nCompare all themes\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL branding\n\n\ncheck_plot_accessibility()\nCheck accessibility\n\n\n\n\n\nHighcharter Functions\n\n\n\nFunction\nPurpose\n\n\n\n\nhc_cpal_theme()\nApply CPAL theme to chart\n\n\nhc_theme_cpal_light()\nLight mode theme object\n\n\nhc_theme_cpal_dark()\nDark mode theme object\n\n\nhc_theme_cpal_switch()\nReactive theme switching\n\n\nhc_colors_cpal()\nApply CPAL color palette\n\n\nhc_add_cpal_logo()\nAdd CPAL branding"
   },
   {
     "objectID": "themes-styling.html#next-steps",
     "href": "themes-styling.html#next-steps",
     "title": "Themes & Styling",
     "section": "Next Steps",
-    "text": "Next Steps\n\nColors & Palettes - Learn about CPAL color scales\nPlots & Output - Saving and exporting plots\nShiny Dashboards - Theming Shiny applications"
+    "text": "Next Steps\n\nggplot2 Gallery - Static chart examples\nHighcharter Gallery - Interactive chart examples\nColors & Palettes - CPAL color system\nShiny Dashboards - Dashboard theming"
   },
   {
-    "objectID": "tables-gt.html",
-    "href": "tables-gt.html",
-    "title": "Tables",
+    "objectID": "shiny-dashboards.html",
+    "href": "shiny-dashboards.html",
+    "title": "Shiny Dashboards",
     "section": "",
-    "text": "cpaltemplates provides 3 table functions for creating professionally styled tables:\n\ncpal_table_gt() - Static, publication-quality tables using gt\ncpal_table_reactable() - Interactive, searchable tables using reactable\ncpal_table() - Quick CPAL-styled gt tables"
+    "text": "cpaltemplates provides functions for styling Shiny applications with CPAL branding. These functions integrate with bslib for Bootstrap 5 theming and provide ggplot2 theme switching for reactive dark/light mode support.\nFor a live example of these functions in action, see the CPAL Shiny Showcase application. The source code is available on GitHub at childpovertyactionlab/shiny-showcase."
   },
   {
-    "objectID": "tables-gt.html#overview",
-    "href": "tables-gt.html#overview",
-    "title": "Tables",
-    "section": "",
-    "text": "cpaltemplates provides 3 table functions for creating professionally styled tables:\n\ncpal_table_gt() - Static, publication-quality tables using gt\ncpal_table_reactable() - Interactive, searchable tables using reactable\ncpal_table() - Quick CPAL-styled gt tables"
+    "objectID": "shiny-dashboards.html#dashboard-theme-functions",
+    "href": "shiny-dashboards.html#dashboard-theme-functions",
+    "title": "Shiny Dashboards",
+    "section": "Dashboard Theme Functions",
+    "text": "Dashboard Theme Functions\n\ncpal_dashboard_theme()\nThe primary function for creating CPAL-styled Shiny dashboards. Creates a Bootstrap 5 theme using bslib that automatically incorporates brand settings from _brand.yml.\ncpal_dashboard_theme()\nThis function returns a bs_theme object that can be passed to any bslib page function (page_sidebar, page_navbar, page_fillable).\n\nFeatures\n\nBootstrap 5 foundation with CPAL brand colors\nAutomatic integration with _brand.yml configuration\nGoogle Fonts (Poppins, Inter) integration\nConsistent component styling across the application\n\n\n\nUsage\nlibrary(shiny)\nlibrary(bslib)\nlibrary(cpaltemplates)\n\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"My Dashboard\",\n  sidebar = sidebar(...),\n  ...\n)\n\n\n\n\ncpal_add_scss_enhancements()\nExtends a base theme with additional SCSS-based styling for advanced CPAL components.\ncpal_add_scss_enhancements(\n  base_theme,\n  include_geometric_headers = FALSE,\n  include_datatable_enhancements = TRUE,\n  include_metric_cards = TRUE\n)\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nbase_theme\nA bslib theme object from cpal_dashboard_theme()\n\n\ninclude_geometric_headers\nInclude geometric header styling (default: FALSE)\n\n\ninclude_datatable_enhancements\nInclude enhanced DataTables styling (default: TRUE)\n\n\ninclude_metric_cards\nInclude metric card styling (default: TRUE)\n\n\n\n\n\nUsage\ntheme &lt;- cpal_dashboard_theme() |&gt;\n  cpal_add_scss_enhancements()\n\nui &lt;- page_sidebar(\n  theme = theme,\n  ...\n)\n\n\n\n\ncpal_export_scss()\nExports the CPAL SCSS file for use in custom projects, Quarto documents, or standalone CSS compilation.\ncpal_export_scss(path = \"cpal-enhanced.scss\", overwrite = FALSE)\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\npath\nFile path for the exported SCSS (default: “cpal-enhanced.scss”)\n\n\noverwrite\nWhether to overwrite existing file (default: FALSE)"
   },
   {
-    "objectID": "tables-gt.html#quick-start",
-    "href": "tables-gt.html#quick-start",
-    "title": "Tables",
-    "section": "Quick Start",
-    "text": "Quick Start\n\n\nShow code\nmtcars |&gt;\n  head(5) |&gt;\n  select(mpg, cyl, hp, wt) |&gt;\n  cpal_table_gt(title = \"Vehicle Data Sample\")\n\n\n\n\n\n\n\n\nVehicle Data Sample\n\n\nmpg\ncyl\nhp\nwt\n\n\n\n\n21.0\n6\n110\n2.620\n\n\n21.0\n6\n110\n2.875\n\n\n22.8\n4\n93\n2.320\n\n\n21.4\n6\n110\n3.215\n\n\n18.7\n8\n175\n3.440"
+    "objectID": "shiny-dashboards.html#ggplot2-theme-switching",
+    "href": "shiny-dashboards.html#ggplot2-theme-switching",
+    "title": "Shiny Dashboards",
+    "section": "ggplot2 Theme Switching",
+    "text": "ggplot2 Theme Switching\nThese functions enable reactive theme switching in Shiny applications, useful for dark/light mode toggles.\n\ntheme_cpal_switch()\nReturns the appropriate ggplot2 theme based on a mode parameter. Useful for direct theme switching in render functions.\ntheme_cpal_switch(mode = \"light\", ...)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nmode\nEither “light” or “dark”\n\n\n...\nAdditional arguments passed to theme functions\n\n\n\n\n\nUsage\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode_toggle)\n})\n\n\n\n\nmake_theme_reactive()\nCreates a reactive expression that returns the appropriate theme. Call once in your server function to create a reusable theme reactive.\nmake_theme_reactive(input, toggle_id = \"dark_mode_toggle\", ...)\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\ninput\nThe Shiny input object\n\n\ntoggle_id\nID of the dark mode toggle input (default: “dark_mode_toggle”)\n\n\n...\nAdditional arguments passed to theme functions\n\n\n\n\n\nUsage\nserver &lt;- function(input, output, session) {\n  # Create reusable theme reactive\n  current_theme &lt;- make_theme_reactive(input)\n\n  output$plot1 &lt;- renderPlot({\n    ggplot(data1, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n\n  output$plot2 &lt;- renderPlot({\n    ggplot(data2, aes(x, y)) +\n      geom_line() +\n      current_theme()\n  })\n}"
   },
   {
-    "objectID": "tables-gt.html#gt-tables",
-    "href": "tables-gt.html#gt-tables",
-    "title": "Tables",
-    "section": "GT Tables",
-    "text": "GT Tables\n\ncpal_table_gt()\nCreate publication-quality static tables with CPAL styling.\n\n\nShow code\nmtcars |&gt;\n  head(8) |&gt;\n  select(mpg, cyl, disp, hp, wt) |&gt;\n  mutate(car = rownames(head(mtcars, 8))) |&gt;\n  select(car, everything()) |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Specifications\",\n    subtitle = \"Sample from mtcars dataset\",\n    source = \"Source: Motor Trend, 1974\"\n  )\n\n\n\n\n\n\n\n\nVehicle Specifications\n\n\nSample from mtcars dataset\n\n\ncar\nmpg\ncyl\ndisp\nhp\nwt\n\n\n\n\nMazda RX4\n21.0\n6\n160.0\n110\n2.620\n\n\nMazda RX4 Wag\n21.0\n6\n160.0\n110\n2.875\n\n\nDatsun 710\n22.8\n4\n108.0\n93\n2.320\n\n\nHornet 4 Drive\n21.4\n6\n258.0\n110\n3.215\n\n\nHornet Sportabout\n18.7\n8\n360.0\n175\n3.440\n\n\nValiant\n18.1\n6\n225.0\n105\n3.460\n\n\nDuster 360\n14.3\n8\n360.0\n245\n3.570\n\n\nMerc 240D\n24.4\n4\n146.7\n62\n3.190\n\n\n\nSource: Source: Motor Trend, 1974\n\n\n\n\n\n\n\n\n\n\nFormatted Data\n\n\nShow code\n# Create summary data\nsummary_data &lt;- mtcars |&gt;\n  group_by(cyl) |&gt;\n  summarise(\n    count = n(),\n    avg_mpg = mean(mpg),\n    avg_hp = mean(hp),\n    avg_wt = mean(wt),\n    .groups = \"drop\"\n  )\n\nsummary_data |&gt;\n  cpal_table_gt(\n    title = \"Performance by Cylinder Count\"\n  ) |&gt;\n  fmt_number(columns = c(avg_mpg, avg_hp, avg_wt), decimals = 1) |&gt;\n  cols_label(\n    cyl = \"Cylinders\",\n    count = \"Count\",\n    avg_mpg = \"Avg. MPG\",\n    avg_hp = \"Avg. HP\",\n    avg_wt = \"Avg. Weight\"\n  )\n\n\n\n\n\n\n\n\nPerformance by Cylinder Count\n\n\nCylinders\nCount\nAvg. MPG\nAvg. HP\nAvg. Weight\n\n\n\n\n4\n11\n26.7\n82.6\n2.3\n\n\n6\n7\n19.7\n122.3\n3.1\n\n\n8\n14\n15.1\n209.2\n4.0\n\n\n\n\n\n\n\n\n\n\nAdvanced GT Formatting\n\n\nShow code\n# Regional data example\nregional_data &lt;- data.frame(\n  region = c(\"North Dallas\", \"South Dallas\", \"East Dallas\", \"West Dallas\"),\n  population = c(125000, 98500, 156000, 112000),\n  growth_rate = c(0.052, -0.018, 0.087, 0.034),\n  poverty_rate = c(0.08, 0.22, 0.12, 0.15)\n)\n\nregional_data |&gt;\n  cpal_table_gt(title = \"Dallas Regional Statistics\") |&gt;\n  fmt_number(columns = population, use_seps = TRUE) |&gt;\n  fmt_percent(columns = c(growth_rate, poverty_rate), decimals = 1) |&gt;\n  cols_label(\n    region = \"Region\",\n    population = \"Population\",\n    growth_rate = \"Growth Rate\",\n    poverty_rate = \"Poverty Rate\"\n  ) |&gt;\n  tab_style(\n    style = cell_fill(color = \"#D8EFF4\"),\n    locations = cells_body(\n      columns = growth_rate,\n      rows = growth_rate &gt; 0.05\n    )\n  ) |&gt;\n  tab_style(\n    style = cell_text(color = \"#C3257B\", weight = \"bold\"),\n    locations = cells_body(\n      columns = poverty_rate,\n      rows = poverty_rate &gt; 0.15\n    )\n  )\n\n\n\n\n\n\n\n\nDallas Regional Statistics\n\n\nRegion\nPopulation\nGrowth Rate\nPoverty Rate\n\n\n\n\nNorth Dallas\n125,000.00\n5.2%\n8.0%\n\n\nSouth Dallas\n98,500.00\n−1.8%\n22.0%\n\n\nEast Dallas\n156,000.00\n8.7%\n12.0%\n\n\nWest Dallas\n112,000.00\n3.4%\n15.0%"
+    "objectID": "shiny-dashboards.html#deprecated-functions",
+    "href": "shiny-dashboards.html#deprecated-functions",
+    "title": "Shiny Dashboards",
+    "section": "Deprecated Functions",
+    "text": "Deprecated Functions\n\ncpal_shiny()\nThis function is deprecated. Use cpal_dashboard_theme() instead, which integrates with _brand.yml for more flexible theming.\n\n\ntheme_cpal_auto()\nThis function is deprecated. Use theme_cpal_switch() instead, which provides direct light/dark mode switching without requiring the thematic package."
   },
   {
-    "objectID": "tables-gt.html#reactable-tables",
-    "href": "tables-gt.html#reactable-tables",
-    "title": "Tables",
-    "section": "Reactable Tables",
-    "text": "Reactable Tables\n\ncpal_table_reactable()\nCreate interactive tables with searching, sorting, and pagination.\n\n\nShow code\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"Vehicle Database\",\n    searchable = TRUE,\n    pagination = TRUE,\n    page_size = 8\n  )\n\n\n\nVehicle Database\n\n\n\n\n\n\n\nWith Column Filtering\n\n\nShow code\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  cpal_table_reactable(\n    title = \"Filterable Table\",\n    subtitle = \"Use column filters to explore data\",\n    searchable = TRUE,\n    filterable = TRUE,\n    page_size = 10\n  )\n\n\n\nFilterable Table\nUse column filters to explore data"
+    "objectID": "shiny-dashboards.html#live-example",
+    "href": "shiny-dashboards.html#live-example",
+    "title": "Shiny Dashboards",
+    "section": "Live Example",
+    "text": "Live Example\nThe best way to see these functions in action is through the CPAL Shiny Showcase:\n\nLive App: cpal.shinyapps.io/shiny-showcase\nSource Code: github.com/childpovertyactionlab/shiny-showcase\n\nThe showcase demonstrates dashboard theming, ggplot2 integration, reactable tables, and dark/light mode switching using the functions documented above."
   },
   {
-    "objectID": "tables-gt.html#choosing-between-gt-and-reactable",
-    "href": "tables-gt.html#choosing-between-gt-and-reactable",
-    "title": "Tables",
-    "section": "Choosing Between GT and Reactable",
-    "text": "Choosing Between GT and Reactable\n\n\n\nFeature\nGT\nReactable\n\n\n\n\nStatic output\n✓\n\n\n\nInteractive\n\n✓\n\n\nSearchable\n\n✓\n\n\nSortable\n\n✓\n\n\nPDF/Print friendly\n✓\n\n\n\nShiny integration\n✓\n✓\n\n\nLarge datasets\n\n✓\n\n\nComplex formatting\n✓\n\n\n\nPagination\n\n✓\n\n\n\n\nRecommendations\n\n\n\nUse Case\nRecommended\n\n\n\n\nReports/PDFs\ncpal_table_gt()\n\n\nDashboards\ncpal_table_reactable()\n\n\nPresentations\ncpal_table_gt()\n\n\nData exploration\ncpal_table_reactable()\n\n\nPublications\ncpal_table_gt()\n\n\nWeb apps\ncpal_table_reactable()"
+    "objectID": "shiny-dashboards.html#quick-reference",
+    "href": "shiny-dashboards.html#quick-reference",
+    "title": "Shiny Dashboards",
+    "section": "Quick Reference",
+    "text": "Quick Reference\n\n\n\n\n\n\n\nFunction\nPurpose\n\n\n\n\ncpal_dashboard_theme()\nCreate Bootstrap 5 theme with CPAL branding\n\n\ncpal_add_scss_enhancements()\nAdd enhanced SCSS styling to theme\n\n\ncpal_export_scss()\nExport SCSS for custom use\n\n\ntheme_cpal_switch()\nSwitch ggplot2 theme based on mode\n\n\nmake_theme_reactive()\nCreate reactive theme for multiple plots"
   },
   {
-    "objectID": "tables-gt.html#complete-example",
-    "href": "tables-gt.html#complete-example",
-    "title": "Tables",
-    "section": "Complete Example",
-    "text": "Complete Example\n\nSummary Report Table\n\n\nShow code\n# Prepare comprehensive summary\ncomprehensive_summary &lt;- mtcars |&gt;\n  group_by(cyl, am) |&gt;\n  summarise(\n    n = n(),\n    mpg_mean = mean(mpg),\n    mpg_sd = sd(mpg),\n    hp_mean = mean(hp),\n    .groups = \"drop\"\n  ) |&gt;\n  mutate(\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  ) |&gt;\n  select(-am)\n\ncomprehensive_summary |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Performance Summary\",\n    subtitle = \"Grouped by cylinder count and transmission type\",\n    source = \"Source: Motor Trend Car Road Tests (1974)\"\n  ) |&gt;\n  fmt_number(columns = c(mpg_mean, mpg_sd, hp_mean), decimals = 1) |&gt;\n  cols_label(\n    cyl = \"Cylinders\",\n    transmission = \"Transmission\",\n    n = \"Count\",\n    mpg_mean = \"Avg. MPG\",\n    mpg_sd = \"MPG SD\",\n    hp_mean = \"Avg. HP\"\n  ) |&gt;\n  tab_spanner(\n    label = \"Fuel Efficiency\",\n    columns = c(mpg_mean, mpg_sd)\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nVehicle Performance Summary\n\n\nGrouped by cylinder count and transmission type\n\n\nCylinders\nCount\n\nFuel Efficiency\n\nAvg. HP\nTransmission\n\n\nAvg. MPG\nMPG SD\n\n\n\n\n4\n3\n22.9\n1.5\n84.7\nAutomatic\n\n\n4\n8\n28.1\n4.5\n81.9\nManual\n\n\n6\n4\n19.1\n1.6\n115.2\nAutomatic\n\n\n6\n3\n20.6\n0.8\n131.7\nManual\n\n\n8\n12\n15.1\n2.8\n194.2\nAutomatic\n\n\n8\n2\n15.4\n0.6\n299.5\nManual\n\n\n\nSource: Source: Motor Trend Car Road Tests (1974)"
-  },
-  {
-    "objectID": "tables-gt.html#next-steps",
-    "href": "tables-gt.html#next-steps",
-    "title": "Tables",
+    "objectID": "shiny-dashboards.html#next-steps",
+    "href": "shiny-dashboards.html#next-steps",
+    "title": "Shiny Dashboards",
     "section": "Next Steps",
-    "text": "Next Steps\n\nShiny Dashboards - Using tables in dashboards\nThemes & Styling - Consistent styling\nProject Setup - Project templates"
-  },
-  {
-    "objectID": "project-setup.html",
-    "href": "project-setup.html",
-    "title": "Project Setup",
-    "section": "",
-    "text": "Starting a new R-based data science project often involves repetitive setup tasks: creating folder structures, configuring Git, setting up package management, and adding boilerplate files. cpaltemplates provides a comprehensive project scaffolding system with 8 functions that automate this process, helping you quickly set up new R projects with CPAL branding, consistent structure, and best practices built in.\nThese tools are designed specifically for the R ecosystem and data science workflows—whether you’re doing exploratory data analysis, building statistical models, creating interactive dashboards, or generating reports. By using these scaffolding tools, you ensure that all CPAL R projects follow the same organizational patterns, making it easier for team members to navigate unfamiliar codebases and maintain consistency across the organization."
-  },
-  {
-    "objectID": "project-setup.html#quick-start",
-    "href": "project-setup.html#quick-start",
-    "title": "Project Setup",
-    "section": "Quick Start",
-    "text": "Quick Start\nGet up and running with a new R project in seconds. The following example creates a complete data analysis project with version control, R package management, and a reproducible pipeline—all pre-configured and ready to use in RStudio.\nlibrary(cpaltemplates)\n\n# Create a new data analysis project\nstart_project(\n  name = \"dallas-housing-analysis\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)\nThis single command creates a fully-structured R project folder with all the necessary files, initializes Git for version control, sets up renv to lock your R package versions, and adds a targets pipeline for reproducible data science workflows."
-  },
-  {
-    "objectID": "project-setup.html#main-function-start_project",
-    "href": "project-setup.html#main-function-start_project",
-    "title": "Project Setup",
-    "section": "Main Function: start_project()",
-    "text": "Main Function: start_project()\nThe primary entry point for creating new R projects. This function is the recommended way to start any new CPAL data science project, as it handles all the setup automatically and ensures consistency with CPAL standards. Projects are created as RStudio projects (.Rproj files) for seamless integration with your R workflow.\n\nSyntax\nstart_project(\n  name,\n  path = \".\",\n  project_type = c(\"analysis\", \"quarto-report\", \"quarto-slides\",\n                   \"quarto-web\", \"shiny-dashboard\", \"shiny-app\", \"package\"),\n  interactive = TRUE,\n  features = NULL,\n  open = TRUE,\n  overwrite = FALSE\n)\n\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nname\nProject name (will be the folder name)\n\n\npath\nParent directory for the project (default: current directory)\n\n\nproject_type\nType of project to create (see below)\n\n\ninteractive\nIf TRUE, guides you through setup with prompts\n\n\nfeatures\nVector of features to enable: “renv”, “git”, “github”, “targets”, “tests”\n\n\nopen\nIf TRUE, opens the new project in RStudio\n\n\noverwrite\nIf TRUE, overwrites existing project\n\n\n\n\n\nProject Types\nChoose the project type that best matches your data science deliverable. Each type comes pre-configured with the appropriate folder structure, R script templates, and CPAL branding.\n\n\n\n\n\n\n\n\nType\nDescription\nKey Files Created\n\n\n\n\nanalysis\nR data analysis with targets pipeline\n_targets.R, R/, data/, output/\n\n\nquarto-report\nBranded Quarto report (R Markdown successor)\nreport.qmd, _brand.yml, styles.css\n\n\nquarto-slides\nPresentation slides with R code support\nslides.qmd, _brand.yml\n\n\nquarto-web\nMulti-page documentation website\n_quarto.yml, index.qmd, pages\n\n\nshiny-dashboard\nFull-featured R Shiny dashboard\napp.R, modules/, www/, _brand.yml\n\n\nshiny-app\nSimple R Shiny app\napp.R, www/, styles\n\n\npackage\nR package for reusable code\nDESCRIPTION, R/, man/, tests\n\n\n\nWhen to use each type:\n\nanalysis: Best for data cleaning, exploration, statistical modeling, or any R-based work that involves processing data and generating outputs. The targets pipeline ensures your analysis is reproducible and re-runs only what’s changed.\nquarto-report: Ideal for data-driven reports, briefs, or documents that combine R code with narrative text and will be shared as PDF or HTML. Includes CPAL formatting out of the box.\nquarto-slides: Perfect for data presentations to stakeholders, board meetings, or conferences. Supports live R code execution and CPAL styling via Revealjs.\nquarto-web: Use when you need a multi-page documentation site or public-facing project website with R-generated content.\nshiny-dashboard: Best for interactive data products that let users explore data through multiple views, filters, and visualizations.\nshiny-app: Good for simple interactive tools, data explorers, or prototypes that don’t need the full dashboard structure.\npackage: For creating reusable R functions and tools that can be shared across the CPAL team or published externally.\n\n\n\nExamples\n# Interactive mode - guides you through options\nstart_project(\"my-project\", interactive = TRUE)\n\n# Non-interactive with specific options\nstart_project(\n  name = \"quarterly-report\",\n  project_type = \"quarto-report\",\n  features = c(\"git\"),\n  interactive = FALSE\n)\n\n# Create in specific directory\nstart_project(\n  name = \"housing-dashboard\",\n  path = \"~/projects\",\n  project_type = \"shiny-dashboard\",\n  features = c(\"git\", \"renv\")\n)"
-  },
-  {
-    "objectID": "project-setup.html#adding-components-to-existing-r-projects",
-    "href": "project-setup.html#adding-components-to-existing-r-projects",
-    "title": "Project Setup",
-    "section": "Adding Components to Existing R Projects",
-    "text": "Adding Components to Existing R Projects\nData science projects often evolve. You might start with exploratory analysis in R and later need to share your findings as a report or presentation. These use_*() functions let you add specific components to an existing R project without starting over—keeping all your code, data, and outputs in one place.\n\n\n\n\n\n\nUnder Review\n\n\n\nThe following use_*() functions are currently under review. They work but may change in future versions as we refine the templates and workflows.\n\n\n\nuse_quarto_report()\nAdd Quarto report capability to an existing project. This is useful when your analysis is complete and you need to document your findings in a polished, branded report.\nuse_quarto_report(path = \".\", overwrite = FALSE)\nCreates:\n\nreport.qmd - Main report template with CPAL styling\n_brand.yml - Brand configuration\nreferences.bib - Bibliography template\n\nExample:\n# Add report to current project\nuse_quarto_report()\n\n# Add to specific directory\nuse_quarto_report(\"my-project/\")\n\n\n\nuse_quarto_slides()\nAdd Quarto presentation slides to an existing project. Perfect for when you need to present your analysis findings to stakeholders, at team meetings, or external audiences.\nuse_quarto_slides(path = \".\", filename = \"slides\", overwrite = FALSE)\nCreates:\n\n{filename}.qmd - Revealjs presentation template\n_brand.yml - Brand configuration\n\nExample:\n# Add slides with default name\nuse_quarto_slides()\n\n# Custom filename\nuse_quarto_slides(filename = \"quarterly-presentation\")\n\n\n\nuse_quarto_web()\nAdd Quarto website structure to an existing project. Useful when you want to create a documentation site, project landing page, or multi-page resource that will be hosted online.\nuse_quarto_web(path = \".\", overwrite = FALSE)\nCreates:\n\n_quarto.yml - Website configuration\nindex.qmd - Home page\nabout.qmd - About page template\n_brand.yml - Brand configuration\nstyles.css - Custom styles\n\nExample:\n# Add website structure\nuse_quarto_web()\n\n\n\nuse_shiny_dashboard()\nAdd a full-featured Shiny dashboard to an existing project. This creates a modular dashboard structure that scales well for complex applications with multiple tabs, filters, and data views.\nuse_shiny_dashboard(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Main application file\nmodules/ - Modular UI/server components\nwww/ - Static assets (CSS, images)\n_brand.yml - Brand configuration\nR/ - Helper functions\n\nExample:\n# Add dashboard to current project\nuse_shiny_dashboard()\n\n\n\nuse_shiny_app()\nAdd a simple Shiny application to an existing project. Best for quick prototypes, single-purpose tools, or when you need interactivity without the overhead of a full dashboard structure.\nuse_shiny_app(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Simple Shiny application\nwww/styles.css - CPAL styling\n\nExample:\n# Add simple app\nuse_shiny_app()\n\n\n\nuse_shiny_theme()\nAdd CPAL CSS theme files for Shiny. Use this when you have an existing Shiny app that needs CPAL styling, or when you want to customize the theme name for a specific project.\nuse_shiny_theme(path = \".\", theme_name = \"cpal\", overwrite = FALSE)\nCreates:\n\nwww/{theme_name}.css - CPAL-styled CSS\n\nExample:\n# Add default theme\nuse_shiny_theme()\n\n# Custom theme name\nuse_shiny_theme(theme_name = \"dashboard-theme\")\n\n\n\nuse_targets()\nAdd a targets pipeline to an existing project. The targets package provides a pipeline system for reproducible computation—it tracks which steps need to be re-run when your code or data changes, saving time and ensuring consistency.\nuse_targets(path = \".\", type = c(\"basic\", \"analysis\", \"report\"), overwrite = FALSE)\n\n\n\nType\nDescription\n\n\n\n\nbasic\nMinimal _targets.R setup\n\n\nanalysis\nFull analysis pipeline with data → model → output\n\n\nreport\nAnalysis pipeline plus Quarto report rendering\n\n\n\nExample:\n# Add basic targets\nuse_targets(type = \"basic\")\n\n# Full analysis pipeline\nuse_targets(type = \"analysis\")"
-  },
-  {
-    "objectID": "project-setup.html#project-structure-examples",
-    "href": "project-setup.html#project-structure-examples",
-    "title": "Project Setup",
-    "section": "Project Structure Examples",
-    "text": "Project Structure Examples\nThese examples show the folder structures created by each project type. All projects follow R conventions and are designed to work seamlessly with RStudio.\n\nAnalysis Project (R Data Science)\nmy-analysis/\n├── _targets.R          # Pipeline definition\n├── R/\n│   ├── functions.R     # Analysis functions\n│   └── utils.R         # Helper utilities\n├── data/\n│   ├── raw/            # Original data\n│   └── processed/      # Cleaned data\n├── output/\n│   ├── figures/        # Generated plots\n│   └── tables/         # Generated tables\n├── _brand.yml          # Brand configuration\n├── renv.lock           # Package versions\n└── README.md\n\n\nShiny Dashboard Project (R Interactive App)\nmy-dashboard/\n├── app.R               # Main R Shiny application\n├── modules/\n│   ├── mod_overview.R  # Overview tab module\n│   ├── mod_data.R      # Data explorer module\n│   └── mod_charts.R    # Charts module\n├── R/\n│   └── helpers.R       # Utility functions\n├── www/\n│   ├── styles.css      # Custom styles\n│   └── images/         # Logos, icons\n├── _brand.yml          # Brand configuration\n└── README.md\n\n\nQuarto Report Project (R + Narrative)\nmy-report/\n├── report.qmd          # Main report with R code chunks\n├── _brand.yml          # Brand configuration\n├── styles.css          # Custom styles\n├── references.bib      # Bibliography\n├── data/               # Data files\n├── figures/            # Generated figures\n└── README.md"
-  },
-  {
-    "objectID": "project-setup.html#feature-options",
-    "href": "project-setup.html#feature-options",
-    "title": "Project Setup",
-    "section": "Feature Options",
-    "text": "Feature Options\nWhen using start_project(), you can enable various features that add tooling and infrastructure to your R project. These features integrate popular R ecosystem tools and represent best practices for reproducible, collaborative data science work.\n\n\n\nFeature\nDescription\nWhy Use It?\n\n\n\n\ngit\nInitialize git repository with R-specific .gitignore\nTrack changes, collaborate, and maintain history\n\n\ngithub\nSet up GitHub integration (requires gh CLI)\nShare R code, enable collaboration, backup to cloud\n\n\nrenv\nInitialize renv for R package management\nLock R package versions so your analysis runs the same everywhere\n\n\ntargets\nAdd targets pipeline for reproducibility\nAutomate R workflows, skip unchanged steps, scale to large analyses\n\n\ntests\nSet up testthat testing infrastructure\nCatch bugs early, ensure R functions work correctly\n\n\n\nRecommended combinations:\n\nSolo analysis: c(\"git\", \"renv\") - Version control and reproducible R packages\nTeam project: c(\"git\", \"github\", \"renv\") - Add GitHub for collaboration on R code\nComplex pipeline: c(\"git\", \"renv\", \"targets\") - Add targets for automated R workflows\nR package development: c(\"git\", \"github\", \"tests\") - Add testing for reusable R packages\n\n# Enable all features for maximum reproducibility\nstart_project(\n  \"my-project\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\", \"tests\")\n)"
-  },
-  {
-    "objectID": "project-setup.html#best-practices-for-r-data-science-projects",
-    "href": "project-setup.html#best-practices-for-r-data-science-projects",
-    "title": "Project Setup",
-    "section": "Best Practices for R Data Science Projects",
-    "text": "Best Practices for R Data Science Projects\n\n1. Use Interactive Mode for New Projects\nIf you’re unsure which options to choose, interactive mode walks you through the setup process with prompts.\n# Let the wizard guide you through R project setup\nstart_project(\"my-project\", interactive = TRUE)\n\n\n2. Start with Analysis, Add Components Later\nA common data science workflow: start with R analysis, then add reports or presentations as your findings mature.\n# Create base R analysis project\nstart_project(\"research-project\", project_type = \"analysis\")\n\n# Later, add a Quarto report to document findings\nuse_quarto_report(\"research-project/\")\n\n# Add slides for presenting results\nuse_quarto_slides(\"research-project/\", filename = \"results-presentation\")\n\n\n3. Always Use Version Control\nVersion control is essential for any code-based work. It lets you track changes, collaborate with others, and recover from mistakes.\n# Include git from the start for any R project\nstart_project(\"important-analysis\", features = c(\"git\", \"renv\"))\n\n\n4. Use renv for Reproducibility\nR package versions can affect your results. Using renv ensures your analysis runs the same way months or years later, or on a colleague’s machine.\n# Lock R package versions for reproducible analysis\nstart_project(\"client-report\", features = c(\"renv\"))"
-  },
-  {
-    "objectID": "project-setup.html#troubleshooting",
-    "href": "project-setup.html#troubleshooting",
-    "title": "Project Setup",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\nCommon issues when setting up R projects with cpaltemplates.\n\nProject Already Exists\n# Use overwrite to replace\nstart_project(\"existing-project\", overwrite = TRUE)\n\n\nRStudio Doesn’t Open Project\n# Disable auto-open\nstart_project(\"my-project\", open = FALSE)\n\n# Open manually later\nrstudioapi::openProject(\"my-project\")\n\n\nMissing Templates\nIf templates aren’t copying correctly:\n# Check package installation\npackageVersion(\"cpaltemplates\")\n\n# Reinstall if needed\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
-  },
-  {
-    "objectID": "project-setup.html#next-steps",
-    "href": "project-setup.html#next-steps",
-    "title": "Project Setup",
-    "section": "Next Steps",
-    "text": "Next Steps\nOnce your project is set up, explore these guides to make the most of cpaltemplates:\n\nColors & Palettes - Use CPAL’s color system in your visualizations\nThemes & Styling - Apply consistent themes to your plots\nShiny Dashboards - Build branded interactive dashboards\nggplot2 Gallery - Example charts to get you started"
+    "text": "Next Steps\n\nThemes & Styling - ggplot2 theme documentation\nTables - Reactable tables for dashboards\nColors & Palettes - CPAL color system"
   },
   {
     "objectID": "maps-geographic.html",
     "href": "maps-geographic.html",
     "title": "Maps & Geographic",
     "section": "",
-    "text": "cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps."
+    "text": "Under Review\n\n\n\nThe map-related functions in cpaltemplates are currently under review. This page will be updated once that review is complete. The functions described here are functional but may be modified in future releases."
   },
   {
     "objectID": "maps-geographic.html#overview",
     "href": "maps-geographic.html#overview",
     "title": "Maps & Geographic",
-    "section": "",
-    "text": "cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps."
+    "section": "Overview",
+    "text": "Overview\ncpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps."
   },
   {
     "objectID": "maps-geographic.html#quick-start",
@@ -648,91 +571,84 @@
     "href": "colors-palettes.html#next-steps",
     "title": "Colors & Palettes",
     "section": "Next Steps",
-    "text": "Next Steps\nNow that you understand CPAL’s color system, explore these related guides:\n\nThemes & Styling - Apply consistent ggplot2 themes to your plots\nPlots & Output - Save and export your R visualizations\nggplot2 Gallery - See colors in action with example charts\nHighcharter Gallery - CPAL colors in interactive charts"
+    "text": "Next Steps\nNow that you understand CPAL’s color system, explore these related guides:\n\nThemes & Styling - Apply themes and save/export plots\nggplot2 Gallery - See colors in action with example charts\nHighcharter Gallery - CPAL colors in interactive charts"
   },
   {
     "objectID": "function-reference.html",
     "href": "function-reference.html",
     "title": "Function Reference",
     "section": "",
-    "text": "Color System (22 functions)\nTheme System (11 functions)\nTable Functions (3 functions)\nHighcharter Functions (18 functions)\nMap Functions (2 functions)\nProject Scaffolding (9 functions)\nBrand & Asset Management (4 functions)\nUtility Functions (7 functions)\nShiny/Dashboard Functions (4 functions)"
+    "text": "This page provides a complete index of all exported functions in cpaltemplates, organized by category. Use the navigation below to jump to specific sections, or browse the full list for function signatures and descriptions."
   },
   {
     "objectID": "function-reference.html#quick-navigation",
     "href": "function-reference.html#quick-navigation",
     "title": "Function Reference",
-    "section": "",
-    "text": "Color System (22 functions)\nTheme System (11 functions)\nTable Functions (3 functions)\nHighcharter Functions (18 functions)\nMap Functions (2 functions)\nProject Scaffolding (9 functions)\nBrand & Asset Management (4 functions)\nUtility Functions (7 functions)\nShiny/Dashboard Functions (4 functions)"
+    "section": "Quick Navigation",
+    "text": "Quick Navigation\n\nColor System (22 functions)\nTheme System (11 functions)\nTable Functions (1 function)\nHighcharter Functions (18 functions)\nMap Functions (2 functions)\nProject Scaffolding (8 functions)\nBrand & Asset Management (4 functions)\nUtility Functions (6 functions)\nShiny/Dashboard Functions (4 functions)"
   },
   {
     "objectID": "function-reference.html#color-system",
     "href": "function-reference.html#color-system",
     "title": "Function Reference",
     "section": "Color System",
-    "text": "Color System\n\nCore Color Functions\n\n\n\n\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_colors()\nMain entry point for accessing CPAL colors and palettes\n\n\ncpal_color()\nGet a single color by name\n\n\ncpal_colors_primary()\nReturns 5 core brand colors\n\n\ncpal_colors_extended()\nReturns all 17+ colors including shades\n\n\ncpal_get_color()\nGet single color by exact name\n\n\ncpal_get_primary_color()\nReturns primary brand color (teal)\n\n\ncpal_palette()\nInternal palette wrapper for scale functions\n\n\n\n\n\nPalette Access\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_palettes()\nUnified accessor for all palettes\n\n\ncpal_palettes_sequential()\nReturns 6 sequential palettes\n\n\ncpal_palettes_diverging()\nReturns 3 diverging palettes\n\n\ncpal_palettes_categorical()\nReturns 7 categorical palettes\n\n\nlist_cpal_palettes()\nList all available palette names\n\n\nview_cpal_palettes()\nVisual display of palettes\n\n\nquick_palette()\nQuick console preview\n\n\n\n\n\nColor Validation\n\n\n\nFunction\nDescription\n\n\n\n\nvalidate_color_contrast()\nCheck WCAG contrast requirements\n\n\nvalidate_brand_colors()\nCheck all colors for accessibility\n\n\n\n\n\nColor Interpolation\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_color_ramp()\nGenerate gradient between two colors\n\n\ncpal_color_gradient()\nCreate gradient through multiple colors\n\n\n\n\n\nggplot2 Scales\n\n\n\nFunction\nDescription\n\n\n\n\nscale_color_cpal()\nDiscrete/continuous color scale\n\n\nscale_fill_cpal()\nDiscrete/continuous fill scale\n\n\nscale_color_cpal_c()\nContinuous color scale\n\n\nscale_fill_cpal_c()\nContinuous fill scale\n\n\nscale_color_cpal_d()\nDiscrete color scale\n\n\nscale_fill_cpal_d()\nDiscrete fill scale\n\n\nscale_colour_cpal()\nBritish spelling alias"
+    "text": "Color System\n\nCore Color Functions\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ncpal_colors()\nMain entry point for accessing CPAL colors and palettes\n\n\n✓\ncpal_color()\nGet a single color by name\n\n\n✓\ncpal_colors_primary()\nReturns 5 core brand colors\n\n\n✓\ncpal_colors_extended()\nReturns all 17+ colors including shades\n\n\n✓\ncpal_get_color()\nGet single color by exact name\n\n\n✓\ncpal_get_primary_color()\nReturns primary brand color (teal)\n\n\n✓\ncpal_palette()\nInternal palette wrapper for scale functions\n\n\n\n\n\nPalette Access\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ncpal_palettes()\nUnified accessor for all palettes\n\n\n✓\ncpal_palettes_sequential()\nReturns 6 sequential palettes\n\n\n✓\ncpal_palettes_diverging()\nReturns 3 diverging palettes\n\n\n✓\ncpal_palettes_categorical()\nReturns 7 categorical palettes\n\n\n✓\nlist_cpal_palettes()\nList all available palette names\n\n\n✓\nview_cpal_palettes()\nVisual display of palettes\n\n\n✓\nquick_palette()\nQuick console preview\n\n\n\n\n\nColor Validation\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nvalidate_color_contrast()\nCheck WCAG contrast requirements\n\n\n✓\nvalidate_brand_colors()\nCheck all colors for accessibility\n\n\n\n\n\nColor Interpolation\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ncpal_color_ramp()\nGenerate gradient between two colors\n\n\n✓\ncpal_color_gradient()\nCreate gradient through multiple colors\n\n\n\n\n\nggplot2 Scales\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nscale_color_cpal()\nDiscrete/continuous color scale\n\n\n✓\nscale_fill_cpal()\nDiscrete/continuous fill scale\n\n\n✓\nscale_color_cpal_c()\nContinuous color scale\n\n\n✓\nscale_fill_cpal_c()\nContinuous fill scale\n\n\n✓\nscale_color_cpal_d()\nDiscrete color scale\n\n\n✓\nscale_fill_cpal_d()\nDiscrete fill scale\n\n\n✓\nscale_colour_cpal()\nBritish spelling alias"
   },
   {
     "objectID": "function-reference.html#theme-system",
     "href": "function-reference.html#theme-system",
     "title": "Function Reference",
     "section": "Theme System",
-    "text": "Theme System\n\nggplot2 Themes\n\n\n\nFunction\nDescription\n\n\n\n\ntheme_cpal()\nMain CPAL theme with full customization\n\n\ntheme_cpal_minimal()\nMinimal variant with reduced elements\n\n\ntheme_cpal_classic()\nTraditional styling with axis lines\n\n\ntheme_cpal_dark()\nDark background variant\n\n\ntheme_cpal_print()\nPrint-optimized theme\n\n\ntheme_cpal_map()\nGeographic visualization theme\n\n\n\n\n\nTheme Switching (Shiny)\n\n\n\nFunction\nDescription\n\n\n\n\ntheme_cpal_switch()\nReturns light or dark theme based on mode\n\n\nmake_theme_reactive()\nCreates reactive theme for Shiny apps\n\n\n\n\n\nTheme Management\n\n\n\nFunction\nDescription\n\n\n\n\nset_theme_cpal()\nSet CPAL theme as session default\n\n\npreview_cpal_themes()\nVisual comparison of all themes"
+    "text": "Theme System\n\nggplot2 Themes\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ntheme_cpal()\nMain CPAL theme with full customization\n\n\n✗\ntheme_cpal_minimal()\nMinimal variant with reduced elements\n\n\n✗\ntheme_cpal_classic()\nTraditional styling with axis lines\n\n\n✓\ntheme_cpal_dark()\nDark background variant\n\n\n✗\ntheme_cpal_print()\nPrint-optimized theme\n\n\n✗\ntheme_cpal_map()\nGeographic visualization theme\n\n\n\n\n\nTheme Switching (Shiny)\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ntheme_cpal_switch()\nReturns light or dark theme based on mode\n\n\n✓\nmake_theme_reactive()\nCreates reactive theme for Shiny apps\n\n\n\n\n\nTheme Management\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nset_theme_cpal()\nSet CPAL theme as session default\n\n\n✓\npreview_cpal_themes()\nVisual comparison of all themes"
   },
   {
     "objectID": "function-reference.html#table-functions",
     "href": "function-reference.html#table-functions",
     "title": "Function Reference",
     "section": "Table Functions",
-    "text": "Table Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_table()\nQuick CPAL-styled gt table\n\n\ncpal_table_gt()\nPublication-quality static table\n\n\ncpal_table_reactable()\nInteractive searchable table"
+    "text": "Table Functions\n\n\n\n\n\n\nNote\n\n\n\nTable functions are currently under review. See Tables for current documentation.\n\n\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n●\ncpal_table_reactable()\nInteractive searchable table with CPAL styling"
   },
   {
     "objectID": "function-reference.html#highcharter-functions",
     "href": "function-reference.html#highcharter-functions",
     "title": "Function Reference",
     "section": "Highcharter Functions",
-    "text": "Highcharter Functions\n\nTheme Functions\n\n\n\nFunction\nDescription\n\n\n\n\nhc_theme_cpal_light()\nHighcharter theme for light mode\n\n\nhc_theme_cpal_dark()\nHighcharter theme for dark mode\n\n\nhc_theme_cpal_switch()\nReturns appropriate theme based on mode\n\n\nhc_cpal_theme()\nApply CPAL theme to a chart\n\n\n\n\n\nColor Functions\n\n\n\n\n\n\n\nFunction\nDescription\n\n\n\n\nhc_colors_cpal()\nApply CPAL color palette to chart series\n\n\nhc_colorAxis_cpal()\nApply sequential/diverging gradient to color axis\n\n\n\n\n\nFormatting Helpers\n\n\n\nFunction\nDescription\n\n\n\n\nhc_cpal_number_format()\nSet global Highcharts number formatting\n\n\nhc_tooltip_cpal()\nCreate formatted tooltips with prefix/suffix\n\n\nhc_yaxis_cpal()\nFormat y-axis with scaling and labels\n\n\nhc_linetype_cpal()\nToggle between line and spline styles\n\n\n\n\n\nChart Type Helpers\n\n\n\n\n\n\n\nFunction\nDescription\n\n\n\n\nhc_histogram_cpal()\nCreate CPAL-styled histogram with auto-binning\n\n\nhc_lollipop_cpal()\nCreate lollipop chart (stem + dot)\n\n\nhc_dumbbell_cpal()\nCreate dumbbell chart (compare two values)\n\n\nhc_boxplot_style_cpal()\nApply CPAL styling to boxplot series\n\n\nhc_waterfall_colors_cpal()\nAuto-color waterfall chart data\n\n\nhc_treemap_data_cpal()\nBuild hierarchical treemap data with CPAL colors\n\n\nhc_treemap_style_cpal()\nApply CPAL level styling to treemaps\n\n\n\n\n\nLogo & Branding\n\n\n\nFunction\nDescription\n\n\n\n\nhc_add_cpal_logo()\nAdd CPAL logo to Highcharts widget"
+    "text": "Highcharter Functions\n\nTheme Functions\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nhc_theme_cpal_light()\nHighcharter theme for light mode\n\n\n✓\nhc_theme_cpal_dark()\nHighcharter theme for dark mode\n\n\n✓\nhc_theme_cpal_switch()\nReturns appropriate theme based on mode\n\n\n✓\nhc_cpal_theme()\nApply CPAL theme to a chart\n\n\n\n\n\nColor Functions\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nhc_colors_cpal()\nApply CPAL color palette to chart series\n\n\n✓\nhc_colorAxis_cpal()\nApply sequential/diverging gradient to color axis\n\n\n\n\n\nFormatting Helpers\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nhc_cpal_number_format()\nSet global Highcharts number formatting\n\n\n✓\nhc_tooltip_cpal()\nCreate formatted tooltips with prefix/suffix\n\n\n✓\nhc_yaxis_cpal()\nFormat y-axis with scaling and labels\n\n\n✓\nhc_linetype_cpal()\nToggle between line and spline styles\n\n\n\n\n\nChart Type Helpers\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nhc_histogram_cpal()\nCreate CPAL-styled histogram with auto-binning\n\n\n✓\nhc_lollipop_cpal()\nCreate lollipop chart (stem + dot)\n\n\n✓\nhc_dumbbell_cpal()\nCreate dumbbell chart (compare two values)\n\n\n✓\nhc_boxplot_style_cpal()\nApply CPAL styling to boxplot series\n\n\n✓\nhc_waterfall_colors_cpal()\nAuto-color waterfall chart data\n\n\n✓\nhc_treemap_data_cpal()\nBuild hierarchical treemap data with CPAL colors\n\n\n✓\nhc_treemap_style_cpal()\nApply CPAL level styling to treemaps\n\n\n\n\n\nLogo & Branding\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nhc_add_cpal_logo()\nAdd CPAL logo to Highcharts widget"
   },
   {
     "objectID": "function-reference.html#map-functions",
     "href": "function-reference.html#map-functions",
     "title": "Function Reference",
     "section": "Map Functions",
-    "text": "Map Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_mapgl()\nCreate mapgl map with Dallas defaults\n\n\ncpal_mapgl_layer()\nAdd CPAL-styled layer to mapgl"
+    "text": "Map Functions\n\n\n\n\n\n\nNote\n\n\n\nMap functions are currently under review. See Maps & Geographic for current documentation.\n\n\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n●\ncpal_mapgl()\nCreate mapgl map with Dallas defaults\n\n\n●\ncpal_mapgl_layer()\nAdd CPAL-styled layer to mapgl"
   },
   {
     "objectID": "function-reference.html#project-scaffolding",
     "href": "function-reference.html#project-scaffolding",
     "title": "Function Reference",
     "section": "Project Scaffolding",
-    "text": "Project Scaffolding\n\nMain Function\n\n\n\nFunction\nDescription\n\n\n\n\nstart_project()\nCreate new project with CPAL structure\n\n\n\n\n\nComponent Adders\n\n\n\nFunction\nDescription\n\n\n\n\nuse_quarto_report()\nAdd Quarto report to existing project\n\n\nuse_quarto_slides()\nAdd Quarto slides template\n\n\nuse_quarto_web()\nAdd Quarto website structure\n\n\nuse_shiny_dashboard()\nAdd full-featured dashboard\n\n\nuse_shiny_app()\nAdd simple Shiny app\n\n\nuse_shiny_theme()\nAdd CPAL CSS theme files\n\n\nuse_targets()\nAdd targets pipeline\n\n\n\n\n\nAsset Management\n\n\n\nFunction\nDescription\n\n\n\n\nupdate_cpal_assets()\nUpdate CSS and images to latest versions"
+    "text": "Project Scaffolding\n\n\n\n\n\n\nNote\n\n\n\nTemplate files generated by scaffolding functions are under review and may be updated.\n\n\n\nMain Function\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nstart_project()\nCreate new project with CPAL structure\n\n\n\n\n\nComponent Adders\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✗\nuse_quarto_report()\nAdd Quarto report to existing project\n\n\n✗\nuse_quarto_slides()\nAdd Quarto slides template\n\n\n✗\nuse_quarto_web()\nAdd Quarto website structure\n\n\n✗\nuse_shiny_dashboard()\nAdd full-featured dashboard\n\n\n✗\nuse_shiny_app()\nAdd simple Shiny app\n\n\n✗\nuse_shiny_theme()\nAdd CPAL CSS theme files\n\n\n✗\nuse_targets()\nAdd targets pipeline"
   },
   {
     "objectID": "function-reference.html#brand-asset-management",
     "href": "function-reference.html#brand-asset-management",
     "title": "Function Reference",
     "section": "Brand & Asset Management",
-    "text": "Brand & Asset Management\n\n\n\nFunction\nDescription\n\n\n\n\nuse_cpal_brand()\nCopy _brand.yml to project\n\n\nvalidate_cpal_brand()\nValidate brand configuration\n\n\nget_cpal_asset()\nGet path to package asset\n\n\nupdate_cpal_assets()\nUpdate project assets"
+    "text": "Brand & Asset Management\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nuse_cpal_brand()\nCopy _brand.yml to project\n\n\n✓\nvalidate_cpal_brand()\nValidate brand configuration\n\n\n✓\nget_cpal_asset()\nGet path to package asset\n\n\n✓\nupdate_cpal_assets()\nUpdate project assets"
   },
   {
     "objectID": "function-reference.html#utility-functions",
     "href": "function-reference.html#utility-functions",
     "title": "Function Reference",
     "section": "Utility Functions",
-    "text": "Utility Functions\n\nFont Management\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_font_family()\nGet best available CPAL font\n\n\ncpal_font_family_fallback()\nGet system fallback font\n\n\nsetup_cpal_google_fonts()\nDownload and register fonts\n\n\n\n\n\nPlot Utilities\n\n\n\nFunction\nDescription\n\n\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL logo to ggplot2 plots\n\n\ncheck_plot_accessibility()\nCheck accessibility issues"
+    "text": "Utility Functions\n\nFont Management\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ncpal_font_family()\nGet best available CPAL font\n\n\n✓\ncpal_font_family_fallback()\nGet system fallback font\n\n\n✓\nsetup_cpal_google_fonts()\nDownload and register fonts\n\n\n\n\n\nPlot Utilities\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\nsave_cpal_plot()\nSave with standard dimensions\n\n\n✓\nadd_cpal_logo()\nAdd CPAL logo to ggplot2 plots\n\n\n✓\ncheck_plot_accessibility()\nCheck accessibility issues"
   },
   {
     "objectID": "function-reference.html#shinydashboard-functions",
     "href": "function-reference.html#shinydashboard-functions",
     "title": "Function Reference",
     "section": "Shiny/Dashboard Functions",
-    "text": "Shiny/Dashboard Functions\n\n\n\nFunction\nDescription\n\n\n\n\ncpal_dashboard_theme()\nBootstrap 5 theme from _brand.yml\n\n\ncpal_shiny()\nLegacy Shiny theme (deprecated)\n\n\ncpal_add_scss_enhancements()\nAdd enhanced SCSS styling\n\n\ncpal_export_scss()\nExport SCSS for custom use"
-  },
-  {
-    "objectID": "function-reference.html#function-signatures",
-    "href": "function-reference.html#function-signatures",
-    "title": "Function Reference",
-    "section": "Function Signatures",
-    "text": "Function Signatures\n\nMost Used Functions\n# Colors\ncpal_colors(palette = NULL, n = NULL, reverse = FALSE)\ncpal_color(name)\ncpal_colors_primary()\nscale_color_cpal(palette = \"main\", discrete = TRUE, reverse = FALSE, ...)\nscale_fill_cpal(palette = \"main\", discrete = TRUE, reverse = FALSE, ...)\n\n# Themes\ntheme_cpal(base_size = 16, base_family = NULL, style = \"default\",\n           grid = \"horizontal\", axis_line = \"x\", axis_title = TRUE,\n           legend_position = \"bottom\")\nset_theme_cpal(style = \"default\", base_size = 16, ...)\n\n# Theme Switching (Shiny)\ntheme_cpal_switch(mode = \"light\", ...)\nmake_theme_reactive(input, toggle_id = \"dark_mode_toggle\", ...)\n\n# Highcharter\nhc_cpal_theme(hc, mode = \"light\")\nhc_colors_cpal(hc, palette = \"main\", n = NULL)\nhc_colorAxis_cpal(hc, type = \"sequential\", min = NULL, max = NULL)\nhc_tooltip_cpal(hc, decimals = 0, prefix = \"\", suffix = \"\")\nhc_yaxis_cpal(hc, title = NULL, prefix = \"\", suffix = \"\", divide_by = 1)\nhc_histogram_cpal(data, breaks = 30, title = NULL, ...)\nhc_lollipop_cpal(categories, values, name = \"Value\", title = NULL, ...)\nhc_dumbbell_cpal(categories, values_start, values_end, ...)\nhc_add_cpal_logo(hc, position = \"bottom-right\", mode = \"light\")\nhc_theme_cpal_switch(mode = \"light\")\n\n# Tables\ncpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)\ncpal_table_reactable(data, title = NULL, searchable = TRUE,\n                     pagination = TRUE, page_size = 10, ...)\n\n# Maps\ncpal_mapgl(center = c(-96.797, 32.779), zoom = 10, style = \"light\", ...)\ncpal_mapgl_layer(map, data, type = \"fill\", source_layer = NULL, ...)\n\n# Projects\nstart_project(name, path = \".\", project_type = \"analysis\",\n              interactive = TRUE, features = NULL, open = TRUE)\n\n# Utilities\nsetup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)\nsave_cpal_plot(plot, filename, size = \"default\", dpi = 300, ...)\nadd_cpal_logo(plot, position = \"top-right\", size = 0.09)"
+    "text": "Shiny/Dashboard Functions\n\n\n\n\n\n\n\n\nStatus\nFunction\nDescription\n\n\n\n\n✓\ncpal_dashboard_theme()\nBootstrap 5 theme from _brand.yml\n\n\n✓\ncpal_shiny()\nLegacy Shiny theme (deprecated)\n\n\n✗\ncpal_add_scss_enhancements()\nAdd enhanced SCSS styling\n\n\n✗\ncpal_export_scss()\nExport SCSS for custom use"
   },
   {
     "objectID": "function-reference.html#deprecated-functions",
@@ -921,7 +837,7 @@
     "href": "index.html#documentation",
     "title": "cpaltemplates",
     "section": "Documentation",
-    "text": "Documentation\n\nGalleries\n\n\n\n\nggplot2 Chart Gallery\n\n\nBrowse example charts built with ggplot2 and CPAL themes including bar charts, line charts, scatter plots, heatmaps, treemaps, and more.\nView Gallery\n\n\n\n\n\n\nHighcharter Chart Gallery\n\n\nInteractive chart examples using Highcharter with CPAL styling including tooltips, animations, dark mode, and specialized chart types.\nView Gallery\n\n\n\n\n\n\nGetting Started\n\n\n\n\nGetting Started\n\n\nInstallation, initial setup, font configuration, and your first CPAL visualization.\nRead Guide\n\n\n\n\n\n\nGuides\n\n\n\n\nProject Setup\n\n\nCreate new projects with pre-configured templates for analysis, reports, slides, Shiny apps, and more.\nRead Guide\n\n\n\n\n\n\nColors & Palettes\n\n\nCPAL’s WCAG-compliant color system with 16+ palettes for categorical, sequential, and diverging data.\nRead Guide\n\n\n\n\n\n\nThemes & Styling\n\n\nggplot2 themes for different contexts: standard, minimal, dark mode, print, and maps.\nRead Guide\n\n\n\n\n\n\nPlots & Output\n\n\nCreating visualizations and exporting them with proper sizing, resolution, and branding.\nRead Guide\n\n\n\n\n\n\nTables\n\n\nProfessional tables using GT (static/print) and Reactable (interactive) with CPAL styling.\nRead Guide\n\n\n\n\n\n\nMaps & Geographic\n\n\nGeographic visualizations with mapgl integration and CPAL map themes.\nRead Guide\n\n\n\n\n\n\nShiny Dashboards\n\n\nBuild branded Shiny dashboards with bslib theming and dark/light mode support.\nRead Guide\n\n\n\n\n\n\nUtilities & Helpers\n\n\nHelper functions for logos, plot saving, accessibility checks, and more.\nRead Guide\n\n\n\n\n\n\nTroubleshooting\n\n\nSolutions to common issues with fonts, themes, colors, and package configuration.\nRead Guide\n\n\n\n\n\n\nReference\n\n\n\n\nFunction Reference\n\n\nComplete index of all 67+ exported functions organized by category.\nView Reference"
+    "text": "Documentation\n\nGalleries\n\n\n\n\nggplot2 Chart Gallery\n\n\nBrowse example charts built with ggplot2 and CPAL themes including bar charts, line charts, scatter plots, heatmaps, treemaps, and more.\nView Gallery\n\n\n\n\n\n\nHighcharter Chart Gallery\n\n\nInteractive chart examples using Highcharter with CPAL styling including tooltips, animations, dark mode, and specialized chart types.\nView Gallery\n\n\n\n\n\n\nGetting Started\n\n\n\n\nGetting Started\n\n\nInstallation, initial setup, font configuration, and your first CPAL visualization.\nRead Guide\n\n\n\n\n\n\nGuides\n\n\n\n\nProject Setup\n\n\nCreate new projects with pre-configured templates for analysis, reports, slides, Shiny apps, and more.\nRead Guide\n\n\n\n\n\n\nColors & Palettes\n\n\nCPAL’s WCAG-compliant color system with 16+ palettes for categorical, sequential, and diverging data.\nRead Guide\n\n\n\n\n\n\nThemes & Styling\n\n\nggplot2 and Highcharter themes, saving plots, adding logos, and accessibility.\nRead Guide\n\n\n\n\n\n\nTables\n\n\nProfessional tables using GT (static/print) and Reactable (interactive) with CPAL styling.\nRead Guide\n\n\n\n\n\n\nMaps & Geographic\n\n\nGeographic visualizations with mapgl integration and CPAL map themes.\nRead Guide\n\n\n\n\n\n\nShiny Dashboards\n\n\nBuild branded Shiny dashboards with bslib theming and dark/light mode support.\nRead Guide\n\n\n\n\n\n\nUtilities & Helpers\n\n\nHelper functions for logos, plot saving, accessibility checks, and more.\nRead Guide\n\n\n\n\n\n\nTroubleshooting\n\n\nSolutions to common issues with fonts, themes, colors, and package configuration.\nRead Guide\n\n\n\n\n\n\nFunction Reference\n\n\nComplete index of all 67+ exported functions organized by category.\nView Reference"
   },
   {
     "objectID": "index.html#feedback-support",
@@ -931,186 +847,67 @@
     "text": "Feedback & Support\nHave questions, found a bug, or want to request a feature?\n\nOpen an issue on GitHub\nView the source code"
   },
   {
-    "objectID": "plots-visualizations.html",
-    "href": "plots-visualizations.html",
-    "title": "Plots & Output",
+    "objectID": "project-setup.html",
+    "href": "project-setup.html",
+    "title": "Project Setup",
     "section": "",
-    "text": "This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations."
+    "text": "Starting a new R-based data science project often involves repetitive setup tasks: creating folder structures, configuring Git, setting up package management, and adding boilerplate files. cpaltemplates provides a comprehensive project scaffolding system with 8 functions that automate this process, helping you quickly set up new R projects with CPAL branding, consistent structure, and best practices built in.\nThese tools are designed specifically for the R ecosystem and data science workflows—whether you’re doing exploratory data analysis, building statistical models, creating interactive dashboards, or generating reports. By using these scaffolding tools, you ensure that all CPAL R projects follow the same organizational patterns, making it easier for team members to navigate unfamiliar codebases and maintain consistency across the organization."
   },
   {
-    "objectID": "plots-visualizations.html#overview",
-    "href": "plots-visualizations.html#overview",
-    "title": "Plots & Output",
-    "section": "",
-    "text": "This guide covers the utility functions for saving plots, adding branding elements, and ensuring accessibility in your visualizations."
-  },
-  {
-    "objectID": "plots-visualizations.html#plot-examples",
-    "href": "plots-visualizations.html#plot-examples",
-    "title": "Plots & Output",
-    "section": "Plot Examples",
-    "text": "Plot Examples\nBefore diving into the utility functions, here are some complete examples of CPAL-styled visualizations:\n\nScatter Plot with Regression\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3, alpha = 0.8) +\n  geom_smooth(method = \"lm\", se = TRUE, alpha = 0.2) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    subtitle = \"Weight vs. MPG by cylinder count\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nScatter plot with trend line\n\n\n\n\n\n\nBar Chart\n\n\nShow code\nmtcars |&gt;\n  count(cyl) |&gt;\n  ggplot(aes(x = factor(cyl), y = n, fill = factor(cyl))) +\n  geom_col(alpha = 0.9) +\n  geom_text(aes(label = n), vjust = -0.5, fontface = \"bold\", color = \"#444444\") +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Vehicle Count by Cylinder\",\n    x = \"Number of Cylinders\",\n    y = \"Count\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nBar chart with CPAL colors\n\n\n\n\n\n\nBox Plot\n\n\nShow code\nggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +\n  geom_boxplot(alpha = 0.8, outlier.shape = 21) +\n  scale_fill_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency Distribution\",\n    subtitle = \"By cylinder count\",\n    x = \"Cylinders\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\nBox plot comparing distributions\n\n\n\n\n\n\nLine Chart\n\n\nShow code\n# Create time series-like data\nline_data &lt;- data.frame(\n  year = rep(2018:2023, 3),\n  value = c(\n    cumsum(rnorm(6, 5, 2)),\n    cumsum(rnorm(6, 4, 2)),\n    cumsum(rnorm(6, 3, 2))\n  ),\n  group = rep(c(\"Series A\", \"Series B\", \"Series C\"), each = 6)\n)\n\nggplot(line_data, aes(x = year, y = value, color = group)) +\n  geom_line(linewidth = 1.2) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Trend Over Time\",\n    subtitle = \"Multiple series comparison\",\n    x = \"Year\",\n    y = \"Value\",\n    color = \"Series\"\n  ) +\n  theme_cpal()\n\n\n\n\n\nLine chart with multiple series"
-  },
-  {
-    "objectID": "plots-visualizations.html#saving-plots",
-    "href": "plots-visualizations.html#saving-plots",
-    "title": "Plots & Output",
-    "section": "Saving Plots",
-    "text": "Saving Plots\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions and settings.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nplot\nA ggplot2 object\n\n\nfilename\nOutput filename (extension determines format)\n\n\nsize\nPreset name or custom c(width, height) in inches\n\n\ndpi\nResolution (default: 300)\n\n\nbg\nBackground color (default: “white”)\n\n\n...\nAdditional arguments passed to ggsave()\n\n\n\n\n\nSize Presets\n\n\n\nPreset\nDimensions (inches)\nAspect Ratio\nUse Case\n\n\n\n\ndefault\n8 × 5\n16:10\nGeneral purpose\n\n\nslide\n10 × 5.625\n16:9\nPresentations\n\n\nhalf\n4 × 3\n4:3\nHalf-page figures\n\n\nthird\n2.5 × 2\n5:4\nSmall inline figures\n\n\nsquare\n5 × 5\n1:1\nSquare format\n\n\nwide\n12 × 4\n3:1\nPanoramic charts\n\n\ntall\n5 × 8\n5:8\nVertical format\n\n\n\n\n\nExamples\nlibrary(cpaltemplates)\nlibrary(ggplot2)\n\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Fuel Efficiency\") +\n  theme_cpal()\n\n# Save with default size\nsave_cpal_plot(p, \"efficiency_plot.png\")\n\n# Save for presentations\nsave_cpal_plot(p, \"efficiency_slide.png\", size = \"slide\")\n\n# Custom dimensions\nsave_cpal_plot(p, \"efficiency_custom.png\", size = c(10, 6))\n\n# Higher resolution for print\nsave_cpal_plot(p, \"efficiency_print.png\", size = \"default\", dpi = 600)\n\n# PDF output\nsave_cpal_plot(p, \"efficiency.pdf\", size = \"default\")\n\n# Transparent background\nsave_cpal_plot(p, \"efficiency_transparent.png\", bg = \"transparent\")"
-  },
-  {
-    "objectID": "plots-visualizations.html#adding-branding",
-    "href": "plots-visualizations.html#adding-branding",
-    "title": "Plots & Output",
-    "section": "Adding Branding",
-    "text": "Adding Branding\n\nadd_cpal_logo()\nAdd the CPAL logo to any ggplot2 visualization.\nadd_cpal_logo(\n  plot,\n  position = c(\"top-right\", \"top-left\", \"bottom-right\", \"bottom-left\"),\n  size = 0.09,\n  logo_path = NULL\n)\n\nArguments\n\n\n\nArgument\nDescription\n\n\n\n\nplot\nA ggplot2 object\n\n\nposition\nLogo placement\n\n\nsize\nLogo size as proportion of plot (0-1)\n\n\nlogo_path\nCustom logo path (auto-detects CPAL logo)\n\n\n\n\n\nFeatures\n\nAuto-detection: Automatically uses white logo for dark themes\nProper sizing: Maintains aspect ratio\nNon-intrusive: Places logo outside the plot area\n\n\n\nExamples\nDefault position (top-right):\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(\n    title = \"Vehicle Fuel Efficiency\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon\"\n  ) +\n  theme_cpal()\n\nadd_cpal_logo(p)\n\n\n\n\n\nPlot with CPAL logo in default position\n\n\n\n\nChanging position when logo overlaps data:\nIf the default top-right position overlaps your data, try a different corner:\n# Data concentrated in top-right - use bottom-left\np_topright &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Bottom-Left Logo\", subtitle = \"Best when data is in top-right\") +\n  theme_cpal()\n\nprint(add_cpal_logo(p_topright, position = \"bottom-left\"))\n# Data concentrated in bottom-left - use top-right\np_bottomleft &lt;- ggplot(mtcars, aes(x = mpg, y = wt)) +\n  geom_point(color = \"#E86A50\", size = 3) +\n  labs(title = \"Top-Right Logo\", subtitle = \"Best when data is in bottom-left\") +\n  theme_cpal()\n\nprint(add_cpal_logo(p_bottomleft, position = \"top-right\"))\n\n\n\nShow code\n\n\n\n\n\nComparing logo positions\n\n\n\n\n\n\nShow code\n\n\n\n\n\nComparing logo positions\n\n\n\n\n\nAdjusting logo size:\np_base &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  theme_cpal()\n\n# Smaller logo (0.06)\nprint(add_cpal_logo(p_base + labs(title = \"Smaller Logo (size = 0.06)\"),\n              position = \"bottom-right\", size = 0.06))\n# Larger logo (0.12)\nprint(add_cpal_logo(p_base + labs(title = \"Larger Logo (size = 0.12)\"),\n              position = \"bottom-right\", size = 0.12))\n\n\n\nShow code\n\n\n\n\n\nDifferent logo sizes\n\n\n\n\n\n\nShow code\n\n\n\n\n\nDifferent logo sizes\n\n\n\n\n\nDark theme (auto-selects white logo):\n\n\nShow code\np_dark &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Dark Theme with Logo\",\n    subtitle = \"White logo is automatically selected\",\n    color = \"Cylinders\"\n  ) +\n  theme_cpal_dark()\n\nadd_cpal_logo(p_dark, position = \"bottom-right\")\n\n\n\n\n\nLogo automatically adapts to dark theme\n\n\n\n\nCustom logo path:\n# Use your own logo\np_custom &lt;- add_cpal_logo(p, logo_path = \"path/to/custom_logo.png\")"
-  },
-  {
-    "objectID": "plots-visualizations.html#accessibility-checking",
-    "href": "plots-visualizations.html#accessibility-checking",
-    "title": "Plots & Output",
-    "section": "Accessibility Checking",
-    "text": "Accessibility Checking\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\n\nWhat It Checks\n\nText Size: Ensures text elements are large enough to read\nColor Contrast: Validates colors against WCAG standards\nColorblind Safety: Checks if colors are distinguishable\nData-to-Ink Ratio: Identifies unnecessary visual elements\n\n\n\nExamples\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point() +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\n# Run accessibility check\ncheck_plot_accessibility(p)\n#&gt; Checking plot accessibility...\n#&gt;\n#&gt; ── Text Size ──\n#&gt; ✓ Title size: 18pt (OK)\n#&gt; ✓ Axis text size: 12pt (OK)\n#&gt; ✓ Legend text size: 12pt (OK)\n#&gt;\n#&gt; ── Color Contrast ──\n#&gt; ✓ All colors pass WCAG AA on white background\n#&gt;\n#&gt; ── Colorblind Safety ──\n#&gt; ✓ Color palette is distinguishable for common colorblindness types\n#&gt;\n#&gt; Overall: PASS\n\n# Quiet mode (returns TRUE/FALSE)\nis_accessible &lt;- check_plot_accessibility(p, verbose = FALSE)"
-  },
-  {
-    "objectID": "plots-visualizations.html#workflow-complete-plot-creation",
-    "href": "plots-visualizations.html#workflow-complete-plot-creation",
-    "title": "Plots & Output",
-    "section": "Workflow: Complete Plot Creation",
-    "text": "Workflow: Complete Plot Creation\n\nStep-by-Step Example\nlibrary(cpaltemplates)\nlibrary(ggplot2)\nlibrary(dplyr)\n\n# 1. Prepare data\nplot_data &lt;- mtcars |&gt;\n  mutate(\n    cylinders = factor(cyl),\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  )\n\n# 2. Create the visualization\np &lt;- ggplot(plot_data, aes(x = wt, y = mpg, color = cylinders)) +\n  geom_point(size = 3, alpha = 0.8) +\n  scale_color_cpal(\"main_3\") +\n  labs(\n    title = \"Fuel Efficiency by Vehicle Weight\",\n    subtitle = \"Analysis of 32 automobile models\",\n    x = \"Weight (1,000 lbs)\",\n    y = \"Miles per Gallon\",\n    color = \"Cylinders\",\n    caption = \"Source: Motor Trend, 1974\"\n  ) +\n  theme_cpal()\n\n# 3. Check accessibility\ncheck_plot_accessibility(p)\n\n# 4. Add branding\np_branded &lt;- add_cpal_logo(p, position = \"top-right\")\n\n# 5. Save in multiple formats\nsave_cpal_plot(p_branded, \"efficiency_report.png\", size = \"default\")\nsave_cpal_plot(p_branded, \"efficiency_slide.png\", size = \"slide\")\nsave_cpal_plot(p_branded, \"efficiency_print.pdf\", size = \"default\", dpi = 600)"
-  },
-  {
-    "objectID": "plots-visualizations.html#size-selection-guide",
-    "href": "plots-visualizations.html#size-selection-guide",
-    "title": "Plots & Output",
-    "section": "Size Selection Guide",
-    "text": "Size Selection Guide\n\nBy Output Context\n\n\n\nContext\nRecommended Size\nNotes\n\n\n\n\nPowerPoint slide\n\"slide\"\n16:9 aspect ratio\n\n\nWord document (full width)\n\"default\"\nGood for letter-size\n\n\nWord document (half page)\n\"half\"\nSide-by-side layouts\n\n\nPDF report\n\"default\"\nStandard dimensions\n\n\nEmail/web\n\"default\" or \"slide\"\nGood balance\n\n\nSocial media\n\"square\"\nInstagram, Twitter\n\n\nDashboard\n\"wide\"\nHorizontal layouts\n\n\nInfographic\n\"tall\"\nVertical scrolling\n\n\n\n\n\nDPI Guidelines\n\n\n\nOutput\nRecommended DPI\n\n\n\n\nScreen/web\n72-150\n\n\nStandard print\n300\n\n\nHigh-quality print\n600\n\n\nLarge format\n150-300\n\n\n\n# Web/screen\nsave_cpal_plot(p, \"web.png\", dpi = 150)\n\n# Print quality\nsave_cpal_plot(p, \"print.png\", dpi = 300)\n\n# High-res print\nsave_cpal_plot(p, \"highres.png\", dpi = 600)"
-  },
-  {
-    "objectID": "plots-visualizations.html#output-formats",
-    "href": "plots-visualizations.html#output-formats",
-    "title": "Plots & Output",
-    "section": "Output Formats",
-    "text": "Output Formats\n\nSupported Formats\n\n\n\nExtension\nType\nBest For\n\n\n\n\n.png\nRaster\nWeb, presentations, general use\n\n\n.jpg\nRaster\nPhotos, web (smaller files)\n\n\n.pdf\nVector\nPrint, publications, scaling\n\n\n.svg\nVector\nWeb, interactive, scaling\n\n\n.eps\nVector\nLaTeX, professional printing\n\n\n.tiff\nRaster\nHigh-quality print, archival\n\n\n\n\n\nFormat Selection\n# PNG for web/presentations (most common)\nsave_cpal_plot(p, \"plot.png\")\n\n# PDF for print/publications\nsave_cpal_plot(p, \"plot.pdf\")\n\n# SVG for web with scaling\nsave_cpal_plot(p, \"plot.svg\")\n\n# TIFF for journals requiring it\nsave_cpal_plot(p, \"plot.tiff\", dpi = 600)"
-  },
-  {
-    "objectID": "plots-visualizations.html#common-patterns",
-    "href": "plots-visualizations.html#common-patterns",
-    "title": "Plots & Output",
-    "section": "Common Patterns",
-    "text": "Common Patterns\n\nBatch Processing\nlibrary(purrr)\n\n# Create multiple plots\nplots &lt;- list(\n  cyl4 = filter(mtcars, cyl == 4),\n  cyl6 = filter(mtcars, cyl == 6),\n  cyl8 = filter(mtcars, cyl == 8)\n) |&gt;\n  map(~{\n    ggplot(.x, aes(x = wt, y = mpg)) +\n      geom_point(color = \"#007A8C\") +\n      theme_cpal()\n  })\n\n# Save all plots\niwalk(plots, ~{\n  save_cpal_plot(.x, paste0(\"efficiency_\", .y, \".png\"))\n})\n\n\nReport Figure Set\n# Create consistent figures for a report\ncreate_report_figure &lt;- function(data, title, filename) {\n  p &lt;- ggplot(data, aes(x = wt, y = mpg)) +\n    geom_point(color = \"#007A8C\") +\n    labs(title = title) +\n    theme_cpal_print()\n\n  p_logo &lt;- add_cpal_logo(p, position = \"bottom-right\", size = 0.07)\n\n  save_cpal_plot(p_logo, filename, size = \"default\", dpi = 300)\n\n  invisible(p_logo)\n}\n\n# Generate figures\ncreate_report_figure(mtcars, \"Figure 1: All Vehicles\", \"fig1.png\")\ncreate_report_figure(filter(mtcars, cyl == 4), \"Figure 2: 4-Cylinder\", \"fig2.png\")\n\n\nPresentation Deck\n# Create slides-ready plots\nslides &lt;- list(\n  list(data = mtcars, title = \"Overview\"),\n  list(data = filter(mtcars, am == 1), title = \"Manual Transmission\"),\n  list(data = filter(mtcars, am == 0), title = \"Automatic Transmission\")\n)\n\nfor (i in seq_along(slides)) {\n  p &lt;- ggplot(slides[[i]]$data, aes(x = wt, y = mpg, color = factor(cyl))) +\n    geom_point(size = 4) +\n    scale_color_cpal(\"main_3\") +\n    labs(title = slides[[i]]$title) +\n    theme_cpal(base_size = 20)  # Larger for slides\n\n  save_cpal_plot(p, sprintf(\"slide_%02d.png\", i), size = \"slide\")\n}"
-  },
-  {
-    "objectID": "plots-visualizations.html#troubleshooting",
-    "href": "plots-visualizations.html#troubleshooting",
-    "title": "Plots & Output",
-    "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nLogo Not Appearing\n# Check that cowplot is installed\nif (!requireNamespace(\"cowplot\", quietly = TRUE)) {\n  install.packages(\"cowplot\")\n}\n\n# Check that magick is installed\nif (!requireNamespace(\"magick\", quietly = TRUE)) {\n  install.packages(\"magick\")\n}\n\n\nFonts Not Rendering in Saved Files\n# Ensure fonts are registered before saving\nsetup_cpal_google_fonts()\n\n# For PDF output, use Cairo device\nsave_cpal_plot(p, \"plot.pdf\", device = cairo_pdf)\n\n\nFile Size Too Large\n# Reduce DPI for web\nsave_cpal_plot(p, \"plot.png\", dpi = 150)\n\n# Use JPEG for photos\nsave_cpal_plot(p, \"plot.jpg\", quality = 85)\n\n# Simplify the plot\np_simple &lt;- p + theme(panel.grid = element_blank())\nsave_cpal_plot(p_simple, \"plot.png\")"
-  },
-  {
-    "objectID": "plots-visualizations.html#next-steps",
-    "href": "plots-visualizations.html#next-steps",
-    "title": "Plots & Output",
-    "section": "Next Steps",
-    "text": "Next Steps\n\nColors & Palettes - Color system reference\nThemes & Styling - Theme customization\nHighcharter Gallery - Interactive charts"
-  },
-  {
-    "objectID": "shiny-dashboards.html",
-    "href": "shiny-dashboards.html",
-    "title": "Shiny Dashboards",
-    "section": "",
-    "text": "cpaltemplates provides 5 functions for creating CPAL-branded Shiny applications and dashboards using Bootstrap 5 and bslib theming."
-  },
-  {
-    "objectID": "shiny-dashboards.html#overview",
-    "href": "shiny-dashboards.html#overview",
-    "title": "Shiny Dashboards",
-    "section": "",
-    "text": "cpaltemplates provides 5 functions for creating CPAL-branded Shiny applications and dashboards using Bootstrap 5 and bslib theming."
-  },
-  {
-    "objectID": "shiny-dashboards.html#quick-start",
-    "href": "shiny-dashboards.html#quick-start",
-    "title": "Shiny Dashboards",
+    "objectID": "project-setup.html#quick-start",
+    "href": "project-setup.html#quick-start",
+    "title": "Project Setup",
     "section": "Quick Start",
-    "text": "Quick Start\nlibrary(shiny)\nlibrary(bslib)\nlibrary(cpaltemplates)\n\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Dashboard\",\n  sidebar = sidebar(\n    selectInput(\"var\", \"Variable\", choices = names(mtcars))\n  ),\n  card(\n    card_header(\"Plot\"),\n    plotOutput(\"plot\")\n  )\n)\n\nserver &lt;- function(input, output) {\n  output$plot &lt;- renderPlot({\n    ggplot(mtcars, aes(x = .data[[input$var]])) +\n      geom_histogram(fill = \"#007A8C\") +\n      theme_cpal()\n  })\n}\n\nshinyApp(ui, server)"
+    "text": "Quick Start\nGet up and running with a new R project in seconds. The following example creates a complete data analysis project with version control, R package management, and a reproducible pipeline—all pre-configured and ready to use in RStudio.\nlibrary(cpaltemplates)\n\n# Create a new data analysis project\nstart_project(\n  name = \"dallas-housing-analysis\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\")\n)\nThis single command creates a fully-structured R project folder with all the necessary files, initializes Git for version control, sets up renv to lock your R package versions, and adds a targets pipeline for reproducible data science workflows."
   },
   {
-    "objectID": "shiny-dashboards.html#main-theme-function",
-    "href": "shiny-dashboards.html#main-theme-function",
-    "title": "Shiny Dashboards",
-    "section": "Main Theme Function",
-    "text": "Main Theme Function\n\ncpal_dashboard_theme()\nCreates a Bootstrap 5 theme using the _brand.yml configuration.\ncpal_dashboard_theme()\n\nFeatures\n\nCPAL brand colors automatically applied\nBootstrap 5 components styled\nGoogle Fonts (Poppins, Inter) integrated\nConsistent component styling\n\n\n\nUsage\nlibrary(shiny)\nlibrary(bslib)\n\n# With page_sidebar\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  ...\n)\n\n# With page_navbar\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  ...\n)\n\n# With page_fillable\nui &lt;- page_fillable(\n  theme = cpal_dashboard_theme(),\n  ...\n)"
+    "objectID": "project-setup.html#main-function-start_project",
+    "href": "project-setup.html#main-function-start_project",
+    "title": "Project Setup",
+    "section": "Main Function: start_project()",
+    "text": "Main Function: start_project()\nThe primary entry point for creating new R projects. This function is the recommended way to start any new CPAL data science project, as it handles all the setup automatically and ensures consistency with CPAL standards. Projects are created as RStudio projects (.Rproj files) for seamless integration with your R workflow.\n\nSyntax\nstart_project(\n  name,\n  path = \".\",\n  project_type = c(\"analysis\", \"quarto-report\", \"quarto-slides\",\n                   \"quarto-web\", \"shiny-dashboard\", \"shiny-app\", \"package\"),\n  interactive = TRUE,\n  features = NULL,\n  open = TRUE,\n  overwrite = FALSE\n)\n\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nname\nProject name (will be the folder name)\n\n\npath\nParent directory for the project (default: current directory)\n\n\nproject_type\nType of project to create (see below)\n\n\ninteractive\nIf TRUE, guides you through setup with prompts\n\n\nfeatures\nVector of features to enable: “renv”, “git”, “github”, “targets”, “tests”\n\n\nopen\nIf TRUE, opens the new project in RStudio\n\n\noverwrite\nIf TRUE, overwrites existing project\n\n\n\n\n\nProject Types\nChoose the project type that best matches your data science deliverable. Each type comes pre-configured with the appropriate folder structure, R script templates, and CPAL branding.\n\n\n\n\n\n\n\n\nType\nDescription\nKey Files Created\n\n\n\n\nanalysis\nR data analysis with targets pipeline\n_targets.R, R/, data/, output/\n\n\nquarto-report\nBranded Quarto report (R Markdown successor)\nreport.qmd, _brand.yml, styles.css\n\n\nquarto-slides\nPresentation slides with R code support\nslides.qmd, _brand.yml\n\n\nquarto-web\nMulti-page documentation website\n_quarto.yml, index.qmd, pages\n\n\nshiny-dashboard\nFull-featured R Shiny dashboard\napp.R, modules/, www/, _brand.yml\n\n\nshiny-app\nSimple R Shiny app\napp.R, www/, styles\n\n\npackage\nR package for reusable code\nDESCRIPTION, R/, man/, tests\n\n\n\nWhen to use each type:\n\nanalysis: Best for data cleaning, exploration, statistical modeling, or any R-based work that involves processing data and generating outputs. The targets pipeline ensures your analysis is reproducible and re-runs only what’s changed.\nquarto-report: Ideal for data-driven reports, briefs, or documents that combine R code with narrative text and will be shared as PDF or HTML. Includes CPAL formatting out of the box.\nquarto-slides: Perfect for data presentations to stakeholders, board meetings, or conferences. Supports live R code execution and CPAL styling via Revealjs.\nquarto-web: Use when you need a multi-page documentation site or public-facing project website with R-generated content.\nshiny-dashboard: Best for interactive data products that let users explore data through multiple views, filters, and visualizations.\nshiny-app: Good for simple interactive tools, data explorers, or prototypes that don’t need the full dashboard structure.\npackage: For creating reusable R functions and tools that can be shared across the CPAL team or published externally.\n\n\n\nExamples\n# Interactive mode - guides you through options\nstart_project(\"my-project\", interactive = TRUE)\n\n# Non-interactive with specific options\nstart_project(\n  name = \"quarterly-report\",\n  project_type = \"quarto-report\",\n  features = c(\"git\"),\n  interactive = FALSE\n)\n\n# Create in specific directory\nstart_project(\n  name = \"housing-dashboard\",\n  path = \"~/projects\",\n  project_type = \"shiny-dashboard\",\n  features = c(\"git\", \"renv\")\n)"
   },
   {
-    "objectID": "shiny-dashboards.html#dashboard-layouts",
-    "href": "shiny-dashboards.html#dashboard-layouts",
-    "title": "Shiny Dashboards",
-    "section": "Dashboard Layouts",
-    "text": "Dashboard Layouts\n\nSidebar Layout\nui &lt;- page_sidebar(\n  theme = cpal_dashboard_theme(),\n  title = \"Dashboard Title\",\n  sidebar = sidebar(\n    title = \"Controls\",\n    selectInput(\"x\", \"X Variable\", choices = names(mtcars)),\n    selectInput(\"y\", \"Y Variable\", choices = names(mtcars)),\n    sliderInput(\"size\", \"Point Size\", 1, 10, 3)\n  ),\n  card(\n    card_header(\"Visualization\"),\n    plotOutput(\"scatter\")\n  )\n)\n\n\nNavbar Layout\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Analytics\",\n  nav_panel(\n    title = \"Overview\",\n    layout_columns(\n      card(card_header(\"Card 1\"), \"Content\"),\n      card(card_header(\"Card 2\"), \"Content\")\n    )\n  ),\n  nav_panel(\n    title = \"Data\",\n    card(reactableOutput(\"table\"))\n  ),\n  nav_panel(\n    title = \"About\",\n    markdown(\"## About This Dashboard\")\n  )\n)\n\n\nMulti-Page Dashboard\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Data Portal\",\n  nav_panel(\"Home\", home_ui(\"home\")),\n  nav_panel(\"Analysis\", analysis_ui(\"analysis\")),\n  nav_panel(\"Reports\", reports_ui(\"reports\")),\n  nav_spacer(),\n  nav_item(\n    tags$a(\n      href = \"https://childpovertyactionlab.org\",\n      \"CPAL Website\",\n      target = \"_blank\"\n    )\n  )\n)"
+    "objectID": "project-setup.html#adding-components-to-existing-r-projects",
+    "href": "project-setup.html#adding-components-to-existing-r-projects",
+    "title": "Project Setup",
+    "section": "Adding Components to Existing R Projects",
+    "text": "Adding Components to Existing R Projects\nData science projects often evolve. You might start with exploratory analysis in R and later need to share your findings as a report or presentation. These use_*() functions let you add specific components to an existing R project without starting over—keeping all your code, data, and outputs in one place.\n\n\n\n\n\n\nUnder Review\n\n\n\nThe following use_*() functions are currently under review. They work but may change in future versions as we refine the templates and workflows.\n\n\n\nuse_quarto_report()\nAdd Quarto report capability to an existing project. This is useful when your analysis is complete and you need to document your findings in a polished, branded report.\nuse_quarto_report(path = \".\", overwrite = FALSE)\nCreates:\n\nreport.qmd - Main report template with CPAL styling\n_brand.yml - Brand configuration\nreferences.bib - Bibliography template\n\nExample:\n# Add report to current project\nuse_quarto_report()\n\n# Add to specific directory\nuse_quarto_report(\"my-project/\")\n\n\n\nuse_quarto_slides()\nAdd Quarto presentation slides to an existing project. Perfect for when you need to present your analysis findings to stakeholders, at team meetings, or external audiences.\nuse_quarto_slides(path = \".\", filename = \"slides\", overwrite = FALSE)\nCreates:\n\n{filename}.qmd - Revealjs presentation template\n_brand.yml - Brand configuration\n\nExample:\n# Add slides with default name\nuse_quarto_slides()\n\n# Custom filename\nuse_quarto_slides(filename = \"quarterly-presentation\")\n\n\n\nuse_quarto_web()\nAdd Quarto website structure to an existing project. Useful when you want to create a documentation site, project landing page, or multi-page resource that will be hosted online.\nuse_quarto_web(path = \".\", overwrite = FALSE)\nCreates:\n\n_quarto.yml - Website configuration\nindex.qmd - Home page\nabout.qmd - About page template\n_brand.yml - Brand configuration\nstyles.css - Custom styles\n\nExample:\n# Add website structure\nuse_quarto_web()\n\n\n\nuse_shiny_dashboard()\nAdd a full-featured Shiny dashboard to an existing project. This creates a modular dashboard structure that scales well for complex applications with multiple tabs, filters, and data views.\nuse_shiny_dashboard(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Main application file\nmodules/ - Modular UI/server components\nwww/ - Static assets (CSS, images)\n_brand.yml - Brand configuration\nR/ - Helper functions\n\nExample:\n# Add dashboard to current project\nuse_shiny_dashboard()\n\n\n\nuse_shiny_app()\nAdd a simple Shiny application to an existing project. Best for quick prototypes, single-purpose tools, or when you need interactivity without the overhead of a full dashboard structure.\nuse_shiny_app(path = \".\", overwrite = FALSE)\nCreates:\n\napp.R - Simple Shiny application\nwww/styles.css - CPAL styling\n\nExample:\n# Add simple app\nuse_shiny_app()\n\n\n\nuse_shiny_theme()\nAdd CPAL CSS theme files for Shiny. Use this when you have an existing Shiny app that needs CPAL styling, or when you want to customize the theme name for a specific project.\nuse_shiny_theme(path = \".\", theme_name = \"cpal\", overwrite = FALSE)\nCreates:\n\nwww/{theme_name}.css - CPAL-styled CSS\n\nExample:\n# Add default theme\nuse_shiny_theme()\n\n# Custom theme name\nuse_shiny_theme(theme_name = \"dashboard-theme\")\n\n\n\nuse_targets()\nAdd a targets pipeline to an existing project. The targets package provides a pipeline system for reproducible computation—it tracks which steps need to be re-run when your code or data changes, saving time and ensuring consistency.\nuse_targets(path = \".\", type = c(\"basic\", \"analysis\", \"report\"), overwrite = FALSE)\n\n\n\nType\nDescription\n\n\n\n\nbasic\nMinimal _targets.R setup\n\n\nanalysis\nFull analysis pipeline with data → model → output\n\n\nreport\nAnalysis pipeline plus Quarto report rendering\n\n\n\nExample:\n# Add basic targets\nuse_targets(type = \"basic\")\n\n# Full analysis pipeline\nuse_targets(type = \"analysis\")"
   },
   {
-    "objectID": "shiny-dashboards.html#value-boxes",
-    "href": "shiny-dashboards.html#value-boxes",
-    "title": "Shiny Dashboards",
-    "section": "Value Boxes",
-    "text": "Value Boxes\n\nCreating Value Boxes\nui &lt;- page_fillable(\n  theme = cpal_dashboard_theme(),\n  layout_columns(\n    value_box(\n      title = \"Total Population\",\n      value = \"2.6M\",\n      showcase = bsicons::bs_icon(\"people\"),\n      theme = \"primary\"\n    ),\n    value_box(\n      title = \"Child Poverty Rate\",\n      value = \"18.2%\",\n      showcase = bsicons::bs_icon(\"graph-down\"),\n      theme = \"danger\"\n    ),\n    value_box(\n      title = \"Schools Served\",\n      value = \"342\",\n      showcase = bsicons::bs_icon(\"building\"),\n      theme = \"success\"\n    )\n  )\n)\n\n\nCustom Value Box Colors\nvalue_box(\n  title = \"Custom Metric\",\n  value = \"1,234\",\n  theme_color = \"#007A8C\"  # CPAL teal\n)"
+    "objectID": "project-setup.html#project-structure-examples",
+    "href": "project-setup.html#project-structure-examples",
+    "title": "Project Setup",
+    "section": "Project Structure Examples",
+    "text": "Project Structure Examples\nThese examples show the folder structures created by each project type. All projects follow R conventions and are designed to work seamlessly with RStudio.\n\nAnalysis Project (R Data Science)\nmy-analysis/\n├── _targets.R          # Pipeline definition\n├── R/\n│   ├── functions.R     # Analysis functions\n│   └── utils.R         # Helper utilities\n├── data/\n│   ├── raw/            # Original data\n│   └── processed/      # Cleaned data\n├── output/\n│   ├── figures/        # Generated plots\n│   └── tables/         # Generated tables\n├── _brand.yml          # Brand configuration\n├── renv.lock           # Package versions\n└── README.md\n\n\nShiny Dashboard Project (R Interactive App)\nmy-dashboard/\n├── app.R               # Main R Shiny application\n├── modules/\n│   ├── mod_overview.R  # Overview tab module\n│   ├── mod_data.R      # Data explorer module\n│   └── mod_charts.R    # Charts module\n├── R/\n│   └── helpers.R       # Utility functions\n├── www/\n│   ├── styles.css      # Custom styles\n│   └── images/         # Logos, icons\n├── _brand.yml          # Brand configuration\n└── README.md\n\n\nQuarto Report Project (R + Narrative)\nmy-report/\n├── report.qmd          # Main report with R code chunks\n├── _brand.yml          # Brand configuration\n├── styles.css          # Custom styles\n├── references.bib      # Bibliography\n├── data/               # Data files\n├── figures/            # Generated figures\n└── README.md"
   },
   {
-    "objectID": "shiny-dashboards.html#cards",
-    "href": "shiny-dashboards.html#cards",
-    "title": "Shiny Dashboards",
-    "section": "Cards",
-    "text": "Cards\n\nBasic Cards\ncard(\n  card_header(\"Chart Title\"),\n  plotOutput(\"plot\"),\n  card_footer(\"Source: CPAL Analysis\")\n)\n\n\nFull-Height Cards\ncard(\n  full_screen = TRUE,\n  card_header(\"Expandable Chart\"),\n  plotOutput(\"plot\")\n)\n\n\nCard with Sidebar\ncard(\n  card_header(\"Interactive Analysis\"),\n  layout_sidebar(\n    sidebar = sidebar(\n      selectInput(\"var\", \"Variable\", choices),\n      open = \"desktop\"\n    ),\n    plotOutput(\"plot\")\n  )\n)"
+    "objectID": "project-setup.html#feature-options",
+    "href": "project-setup.html#feature-options",
+    "title": "Project Setup",
+    "section": "Feature Options",
+    "text": "Feature Options\nWhen using start_project(), you can enable various features that add tooling and infrastructure to your R project. These features integrate popular R ecosystem tools and represent best practices for reproducible, collaborative data science work.\n\n\n\nFeature\nDescription\nWhy Use It?\n\n\n\n\ngit\nInitialize git repository with R-specific .gitignore\nTrack changes, collaborate, and maintain history\n\n\ngithub\nSet up GitHub integration (requires gh CLI)\nShare R code, enable collaboration, backup to cloud\n\n\nrenv\nInitialize renv for R package management\nLock R package versions so your analysis runs the same everywhere\n\n\ntargets\nAdd targets pipeline for reproducibility\nAutomate R workflows, skip unchanged steps, scale to large analyses\n\n\ntests\nSet up testthat testing infrastructure\nCatch bugs early, ensure R functions work correctly\n\n\n\nRecommended combinations:\n\nSolo analysis: c(\"git\", \"renv\") - Version control and reproducible R packages\nTeam project: c(\"git\", \"github\", \"renv\") - Add GitHub for collaboration on R code\nComplex pipeline: c(\"git\", \"renv\", \"targets\") - Add targets for automated R workflows\nR package development: c(\"git\", \"github\", \"tests\") - Add testing for reusable R packages\n\n# Enable all features for maximum reproducibility\nstart_project(\n  \"my-project\",\n  project_type = \"analysis\",\n  features = c(\"git\", \"renv\", \"targets\", \"tests\")\n)"
   },
   {
-    "objectID": "shiny-dashboards.html#layout-helpers",
-    "href": "shiny-dashboards.html#layout-helpers",
-    "title": "Shiny Dashboards",
-    "section": "Layout Helpers",
-    "text": "Layout Helpers\n\nColumn Layouts\n# Equal columns\nlayout_columns(\n  card(\"Column 1\"),\n  card(\"Column 2\"),\n  card(\"Column 3\")\n)\n\n# Custom widths\nlayout_columns(\n  col_widths = c(4, 8),\n  card(\"Narrow\"),\n  card(\"Wide\")\n)\n\n# Responsive\nlayout_columns(\n  col_widths = breakpoints(\n    sm = 12,  # Stack on small screens\n    md = 6,   # 2 columns on medium\n    lg = 4    # 3 columns on large\n  ),\n  card(\"Card 1\"),\n  card(\"Card 2\"),\n  card(\"Card 3\")\n)\n\n\nGrid Layouts\nlayout_column_wrap(\n  width = \"300px\",  # Minimum width per item\n  card(\"Item 1\"),\n  card(\"Item 2\"),\n  card(\"Item 3\"),\n  card(\"Item 4\")\n)"
+    "objectID": "project-setup.html#best-practices-for-r-data-science-projects",
+    "href": "project-setup.html#best-practices-for-r-data-science-projects",
+    "title": "Project Setup",
+    "section": "Best Practices for R Data Science Projects",
+    "text": "Best Practices for R Data Science Projects\n\n1. Use Interactive Mode for New Projects\nIf you’re unsure which options to choose, interactive mode walks you through the setup process with prompts.\n# Let the wizard guide you through R project setup\nstart_project(\"my-project\", interactive = TRUE)\n\n\n2. Start with Analysis, Add Components Later\nA common data science workflow: start with R analysis, then add reports or presentations as your findings mature.\n# Create base R analysis project\nstart_project(\"research-project\", project_type = \"analysis\")\n\n# Later, add a Quarto report to document findings\nuse_quarto_report(\"research-project/\")\n\n# Add slides for presenting results\nuse_quarto_slides(\"research-project/\", filename = \"results-presentation\")\n\n\n3. Always Use Version Control\nVersion control is essential for any code-based work. It lets you track changes, collaborate with others, and recover from mistakes.\n# Include git from the start for any R project\nstart_project(\"important-analysis\", features = c(\"git\", \"renv\"))\n\n\n4. Use renv for Reproducibility\nR package versions can affect your results. Using renv ensures your analysis runs the same way months or years later, or on a colleague’s machine.\n# Lock R package versions for reproducible analysis\nstart_project(\"client-report\", features = c(\"renv\"))"
   },
   {
-    "objectID": "shiny-dashboards.html#integrating-visualizations",
-    "href": "shiny-dashboards.html#integrating-visualizations",
-    "title": "Shiny Dashboards",
-    "section": "Integrating Visualizations",
-    "text": "Integrating Visualizations\n\nggplot2 with CPAL Theme\noutput$plot &lt;- renderPlot({\n  ggplot(data(), aes(x = x, y = y, color = group)) +\n    geom_point(size = 3) +\n    scale_color_cpal(\"main_3\") +\n    theme_cpal()\n})\n\n\nInteractive ggiraph\nlibrary(ggiraph)\n\noutput$interactive_plot &lt;- renderGirafe({\n  p &lt;- ggplot(data(), aes(x = x, y = y)) +\n    geom_point_interactive(aes(tooltip = label)) +\n    theme_cpal()\n\n  cpal_interactive(p)\n})\n\n# In UI\ngirafeOutput(\"interactive_plot\")\n\n\nReactable Tables\noutput$table &lt;- renderReactable({\n  cpal_table_reactable(\n    data(),\n    searchable = TRUE,\n    pagination = TRUE\n  )\n})\n\n# In UI\nreactableOutput(\"table\")"
-  },
-  {
-    "objectID": "shiny-dashboards.html#scss-enhancements",
-    "href": "shiny-dashboards.html#scss-enhancements",
-    "title": "Shiny Dashboards",
-    "section": "SCSS Enhancements",
-    "text": "SCSS Enhancements\n\ncpal_add_scss_enhancements()\nAdd enhanced styling to a base theme.\ntheme &lt;- cpal_dashboard_theme() |&gt;\n  cpal_add_scss_enhancements()\n\nui &lt;- page_sidebar(\n  theme = theme,\n  ...\n)\n\nEnhanced Features\n\nGeometric header patterns\nEnhanced data table styling\nMetric card improvements\nBetter form control styling\n\n\n\n\n\ncpal_export_scss()\nExport the SCSS file for custom use.\ncpal_export_scss(path = \"www/cpal_enhanced.scss\")"
-  },
-  {
-    "objectID": "shiny-dashboards.html#complete-dashboard-example",
-    "href": "shiny-dashboards.html#complete-dashboard-example",
-    "title": "Shiny Dashboards",
-    "section": "Complete Dashboard Example",
-    "text": "Complete Dashboard Example\nlibrary(shiny)\nlibrary(bslib)\nlibrary(ggplot2)\nlibrary(dplyr)\nlibrary(cpaltemplates)\n\nui &lt;- page_navbar(\n  theme = cpal_dashboard_theme(),\n  title = \"CPAL Analytics Dashboard\",\n\n  # Overview Tab\n  nav_panel(\n    \"Overview\",\n    layout_columns(\n      col_widths = c(4, 4, 4),\n      value_box(\n        \"Total Records\",\n        textOutput(\"total_records\"),\n        showcase = bsicons::bs_icon(\"database\")\n      ),\n      value_box(\n        \"Average MPG\",\n        textOutput(\"avg_mpg\"),\n        showcase = bsicons::bs_icon(\"speedometer2\")\n      ),\n      value_box(\n        \"Categories\",\n        textOutput(\"categories\"),\n        showcase = bsicons::bs_icon(\"collection\")\n      )\n    ),\n    card(\n      full_screen = TRUE,\n      card_header(\"Fuel Efficiency Analysis\"),\n      plotOutput(\"main_plot\")\n    )\n  ),\n\n  # Data Tab\n  nav_panel(\n    \"Data Explorer\",\n    card(\n      card_header(\"Vehicle Data\"),\n      layout_sidebar(\n        sidebar = sidebar(\n          selectInput(\"filter_cyl\", \"Cylinders\",\n            choices = c(\"All\", unique(mtcars$cyl))\n          )\n        ),\n        reactableOutput(\"data_table\")\n      )\n    )\n  ),\n\n  # About Tab\n  nav_panel(\n    \"About\",\n    card(\n      card_header(\"About This Dashboard\"),\n      markdown(\"\n        ## CPAL Analytics Dashboard\n\n        This dashboard demonstrates the cpaltemplates package\n        integration with Shiny and bslib.\n\n        **Features:**\n        - CPAL brand colors and fonts\n        - Responsive layout\n        - Interactive visualizations\n      \")\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n\n  # Reactive data\n  filtered_data &lt;- reactive({\n    if (input$filter_cyl == \"All\") {\n      mtcars\n    } else {\n      filter(mtcars, cyl == as.numeric(input$filter_cyl))\n    }\n  })\n\n  # Value boxes\n  output$total_records &lt;- renderText(nrow(filtered_data()))\n  output$avg_mpg &lt;- renderText(round(mean(filtered_data()$mpg), 1))\n  output$categories &lt;- renderText(n_distinct(filtered_data()$cyl))\n\n  # Main plot\n  output$main_plot &lt;- renderPlot({\n    ggplot(filtered_data(), aes(x = wt, y = mpg, color = factor(cyl))) +\n      geom_point(size = 4, alpha = 0.8) +\n      scale_color_cpal(\"main_3\") +\n      labs(\n        title = \"Weight vs. Fuel Efficiency\",\n        x = \"Weight (1000 lbs)\",\n        y = \"Miles per Gallon\",\n        color = \"Cylinders\"\n      ) +\n      theme_cpal()\n  })\n\n  # Data table\n  output$data_table &lt;- renderReactable({\n    cpal_table_reactable(\n      filtered_data(),\n      searchable = TRUE,\n      pagination = TRUE,\n      page_size = 15\n    )\n  })\n}\n\nshinyApp(ui, server)"
-  },
-  {
-    "objectID": "shiny-dashboards.html#deployment",
-    "href": "shiny-dashboards.html#deployment",
-    "title": "Shiny Dashboards",
-    "section": "Deployment",
-    "text": "Deployment\n\nDeploying to shinyapps.io\n# Ensure all dependencies are listed\nrsconnect::deployApp(\n  appDir = \".\",\n  appFiles = c(\n    \"app.R\",\n    \"www/\",\n    \"_brand.yml\"\n  )\n)\n\n\nUsing renv\n# Initialize renv\nrenv::init()\n\n# Snapshot dependencies\nrenv::snapshot()"
-  },
-  {
-    "objectID": "shiny-dashboards.html#troubleshooting",
-    "href": "shiny-dashboards.html#troubleshooting",
-    "title": "Shiny Dashboards",
+    "objectID": "project-setup.html#troubleshooting",
+    "href": "project-setup.html#troubleshooting",
+    "title": "Project Setup",
     "section": "Troubleshooting",
-    "text": "Troubleshooting\n\nTheme Not Applying\n# Ensure bslib is loaded\nlibrary(bslib)\n\n# Use page_* functions, not fluidPage\npage_sidebar(...)  # Correct\nfluidPage(...)     # Won't use bslib theme\n\n\nFonts Not Loading\n# Fonts are loaded via Google Fonts in _brand.yml\n# Check internet connectivity for font loading\n\n\nBootstrap Version Issues\n# Ensure using Bootstrap 5\ntheme &lt;- cpal_dashboard_theme()\ntheme$version  # Should be \"5\""
+    "text": "Troubleshooting\nCommon issues when setting up R projects with cpaltemplates.\n\nProject Already Exists\n# Use overwrite to replace\nstart_project(\"existing-project\", overwrite = TRUE)\n\n\nRStudio Doesn’t Open Project\n# Disable auto-open\nstart_project(\"my-project\", open = FALSE)\n\n# Open manually later\nrstudioapi::openProject(\"my-project\")\n\n\nMissing Templates\nIf templates aren’t copying correctly:\n# Check package installation\npackageVersion(\"cpaltemplates\")\n\n# Reinstall if needed\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
   },
   {
-    "objectID": "shiny-dashboards.html#next-steps",
-    "href": "shiny-dashboards.html#next-steps",
-    "title": "Shiny Dashboards",
+    "objectID": "project-setup.html#next-steps",
+    "href": "project-setup.html#next-steps",
+    "title": "Project Setup",
     "section": "Next Steps",
-    "text": "Next Steps\n\nHighcharter Gallery - Interactive charts\nTables - Table styling\nUtilities & Helpers - Brand and asset functions"
+    "text": "Next Steps\nOnce your project is set up, explore these guides to make the most of cpaltemplates:\n\nColors & Palettes - Use CPAL’s color system in your visualizations\nThemes & Styling - Apply consistent themes to your plots\nShiny Dashboards - Build branded interactive dashboards\nggplot2 Gallery - Example charts to get you started"
   },
   {
     "objectID": "tables-styling.html",
@@ -1187,21 +984,21 @@
     "href": "troubleshooting.html",
     "title": "Troubleshooting",
     "section": "",
-    "text": "# Error: package 'cpaltemplates' is not available\nSolution:\n# Install remotes if needed\ninstall.packages(\"remotes\")\n\n# Install with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\n\n# Error: package requires R &gt;= 4.3.0\nSolution:\nUpdate R to version 4.3.0 or higher. Download from CRAN.\n\n\n\n# Error: dependency 'xyz' is not available\nSolution:\n# Install dependencies manually\ninstall.packages(c(\"ggplot2\", \"bslib\", \"gt\", \"reactable\", \"ggiraph\"))\n\n# Then retry\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
+    "text": "This page covers common issues encountered when using cpaltemplates and their solutions. Topics include installation problems, font rendering, theme application, color scales, tables, interactive plots, maps, and performance optimization.\nIf you can’t find a solution here, please report an issue on GitHub."
   },
   {
     "objectID": "troubleshooting.html#installation-issues",
     "href": "troubleshooting.html#installation-issues",
     "title": "Troubleshooting",
-    "section": "",
-    "text": "# Error: package 'cpaltemplates' is not available\nSolution:\n# Install remotes if needed\ninstall.packages(\"remotes\")\n\n# Install with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\n\n# Error: package requires R &gt;= 4.3.0\nSolution:\nUpdate R to version 4.3.0 or higher. Download from CRAN.\n\n\n\n# Error: dependency 'xyz' is not available\nSolution:\n# Install dependencies manually\ninstall.packages(c(\"ggplot2\", \"bslib\", \"gt\", \"reactable\", \"ggiraph\"))\n\n# Then retry\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
+    "section": "Installation Issues",
+    "text": "Installation Issues\n\nPackage Not Found\n# Error: package 'cpaltemplates' is not available\nSolution:\n# Install remotes if needed\ninstall.packages(\"remotes\")\n\n# Install with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\nR Version Error\n# Error: package requires R &gt;= 4.3.0\nSolution:\nUpdate R to version 4.3.0 or higher. Download from CRAN.\n\n\nDependency Conflicts\n# Error: dependency 'xyz' is not available\nSolution:\n# Install dependencies manually\ninstall.packages(c(\"ggplot2\", \"bslib\", \"gt\", \"reactable\", \"highcharter\"))\n\n# Then retry\nremotes::install_github(\"childpovertyactionlab/cpaltemplates\")"
   },
   {
     "objectID": "troubleshooting.html#font-issues",
     "href": "troubleshooting.html#font-issues",
     "title": "Troubleshooting",
     "section": "Font Issues",
-    "text": "Font Issues\n\nFonts Not Rendering\nSymptoms:\n\nPlots show system fonts instead of Inter/Poppins\nWarning: “font family not found”\n\nSolutions:\n# 1. Run font setup\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# 2. Check font availability\nsysfonts::font_families()\n\n# 3. Verify showtext is enabled\nlibrary(showtext)\nshowtext_auto()\n\n# 4. Check what font is being used\ncpal_font_family(setup = TRUE)\n\n\nInteractive Plot Fonts\nSymptoms:\n\nggiraph plots show wrong fonts\nFonts work in static plots but not interactive\n\nSolutions:\n# Install required packages\ninstall.packages(c(\"gdtools\", \"systemfonts\"))\n\n# Register fonts for interactive use\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}\n\n\nPDF Font Issues\nSymptoms:\n\nFonts don’t appear in PDF output\nPDF shows rectangles instead of text\n\nSolutions:\n# Use cairo device for better font support\nggsave(\"plot.pdf\", plot, device = cairo_pdf)\n\n# Or use showtext\nlibrary(showtext)\nshowtext_auto()\nggsave(\"plot.pdf\", plot)"
+    "text": "Font Issues\n\nFonts Not Rendering\nSymptoms:\n\nPlots show system fonts instead of Inter/Roboto\nWarning: “font family not found”\n\nSolutions:\n# 1. Run font setup\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# 2. Check font availability\nsysfonts::font_families()\n\n# 3. Verify showtext is enabled\nlibrary(showtext)\nshowtext_auto()\n\n# 4. Check what font is being used\ncpal_font_family(setup = TRUE)\n\n\nPDF Font Issues\nSymptoms:\n\nFonts don’t appear in PDF output\nPDF shows rectangles instead of text\n\nSolutions:\n# Use cairo device for better font support\nggsave(\"plot.pdf\", plot, device = cairo_pdf)\n\n# Or use showtext\nlibrary(showtext)\nshowtext_auto()\nggsave(\"plot.pdf\", plot)"
   },
   {
     "objectID": "troubleshooting.html#theme-issues",
@@ -1225,11 +1022,11 @@
     "text": "Table Issues\n\nGT Table Not Displaying\nSymptoms:\n\nTable doesn’t render in viewer\nError about gt package\n\nSolutions:\n# 1. Install gt\ninstall.packages(\"gt\")\n\n# 2. Verify installation\nlibrary(gt)\n\n# 3. Check data is a data frame\nclass(your_data)  # Should be \"data.frame\" or \"tbl_df\"\n\n\nReactable Not Interactive\nSymptoms:\n\nTable appears static\nNo search/pagination\n\nSolutions:\n# 1. Install reactable\ninstall.packages(\"reactable\")\n\n# 2. In Shiny, use correct output function\n# UI:\nreactableOutput(\"table\")\n\n# Server:\noutput$table &lt;- renderReactable({\n  cpal_table_reactable(data)\n})"
   },
   {
-    "objectID": "troubleshooting.html#interactive-plot-issues",
-    "href": "troubleshooting.html#interactive-plot-issues",
+    "objectID": "troubleshooting.html#interactive-chart-issues-highcharter",
+    "href": "troubleshooting.html#interactive-chart-issues-highcharter",
     "title": "Troubleshooting",
-    "section": "Interactive Plot Issues",
-    "text": "Interactive Plot Issues\n\nggiraph Not Working\nSymptoms:\n\nPlot is static instead of interactive\nTooltips don’t appear\n\nSolutions:\n# 1. Install ggiraph\ninstall.packages(\"ggiraph\")\n\n# 2. Use interactive geoms\ngeom_point_interactive()  # Correct\ngeom_point()              # Won't be interactive\n\n# 3. Wrap with cpal_interactive()\np &lt;- ggplot(data, aes(x, y)) +\n  geom_point_interactive(aes(tooltip = label)) +\n  theme_cpal()\n\ncpal_interactive(p)  # This renders it interactive\n\n\nInteractive in Shiny\n# Use girafeOutput and renderGirafe\n# UI:\ngirafeOutput(\"plot\")\n\n# Server:\noutput$plot &lt;- renderGirafe({\n  p &lt;- ggplot(...) +\n    geom_point_interactive(...)\n  cpal_interactive(p)\n})"
+    "section": "Interactive Chart Issues (Highcharter)",
+    "text": "Interactive Chart Issues (Highcharter)\nFor interactive charts, cpaltemplates uses Highcharter. See the Highcharter Gallery for examples and Themes & Styling for theming details.\n\nHighcharter Not Rendering\nSymptoms:\n\nChart doesn’t appear\nError about highcharter package\n\nSolutions:\n# 1. Install highcharter\ninstall.packages(\"highcharter\")\n\n# 2. Verify installation\nlibrary(highcharter)\n\n# 3. Check basic chart works\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg))\n\n\nCPAL Theme Not Applying\nSymptoms:\n\nChart shows default Highcharts styling\nCPAL colors not appearing\n\nSolutions:\n# Apply CPAL theme to chart\nhchart(data, \"bar\", hcaes(x = category, y = value)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal(\"main\") |&gt;\n  hc_add_cpal_logo()\n\n# For dark mode\nhchart(data, \"bar\", hcaes(x = category, y = value)) |&gt;\n  hc_cpal_theme(\"dark\") |&gt;\n  hc_add_cpal_logo(mode = \"dark\")\n\n\nHighcharter in Shiny\n# UI:\nhighchartOutput(\"chart\")\n\n# Server:\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_cpal_theme() |&gt;\n    hc_colors_cpal(\"main\")\n})"
   },
   {
     "objectID": "troubleshooting.html#map-issues",
@@ -1257,7 +1054,7 @@
     "href": "troubleshooting.html#performance-issues",
     "title": "Troubleshooting",
     "section": "Performance Issues",
-    "text": "Performance Issues\n\nSlow Rendering\nSolutions:\n# 1. Reduce DPI for drafts\nsave_cpal_plot(p, \"draft.png\", dpi = 100)\n\n# 2. Simplify geometries for maps\ngeo_simple &lt;- sf::st_simplify(geo_data, dTolerance = 100)\n\n# 3. Sample large datasets\ndata_sample &lt;- dplyr::slice_sample(large_data, n = 1000)\n\n# 4. Use smaller SVG for interactive\ncpal_interactive(p, width_svg = 6, height_svg = 4)\n\n\nMemory Issues\n# Clear environment\nrm(list = ls())\ngc()\n\n# Use data.table for large files\nlibrary(data.table)\ndata &lt;- fread(\"large_file.csv\")"
+    "text": "Performance Issues\n\nSlow Rendering\nSolutions:\n# 1. Reduce DPI for drafts\nsave_cpal_plot(p, \"draft.png\", dpi = 100)\n\n# 2. Simplify geometries for maps\ngeo_simple &lt;- sf::st_simplify(geo_data, dTolerance = 100)\n\n# 3. Sample large datasets\ndata_sample &lt;- dplyr::slice_sample(large_data, n = 1000)\n\n# 4. Set chart dimensions for Highcharter\nhchart(...) |&gt;\n  hc_chart(height = 350)\n\n\nMemory Issues\n# Clear environment\nrm(list = ls())\ngc()\n\n# Use data.table for large files\nlibrary(data.table)\ndata &lt;- fread(\"large_file.csv\")"
   },
   {
     "objectID": "troubleshooting.html#getting-help",
@@ -1271,7 +1068,7 @@
     "href": "troubleshooting.html#quick-fixes-checklist",
     "title": "Troubleshooting",
     "section": "Quick Fixes Checklist",
-    "text": "Quick Fixes Checklist\n\nIs cpaltemplates loaded? library(cpaltemplates)\nAre fonts set up? setup_cpal_google_fonts()\nIs the theme applied? theme_cpal() in plot\nAre colors mapped? aes(color = ...) present\nIs scale added? scale_color_cpal() in plot\nFor interactive: using _interactive() geoms?\nFor Shiny: using page_*() functions?\nFor maps: is data an sf object?"
+    "text": "Quick Fixes Checklist\n\nIs cpaltemplates loaded? library(cpaltemplates)\nAre fonts set up? setup_cpal_google_fonts()\nIs the theme applied? theme_cpal() in plot\nAre colors mapped? aes(color = ...) present\nIs scale added? scale_color_cpal() in plot\nFor Highcharter: applied hc_cpal_theme()?\nFor Shiny: using page_*() functions?\nFor maps: is data an sf object?"
   },
   {
     "objectID": "troubleshooting.html#see-also",
