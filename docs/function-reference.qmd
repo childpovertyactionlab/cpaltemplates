@@ -3,16 +3,26 @@ title: "Function Reference"
 subtitle: "Complete index of all exported functions"
 ---
 
+This page provides a complete index of all exported functions in cpaltemplates, organized by category. Use the navigation below to jump to specific sections, or browse the full list for function signatures and descriptions.
+
+::: {.status-legend}
+<span>[✓]{.status-ready} Ready to use</span>
+<span>[●]{.status-dev} In development</span>
+<span>[✗]{.status-revamp} Under review</span>
+:::
+
+---
+
 ## Quick Navigation
 
 - [Color System](#color-system) (22 functions)
 - [Theme System](#theme-system) (11 functions)
-- [Table Functions](#table-functions) (3 functions)
+- [Table Functions](#table-functions) (1 function)
 - [Highcharter Functions](#highcharter-functions) (18 functions)
 - [Map Functions](#map-functions) (2 functions)
-- [Project Scaffolding](#project-scaffolding) (9 functions)
+- [Project Scaffolding](#project-scaffolding) (8 functions)
 - [Brand & Asset Management](#brand-asset-management) (4 functions)
-- [Utility Functions](#utility-functions) (7 functions)
+- [Utility Functions](#utility-functions) (6 functions)
 - [Shiny/Dashboard Functions](#shinydashboard-functions) (4 functions)
 
 ---
@@ -21,53 +31,53 @@ subtitle: "Complete index of all exported functions"
 
 ### Core Color Functions
 
-| Function | Description |
-|----------|-------------|
-| `cpal_colors()` | Main entry point for accessing CPAL colors and palettes |
-| `cpal_color()` | Get a single color by name |
-| `cpal_colors_primary()` | Returns 5 core brand colors |
-| `cpal_colors_extended()` | Returns all 17+ colors including shades |
-| `cpal_get_color()` | Get single color by exact name |
-| `cpal_get_primary_color()` | Returns primary brand color (teal) |
-| `cpal_palette()` | Internal palette wrapper for scale functions |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_colors()` | Main entry point for accessing CPAL colors and palettes |
+| [✓]{.status-ready} | `cpal_color()` | Get a single color by name |
+| [✓]{.status-ready} | `cpal_colors_primary()` | Returns 5 core brand colors |
+| [✓]{.status-ready} | `cpal_colors_extended()` | Returns all 17+ colors including shades |
+| [✓]{.status-ready} | `cpal_get_color()` | Get single color by exact name |
+| [✓]{.status-ready} | `cpal_get_primary_color()` | Returns primary brand color (teal) |
+| [✓]{.status-ready} | `cpal_palette()` | Internal palette wrapper for scale functions |
 
 ### Palette Access
 
-| Function | Description |
-|----------|-------------|
-| `cpal_palettes()` | Unified accessor for all palettes |
-| `cpal_palettes_sequential()` | Returns 6 sequential palettes |
-| `cpal_palettes_diverging()` | Returns 3 diverging palettes |
-| `cpal_palettes_categorical()` | Returns 7 categorical palettes |
-| `list_cpal_palettes()` | List all available palette names |
-| `view_cpal_palettes()` | Visual display of palettes |
-| `quick_palette()` | Quick console preview |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_palettes()` | Unified accessor for all palettes |
+| [✓]{.status-ready} | `cpal_palettes_sequential()` | Returns 6 sequential palettes |
+| [✓]{.status-ready} | `cpal_palettes_diverging()` | Returns 3 diverging palettes |
+| [✓]{.status-ready} | `cpal_palettes_categorical()` | Returns 7 categorical palettes |
+| [✓]{.status-ready} | `list_cpal_palettes()` | List all available palette names |
+| [✓]{.status-ready} | `view_cpal_palettes()` | Visual display of palettes |
+| [✓]{.status-ready} | `quick_palette()` | Quick console preview |
 
 ### Color Validation
 
-| Function | Description |
-|----------|-------------|
-| `validate_color_contrast()` | Check WCAG contrast requirements |
-| `validate_brand_colors()` | Check all colors for accessibility |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `validate_color_contrast()` | Check WCAG contrast requirements |
+| [✓]{.status-ready} | `validate_brand_colors()` | Check all colors for accessibility |
 
 ### Color Interpolation
 
-| Function | Description |
-|----------|-------------|
-| `cpal_color_ramp()` | Generate gradient between two colors |
-| `cpal_color_gradient()` | Create gradient through multiple colors |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_color_ramp()` | Generate gradient between two colors |
+| [✓]{.status-ready} | `cpal_color_gradient()` | Create gradient through multiple colors |
 
 ### ggplot2 Scales
 
-| Function | Description |
-|----------|-------------|
-| `scale_color_cpal()` | Discrete/continuous color scale |
-| `scale_fill_cpal()` | Discrete/continuous fill scale |
-| `scale_color_cpal_c()` | Continuous color scale |
-| `scale_fill_cpal_c()` | Continuous fill scale |
-| `scale_color_cpal_d()` | Discrete color scale |
-| `scale_fill_cpal_d()` | Discrete fill scale |
-| `scale_colour_cpal()` | British spelling alias |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `scale_color_cpal()` | Discrete/continuous color scale |
+| [✓]{.status-ready} | `scale_fill_cpal()` | Discrete/continuous fill scale |
+| [✓]{.status-ready} | `scale_color_cpal_c()` | Continuous color scale |
+| [✓]{.status-ready} | `scale_fill_cpal_c()` | Continuous fill scale |
+| [✓]{.status-ready} | `scale_color_cpal_d()` | Discrete color scale |
+| [✓]{.status-ready} | `scale_fill_cpal_d()` | Discrete fill scale |
+| [✓]{.status-ready} | `scale_colour_cpal()` | British spelling alias |
 
 ---
 
@@ -75,38 +85,40 @@ subtitle: "Complete index of all exported functions"
 
 ### ggplot2 Themes
 
-| Function | Description |
-|----------|-------------|
-| `theme_cpal()` | Main CPAL theme with full customization |
-| `theme_cpal_minimal()` | Minimal variant with reduced elements |
-| `theme_cpal_classic()` | Traditional styling with axis lines |
-| `theme_cpal_dark()` | Dark background variant |
-| `theme_cpal_print()` | Print-optimized theme |
-| `theme_cpal_map()` | Geographic visualization theme |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `theme_cpal()` | Main CPAL theme with full customization |
+| [✗]{.status-revamp} | `theme_cpal_minimal()` | Minimal variant with reduced elements |
+| [✗]{.status-revamp} | `theme_cpal_classic()` | Traditional styling with axis lines |
+| [✓]{.status-ready} | `theme_cpal_dark()` | Dark background variant |
+| [✗]{.status-revamp} | `theme_cpal_print()` | Print-optimized theme |
+| [✗]{.status-revamp} | `theme_cpal_map()` | Geographic visualization theme |
 
 ### Theme Switching (Shiny)
 
-| Function | Description |
-|----------|-------------|
-| `theme_cpal_switch()` | Returns light or dark theme based on mode |
-| `make_theme_reactive()` | Creates reactive theme for Shiny apps |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `theme_cpal_switch()` | Returns light or dark theme based on mode |
+| [✓]{.status-ready} | `make_theme_reactive()` | Creates reactive theme for Shiny apps |
 
 ### Theme Management
 
-| Function | Description |
-|----------|-------------|
-| `set_theme_cpal()` | Set CPAL theme as session default |
-| `preview_cpal_themes()` | Visual comparison of all themes |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `set_theme_cpal()` | Set CPAL theme as session default |
+| [✓]{.status-ready} | `preview_cpal_themes()` | Visual comparison of all themes |
 
 ---
 
 ## Table Functions {#table-functions}
 
-| Function | Description |
-|----------|-------------|
-| `cpal_table()` | Quick CPAL-styled gt table |
-| `cpal_table_gt()` | Publication-quality static table |
-| `cpal_table_reactable()` | Interactive searchable table |
+::: {.callout-note}
+Table functions are currently under review. See [Tables](tables-styling.qmd) for current documentation.
+:::
+
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [●]{.status-dev} | `cpal_table_reactable()` | Interactive searchable table with CPAL styling |
 
 ---
 
@@ -114,94 +126,96 @@ subtitle: "Complete index of all exported functions"
 
 ### Theme Functions
 
-| Function | Description |
-|----------|-------------|
-| `hc_theme_cpal_light()` | Highcharter theme for light mode |
-| `hc_theme_cpal_dark()` | Highcharter theme for dark mode |
-| `hc_theme_cpal_switch()` | Returns appropriate theme based on mode |
-| `hc_cpal_theme()` | Apply CPAL theme to a chart |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_theme_cpal_light()` | Highcharter theme for light mode |
+| [✓]{.status-ready} | `hc_theme_cpal_dark()` | Highcharter theme for dark mode |
+| [✓]{.status-ready} | `hc_theme_cpal_switch()` | Returns appropriate theme based on mode |
+| [✓]{.status-ready} | `hc_cpal_theme()` | Apply CPAL theme to a chart |
 
 ### Color Functions
 
-| Function | Description |
-|----------|-------------|
-| `hc_colors_cpal()` | Apply CPAL color palette to chart series |
-| `hc_colorAxis_cpal()` | Apply sequential/diverging gradient to color axis |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_colors_cpal()` | Apply CPAL color palette to chart series |
+| [✓]{.status-ready} | `hc_colorAxis_cpal()` | Apply sequential/diverging gradient to color axis |
 
 ### Formatting Helpers
 
-| Function | Description |
-|----------|-------------|
-| `hc_cpal_number_format()` | Set global Highcharts number formatting |
-| `hc_tooltip_cpal()` | Create formatted tooltips with prefix/suffix |
-| `hc_yaxis_cpal()` | Format y-axis with scaling and labels |
-| `hc_linetype_cpal()` | Toggle between line and spline styles |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_cpal_number_format()` | Set global Highcharts number formatting |
+| [✓]{.status-ready} | `hc_tooltip_cpal()` | Create formatted tooltips with prefix/suffix |
+| [✓]{.status-ready} | `hc_yaxis_cpal()` | Format y-axis with scaling and labels |
+| [✓]{.status-ready} | `hc_linetype_cpal()` | Toggle between line and spline styles |
 
 ### Chart Type Helpers
 
-| Function | Description |
-|----------|-------------|
-| `hc_histogram_cpal()` | Create CPAL-styled histogram with auto-binning |
-| `hc_lollipop_cpal()` | Create lollipop chart (stem + dot) |
-| `hc_dumbbell_cpal()` | Create dumbbell chart (compare two values) |
-| `hc_boxplot_style_cpal()` | Apply CPAL styling to boxplot series |
-| `hc_waterfall_colors_cpal()` | Auto-color waterfall chart data |
-| `hc_treemap_data_cpal()` | Build hierarchical treemap data with CPAL colors |
-| `hc_treemap_style_cpal()` | Apply CPAL level styling to treemaps |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_histogram_cpal()` | Create CPAL-styled histogram with auto-binning |
+| [✓]{.status-ready} | `hc_lollipop_cpal()` | Create lollipop chart (stem + dot) |
+| [✓]{.status-ready} | `hc_dumbbell_cpal()` | Create dumbbell chart (compare two values) |
+| [✓]{.status-ready} | `hc_boxplot_style_cpal()` | Apply CPAL styling to boxplot series |
+| [✓]{.status-ready} | `hc_waterfall_colors_cpal()` | Auto-color waterfall chart data |
+| [✓]{.status-ready} | `hc_treemap_data_cpal()` | Build hierarchical treemap data with CPAL colors |
+| [✓]{.status-ready} | `hc_treemap_style_cpal()` | Apply CPAL level styling to treemaps |
 
 ### Logo & Branding
 
-| Function | Description |
-|----------|-------------|
-| `hc_add_cpal_logo()` | Add CPAL logo to Highcharts widget |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_add_cpal_logo()` | Add CPAL logo to Highcharts widget |
 
 ---
 
 ## Map Functions {#map-functions}
 
-| Function | Description |
-|----------|-------------|
-| `cpal_mapgl()` | Create mapgl map with Dallas defaults |
-| `cpal_mapgl_layer()` | Add CPAL-styled layer to mapgl |
+::: {.callout-note}
+Map functions are currently under review. See [Maps & Geographic](maps-geographic.qmd) for current documentation.
+:::
+
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [●]{.status-dev} | `cpal_mapgl()` | Create mapgl map with Dallas defaults |
+| [●]{.status-dev} | `cpal_mapgl_layer()` | Add CPAL-styled layer to mapgl |
 
 ---
 
 ## Project Scaffolding {#project-scaffolding}
 
+::: {.callout-note}
+Template files generated by scaffolding functions are under review and may be updated.
+:::
+
 ### Main Function
 
-| Function | Description |
-|----------|-------------|
-| `start_project()` | Create new project with CPAL structure |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `start_project()` | Create new project with CPAL structure |
 
 ### Component Adders
 
-| Function | Description |
-|----------|-------------|
-| `use_quarto_report()` | Add Quarto report to existing project |
-| `use_quarto_slides()` | Add Quarto slides template |
-| `use_quarto_web()` | Add Quarto website structure |
-| `use_shiny_dashboard()` | Add full-featured dashboard |
-| `use_shiny_app()` | Add simple Shiny app |
-| `use_shiny_theme()` | Add CPAL CSS theme files |
-| `use_targets()` | Add targets pipeline |
-
-### Asset Management
-
-| Function | Description |
-|----------|-------------|
-| `update_cpal_assets()` | Update CSS and images to latest versions |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✗]{.status-revamp} | `use_quarto_report()` | Add Quarto report to existing project |
+| [✗]{.status-revamp} | `use_quarto_slides()` | Add Quarto slides template |
+| [✗]{.status-revamp} | `use_quarto_web()` | Add Quarto website structure |
+| [✗]{.status-revamp} | `use_shiny_dashboard()` | Add full-featured dashboard |
+| [✗]{.status-revamp} | `use_shiny_app()` | Add simple Shiny app |
+| [✗]{.status-revamp} | `use_shiny_theme()` | Add CPAL CSS theme files |
+| [✗]{.status-revamp} | `use_targets()` | Add targets pipeline |
 
 ---
 
 ## Brand & Asset Management {#brand-asset-management}
 
-| Function | Description |
-|----------|-------------|
-| `use_cpal_brand()` | Copy _brand.yml to project |
-| `validate_cpal_brand()` | Validate brand configuration |
-| `get_cpal_asset()` | Get path to package asset |
-| `update_cpal_assets()` | Update project assets |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `use_cpal_brand()` | Copy _brand.yml to project |
+| [✓]{.status-ready} | `validate_cpal_brand()` | Validate brand configuration |
+| [✓]{.status-ready} | `get_cpal_asset()` | Get path to package asset |
+| [✓]{.status-ready} | `update_cpal_assets()` | Update project assets |
 
 ---
 
@@ -209,85 +223,30 @@ subtitle: "Complete index of all exported functions"
 
 ### Font Management
 
-| Function | Description |
-|----------|-------------|
-| `cpal_font_family()` | Get best available CPAL font |
-| `cpal_font_family_fallback()` | Get system fallback font |
-| `setup_cpal_google_fonts()` | Download and register fonts |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_font_family()` | Get best available CPAL font |
+| [✓]{.status-ready} | `cpal_font_family_fallback()` | Get system fallback font |
+| [✓]{.status-ready} | `setup_cpal_google_fonts()` | Download and register fonts |
 
 ### Plot Utilities
 
-| Function | Description |
-|----------|-------------|
-| `save_cpal_plot()` | Save with standard dimensions |
-| `add_cpal_logo()` | Add CPAL logo to ggplot2 plots |
-| `check_plot_accessibility()` | Check accessibility issues |
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `save_cpal_plot()` | Save with standard dimensions |
+| [✓]{.status-ready} | `add_cpal_logo()` | Add CPAL logo to ggplot2 plots |
+| [✓]{.status-ready} | `check_plot_accessibility()` | Check accessibility issues |
 
 ---
 
 ## Shiny/Dashboard Functions {#shinydashboard-functions}
 
-| Function | Description |
-|----------|-------------|
-| `cpal_dashboard_theme()` | Bootstrap 5 theme from _brand.yml |
-| `cpal_shiny()` | Legacy Shiny theme (deprecated) |
-| `cpal_add_scss_enhancements()` | Add enhanced SCSS styling |
-| `cpal_export_scss()` | Export SCSS for custom use |
-
----
-
-## Function Signatures
-
-### Most Used Functions
-
-```r
-# Colors
-cpal_colors(palette = NULL, n = NULL, reverse = FALSE)
-cpal_color(name)
-cpal_colors_primary()
-scale_color_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
-scale_fill_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
-
-# Themes
-theme_cpal(base_size = 16, base_family = NULL, style = "default",
-           grid = "horizontal", axis_line = "x", axis_title = TRUE,
-           legend_position = "bottom")
-set_theme_cpal(style = "default", base_size = 16, ...)
-
-# Theme Switching (Shiny)
-theme_cpal_switch(mode = "light", ...)
-make_theme_reactive(input, toggle_id = "dark_mode_toggle", ...)
-
-# Highcharter
-hc_cpal_theme(hc, mode = "light")
-hc_colors_cpal(hc, palette = "main", n = NULL)
-hc_colorAxis_cpal(hc, type = "sequential", min = NULL, max = NULL)
-hc_tooltip_cpal(hc, decimals = 0, prefix = "", suffix = "")
-hc_yaxis_cpal(hc, title = NULL, prefix = "", suffix = "", divide_by = 1)
-hc_histogram_cpal(data, breaks = 30, title = NULL, ...)
-hc_lollipop_cpal(categories, values, name = "Value", title = NULL, ...)
-hc_dumbbell_cpal(categories, values_start, values_end, ...)
-hc_add_cpal_logo(hc, position = "bottom-right", mode = "light")
-hc_theme_cpal_switch(mode = "light")
-
-# Tables
-cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)
-cpal_table_reactable(data, title = NULL, searchable = TRUE,
-                     pagination = TRUE, page_size = 10, ...)
-
-# Maps
-cpal_mapgl(center = c(-96.797, 32.779), zoom = 10, style = "light", ...)
-cpal_mapgl_layer(map, data, type = "fill", source_layer = NULL, ...)
-
-# Projects
-start_project(name, path = ".", project_type = "analysis",
-              interactive = TRUE, features = NULL, open = TRUE)
-
-# Utilities
-setup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)
-save_cpal_plot(plot, filename, size = "default", dpi = 300, ...)
-add_cpal_logo(plot, position = "top-right", size = 0.09)
-```
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_dashboard_theme()` | Bootstrap 5 theme from _brand.yml |
+| [✓]{.status-ready} | `cpal_shiny()` | Legacy Shiny theme (deprecated) |
+| [✗]{.status-revamp} | `cpal_add_scss_enhancements()` | Add enhanced SCSS styling |
+| [✗]{.status-revamp} | `cpal_export_scss()` | Export SCSS for custom use |
 
 ---
 

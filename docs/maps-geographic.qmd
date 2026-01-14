@@ -3,6 +3,11 @@ title: "Maps & Geographic"
 subtitle: "Creating geographic visualizations with CPAL styling"
 ---
 
+::: {.callout-warning}
+## Under Review
+The map-related functions in cpaltemplates are currently under review. This page will be updated once that review is complete. The functions described here are functional but may be modified in future releases.
+:::
+
 ## Overview
 
 cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps.
@@ -496,6 +501,6 @@ data_simple <- rmapshaper::ms_simplify(data, keep = 0.1)
 
 ## Next Steps
 
-- [Interactive Features](interactive-features.qmd) - More interactive options
+- [Colors & Palettes](colors-palettes.qmd) - Color scales for maps
 - [Themes & Styling](themes-styling.qmd) - Theme customization
-- [Plots & Output](plots-visualizations.qmd) - Saving maps
+- [Troubleshooting](troubleshooting.qmd) - Common issues

@@ -1,0 +1,239 @@
+---
+title: "Tables"
+subtitle: "Interactive tables with CPAL styling"
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(cpaltemplates)
+library(dplyr)
+```
+
+::: {.callout-warning}
+## Under Review
+The table functions documented here are functional but currently under review. The API and styling may be modified in future releases, and this documentation will be updated to reflect those changes.
+:::
+
+cpaltemplates provides `cpal_table_reactable()` for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, web applications, and data exploration where users need to search, sort, filter, and paginate through data.
+
+Reactable tables offer several advantages for interactive contexts: built-in search functionality, column sorting, per-column filtering, pagination for large datasets, and responsive design that works well across devices. The CPAL styling ensures consistent branding while maintaining readability and accessibility.
+
+---
+
+## Reactable Tables
+
+### `cpal_table_reactable()`
+
+Create interactive tables with searching, sorting, and pagination. This function wraps the reactable package with CPAL styling and provides additional features like row highlighting and data bars.
+
+```
+cpal_table_reactable(
+
+data,
+title = NULL,
+subtitle = NULL,
+source = NULL,
+highlight_columns = NULL,
+bold_rows = NULL,
+bold_only_rows = NULL,
+data_bar_columns = NULL,
+searchable = TRUE,
+pagination = TRUE,
+page_size = 10,
+sortable = TRUE,
+filterable = FALSE,
+show_page_size_options = TRUE,
+striped = FALSE,
+compact = FALSE,
+...
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `data` | Data frame to display |
+| `title` | Optional table title |
+| `subtitle` | Optional table subtitle |
+| `source` | Optional source attribution in footer |
+| `highlight_columns` | Column names to apply highlighting |
+| `bold_rows` | Column name with 1/0 values; 1 triggers highlighted background |
+| `bold_only_rows` | Column name with 1/0 values; 1 triggers bold text only |
+| `data_bar_columns` | Column names to render as inline data bars |
+| `searchable` | Enable global search bar (default: TRUE) |
+| `pagination` | Enable pagination (default: TRUE) |
+| `page_size` | Rows per page (default: 10) |
+| `sortable` | Enable column sorting (default: TRUE) |
+| `filterable` | Enable per-column filtering (default: FALSE) |
+| `show_page_size_options` | Show rows per page selector (default: TRUE) |
+| `striped` | Enable zebra-striping for rows (default: FALSE) |
+| `compact` | Use reduced cell padding (default: FALSE) |
+| `...` | Additional arguments passed to `reactable::reactable()` |
+
+---
+
+## Basic Table
+
+The simplest usage creates an interactive table with search and pagination enabled by default.
+
+```{r}
+#| label: reactable-basic
+#| code-fold: false
+
+mtcars |>
+
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp, wt, qsec) |>
+  head(15) |>
+  cpal_table_reactable(
+    title = "Vehicle Database",
+    subtitle = "Sample from mtcars dataset",
+    source = "Motor Trend, 1974"
+  )
+```
+
+---
+
+## Column Filtering
+
+Enable per-column filters for more granular data exploration. Users can filter each column independently while still using the global search.
+
+```{r}
+#| label: reactable-filter
+#| code-fold: false
+
+mtcars |>
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp, wt) |>
+  cpal_table_reactable(
+    title = "Filterable Table",
+    subtitle = "Use column filters to explore data",
+    filterable = TRUE,
+    page_size = 10
+  )
+```
+
+---
+
+## Row Highlighting
+
+Use `bold_rows` to highlight entire rows based on a condition. The column should contain 1/0 values where 1 triggers a highlighted background.
+
+```{r}
+#| label: reactable-bold-rows
+#| code-fold: false
+
+mtcars |>
+  mutate(
+    car = rownames(mtcars),
+    high_performance = ifelse(hp > 200, 1, 0)
+  ) |>
+  select(car, mpg, cyl, hp, wt, high_performance) |>
+  head(15) |>
+  cpal_table_reactable(
+    title = "High Performance Vehicles Highlighted",
+    subtitle = "Rows with HP > 200 are highlighted",
+    bold_rows = "high_performance",
+    page_size = 15
+  )
+```
+
+---
+
+## Striped and Compact
+
+Use `striped = TRUE` for zebra-striping to improve readability of dense tables. Use `compact = TRUE` for reduced cell padding when space is limited.
+
+```{r}
+#| label: reactable-striped
+#| code-fold: false
+
+mtcars |>
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp, wt, qsec, drat) |>
+  head(12) |>
+  cpal_table_reactable(
+    title = "Striped Compact Table",
+    subtitle = "Zebra-striping with reduced padding",
+    striped = TRUE,
+    compact = TRUE,
+    page_size = 12
+  )
+```
+
+---
+
+## Pagination Options
+
+Control pagination behavior with `page_size` and `show_page_size_options`. For smaller datasets, you may want to disable pagination entirely.
+
+```{r}
+#| label: reactable-pagination
+#| code-fold: false
+
+# Small dataset - no pagination needed
+mtcars |>
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp) |>
+  head(6) |>
+  cpal_table_reactable(
+    title = "Small Dataset",
+    subtitle = "Pagination disabled for small tables",
+    pagination = FALSE,
+    searchable = FALSE
+  )
+```
+
+---
+
+## Complete Example
+
+Combining multiple features for a comprehensive data exploration table.
+
+```{r}
+#| label: complete-example
+#| code-fold: false
+
+# Prepare data with highlight column
+vehicle_data <- mtcars |>
+  mutate(
+    car = rownames(mtcars),
+    efficiency_flag = ifelse(mpg > 25, 1, 0),
+    transmission = ifelse(am == 1, "Manual", "Automatic")
+  ) |>
+  select(car, transmission, mpg, cyl, hp, wt, efficiency_flag)
+
+vehicle_data |>
+  cpal_table_reactable(
+    title = "Complete Vehicle Analysis",
+    subtitle = "Searchable, filterable table with row highlighting",
+    source = "Motor Trend Car Road Tests (1974)",
+    bold_rows = "efficiency_flag",
+    filterable = TRUE,
+    striped = TRUE,
+    page_size = 10
+  )
+```
+
+---
+
+## When to Use Reactable Tables
+
+Reactable tables are best suited for:
+
+- **Dashboards** - Interactive exploration of data
+- **Web applications** - User-facing data displays
+- **Data exploration** - When users need to search, sort, and filter
+- **Large datasets** - Pagination handles many rows efficiently
+- **Shiny apps** - Full interactivity in reactive contexts
+
+For static reports, PDFs, or publications where interactivity isn't needed, consider using the `gt` package directly with custom CPAL styling.
+
+---
+
+## Next Steps
+
+- [Shiny Dashboards](shiny-dashboards.qmd) - Using tables in dashboards
+- [Themes & Styling](themes-styling.qmd) - Consistent styling across visualizations

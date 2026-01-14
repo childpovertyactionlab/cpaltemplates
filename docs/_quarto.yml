@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: .
+  output-dir: _site
 
 website:
   title: "cpaltemplates"
@@ -36,10 +36,8 @@ website:
             href: colors-palettes.qmd
           - text: "Themes & Styling"
             href: themes-styling.qmd
-          - text: "Plots & Output"
-            href: plots-visualizations.qmd
           - text: "Tables (GT & Reactable)"
-            href: tables-gt.qmd
+            href: tables-styling.qmd
           - text: "---"
           - text: "Interactive & Web"
           - text: "Maps & Geographic"
@@ -50,10 +48,10 @@ website:
           - text: "Utilities"
           - text: "Helper Functions"
             href: utilities-helpers.qmd
-      - text: "Reference"
-        href: function-reference.qmd
       - text: "Troubleshooting"
         href: troubleshooting.qmd
+      - text: "Reference"
+        href: function-reference.qmd
 
   page-footer:
     center: "Child Poverty Action Lab - Data Science Team"

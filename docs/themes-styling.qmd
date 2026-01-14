@@ -1,6 +1,6 @@
 ---
 title: "Themes & Styling"
-subtitle: "Consistent ggplot2 themes for CPAL visualizations"
+subtitle: "CPAL theming for ggplot2 and Highcharter visualizations"
 ---
 
 ```{r}
@@ -11,247 +11,125 @@ library(ggplot2)
 library(dplyr)
 ```
 
-## Overview
+cpaltemplates provides consistent theming for both static (ggplot2) and interactive (Highcharter) visualizations. This page covers theme selection by use case, customization options, and utility functions for saving and branding your plots.
 
-The cpaltemplates theme system provides 11 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL's visual identity.
+For chart-specific examples, see the [ggplot2 Gallery](gallery-ggplot2.qmd) and [Highcharter Gallery](gallery-highcharter.qmd).
 
 ---
 
 ## Quick Start
 
+### ggplot2
+
 ```{r}
-#| label: quick-start
-#| fig-cap: "Basic plot with theme_cpal()"
-ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#007A8C", size = 3) +
-  labs(
-    title = "Vehicle Fuel Efficiency",
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon"
-  ) +
+#| label: quick-start-ggplot
+#| fig-cap: "Basic ggplot2 with theme_cpal()"
+ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  scale_color_cpal("main_3") +
+  labs(title = "Fuel Efficiency by Weight", color = "Cylinders") +
   theme_cpal()
+```
+
+### Highcharter
+
+```r
+library(highcharter)
+
+hchart(mtcars, "scatter", hcaes(x = wt, y = mpg, group = factor(cyl))) |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main_3") |>
+  hc_title(text = "Fuel Efficiency by Weight")
 ```
 
 ---
 
-## Theme Variants
+## Theme Selection by Use Case
+
+| Use Case | ggplot2 Theme | Highcharter Theme |
+|----------|---------------|-------------------|
+| General purpose | `theme_cpal()` | `hc_cpal_theme()` |
+| Dark mode / presentations | `theme_cpal_dark()` | `hc_cpal_theme("dark")` |
+| Print publications | `theme_cpal_print()` | - |
+| Academic papers | `theme_cpal_classic()` | - |
+| Minimal / clean | `theme_cpal_minimal()` | - |
+| Maps | `theme_cpal_map()` | - |
+| Shiny (reactive) | `theme_cpal_switch()` | `hc_theme_cpal_switch()` |
+
+---
+
+## ggplot2 Themes
 
 ### `theme_cpal()` - Default Theme
 
 The primary CPAL theme with full customization options.
 
-```{r}
-#| label: theme-cpal-default
-#| fig-cap: "Default theme_cpal()"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Fuel Efficiency by Weight",
-    subtitle = "Data from mtcars dataset",
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon",
-    color = "Cylinders"
-  ) +
-  theme_cpal()
+```r
+theme_cpal(
+  base_size = 16,
+  base_family = NULL,
+  style = "default",
+
+  grid = "horizontal",
+  axis_line = "x",
+  axis_title = TRUE,
+  legend_position = "bottom"
+)
 ```
 
-**Customization options:**
+#### Parameters
 
-```{r}
-#| label: theme-cpal-options
-#| fig-cap: "theme_cpal() with grid on both axes"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3) +
-  scale_color_cpal("main_3") +
-  labs(title = "With Both Grid Lines") +
-  theme_cpal(grid = "both", legend_position = "right")
-```
+| Argument | Options | Default |
+|----------|---------|---------|
+| `base_size` | Numeric (font size in pts) | 16 |
+| `grid` | "horizontal", "vertical", "both", "none" | "horizontal" |
+| `axis_line` | "x", "y", "both", "none" | "x" |
+| `legend_position` | "bottom", "right", "top", "left", "none" | "bottom" |
 
 ---
 
-### `theme_cpal_minimal()` - Clean Design
+### Theme Variants
 
-A minimal variant with reduced visual elements:
+::: {.callout-note}
+`theme_cpal_minimal()`, `theme_cpal_classic()`, `theme_cpal_print()`, and `theme_cpal_map()` are currently under review and may be modified.
+:::
 
-```{r}
-#| label: theme-minimal
-#| fig-cap: "theme_cpal_minimal() for clean designs"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Minimal Theme",
-    subtitle = "Clean, simple design"
-  ) +
-  theme_cpal_minimal()
-```
+| Theme | Description | Best For |
+|-------|-------------|----------|
+| `theme_cpal()` | Full-featured default | General use |
+| `theme_cpal_dark()` | Dark background | Presentations, dark mode |
+| `theme_cpal_minimal()` | Reduced visual elements | Clean, simple charts |
+| `theme_cpal_classic()` | Axis lines on both axes | Academic style |
+| `theme_cpal_print()` | High contrast | Print publications |
+| `theme_cpal_map()` | No axes, minimal chrome | Geographic visualizations |
 
 ---
 
-### `theme_cpal_classic()` - Traditional Style
-
-Traditional styling with axis lines on both x and y:
-
-```{r}
-#| label: theme-classic
-#| fig-cap: "theme_cpal_classic() with axis lines"
-ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#007A8C", size = 3) +
-  geom_smooth(method = "lm", color = "#004855", fill = "#D8EFF4") +
-  labs(
-    title = "Classic Theme",
-    subtitle = "Traditional academic style"
-  ) +
-  theme_cpal_classic()
-```
-
----
-
-### `theme_cpal_dark()` - Dark Background
-
-Dark background variant for presentations and dark-mode applications:
+### `theme_cpal_dark()` - Dark Mode
 
 ```{r}
 #| label: theme-dark
-#| fig-cap: "theme_cpal_dark() for presentations"
+#| fig-cap: "Dark theme for presentations"
 ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point(size = 3) +
   scale_color_cpal("main_3") +
-  labs(
-    title = "Dark Theme",
-    subtitle = "Ideal for presentations",
-    color = "Cylinders"
-  ) +
+  labs(title = "Dark Theme Example", color = "Cylinders") +
   theme_cpal_dark()
 ```
 
 ---
 
-### `theme_cpal_print()` - Print Optimized
-
-Optimized for printing with high contrast:
-
-```{r}
-#| label: theme-print
-#| fig-cap: "theme_cpal_print() for publications"
-ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#004855", size = 2) +
-  labs(
-    title = "Print Theme",
-    subtitle = "Optimized for printing"
-  ) +
-  theme_cpal_print()
-```
-
----
-
-### `theme_cpal_map()` - Geographic Visualizations
-
-Specialized theme for maps (no axes, minimal chrome):
-
-```{r}
-#| label: theme-map-example
-#| fig-cap: "theme_cpal_map() with Texas county boundaries"
-#| message: false
-
-# Get Texas counties from tigris
-if (requireNamespace("tigris", quietly = TRUE) && requireNamespace("sf", quietly = TRUE)) {
-  options(tigris_use_cache = TRUE)
-  tx_counties <- tigris::counties(state = "TX", cb = TRUE, progress_bar = FALSE)
-
-  # Add sample data for coloring
-  set.seed(42)
-  tx_counties$value <- runif(nrow(tx_counties))
-
-  ggplot(tx_counties) +
-    geom_sf(aes(fill = value), color = "white", linewidth = 0.1) +
-    scale_fill_cpal_c("teal_seq_5") +
-    labs(
-      title = "Texas Counties",
-      subtitle = "Example map visualization with theme_cpal_map()",
-      fill = "Value"
-    ) +
-    theme_cpal_map()
-} else {
-  # Fallback if tigris not available
-  ggplot(data.frame(x = rnorm(50), y = rnorm(50), value = runif(50))) +
-    geom_point(aes(x = x, y = y, color = value), size = 4) +
-    scale_color_cpal_c("teal_seq_5") +
-    labs(title = "Map Theme Example", subtitle = "(Install tigris for real map data)") +
-    theme_cpal_map()
-}
-```
-
----
-
-## Theme Comparison
-
-### Side-by-Side Preview
-
-```{r}
-#| label: theme-preview
-#| fig-height: 10
-#| fig-cap: "Comparison of all CPAL themes"
-preview_cpal_themes()
-```
-
----
-
-## Theme Parameters
-
-### `theme_cpal()` Arguments
-
-| Argument | Options | Default |
-|----------|---------|---------|
-| `base_size` | Numeric (font size in pts) | 16 |
-| `base_family` | Font family name | Auto-detected |
-| `style` | "default", "minimal", "classic", "dark" | "default" |
-| `grid` | "horizontal", "vertical", "both", "none" | "horizontal" |
-| `axis_line` | "x", "y", "both", "none" | "x" |
-| `axis_title` | TRUE/FALSE | TRUE |
-| `legend_position` | "bottom", "right", "top", "left", "none" | "bottom" |
-
-### Examples with Different Parameters
-
-```{r}
-#| label: theme-params
-#| fig-cap: "theme_cpal() with custom parameters"
-#| layout-ncol: 2
-#| fig-height: 4
-
-# No grid lines
-p1 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#007A8C") +
-  labs(title = "No Grid") +
-  theme_cpal(grid = "none")
-
-# Vertical grid only
-p2 <- ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point(color = "#007A8C") +
-  labs(title = "Vertical Grid") +
-  theme_cpal(grid = "vertical")
-
-p1
-p2
-```
-
----
-
-## Session-Wide Theme Setting
-
-### `set_theme_cpal()`
+### Session-Wide Theme Setting
 
 Set a CPAL theme as the default for your entire R session:
 
-```{r}
-#| eval: false
+```r
 # Set dark theme for entire session
 set_theme_cpal("dark")
 
 # All subsequent plots use dark theme automatically
 ggplot(mtcars, aes(x = wt, y = mpg)) +
-  geom_point()  # No theme_cpal() needed!
+  geom_point()  # No theme_cpal() needed
 
 # Reset to ggplot2 default
 theme_set(theme_gray())
@@ -259,114 +137,287 @@ theme_set(theme_gray())
 
 ---
 
-## Theme Selection Guide
-
-| Context | Recommended Theme |
-|---------|-------------------|
-| General use | `theme_cpal()` |
-| Simple, clean charts | `theme_cpal_minimal()` |
-| Academic papers | `theme_cpal_classic()` |
-| Slide presentations | `theme_cpal_dark()` |
-| Print publications | `theme_cpal_print()` |
-| Maps | `theme_cpal_map()` |
-| Shiny dark/light mode | `theme_cpal_switch()` |
-
----
-
-## Customizing Theme Elements
-
-You can combine CPAL themes with additional theme modifications:
+### Theme Comparison
 
 ```{r}
-#| label: theme-customization
-#| fig-cap: "Customized theme with centered title"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Centered Title Example",
-    subtitle = "With custom styling"
-  ) +
-  theme_cpal() +
-  theme(
-    plot.title = element_text(hjust = 0.5, color = "#C3257B"),
-    plot.subtitle = element_text(hjust = 0.5)
-  )
+#| label: theme-preview
+#| fig-height: 10
+#| fig-cap: "Comparison of all ggplot2 themes"
+preview_cpal_themes()
 ```
 
 ---
 
-## Complete Examples
+## Highcharter Themes
 
-### Report Chart
+### `hc_cpal_theme()` - Apply Theme to Chart
 
-```{r}
-#| label: report-chart
-#| fig-cap: "Complete report-ready visualization"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3, alpha = 0.8) +
-  geom_smooth(method = "lm", se = FALSE, linewidth = 1) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Vehicle Fuel Efficiency Analysis",
-    subtitle = "Weight vs. MPG with trend lines by cylinder count",
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon",
-    color = "Cylinders",
-    caption = "Source: Motor Trend, 1974"
-  ) +
+Apply CPAL styling to any Highcharter chart.
+
+```r
+hc_cpal_theme(hc, mode = "light")
+```
+
+| Argument | Description |
+|----------|-------------|
+| `hc` | A highchart object |
+| `mode` | "light" or "dark" |
+
+#### Example
+
+```r
+hchart(mtcars, "scatter", hcaes(x = wt, y = mpg)) |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Scatter Plot") |>
+  hc_add_cpal_logo()
+```
+
+---
+
+### Theme Functions
+
+| Function | Description |
+|----------|-------------|
+| `hc_theme_cpal_light()` | Returns light mode theme object |
+| `hc_theme_cpal_dark()` | Returns dark mode theme object |
+| `hc_theme_cpal_switch(mode)` | Returns theme based on mode parameter |
+| `hc_cpal_theme(hc, mode)` | Applies theme to a chart |
+
+---
+
+### `hc_colors_cpal()` - Apply Color Palette
+
+```r
+hc_colors_cpal(hc, palette = "main", n = NULL)
+```
+
+| Argument | Description |
+|----------|-------------|
+| `hc` | A highchart object |
+| `palette` | Palette name (e.g., "main", "main_3", "diverging") |
+| `n` | Number of colors (auto-detected if NULL) |
+
+---
+
+### `hc_add_cpal_logo()` - Add Branding
+
+```r
+hc_add_cpal_logo(hc, position = "bottom-right", mode = "light")
+```
+
+---
+
+## Dark/Light Mode Switching (Shiny)
+
+For Shiny applications that support dark/light mode toggles.
+
+### ggplot2: `theme_cpal_switch()`
+
+```r
+theme_cpal_switch(mode = "light", ...)
+```
+
+```r
+output$plot <- renderPlot({
+  ggplot(data, aes(x, y)) +
+    geom_point() +
+    theme_cpal_switch(input$dark_mode)
+})
+```
+
+### ggplot2: `make_theme_reactive()`
+
+Create a reusable reactive theme:
+
+```r
+server <- function(input, output, session) {
+  current_theme <- make_theme_reactive(input, toggle_id = "dark_mode")
+
+  output$plot1 <- renderPlot({
+    ggplot(data1, aes(x, y)) +
+      geom_point() +
+      current_theme()
+  })
+}
+```
+
+### Highcharter: `hc_theme_cpal_switch()`
+
+```r
+output$chart <- renderHighchart({
+  hchart(data, "column", hcaes(x = x, y = y)) |>
+    hc_add_theme(hc_theme_cpal_switch(input$dark_mode)) |>
+    hc_colors_cpal("main")
+})
+```
+
+---
+
+## Saving & Exporting Plots
+
+### `save_cpal_plot()`
+
+Save plots with standardized CPAL dimensions.
+
+```r
+save_cpal_plot(
+  plot,
+  filename,
+  size = "default",
+  dpi = 300,
+  bg = "white",
+  ...
+)
+```
+
+#### Size Presets
+
+| Preset | Dimensions | Use Case |
+|--------|------------|----------|
+| `"default"` | 8 × 5 | General purpose |
+| `"slide"` | 10 × 5.625 | Presentations (16:9) |
+| `"half"` | 4 × 3 | Half-page figures |
+| `"square"` | 5 × 5 | Social media |
+| `"wide"` | 12 × 4 | Dashboards |
+| `"tall"` | 5 × 8 | Vertical layouts |
+
+#### Examples
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#007A8C") +
   theme_cpal()
-```
 
-### Presentation Slide
+# Default size
+save_cpal_plot(p, "plot.png")
 
-```{r}
-#| label: presentation-chart
-#| fig-cap: "Presentation-ready visualization"
-ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
-  geom_boxplot(alpha = 0.8) +
-  scale_fill_cpal("main_3") +
-  labs(
-    title = "Fuel Efficiency Distribution",
-    x = "Cylinders",
-    y = "Miles per Gallon"
-  ) +
-  theme_cpal_dark(base_size = 18) +
-  theme(legend.position = "none")
+# Presentation slide
+save_cpal_plot(p, "slide.png", size = "slide")
+
+# Custom dimensions
+save_cpal_plot(p, "custom.png", size = c(10, 6))
+
+# High-res print
+save_cpal_plot(p, "print.png", dpi = 600)
+
+# PDF output
+save_cpal_plot(p, "plot.pdf")
 ```
 
 ---
 
-## Troubleshooting
+## Adding Branding
 
-### Fonts Not Rendering Correctly
+### `add_cpal_logo()` - ggplot2
 
-```{r}
-#| eval: false
-# Reset font setup
-setup_cpal_google_fonts(force_refresh = TRUE)
+Add the CPAL logo to any ggplot2 visualization.
 
-# Check font availability
-cpal_font_family(setup = TRUE)
+```r
+add_cpal_logo(
+  plot,
+  position = "top-right",
+  size = 0.09,
+  logo_path = NULL
+)
 ```
 
-### Theme Elements Not Applying
+| Argument | Description |
+|----------|-------------|
+| `position` | "top-right", "top-left", "bottom-right", "bottom-left" |
+| `size` | Logo size as proportion of plot (0-1) |
 
-Ensure `theme_cpal()` is called after other layers but before custom theme modifications:
+**Features:**
+- Auto-detects white logo for dark themes
+- Maintains aspect ratio
+- Places logo outside the plot area
 
 ```{r}
-#| eval: false
-ggplot(...) +
+#| label: logo-example
+#| fig-cap: "Plot with CPAL logo"
+p <- ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#006878", size = 3) +
+  labs(title = "Vehicle Fuel Efficiency") +
+  theme_cpal()
+
+add_cpal_logo(p, position = "bottom-right")
+```
+
+### `hc_add_cpal_logo()` - Highcharter
+
+```r
+hchart(data, "column", hcaes(x = x, y = y)) |>
+  hc_cpal_theme() |>
+  hc_add_cpal_logo(position = "bottom-right")
+```
+
+---
+
+## Accessibility Checking
+
+### `check_plot_accessibility()`
+
+Analyze a plot for accessibility issues.
+
+```r
+check_plot_accessibility(plot, verbose = TRUE)
+```
+
+**Checks performed:**
+- Text size (readable)
+- Color contrast (WCAG standards)
+- Colorblind safety
+- Data-to-ink ratio
+
+```r
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point() +
-  scale_color_cpal() +
-  theme_cpal() +           # Base theme
-  theme(custom = ...)      # Specific overrides after
+  scale_color_cpal("main_3") +
+  theme_cpal()
+
+check_plot_accessibility(p)
+#> ✓ All colors pass WCAG AA
+#> ✓ Color palette is colorblind-safe
+#> Overall: PASS
 ```
+
+---
+
+## Quick Reference
+
+### ggplot2 Functions
+
+| Function | Purpose |
+|----------|---------|
+| `theme_cpal()` | Default CPAL theme |
+| `theme_cpal_dark()` | Dark background theme |
+| `theme_cpal_minimal()` | Minimal styling |
+| `theme_cpal_classic()` | Traditional with axis lines |
+| `theme_cpal_print()` | Print-optimized |
+| `theme_cpal_map()` | Geographic visualizations |
+| `theme_cpal_switch()` | Reactive light/dark switching |
+| `set_theme_cpal()` | Set session default |
+| `preview_cpal_themes()` | Compare all themes |
+| `save_cpal_plot()` | Save with standard dimensions |
+| `add_cpal_logo()` | Add CPAL branding |
+| `check_plot_accessibility()` | Check accessibility |
+
+### Highcharter Functions
+
+| Function | Purpose |
+|----------|---------|
+| `hc_cpal_theme()` | Apply CPAL theme to chart |
+| `hc_theme_cpal_light()` | Light mode theme object |
+| `hc_theme_cpal_dark()` | Dark mode theme object |
+| `hc_theme_cpal_switch()` | Reactive theme switching |
+| `hc_colors_cpal()` | Apply CPAL color palette |
+| `hc_add_cpal_logo()` | Add CPAL branding |
 
 ---
 
 ## Next Steps
 
-- [Colors & Palettes](colors-palettes.qmd) - Learn about CPAL color scales
-- [Plots & Output](plots-visualizations.qmd) - Saving and exporting plots
-- [Shiny Dashboards](shiny-dashboards.qmd) - Theming Shiny applications
+- [ggplot2 Gallery](gallery-ggplot2.qmd) - Static chart examples
+- [Highcharter Gallery](gallery-highcharter.qmd) - Interactive chart examples
+- [Colors & Palettes](colors-palettes.qmd) - CPAL color system
+- [Shiny Dashboards](shiny-dashboards.qmd) - Dashboard theming

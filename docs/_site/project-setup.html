@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.549">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>cpaltemplates - Project Setup</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./CPAL_Logo_White.png" alt="Child Poverty Action Lab" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">cpaltemplates</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./getting-started.html"> 
+<span class="menu-text">Getting Started</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-galleries" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Galleries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-galleries">    
+        <li>
+    <a class="dropdown-item" href="./gallery-ggplot2.html">
+ <span class="dropdown-text">ggplot2 Chart Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallery-highcharter.html">
+ <span class="dropdown-text">Highcharter Chart Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Guides</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-guides">    
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Setup &amp; Infrastructure</li>
+        <li>
+    <a class="dropdown-item" href="./project-setup.html">
+ <span class="dropdown-text">Project Setup</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Visualization</li>
+        <li>
+    <a class="dropdown-item" href="./colors-palettes.html">
+ <span class="dropdown-text">Colors &amp; Palettes</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./themes-styling.html">
+ <span class="dropdown-text">Themes &amp; Styling</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./tables-styling.html">
+ <span class="dropdown-text">Tables (GT &amp; Reactable)</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Interactive &amp; Web</li>
+        <li>
+    <a class="dropdown-item" href="./maps-geographic.html">
+ <span class="dropdown-text">Maps &amp; Geographic</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./shiny-dashboards.html">
+ <span class="dropdown-text">Shiny Dashboards</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Utilities</li>
+        <li>
+    <a class="dropdown-item" href="./utilities-helpers.html">
+ <span class="dropdown-text">Helper Functions</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./troubleshooting.html"> 
+<span class="menu-text">Troubleshooting</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./function-reference.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#quick-start" id="toc-quick-start" class="nav-link active" data-scroll-target="#quick-start">Quick Start</a></li>
+  <li><a href="#main-function-start_project" id="toc-main-function-start_project" class="nav-link" data-scroll-target="#main-function-start_project">Main Function: <code>start_project()</code></a>
+  <ul class="collapse">
+  <li><a href="#syntax" id="toc-syntax" class="nav-link" data-scroll-target="#syntax">Syntax</a></li>
+  <li><a href="#arguments" id="toc-arguments" class="nav-link" data-scroll-target="#arguments">Arguments</a></li>
+  <li><a href="#project-types" id="toc-project-types" class="nav-link" data-scroll-target="#project-types">Project Types</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  <li><a href="#adding-components-to-existing-r-projects" id="toc-adding-components-to-existing-r-projects" class="nav-link" data-scroll-target="#adding-components-to-existing-r-projects">Adding Components to Existing R Projects</a>
+  <ul class="collapse">
+  <li><a href="#use_quarto_report" id="toc-use_quarto_report" class="nav-link" data-scroll-target="#use_quarto_report"><code>use_quarto_report()</code></a></li>
+  <li><a href="#use_quarto_slides" id="toc-use_quarto_slides" class="nav-link" data-scroll-target="#use_quarto_slides"><code>use_quarto_slides()</code></a></li>
+  <li><a href="#use_quarto_web" id="toc-use_quarto_web" class="nav-link" data-scroll-target="#use_quarto_web"><code>use_quarto_web()</code></a></li>
+  <li><a href="#use_shiny_dashboard" id="toc-use_shiny_dashboard" class="nav-link" data-scroll-target="#use_shiny_dashboard"><code>use_shiny_dashboard()</code></a></li>
+  <li><a href="#use_shiny_app" id="toc-use_shiny_app" class="nav-link" data-scroll-target="#use_shiny_app"><code>use_shiny_app()</code></a></li>
+  <li><a href="#use_shiny_theme" id="toc-use_shiny_theme" class="nav-link" data-scroll-target="#use_shiny_theme"><code>use_shiny_theme()</code></a></li>
+  <li><a href="#use_targets" id="toc-use_targets" class="nav-link" data-scroll-target="#use_targets"><code>use_targets()</code></a></li>
+  </ul></li>
+  <li><a href="#project-structure-examples" id="toc-project-structure-examples" class="nav-link" data-scroll-target="#project-structure-examples">Project Structure Examples</a>
+  <ul class="collapse">
+  <li><a href="#analysis-project-r-data-science" id="toc-analysis-project-r-data-science" class="nav-link" data-scroll-target="#analysis-project-r-data-science">Analysis Project (R Data Science)</a></li>
+  <li><a href="#shiny-dashboard-project-r-interactive-app" id="toc-shiny-dashboard-project-r-interactive-app" class="nav-link" data-scroll-target="#shiny-dashboard-project-r-interactive-app">Shiny Dashboard Project (R Interactive App)</a></li>
+  <li><a href="#quarto-report-project-r-narrative" id="toc-quarto-report-project-r-narrative" class="nav-link" data-scroll-target="#quarto-report-project-r-narrative">Quarto Report Project (R + Narrative)</a></li>
+  </ul></li>
+  <li><a href="#feature-options" id="toc-feature-options" class="nav-link" data-scroll-target="#feature-options">Feature Options</a></li>
+  <li><a href="#best-practices-for-r-data-science-projects" id="toc-best-practices-for-r-data-science-projects" class="nav-link" data-scroll-target="#best-practices-for-r-data-science-projects">Best Practices for R Data Science Projects</a>
+  <ul class="collapse">
+  <li><a href="#use-interactive-mode-for-new-projects" id="toc-use-interactive-mode-for-new-projects" class="nav-link" data-scroll-target="#use-interactive-mode-for-new-projects">1. Use Interactive Mode for New Projects</a></li>
+  <li><a href="#start-with-analysis-add-components-later" id="toc-start-with-analysis-add-components-later" class="nav-link" data-scroll-target="#start-with-analysis-add-components-later">2. Start with Analysis, Add Components Later</a></li>
+  <li><a href="#always-use-version-control" id="toc-always-use-version-control" class="nav-link" data-scroll-target="#always-use-version-control">3. Always Use Version Control</a></li>
+  <li><a href="#use-renv-for-reproducibility" id="toc-use-renv-for-reproducibility" class="nav-link" data-scroll-target="#use-renv-for-reproducibility">4. Use renv for Reproducibility</a></li>
+  </ul></li>
+  <li><a href="#troubleshooting" id="toc-troubleshooting" class="nav-link" data-scroll-target="#troubleshooting">Troubleshooting</a>
+  <ul class="collapse">
+  <li><a href="#project-already-exists" id="toc-project-already-exists" class="nav-link" data-scroll-target="#project-already-exists">Project Already Exists</a></li>
+  <li><a href="#rstudio-doesnt-open-project" id="toc-rstudio-doesnt-open-project" class="nav-link" data-scroll-target="#rstudio-doesnt-open-project">RStudio Doesn’t Open Project</a></li>
+  <li><a href="#missing-templates" id="toc-missing-templates" class="nav-link" data-scroll-target="#missing-templates">Missing Templates</a></li>
+  </ul></li>
+  <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/project-setup.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Project Setup</h1>
+<p class="subtitle lead">Creating standardized CPAL project structures</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Starting a new R-based data science project often involves repetitive setup tasks: creating folder structures, configuring Git, setting up package management, and adding boilerplate files. cpaltemplates provides a comprehensive project scaffolding system with 8 functions that automate this process, helping you quickly set up new R projects with CPAL branding, consistent structure, and best practices built in.</p>
+<p>These tools are designed specifically for the <strong>R ecosystem</strong> and data science workflows—whether you’re doing exploratory data analysis, building statistical models, creating interactive dashboards, or generating reports. By using these scaffolding tools, you ensure that all CPAL R projects follow the same organizational patterns, making it easier for team members to navigate unfamiliar codebases and maintain consistency across the organization.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Function Status
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>start_project()</code> function is ready for use. The <code>use_*()</code> helper functions are currently under review and may change in future versions. They remain functional but are being evaluated for improvements.</p>
+</div>
+</div>
+<hr>
+<section id="quick-start" class="level2">
+<h2 class="anchored" data-anchor-id="quick-start">Quick Start</h2>
+<p>Get up and running with a new R project in seconds. The following example creates a complete data analysis project with version control, R package management, and a reproducible pipeline—all pre-configured and ready to use in RStudio.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cpaltemplates)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new data analysis project</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"dallas-housing-analysis"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="st">"analysis"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>, <span class="st">"renv"</span>, <span class="st">"targets"</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This single command creates a fully-structured R project folder with all the necessary files, initializes Git for version control, sets up renv to lock your R package versions, and adds a targets pipeline for reproducible data science workflows.</p>
+<hr>
+</section>
+<section id="main-function-start_project" class="level2">
+<h2 class="anchored" data-anchor-id="main-function-start_project">Main Function: <code>start_project()</code></h2>
+<p>The primary entry point for creating new R projects. This function is the recommended way to start any new CPAL data science project, as it handles all the setup automatically and ensures consistency with CPAL standards. Projects are created as RStudio projects (<code>.Rproj</code> files) for seamless integration with your R workflow.</p>
+<section id="syntax" class="level3">
+<h3 class="anchored" data-anchor-id="syntax">Syntax</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  name,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"."</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="fu">c</span>(<span class="st">"analysis"</span>, <span class="st">"quarto-report"</span>, <span class="st">"quarto-slides"</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"quarto-web"</span>, <span class="st">"shiny-dashboard"</span>, <span class="st">"shiny-app"</span>, <span class="st">"package"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactive =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="cn">NULL</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">open =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">overwrite =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="arguments" class="level3">
+<h3 class="anchored" data-anchor-id="arguments">Arguments</h3>
+<table class="table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>name</code></td>
+<td>Project name (will be the folder name)</td>
+</tr>
+<tr class="even">
+<td><code>path</code></td>
+<td>Parent directory for the project (default: current directory)</td>
+</tr>
+<tr class="odd">
+<td><code>project_type</code></td>
+<td>Type of project to create (see below)</td>
+</tr>
+<tr class="even">
+<td><code>interactive</code></td>
+<td>If TRUE, guides you through setup with prompts</td>
+</tr>
+<tr class="odd">
+<td><code>features</code></td>
+<td>Vector of features to enable: “renv”, “git”, “github”, “targets”, “tests”</td>
+</tr>
+<tr class="even">
+<td><code>open</code></td>
+<td>If TRUE, opens the new project in RStudio</td>
+</tr>
+<tr class="odd">
+<td><code>overwrite</code></td>
+<td>If TRUE, overwrites existing project</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="project-types" class="level3">
+<h3 class="anchored" data-anchor-id="project-types">Project Types</h3>
+<p>Choose the project type that best matches your data science deliverable. Each type comes pre-configured with the appropriate folder structure, R script templates, and CPAL branding.</p>
+<table class="table">
+<colgroup>
+<col style="width: 15%">
+<col style="width: 34%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+<th>Key Files Created</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>analysis</code></td>
+<td>R data analysis with targets pipeline</td>
+<td><code>_targets.R</code>, <code>R/</code>, <code>data/</code>, <code>output/</code></td>
+</tr>
+<tr class="even">
+<td><code>quarto-report</code></td>
+<td>Branded Quarto report (R Markdown successor)</td>
+<td><code>report.qmd</code>, <code>_brand.yml</code>, <code>styles.css</code></td>
+</tr>
+<tr class="odd">
+<td><code>quarto-slides</code></td>
+<td>Presentation slides with R code support</td>
+<td><code>slides.qmd</code>, <code>_brand.yml</code></td>
+</tr>
+<tr class="even">
+<td><code>quarto-web</code></td>
+<td>Multi-page documentation website</td>
+<td><code>_quarto.yml</code>, <code>index.qmd</code>, pages</td>
+</tr>
+<tr class="odd">
+<td><code>shiny-dashboard</code></td>
+<td>Full-featured R Shiny dashboard</td>
+<td><code>app.R</code>, <code>modules/</code>, <code>www/</code>, <code>_brand.yml</code></td>
+</tr>
+<tr class="even">
+<td><code>shiny-app</code></td>
+<td>Simple R Shiny app</td>
+<td><code>app.R</code>, <code>www/</code>, styles</td>
+</tr>
+<tr class="odd">
+<td><code>package</code></td>
+<td>R package for reusable code</td>
+<td><code>DESCRIPTION</code>, <code>R/</code>, <code>man/</code>, tests</td>
+</tr>
+</tbody>
+</table>
+<p><strong>When to use each type:</strong></p>
+<ul>
+<li><strong>analysis</strong>: Best for data cleaning, exploration, statistical modeling, or any R-based work that involves processing data and generating outputs. The targets pipeline ensures your analysis is reproducible and re-runs only what’s changed.</li>
+<li><strong>quarto-report</strong>: Ideal for data-driven reports, briefs, or documents that combine R code with narrative text and will be shared as PDF or HTML. Includes CPAL formatting out of the box.</li>
+<li><strong>quarto-slides</strong>: Perfect for data presentations to stakeholders, board meetings, or conferences. Supports live R code execution and CPAL styling via Revealjs.</li>
+<li><strong>quarto-web</strong>: Use when you need a multi-page documentation site or public-facing project website with R-generated content.</li>
+<li><strong>shiny-dashboard</strong>: Best for interactive data products that let users explore data through multiple views, filters, and visualizations.</li>
+<li><strong>shiny-app</strong>: Good for simple interactive tools, data explorers, or prototypes that don’t need the full dashboard structure.</li>
+<li><strong>package</strong>: For creating reusable R functions and tools that can be shared across the CPAL team or published externally.</li>
+</ul>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interactive mode - guides you through options</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"my-project"</span>, <span class="at">interactive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Non-interactive with specific options</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"quarterly-report"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="st">"quarto-report"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">interactive =</span> <span class="cn">FALSE</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Create in specific directory</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"housing-dashboard"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="st">"~/projects"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="st">"shiny-dashboard"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>, <span class="st">"renv"</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="adding-components-to-existing-r-projects" class="level2">
+<h2 class="anchored" data-anchor-id="adding-components-to-existing-r-projects">Adding Components to Existing R Projects</h2>
+<p>Data science projects often evolve. You might start with exploratory analysis in R and later need to share your findings as a report or presentation. These <code>use_*()</code> functions let you add specific components to an existing R project without starting over—keeping all your code, data, and outputs in one place.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Under Review
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The following <code>use_*()</code> functions are currently under review. They work but may change in future versions as we refine the templates and workflows.</p>
+</div>
+</div>
+<section id="use_quarto_report" class="level3">
+<h3 class="anchored" data-anchor-id="use_quarto_report"><code>use_quarto_report()</code></h3>
+<p>Add Quarto report capability to an existing project. This is useful when your analysis is complete and you need to document your findings in a polished, branded report.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_report</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>report.qmd</code> - Main report template with CPAL styling</li>
+<li><code>_brand.yml</code> - Brand configuration</li>
+<li><code>references.bib</code> - Bibliography template</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add report to current project</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_report</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Add to specific directory</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_report</span>(<span class="st">"my-project/"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_quarto_slides" class="level3">
+<h3 class="anchored" data-anchor-id="use_quarto_slides"><code>use_quarto_slides()</code></h3>
+<p>Add Quarto presentation slides to an existing project. Perfect for when you need to present your analysis findings to stakeholders, at team meetings, or external audiences.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_slides</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">filename =</span> <span class="st">"slides"</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>{filename}.qmd</code> - Revealjs presentation template</li>
+<li><code>_brand.yml</code> - Brand configuration</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add slides with default name</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_slides</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom filename</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_slides</span>(<span class="at">filename =</span> <span class="st">"quarterly-presentation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_quarto_web" class="level3">
+<h3 class="anchored" data-anchor-id="use_quarto_web"><code>use_quarto_web()</code></h3>
+<p>Add Quarto website structure to an existing project. Useful when you want to create a documentation site, project landing page, or multi-page resource that will be hosted online.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_web</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>_quarto.yml</code> - Website configuration</li>
+<li><code>index.qmd</code> - Home page</li>
+<li><code>about.qmd</code> - About page template</li>
+<li><code>_brand.yml</code> - Brand configuration</li>
+<li><code>styles.css</code> - Custom styles</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add website structure</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_web</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_shiny_dashboard" class="level3">
+<h3 class="anchored" data-anchor-id="use_shiny_dashboard"><code>use_shiny_dashboard()</code></h3>
+<p>Add a full-featured Shiny dashboard to an existing project. This creates a modular dashboard structure that scales well for complex applications with multiple tabs, filters, and data views.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_dashboard</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>app.R</code> - Main application file</li>
+<li><code>modules/</code> - Modular UI/server components</li>
+<li><code>www/</code> - Static assets (CSS, images)</li>
+<li><code>_brand.yml</code> - Brand configuration</li>
+<li><code>R/</code> - Helper functions</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add dashboard to current project</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_dashboard</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_shiny_app" class="level3">
+<h3 class="anchored" data-anchor-id="use_shiny_app"><code>use_shiny_app()</code></h3>
+<p>Add a simple Shiny application to an existing project. Best for quick prototypes, single-purpose tools, or when you need interactivity without the overhead of a full dashboard structure.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_app</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>app.R</code> - Simple Shiny application</li>
+<li><code>www/styles.css</code> - CPAL styling</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add simple app</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_app</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_shiny_theme" class="level3">
+<h3 class="anchored" data-anchor-id="use_shiny_theme"><code>use_shiny_theme()</code></h3>
+<p>Add CPAL CSS theme files for Shiny. Use this when you have an existing Shiny app that needs CPAL styling, or when you want to customize the theme name for a specific project.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_theme</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">theme_name =</span> <span class="st">"cpal"</span>, <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Creates:</strong></p>
+<ul>
+<li><code>www/{theme_name}.css</code> - CPAL-styled CSS</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add default theme</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_theme</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Custom theme name</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_shiny_theme</span>(<span class="at">theme_name =</span> <span class="st">"dashboard-theme"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="use_targets" class="level3">
+<h3 class="anchored" data-anchor-id="use_targets"><code>use_targets()</code></h3>
+<p>Add a targets pipeline to an existing project. The <a href="https://docs.ropensci.org/targets/">targets package</a> provides a pipeline system for reproducible computation—it tracks which steps need to be re-run when your code or data changes, saving time and ensuring consistency.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_targets</span>(<span class="at">path =</span> <span class="st">"."</span>, <span class="at">type =</span> <span class="fu">c</span>(<span class="st">"basic"</span>, <span class="st">"analysis"</span>, <span class="st">"report"</span>), <span class="at">overwrite =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>basic</code></td>
+<td>Minimal <code>_targets.R</code> setup</td>
+</tr>
+<tr class="even">
+<td><code>analysis</code></td>
+<td>Full analysis pipeline with data → model → output</td>
+</tr>
+<tr class="odd">
+<td><code>report</code></td>
+<td>Analysis pipeline plus Quarto report rendering</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add basic targets</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">use_targets</span>(<span class="at">type =</span> <span class="st">"basic"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Full analysis pipeline</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_targets</span>(<span class="at">type =</span> <span class="st">"analysis"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="project-structure-examples" class="level2">
+<h2 class="anchored" data-anchor-id="project-structure-examples">Project Structure Examples</h2>
+<p>These examples show the folder structures created by each project type. All projects follow R conventions and are designed to work seamlessly with RStudio.</p>
+<section id="analysis-project-r-data-science" class="level3">
+<h3 class="anchored" data-anchor-id="analysis-project-r-data-science">Analysis Project (R Data Science)</h3>
+<pre><code>my-analysis/
+├── _targets.R          # Pipeline definition
+├── R/
+│   ├── functions.R     # Analysis functions
+│   └── utils.R         # Helper utilities
+├── data/
+│   ├── raw/            # Original data
+│   └── processed/      # Cleaned data
+├── output/
+│   ├── figures/        # Generated plots
+│   └── tables/         # Generated tables
+├── _brand.yml          # Brand configuration
+├── renv.lock           # Package versions
+└── README.md</code></pre>
+</section>
+<section id="shiny-dashboard-project-r-interactive-app" class="level3">
+<h3 class="anchored" data-anchor-id="shiny-dashboard-project-r-interactive-app">Shiny Dashboard Project (R Interactive App)</h3>
+<pre><code>my-dashboard/
+├── app.R               # Main R Shiny application
+├── modules/
+│   ├── mod_overview.R  # Overview tab module
+│   ├── mod_data.R      # Data explorer module
+│   └── mod_charts.R    # Charts module
+├── R/
+│   └── helpers.R       # Utility functions
+├── www/
+│   ├── styles.css      # Custom styles
+│   └── images/         # Logos, icons
+├── _brand.yml          # Brand configuration
+└── README.md</code></pre>
+</section>
+<section id="quarto-report-project-r-narrative" class="level3">
+<h3 class="anchored" data-anchor-id="quarto-report-project-r-narrative">Quarto Report Project (R + Narrative)</h3>
+<pre><code>my-report/
+├── report.qmd          # Main report with R code chunks
+├── _brand.yml          # Brand configuration
+├── styles.css          # Custom styles
+├── references.bib      # Bibliography
+├── data/               # Data files
+├── figures/            # Generated figures
+└── README.md</code></pre>
+<hr>
+</section>
+</section>
+<section id="feature-options" class="level2">
+<h2 class="anchored" data-anchor-id="feature-options">Feature Options</h2>
+<p>When using <code>start_project()</code>, you can enable various features that add tooling and infrastructure to your R project. These features integrate popular R ecosystem tools and represent best practices for reproducible, collaborative data science work.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>Description</th>
+<th>Why Use It?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>git</code></td>
+<td>Initialize git repository with R-specific <code>.gitignore</code></td>
+<td>Track changes, collaborate, and maintain history</td>
+</tr>
+<tr class="even">
+<td><code>github</code></td>
+<td>Set up GitHub integration (requires <code>gh</code> CLI)</td>
+<td>Share R code, enable collaboration, backup to cloud</td>
+</tr>
+<tr class="odd">
+<td><code>renv</code></td>
+<td>Initialize <a href="https://rstudio.github.io/renv/">renv</a> for R package management</td>
+<td>Lock R package versions so your analysis runs the same everywhere</td>
+</tr>
+<tr class="even">
+<td><code>targets</code></td>
+<td>Add <a href="https://docs.ropensci.org/targets/">targets</a> pipeline for reproducibility</td>
+<td>Automate R workflows, skip unchanged steps, scale to large analyses</td>
+</tr>
+<tr class="odd">
+<td><code>tests</code></td>
+<td>Set up <a href="https://testthat.r-lib.org/">testthat</a> testing infrastructure</td>
+<td>Catch bugs early, ensure R functions work correctly</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Recommended combinations:</strong></p>
+<ul>
+<li><strong>Solo analysis</strong>: <code>c("git", "renv")</code> - Version control and reproducible R packages</li>
+<li><strong>Team project</strong>: <code>c("git", "github", "renv")</code> - Add GitHub for collaboration on R code</li>
+<li><strong>Complex pipeline</strong>: <code>c("git", "renv", "targets")</code> - Add targets for automated R workflows</li>
+<li><strong>R package development</strong>: <code>c("git", "github", "tests")</code> - Add testing for reusable R packages</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Enable all features for maximum reproducibility</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"my-project"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="st">"analysis"</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>, <span class="st">"renv"</span>, <span class="st">"targets"</span>, <span class="st">"tests"</span>)</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+<section id="best-practices-for-r-data-science-projects" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-r-data-science-projects">Best Practices for R Data Science Projects</h2>
+<section id="use-interactive-mode-for-new-projects" class="level3">
+<h3 class="anchored" data-anchor-id="use-interactive-mode-for-new-projects">1. Use Interactive Mode for New Projects</h3>
+<p>If you’re unsure which options to choose, interactive mode walks you through the setup process with prompts.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Let the wizard guide you through R project setup</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"my-project"</span>, <span class="at">interactive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="start-with-analysis-add-components-later" class="level3">
+<h3 class="anchored" data-anchor-id="start-with-analysis-add-components-later">2. Start with Analysis, Add Components Later</h3>
+<p>A common data science workflow: start with R analysis, then add reports or presentations as your findings mature.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create base R analysis project</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"research-project"</span>, <span class="at">project_type =</span> <span class="st">"analysis"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Later, add a Quarto report to document findings</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_report</span>(<span class="st">"research-project/"</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Add slides for presenting results</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_slides</span>(<span class="st">"research-project/"</span>, <span class="at">filename =</span> <span class="st">"results-presentation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="always-use-version-control" class="level3">
+<h3 class="anchored" data-anchor-id="always-use-version-control">3. Always Use Version Control</h3>
+<p>Version control is essential for any code-based work. It lets you track changes, collaborate with others, and recover from mistakes.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Include git from the start for any R project</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"important-analysis"</span>, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>, <span class="st">"renv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="use-renv-for-reproducibility" class="level3">
+<h3 class="anchored" data-anchor-id="use-renv-for-reproducibility">4. Use renv for Reproducibility</h3>
+<p>R package versions can affect your results. Using renv ensures your analysis runs the same way months or years later, or on a colleague’s machine.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lock R package versions for reproducible analysis</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"client-report"</span>, <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"renv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="troubleshooting" class="level2">
+<h2 class="anchored" data-anchor-id="troubleshooting">Troubleshooting</h2>
+<p>Common issues when setting up R projects with cpaltemplates.</p>
+<section id="project-already-exists" class="level3">
+<h3 class="anchored" data-anchor-id="project-already-exists">Project Already Exists</h3>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use overwrite to replace</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"existing-project"</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="rstudio-doesnt-open-project" class="level3">
+<h3 class="anchored" data-anchor-id="rstudio-doesnt-open-project">RStudio Doesn’t Open Project</h3>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Disable auto-open</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(<span class="st">"my-project"</span>, <span class="at">open =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Open manually later</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>rstudioapi<span class="sc">::</span><span class="fu">openProject</span>(<span class="st">"my-project"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="missing-templates" class="level3">
+<h3 class="anchored" data-anchor-id="missing-templates">Missing Templates</h3>
+<p>If templates aren’t copying correctly:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check package installation</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">"cpaltemplates"</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Reinstall if needed</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"childpovertyactionlab/cpaltemplates"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+</section>
+</section>
+<section id="next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>Once your project is set up, explore these guides to make the most of cpaltemplates:</p>
+<ul>
+<li><a href="./colors-palettes.html">Colors &amp; Palettes</a> - Use CPAL’s color system in your visualizations</li>
+<li><a href="./themes-styling.html">Themes &amp; Styling</a> - Apply consistent themes to your plots</li>
+<li><a href="./shiny-dashboards.html">Shiny Dashboards</a> - Build branded interactive dashboards</li>
+<li><a href="./gallery-ggplot2.html">ggplot2 Gallery</a> - Example charts to get you started</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Child Poverty Action Lab - Data Science Team</p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/project-setup.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/childpovertyactionlab/cpaltemplates">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

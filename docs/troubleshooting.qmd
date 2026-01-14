@@ -3,6 +3,12 @@ title: "Troubleshooting"
 subtitle: "Common issues and solutions"
 ---
 
+This page covers common issues encountered when using cpaltemplates and their solutions. Topics include installation problems, font rendering, theme application, color scales, tables, interactive plots, maps, and performance optimization.
+
+If you can't find a solution here, please [report an issue on GitHub](https://github.com/childpovertyactionlab/cpaltemplates/issues).
+
+---
+
 ## Installation Issues
 
 ### Package Not Found
@@ -44,7 +50,7 @@ Update R to version 4.3.0 or higher. Download from [CRAN](https://cran.r-project
 
 ```r
 # Install dependencies manually
-install.packages(c("ggplot2", "bslib", "gt", "reactable", "ggiraph"))
+install.packages(c("ggplot2", "bslib", "gt", "reactable", "highcharter"))
 
 # Then retry
 remotes::install_github("childpovertyactionlab/cpaltemplates")
@@ -58,7 +64,7 @@ remotes::install_github("childpovertyactionlab/cpaltemplates")
 
 **Symptoms:**
 
-- Plots show system fonts instead of Inter/Poppins
+- Plots show system fonts instead of Inter/Roboto
 - Warning: "font family not found"
 
 **Solutions:**
@@ -76,26 +82,6 @@ showtext_auto()
 
 # 4. Check what font is being used
 cpal_font_family(setup = TRUE)
-```
-
-### Interactive Plot Fonts
-
-**Symptoms:**
-
-- ggiraph plots show wrong fonts
-- Fonts work in static plots but not interactive
-
-**Solutions:**
-
-```r
-# Install required packages
-install.packages(c("gdtools", "systemfonts"))
-
-# Register fonts for interactive use
-if (requireNamespace("gdtools", quietly = TRUE)) {
-  gdtools::register_gfont("Inter")
-  gdtools::register_gfont("Roboto")
-}
 ```
 
 ### PDF Font Issues
@@ -289,45 +275,63 @@ output$table <- renderReactable({
 
 ---
 
-## Interactive Plot Issues
+## Interactive Chart Issues (Highcharter)
 
-### ggiraph Not Working
+For interactive charts, cpaltemplates uses Highcharter. See the [Highcharter Gallery](gallery-highcharter.qmd) for examples and [Themes & Styling](themes-styling.qmd) for theming details.
+
+### Highcharter Not Rendering
 
 **Symptoms:**
 
-- Plot is static instead of interactive
-- Tooltips don't appear
+- Chart doesn't appear
+- Error about highcharter package
 
 **Solutions:**
 
 ```r
-# 1. Install ggiraph
-install.packages("ggiraph")
+# 1. Install highcharter
+install.packages("highcharter")
 
-# 2. Use interactive geoms
-geom_point_interactive()  # Correct
-geom_point()              # Won't be interactive
+# 2. Verify installation
+library(highcharter)
 
-# 3. Wrap with cpal_interactive()
-p <- ggplot(data, aes(x, y)) +
-  geom_point_interactive(aes(tooltip = label)) +
-  theme_cpal()
-
-cpal_interactive(p)  # This renders it interactive
+# 3. Check basic chart works
+hchart(mtcars, "scatter", hcaes(x = wt, y = mpg))
 ```
 
-### Interactive in Shiny
+### CPAL Theme Not Applying
+
+**Symptoms:**
+
+- Chart shows default Highcharts styling
+- CPAL colors not appearing
+
+**Solutions:**
 
 ```r
-# Use girafeOutput and renderGirafe
+# Apply CPAL theme to chart
+hchart(data, "bar", hcaes(x = category, y = value)) |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_add_cpal_logo()
+
+# For dark mode
+hchart(data, "bar", hcaes(x = category, y = value)) |>
+  hc_cpal_theme("dark") |>
+  hc_add_cpal_logo(mode = "dark")
+```
+
+### Highcharter in Shiny
+
+```r
 # UI:
-girafeOutput("plot")
+highchartOutput("chart")
 
 # Server:
-output$plot <- renderGirafe({
-  p <- ggplot(...) +
-    geom_point_interactive(...)
-  cpal_interactive(p)
+output$chart <- renderHighchart({
+  hchart(data, "column", hcaes(x = x, y = y)) |>
+    hc_cpal_theme() |>
+    hc_colors_cpal("main")
 })
 ```
 
@@ -454,8 +458,9 @@ geo_simple <- sf::st_simplify(geo_data, dTolerance = 100)
 # 3. Sample large datasets
 data_sample <- dplyr::slice_sample(large_data, n = 1000)
 
-# 4. Use smaller SVG for interactive
-cpal_interactive(p, width_svg = 6, height_svg = 4)
+# 4. Set chart dimensions for Highcharter
+hchart(...) |>
+  hc_chart(height = 350)
 ```
 
 ### Memory Issues
@@ -513,7 +518,7 @@ remotes::install_github(
 - [ ] Is the theme applied? `theme_cpal()` in plot
 - [ ] Are colors mapped? `aes(color = ...)` present
 - [ ] Is scale added? `scale_color_cpal()` in plot
-- [ ] For interactive: using `_interactive()` geoms?
+- [ ] For Highcharter: applied `hc_cpal_theme()`?
 - [ ] For Shiny: using `page_*()` functions?
 - [ ] For maps: is data an sf object?
 
@@ -523,4 +528,5 @@ remotes::install_github(
 
 - [Getting Started](getting-started.qmd) - Initial setup
 - [Function Reference](function-reference.qmd) - All functions
-- [Workflows](workflow-integration.qmd) - Complete examples
+- [Themes & Styling](themes-styling.qmd) - Theme documentation
+- [Utilities & Helpers](utilities-helpers.qmd) - Utility functions

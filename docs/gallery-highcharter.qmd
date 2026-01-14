@@ -149,6 +149,7 @@ Click "Show code" above each chart to see the full implementation.
 
 ```{r}
 #| label: bar-chart
+#| out-height: 450px
 
 tx_counties |>
   arrange(desc(total_pop)) |>
@@ -169,6 +170,7 @@ tx_counties |>
 
 ```{r}
 #| label: column-chart
+#| out-height: 450px
 
 tx_counties |>
   head(6) |>
@@ -191,6 +193,7 @@ tx_counties |>
 
 ```{r}
 #| label: line-chart
+#| out-height: 450px
 
 tx_time |>
   hchart("line", hcaes(x = year, y = median_hh_income, group = county)) |>
@@ -213,6 +216,7 @@ tx_time |>
 
 ```{r}
 #| label: scatter-plot
+#| out-height: 450px
 
 tx_counties |>
   hchart("scatter",
@@ -241,6 +245,7 @@ tx_counties |>
 
 ```{r}
 #| label: bubble-plot
+#| out-height: 450px
 
 tx_counties |>
   hchart("bubble",
@@ -281,6 +286,7 @@ tx_counties |>
 
 ```{r}
 #| label: grouped-bar
+#| out-height: 450px
 
 # Reshape data for grouped comparison
 grouped_data <- tx_counties |>
@@ -323,6 +329,7 @@ highchart() |>
 
 ```{r}
 #| label: stacked-bar
+#| out-height: 450px
 
 highchart() |>
   hc_chart(type = "bar") |>
@@ -358,6 +365,7 @@ highchart() |>
 
 ```{r}
 #| label: stacked-100-bar
+#| out-height: 450px
 
 highchart() |>
   hc_chart(type = "bar") |>
@@ -395,6 +403,7 @@ highchart() |>
 
 ```{r}
 #| label: area-chart
+#| out-height: 450px
 
 monthly_data |>
   filter(program == "Program A") |>
@@ -423,6 +432,7 @@ monthly_data |>
 
 ```{r}
 #| label: stacked-area
+#| out-height: 450px
 
 highchart() |>
   hc_chart(type = "area") |>
@@ -466,6 +476,7 @@ highchart() |>
 
 ```{r}
 #| label: histogram
+#| out-height: 450px
 
 hc_histogram_cpal(
   data = distribution_data$value,
@@ -485,6 +496,7 @@ hc_histogram_cpal(
 
 ```{r}
 #| label: boxplot
+#| out-height: 450px
 
 # Calculate boxplot statistics for each group
 groups <- unique(distribution_data$group)
@@ -526,6 +538,7 @@ highchart() |>
 
 ```{r}
 #| label: heatmap
+#| out-height: 450px
 
 heatmap_data <- expand.grid(
   day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
@@ -585,6 +598,7 @@ hchart(
 
 ```{r}
 #| label: correlogram
+#| out-height: 450px
 
 # Calculate correlation matrix
 cor_matrix <- cor(correlation_data)
@@ -656,6 +670,7 @@ hchart(
 
 ```{r}
 #| label: donut-chart
+#| out-height: 450px
 
 region_pop <- tx_counties |>
   group_by(region) |>
@@ -686,6 +701,7 @@ region_pop |>
 
 ```{r}
 #| label: treemap
+#| out-height: 450px
 
 # Using hc_treemap_data_cpal() to build hierarchical data with CPAL colors
 treemap_data <- hc_treemap_data_cpal(
@@ -714,6 +730,7 @@ highchart() |>
 
 ```{r}
 #| label: lollipop
+#| out-height: 450px
 
 lollipop_data <- tx_counties |>
   arrange(desc(poverty_rate)) |>
@@ -739,6 +756,7 @@ hc_lollipop_cpal(
 
 ```{r}
 #| label: dumbbell
+#| out-height: 450px
 
 # Compare 2020 vs 2024 (simulated data)
 set.seed(123)
@@ -772,6 +790,7 @@ hc_dumbbell_cpal(
 
 ```{r}
 #| label: waterfall
+#| out-height: 450px
 
 waterfall_data <- data.frame(
   name = c("Starting Budget", "Federal Grants", "State Funding",
@@ -804,6 +823,7 @@ highchart() |>
 
 ```{r}
 #| label: funnel
+#| out-height: 450px
 
 funnel_data <- data.frame(
   stage = c("Awareness", "Interest", "Consideration",
@@ -849,6 +869,7 @@ highchart() |>
 
 ```{r}
 #| label: polar
+#| out-height: 450px
 
 # Compare counties across multiple metrics (normalized 0-100)
 radar_data <- tx_counties |>
@@ -921,6 +942,7 @@ To enable dark mode on any chart:
 
 ```{r}
 #| label: dark-example
+#| out-height: 450px
 
 tx_counties |>
   head(6) |>

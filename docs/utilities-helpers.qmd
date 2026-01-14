@@ -147,7 +147,7 @@ save_cpal_plot(
 )
 ```
 
-See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+See [Themes & Styling](themes-styling.qmd) for detailed documentation.
 
 ---
 
@@ -164,7 +164,7 @@ add_cpal_logo(
 )
 ```
 
-See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+See [Themes & Styling](themes-styling.qmd) for detailed documentation.
 
 ---
 
@@ -182,7 +182,7 @@ check_plot_accessibility(plot, verbose = TRUE)
 2. **Color Contrast** - Do colors meet WCAG standards?
 3. **Colorblind Safety** - Are colors distinguishable?
 
-See [Plots & Output](plots-visualizations.qmd) for detailed documentation.
+See [Themes & Styling](themes-styling.qmd) for detailed documentation.
 
 ---
 
@@ -329,6 +329,6 @@ Sys.setenv(CPAL_FONT_SETUP = "TRUE")
 
 ## Next Steps
 
-- [Plots & Output](plots-visualizations.qmd) - Plot saving details
+- [Themes & Styling](themes-styling.qmd) - Plot saving and branding
 - [Colors & Palettes](colors-palettes.qmd) - Color validation
 - [Troubleshooting](troubleshooting.qmd) - Common issues

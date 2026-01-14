@@ -141,22 +141,9 @@ CPAL's WCAG-compliant color system with 16+ palettes for categorical, sequential
 **Themes & Styling**
 :::
 ::: {.card-body}
-ggplot2 themes for different contexts: standard, minimal, dark mode, print, and maps.
+ggplot2 and Highcharter themes, saving plots, adding logos, and accessibility.
 
 [Read Guide](themes-styling.qmd){.btn .btn-outline-primary .btn-sm}
-:::
-:::
-:::
-
-::: {.g-col-12 .g-col-md-4}
-::: {.card .h-100}
-::: {.card-header}
-**Plots & Output**
-:::
-::: {.card-body}
-Creating visualizations and exporting them with proper sizing, resolution, and branding.
-
-[Read Guide](plots-visualizations.qmd){.btn .btn-outline-primary .btn-sm}
 :::
 :::
 :::
@@ -169,7 +156,7 @@ Creating visualizations and exporting them with proper sizing, resolution, and b
 ::: {.card-body}
 Professional tables using GT (static/print) and Reactable (interactive) with CPAL styling.
 
-[Read Guide](tables-gt.qmd){.btn .btn-outline-primary .btn-sm}
+[Read Guide](tables-styling.qmd){.btn .btn-outline-primary .btn-sm}
 :::
 :::
 :::
@@ -226,21 +213,15 @@ Solutions to common issues with fonts, themes, colors, and package configuration
 :::
 :::
 
-:::
-
-### Reference
-
-::: {.grid}
-
-::: {.g-col-12}
-::: {.card}
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
 ::: {.card-header}
 **Function Reference**
 :::
 ::: {.card-body}
 Complete index of all 67+ exported functions organized by category.
 
-[View Reference](function-reference.qmd){.btn .btn-outline-secondary .btn-sm}
+[View Reference](function-reference.qmd){.btn .btn-outline-primary .btn-sm}
 :::
 :::
 :::

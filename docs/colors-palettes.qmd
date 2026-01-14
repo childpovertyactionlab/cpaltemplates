@@ -573,7 +573,6 @@ cpaltemplates::add_cpal_logo(p1)
 
 Now that you understand CPAL's color system, explore these related guides:
 
-- [Themes & Styling](themes-styling.qmd) - Apply consistent ggplot2 themes to your plots
-- [Plots & Output](plots-visualizations.qmd) - Save and export your R visualizations
+- [Themes & Styling](themes-styling.qmd) - Apply themes and save/export plots
 - [ggplot2 Gallery](gallery-ggplot2.qmd) - See colors in action with example charts
 - [Highcharter Gallery](gallery-highcharter.qmd) - CPAL colors in interactive charts
