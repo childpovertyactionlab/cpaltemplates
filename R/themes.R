@@ -51,7 +51,7 @@ theme_cpal <- function(base_size = 14,
 
   # Font family setup
   if (base_family == "") {
-    base_family <- get_cpal_font_family(for_interactive = FALSE, setup_if_missing = FALSE)
+    base_family <- cpal_font_family(setup = FALSE)
     if (base_family == "sans") {
       base_family <- cpal_font_family_fallback()
     }
@@ -499,6 +499,9 @@ theme_cpal_switch <- function(mode = "light", ...) {
 #' }
 #' @seealso [theme_cpal_switch()] for direct theme switching
 make_theme_reactive <- function(input, toggle_id = "dark_mode_toggle", ...) {
+  if (!requireNamespace("shiny", quietly = TRUE)) {
+    cli::cli_abort("Package {.pkg shiny} is required for make_theme_reactive(). Install with: install.packages('shiny')")
+  }
   shiny::reactive({
     mode <- input[[toggle_id]]
     theme_cpal_switch(mode, ...)
@@ -743,7 +746,7 @@ theme_cpal_map <- function(base_size = 16,
                            legend_position = "bottom") {
 
   if (base_family == "") {
-    base_family <- get_cpal_font_family(for_interactive = FALSE, setup_if_missing = FALSE)
+    base_family <- cpal_font_family(setup = FALSE)
     if (base_family == "sans") {
       base_family <- cpal_font_family_fallback()
     }
@@ -973,181 +976,3 @@ preview_cpal_themes <- function(data = NULL, save_path = NULL, width = 14, heigh
   combined
 }
 
-# =============================================================================
-# HIGHCHARTER THEME SWITCHING
-# =============================================================================
-
-#' CPAL Light Theme for Highcharter
-#'
-#' Returns a Highcharter theme configured with CPAL light mode colors.
-#'
-#' @return A Highcharter theme object
-#' @export
-#' @examples
-#' \dontrun{
-#' library(highcharter)
-#' hchart(mtcars, "scatter", hcaes(wt, mpg)) %>%
-#'   hc_add_theme(hc_theme_cpal_light())
-#' }
-hc_theme_cpal_light <- function() {
-  if (!requireNamespace("highcharter", quietly = TRUE)) {
-    cli::cli_abort("Package {.pkg highcharter} is required. Install with: install.packages('highcharter')")
-  }
-
-  highcharter::hc_theme(
-    chart = list(
-      backgroundColor = "#FFFFFF",
-      style = list(
-        fontFamily = "Inter, Roboto, sans-serif"
-      )
-    ),
-    title = list(
-      style = list(
-        color = "#004855",
-        fontWeight = "bold",
-        fontSize = "16px"
-      )
-    ),
-    subtitle = list(
-      style = list(
-        color = "#666666",
-        fontSize = "12px"
-      )
-    ),
-    xAxis = list(
-      gridLineColor = "#E8ECEE",
-      lineColor = "#5C6B73",
-      tickColor = "#5C6B73",
-      labels = list(
-        style = list(color = "#004855")
-      ),
-      title = list(
-        style = list(color = "#555555")
-      )
-    ),
-    yAxis = list(
-      gridLineColor = "#E8ECEE",
-      lineColor = "#5C6B73",
-      tickColor = "#5C6B73",
-      labels = list(
-        style = list(color = "#444444")
-      ),
-      title = list(
-        style = list(color = "#555555")
-      )
-    ),
-    legend = list(
-      itemStyle = list(
-        color = "#222222"
-      ),
-      itemHoverStyle = list(
-        color = "#004855"
-      )
-    ),
-    tooltip = list(
-      backgroundColor = "#FFFFFF",
-      style = list(
-        color = "#222222"
-      )
-    )
-  )
-}
-
-#' CPAL Dark Theme for Highcharter
-#'
-#' Returns a Highcharter theme configured with CPAL dark mode colors.
-#'
-#' @return A Highcharter theme object
-#' @export
-#' @examples
-#' \dontrun{
-#' library(highcharter)
-#' hchart(mtcars, "scatter", hcaes(wt, mpg)) %>%
-#'   hc_add_theme(hc_theme_cpal_dark())
-#' }
-hc_theme_cpal_dark <- function() {
-  if (!requireNamespace("highcharter", quietly = TRUE)) {
-    cli::cli_abort("Package {.pkg highcharter} is required. Install with: install.packages('highcharter')")
-  }
-
-  highcharter::hc_theme(
-    chart = list(
-      backgroundColor = "#1a1a1a",
-      style = list(
-        fontFamily = "Inter, Roboto, sans-serif"
-      )
-    ),
-    title = list(
-      style = list(
-        color = "#f0f0f0",
-        fontWeight = "bold",
-        fontSize = "16px"
-      )
-    ),
-    subtitle = list(
-      style = list(
-        color = "#bbbbbb",
-        fontSize = "12px"
-      )
-    ),
-    xAxis = list(
-      gridLineColor = "#333333",
-      lineColor = "#666666",
-      tickColor = "#666666",
-      labels = list(
-        style = list(color = "#e0e0e0")
-      ),
-      title = list(
-        style = list(color = "#bbbbbb")
-      )
-    ),
-    yAxis = list(
-      gridLineColor = "#333333",
-      lineColor = "#666666",
-      tickColor = "#666666",
-      labels = list(
-        style = list(color = "#999999")
-      ),
-      title = list(
-        style = list(color = "#bbbbbb")
-      )
-    ),
-    legend = list(
-      itemStyle = list(
-        color = "#f0f0f0"
-      ),
-      itemHoverStyle = list(
-        color = "#FFFFFF"
-      )
-    ),
-    tooltip = list(
-      backgroundColor = "#2a2a2a",
-      style = list(
-        color = "#f0f0f0"
-      )
-    )
-  )
-}
-
-#' Highcharter Theme Switcher for CPAL
-#'
-#' Returns the appropriate CPAL Highcharter theme based on the current mode.
-#'
-#' @param mode Character: "light" or "dark" (typically from input$dark_mode_toggle)
-#' @return A Highcharter theme object
-#' @export
-#' @examples
-#' \dontrun{
-#' # In a Shiny server function:
-#' output$my_chart <- renderHighchart({
-#'   hchart(data, "scatter", hcaes(x, y)) %>%
-#'     hc_add_theme(hc_theme_cpal_switch(input$dark_mode_toggle))
-#' })
-#' }
-hc_theme_cpal_switch <- function(mode = "light") {
-  if (is.null(mode) || mode == "light") {
-    hc_theme_cpal_light()
-  } else {
-    hc_theme_cpal_dark()
-  }
-}

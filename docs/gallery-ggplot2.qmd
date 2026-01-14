@@ -1,0 +1,803 @@
+---
+title: "ggplot2 Chart Gallery"
+subtitle: "A showcase of static chart types with CPAL styling"
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(cpaltemplates)
+
+# Load treemapify if available
+if (requireNamespace("treemapify", quietly = TRUE)) {
+  library(treemapify)
+}
+
+# Load cowplot and magick for logo support (if available)
+has_logo_support <- requireNamespace("cowplot", quietly = TRUE) &&
+                    requireNamespace("magick", quietly = TRUE)
+
+# =============================================================================
+# CPAL COLOR PALETTES - Using cpaltemplates package functions
+# =============================================================================
+palette_cpal_main <- cpal_colors()                    # Categorical palette (8 colors)
+palette_cpal_seq <- cpal_colors("midnight_seq_8")    # Sequential (light teal -> midnight)
+palette_cpal_div <- cpal_colors("coral_midnight_9")  # Diverging (coral <-> midnight)
+
+# =============================================================================
+# SAMPLE DATA
+# =============================================================================
+
+# County data (cross-sectional)
+tx_counties <- data.frame(
+  county = c("Harris", "Dallas", "Tarrant", "Bexar", "Travis",
+             "Collin", "Hidalgo", "El Paso", "Denton", "Fort Bend"),
+  region = c("Gulf Coast", "North Texas", "North Texas", "South Texas", "Central",
+             "North Texas", "South Texas", "West Texas", "North Texas", "Gulf Coast"),
+  total_pop = c(4728030, 2613539, 2110640, 2009324, 1290188,
+                1140420, 895858, 867947, 953434, 858355),
+  poverty_rate = c(14.2, 14.8, 10.1, 14.5, 10.3,
+                   5.2, 26.1, 18.4, 5.8, 6.9),
+  median_hh_income = c(65394, 64138, 75816, 62599, 89227,
+                       117454, 47036, 51036, 104115, 112235),
+  unemployment_rate = c(5.1, 4.8, 4.2, 4.9, 3.8, 3.2, 7.8, 5.5, 3.5, 3.9),
+  pct_bachelors = c(32.1, 34.5, 35.2, 28.4, 52.1, 55.8, 18.2, 24.1, 48.3, 45.2)
+)
+
+# Time series data
+tx_time <- expand.grid(
+  county = c("Harris", "Dallas", "Travis", "Bexar"),
+  year = 2018:2024
+) |>
+  mutate(
+    median_hh_income = case_when(
+      county == "Harris" ~ 58000 + (year - 2018) * 1200 + rnorm(n(), 0, 500),
+      county == "Dallas" ~ 56000 + (year - 2018) * 1100 + rnorm(n(), 0, 500),
+      county == "Travis" ~ 72000 + (year - 2018) * 2800 + rnorm(n(), 0, 500),
+      county == "Bexar" ~ 52000 + (year - 2018) * 900 + rnorm(n(), 0, 500)
+    ),
+    poverty_rate = case_when(
+      county == "Harris" ~ 15.5 - (year - 2018) * 0.2 + rnorm(n(), 0, 0.3),
+      county == "Dallas" ~ 16.0 - (year - 2018) * 0.18 + rnorm(n(), 0, 0.3),
+      county == "Travis" ~ 12.0 - (year - 2018) * 0.25 + rnorm(n(), 0, 0.3),
+      county == "Bexar" ~ 16.5 - (year - 2018) * 0.15 + rnorm(n(), 0, 0.3)
+    )
+  )
+
+# Category breakdown data (for stacked charts)
+spending_data <- data.frame(
+  category = rep(c("Housing", "Food", "Transportation", "Healthcare", "Education"), each = 4),
+  income_group = rep(c("Low", "Middle-Low", "Middle-High", "High"), 5),
+  pct_spending = c(
+    45, 35, 28, 22,  # Housing
+    18, 15, 12, 10,  # Food
+    12, 14, 15, 12,  # Transportation
+    8, 10, 12, 8,    # Healthcare
+    5, 8, 12, 18     # Education
+  )
+)
+
+# Monthly data for area charts
+monthly_data <- data.frame(
+  month = rep(month.abb, 3),
+  month_num = rep(1:12, 3),
+  program = rep(c("Program A", "Program B", "Program C"), each = 12),
+  participants = c(
+    # Program A
+    120, 135, 142, 156, 178, 195, 210, 225, 198, 175, 160, 145,
+    # Program B
+    80, 95, 110, 125, 140, 155, 165, 170, 160, 145, 130, 115,
+    # Program C
+    50, 55, 65, 75, 85, 95, 100, 105, 95, 85, 75, 65
+  )
+)
+
+# Correlation data
+set.seed(42)
+n <- 100
+correlation_data <- data.frame(
+  income = rnorm(n, 65000, 20000),
+  education_years = rnorm(n, 14, 3),
+  age = rnorm(n, 42, 12),
+  savings_rate = rnorm(n, 12, 5)
+) |>
+  mutate(
+    income = pmax(25000, income),
+    education_years = pmax(8, pmin(22, education_years)),
+    age = pmax(22, pmin(70, age)),
+    savings_rate = pmax(0, pmin(30, savings_rate))
+  )
+
+# Hierarchical data for treemap
+budget_data <- data.frame(
+  department = c("Health", "Health", "Health",
+                 "Education", "Education", "Education",
+                 "Infrastructure", "Infrastructure",
+                 "Public Safety", "Public Safety"),
+  program = c("Clinics", "Hospitals", "Prevention",
+              "K-12", "Higher Ed", "Early Childhood",
+              "Roads", "Transit",
+              "Police", "Fire"),
+  budget = c(45, 120, 25, 180, 95, 35, 75, 45, 60, 40)
+)
+
+# Distribution data
+set.seed(123)
+distribution_data <- data.frame(
+  group = rep(c("Group A", "Group B", "Group C", "Group D"), each = 50),
+  value = c(
+    rnorm(50, 50, 10),
+    rnorm(50, 65, 15),
+    rnorm(50, 45, 8),
+    rnorm(50, 70, 12)
+  )
+)
+```
+
+## Introduction
+
+This gallery showcases various static chart types using ggplot2 with CPAL styling via cpaltemplates. Each example demonstrates proper use of themes, color palettes, and formatting.
+
+::: {.callout-tip}
+## Looking for Interactive Charts?
+For interactive visualizations using highcharter, see the [Highcharter Chart Gallery](gallery-highcharter.qmd).
+:::
+
+::: {.callout-note}
+## Code Visibility
+Click "Show code" above each chart to see the full implementation.
+:::
+
+---
+
+# Basic Charts
+
+## Bar Chart (Horizontal)
+
+**When to use:** Best for comparing values across categories, especially when category labels are long or when you have many categories.
+
+```{r}
+#| label: bar-chart
+
+p <- tx_counties |>
+  arrange(desc(total_pop)) |>
+  head(8) |>
+  ggplot(aes(x = reorder(county, total_pop), y = total_pop)) +
+  geom_col(fill = palette_cpal_main[1], width = 0.54) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::label_number(scale = 1e-6, suffix = "M")) +
+  labs(
+    title = "Texas Counties by Population",
+    subtitle = "Top 8 counties, ACS 2023",
+    x = NULL,
+    y = "Population"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Column Chart (Vertical)
+
+**When to use:** Ideal for comparing values across a small number of categories (typically 3-8).
+
+```{r}
+#| label: column-chart
+
+p <- tx_counties |>
+  head(6) |>
+  ggplot(aes(x = county, y = poverty_rate)) +
+  geom_col(fill = palette_cpal_main[1], width = 0.54) +
+  scale_y_continuous(labels = scales::label_percent(scale = 1), limits = c(0, 30)) +
+  labs(
+    title = "Poverty Rates by County",
+    subtitle = "Percentage of population below poverty line",
+    x = NULL,
+    y = "Poverty Rate"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Line Chart
+
+**When to use:** Best for showing trends over time or continuous change across an ordered sequence.
+
+```{r}
+#| label: line-chart
+
+p <- tx_time |>
+  ggplot(aes(x = year, y = median_hh_income, color = county)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  scale_color_cpal_d() +
+  scale_y_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
+  labs(
+    title = "Median Household Income Trends",
+    subtitle = "Selected Texas counties, 2018-2024",
+    x = "Year",
+    y = "Median Income",
+    color = "County"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Scatter Plot
+
+**When to use:** Use to explore the relationship between two continuous variables.
+
+```{r}
+#| label: scatter-plot
+
+p <- tx_counties |>
+  ggplot(aes(x = median_hh_income, y = poverty_rate)) +
+  geom_point(size = 3, color = palette_cpal_main[1]) +
+  scale_x_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
+  scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  labs(
+    title = "Income vs Poverty Rate",
+    subtitle = "Each point represents a Texas county",
+    x = "Median Household Income",
+    y = "Poverty Rate"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Bubble Plot
+
+**When to use:** Use when you need to show relationships between three variables simultaneously.
+
+```{r}
+#| label: bubble-plot
+
+p <- tx_counties |>
+  ggplot(aes(x = median_hh_income, y = poverty_rate, size = total_pop)) +
+  geom_point(alpha = 0.7, color = palette_cpal_main[1]) +
+  scale_x_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
+  scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  scale_size_continuous(
+    range = c(3, 15),
+    labels = scales::label_number(scale = 1e-6, suffix = "M")
+  ) +
+  labs(
+    title = "Income, Poverty, and Population",
+    subtitle = "Bubble size represents total population",
+    x = "Median Household Income",
+    y = "Poverty Rate",
+    size = "Population"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+---
+
+# Grouped & Stacked Charts
+
+## Grouped Bar Chart
+
+**When to use:** Use when comparing two or more related metrics across the same categories.
+
+```{r}
+#| label: grouped-bar
+
+p <- tx_counties |>
+  head(5) |>
+  select(county, poverty_rate, unemployment_rate) |>
+  pivot_longer(cols = c(poverty_rate, unemployment_rate),
+               names_to = "metric",
+               values_to = "rate") |>
+  mutate(metric = case_when(
+    metric == "poverty_rate" ~ "Poverty Rate",
+    metric == "unemployment_rate" ~ "Unemployment Rate"
+  )) |>
+  ggplot(aes(x = county, y = rate, fill = metric)) +
+  geom_col(position = position_dodge(width = 0.7), width = 0.54) +
+  scale_fill_cpal_d() +
+  scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  labs(
+    title = "Poverty vs Unemployment by County",
+    x = NULL,
+    y = "Rate (%)",
+    fill = NULL
+  ) +
+  theme_cpal() +
+  theme(legend.position = "top")
+
+add_cpal_logo(p)
+```
+
+## Stacked Bar Chart
+
+**When to use:** Use when showing how parts contribute to a total across categories.
+
+```{r}
+#| label: stacked-bar
+
+p <- spending_data |>
+  mutate(income_group = factor(income_group,
+                                levels = c("Low", "Middle-Low", "Middle-High", "High"))) |>
+  ggplot(aes(x = income_group, y = pct_spending, fill = category)) +
+  geom_col(width = 0.54) +
+  scale_fill_cpal_d() +
+  scale_y_continuous(labels = scales::label_percent(scale = 1)) +
+  labs(
+    title = "Household Spending by Income Group",
+    subtitle = "Percentage of budget by category",
+    x = "Income Group",
+    y = "Percent of Budget",
+    fill = "Category"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "right")
+
+add_cpal_logo(p)
+```
+
+## 100% Stacked Bar Chart
+
+**When to use:** Use when comparing the relative composition across categories, regardless of total size.
+
+```{r}
+#| label: stacked-100-bar
+
+p <- spending_data |>
+  mutate(income_group = factor(income_group,
+                                levels = c("Low", "Middle-Low", "Middle-High", "High"))) |>
+  ggplot(aes(x = income_group, y = pct_spending, fill = category)) +
+  geom_col(position = "fill", width = 0.54) +
+  scale_fill_cpal_d() +
+  scale_y_continuous(labels = scales::label_percent()) +
+  labs(
+    title = "Budget Allocation by Income Group",
+    subtitle = "Normalized to 100%",
+    x = "Income Group",
+    y = "Percent of Budget",
+    fill = "Category"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "right")
+
+add_cpal_logo(p)
+```
+
+---
+
+# Area Charts
+
+## Basic Area Chart
+
+**When to use:** Use to emphasize the magnitude or volume of values over time.
+
+```{r}
+#| label: area-chart
+
+p <- monthly_data |>
+  filter(program == "Program A") |>
+  ggplot(aes(x = month_num, y = participants)) +
+  geom_area(fill = palette_cpal_main[1], alpha = 0.7) +
+  geom_line(color = palette_cpal_main[1], linewidth = 1) +
+  geom_point(color = palette_cpal_main[1], size = 2) +
+  scale_x_continuous(breaks = 1:12, labels = month.abb) +
+  labs(
+    title = "Program A Monthly Participation",
+    subtitle = "2024 enrollment numbers",
+    x = "Month",
+    y = "Participants"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Stacked Area Chart
+
+**When to use:** Use when showing how multiple components contribute to a total over time.
+
+```{r}
+#| label: stacked-area
+
+p <- monthly_data |>
+  ggplot(aes(x = month_num, y = participants, fill = program)) +
+  geom_area(alpha = 0.7) +
+  scale_fill_cpal_d() +
+  scale_x_continuous(breaks = 1:12, labels = month.abb) +
+  labs(
+    title = "Total Program Participation",
+    subtitle = "Combined enrollment across all programs",
+    x = "Month",
+    y = "Total Participants",
+    fill = "Program"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "top")
+
+add_cpal_logo(p)
+```
+
+---
+
+# Distribution Charts
+
+## Histogram
+
+**When to use:** Use to understand the distribution of a single continuous variable.
+
+```{r}
+#| label: histogram
+
+p <- distribution_data |>
+  ggplot(aes(x = value)) +
+  geom_histogram(bins = 15, fill = palette_cpal_main[1], color = "white") +
+  labs(
+    title = "Distribution of Values",
+    subtitle = "Frequency histogram with 15 bins",
+    x = "Value",
+    y = "Frequency"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Density Plot
+
+**When to use:** Use to visualize the probability distribution of continuous data.
+
+```{r}
+#| label: density-plot
+
+p <- distribution_data |>
+  filter(group %in% c("Group A", "Group B", "Group D")) |>
+  ggplot(aes(x = value, fill = group)) +
+  geom_density(alpha = 0.5) +
+  scale_fill_cpal_d() +
+  labs(
+    title = "Distribution Comparison by Group",
+    subtitle = "Kernel density estimation",
+    x = "Value",
+    y = "Density",
+    fill = "Group"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "top")
+
+add_cpal_logo(p)
+```
+
+## Boxplot
+
+**When to use:** Use to compare distributions across groups in a compact form.
+
+```{r}
+#| label: boxplot
+
+p <- distribution_data |>
+  ggplot(aes(x = group, y = value, fill = group)) +
+  geom_boxplot(alpha = 0.7, width = 0.54) +
+  scale_fill_cpal_d() +
+  labs(
+    title = "Value Distribution by Group",
+    subtitle = "Box shows median and quartiles; whiskers show range",
+    x = NULL,
+    y = "Value"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "none")
+
+add_cpal_logo(p)
+```
+
+---
+
+# Heatmaps & Correlation
+
+## Heatmap
+
+**When to use:** Use to display patterns in data across two categorical dimensions.
+
+```{r}
+#| label: heatmap
+
+heatmap_data <- expand.grid(
+  day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
+  hour = c("9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm")
+) |>
+  mutate(
+    day = factor(day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri")),
+    hour = factor(hour, levels = c("9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm")),
+    visitors = c(
+      45, 52, 68, 75, 62, 48, 55, 42,  # Mon
+      48, 58, 72, 80, 68, 52, 58, 45,  # Tue
+      42, 55, 65, 78, 72, 58, 62, 48,  # Wed
+      50, 62, 75, 85, 78, 55, 52, 40,  # Thu
+      55, 65, 70, 72, 58, 45, 38, 32   # Fri
+    )
+  )
+
+p <- heatmap_data |>
+  ggplot(aes(x = day, y = hour, fill = visitors)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  scale_fill_cpal(
+    palette = "midnight_seq_8",
+    discrete = FALSE,
+    guide = guide_colorbar(
+      barwidth = 15,
+      barheight = 1,
+      title.position = "top",
+      title.hjust = 0.5
+    )
+  ) +
+  labs(
+    title = "Office Visitor Traffic",
+    subtitle = "Average visitors by day and hour",
+    x = NULL,
+    y = NULL,
+    fill = "Visitors"
+  ) +
+  theme_cpal() +
+  theme(
+    axis.text.x = element_text(angle = 0),
+    panel.grid = element_blank(),
+    legend.position = "bottom"
+  )
+
+add_cpal_logo(p)
+```
+
+## Correlation Matrix
+
+**When to use:** Use to visualize the strength and direction of relationships between multiple numeric variables.
+
+```{r}
+#| label: correlogram
+
+# Calculate correlation matrix
+cor_matrix <- cor(correlation_data)
+
+# Convert to long format
+cor_long <- as.data.frame(as.table(cor_matrix)) |>
+  rename(var1 = Var1, var2 = Var2, correlation = Freq)
+
+# Better labels
+label_map <- c(
+  "income" = "Income",
+  "education_years" = "Education",
+  "age" = "Age",
+  "savings_rate" = "Savings Rate"
+)
+
+p <- cor_long |>
+  mutate(
+    var1 = factor(var1, levels = names(label_map), labels = label_map),
+    var2 = factor(var2, levels = names(label_map), labels = label_map)
+  ) |>
+  ggplot(aes(x = var1, y = var2, fill = correlation)) +
+  geom_tile(color = "white", linewidth = 0.5) +
+  geom_text(aes(label = round(correlation, 2)), color = "white", size = 4) +
+  scale_fill_cpal(
+    palette = "coral_midnight_9",
+    discrete = FALSE,
+    limits = c(-1, 1),
+    guide = guide_colorbar(
+      barwidth = 15,
+      barheight = 1,
+      title.position = "top",
+      title.hjust = 0.5
+    )
+  ) +
+  labs(
+    title = "Correlation Matrix",
+    subtitle = "Relationships between socioeconomic variables",
+    x = NULL,
+    y = NULL,
+    fill = "Correlation"
+  ) +
+  theme_cpal() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    panel.grid = element_blank(),
+    legend.position = "bottom"
+  )
+
+add_cpal_logo(p)
+```
+
+---
+
+# Part-to-Whole Charts
+
+## Donut Chart
+
+**When to use:** Use to show proportions of a whole when you have 2-5 categories.
+
+```{r}
+#| label: donut-chart
+
+region_pop <- tx_counties |>
+  group_by(region) |>
+  summarise(population = sum(total_pop), .groups = "drop") |>
+  mutate(
+    pct = population / sum(population),
+    label = scales::percent(pct, accuracy = 0.1)
+  ) |>
+  arrange(desc(region)) |>
+  mutate(
+    cumsum_pop = cumsum(population),
+    pos = cumsum_pop - population / 2
+  )
+
+p <- region_pop |>
+  ggplot(aes(x = 2, y = population, fill = region)) +
+  geom_col(width = 1, color = "white") +
+  geom_text(
+    aes(y = pos, label = label),
+    x = 2.3,
+    color = "white",
+    fontface = "bold",
+    size = 3.5
+  ) +
+  coord_polar(theta = "y") +
+  xlim(0.5, 2.5) +
+  scale_fill_cpal_d() +
+  scale_x_continuous(labels = NULL, breaks = NULL) +
+  scale_y_continuous(labels = NULL, breaks = NULL) +
+  labs(
+    title = "Regional Population Distribution",
+    x = NULL,
+    y = NULL,
+    fill = NULL
+  ) +
+  theme_cpal() +
+  theme(
+    legend.position = "bottom",
+    legend.direction = "horizontal"
+  )
+
+add_cpal_logo(p)
+```
+
+## Treemap
+
+**When to use:** Use to show hierarchical part-to-whole relationships where size represents a quantitative value.
+
+```{r}
+#| label: treemap
+#| eval: !expr requireNamespace("treemapify", quietly = TRUE)
+
+p <- budget_data |>
+  mutate(label = paste0(program, "\n$", budget, "M")) |>
+  ggplot(aes(area = budget, fill = department, subgroup = department, label = label)) +
+  geom_treemap() +
+  geom_treemap_subgroup_border(color = "white", size = 3) +
+  geom_treemap_text(color = "white", place = "centre", grow = FALSE, size = 9) +
+  scale_fill_cpal_d() +
+  labs(
+    title = "Department Budget Allocation",
+    subtitle = "Size represents budget in millions",
+    fill = "Department"
+  ) +
+  theme_cpal() +
+  theme(legend.position = "bottom")
+
+add_cpal_logo(p)
+```
+
+---
+
+# Specialized Charts
+
+## Lollipop Chart
+
+**When to use:** Use as a cleaner alternative to bar charts when you have many categories.
+
+```{r}
+#| label: lollipop
+
+p <- tx_counties |>
+  arrange(desc(poverty_rate)) |>
+  head(8) |>
+  ggplot(aes(x = reorder(county, poverty_rate), y = poverty_rate)) +
+  geom_segment(
+    aes(xend = county, y = 0, yend = poverty_rate),
+    color = palette_cpal_main[1],
+    linewidth = 1
+  ) +
+  geom_point(color = palette_cpal_main[2], size = 4) +
+  coord_flip() +
+  scale_y_continuous(labels = scales::label_percent(scale = 1), limits = c(0, 30)) +
+  labs(
+    title = "Poverty Rates by County",
+    subtitle = "Lollipop chart showing rate comparison",
+    x = NULL,
+    y = "Poverty Rate (%)"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+## Ribbon/Range Chart
+
+**When to use:** Use when presenting estimates that have uncertainty.
+
+```{r}
+#| label: ribbon
+
+range_data <- tx_time |>
+  filter(county == "Travis") |>
+  mutate(
+    lower = median_hh_income * 0.92,
+    upper = median_hh_income * 1.08
+  )
+
+p <- range_data |>
+  ggplot(aes(x = year)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper), fill = palette_cpal_main[1], alpha = 0.3) +
+  geom_line(aes(y = median_hh_income), color = palette_cpal_main[1], linewidth = 1) +
+  geom_point(aes(y = median_hh_income), color = palette_cpal_main[1], size = 3) +
+  scale_y_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
+  labs(
+    title = "Travis County Income Trend with Confidence Band",
+    subtitle = "Median household income with estimated uncertainty",
+    x = "Year",
+    y = "Median Income"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+---
+
+# Faceted Charts
+
+## Facet Wrap (Small Multiples)
+
+**When to use:** Use to create multiple panels of the same chart type, each showing a subset of the data.
+
+```{r}
+#| label: facet-wrap
+
+p <- tx_time |>
+  ggplot(aes(x = year, y = median_hh_income)) +
+  geom_line(color = palette_cpal_main[1], linewidth = 1) +
+  geom_point(color = palette_cpal_main[1], size = 2) +
+  facet_wrap(~county, scales = "free_y") +
+  scale_y_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "K")) +
+  labs(
+    title = "Income Trends by County",
+    subtitle = "Each panel shows one county's trend",
+    x = "Year",
+    y = "Median Income"
+  ) +
+  theme_cpal()
+
+add_cpal_logo(p)
+```
+
+---
+
+# Quick Reference
+
+| Function | Purpose |
+|----------|---------|
+| `theme_cpal()` | Apply CPAL theme (light mode) |
+| `theme_cpal_dark()` | Apply CPAL theme (dark mode) |
+| `add_cpal_logo(p)` | Add CPAL logo to plot |
+| `scale_fill_cpal_d()` | Discrete/categorical fill colors |
+| `scale_color_cpal_d()` | Discrete/categorical line/point colors |
+| `scale_fill_cpal(palette = "...", discrete = FALSE)` | Continuous gradient fills |
+| `cpal_colors()` | Get categorical palette as vector |
+| `cpal_colors("midnight_seq_8")` | Get sequential palette as vector |
+| `cpal_colors("coral_midnight_9")` | Get diverging palette as vector |

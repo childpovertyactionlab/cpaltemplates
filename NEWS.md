@@ -1,5 +1,74 @@
 ---
 
+# cpaltemplates 2.7.0 (2026-01-12)
+
+## Highcharter Integration & ggiraph Deprecation
+
+### New Features: Highcharter Support
+
+Complete Highcharter theme and helper function system for interactive charts, replacing ggiraph.
+
+#### Core Theme Functions
+* **`hc_theme_cpal_light()`**: Light mode Highcharter theme matching `theme_cpal()`
+* **`hc_theme_cpal_dark()`**: Dark mode Highcharter theme matching `theme_cpal_dark()`
+* **`hc_theme_cpal_switch(mode)`**: Theme switcher for Shiny dark/light mode toggles
+* **`hc_cpal_theme(hc, mode)`**: Convenience function that applies theme and number formatting
+
+#### Color Functions
+* **`hc_colors_cpal(hc, palette, n, reverse)`**: Apply CPAL color palettes to charts
+* **`hc_colorAxis_cpal(hc, palette, min, max)`**: Configure color axis for heatmaps/choropleths
+
+#### Formatting Helpers
+* **`hc_cpal_number_format()`**: Set US number formatting (commas for thousands)
+* **`hc_tooltip_cpal(hc, decimals, prefix, suffix)`**: Configure tooltip formatting
+* **`hc_yaxis_cpal(hc, title, decimals, prefix, suffix, divide_by)`**: Configure y-axis labels
+* **`hc_linetype_cpal(hc, curved)`**: Switch between straight lines and smooth splines
+
+#### Logo Integration
+* **`hc_add_cpal_logo(hc, mode, position, width, opacity)`**: Add CPAL logo watermark to charts
+
+#### Chart Helpers
+* **`hc_histogram_cpal(data, breaks, ...)`**: Create CPAL-styled histograms
+* **`hc_lollipop_cpal(categories, values, ...)`**: Create lollipop charts
+* **`hc_dumbbell_cpal(categories, values_start, values_end, ...)`**: Create dumbbell charts
+
+### Breaking Changes: ggiraph Removed
+
+The following ggiraph-related functions have been removed:
+* `cpal_interactive()` - Use Highcharter's `hchart()` with `hc_cpal_theme()` instead
+* `cpal_point_interactive()` - Use Highcharter scatter charts
+* `cpal_line_interactive()` - Use Highcharter line/spline charts
+* `cpal_col_interactive()` - Use Highcharter column/bar charts
+* `cpal_polygon_interactive()` - Use Highcharter or mapgl for polygons
+* `get_cpal_font_family()` - Use `cpal_font_family()` directly
+
+### Dependency Changes
+* **Added to Imports**: `highcharter`
+* **Removed from Suggests**: `ggiraph`, `gdtools`
+* **Added to Suggests**: `base64enc` (for logo embedding), `shiny`
+
+### Usage Example
+
+```r
+library(highcharter)
+library(cpaltemplates)
+
+# Create a themed chart
+hchart(mtcars, "scatter", hcaes(wt, mpg, group = factor(cyl))) |>
+  hc_cpal_theme() |>
+  hc_title(text = "Weight vs MPG") |>
+  hc_add_cpal_logo()
+
+# With dark mode in Shiny
+output$chart <- renderHighchart({
+  hchart(data, "column", hcaes(x = category, y = value)) |>
+    hc_cpal_theme(input$dark_mode) |>
+    hc_tooltip_cpal(decimals = 0, suffix = " units")
+})
+```
+
+---
+
 # cpaltemplates 2.6.0 (2026-01-08)
 ## Thematic Package Compatibility for Dark Mode Support
 

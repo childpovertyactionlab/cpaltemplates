@@ -5,15 +5,12 @@
 \alias{cpal_font_family_fallback}
 \title{Get CPAL Font Family}
 \usage{
-cpal_font_family(
-  type = c("plot", "interactive", "table", "print"),
-  setup = FALSE
-)
+cpal_font_family(type = c("plot", "table", "print"), setup = FALSE)
 
 cpal_font_family_fallback()
 }
 \arguments{
-\item{type}{Character. Type of output: "plot" (default), "interactive", "table", or "print"}
+\item{type}{Character. Type of output: "plot" (default), "table", or "print"}
 
 \item{setup}{Logical. If TRUE, attempts to set up fonts if not available (default: FALSE)}
 }
@@ -27,9 +24,6 @@ for getting font family names for use in plots, tables, and other outputs.
 \examples{
 # Get font for regular plots
 cpal_font_family()
-
-# Get font for interactive ggiraph plots
-cpal_font_family("interactive")
 
 # Get font and set up if missing
 cpal_font_family(setup = TRUE)

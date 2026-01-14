@@ -224,10 +224,10 @@ n_distinct(data$category)
 scale_color_cpal("main_3")
 
 # For 5 categories:
-scale_color_cpal("main")
+scale_color_cpal("main_5")
 
-# For more categories:
-scale_color_cpal("main_gray")  # 6 colors
+# For 6 categories:
+scale_color_cpal("main_6")  # 6 colors
 ```
 
 ### Color Contrast Issues

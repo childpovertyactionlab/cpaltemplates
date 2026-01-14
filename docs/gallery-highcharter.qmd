@@ -1,0 +1,954 @@
+---
+title: "Highcharter Chart Gallery"
+subtitle: "A showcase of interactive chart types with CPAL styling"
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library(highcharter)
+library(dplyr)
+library(tidyr)
+library(cpaltemplates)
+
+# Set global number formatting
+hc_cpal_number_format()
+
+# =============================================================================
+# SAMPLE DATA
+# =============================================================================
+
+# County data (cross-sectional)
+tx_counties <- data.frame(
+  county = c("Harris", "Dallas", "Tarrant", "Bexar", "Travis",
+             "Collin", "Hidalgo", "El Paso", "Denton", "Fort Bend"),
+  region = c("Gulf Coast", "North Texas", "North Texas", "South Texas", "Central",
+             "North Texas", "South Texas", "West Texas", "North Texas", "Gulf Coast"),
+  total_pop = c(4728030, 2613539, 2110640, 2009324, 1290188,
+                1140420, 895858, 867947, 953434, 858355),
+  poverty_rate = c(14.2, 14.8, 10.1, 14.5, 10.3,
+                   5.2, 26.1, 18.4, 5.8, 6.9),
+  median_hh_income = c(65394, 64138, 75816, 62599, 89227,
+                       117454, 47036, 51036, 104115, 112235),
+  unemployment_rate = c(5.1, 4.8, 4.2, 4.9, 3.8, 3.2, 7.8, 5.5, 3.5, 3.9),
+  pct_bachelors = c(32.1, 34.5, 35.2, 28.4, 52.1, 55.8, 18.2, 24.1, 48.3, 45.2)
+)
+
+# Time series data
+tx_time <- expand.grid(
+  county = c("Harris", "Dallas", "Travis", "Bexar"),
+  year = 2018:2024
+) |>
+  mutate(
+    median_hh_income = case_when(
+      county == "Harris" ~ 58000 + (year - 2018) * 1200 + rnorm(n(), 0, 500),
+      county == "Dallas" ~ 56000 + (year - 2018) * 1100 + rnorm(n(), 0, 500),
+      county == "Travis" ~ 72000 + (year - 2018) * 2800 + rnorm(n(), 0, 500),
+      county == "Bexar" ~ 52000 + (year - 2018) * 900 + rnorm(n(), 0, 500)
+    ),
+    poverty_rate = case_when(
+      county == "Harris" ~ 15.5 - (year - 2018) * 0.2 + rnorm(n(), 0, 0.3),
+      county == "Dallas" ~ 16.0 - (year - 2018) * 0.18 + rnorm(n(), 0, 0.3),
+      county == "Travis" ~ 12.0 - (year - 2018) * 0.25 + rnorm(n(), 0, 0.3),
+      county == "Bexar" ~ 16.5 - (year - 2018) * 0.15 + rnorm(n(), 0, 0.3)
+    )
+  )
+
+# Category breakdown data (for stacked charts)
+spending_data <- data.frame(
+  category = rep(c("Housing", "Food", "Transportation", "Healthcare", "Education"), each = 4),
+  income_group = rep(c("Low", "Middle-Low", "Middle-High", "High"), 5),
+  pct_spending = c(
+    45, 35, 28, 22,  # Housing
+    18, 15, 12, 10,  # Food
+    12, 14, 15, 12,  # Transportation
+    8, 10, 12, 8,    # Healthcare
+    5, 8, 12, 18     # Education
+  )
+)
+
+# Monthly data for area charts
+monthly_data <- data.frame(
+  month = rep(month.abb, 3),
+  month_num = rep(1:12, 3),
+  program = rep(c("Program A", "Program B", "Program C"), each = 12),
+  participants = c(
+    # Program A
+    120, 135, 142, 156, 178, 195, 210, 225, 198, 175, 160, 145,
+    # Program B
+    80, 95, 110, 125, 140, 155, 165, 170, 160, 145, 130, 115,
+    # Program C
+    50, 55, 65, 75, 85, 95, 100, 105, 95, 85, 75, 65
+  )
+)
+
+# Correlation data
+set.seed(42)
+n <- 100
+correlation_data <- data.frame(
+  income = rnorm(n, 65000, 20000),
+  education_years = rnorm(n, 14, 3),
+  age = rnorm(n, 42, 12),
+  savings_rate = rnorm(n, 12, 5)
+) |>
+  mutate(
+    income = pmax(25000, income),
+    education_years = pmax(8, pmin(22, education_years)),
+    age = pmax(22, pmin(70, age)),
+    savings_rate = pmax(0, pmin(30, savings_rate))
+  )
+
+# Hierarchical data for treemap
+budget_data <- data.frame(
+  department = c("Health", "Health", "Health",
+                 "Education", "Education", "Education",
+                 "Infrastructure", "Infrastructure",
+                 "Public Safety", "Public Safety"),
+  program = c("Clinics", "Hospitals", "Prevention",
+              "K-12", "Higher Ed", "Early Childhood",
+              "Roads", "Transit",
+              "Police", "Fire"),
+  budget = c(45, 120, 25, 180, 95, 35, 75, 45, 60, 40)
+)
+
+# Distribution data
+set.seed(123)
+distribution_data <- data.frame(
+  group = rep(c("Group A", "Group B", "Group C", "Group D"), each = 50),
+  value = c(
+    rnorm(50, 50, 10),
+    rnorm(50, 65, 15),
+    rnorm(50, 45, 8),
+    rnorm(50, 70, 12)
+  )
+)
+```
+
+## Introduction
+
+This gallery showcases various interactive chart types using highcharter with CPAL styling. Each example demonstrates proper use of themes, color palettes, formatting, and logo placement.
+
+::: {.callout-tip}
+## Looking for Static Charts?
+For static (non-interactive) visualizations using ggplot2, see the [ggplot2 Chart Gallery](gallery-ggplot2.qmd).
+:::
+
+::: {.callout-note}
+## Code Visibility
+Click "Show code" above each chart to see the full implementation.
+:::
+
+---
+
+# Basic Charts
+
+## Bar Chart (Horizontal)
+
+**When to use:** Best for comparing values across categories, especially when category labels are long.
+
+```{r}
+#| label: bar-chart
+
+tx_counties |>
+  arrange(desc(total_pop)) |>
+  head(8) |>
+  hchart("bar", hcaes(x = county, y = total_pop), name = "Population") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Texas Counties by Population") |>
+  hc_subtitle(text = "Top 8 counties, ACS 2023") |>
+  hc_xAxis(title = list(text = NULL)) |>
+  hc_yaxis_cpal(title = "Population", suffix = "M", divide_by = 1000000) |>
+  hc_tooltip_cpal(suffix = " residents") |>
+  hc_add_cpal_logo()
+```
+
+## Column Chart (Vertical)
+
+**When to use:** Ideal for comparing values across a small number of categories (typically 3-8).
+
+```{r}
+#| label: column-chart
+
+tx_counties |>
+  head(6) |>
+  hchart("column", hcaes(x = county, y = poverty_rate), name = "Poverty Rate") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Poverty Rates by County") |>
+  hc_subtitle(text = "Percentage of population below poverty line") |>
+  hc_yAxis(
+    title = list(text = "Poverty Rate"),
+    labels = list(format = "{value}%"),
+    max = 30
+  ) |>
+  hc_tooltip_cpal(decimals = 1, suffix = "%") |>
+  hc_add_cpal_logo()
+```
+
+## Line Chart
+
+**When to use:** Best for showing trends over time or continuous change across an ordered sequence.
+
+```{r}
+#| label: line-chart
+
+tx_time |>
+  hchart("line", hcaes(x = year, y = median_hh_income, group = county)) |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Median Household Income Trends") |>
+  hc_subtitle(text = "Selected Texas counties, 2018-2024") |>
+  hc_xAxis(title = list(text = "Year")) |>
+  hc_yaxis_cpal(title = "Median Income", prefix = "$", divide_by = 1000, suffix = "K") |>
+  hc_linetype_cpal(curved = TRUE) |>
+  hc_tooltip(
+    pointFormat = "{series.name}: <b>${point.y:,.0f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+## Scatter Plot
+
+**When to use:** Use to explore the relationship between two continuous variables.
+
+```{r}
+#| label: scatter-plot
+
+tx_counties |>
+  hchart("scatter",
+         hcaes(x = median_hh_income, y = poverty_rate),
+         name = "Counties") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Income vs Poverty Rate") |>
+  hc_subtitle(text = "Each point represents a Texas county") |>
+  hc_xAxis(
+    title = list(text = "Median Household Income"),
+    labels = list(formatter = JS("function() { return '$' + Highcharts.numberFormat(this.value/1000, 0) + 'K'; }"))
+  ) |>
+  hc_yAxis(
+    title = list(text = "Poverty Rate (%)"),
+    labels = list(format = "{value}%")
+  ) |>
+  hc_tooltip(
+    pointFormat = "Income: <b>${point.x:,.0f}</b><br/>Poverty: <b>{point.y:.1f}%</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+## Bubble Plot
+
+**When to use:** Use when you need to show relationships between three variables simultaneously.
+
+```{r}
+#| label: bubble-plot
+
+tx_counties |>
+  hchart("bubble",
+         hcaes(x = median_hh_income, y = poverty_rate, size = total_pop, name = county),
+         name = "Counties",
+         maxSize = "15%",
+         minSize = "5%") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Income, Poverty, and Population") |>
+  hc_subtitle(text = "Bubble size represents total population") |>
+  hc_xAxis(
+    title = list(text = "Median Household Income"),
+    labels = list(formatter = JS("function() { return '$' + Highcharts.numberFormat(this.value/1000, 0) + 'K'; }"))
+  ) |>
+  hc_yAxis(
+    title = list(text = "Poverty Rate (%)"),
+    labels = list(format = "{value}%")
+  ) |>
+  hc_tooltip(
+    useHTML = TRUE,
+    pointFormat = paste0(
+      "<b>{point.name}</b><br/>",
+      "Population: {point.z:,.0f}<br/>",
+      "Income: ${point.x:,.0f}<br/>",
+      "Poverty: {point.y:.1f}%"
+    )
+  ) |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Grouped & Stacked Charts
+
+## Grouped Bar Chart
+
+**When to use:** Use when comparing two or more related metrics across the same categories.
+
+```{r}
+#| label: grouped-bar
+
+# Reshape data for grouped comparison
+grouped_data <- tx_counties |>
+  head(5) |>
+  select(county, poverty_rate, unemployment_rate) |>
+  pivot_longer(cols = c(poverty_rate, unemployment_rate),
+               names_to = "metric",
+               values_to = "rate") |>
+  mutate(metric = case_when(
+    metric == "poverty_rate" ~ "Poverty Rate",
+    metric == "unemployment_rate" ~ "Unemployment Rate"
+  ))
+
+highchart() |>
+  hc_chart(type = "bar") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main", n = 2) |>
+  hc_title(text = "Poverty vs Unemployment by County") |>
+  hc_xAxis(categories = unique(grouped_data$county)) |>
+  hc_yAxis(
+    title = list(text = "Rate (%)"),
+    labels = list(format = "{value}%")
+  ) |>
+  hc_add_series(
+    name = "Poverty Rate",
+    data = grouped_data |> filter(metric == "Poverty Rate") |> pull(rate)
+  ) |>
+  hc_add_series(
+    name = "Unemployment Rate",
+    data = grouped_data |> filter(metric == "Unemployment Rate") |> pull(rate)
+  ) |>
+  hc_plotOptions(bar = list(grouping = TRUE)) |>
+  hc_tooltip(valueSuffix = "%") |>
+  hc_add_cpal_logo()
+```
+
+## Stacked Bar Chart
+
+**When to use:** Use when showing how parts contribute to a total across categories.
+
+```{r}
+#| label: stacked-bar
+
+highchart() |>
+  hc_chart(type = "bar") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Household Spending by Income Group") |>
+  hc_subtitle(text = "Percentage of budget by category") |>
+  hc_xAxis(categories = c("Low", "Middle-Low", "Middle-High", "High"),
+           title = list(text = "Income Group")) |>
+  hc_yAxis(
+    title = list(text = "Percent of Budget"),
+    labels = list(format = "{value}%"),
+    max = 100
+  ) |>
+  hc_plotOptions(bar = list(stacking = "normal")) |>
+  hc_add_series(name = "Housing",
+                data = spending_data |> filter(category == "Housing") |> pull(pct_spending)) |>
+  hc_add_series(name = "Food",
+                data = spending_data |> filter(category == "Food") |> pull(pct_spending)) |>
+  hc_add_series(name = "Transportation",
+                data = spending_data |> filter(category == "Transportation") |> pull(pct_spending)) |>
+  hc_add_series(name = "Healthcare",
+                data = spending_data |> filter(category == "Healthcare") |> pull(pct_spending)) |>
+  hc_add_series(name = "Education",
+                data = spending_data |> filter(category == "Education") |> pull(pct_spending)) |>
+  hc_tooltip(pointFormat = "{series.name}: <b>{point.y}%</b><br/>") |>
+  hc_add_cpal_logo()
+```
+
+## 100% Stacked Bar Chart
+
+**When to use:** Use when comparing the relative composition across categories, regardless of total size.
+
+```{r}
+#| label: stacked-100-bar
+
+highchart() |>
+  hc_chart(type = "bar") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Budget Allocation by Income Group") |>
+  hc_subtitle(text = "Normalized to 100%") |>
+  hc_xAxis(categories = c("Low", "Middle-Low", "Middle-High", "High")) |>
+  hc_yAxis(
+    title = list(text = "Percent of Budget"),
+    labels = list(format = "{value}%")
+  ) |>
+  hc_plotOptions(bar = list(stacking = "percent")) |>
+  hc_add_series(name = "Housing",
+                data = spending_data |> filter(category == "Housing") |> pull(pct_spending)) |>
+  hc_add_series(name = "Food",
+                data = spending_data |> filter(category == "Food") |> pull(pct_spending)) |>
+  hc_add_series(name = "Transportation",
+                data = spending_data |> filter(category == "Transportation") |> pull(pct_spending)) |>
+  hc_add_series(name = "Healthcare",
+                data = spending_data |> filter(category == "Healthcare") |> pull(pct_spending)) |>
+  hc_add_series(name = "Education",
+                data = spending_data |> filter(category == "Education") |> pull(pct_spending)) |>
+  hc_tooltip(pointFormat = "{series.name}: <b>{point.percentage:.1f}%</b><br/>") |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Area Charts
+
+## Basic Area Chart
+
+**When to use:** Use to emphasize the magnitude or volume of values over time.
+
+```{r}
+#| label: area-chart
+
+monthly_data |>
+  filter(program == "Program A") |>
+  hchart("area", hcaes(x = month_num, y = participants), name = "Participants") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Program A Monthly Participation") |>
+  hc_subtitle(text = "2024 enrollment numbers") |>
+  hc_xAxis(
+    categories = month.abb,
+    title = list(text = "Month")
+  ) |>
+  hc_yAxis(title = list(text = "Participants")) |>
+  hc_plotOptions(area = list(
+    fillOpacity = 0.3,
+    marker = list(enabled = TRUE, radius = 4)
+  )) |>
+  hc_tooltip(
+    pointFormat = "Participants: <b>{point.y:,.0f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+## Stacked Area Chart
+
+**When to use:** Use when showing how multiple components contribute to a total over time.
+
+```{r}
+#| label: stacked-area
+
+highchart() |>
+  hc_chart(type = "area") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main", n = 3) |>
+  hc_title(text = "Total Program Participation") |>
+  hc_subtitle(text = "Combined enrollment across all programs") |>
+  hc_xAxis(categories = month.abb, title = list(text = "Month")) |>
+  hc_yAxis(title = list(text = "Total Participants")) |>
+  hc_plotOptions(area = list(
+    stacking = "normal",
+    fillOpacity = 0.6,
+    marker = list(enabled = FALSE)
+  )) |>
+  hc_add_series(
+    name = "Program A",
+    data = monthly_data |> filter(program == "Program A") |> pull(participants)
+  ) |>
+  hc_add_series(
+    name = "Program B",
+    data = monthly_data |> filter(program == "Program B") |> pull(participants)
+  ) |>
+  hc_add_series(
+    name = "Program C",
+    data = monthly_data |> filter(program == "Program C") |> pull(participants)
+  ) |>
+  hc_tooltip(
+    shared = TRUE,
+    pointFormat = "{series.name}: <b>{point.y:,.0f}</b><br/>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Distribution Charts
+
+## Histogram
+
+**When to use:** Use to understand the distribution of a single continuous variable.
+
+```{r}
+#| label: histogram
+
+hc_histogram_cpal(
+  data = distribution_data$value,
+  breaks = 15,
+  title = "Distribution of Values",
+  subtitle = "Frequency histogram with 15 bins",
+  x_title = "Value",
+  y_title = "Frequency"
+) |>
+  hc_cpal_theme() |>
+  hc_add_cpal_logo()
+```
+
+## Boxplot
+
+**When to use:** Use to compare distributions across groups in a compact form.
+
+```{r}
+#| label: boxplot
+
+# Calculate boxplot statistics for each group
+groups <- unique(distribution_data$group)
+boxplot_series <- lapply(groups, function(g) {
+  vals <- distribution_data$value[distribution_data$group == g]
+  stats <- boxplot.stats(vals)
+  list(
+    low = stats$stats[1],
+    q1 = stats$stats[2],
+    median = stats$stats[3],
+    q3 = stats$stats[4],
+    high = stats$stats[5],
+    name = g
+  )
+})
+
+highchart() |>
+  hc_chart(type = "boxplot") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Value Distribution by Group") |>
+  hc_subtitle(text = "Box shows median and quartiles; whiskers show range") |>
+  hc_xAxis(categories = groups, title = list(text = "Group")) |>
+  hc_yAxis(title = list(text = "Value")) |>
+  hc_add_series(name = groups[1], data = list(boxplot_series[[1]])) |>
+  hc_add_series(name = groups[2], data = list(boxplot_series[[2]])) |>
+  hc_add_series(name = groups[3], data = list(boxplot_series[[3]])) |>
+  hc_add_series(name = groups[4], data = list(boxplot_series[[4]])) |>
+  hc_boxplot_style_cpal() |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Heatmaps & Correlation
+
+## Heatmap
+
+**When to use:** Use to display patterns in data across two categorical dimensions.
+
+```{r}
+#| label: heatmap
+
+heatmap_data <- expand.grid(
+  day = c("Mon", "Tue", "Wed", "Thu", "Fri"),
+  hour = c("9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm")
+) |>
+  mutate(
+    day_num = match(day, c("Mon", "Tue", "Wed", "Thu", "Fri")) - 1,
+    hour_num = match(hour, c("9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm")) - 1,
+    visitors = c(
+      45, 52, 68, 75, 62, 48, 55, 42,  # Mon
+      48, 58, 72, 80, 68, 52, 58, 45,  # Tue
+      42, 55, 65, 78, 72, 58, 62, 48,  # Wed
+      50, 62, 75, 85, 78, 55, 52, 40,  # Thu
+      55, 65, 70, 72, 58, 45, 38, 32   # Fri
+    )
+  )
+
+hchart(
+  heatmap_data,
+  "heatmap",
+  hcaes(x = day_num, y = hour_num, value = visitors)
+) |>
+  hc_cpal_theme() |>
+  hc_colorAxis_cpal("sequential", min = 30, max = 90) |>
+  hc_title(text = "Office Visitor Traffic") |>
+  hc_subtitle(text = "Average visitors by day and hour") |>
+  hc_xAxis(
+    categories = c("Mon", "Tue", "Wed", "Thu", "Fri"),
+    title = list(text = NULL)
+  ) |>
+  hc_yAxis(
+    categories = c("9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm"),
+    title = list(text = NULL),
+    reversed = TRUE
+  ) |>
+  hc_plotOptions(
+    heatmap = list(
+      borderWidth = 1,
+      borderColor = "#FFFFFF",
+      states = list(hover = list(brightness = 0))
+    )
+  ) |>
+  hc_legend(
+    align = "right",
+    layout = "vertical",
+    verticalAlign = "middle"
+  ) |>
+  hc_tooltip(
+    pointFormat = "<b>{point.visitors}</b> visitors"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+## Correlation Matrix
+
+**When to use:** Use to visualize the strength and direction of relationships between multiple numeric variables.
+
+```{r}
+#| label: correlogram
+
+# Calculate correlation matrix
+cor_matrix <- cor(correlation_data)
+cor_vars <- colnames(cor_matrix)
+
+# Convert to long format for heatmap
+cor_long <- expand.grid(
+  var1 = cor_vars,
+  var2 = cor_vars
+) |>
+  mutate(
+    x = match(var1, cor_vars) - 1,
+    y = match(var2, cor_vars) - 1,
+    correlation = as.vector(cor_matrix)
+  )
+
+# Better labels
+label_map <- c(
+  "income" = "Income",
+  "education_years" = "Education",
+  "age" = "Age",
+  "savings_rate" = "Savings Rate"
+)
+
+hchart(
+  cor_long,
+  "heatmap",
+  hcaes(x = x, y = y, value = correlation)
+) |>
+  hc_cpal_theme() |>
+  hc_colorAxis_cpal("diverging", min = -1, max = 1) |>
+  hc_title(text = "Correlation Matrix") |>
+  hc_subtitle(text = "Relationships between socioeconomic variables") |>
+  hc_xAxis(
+    categories = label_map[cor_vars],
+    title = list(text = NULL)
+  ) |>
+  hc_yAxis(
+    categories = label_map[cor_vars],
+    title = list(text = NULL),
+    reversed = TRUE
+  ) |>
+  hc_plotOptions(
+    heatmap = list(
+      borderWidth = 1,
+      borderColor = "#FFFFFF",
+      states = list(hover = list(brightness = 0))
+    )
+  ) |>
+  hc_legend(
+    align = "right",
+    layout = "vertical",
+    verticalAlign = "middle",
+    title = list(text = "Correlation")
+  ) |>
+  hc_tooltip(
+    pointFormat = "Correlation: <b>{point.value:.2f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Part-to-Whole Charts
+
+## Donut Chart
+
+**When to use:** Use to show proportions of a whole when you have 2-5 categories.
+
+```{r}
+#| label: donut-chart
+
+region_pop <- tx_counties |>
+  group_by(region) |>
+  summarise(population = sum(total_pop), .groups = "drop")
+
+region_pop |>
+  hchart("pie", hcaes(name = region, y = population)) |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Regional Population Distribution") |>
+  hc_plotOptions(pie = list(
+    innerSize = "60%",
+    dataLabels = list(
+      enabled = TRUE,
+      format = "{point.name}: {point.percentage:.1f}%",
+      distance = 20
+    )
+  )) |>
+  hc_tooltip(
+    pointFormat = "Population: <b>{point.y:,.0f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+## Treemap
+
+**When to use:** Use to show hierarchical part-to-whole relationships where size represents a quantitative value.
+
+```{r}
+#| label: treemap
+
+# Using hc_treemap_data_cpal() to build hierarchical data with CPAL colors
+treemap_data <- hc_treemap_data_cpal(
+  budget_data,
+  parent_col = "department",
+  child_col = "program",
+  value_col = "budget"
+)
+
+highchart() |>
+  hc_cpal_theme() |>
+  hc_title(text = "Department Budget Allocation") |>
+  hc_subtitle(text = "Size represents budget in millions; programs grouped by department") |>
+  hc_add_series(type = "treemap", data = treemap_data) |>
+  hc_treemap_style_cpal() |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Specialized Charts
+
+## Lollipop Chart
+
+**When to use:** Use as a cleaner alternative to bar charts when you have many categories.
+
+```{r}
+#| label: lollipop
+
+lollipop_data <- tx_counties |>
+  arrange(desc(poverty_rate)) |>
+  head(8)
+
+hc_lollipop_cpal(
+  categories = lollipop_data$county,
+  values = lollipop_data$poverty_rate,
+  name = "Poverty Rate",
+  title = "Poverty Rates by County",
+  subtitle = "Lollipop chart showing rate comparison",
+  y_title = "Poverty Rate (%)",
+  tooltip_suffix = "%"
+) |>
+  hc_cpal_theme() |>
+  hc_yAxis(max = 30, labels = list(format = "{value}%")) |>
+  hc_add_cpal_logo()
+```
+
+## Dumbbell Chart
+
+**When to use:** Use to show the change or gap between two points for each category.
+
+```{r}
+#| label: dumbbell
+
+# Compare 2020 vs 2024 (simulated data)
+set.seed(123)
+dumbbell_data <- tx_counties |>
+  head(6) |>
+  mutate(
+    poverty_2020 = poverty_rate + runif(n(), 2, 5),
+    poverty_2024 = poverty_rate
+  ) |>
+  arrange(desc(poverty_2020))
+
+hc_dumbbell_cpal(
+  categories = dumbbell_data$county,
+  values_start = dumbbell_data$poverty_2020,
+  values_end = dumbbell_data$poverty_2024,
+  name_start = "2020",
+  name_end = "2024",
+  title = "Poverty Rate Change: 2020 vs 2024",
+  subtitle = "Progress in reducing poverty",
+  y_title = "Poverty Rate (%)",
+  tooltip_suffix = "%"
+) |>
+  hc_cpal_theme() |>
+  hc_yAxis(labels = list(format = "{value}%")) |>
+  hc_add_cpal_logo()
+```
+
+## Waterfall Chart
+
+**When to use:** Use to show how an initial value is affected by positive and negative changes to arrive at a final value.
+
+```{r}
+#| label: waterfall
+
+waterfall_data <- data.frame(
+  name = c("Starting Budget", "Federal Grants", "State Funding",
+           "Program Costs", "Admin Costs", "Other Expenses", "Final Budget"),
+  y = c(1000000, 250000, 150000, -350000, -120000, -80000, NA),
+  isSum = c(FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE)
+)
+
+# Using hc_waterfall_colors_cpal() to auto-color positive/negative/total values
+colored_data <- hc_waterfall_colors_cpal(waterfall_data)
+
+highchart() |>
+  hc_chart(type = "waterfall") |>
+  hc_cpal_theme() |>
+  hc_title(text = "Budget Waterfall Analysis") |>
+  hc_subtitle(text = "From starting budget to final allocation") |>
+  hc_xAxis(type = "category", title = list(text = NULL)) |>
+  hc_yAxis(
+    title = list(text = "Amount ($)"),
+    labels = list(formatter = JS("function() { return '$' + Highcharts.numberFormat(this.value/1000, 0) + 'K'; }"))
+  ) |>
+  hc_add_series(name = "Budget", data = colored_data, showInLegend = FALSE) |>
+  hc_tooltip(pointFormat = "<b>${point.y:,.0f}</b>") |>
+  hc_add_cpal_logo()
+```
+
+## Funnel Chart
+
+**When to use:** Use to visualize sequential stages in a process where values typically decrease at each step.
+
+```{r}
+#| label: funnel
+
+funnel_data <- data.frame(
+  stage = c("Awareness", "Interest", "Consideration",
+            "Intent", "Evaluation", "Purchase"),
+  count = c(85000, 42500, 18700, 8400, 3200, 1850)
+)
+
+highchart() |>
+  hc_chart(type = "funnel") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main") |>
+  hc_title(text = "Customer Acquisition Funnel") |>
+  hc_subtitle(text = "Journey from awareness to purchase") |>
+  hc_add_series(
+    name = "Customers",
+    data = lapply(1:nrow(funnel_data), function(i) {
+      list(name = funnel_data$stage[i], y = funnel_data$count[i])
+    })
+  ) |>
+  hc_plotOptions(funnel = list(
+    dataLabels = list(
+      enabled = TRUE,
+      format = "<b>{point.name}</b><br/>{point.y:,.0f}",
+      softConnector = TRUE,
+      style = list(fontSize = "11px")
+    ),
+    neckWidth = "20%",
+    neckHeight = "30%",
+    width = "70%"
+  )) |>
+  hc_tooltip(
+    headerFormat = "<b>{point.key}</b><br/>",
+    pointFormat = "Count: <b>{point.y:,.0f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Polar/Radar Chart
+
+**When to use:** Use to compare entities across multiple dimensions on a common scale.
+
+```{r}
+#| label: polar
+
+# Compare counties across multiple metrics (normalized 0-100)
+radar_data <- tx_counties |>
+  head(3) |>
+  mutate(
+    income_score = (median_hh_income - min(tx_counties$median_hh_income)) /
+                   (max(tx_counties$median_hh_income) - min(tx_counties$median_hh_income)) * 100,
+    poverty_score = 100 - poverty_rate / max(tx_counties$poverty_rate) * 100,
+    education_score = pct_bachelors / max(tx_counties$pct_bachelors) * 100,
+    employment_score = 100 - unemployment_rate / max(tx_counties$unemployment_rate) * 100,
+    population_score = total_pop / max(tx_counties$total_pop) * 100
+  )
+
+categories <- c("Income", "Low Poverty", "Education", "Employment", "Population")
+
+highchart() |>
+  hc_chart(polar = TRUE, type = "line") |>
+  hc_cpal_theme() |>
+  hc_colors_cpal("main", n = 3) |>
+  hc_title(text = "County Comparison Across Metrics") |>
+  hc_subtitle(text = "Normalized scores (0-100)") |>
+  hc_xAxis(
+    categories = categories,
+    tickmarkPlacement = "on",
+    lineWidth = 0
+  ) |>
+  hc_yAxis(
+    gridLineInterpolation = "polygon",
+    lineWidth = 0,
+    min = 0,
+    max = 100
+  ) |>
+  hc_add_series(
+    name = radar_data$county[1],
+    data = c(radar_data$income_score[1], radar_data$poverty_score[1],
+             radar_data$education_score[1], radar_data$employment_score[1],
+             radar_data$population_score[1]),
+    pointPlacement = "on"
+  ) |>
+  hc_add_series(
+    name = radar_data$county[2],
+    data = c(radar_data$income_score[2], radar_data$poverty_score[2],
+             radar_data$education_score[2], radar_data$employment_score[2],
+             radar_data$population_score[2]),
+    pointPlacement = "on"
+  ) |>
+  hc_add_series(
+    name = radar_data$county[3],
+    data = c(radar_data$income_score[3], radar_data$poverty_score[3],
+             radar_data$education_score[3], radar_data$employment_score[3],
+             radar_data$population_score[3]),
+    pointPlacement = "on"
+  ) |>
+  hc_tooltip(
+    pointFormat = "{series.name}: <b>{point.y:.1f}</b>"
+  ) |>
+  hc_add_cpal_logo()
+```
+
+---
+
+# Dark Mode
+
+**When to use:** Use dark mode themes when embedding charts in dark-themed dashboards.
+
+To enable dark mode on any chart:
+
+1. Use `hc_cpal_theme("dark")` instead of `hc_cpal_theme()`
+2. Use `hc_add_cpal_logo(mode = "dark")` for the light-colored logo
+
+```{r}
+#| label: dark-example
+
+tx_counties |>
+  head(6) |>
+  hchart("bar", hcaes(x = county, y = total_pop), name = "Population") |>
+  hc_cpal_theme("dark") |>
+  hc_title(text = "Population by County (Dark Mode)") |>
+  hc_yaxis_cpal(title = "Population", suffix = "M", divide_by = 1000000) |>
+  hc_tooltip_cpal(suffix = " residents") |>
+  hc_add_cpal_logo(mode = "dark")
+```
+
+---
+
+# Quick Reference
+
+| Function | Purpose |
+|----------|---------|
+| `hc_cpal_theme()` | Apply CPAL theme (pass "dark" for dark mode) |
+| `hc_colors_cpal()` | Apply CPAL color palettes |
+| `hc_add_cpal_logo()` | Add CPAL logo (pass `mode = "dark"` for dark mode) |
+| `hc_tooltip_cpal()` | Formatted tooltips with prefix/suffix |
+| `hc_yaxis_cpal()` | Y-axis formatting with scaling |
+| `hc_linetype_cpal()` | Toggle between line and spline |
+| `hc_histogram_cpal()` | Auto-bin data and create styled histogram |
+| `hc_boxplot_style_cpal()` | Apply CPAL colors and fills to boxplot series |
+| `hc_lollipop_cpal()` | Create styled lollipop chart |
+| `hc_dumbbell_cpal()` | Compare two values per category |
+| `hc_waterfall_colors_cpal()` | Auto-color positive/negative/total values |
+| `hc_colorAxis_cpal()` | Pre-configured color scales (sequential/diverging) |
+| `hc_treemap_style_cpal()` | Apply CPAL level styling to treemaps |
+| `hc_treemap_data_cpal()` | Build hierarchical data with CPAL colors |

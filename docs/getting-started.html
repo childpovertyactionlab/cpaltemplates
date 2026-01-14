@@ -136,6 +136,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-galleries" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Galleries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-galleries">    
+        <li>
+    <a class="dropdown-item" href="./gallery-ggplot2.html">
+ <span class="dropdown-text">ggplot2 Chart Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallery-highcharter.html">
+ <span class="dropdown-text">Highcharter Chart Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
     </a>
@@ -145,10 +160,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./project-setup.html">
  <span class="dropdown-text">Project Setup</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./brand-assets.html">
- <span class="dropdown-text">Brand &amp; Assets</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Visualization</li>
@@ -171,10 +182,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
-    <a class="dropdown-item" href="./interactive-features.html">
- <span class="dropdown-text">Interactive Charts</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
   </li>  
@@ -190,10 +197,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./workflow-integration.html"> 
-<span class="menu-text">Workflows</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function-reference.html"> 
 <span class="menu-text">Reference</span></a>
@@ -231,20 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#verifying-installation" id="toc-verifying-installation" class="nav-link" data-scroll-target="#verifying-installation">Verifying Installation</a></li>
   </ul></li>
   <li><a href="#understanding-the-package-structure" id="toc-understanding-the-package-structure" class="nav-link" data-scroll-target="#understanding-the-package-structure">Understanding the Package Structure</a></li>
-  <li><a href="#your-first-visualization" id="toc-your-first-visualization" class="nav-link" data-scroll-target="#your-first-visualization">Your First Visualization</a>
-  <ul class="collapse">
-  <li><a href="#step-1-load-libraries" id="toc-step-1-load-libraries" class="nav-link" data-scroll-target="#step-1-load-libraries">Step 1: Load Libraries</a></li>
-  <li><a href="#step-2-prepare-data" id="toc-step-2-prepare-data" class="nav-link" data-scroll-target="#step-2-prepare-data">Step 2: Prepare Data</a></li>
-  <li><a href="#step-3-create-the-plot" id="toc-step-3-create-the-plot" class="nav-link" data-scroll-target="#step-3-create-the-plot">Step 3: Create the Plot</a></li>
-  <li><a href="#step-4-save-the-plot" id="toc-step-4-save-the-plot" class="nav-link" data-scroll-target="#step-4-save-the-plot">Step 4: Save the Plot</a></li>
-  <li><a href="#step-5-add-logo-optional" id="toc-step-5-add-logo-optional" class="nav-link" data-scroll-target="#step-5-add-logo-optional">Step 5: Add Logo (Optional)</a></li>
-  </ul></li>
-  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick Reference</a>
-  <ul class="collapse">
-  <li><a href="#essential-functions" id="toc-essential-functions" class="nav-link" data-scroll-target="#essential-functions">Essential Functions</a></li>
-  <li><a href="#essential-palettes" id="toc-essential-palettes" class="nav-link" data-scroll-target="#essential-palettes">Essential Palettes</a></li>
-  <li><a href="#essential-themes" id="toc-essential-themes" class="nav-link" data-scroll-target="#essential-themes">Essential Themes</a></li>
-  </ul></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick Reference</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
   <li><a href="#common-setup-issues" id="toc-common-setup-issues" class="nav-link" data-scroll-target="#common-setup-issues">Common Setup Issues</a>
   <ul class="collapse">
@@ -358,198 +348,741 @@ Pro Tip
 </section>
 <section id="understanding-the-package-structure" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-the-package-structure">Understanding the Package Structure</h2>
-<p>cpaltemplates is organized into functional categories:</p>
-<pre><code>cpaltemplates/
-├── Color System (21 functions)
-│   ├── Core: cpal_colors(), cpal_colors_primary(), cpal_colors_extended()
-│   ├── Palettes: cpal_palettes(), cpal_palettes_sequential(), etc.
-│   ├── Validation: validate_color_contrast(), validate_brand_colors()
-│   ├── Interpolation: cpal_color_ramp(), cpal_color_gradient()
-│   └── Scales: scale_color_cpal(), scale_fill_cpal(), etc.
-│
-├── Theme System (8 functions)
-│   ├── Themes: theme_cpal(), theme_cpal_minimal(), theme_cpal_dark(), etc.
-│   ├── Session: set_theme_cpal()
-│   └── Preview: preview_cpal_themes()
-│
-├── Tables (3 functions)
-│   ├── cpal_table(), cpal_table_gt(), cpal_table_reactable()
-│
-├── Interactive (7 functions)
-│   ├── ggiraph: cpal_interactive(), cpal_point_interactive(), etc.
-│   └── mapgl: cpal_mapgl(), cpal_mapgl_layer()
-│
-├── Project Scaffolding (7 functions)
-│   ├── start_project()
-│   └── use_*() helpers
-│
-├── Brand &amp; Assets (4 functions)
-│   ├── use_cpal_brand(), validate_cpal_brand()
-│   └── get_cpal_asset(), update_cpal_assets()
-│
-├── Shiny/Dashboard (5 functions)
-│   ├── cpal_dashboard_theme()
-│   └── SCSS enhancements
-│
-└── Utilities (7 functions)
-    ├── Fonts: cpal_font_family(), setup_cpal_google_fonts()
-    └── Plots: save_cpal_plot(), add_cpal_logo(), check_plot_accessibility()</code></pre>
+<p>cpaltemplates provides 81 functions organized into 9 categories. Each function is marked with a status indicator to help you understand its maturity level. Functions marked as “ready” are stable and recommended for use, while those “in development” are functional but may change, and those “under review” are being evaluated for updates or improvements.</p>
+<div class="status-legend">
+<p><span><span class="status-ready">✓</span> Ready to use</span> <span><span class="status-dev">●</span> In development</span> <span><span class="status-revamp">✗</span> Under review</span></p>
+</div>
+<p>Click each section below to see the available functions.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Color System (25 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_colors()</code></td>
+<td>Get colors from any palette by name</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_colors_primary()</code></td>
+<td>Get primary brand colors</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_colors_extended()</code></td>
+<td>Get extended color set</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_color()</code></td>
+<td>Get a single color by name</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_get_color()</code></td>
+<td>Alias for getting single colors</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_get_primary_color()</code></td>
+<td>Get a primary color by name</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_palette()</code></td>
+<td>Generate a palette function</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_palettes()</code></td>
+<td>List all available palettes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_palettes_categorical()</code></td>
+<td>Get categorical palettes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_palettes_sequential()</code></td>
+<td>Get sequential palettes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_palettes_diverging()</code></td>
+<td>Get diverging palettes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>list_cpal_palettes()</code></td>
+<td>List palettes with metadata</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>quick_palette()</code></td>
+<td>Quick access to common palettes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>view_cpal_palettes()</code></td>
+<td>Visual preview of palettes</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_color_ramp()</code></td>
+<td>Interpolate between colors</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_color_gradient()</code></td>
+<td>Create multi-color gradients</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>validate_color_contrast()</code></td>
+<td>Check WCAG contrast compliance</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>validate_brand_colors()</code></td>
+<td>Validate brand color usage</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_color_cpal()</code></td>
+<td>ggplot2 color scale</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_color_cpal_c()</code></td>
+<td>Continuous color scale</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_color_cpal_d()</code></td>
+<td>Discrete color scale</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_colour_cpal()</code></td>
+<td>Alias (British spelling)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_fill_cpal()</code></td>
+<td>ggplot2 fill scale</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_fill_cpal_c()</code></td>
+<td>Continuous fill scale</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>scale_fill_cpal_d()</code></td>
+<td>Discrete fill scale</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Theme System (11 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>theme_cpal()</code></td>
+<td>Default CPAL theme</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>theme_cpal_minimal()</code></td>
+<td>Minimal/clean theme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>theme_cpal_classic()</code></td>
+<td>Classic theme with axes</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>theme_cpal_dark()</code></td>
+<td>Dark background theme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>theme_cpal_print()</code></td>
+<td>Print-optimized theme</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>theme_cpal_map()</code></td>
+<td>Theme for maps</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>theme_cpal_auto()</code></td>
+<td>Auto light/dark theme</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>theme_cpal_switch()</code></td>
+<td>Reactive theme switching</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>set_theme_cpal()</code></td>
+<td>Set default theme for session</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>make_theme_reactive()</code></td>
+<td>Create reactive theme for Shiny</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>preview_cpal_themes()</code></td>
+<td>Visual preview of all themes</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Highcharter (18 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_theme_cpal_light()</code></td>
+<td>Light Highcharter theme</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_theme_cpal_dark()</code></td>
+<td>Dark Highcharter theme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_theme_cpal_switch()</code></td>
+<td>Reactive theme for Shiny</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_cpal_theme()</code></td>
+<td>Apply CPAL theme to chart</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_colors_cpal()</code></td>
+<td>Set CPAL colors on chart</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_tooltip_cpal()</code></td>
+<td>Styled tooltips</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_yaxis_cpal()</code></td>
+<td>Formatted y-axis</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_colorAxis_cpal()</code></td>
+<td>Color axis for heatmaps</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_add_cpal_logo()</code></td>
+<td>Add logo to chart</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_cpal_number_format()</code></td>
+<td>Number formatting options</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_linetype_cpal()</code></td>
+<td>Line styling</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_histogram_cpal()</code></td>
+<td>Histogram styling</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_boxplot_style_cpal()</code></td>
+<td>Boxplot styling</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_lollipop_cpal()</code></td>
+<td>Lollipop chart helper</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_dumbbell_cpal()</code></td>
+<td>Dumbbell chart helper</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_waterfall_colors_cpal()</code></td>
+<td>Waterfall chart colors</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_treemap_style_cpal()</code></td>
+<td>Treemap styling</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>hc_treemap_data_cpal()</code></td>
+<td>Treemap data formatter</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tables (3 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td><code>cpal_table()</code></td>
+<td>Auto-select GT or Reactable</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td><code>cpal_table_gt()</code></td>
+<td>Styled GT table (static)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td><code>cpal_table_reactable()</code></td>
+<td>Styled Reactable (interactive)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Maps (2 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td><code>cpal_mapgl()</code></td>
+<td>Create styled mapgl map</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td><code>cpal_mapgl_layer()</code></td>
+<td>Add styled layer to map</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Project Scaffolding (8 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>start_project()</code></td>
+<td>Create new project from template</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_quarto_report()</code></td>
+<td>Add Quarto report template</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_quarto_slides()</code></td>
+<td>Add Quarto slides template</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_quarto_web()</code></td>
+<td>Add Quarto website template</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_shiny_app()</code></td>
+<td>Add Shiny app template</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_shiny_dashboard()</code></td>
+<td>Add Shiny dashboard template</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_shiny_theme()</code></td>
+<td>Add Shiny theme files</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>use_targets()</code></td>
+<td>Add targets pipeline</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Brand &amp; Assets (4 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>use_cpal_brand()</code></td>
+<td>Add _brand.yml to project</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>validate_cpal_brand()</code></td>
+<td>Validate brand configuration</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>get_cpal_asset()</code></td>
+<td>Get path to package asset</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>update_cpal_assets()</code></td>
+<td>Update assets in project</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Shiny &amp; Dashboards (4 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_dashboard_theme()</code></td>
+<td>bslib theme for dashboards</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_shiny()</code></td>
+<td>Initialize Shiny with CPAL theme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>cpal_add_scss_enhancements()</code></td>
+<td>Add custom SCSS to theme</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td><code>cpal_export_scss()</code></td>
+<td>Export SCSS variables</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Utilities (6 functions)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Status</th>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>setup_cpal_google_fonts()</code></td>
+<td>Set up Google Fonts</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_font_family()</code></td>
+<td>Get current font family</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_font_family_fallback()</code></td>
+<td>Get fallback font stack</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>save_cpal_plot()</code></td>
+<td>Save plot with proper sizing</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>add_cpal_logo()</code></td>
+<td>Add logo to ggplot</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>check_plot_accessibility()</code></td>
+<td>Check plot accessibility</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <hr>
-</section>
-<section id="your-first-visualization" class="level2">
-<h2 class="anchored" data-anchor-id="your-first-visualization">Your First Visualization</h2>
-<p>Let’s create a complete, branded visualization step by step:</p>
-<section id="step-1-load-libraries" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-load-libraries">Step 1: Load Libraries</h3>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cpaltemplates)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="step-2-prepare-data" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-prepare-data">Step 2: Prepare Data</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using built-in mtcars dataset</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cylinders =</span> <span class="fu">factor</span>(cyl),</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">car_name =</span> <span class="fu">rownames</span>(mtcars)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="step-3-create-the-plot" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-create-the-plot">Step 3: Create the Plot</h3>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(car_data, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> cylinders)) <span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel Efficiency by Vehicle Weight"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Heavier vehicles tend to have lower fuel efficiency"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Weight (1,000 lbs)"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Motor Trend Car Road Tests (1974)"</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="step-4-save-the-plot" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-save-the-plot">Step 4: Save the Plot</h3>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save with standard dimensions</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">save_cpal_plot</span>(p, <span class="st">"my_first_cpal_plot.png"</span>, <span class="at">size =</span> <span class="st">"default"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save for slides</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">save_cpal_plot</span>(p, <span class="st">"my_first_cpal_plot_slide.png"</span>, <span class="at">size =</span> <span class="st">"slide"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="step-5-add-logo-optional" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-add-logo-optional">Step 5: Add Logo (Optional)</h3>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add CPAL logo to the plot</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>p_with_logo <span class="ot">&lt;-</span> <span class="fu">add_cpal_logo</span>(p, <span class="at">position =</span> <span class="st">"top-right"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(p_with_logo)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<hr>
-</section>
 </section>
 <section id="quick-reference" class="level2">
 <h2 class="anchored" data-anchor-id="quick-reference">Quick Reference</h2>
-<section id="essential-functions" class="level3">
-<h3 class="anchored" data-anchor-id="essential-functions">Essential Functions</h3>
 <table class="table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 40%">
+<col style="width: 36%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Task</th>
 <th>Function</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Get brand colors</td>
-<td><code>cpal_colors_primary()</code></td>
-</tr>
-<tr class="even">
-<td>Apply color scale</td>
-<td><code>scale_color_cpal("main")</code></td>
-</tr>
-<tr class="odd">
 <td>Apply theme</td>
 <td><code>theme_cpal()</code></td>
+<td><code>+ theme_cpal()</code></td>
+</tr>
+<tr class="even">
+<td>Color scale</td>
+<td><code>scale_color_cpal()</code></td>
+<td><code>scale_color_cpal("main_3")</code></td>
+</tr>
+<tr class="odd">
+<td>Get colors</td>
+<td><code>cpal_colors()</code></td>
+<td><code>cpal_colors("midnight_seq_5")</code></td>
 </tr>
 <tr class="even">
 <td>Save plot</td>
+<td><code>save_cpal_plot()</code></td>
 <td><code>save_cpal_plot(p, "file.png")</code></td>
 </tr>
 <tr class="odd">
 <td>Create table</td>
-<td><code>cpal_table_reactable(data)</code></td>
+<td><code>cpal_table()</code></td>
+<td><code>cpal_table(data)</code></td>
 </tr>
 <tr class="even">
 <td>Start project</td>
+<td><code>start_project()</code></td>
 <td><code>start_project("name", "analysis")</code></td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="essential-palettes" class="level3">
-<h3 class="anchored" data-anchor-id="essential-palettes">Essential Palettes</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Palette</th>
-<th>Use Case</th>
-<th>Colors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>main</code></td>
-<td>Categorical data</td>
-<td>5</td>
-</tr>
-<tr class="even">
-<td><code>main_3</code></td>
-<td>Simple comparisons</td>
-<td>3</td>
-</tr>
-<tr class="odd">
-<td><code>teal_seq_5</code></td>
-<td>Sequential/continuous</td>
-<td>5</td>
-</tr>
-<tr class="even">
-<td><code>pink_teal_5</code></td>
-<td>Diverging data</td>
-<td>5</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="essential-themes" class="level3">
-<h3 class="anchored" data-anchor-id="essential-themes">Essential Themes</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Theme</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>theme_cpal()</code></td>
-<td>Default, most situations</td>
-</tr>
-<tr class="even">
-<td><code>theme_cpal_minimal()</code></td>
-<td>Clean, simple designs</td>
-</tr>
-<tr class="odd">
-<td><code>theme_cpal_dark()</code></td>
-<td>Presentations, dark mode</td>
-</tr>
-<tr class="even">
-<td><code>theme_cpal_print()</code></td>
-<td>Print publications</td>
-</tr>
-</tbody>
-</table>
 <hr>
-</section>
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
@@ -558,7 +1091,8 @@ Pro Tip
 <li><strong><a href="./colors-palettes.html">Colors &amp; Palettes</a></strong> - Deep dive into the color system</li>
 <li><strong><a href="./themes-styling.html">Themes &amp; Styling</a></strong> - Customize your visualizations</li>
 <li><strong><a href="./project-setup.html">Project Setup</a></strong> - Create standardized project structures</li>
-<li><strong><a href="./workflow-integration.html">Workflows</a></strong> - End-to-end examples</li>
+<li><strong><a href="./gallery-ggplot2.html">ggplot2 Gallery</a></strong> - Example charts with code</li>
+<li><strong><a href="./gallery-highcharter.html">Highcharter Gallery</a></strong> - Interactive chart examples</li>
 </ol>
 <hr>
 </section>
@@ -567,36 +1101,36 @@ Pro Tip
 <section id="fonts-not-loading" class="level3">
 <h3 class="anchored" data-anchor-id="fonts-not-loading">Fonts Not Loading</h3>
 <p>If fonts aren’t loading correctly:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force refresh fonts</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setup_cpal_google_fonts</span>(<span class="at">force_refresh =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what's available</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_font_family</span>(<span class="at">setup =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force refresh fonts</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setup_cpal_google_fonts</span>(<span class="at">force_refresh =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what's available</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_font_family</span>(<span class="at">setup =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="package-not-found" class="level3">
 <h3 class="anchored" data-anchor-id="package-not-found">Package Not Found</h3>
 <p>If installation fails:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check R version</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>R.version.string</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Should be 4.3.0 or higher</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Try with dependencies</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"childpovertyactionlab/cpaltemplates"</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependencies =</span> <span class="cn">TRUE</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check R version</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>R.version.string</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Should be 4.3.0 or higher</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Try with dependencies</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"childpovertyactionlab/cpaltemplates"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependencies =</span> <span class="cn">TRUE</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="interactive-features-not-working" class="level3">
 <h3 class="anchored" data-anchor-id="interactive-features-not-working">Interactive Features Not Working</h3>
 <p>For ggiraph functionality:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install ggiraph and dependencies</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggiraph"</span>, <span class="st">"gdtools"</span>, <span class="st">"systemfonts"</span>))</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Register fonts for interactive use</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"gdtools"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Inter"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Roboto"</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install ggiraph and dependencies</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggiraph"</span>, <span class="st">"gdtools"</span>, <span class="st">"systemfonts"</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Register fonts for interactive use</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"gdtools"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Inter"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Roboto"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>See the <a href="./troubleshooting.html">Troubleshooting Guide</a> for more solutions.</p>
 
 

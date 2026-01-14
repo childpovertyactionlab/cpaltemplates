@@ -3,13 +3,20 @@ title: "Project Setup"
 subtitle: "Creating standardized CPAL project structures"
 ---
 
-## Overview
+Starting a new R-based data science project often involves repetitive setup tasks: creating folder structures, configuring Git, setting up package management, and adding boilerplate files. cpaltemplates provides a comprehensive project scaffolding system with 8 functions that automate this process, helping you quickly set up new R projects with CPAL branding, consistent structure, and best practices built in.
 
-cpaltemplates provides a comprehensive project scaffolding system with 7 functions that help you quickly set up new projects with CPAL branding, consistent structure, and best practices built in.
+These tools are designed specifically for the **R ecosystem** and data science workflows—whether you're doing exploratory data analysis, building statistical models, creating interactive dashboards, or generating reports. By using these scaffolding tools, you ensure that all CPAL R projects follow the same organizational patterns, making it easier for team members to navigate unfamiliar codebases and maintain consistency across the organization.
+
+::: {.callout-note}
+## Function Status
+The `start_project()` function is ready for use. The `use_*()` helper functions are currently under review and may change in future versions. They remain functional but are being evaluated for improvements.
+:::
 
 ---
 
 ## Quick Start
+
+Get up and running with a new R project in seconds. The following example creates a complete data analysis project with version control, R package management, and a reproducible pipeline—all pre-configured and ready to use in RStudio.
 
 ```r
 library(cpaltemplates)
@@ -22,11 +29,12 @@ start_project(
 )
 ```
 
+This single command creates a fully-structured R project folder with all the necessary files, initializes Git for version control, sets up renv to lock your R package versions, and adds a targets pipeline for reproducible data science workflows.
+
 ---
 
 ## Main Function: `start_project()`
-
-The primary entry point for creating new projects.
+The primary entry point for creating new R projects. This function is the recommended way to start any new CPAL data science project, as it handles all the setup automatically and ensures consistency with CPAL standards. Projects are created as RStudio projects (`.Rproj` files) for seamless integration with your R workflow.
 
 ### Syntax
 
@@ -57,15 +65,27 @@ start_project(
 
 ### Project Types
 
+Choose the project type that best matches your data science deliverable. Each type comes pre-configured with the appropriate folder structure, R script templates, and CPAL branding.
+
 | Type | Description | Key Files Created |
 |------|-------------|-------------------|
-| `analysis` | Data analysis with targets pipeline | `_targets.R`, `R/`, `data/`, `output/` |
-| `quarto-report` | Branded Quarto report | `report.qmd`, `_brand.yml`, `styles.css` |
-| `quarto-slides` | Presentation slides | `slides.qmd`, `_brand.yml` |
-| `quarto-web` | Multi-page website | `_quarto.yml`, `index.qmd`, pages |
-| `shiny-dashboard` | Full-featured dashboard | `app.R`, `modules/`, `www/`, `_brand.yml` |
-| `shiny-app` | Simple Shiny app | `app.R`, `www/`, styles |
-| `package` | R package development | `DESCRIPTION`, `R/`, `man/`, tests |
+| `analysis` | R data analysis with targets pipeline | `_targets.R`, `R/`, `data/`, `output/` |
+| `quarto-report` | Branded Quarto report (R Markdown successor) | `report.qmd`, `_brand.yml`, `styles.css` |
+| `quarto-slides` | Presentation slides with R code support | `slides.qmd`, `_brand.yml` |
+| `quarto-web` | Multi-page documentation website | `_quarto.yml`, `index.qmd`, pages |
+| `shiny-dashboard` | Full-featured R Shiny dashboard | `app.R`, `modules/`, `www/`, `_brand.yml` |
+| `shiny-app` | Simple R Shiny app | `app.R`, `www/`, styles |
+| `package` | R package for reusable code | `DESCRIPTION`, `R/`, `man/`, tests |
+
+**When to use each type:**
+
+- **analysis**: Best for data cleaning, exploration, statistical modeling, or any R-based work that involves processing data and generating outputs. The targets pipeline ensures your analysis is reproducible and re-runs only what's changed.
+- **quarto-report**: Ideal for data-driven reports, briefs, or documents that combine R code with narrative text and will be shared as PDF or HTML. Includes CPAL formatting out of the box.
+- **quarto-slides**: Perfect for data presentations to stakeholders, board meetings, or conferences. Supports live R code execution and CPAL styling via Revealjs.
+- **quarto-web**: Use when you need a multi-page documentation site or public-facing project website with R-generated content.
+- **shiny-dashboard**: Best for interactive data products that let users explore data through multiple views, filters, and visualizations.
+- **shiny-app**: Good for simple interactive tools, data explorers, or prototypes that don't need the full dashboard structure.
+- **package**: For creating reusable R functions and tools that can be shared across the CPAL team or published externally.
 
 ### Examples
 
@@ -92,13 +112,18 @@ start_project(
 
 ---
 
-## Adding Components to Existing Projects
+## Adding Components to Existing R Projects
 
-These functions add specific components to an existing project without creating a new one.
+Data science projects often evolve. You might start with exploratory analysis in R and later need to share your findings as a report or presentation. These `use_*()` functions let you add specific components to an existing R project without starting over—keeping all your code, data, and outputs in one place.
+
+::: {.callout-warning}
+## Under Review
+The following `use_*()` functions are currently under review. They work but may change in future versions as we refine the templates and workflows.
+:::
 
 ### `use_quarto_report()`
 
-Add Quarto report capability to an existing project.
+Add Quarto report capability to an existing project. This is useful when your analysis is complete and you need to document your findings in a polished, branded report.
 
 ```r
 use_quarto_report(path = ".", overwrite = FALSE)
@@ -124,7 +149,7 @@ use_quarto_report("my-project/")
 
 ### `use_quarto_slides()`
 
-Add Quarto presentation slides to an existing project.
+Add Quarto presentation slides to an existing project. Perfect for when you need to present your analysis findings to stakeholders, at team meetings, or external audiences.
 
 ```r
 use_quarto_slides(path = ".", filename = "slides", overwrite = FALSE)
@@ -149,7 +174,7 @@ use_quarto_slides(filename = "quarterly-presentation")
 
 ### `use_quarto_web()`
 
-Add Quarto website structure to an existing project.
+Add Quarto website structure to an existing project. Useful when you want to create a documentation site, project landing page, or multi-page resource that will be hosted online.
 
 ```r
 use_quarto_web(path = ".", overwrite = FALSE)
@@ -173,7 +198,8 @@ use_quarto_web()
 ---
 
 ### `use_shiny_dashboard()`
-Add a full-featured Shiny dashboard to an existing project.
+
+Add a full-featured Shiny dashboard to an existing project. This creates a modular dashboard structure that scales well for complex applications with multiple tabs, filters, and data views.
 
 ```r
 use_shiny_dashboard(path = ".", overwrite = FALSE)
@@ -198,7 +224,7 @@ use_shiny_dashboard()
 
 ### `use_shiny_app()`
 
-Add a simple Shiny application to an existing project.
+Add a simple Shiny application to an existing project. Best for quick prototypes, single-purpose tools, or when you need interactivity without the overhead of a full dashboard structure.
 
 ```r
 use_shiny_app(path = ".", overwrite = FALSE)
@@ -220,7 +246,7 @@ use_shiny_app()
 
 ### `use_shiny_theme()`
 
-Add CPAL CSS theme files for Shiny.
+Add CPAL CSS theme files for Shiny. Use this when you have an existing Shiny app that needs CPAL styling, or when you want to customize the theme name for a specific project.
 
 ```r
 use_shiny_theme(path = ".", theme_name = "cpal", overwrite = FALSE)
@@ -244,7 +270,7 @@ use_shiny_theme(theme_name = "dashboard-theme")
 
 ### `use_targets()`
 
-Add a targets pipeline to an existing project.
+Add a targets pipeline to an existing project. The [targets package](https://docs.ropensci.org/targets/) provides a pipeline system for reproducible computation—it tracks which steps need to be re-run when your code or data changes, saving time and ensuring consistency.
 
 ```r
 use_targets(path = ".", type = c("basic", "analysis", "report"), overwrite = FALSE)
@@ -270,7 +296,9 @@ use_targets(type = "analysis")
 
 ## Project Structure Examples
 
-### Analysis Project
+These examples show the folder structures created by each project type. All projects follow R conventions and are designed to work seamlessly with RStudio.
+
+### Analysis Project (R Data Science)
 
 ```
 my-analysis/
@@ -289,11 +317,11 @@ my-analysis/
 └── README.md
 ```
 
-### Shiny Dashboard Project
+### Shiny Dashboard Project (R Interactive App)
 
 ```
 my-dashboard/
-├── app.R               # Main application
+├── app.R               # Main R Shiny application
 ├── modules/
 │   ├── mod_overview.R  # Overview tab module
 │   ├── mod_data.R      # Data explorer module
@@ -307,11 +335,11 @@ my-dashboard/
 └── README.md
 ```
 
-### Quarto Report Project
+### Quarto Report Project (R + Narrative)
 
 ```
 my-report/
-├── report.qmd          # Main report
+├── report.qmd          # Main report with R code chunks
 ├── _brand.yml          # Brand configuration
 ├── styles.css          # Custom styles
 ├── references.bib      # Bibliography
@@ -324,18 +352,25 @@ my-report/
 
 ## Feature Options
 
-When using `start_project()`, you can enable various features:
+When using `start_project()`, you can enable various features that add tooling and infrastructure to your R project. These features integrate popular R ecosystem tools and represent best practices for reproducible, collaborative data science work.
 
-| Feature | Description |
-|---------|-------------|
-| `git` | Initialize git repository with `.gitignore` |
-| `github` | Set up GitHub integration (requires `gh` CLI) |
-| `renv` | Initialize renv for package management |
-| `targets` | Add targets pipeline for reproducibility |
-| `tests` | Set up testthat testing infrastructure |
+| Feature | Description | Why Use It? |
+|---------|-------------|-------------|
+| `git` | Initialize git repository with R-specific `.gitignore` | Track changes, collaborate, and maintain history |
+| `github` | Set up GitHub integration (requires `gh` CLI) | Share R code, enable collaboration, backup to cloud |
+| `renv` | Initialize [renv](https://rstudio.github.io/renv/) for R package management | Lock R package versions so your analysis runs the same everywhere |
+| `targets` | Add [targets](https://docs.ropensci.org/targets/) pipeline for reproducibility | Automate R workflows, skip unchanged steps, scale to large analyses |
+| `tests` | Set up [testthat](https://testthat.r-lib.org/) testing infrastructure | Catch bugs early, ensure R functions work correctly |
+
+**Recommended combinations:**
+
+- **Solo analysis**: `c("git", "renv")` - Version control and reproducible R packages
+- **Team project**: `c("git", "github", "renv")` - Add GitHub for collaboration on R code
+- **Complex pipeline**: `c("git", "renv", "targets")` - Add targets for automated R workflows
+- **R package development**: `c("git", "github", "tests")` - Add testing for reusable R packages
 
 ```r
-# Enable all features
+# Enable all features for maximum reproducibility
 start_project(
   "my-project",
   project_type = "analysis",
@@ -345,45 +380,55 @@ start_project(
 
 ---
 
-## Best Practices
+## Best Practices for R Data Science Projects
 
 ### 1. Use Interactive Mode for New Projects
 
+If you're unsure which options to choose, interactive mode walks you through the setup process with prompts.
+
 ```r
-# Let the wizard guide you
+# Let the wizard guide you through R project setup
 start_project("my-project", interactive = TRUE)
 ```
 
 ### 2. Start with Analysis, Add Components Later
 
+A common data science workflow: start with R analysis, then add reports or presentations as your findings mature.
+
 ```r
-# Create base project
+# Create base R analysis project
 start_project("research-project", project_type = "analysis")
 
-# Later, add a report
+# Later, add a Quarto report to document findings
 use_quarto_report("research-project/")
 
-# Add slides for presentation
+# Add slides for presenting results
 use_quarto_slides("research-project/", filename = "results-presentation")
 ```
 
 ### 3. Always Use Version Control
 
+Version control is essential for any code-based work. It lets you track changes, collaborate with others, and recover from mistakes.
+
 ```r
-# Include git from the start
+# Include git from the start for any R project
 start_project("important-analysis", features = c("git", "renv"))
 ```
 
 ### 4. Use renv for Reproducibility
 
+R package versions can affect your results. Using renv ensures your analysis runs the same way months or years later, or on a colleague's machine.
+
 ```r
-# Lock package versions
+# Lock R package versions for reproducible analysis
 start_project("client-report", features = c("renv"))
 ```
 
 ---
 
 ## Troubleshooting
+
+Common issues when setting up R projects with cpaltemplates.
 
 ### Project Already Exists
 
@@ -418,6 +463,9 @@ remotes::install_github("childpovertyactionlab/cpaltemplates")
 
 ## Next Steps
 
-- [Brand & Assets](brand-assets.qmd) - Managing brand configuration
-- [Shiny Dashboards](shiny-dashboards.qmd) - Building dashboards with CPAL theming
-- [Workflows](workflow-integration.qmd) - Complete project workflows
+Once your project is set up, explore these guides to make the most of cpaltemplates:
+
+- [Colors & Palettes](colors-palettes.qmd) - Use CPAL's color system in your visualizations
+- [Themes & Styling](themes-styling.qmd) - Apply consistent themes to your plots
+- [Shiny Dashboards](shiny-dashboards.qmd) - Build branded interactive dashboards
+- [ggplot2 Gallery](gallery-ggplot2.qmd) - Example charts to get you started

@@ -182,27 +182,9 @@ cpal_colors_extended <- function() {
 #' cpal_palettes_sequential
 cpal_palettes_sequential <- function() {
   list(
-    # Midnight sequential (4 colors - light to dark)
-    midnight_seq_4 = c(
-      .get_brand_color("midnight_2", "#B8D9E0"),
-      .get_brand_color("midnight_4", "#58A3B4"),
-      .get_brand_color("midnight_6", "#006D88"),
-      .get_brand_color("midnight", "#004855")
-    ),
-
     # Midnight sequential (5 colors)
     midnight_seq_5 = c(
       .get_brand_color("midnight_1", "#E8F4F6"),
-      .get_brand_color("midnight_3", "#88BECA"),
-      .get_brand_color("midnight_5", "#28889E"),
-      .get_brand_color("midnight_6", "#006D88"),
-      .get_brand_color("midnight", "#004855")
-    ),
-
-    # Midnight sequential (6 colors)
-    midnight_seq_6 = c(
-      .get_brand_color("midnight_1", "#E8F4F6"),
-      .get_brand_color("midnight_2", "#B8D9E0"),
       .get_brand_color("midnight_3", "#88BECA"),
       .get_brand_color("midnight_5", "#28889E"),
       .get_brand_color("midnight_6", "#006D88"),
@@ -221,27 +203,46 @@ cpal_palettes_sequential <- function() {
       .get_brand_color("midnight_8", "#002D38")
     ),
 
-    # Legacy aliases for backward compatibility
-    teal_seq_4 = c(
-      .get_brand_color("midnight_2", "#B8D9E0"),
-      .get_brand_color("midnight_4", "#58A3B4"),
-      .get_brand_color("midnight_6", "#006D88"),
-      .get_brand_color("midnight", "#004855")
+    # Coral sequential (5 colors)
+    coral_seq_5 = c(
+      .get_brand_color("coral_1", "#FDEAE6"),
+      .get_brand_color("coral_3", "#F7B6A6"),
+      .get_brand_color("coral_5", "#F18266"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("coral_8", "#A64030")
     ),
-    teal_seq_5 = c(
-      .get_brand_color("midnight_1", "#E8F4F6"),
-      .get_brand_color("midnight_3", "#88BECA"),
-      .get_brand_color("midnight_5", "#28889E"),
-      .get_brand_color("midnight_6", "#006D88"),
-      .get_brand_color("midnight", "#004855")
+
+    # Coral sequential (8 colors - full range)
+    coral_seq_8 = c(
+      .get_brand_color("coral_1", "#FDEAE6"),
+      .get_brand_color("coral_2", "#FAD0C6"),
+      .get_brand_color("coral_3", "#F7B6A6"),
+      .get_brand_color("coral_4", "#F49C86"),
+      .get_brand_color("coral_5", "#F18266"),
+      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("coral_7", "#C75540"),
+      .get_brand_color("coral_8", "#A64030")
     ),
-    teal_seq_6 = c(
-      .get_brand_color("midnight_1", "#E8F4F6"),
-      .get_brand_color("midnight_2", "#B8D9E0"),
-      .get_brand_color("midnight_3", "#88BECA"),
-      .get_brand_color("midnight_5", "#28889E"),
-      .get_brand_color("midnight_6", "#006D88"),
-      .get_brand_color("midnight", "#004855")
+
+    # Sage sequential (5 colors)
+    sage_seq_5 = c(
+      .get_brand_color("sage_1", "#E9F0EB"),
+      .get_brand_color("sage_3", "#A7C8B5"),
+      .get_brand_color("sage_5", "#65A07F"),
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("sage_8", "#304C3C")
+    ),
+
+    # Sage sequential (8 colors - full range)
+    sage_seq_8 = c(
+      .get_brand_color("sage_1", "#E9F0EB"),
+      .get_brand_color("sage_2", "#C8DCD0"),
+      .get_brand_color("sage_3", "#A7C8B5"),
+      .get_brand_color("sage_4", "#86B49A"),
+      .get_brand_color("sage_5", "#65A07F"),
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("sage_7", "#456B55"),
+      .get_brand_color("sage_8", "#304C3C")
     )
   )
 }
@@ -279,13 +280,13 @@ cpal_palettes_diverging <- function() {
 
     # Coral to Midnight diverging (7 colors)
     coral_midnight_7 = c(
-      .get_brand_color("coral_dark", "#C75540"),
-      .get_brand_color("coral", "#E86A50"),
+      .get_brand_color("div_coral_1", "#C75540"),
+      .get_brand_color("div_coral_3", "#F08B78"),
       .get_brand_color("div_coral_4", "#F5ADA0"),
-      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("div_neutral", "#E8ECEE"),
       .get_brand_color("div_teal_1", "#88BECA"),
-      .get_brand_color("deep_teal", "#006878"),
-      .get_brand_color("midnight", "#004855")
+      .get_brand_color("div_teal_2", "#58A3B4"),
+      .get_brand_color("div_teal_4", "#004855")
     ),
 
     # Coral to Midnight diverging (9 colors - full range)
@@ -301,17 +302,50 @@ cpal_palettes_diverging <- function() {
       .get_brand_color("div_teal_4", "#004855")
     ),
 
-    # Legacy aliases for backward compatibility
+    # Sage to Coral diverging (3 colors)
+    sage_coral_3 = c(
+      .get_brand_color("sage", "#5A8A6F"),
+      .get_brand_color("neutral", "#E8ECEE"),
+      .get_brand_color("coral", "#E86A50")
+    ),
+
+    # Sage to Coral diverging (5 colors)
+    sage_coral_5 = c(
+      .get_brand_color("div_sage_1", "#456B55"),
+      .get_brand_color("div_sage_3", "#7AA990"),
+      .get_brand_color("div_neutral", "#E8ECEE"),
+      .get_brand_color("div_sc_coral_2", "#F08B78"),
+      .get_brand_color("div_sc_coral_4", "#C75540")
+    ),
+
+    # Sage to Coral diverging (7 colors)
+    sage_coral_7 = c(
+      .get_brand_color("div_sage_1", "#456B55"),
+      .get_brand_color("div_sage_3", "#7AA990"),
+      .get_brand_color("div_sage_4", "#B5D1C2"),
+      .get_brand_color("div_neutral", "#E8ECEE"),
+      .get_brand_color("div_sc_coral_1", "#F5ADA0"),
+      .get_brand_color("div_sc_coral_2", "#F08B78"),
+      .get_brand_color("div_sc_coral_4", "#C75540")
+    ),
+
+    # Sage to Coral diverging (9 colors - full range)
+    sage_coral_9 = c(
+      .get_brand_color("div_sage_1", "#456B55"),
+      .get_brand_color("div_sage_2", "#5A8A6F"),
+      .get_brand_color("div_sage_3", "#7AA990"),
+      .get_brand_color("div_sage_4", "#B5D1C2"),
+      .get_brand_color("div_neutral", "#E8ECEE"),
+      .get_brand_color("div_sc_coral_1", "#F5ADA0"),
+      .get_brand_color("div_sc_coral_2", "#F08B78"),
+      .get_brand_color("div_sc_coral_3", "#E86A50"),
+      .get_brand_color("div_sc_coral_4", "#C75540")
+    ),
+
+    # Legacy alias for backward compatibility
     pink_teal_3 = c(
       .get_brand_color("coral", "#E86A50"),
       .get_brand_color("neutral", "#E8ECEE"),
-      .get_brand_color("midnight", "#004855")
-    ),
-    pink_teal_5 = c(
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("div_coral_4", "#F5ADA0"),
-      .get_brand_color("neutral", "#E8ECEE"),
-      .get_brand_color("div_teal_1", "#88BECA"),
       .get_brand_color("midnight", "#004855")
     ),
     pink_teal_6 = c(
@@ -341,6 +375,7 @@ cpal_palettes_diverging <- function() {
 cpal_palettes_categorical <- function() {
   list(
     # Full categorical palette (8 colors max)
+    # Use cpal_colors("main", n = 3) to subset for fewer categories
     main = c(
       .get_brand_color("midnight", "#004855"),
       .get_brand_color("coral", "#E86A50"),
@@ -350,50 +385,6 @@ cpal_palettes_categorical <- function() {
       .get_brand_color("plum", "#8B5E83"),
       .get_brand_color("slate", "#5C6B73"),
       .get_brand_color("coral_dark", "#C75540")
-    ),
-
-    # 3-color categorical
-    main_3 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("sage", "#5A8A6F")
-    ),
-
-    # 4-color categorical
-    main_4 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("sage", "#5A8A6F"),
-      .get_brand_color("teal", "#007A8C")
-    ),
-
-    # 5-color categorical
-    main_5 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("sage", "#5A8A6F"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("gold", "#B8860B")
-    ),
-
-    # 6-color categorical
-    main_6 = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("sage", "#5A8A6F"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("gold", "#B8860B"),
-      .get_brand_color("plum", "#8B5E83")
-    ),
-
-    # With gray for additional category (legacy)
-    main_gray = c(
-      .get_brand_color("midnight", "#004855"),
-      .get_brand_color("coral", "#E86A50"),
-      .get_brand_color("sage", "#5A8A6F"),
-      .get_brand_color("teal", "#007A8C"),
-      .get_brand_color("gold", "#B8860B"),
-      .get_brand_color("warm_gray", "#9BA8AB")
     ),
 
     # 2-color palettes
@@ -463,33 +454,29 @@ cpal_colors <- function(palette = "primary", n = NULL, reverse = FALSE) {
     "primary" = cpal_colors_primary(),
     "extended" = extended,
 
-    # Sequential palettes (new)
-    "midnight_seq_4" = cpal_palettes_sequential()$midnight_seq_4,
+    # Sequential palettes
     "midnight_seq_5" = cpal_palettes_sequential()$midnight_seq_5,
-    "midnight_seq_6" = cpal_palettes_sequential()$midnight_seq_6,
     "midnight_seq_8" = cpal_palettes_sequential()$midnight_seq_8,
-    # Sequential palettes (legacy)
-    "teal_seq_4" = cpal_palettes_sequential()$teal_seq_4,
-    "teal_seq_5" = cpal_palettes_sequential()$teal_seq_5,
-    "teal_seq_6" = cpal_palettes_sequential()$teal_seq_6,
+    "coral_seq_5" = cpal_palettes_sequential()$coral_seq_5,
+    "coral_seq_8" = cpal_palettes_sequential()$coral_seq_8,
+    "sage_seq_5" = cpal_palettes_sequential()$sage_seq_5,
+    "sage_seq_8" = cpal_palettes_sequential()$sage_seq_8,
 
-    # Diverging palettes (new)
+    # Diverging palettes
     "coral_midnight_3" = cpal_palettes_diverging()$coral_midnight_3,
     "coral_midnight_5" = cpal_palettes_diverging()$coral_midnight_5,
     "coral_midnight_7" = cpal_palettes_diverging()$coral_midnight_7,
     "coral_midnight_9" = cpal_palettes_diverging()$coral_midnight_9,
+    "sage_coral_3" = cpal_palettes_diverging()$sage_coral_3,
+    "sage_coral_5" = cpal_palettes_diverging()$sage_coral_5,
+    "sage_coral_7" = cpal_palettes_diverging()$sage_coral_7,
+    "sage_coral_9" = cpal_palettes_diverging()$sage_coral_9,
     # Diverging palettes (legacy)
     "pink_teal_3" = cpal_palettes_diverging()$pink_teal_3,
-    "pink_teal_5" = cpal_palettes_diverging()$pink_teal_5,
     "pink_teal_6" = cpal_palettes_diverging()$pink_teal_6,
 
     # Categorical palettes
     "main" = cpal_palettes_categorical()$main,
-    "main_3" = cpal_palettes_categorical()$main_3,
-    "main_4" = cpal_palettes_categorical()$main_4,
-    "main_5" = cpal_palettes_categorical()$main_5,
-    "main_6" = cpal_palettes_categorical()$main_6,
-    "main_gray" = cpal_palettes_categorical()$main_gray,
     "blues" = cpal_palettes_categorical()$blues,
     "compare" = cpal_palettes_categorical()$compare,
     "binary" = cpal_palettes_categorical()$binary,
@@ -660,7 +647,7 @@ scale_fill_cpal <- function(palette = "main", discrete = TRUE, reverse = FALSE, 
 #'
 #' # Show specific palette
 #' view_cpal_palettes("main")
-#' view_cpal_palettes("teal_seq_5")
+#' view_cpal_palettes("midnight_seq_5")
 #'
 #' # Show multiple palettes
 #' view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
@@ -672,35 +659,33 @@ view_cpal_palettes <- function(palette = "all", show_hex = FALSE, show_names = F
     # Categorical
     "primary" = cpal_colors("primary"),
     "main" = cpal_colors("main"),
-    "main_3" = cpal_colors("main_3"),
-    "main_4" = cpal_colors("main_4"),
-    "main_5" = cpal_colors("main_5"),
-    "main_6" = cpal_colors("main_6"),
     "blues" = cpal_colors("blues"),
     "compare" = cpal_colors("compare"),
     "binary" = cpal_colors("binary"),
     "status" = cpal_colors("status"),
     # Sequential
-    "midnight_seq_4" = cpal_colors("midnight_seq_4"),
     "midnight_seq_5" = cpal_colors("midnight_seq_5"),
-    "midnight_seq_6" = cpal_colors("midnight_seq_6"),
     "midnight_seq_8" = cpal_colors("midnight_seq_8"),
+    "coral_seq_5" = cpal_colors("coral_seq_5"),
+    "coral_seq_8" = cpal_colors("coral_seq_8"),
+    "sage_seq_5" = cpal_colors("sage_seq_5"),
+    "sage_seq_8" = cpal_colors("sage_seq_8"),
     # Diverging
     "coral_midnight_3" = cpal_colors("coral_midnight_3"),
     "coral_midnight_5" = cpal_colors("coral_midnight_5"),
     "coral_midnight_7" = cpal_colors("coral_midnight_7"),
     "coral_midnight_9" = cpal_colors("coral_midnight_9"),
-    # Legacy (backward compatibility)
-    "main_gray" = cpal_colors("main_gray"),
-    "teal_seq_5" = cpal_colors("teal_seq_5"),
-    "pink_teal_5" = cpal_colors("pink_teal_5")
+    "sage_coral_3" = cpal_colors("sage_coral_3"),
+    "sage_coral_5" = cpal_colors("sage_coral_5"),
+    "sage_coral_7" = cpal_colors("sage_coral_7"),
+    "sage_coral_9" = cpal_colors("sage_coral_9")
   )
 
   # Palette categories for grouping in display
   palette_categories <- list(
-    "Categorical" = c("primary", "main", "main_3", "main_4", "main_5", "main_6", "blues", "compare", "binary", "status"),
-    "Sequential" = c("midnight_seq_4", "midnight_seq_5", "midnight_seq_6", "midnight_seq_8"),
-    "Diverging" = c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9")
+    "Categorical" = c("primary", "main", "blues", "compare", "binary", "status"),
+    "Sequential" = c("midnight_seq_5", "midnight_seq_8", "coral_seq_5", "coral_seq_8", "sage_seq_5", "sage_seq_8"),
+    "Diverging" = c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9", "sage_coral_3", "sage_coral_5", "sage_coral_7", "sage_coral_9")
   )
 
   # Determine which palettes to show
@@ -856,15 +841,7 @@ list_cpal_palettes <- function(details = FALSE) {
     "primary" = list(name = "Brand Colors", type = "Categorical", colors = 6,
                      description = "Core CPAL brand colors"),
     "main" = list(name = "Main Categorical (8)", type = "Categorical", colors = 8,
-                  description = "Full categorical palette for data visualization"),
-    "main_3" = list(name = "Main (3 colors)", type = "Categorical", colors = 3,
-                    description = "Minimal categorical for simple comparisons"),
-    "main_4" = list(name = "Main (4 colors)", type = "Categorical", colors = 4,
-                    description = "Compact categorical for moderate comparisons"),
-    "main_5" = list(name = "Main (5 colors)", type = "Categorical", colors = 5,
-                    description = "Standard categorical for most use cases"),
-    "main_6" = list(name = "Main (6 colors)", type = "Categorical", colors = 6,
-                    description = "Extended categorical for complex comparisons"),
+                  description = "Full categorical palette - use cpal_colors('main', n = 3) to subset"),
     "blues" = list(name = "Blues", type = "Categorical", colors = 2,
                    description = "Midnight and deep teal for blue comparisons"),
     "compare" = list(name = "Compare", type = "Categorical", colors = 2,
@@ -874,14 +851,18 @@ list_cpal_palettes <- function(details = FALSE) {
     "status" = list(name = "Status", type = "Categorical", colors = 4,
                     description = "Success, warning, error, and info colors"),
     # Sequential palettes
-    "midnight_seq_4" = list(name = "Midnight Sequential (4)", type = "Sequential", colors = 4,
-                            description = "Light to dark midnight progression"),
     "midnight_seq_5" = list(name = "Midnight Sequential (5)", type = "Sequential", colors = 5,
-                            description = "Light to dark midnight progression"),
-    "midnight_seq_6" = list(name = "Midnight Sequential (6)", type = "Sequential", colors = 6,
                             description = "Light to dark midnight progression"),
     "midnight_seq_8" = list(name = "Midnight Sequential (8)", type = "Sequential", colors = 8,
                             description = "Full midnight progression"),
+    "coral_seq_5" = list(name = "Coral Sequential (5)", type = "Sequential", colors = 5,
+                         description = "Light to dark coral progression"),
+    "coral_seq_8" = list(name = "Coral Sequential (8)", type = "Sequential", colors = 8,
+                         description = "Full coral progression"),
+    "sage_seq_5" = list(name = "Sage Sequential (5)", type = "Sequential", colors = 5,
+                        description = "Light to dark sage progression"),
+    "sage_seq_8" = list(name = "Sage Sequential (8)", type = "Sequential", colors = 8,
+                        description = "Full sage progression"),
     # Diverging palettes
     "coral_midnight_3" = list(name = "Coral-Midnight Diverging (3)", type = "Diverging", colors = 3,
                               description = "Coral to midnight with neutral center"),
@@ -891,13 +872,14 @@ list_cpal_palettes <- function(details = FALSE) {
                               description = "Coral to midnight with neutral center"),
     "coral_midnight_9" = list(name = "Coral-Midnight Diverging (9)", type = "Diverging", colors = 9,
                               description = "Full coral to midnight diverging"),
-    # Legacy palettes (backward compatibility)
-    "main_gray" = list(name = "Main + Gray (Legacy)", type = "Categorical", colors = 6,
-                       description = "Legacy palette with warm gray"),
-    "teal_seq_5" = list(name = "Teal Sequential (Legacy)", type = "Sequential", colors = 5,
-                        description = "Legacy alias for midnight_seq_5"),
-    "pink_teal_5" = list(name = "Pink-Teal Diverging (Legacy)", type = "Diverging", colors = 5,
-                         description = "Legacy alias for coral_midnight_5")
+    "sage_coral_3" = list(name = "Sage-Coral Diverging (3)", type = "Diverging", colors = 3,
+                          description = "Sage to coral with neutral center"),
+    "sage_coral_5" = list(name = "Sage-Coral Diverging (5)", type = "Diverging", colors = 5,
+                          description = "Sage to coral with neutral center"),
+    "sage_coral_7" = list(name = "Sage-Coral Diverging (7)", type = "Diverging", colors = 7,
+                          description = "Sage to coral with neutral center"),
+    "sage_coral_9" = list(name = "Sage-Coral Diverging (9)", type = "Diverging", colors = 9,
+                          description = "Full sage to coral diverging")
   )
 
   if (details) {

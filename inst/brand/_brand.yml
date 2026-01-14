@@ -37,6 +37,26 @@ color:
     midnight_7: "#004855"
     midnight_8: "#002D38"
 
+    # === Sequential Palette - Coral (light to dark) ===
+    coral_1: "#FDEAE6"
+    coral_2: "#FAD0C6"
+    coral_3: "#F7B6A6"
+    coral_4: "#F49C86"
+    coral_5: "#F18266"
+    coral_6: "#E86A50"
+    coral_7: "#C75540"
+    coral_8: "#A64030"
+
+    # === Sequential Palette - Sage (light to dark) ===
+    sage_1: "#E9F0EB"
+    sage_2: "#C8DCD0"
+    sage_3: "#A7C8B5"
+    sage_4: "#86B49A"
+    sage_5: "#65A07F"
+    sage_6: "#5A8A6F"
+    sage_7: "#456B55"
+    sage_8: "#304C3C"
+
     # === Diverging Palette - Coral to Midnight ===
     div_coral_1: "#C75540"
     div_coral_2: "#E86A50"
@@ -47,6 +67,17 @@ color:
     div_teal_2: "#58A3B4"
     div_teal_3: "#006878"
     div_teal_4: "#004855"
+
+    # === Diverging Palette - Sage to Coral ===
+    div_sage_1: "#456B55"
+    div_sage_2: "#5A8A6F"
+    div_sage_3: "#7AA990"
+    div_sage_4: "#B5D1C2"
+    # div_neutral is shared: "#E8ECEE"
+    div_sc_coral_1: "#F5ADA0"
+    div_sc_coral_2: "#F08B78"
+    div_sc_coral_3: "#E86A50"
+    div_sc_coral_4: "#C75540"
 
     # === Status Colors ===
     success: "#5A8A6F"

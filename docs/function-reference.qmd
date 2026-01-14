@@ -1,18 +1,19 @@
 ---
 title: "Function Reference"
-subtitle: "Complete index of all 72 exported functions"
+subtitle: "Complete index of all exported functions"
 ---
 
 ## Quick Navigation
 
-- [Color System](#color-system) (21 functions)
+- [Color System](#color-system) (22 functions)
 - [Theme System](#theme-system) (11 functions)
 - [Table Functions](#table-functions) (3 functions)
-- [Interactive Visualization](#interactive-visualization) (7 functions)
+- [Highcharter Functions](#highcharter-functions) (18 functions)
+- [Map Functions](#map-functions) (2 functions)
 - [Project Scaffolding](#project-scaffolding) (9 functions)
 - [Brand & Asset Management](#brand-asset-management) (4 functions)
 - [Utility Functions](#utility-functions) (7 functions)
-- [Highcharter Themes](#highcharter-themes) (3 functions)
+- [Shiny/Dashboard Functions](#shinydashboard-functions) (4 functions)
 
 ---
 
@@ -23,6 +24,7 @@ subtitle: "Complete index of all 72 exported functions"
 | Function | Description |
 |----------|-------------|
 | `cpal_colors()` | Main entry point for accessing CPAL colors and palettes |
+| `cpal_color()` | Get a single color by name |
 | `cpal_colors_primary()` | Returns 5 core brand colors |
 | `cpal_colors_extended()` | Returns all 17+ colors including shades |
 | `cpal_get_color()` | Get single color by exact name |
@@ -81,7 +83,8 @@ subtitle: "Complete index of all 72 exported functions"
 | `theme_cpal_dark()` | Dark background variant |
 | `theme_cpal_print()` | Print-optimized theme |
 | `theme_cpal_map()` | Geographic visualization theme |
-n### Theme Switching (Shiny)
+
+### Theme Switching (Shiny)
 
 | Function | Description |
 |----------|-------------|
@@ -107,24 +110,54 @@ n### Theme Switching (Shiny)
 
 ---
 
-## Interactive Visualization {#interactive-visualization}
+## Highcharter Functions {#highcharter-functions}
 
-### Core Functions
-
-| Function | Description |
-|----------|-------------|
-| `cpal_interactive()` | Convert ggplot to interactive ggiraph |
-
-### Geom Wrappers
+### Theme Functions
 
 | Function | Description |
 |----------|-------------|
-| `cpal_point_interactive()` | Interactive points with CPAL defaults |
-| `cpal_line_interactive()` | Interactive lines |
-| `cpal_col_interactive()` | Interactive columns/bars |
-| `cpal_polygon_interactive()` | Interactive polygons |
+| `hc_theme_cpal_light()` | Highcharter theme for light mode |
+| `hc_theme_cpal_dark()` | Highcharter theme for dark mode |
+| `hc_theme_cpal_switch()` | Returns appropriate theme based on mode |
+| `hc_cpal_theme()` | Apply CPAL theme to a chart |
 
-### Map Functions
+### Color Functions
+
+| Function | Description |
+|----------|-------------|
+| `hc_colors_cpal()` | Apply CPAL color palette to chart series |
+| `hc_colorAxis_cpal()` | Apply sequential/diverging gradient to color axis |
+
+### Formatting Helpers
+
+| Function | Description |
+|----------|-------------|
+| `hc_cpal_number_format()` | Set global Highcharts number formatting |
+| `hc_tooltip_cpal()` | Create formatted tooltips with prefix/suffix |
+| `hc_yaxis_cpal()` | Format y-axis with scaling and labels |
+| `hc_linetype_cpal()` | Toggle between line and spline styles |
+
+### Chart Type Helpers
+
+| Function | Description |
+|----------|-------------|
+| `hc_histogram_cpal()` | Create CPAL-styled histogram with auto-binning |
+| `hc_lollipop_cpal()` | Create lollipop chart (stem + dot) |
+| `hc_dumbbell_cpal()` | Create dumbbell chart (compare two values) |
+| `hc_boxplot_style_cpal()` | Apply CPAL styling to boxplot series |
+| `hc_waterfall_colors_cpal()` | Auto-color waterfall chart data |
+| `hc_treemap_data_cpal()` | Build hierarchical treemap data with CPAL colors |
+| `hc_treemap_style_cpal()` | Apply CPAL level styling to treemaps |
+
+### Logo & Branding
+
+| Function | Description |
+|----------|-------------|
+| `hc_add_cpal_logo()` | Add CPAL logo to Highcharts widget |
+
+---
+
+## Map Functions {#map-functions}
 
 | Function | Description |
 |----------|-------------|
@@ -180,7 +213,6 @@ n### Theme Switching (Shiny)
 |----------|-------------|
 | `cpal_font_family()` | Get best available CPAL font |
 | `cpal_font_family_fallback()` | Get system fallback font |
-| `get_cpal_font_family()` | Legacy font accessor |
 | `setup_cpal_google_fonts()` | Download and register fonts |
 
 ### Plot Utilities
@@ -188,12 +220,12 @@ n### Theme Switching (Shiny)
 | Function | Description |
 |----------|-------------|
 | `save_cpal_plot()` | Save with standard dimensions |
-| `add_cpal_logo()` | Add CPAL logo to plots |
+| `add_cpal_logo()` | Add CPAL logo to ggplot2 plots |
 | `check_plot_accessibility()` | Check accessibility issues |
 
 ---
 
-## Shiny/Dashboard Functions
+## Shiny/Dashboard Functions {#shinydashboard-functions}
 
 | Function | Description |
 |----------|-------------|
@@ -211,6 +243,7 @@ n### Theme Switching (Shiny)
 ```r
 # Colors
 cpal_colors(palette = NULL, n = NULL, reverse = FALSE)
+cpal_color(name)
 cpal_colors_primary()
 scale_color_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
 scale_fill_cpal(palette = "main", discrete = TRUE, reverse = FALSE, ...)
@@ -220,11 +253,21 @@ theme_cpal(base_size = 16, base_family = NULL, style = "default",
            grid = "horizontal", axis_line = "x", axis_title = TRUE,
            legend_position = "bottom")
 set_theme_cpal(style = "default", base_size = 16, ...)
-n# Theme Switching (Shiny)
+
+# Theme Switching (Shiny)
 theme_cpal_switch(mode = "light", ...)
 make_theme_reactive(input, toggle_id = "dark_mode_toggle", ...)
 
-# Highcharter Themes
+# Highcharter
+hc_cpal_theme(hc, mode = "light")
+hc_colors_cpal(hc, palette = "main", n = NULL)
+hc_colorAxis_cpal(hc, type = "sequential", min = NULL, max = NULL)
+hc_tooltip_cpal(hc, decimals = 0, prefix = "", suffix = "")
+hc_yaxis_cpal(hc, title = NULL, prefix = "", suffix = "", divide_by = 1)
+hc_histogram_cpal(data, breaks = 30, title = NULL, ...)
+hc_lollipop_cpal(categories, values, name = "Value", title = NULL, ...)
+hc_dumbbell_cpal(categories, values_start, values_end, ...)
+hc_add_cpal_logo(hc, position = "bottom-right", mode = "light")
 hc_theme_cpal_switch(mode = "light")
 
 # Tables
@@ -232,8 +275,9 @@ cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL, ...)
 cpal_table_reactable(data, title = NULL, searchable = TRUE,
                      pagination = TRUE, page_size = 10, ...)
 
-# Interactive
-cpal_interactive(plot, width_svg = 8, height_svg = 5, ...)
+# Maps
+cpal_mapgl(center = c(-96.797, 32.779), zoom = 10, style = "light", ...)
+cpal_mapgl_layer(map, data, type = "fill", source_layer = NULL, ...)
 
 # Projects
 start_project(name, path = ".", project_type = "analysis",
@@ -247,22 +291,11 @@ add_cpal_logo(plot, position = "top-right", size = 0.09)
 
 ---
 
-n## Highcharter Themes {#highcharter-themes}
-
-| Function | Description |
-|----------|-------------|
-| `hc_theme_cpal_light()` | Highcharter theme for light mode |
-| `hc_theme_cpal_dark()` | Highcharter theme for dark mode |
-| `hc_theme_cpal_switch()` | Returns appropriate Highcharter theme based on mode |
-
----
-
 ## Deprecated Functions
 
 | Function | Replacement |
 |----------|-------------|
 | `cpal_shiny()` | `cpal_dashboard_theme()` |
-| `get_cpal_font_family()` | `cpal_font_family()` |
 | `theme_cpal_auto()` | `theme_cpal_switch()` |
 
 ---
@@ -270,6 +303,8 @@ n## Highcharter Themes {#highcharter-themes}
 ## See Also
 
 - [Getting Started](getting-started.qmd) - Installation and setup
+- [ggplot2 Chart Gallery](gallery-ggplot2.qmd) - Static chart examples
+- [Highcharter Chart Gallery](gallery-highcharter.qmd) - Interactive chart examples
 - [Colors & Palettes](colors-palettes.qmd) - Color system details
 - [Themes & Styling](themes-styling.qmd) - Theme customization
 - [Troubleshooting](troubleshooting.qmd) - Common issues

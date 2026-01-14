@@ -73,26 +73,35 @@ view_cpal_palettes()
 list_cpal_palettes()
 ```
 
-### 📊 Interactive Visualizations
+### 📊 Interactive Visualizations with Highcharter
 
-Transform static plots into interactive visualizations:
+Create interactive charts with CPAL theming using Highcharter:
 
 ```r
-# Create interactive plot
-p <- ggplot(mtcars, aes(mpg, wt, color = factor(cyl))) +
-  geom_point() +
-  theme_cpal()
+library(highcharter)
 
-# Make it interactive with tooltips
-cpal_interactive(p, 
-  tooltip_vars = c("mpg", "wt", "cyl"),
-  hover_effect = TRUE
-)
+# Basic themed chart
+hchart(mtcars, "scatter", hcaes(wt, mpg, group = factor(cyl))) |>
+  hc_cpal_theme() |>
+  hc_title(text = "Weight vs MPG")
 
-# Interactive geometric layers
-cpal_point_interactive(aes(tooltip = paste("MPG:", mpg)))
-cpal_line_interactive(aes(tooltip = paste("Value:", value)))
-cpal_col_interactive(aes(tooltip = paste("Count:", n)))
+# Bar chart with tooltips
+hchart(data, "column", hcaes(x = category, y = value)) |>
+  hc_cpal_theme() |>
+  hc_tooltip_cpal(decimals = 0, suffix = " units") |>
+  hc_add_cpal_logo()
+
+# Dark mode support in Shiny
+output$chart <- renderHighchart({
+  hchart(data, "line", hcaes(x = date, y = value)) |>
+    hc_cpal_theme(input$dark_mode) |>
+    hc_yaxis_cpal(title = "Value", prefix = "$")
+})
+
+# Specialized chart types
+hc_histogram_cpal(mtcars$mpg, title = "MPG Distribution")
+hc_lollipop_cpal(categories, values, title = "Rankings")
+hc_dumbbell_cpal(categories, start_vals, end_vals, title = "Change")
 ```
 
 ### 🗺️ Mapping Support
@@ -218,7 +227,7 @@ use_targets(
 setup_cpal_google_fonts()
 
 # Get appropriate font family
-get_cpal_font_family(for_interactive = FALSE)
+cpal_font_family()
 ```
 
 #### **Plot Export**
@@ -320,7 +329,7 @@ use_quarto_report(
 |----------|--------------|-------------|
 | **Themes** | `theme_cpal()`, `theme_cpal_*()`, `theme_cpal_switch()` | ggplot2 themes for consistent styling |
 | **Colors** | `scale_*_cpal()`, `cpal_colors()` | Color palettes and scales |
-| **Interactive** | `cpal_interactive()`, `cpal_*_interactive()` | Interactive visualizations |
+| **Highcharter** | `hc_cpal_theme()`, `hc_theme_cpal_*()`, `hc_colors_cpal()` | Interactive Highcharter charts |
 | **Tables** | `cpal_table_gt()`, `cpal_table_reactable()` | Formatted tables |
 | **Dashboards** | `cpal_dashboard_theme()`, `make_theme_reactive()` | Shiny dashboard components |
 | **Projects** | `start_project()`, `use_*()` | Project scaffolding |
@@ -353,8 +362,8 @@ use_quarto_report(
 ## Requirements
 
 - R ≥ 4.3.0
-- Core dependencies: ggplot2, gt, reactable, bslib, sass
-- Optional: quarto (for reports), shiny (for apps), targets (for pipelines)
+- Core dependencies: ggplot2, gt, reactable, bslib, sass, highcharter
+- Optional: quarto (for reports), shiny (for apps), targets (for pipelines), mapgl (for maps)
 
 ## Contributing
 

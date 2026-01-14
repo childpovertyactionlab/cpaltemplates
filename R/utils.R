@@ -763,7 +763,7 @@ validate_cpal_brand <- function(path = ".", verbose = TRUE) {
 #' Returns the preferred CPAL font family name. This is the main entry point
 #' for getting font family names for use in plots, tables, and other outputs.
 #'
-#' @param type Character. Type of output: "plot" (default), "interactive", "table", or "print"
+#' @param type Character. Type of output: "plot" (default), "table", or "print"
 #' @param setup Logical. If TRUE, attempts to set up fonts if not available (default: FALSE)
 #'
 #' @return Character string of font family name ("Inter", "Roboto", or "sans")
@@ -773,64 +773,36 @@ validate_cpal_brand <- function(path = ".", verbose = TRUE) {
 #' # Get font for regular plots
 #' cpal_font_family()
 #'
-#' # Get font for interactive ggiraph plots
-#' cpal_font_family("interactive")
-#'
 #' # Get font and set up if missing
 #' cpal_font_family(setup = TRUE)
-cpal_font_family <- function(type = c("plot", "interactive", "table", "print"), setup = FALSE) {
+cpal_font_family <- function(type = c("plot", "table", "print"), setup = FALSE) {
   type <- match.arg(type)
-
 
   # For print, always use system font for compatibility
   if (type == "print") {
     return("sans")
   }
 
-  for_interactive <- type == "interactive"
-
   # Check font availability
   inter_available <- FALSE
   roboto_available <- FALSE
 
-  if (for_interactive) {
-    # Check ggiraph font availability
-    if (requireNamespace("gdtools", quietly = TRUE)) {
-      tryCatch({
-        registered_fonts <- gdtools::sys_fonts()
-        inter_available <- "Inter" %in% registered_fonts
-        roboto_available <- "Roboto" %in% registered_fonts
-      }, error = function(e) NULL)
-    }
-  } else {
-    # Check showtext font availability
-    if (requireNamespace("sysfonts", quietly = TRUE)) {
-      available_fonts <- sysfonts::font_families()
-      inter_available <- "Inter" %in% available_fonts
-      roboto_available <- "Roboto" %in% available_fonts
-    }
+  # Check showtext font availability
+  if (requireNamespace("sysfonts", quietly = TRUE)) {
+    available_fonts <- sysfonts::font_families()
+    inter_available <- "Inter" %in% available_fonts
+    roboto_available <- "Roboto" %in% available_fonts
   }
 
   # Setup fonts if requested and not available
-
   if ((!inter_available && !roboto_available) && setup) {
     setup_cpal_google_fonts(verbose = FALSE)
 
     # Recheck availability
-    if (for_interactive) {
-      if (requireNamespace("gdtools", quietly = TRUE)) {
-        tryCatch({
-          registered_fonts <- gdtools::sys_fonts()
-          inter_available <- "Inter" %in% registered_fonts
-          roboto_available <- "Roboto" %in% registered_fonts
-        }, error = function(e) NULL)
-      }
-    } else {
-      if (requireNamespace("sysfonts", quietly = TRUE)) {
-        available_fonts <- sysfonts::font_families()
-        inter_available <- "Inter" %in% available_fonts
-        roboto_available <- "Roboto" %in% available_fonts
-      }
+    if (requireNamespace("sysfonts", quietly = TRUE)) {
+      available_fonts <- sysfonts::font_families()
+      inter_available <- "Inter" %in% available_fonts
+      roboto_available <- "Roboto" %in% available_fonts
     }
   }
 

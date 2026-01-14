@@ -136,6 +136,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-galleries" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Galleries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-galleries">    
+        <li>
+    <a class="dropdown-item" href="./gallery-ggplot2.html">
+ <span class="dropdown-text">ggplot2 Chart Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallery-highcharter.html">
+ <span class="dropdown-text">Highcharter Chart Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
     </a>
@@ -145,10 +160,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./project-setup.html">
  <span class="dropdown-text">Project Setup</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./brand-assets.html">
- <span class="dropdown-text">Brand &amp; Assets</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Visualization</li>
@@ -171,10 +182,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
-    <a class="dropdown-item" href="./interactive-features.html">
- <span class="dropdown-text">Interactive Charts</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
   </li>  
@@ -190,10 +197,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./workflow-integration.html"> 
-<span class="menu-text">Workflows</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function-reference.html"> 
 <span class="menu-text">Reference</span></a>
@@ -219,8 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#primary-brand-colors" id="toc-primary-brand-colors" class="nav-link" data-scroll-target="#primary-brand-colors">Primary Brand Colors</a></li>
+  <li><a href="#primary-brand-colors" id="toc-primary-brand-colors" class="nav-link active" data-scroll-target="#primary-brand-colors">Primary Brand Colors</a></li>
   <li><a href="#core-color-functions" id="toc-core-color-functions" class="nav-link" data-scroll-target="#core-color-functions">Core Color Functions</a>
   <ul class="collapse">
   <li><a href="#cpal_colors" id="toc-cpal_colors" class="nav-link" data-scroll-target="#cpal_colors"><code>cpal_colors()</code></a></li>
@@ -284,43 +286,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2">
-<h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>The cpaltemplates color system provides 21 functions for working with CPAL’s carefully designed color palettes. All colors are sourced from <code>_brand.yml</code> and designed for WCAG accessibility compliance.</p>
+<p>Consistent color usage is essential for creating professional, recognizable data visualizations. The cpaltemplates color system provides 25 functions for working with CPAL’s carefully designed color palettes in R and ggplot2. All colors are sourced from <code>_brand.yml</code> and designed for WCAG accessibility compliance, ensuring your charts are readable by users with color vision deficiencies.</p>
+<p>Whether you’re creating a quick exploratory plot or a polished visualization for a report, these functions make it easy to apply CPAL branding consistently across all your R-based data products.</p>
 <hr>
-</section>
 <section id="primary-brand-colors" class="level2">
 <h2 class="anchored" data-anchor-id="primary-brand-colors">Primary Brand Colors</h2>
-<p>CPAL’s 5 core brand colors form the foundation of all palettes:</p>
+<p>CPAL’s 6 core brand colors form the foundation of all palettes. These colors were carefully selected for brand recognition, accessibility, and versatility across different visualization types.</p>
 <div class="cell">
-<details open="" class="code-fold">
-<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors_primary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> midnight deep_teal     coral      sage     slate warm_gray 
-"#004855" "#006878" "#E86A50" "#5A8A6F" "#5C6B73" "#9BA8AB" </code></pre>
-</div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="lzambcihau" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lzambcihau table {
+<div id="oktqrfjhwl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oktqrfjhwl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lzambcihau thead, #lzambcihau tbody, #lzambcihau tfoot, #lzambcihau tr, #lzambcihau td, #lzambcihau th {
+#oktqrfjhwl thead, #oktqrfjhwl tbody, #oktqrfjhwl tfoot, #oktqrfjhwl tr, #oktqrfjhwl td, #oktqrfjhwl th {
   border-style: none;
 }
 
-#lzambcihau p {
+#oktqrfjhwl p {
   margin: 0;
   padding: 0;
 }
 
-#lzambcihau .gt_table {
+#oktqrfjhwl .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -346,12 +339,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#lzambcihau .gt_caption {
+#oktqrfjhwl .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lzambcihau .gt_title {
+#oktqrfjhwl .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -363,7 +356,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#lzambcihau .gt_subtitle {
+#oktqrfjhwl .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -375,7 +368,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#lzambcihau .gt_heading {
+#oktqrfjhwl .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -387,13 +380,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#lzambcihau .gt_bottom_border {
+#oktqrfjhwl .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lzambcihau .gt_col_headings {
+#oktqrfjhwl .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -408,7 +401,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#lzambcihau .gt_col_heading {
+#oktqrfjhwl .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -428,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#lzambcihau .gt_column_spanner_outer {
+#oktqrfjhwl .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -440,15 +433,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#lzambcihau .gt_column_spanner_outer:first-child {
+#oktqrfjhwl .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lzambcihau .gt_column_spanner_outer:last-child {
+#oktqrfjhwl .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lzambcihau .gt_column_spanner {
+#oktqrfjhwl .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -460,11 +453,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#lzambcihau .gt_spanner_row {
+#oktqrfjhwl .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lzambcihau .gt_group_heading {
+#oktqrfjhwl .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -490,7 +483,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#lzambcihau .gt_empty_group_heading {
+#oktqrfjhwl .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -505,15 +498,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#lzambcihau .gt_from_md > :first-child {
+#oktqrfjhwl .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lzambcihau .gt_from_md > :last-child {
+#oktqrfjhwl .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lzambcihau .gt_row {
+#oktqrfjhwl .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -532,7 +525,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#lzambcihau .gt_stub {
+#oktqrfjhwl .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -545,7 +538,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#lzambcihau .gt_stub_row_group {
+#oktqrfjhwl .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -559,15 +552,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#lzambcihau .gt_row_group_first td {
+#oktqrfjhwl .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lzambcihau .gt_row_group_first th {
+#oktqrfjhwl .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lzambcihau .gt_summary_row {
+#oktqrfjhwl .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -577,16 +570,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#lzambcihau .gt_first_summary_row {
+#oktqrfjhwl .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lzambcihau .gt_first_summary_row.thick {
+#oktqrfjhwl .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lzambcihau .gt_last_summary_row {
+#oktqrfjhwl .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -596,7 +589,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#lzambcihau .gt_grand_summary_row {
+#oktqrfjhwl .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -606,7 +599,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#lzambcihau .gt_first_grand_summary_row {
+#oktqrfjhwl .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -616,7 +609,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#lzambcihau .gt_last_grand_summary_row_top {
+#oktqrfjhwl .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -626,11 +619,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#lzambcihau .gt_striped {
+#oktqrfjhwl .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lzambcihau .gt_table_body {
+#oktqrfjhwl .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -639,7 +632,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#lzambcihau .gt_footnotes {
+#oktqrfjhwl .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -653,7 +646,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#lzambcihau .gt_footnote {
+#oktqrfjhwl .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -662,7 +655,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#lzambcihau .gt_sourcenotes {
+#oktqrfjhwl .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -676,7 +669,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#lzambcihau .gt_sourcenote {
+#oktqrfjhwl .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -684,72 +677,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#lzambcihau .gt_left {
+#oktqrfjhwl .gt_left {
   text-align: left;
 }
 
-#lzambcihau .gt_center {
+#oktqrfjhwl .gt_center {
   text-align: center;
 }
 
-#lzambcihau .gt_right {
+#oktqrfjhwl .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lzambcihau .gt_font_normal {
+#oktqrfjhwl .gt_font_normal {
   font-weight: normal;
 }
 
-#lzambcihau .gt_font_bold {
+#oktqrfjhwl .gt_font_bold {
   font-weight: bold;
 }
 
-#lzambcihau .gt_font_italic {
+#oktqrfjhwl .gt_font_italic {
   font-style: italic;
 }
 
-#lzambcihau .gt_super {
+#oktqrfjhwl .gt_super {
   font-size: 65%;
 }
 
-#lzambcihau .gt_footnote_marks {
+#oktqrfjhwl .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lzambcihau .gt_asterisk {
+#oktqrfjhwl .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lzambcihau .gt_indent_1 {
+#oktqrfjhwl .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lzambcihau .gt_indent_2 {
+#oktqrfjhwl .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lzambcihau .gt_indent_3 {
+#oktqrfjhwl .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lzambcihau .gt_indent_4 {
+#oktqrfjhwl .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lzambcihau .gt_indent_5 {
+#oktqrfjhwl .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lzambcihau .katex-display {
+#oktqrfjhwl .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lzambcihau div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oktqrfjhwl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -765,32 +758,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody class="gt_table_body">
 <tr class="odd">
 <td class="gt_row gt_left" headers="Color">Midnight</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;IzAwNDg1NQ==&quot;><span class=" data-gt_from_md'="">#004855</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#004855</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #004855; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#004855</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Dark backgrounds, headers, primary emphasis</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Color">Deep Teal</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;IzAwNjg3OA==&quot;><span class=" data-gt_from_md'="">#006878</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#006878</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #006878; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#006878</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Primary brand color, links, info states</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Color">Coral</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;I0U4NkE1MA==&quot;><span class=" data-gt_from_md'="">#E86A50</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#E86A50</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #E86A50; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#E86A50</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Accents, alerts, negative/error states</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Color">Sage</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;IzVBOEE2Rg==&quot;><span class=" data-gt_from_md'="">#5A8A6F</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#5A8A6F</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #5A8A6F; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#5A8A6F</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Success states, positive indicators</td>
 </tr>
 <tr class="odd">
 <td class="gt_row gt_left" headers="Color">Slate</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;IzVDNkI3Mw==&quot;><span class=" data-gt_from_md'="">#5C6B73</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#5C6B73</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #5C6B73; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#5C6B73</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Secondary text, borders, muted elements</td>
 </tr>
 <tr class="even">
 <td class="gt_row gt_left" headers="Color">Warm Gray</td>
-<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: <span data-qmd-base64=&quot;IzlCQThBQg==&quot;><span class=" data-gt_from_md'="">#9BA8AB</span>; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'&gt;#9BA8AB</td>
+<td class="gt_row gt_left" headers="Hex"><span style="display: inline-block; width: 20px; height: 20px; background-color: #9BA8AB; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;"></span><code>#9BA8AB</code></td>
 <td class="gt_row gt_left" headers="Use_Case">Neutral backgrounds, disabled states</td>
 </tr>
 </tbody>
@@ -803,83 +796,441 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="core-color-functions" class="level2">
 <h2 class="anchored" data-anchor-id="core-color-functions">Core Color Functions</h2>
+<p>These functions are your primary tools for accessing CPAL colors in R. Use them to retrieve color values for ggplot2 visualizations, Shiny apps, or any R-based graphics.</p>
 <section id="cpal_colors" class="level3">
 <h3 class="anchored" data-anchor-id="cpal_colors"><code>cpal_colors()</code></h3>
-<p>The main entry point for accessing any CPAL color or palette.</p>
+<p>The main entry point for accessing any CPAL color or palette. This versatile function handles single colors, multiple colors, and complete palettes—making it the go-to choice for most color needs.</p>
+<section id="get-all-primary-colors" class="level4">
+<h4 class="anchored" data-anchor-id="get-all-primary-colors">Get all primary colors</h4>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get all primary colors</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> midnight deep_teal     coral      sage     slate warm_gray 
-"#004855" "#006878" "#E86A50" "#5A8A6F" "#5C6B73" "#9BA8AB" </code></pre>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a single color by name</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"coral"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>    coral 
-"#E86A50" </code></pre>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get multiple specific colors</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="fu">c</span>(<span class="st">"midnight"</span>, <span class="st">"coral"</span>, <span class="st">"sage"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> midnight     coral      sage 
-"#004855" "#E86A50" "#5A8A6F" </code></pre>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006878; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+deep_teal
+</div>
+<code style="font-size: 11px;">#006878</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+coral
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5A8A6F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+sage
+</div>
+<code style="font-size: 11px;">#5A8A6F</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5C6B73; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+slate
+</div>
+<code style="font-size: 11px;">#5C6B73</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #9BA8AB; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+warm_gray
+</div>
+<code style="font-size: 11px;">#9BA8AB</code>
 </div>
 </div>
+</section>
+<section id="get-a-single-color-by-name" class="level4">
+<h4 class="anchored" data-anchor-id="get-a-single-color-by-name">Get a single color by name</h4>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get a palette</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"midnight_seq_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#E8F4F6" "#88BECA" "#28889E" "#006D88" "#004855"</code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"coral"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Limit number of colors</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"main"</span>, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#004855" "#E86A50" "#5A8A6F"</code></pre>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reverse palette order</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"midnight_seq_5"</span>, <span class="at">reverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#004855" "#006D88" "#28889E" "#88BECA" "#E8F4F6"</code></pre>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+coral
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+</div>
+</section>
+<section id="get-multiple-specific-colors" class="level4">
+<h4 class="anchored" data-anchor-id="get-multiple-specific-colors">Get multiple specific colors</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="fu">c</span>(<span class="st">"midnight"</span>, <span class="st">"coral"</span>, <span class="st">"sage"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+coral
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5A8A6F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+sage
+</div>
+<code style="font-size: 11px;">#5A8A6F</code>
+</div>
+</div>
+</section>
+<section id="get-a-palette" class="level4">
+<h4 class="anchored" data-anchor-id="get-a-palette">Get a palette</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"midnight_seq_5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8F4F6; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8F4F6</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #88BECA; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#88BECA</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #28889E; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#28889E</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006D88; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#006D88</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+</div>
+</section>
+<section id="limit-number-of-colors" class="level4">
+<h4 class="anchored" data-anchor-id="limit-number-of-colors">Limit number of colors</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"main"</span>, <span class="at">n =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5A8A6F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#5A8A6F</code>
+</div>
+</div>
+</section>
+<section id="reverse-palette-order" class="level4">
+<h4 class="anchored" data-anchor-id="reverse-palette-order">Reverse palette order</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors</span>(<span class="st">"midnight_seq_5"</span>, <span class="at">reverse =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006D88; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#006D88</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #28889E; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#28889E</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #88BECA; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#88BECA</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8F4F6; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8F4F6</code>
 </div>
 </div>
 <hr>
 </section>
+</section>
 <section id="cpal_colors_extended" class="level3">
 <h3 class="anchored" data-anchor-id="cpal_colors_extended"><code>cpal_colors_extended()</code></h3>
-<p>Returns all 17+ colors including primary colors and shades:</p>
+<p>Returns all 17+ colors including primary colors and shades. Useful when you need access to the full color palette for complex visualizations or custom color schemes.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors_extended</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>  midnight  deep_teal      coral       sage      slate  warm_gray       teal 
- "#004855"  "#006878"  "#E86A50"  "#5A8A6F"  "#5C6B73"  "#9BA8AB"  "#007A8C" 
-      gold       plum coral_dark    neutral midnight_1 midnight_2 midnight_3 
- "#B8860B"  "#8B5E83"  "#C75540"  "#E8ECEE"  "#E8F4F6"  "#B8D9E0"  "#88BECA" 
-midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning 
- "#58A3B4"  "#28889E"  "#006D88"  "#004855"  "#002D38"  "#5A8A6F"  "#D4A84B" 
-     error       info 
- "#C75540"  "#006878" </code></pre>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors_extended</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006878; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+deep_teal
+</div>
+<code style="font-size: 11px;">#006878</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+coral
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5A8A6F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+sage
+</div>
+<code style="font-size: 11px;">#5A8A6F</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5C6B73; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+slate
+</div>
+<code style="font-size: 11px;">#5C6B73</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #9BA8AB; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+warm_gray
+</div>
+<code style="font-size: 11px;">#9BA8AB</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #007A8C; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+teal
+</div>
+<code style="font-size: 11px;">#007A8C</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #B8860B; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+gold
+</div>
+<code style="font-size: 11px;">#B8860B</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #8B5E83; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+plum
+</div>
+<code style="font-size: 11px;">#8B5E83</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #C75540; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+coral_dark
+</div>
+<code style="font-size: 11px;">#C75540</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8ECEE; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+neutral
+</div>
+<code style="font-size: 11px;">#E8ECEE</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8F4F6; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_1
+</div>
+<code style="font-size: 11px;">#E8F4F6</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #B8D9E0; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_2
+</div>
+<code style="font-size: 11px;">#B8D9E0</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #88BECA; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_3
+</div>
+<code style="font-size: 11px;">#88BECA</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #58A3B4; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_4
+</div>
+<code style="font-size: 11px;">#58A3B4</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #28889E; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_5
+</div>
+<code style="font-size: 11px;">#28889E</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006D88; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_6
+</div>
+<code style="font-size: 11px;">#006D88</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_7
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #002D38; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+midnight_8
+</div>
+<code style="font-size: 11px;">#002D38</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #5A8A6F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+success
+</div>
+<code style="font-size: 11px;">#5A8A6F</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #D4A84B; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+warning
+</div>
+<code style="font-size: 11px;">#D4A84B</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #C75540; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+error
+</div>
+<code style="font-size: 11px;">#C75540</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #006878; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<div style="font-size: 11px; font-weight: 600; margin-bottom: 2px;">
+info
+</div>
+<code style="font-size: 11px;">#006878</code>
 </div>
 </div>
 <hr>
@@ -887,30 +1238,17 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="viewing-palettes" class="level2">
 <h2 class="anchored" data-anchor-id="viewing-palettes">Viewing Palettes</h2>
+<p>Before choosing colors for your visualization, it helps to see what’s available. These functions let you explore and preview all CPAL palettes directly in R.</p>
 <section id="all-available-palettes" class="level3">
 <h3 class="anchored" data-anchor-id="all-available-palettes">All Available Palettes</h3>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_cpal_palettes</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1] "primary"          "main"             "main_3"           "main_4"          
- [5] "main_5"           "main_6"           "blues"            "compare"         
- [9] "binary"           "status"           "midnight_seq_4"   "midnight_seq_5"  
-[13] "midnight_seq_6"   "midnight_seq_8"   "coral_midnight_3" "coral_midnight_5"
-[17] "coral_midnight_7" "coral_midnight_9" "main_gray"        "teal_seq_5"      
-[21] "pink_teal_5"     </code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list_cpal_palettes</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visual-palette-display" class="level3">
 <h3 class="anchored" data-anchor-id="visual-palette-display">Visual Palette Display</h3>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -925,19 +1263,20 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="palette-types" class="level2">
 <h2 class="anchored" data-anchor-id="palette-types">Palette Types</h2>
+<p>Choosing the right palette type is crucial for effective data visualization. Different data types require different color approaches—using a sequential palette for categorical data (or vice versa) can mislead readers or obscure patterns in your data.</p>
 <section id="categorical-palettes" class="level3">
 <h3 class="anchored" data-anchor-id="categorical-palettes">Categorical Palettes</h3>
-<p>For discrete data with distinct categories:</p>
+<p><strong>Use for:</strong> Discrete data with distinct, unordered categories (e.g., regions, product types, demographic groups).</p>
+<p>Categorical palettes use visually distinct colors that don’t imply any ordering or magnitude. Each category gets its own easily distinguishable color.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"main"</span>, <span class="st">"main_3"</span>, <span class="st">"main_4"</span>, <span class="st">"main_5"</span>, <span class="st">"main_6"</span>, <span class="st">"binary"</span>, <span class="st">"status"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"main"</span>, <span class="st">"blues"</span>, <span class="st">"compare"</span>, <span class="st">"binary"</span>, <span class="st">"status"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/categorical-palettes-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Categorical palettes for discrete data</figcaption>
 </figure>
 </div>
 </div>
@@ -946,18 +1285,17 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Count by Cylinder"</span>, <span class="at">x =</span> <span class="st">"Cylinders"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>() <span class="sc">+</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(cyl), <span class="at">fill =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>() <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_cpal</span>(<span class="st">"main"</span>) <span class="sc">+</span>  <span class="co"># Use cpal_colors("main", n = 3) for fewer colors</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Count by Cylinder"</span>, <span class="at">x =</span> <span class="st">"Cylinders"</span>, <span class="at">y =</span> <span class="st">"Count"</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>() <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/categorical-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Using categorical palette</figcaption>
 </figure>
 </div>
 </div>
@@ -966,17 +1304,17 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="sequential-palettes" class="level3">
 <h3 class="anchored" data-anchor-id="sequential-palettes">Sequential Palettes</h3>
-<p>For continuous or ordered data:</p>
+<p><strong>Use for:</strong> Continuous or ordered data where values progress from low to high (e.g., population density, income levels, temperature).</p>
+<p>Sequential palettes progress from light to dark (or vice versa), allowing readers to intuitively understand that darker colors represent higher values.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"midnight_seq_4"</span>, <span class="st">"midnight_seq_5"</span>, <span class="st">"midnight_seq_6"</span>, <span class="st">"midnight_seq_8"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"midnight_seq_5"</span>, <span class="st">"midnight_seq_8"</span>, <span class="st">"coral_seq_5"</span>, <span class="st">"coral_seq_8"</span>, <span class="st">"sage_seq_5"</span>, <span class="st">"sage_seq_8"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/sequential-palettes-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Sequential palettes for continuous data</figcaption>
 </figure>
 </div>
 </div>
@@ -985,23 +1323,27 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> hp)) <span class="sc">+</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal_c</span>(<span class="st">"midnight_seq_5"</span>) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel Efficiency by Weight"</span>,</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Color shows horsepower"</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Weight (1000 lbs)"</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Horsepower"</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> hp)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal_c</span>(<span class="st">"midnight_seq_5"</span>) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel Efficiency by Weight"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Color shows horsepower"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Weight (1000 lbs)"</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Horsepower"</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="fu">guide_colorbar</span>(</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">barwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">barheight =</span> <span class="dv">1</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/sequential-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Using sequential palette for continuous data</figcaption>
 </figure>
 </div>
 </div>
@@ -1010,17 +1352,17 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="diverging-palettes" class="level3">
 <h3 class="anchored" data-anchor-id="diverging-palettes">Diverging Palettes</h3>
-<p>For data with a meaningful midpoint:</p>
+<p><strong>Use for:</strong> Data with a meaningful midpoint or neutral value (e.g., year-over-year change, survey responses from negative to positive, deviations from average).</p>
+<p>Diverging palettes use two distinct hues that meet at a neutral midpoint, making it easy to see whether values are above or below the center.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"coral_midnight_3"</span>, <span class="st">"coral_midnight_5"</span>, <span class="st">"coral_midnight_7"</span>, <span class="st">"coral_midnight_9"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"coral_midnight_3"</span>, <span class="st">"coral_midnight_5"</span>, <span class="st">"coral_midnight_7"</span>, <span class="st">"coral_midnight_9"</span>, <span class="st">"sage_coral_3"</span>, <span class="st">"sage_coral_5"</span>, <span class="st">"sage_coral_7"</span>, <span class="st">"sage_coral_9"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/diverging-palettes-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Diverging palettes for data with midpoints</figcaption>
 </figure>
 </div>
 </div>
@@ -1029,33 +1371,32 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sample data with positive and negative changes</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>change_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>],</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">change =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">12</span>, <span class="dv">20</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(change_data, <span class="fu">aes</span>(<span class="at">x =</span> category, <span class="at">y =</span> change, <span class="at">fill =</span> change)) <span class="sc">+</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">"#E86A50"</span>,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">"#E8ECEE"</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">"#004855"</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">0</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Year-over-Year Change"</span>,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Category"</span>,</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Change (%)"</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>() <span class="sc">+</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create sample data with positive and negative changes</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>change_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">category =</span> LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>],</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">change =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">15</span>, <span class="sc">-</span><span class="dv">8</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">12</span>, <span class="dv">20</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(change_data, <span class="fu">aes</span>(<span class="at">x =</span> category, <span class="at">y =</span> change, <span class="at">fill =</span> change)) <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">low =</span> <span class="st">"#E86A50"</span>,</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mid =</span> <span class="st">"#E8ECEE"</span>,</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">high =</span> <span class="st">"#004855"</span>,</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">midpoint =</span> <span class="dv">0</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Year-over-Year Change"</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Category"</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Change (%)"</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>() <span class="sc">+</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/diverging-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Using diverging palette for change data</figcaption>
 </figure>
 </div>
 </div>
@@ -1065,25 +1406,26 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="ggplot2-scale-functions" class="level2">
 <h2 class="anchored" data-anchor-id="ggplot2-scale-functions">ggplot2 Scale Functions</h2>
+<p>These functions integrate directly with ggplot2, letting you apply CPAL colors using familiar <code>scale_*</code> syntax. They work just like built-in ggplot2 scales but use CPAL’s branded color palettes.</p>
 <section id="discrete-scales" class="level3">
 <h3 class="anchored" data-anchor-id="discrete-scales">Discrete Scales</h3>
+<p>Use <code>scale_color_cpal()</code> or <code>scale_fill_cpal()</code> when your data has distinct categories. The function automatically maps each category to a color from your chosen palette.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Discrete Color Scale"</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Discrete Color Scale"</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/discrete-scale-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Using scale_color_cpal() for discrete data</figcaption>
 </figure>
 </div>
 </div>
@@ -1091,20 +1433,25 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="continuous-scales" class="level3">
 <h3 class="anchored" data-anchor-id="continuous-scales">Continuous Scales</h3>
+<p>Use <code>scale_color_cpal_c()</code> or <code>scale_fill_cpal_c()</code> when your data is numeric and continuous. The function interpolates smoothly across your chosen palette to represent the full range of values.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(waiting, eruptions, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_cpal_c</span>(<span class="st">"teal_seq_5"</span>) <span class="sc">+</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Continuous Fill Scale"</span>) <span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(waiting, eruptions, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_cpal_c</span>(<span class="st">"midnight_seq_5"</span>) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Continuous Fill Scale"</span>) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_colorbar</span>(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">barwidth =</span> <span class="dv">15</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">barheight =</span> <span class="dv">1</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/continuous-scale-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Using scale_fill_cpal_c() for continuous data</figcaption>
 </figure>
 </div>
 </div>
@@ -1114,56 +1461,196 @@ midnight_4 midnight_5 midnight_6 midnight_7 midnight_8    success    warning
 </section>
 <section id="color-interpolation" class="level2">
 <h2 class="anchored" data-anchor-id="color-interpolation">Color Interpolation</h2>
+<p>Sometimes you need a custom number of colors or a gradient between specific colors that isn’t covered by the standard palettes. These functions let you generate custom color sequences programmatically.</p>
 <section id="cpal_color_ramp" class="level3">
 <h3 class="anchored" data-anchor-id="cpal_color_ramp"><code>cpal_color_ramp()</code></h3>
-<p>Generate smooth gradient between two colors:</p>
+<p>Generate a smooth gradient between two CPAL colors. Useful when you need a specific number of steps or want to create a custom sequential palette.</p>
+<section id="gradient-from-coral-to-midnight" class="level4">
+<h4 class="anchored" data-anchor-id="gradient-from-coral-to-midnight">Gradient from coral to midnight</h4>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gradient from coral to midnight</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_ramp</span>(<span class="st">"coral"</span>, <span class="st">"midnight"</span>, <span class="at">n =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#E86A50" "#C16450" "#9A5E51" "#745952" "#4D5353" "#264D54" "#004855"</code></pre>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_ramp</span>(<span class="st">"coral"</span>, <span class="st">"midnight"</span>, <span class="at">n =</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using color names from brand.yml</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_ramp</span>(<span class="st">"midnight_1"</span>, <span class="st">"midnight"</span>, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#E8F4F6" "#AEC9CD" "#749EA5" "#39737D" "#004855"</code></pre>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #C16450; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#C16450</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #9A5E51; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#9A5E51</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #745952; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#745952</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #4D5353; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#4D5353</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #264D54; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#264D54</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
 </div>
 </div>
 </section>
+<section id="using-color-names-from-brand.yml" class="level4">
+<h4 class="anchored" data-anchor-id="using-color-names-from-brand.yml">Using color names from brand.yml</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_ramp</span>(<span class="st">"midnight_1"</span>, <span class="st">"midnight"</span>, <span class="at">n =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8F4F6; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8F4F6</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #AEC9CD; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#AEC9CD</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #749EA5; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#749EA5</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #39737D; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#39737D</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
+</div>
+</div>
+</section>
+</section>
 <section id="cpal_color_gradient" class="level3">
 <h3 class="anchored" data-anchor-id="cpal_color_gradient"><code>cpal_color_gradient()</code></h3>
-<p>Create gradient through multiple colors:</p>
+<p>Create a gradient that passes through multiple colors. Perfect for custom diverging palettes or complex color schemes that need to hit specific color waypoints.</p>
+<section id="three-color-gradient" class="level4">
+<h4 class="anchored" data-anchor-id="three-color-gradient">Three-color gradient</h4>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Three-color gradient</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_gradient</span>(<span class="fu">c</span>(<span class="st">"coral"</span>, <span class="st">"neutral"</span>, <span class="st">"midnight"</span>), <span class="at">n =</span> <span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] "#E86A50" "#E88A77" "#E8AB9F" "#E8CBC6" "#E8ECEE" "#AEC3C7" "#749AA1"
-[8] "#39717B" "#004855"</code></pre>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_color_gradient</span>(<span class="fu">c</span>(<span class="st">"coral"</span>, <span class="st">"neutral"</span>, <span class="st">"midnight"</span>), <span class="at">n =</span> <span class="dv">9</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;">
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E86A50; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E86A50</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E88A77; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E88A77</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8AB9F; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8AB9F</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8CBC6; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8CBC6</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #E8ECEE; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#E8ECEE</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #AEC3C7; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#AEC3C7</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #749AA1; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#749AA1</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #39717B; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#39717B</code>
+</div>
+<div style="display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;">
+<div style="width: 60px; height: 40px; background-color: #004855; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;">
+
+</div>
+<code style="font-size: 11px;">#004855</code>
 </div>
 </div>
 <hr>
 </section>
 </section>
+</section>
 <section id="color-validation-accessibility" class="level2">
 <h2 class="anchored" data-anchor-id="color-validation-accessibility">Color Validation (Accessibility)</h2>
+<p>Accessibility isn’t just good practice—it’s essential for reaching all audiences. These validation functions help you ensure your color choices meet <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">WCAG (Web Content Accessibility Guidelines)</a> standards, making your R visualizations readable for users with color vision deficiencies.</p>
 <section id="validate_color_contrast" class="level3">
 <h3 class="anchored" data-anchor-id="validate_color_contrast"><code>validate_color_contrast()</code></h3>
-<p>Check if two colors meet WCAG contrast requirements:</p>
+<p>Check if two colors meet WCAG contrast requirements. Use this when placing text on colored backgrounds or ensuring data points are distinguishable.</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check deep_teal on white (should pass AA)</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#006878"</span>, <span class="st">"#FFFFFF"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check deep_teal on white (should pass AA)</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#006878"</span>, <span class="st">"#FFFFFF"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with AAA standard (stricter)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#006878"</span>, <span class="st">"#FFFFFF"</span>, <span class="at">level =</span> <span class="st">"AAA"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Midnight on white (high contrast)</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#004855"</span>, <span class="st">"#FFFFFF"</span>, <span class="at">level =</span> <span class="st">"AAA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Click to see output">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Click to see output
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>$foreground
 [1] "#006878"
@@ -1189,11 +1676,6 @@ $passes
 $recommendation
 [1] "Passes WCAG AA (ratio: 6.46:1, required: 4.5:1)"</code></pre>
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check with AAA standard (stricter)</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#006878"</span>, <span class="st">"#FFFFFF"</span>, <span class="at">level =</span> <span class="st">"AAA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$foreground
 [1] "#006878"
@@ -1219,11 +1701,6 @@ $passes
 $recommendation
 [1] "FAILS WCAG AAA (ratio: 6.46:1, required: 7.0:1). Consider using darker foreground or lighter background."</code></pre>
 </div>
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Midnight on white (high contrast)</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_color_contrast</span>(<span class="st">"#004855"</span>, <span class="st">"#FFFFFF"</span>, <span class="at">level =</span> <span class="st">"AAA"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
 <div class="cell-output cell-output-stdout">
 <pre><code>$foreground
 [1] "#004855"
@@ -1250,15 +1727,15 @@ $recommendation
 [1] "Passes WCAG AAA (ratio: 10.20:1, required: 7.0:1)"</code></pre>
 </div>
 </div>
+</div>
+</div>
+</div>
 </section>
 <section id="validate_brand_colors" class="level3">
 <h3 class="anchored" data-anchor-id="validate_brand_colors"><code>validate_brand_colors()</code></h3>
 <p>Check all CPAL palette colors for accessibility:</p>
 <div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_brand_colors</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">validate_brand_colors</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This function prints a detailed report showing which colors pass WCAG AA/AAA standards on white and dark backgrounds.</p>
 <hr>
@@ -1266,6 +1743,7 @@ $recommendation
 </section>
 <section id="choosing-the-right-palette" class="level2">
 <h2 class="anchored" data-anchor-id="choosing-the-right-palette">Choosing the Right Palette</h2>
+<p>Not sure which palette to use? This quick reference helps you match your data type to the appropriate CPAL palette. The goal is to choose colors that help readers understand your data, not just make charts look pretty.</p>
 <section id="quick-reference" class="level3">
 <h3 class="anchored" data-anchor-id="quick-reference">Quick Reference</h3>
 <table class="table">
@@ -1315,37 +1793,39 @@ $recommendation
 </section>
 <section id="complete-example" class="level2">
 <h2 class="anchored" data-anchor-id="complete-example">Complete Example</h2>
+<p>Here’s a complete example showing how CPAL colors, scales, and themes work together in a typical R data visualization workflow. This pattern—data preparation, ggplot2 visualization, CPAL scales, and CPAL theme—is the foundation for all branded CPAL charts.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cylinders =</span> <span class="fu">factor</span>(cyl),</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">efficiency =</span> <span class="fu">ifelse</span>(mpg <span class="sc">&gt;</span> <span class="fu">median</span>(mpg), <span class="st">"High"</span>, <span class="st">"Low"</span>)</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create visualization</span></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(car_data, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg, <span class="at">color =</span> cylinders, <span class="at">size =</span> wt)) <span class="sc">+</span></span>
-<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
-<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vehicle Performance Analysis"</span>,</span>
-<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Fuel efficiency by horsepower, colored by cylinder count"</span>,</span>
-<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Horsepower"</span>,</span>
-<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
-<span id="cb41-18"><a href="#cb41-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span>,</span>
-<span id="cb41-19"><a href="#cb41-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Weight (1000 lbs)"</span>,</span>
-<span id="cb41-20"><a href="#cb41-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Motor Trend Car Road Tests (1974)"</span></span>
-<span id="cb41-21"><a href="#cb41-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb41-22"><a href="#cb41-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>car_data <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">cylinders =</span> <span class="fu">factor</span>(cyl),</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">efficiency =</span> <span class="fu">ifelse</span>(mpg <span class="sc">&gt;</span> <span class="fu">median</span>(mpg), <span class="st">"High"</span>, <span class="st">"Low"</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create visualization</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(car_data, <span class="fu">aes</span>(<span class="at">x =</span> hp, <span class="at">y =</span> mpg, <span class="at">color =</span> cylinders, <span class="at">size =</span> wt)) <span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vehicle Performance Analysis"</span>,</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Fuel efficiency by horsepower, colored by cylinder count"</span>,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Horsepower"</span>,</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span>,</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Weight (1000 lbs)"</span>,</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Motor Trend Car Road Tests (1974)"</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>cpaltemplates<span class="sc">::</span><span class="fu">add_cpal_logo</span>(p1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
+<div>
 <figure class="figure">
 <p><img src="colors-palettes_files/figure-html/complete-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Complete visualization with CPAL colors and theme</figcaption>
 </figure>
 </div>
 </div>
@@ -1354,10 +1834,12 @@ $recommendation
 </section>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
+<p>Now that you understand CPAL’s color system, explore these related guides:</p>
 <ul>
-<li><a href="./themes-styling.html">Themes &amp; Styling</a> - Apply consistent themes to your plots</li>
-<li><a href="./plots-visualizations.html">Plots &amp; Output</a> - Save and export visualizations</li>
-<li><a href="./brand-assets.html">Brand &amp; Assets</a> - Customize brand configuration</li>
+<li><a href="./themes-styling.html">Themes &amp; Styling</a> - Apply consistent ggplot2 themes to your plots</li>
+<li><a href="./plots-visualizations.html">Plots &amp; Output</a> - Save and export your R visualizations</li>
+<li><a href="./gallery-ggplot2.html">ggplot2 Gallery</a> - See colors in action with example charts</li>
+<li><a href="./gallery-highcharter.html">Highcharter Gallery</a> - CPAL colors in interactive charts</li>
 </ul>
 
 

@@ -83,8 +83,8 @@ scale_fill_cpal_c("yellow_teal_seq_5")
 ### Diverging Scales (Change/Difference)
 
 ```r
-# Pink to teal through neutral
-scale_fill_cpal_c("pink_teal_5")
+# Coral to midnight through neutral
+scale_fill_cpal_c("coral_midnight_5")
 ```
 
 ### Categorical Scales (Types/Categories)

@@ -1,37 +1,43 @@
 ---
-title: "cpaltemplates"
-subtitle: "CPAL Data Visualization & Branding Toolkit"
+title: ""
+pagetitle: "cpaltemplates - CPAL Data Visualization Toolkit"
+toc: false
 ---
 
-```{r}
-#| label: setup
-#| include: false
-library(cpaltemplates)
-library(ggplot2)
-library(dplyr)
-```
+::: {.hero-banner}
 
-## Welcome to cpaltemplates
+# cpaltemplates
 
-**cpaltemplates** is the official R package for the Child Poverty Action Lab (CPAL) data science team. It provides a comprehensive toolkit for creating consistently branded, accessible, and professional data visualizations, reports, and dashboards.
+::: {.tagline}
+CPAL Data Visualization & Branding Toolkit
+:::
 
-### Why cpaltemplates?
+::: {.hero-palette}
+<span class="swatch" style="background-color: #E86A50;" title="Coral"></span>
+<span class="swatch" style="background-color: #D4A84B;" title="Gold"></span>
+<span class="swatch" style="background-color: #5A8A6F;" title="Sage"></span>
+<span class="swatch" style="background-color: #006878;" title="Deep Teal"></span>
+<span class="swatch" style="background-color: #004855;" title="Midnight"></span>
+<span class="swatch" style="background-color: #5C6B73;" title="Slate"></span>
+:::
 
-**Consistent Branding**: Every visualization, table, and dashboard uses CPAL's official colors, fonts, and styling.
+::: {.hero-features}
+<span class="hero-feature">Consistent Branding</span>
+<span class="hero-feature">WCAG Accessible Colors</span>
+<span class="hero-feature">ggplot2 + Highcharter</span>
+<span class="hero-feature">Shiny Themes</span>
+:::
 
-**Accessibility First**: All color palettes are designed for WCAG compliance with built-in validation tools.
+:::
 
-**Rapid Development**: Start new projects with pre-configured templates.
-
----
+The official R package for the Child Poverty Action Lab data science team. Create consistently branded, accessible, and professional data visualizations, reports, and dashboards. Includes utility functions and project templates to get your analysis or projects started quickly.
 
 ## Quick Start
 
-### Installation
-
+Install the package from GitHub and load it:
 ```{r}
 #| eval: false
-#| code-fold: show
+#| code-fold: false
 # Install from GitHub
 remotes::install_github("childpovertyactionlab/cpaltemplates")
 
@@ -42,188 +48,210 @@ library(cpaltemplates)
 setup_cpal_google_fonts()
 ```
 
-### Your First CPAL Plot
-
-```{r}
-#| label: first-plot
-#| fig-cap: "A branded CPAL visualization"
-ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
-  geom_point(size = 3) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Vehicle Fuel Efficiency",
-    subtitle = "Weight vs. Miles Per Gallon by Cylinder Count",
-    x = "Weight (1000 lbs)",
-    y = "Miles per Gallon",
-    color = "Cylinders"
-  ) +
-  theme_cpal()
-```
+For detailed setup instructions, see the [Getting Started](getting-started.qmd) guide.
 
 ---
 
-## Package Features
+## Documentation
 
-### Color System (21 functions)
+### Galleries
 
-Access CPAL's carefully designed color palettes:
+::: {.grid}
 
-```{r}
-#| label: color-preview
-# Primary brand colors
-cpal_colors_primary()
-```
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100 .gallery-card}
+::: {.card-header}
+**ggplot2 Chart Gallery**
+:::
+::: {.card-body}
+Browse example charts built with ggplot2 and CPAL themes including bar charts, line charts, scatter plots, heatmaps, treemaps, and more.
 
-```{r}
-#| label: palette-visual
-#| fig-height: 3
-#| fig-cap: "CPAL color palettes"
-view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))
-```
+[View Gallery](gallery-ggplot2.qmd){.btn .btn-primary}
+:::
+:::
+:::
 
-[Learn more about Colors & Palettes](colors-palettes.qmd)
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100 .gallery-card}
+::: {.card-header}
+**Highcharter Chart Gallery**
+:::
+::: {.card-body}
+Interactive chart examples using Highcharter with CPAL styling including tooltips, animations, dark mode, and specialized chart types.
+
+[View Gallery](gallery-highcharter.qmd){.btn .btn-primary}
+:::
+:::
+:::
+
+:::
+
+### Getting Started
+
+::: {.grid}
+
+::: {.g-col-12}
+::: {.card}
+::: {.card-header}
+**Getting Started**
+:::
+::: {.card-body}
+Installation, initial setup, font configuration, and your first CPAL visualization.
+
+[Read Guide](getting-started.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+:::
+
+### Guides
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Project Setup**
+:::
+::: {.card-body}
+Create new projects with pre-configured templates for analysis, reports, slides, Shiny apps, and more.
+
+[Read Guide](project-setup.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Colors & Palettes**
+:::
+::: {.card-body}
+CPAL's WCAG-compliant color system with 16+ palettes for categorical, sequential, and diverging data.
+
+[Read Guide](colors-palettes.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Themes & Styling**
+:::
+::: {.card-body}
+ggplot2 themes for different contexts: standard, minimal, dark mode, print, and maps.
+
+[Read Guide](themes-styling.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Plots & Output**
+:::
+::: {.card-body}
+Creating visualizations and exporting them with proper sizing, resolution, and branding.
+
+[Read Guide](plots-visualizations.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Tables**
+:::
+::: {.card-body}
+Professional tables using GT (static/print) and Reactable (interactive) with CPAL styling.
+
+[Read Guide](tables-gt.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Maps & Geographic**
+:::
+::: {.card-body}
+Geographic visualizations with mapgl integration and CPAL map themes.
+
+[Read Guide](maps-geographic.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Shiny Dashboards**
+:::
+::: {.card-body}
+Build branded Shiny dashboards with bslib theming and dark/light mode support.
+
+[Read Guide](shiny-dashboards.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Utilities & Helpers**
+:::
+::: {.card-body}
+Helper functions for logos, plot saving, accessibility checks, and more.
+
+[Read Guide](utilities-helpers.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-4}
+::: {.card .h-100}
+::: {.card-header}
+**Troubleshooting**
+:::
+::: {.card-body}
+Solutions to common issues with fonts, themes, colors, and package configuration.
+
+[Read Guide](troubleshooting.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+:::
+:::
+
+:::
+
+### Reference
+
+::: {.grid}
+
+::: {.g-col-12}
+::: {.card}
+::: {.card-header}
+**Function Reference**
+:::
+::: {.card-body}
+Complete index of all 67+ exported functions organized by category.
+
+[View Reference](function-reference.qmd){.btn .btn-outline-secondary .btn-sm}
+:::
+:::
+:::
+
+:::
 
 ---
 
-### Theme System (8 functions)
+## Feedback & Support
 
-Consistent ggplot2 themes for every context:
+Have questions, found a bug, or want to request a feature?
 
-| Theme | Use Case |
-|-------|----------|
-| `theme_cpal()` | Standard visualizations |
-| `theme_cpal_minimal()` | Clean, minimal designs |
-| `theme_cpal_dark()` | Dark backgrounds/presentations |
-| `theme_cpal_print()` | Print-optimized output |
-| `theme_cpal_map()` | Geographic visualizations |
-
-```{r}
-#| label: theme-example
-#| fig-cap: "Example using theme_cpal()"
-ggplot(mtcars, aes(x = factor(cyl), y = mpg, fill = factor(cyl))) +
-  geom_boxplot(alpha = 0.8) +
-  scale_fill_cpal("main_3") +
-  labs(
-    title = "Fuel Efficiency by Cylinder Count",
-    x = "Cylinders",
-    y = "Miles per Gallon"
-  ) +
-  theme_cpal() +
-  theme(legend.position = "none")
-```
-
-[Learn more about Themes](themes-styling.qmd)
-
----
-
-### Tables (3 functions)
-
-Professional tables for reports and dashboards:
-
-```{r}
-#| label: table-example
-mtcars |>
-  head(6) |>
-  select(mpg, cyl, hp, wt) |>
-  cpal_table_gt(title = "Vehicle Specifications")
-```
-
-[Learn more about Tables](tables-gt.qmd)
-
----
-
-### Project Scaffolding (7 functions)
-
-Start new projects with pre-configured structure:
-
-```{r}
-#| eval: false
-start_project(
-  name = "dallas-housing-analysis",
-  project_type = "analysis",
-  features = c("git", "renv", "targets")
-)
-
-use_quarto_report()
-```
-
-Available project types: analysis, quarto-report, quarto-slides, quarto-web, shiny-dashboard, shiny-app, package
-
-[Learn more about Project Setup](project-setup.qmd)
-
----
-
-### Interactive Visualizations (7 functions)
-
-Create interactive charts with ggiraph:
-
-```{r}
-#| eval: false
-library(ggiraph)
-
-p <- ggplot(data, aes(x, y)) +
-  geom_point_interactive(aes(tooltip = label)) +
-  theme_cpal()
-
-cpal_interactive(p)
-```
-
-[Learn more about Interactive Features](interactive-features.qmd)
-
----
-
-### Shiny Dashboards (5 functions)
-
-Build branded dashboards with Bootstrap 5 theming:
-
-```{r}
-#| eval: false
-library(shiny)
-library(bslib)
-
-ui <- page_sidebar(
-  theme = cpal_dashboard_theme(),
-  title = "CPAL Dashboard",
-  sidebar = sidebar(...),
-  ...
-)
-```
-
-[Learn more about Shiny Dashboards](shiny-dashboards.qmd)
-
----
-
-## Documentation Overview
-
-| Section | Description |
-|---------|-------------|
-| [Getting Started](getting-started.qmd) | Installation, setup, and first steps |
-| [Project Setup](project-setup.qmd) | Creating and configuring projects |
-| [Colors & Palettes](colors-palettes.qmd) | Complete color system guide |
-| [Themes & Styling](themes-styling.qmd) | ggplot2 theme documentation |
-| [Plots & Output](plots-visualizations.qmd) | Creating and exporting visualizations |
-| [Tables](tables-gt.qmd) | GT and Reactable table styling |
-| [Interactive Features](interactive-features.qmd) | ggiraph and interactive charts |
-| [Maps](maps-geographic.qmd) | Geographic visualizations |
-| [Shiny Dashboards](shiny-dashboards.qmd) | Dashboard theming |
-| [Brand & Assets](brand-assets.qmd) | Brand file management |
-| [Utilities](utilities-helpers.qmd) | Helper functions |
-| [Workflows](workflow-integration.qmd) | End-to-end examples |
-| [Function Reference](function-reference.qmd) | Complete function index |
-| [Troubleshooting](troubleshooting.qmd) | Common issues and solutions |
-
----
-
-## Getting Help
-
-- GitHub Issues: [Report bugs or request features](https://github.com/childpovertyactionlab/cpaltemplates/issues)
-- Troubleshooting Guide: [Common solutions](troubleshooting.qmd)
-
----
-
-## Package Statistics
-
-- 67 exported functions across 8 categories
-- 16 color palettes designed for accessibility
-- 6 ggplot2 themes for different contexts
-- 7 project templates for rapid development
+- [Open an issue on GitHub](https://github.com/childpovertyactionlab/cpaltemplates/issues)
+- [View the source code](https://github.com/childpovertyactionlab/cpaltemplates)

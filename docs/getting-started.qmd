@@ -88,140 +88,172 @@ cpal_font_family()
 
 ## Understanding the Package Structure
 
-cpaltemplates is organized into functional categories:
+cpaltemplates provides 81 functions organized into 9 categories. Each function is marked with a status indicator to help you understand its maturity level. Functions marked as "ready" are stable and recommended for use, while those "in development" are functional but may change, and those "under review" are being evaluated for updates or improvements.
 
-```
-cpaltemplates/
-├── Color System (21 functions)
-│   ├── Core: cpal_colors(), cpal_colors_primary(), cpal_colors_extended()
-│   ├── Palettes: cpal_palettes(), cpal_palettes_sequential(), etc.
-│   ├── Validation: validate_color_contrast(), validate_brand_colors()
-│   ├── Interpolation: cpal_color_ramp(), cpal_color_gradient()
-│   └── Scales: scale_color_cpal(), scale_fill_cpal(), etc.
-│
-├── Theme System (8 functions)
-│   ├── Themes: theme_cpal(), theme_cpal_minimal(), theme_cpal_dark(), etc.
-│   ├── Session: set_theme_cpal()
-│   └── Preview: preview_cpal_themes()
-│
-├── Tables (3 functions)
-│   ├── cpal_table(), cpal_table_gt(), cpal_table_reactable()
-│
-├── Interactive (7 functions)
-│   ├── ggiraph: cpal_interactive(), cpal_point_interactive(), etc.
-│   └── mapgl: cpal_mapgl(), cpal_mapgl_layer()
-│
-├── Project Scaffolding (7 functions)
-│   ├── start_project()
-│   └── use_*() helpers
-│
-├── Brand & Assets (4 functions)
-│   ├── use_cpal_brand(), validate_cpal_brand()
-│   └── get_cpal_asset(), update_cpal_assets()
-│
-├── Shiny/Dashboard (5 functions)
-│   ├── cpal_dashboard_theme()
-│   └── SCSS enhancements
-│
-└── Utilities (7 functions)
-    ├── Fonts: cpal_font_family(), setup_cpal_google_fonts()
-    └── Plots: save_cpal_plot(), add_cpal_logo(), check_plot_accessibility()
-```
+::: {.status-legend}
+<span>[✓]{.status-ready} Ready to use</span>
+<span>[●]{.status-dev} In development</span>
+<span>[✗]{.status-revamp} Under review</span>
+:::
 
----
+Click each section below to see the available functions.
 
-## Your First Visualization
+::: {.callout-note collapse="true"}
+## Color System (25 functions)
 
-Let's create a complete, branded visualization step by step:
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_colors()` | Get colors from any palette by name |
+| [✓]{.status-ready} | `cpal_colors_primary()` | Get primary brand colors |
+| [✓]{.status-ready} | `cpal_colors_extended()` | Get extended color set |
+| [✓]{.status-ready} | `cpal_color()` | Get a single color by name |
+| [✓]{.status-ready} | `cpal_get_color()` | Alias for getting single colors |
+| [✓]{.status-ready} | `cpal_get_primary_color()` | Get a primary color by name |
+| [✓]{.status-ready} | `cpal_palette()` | Generate a palette function |
+| [✓]{.status-ready} | `cpal_palettes()` | List all available palettes |
+| [✓]{.status-ready} | `cpal_palettes_categorical()` | Get categorical palettes |
+| [✓]{.status-ready} | `cpal_palettes_sequential()` | Get sequential palettes |
+| [✓]{.status-ready} | `cpal_palettes_diverging()` | Get diverging palettes |
+| [✓]{.status-ready} | `list_cpal_palettes()` | List palettes with metadata |
+| [✓]{.status-ready} | `quick_palette()` | Quick access to common palettes |
+| [✓]{.status-ready} | `view_cpal_palettes()` | Visual preview of palettes |
+| [✓]{.status-ready} | `cpal_color_ramp()` | Interpolate between colors |
+| [✓]{.status-ready} | `cpal_color_gradient()` | Create multi-color gradients |
+| [✓]{.status-ready} | `validate_color_contrast()` | Check WCAG contrast compliance |
+| [✓]{.status-ready} | `validate_brand_colors()` | Validate brand color usage |
+| [✓]{.status-ready} | `scale_color_cpal()` | ggplot2 color scale |
+| [✓]{.status-ready} | `scale_color_cpal_c()` | Continuous color scale |
+| [✓]{.status-ready} | `scale_color_cpal_d()` | Discrete color scale |
+| [✓]{.status-ready} | `scale_colour_cpal()` | Alias (British spelling) |
+| [✓]{.status-ready} | `scale_fill_cpal()` | ggplot2 fill scale |
+| [✓]{.status-ready} | `scale_fill_cpal_c()` | Continuous fill scale |
+| [✓]{.status-ready} | `scale_fill_cpal_d()` | Discrete fill scale |
+:::
 
-### Step 1: Load Libraries
+::: {.callout-note collapse="true"}
+## Theme System (11 functions)
 
-```r
-library(cpaltemplates)
-library(ggplot2)
-library(dplyr)
-```
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `theme_cpal()` | Default CPAL theme |
+| [✗]{.status-revamp} | `theme_cpal_minimal()` | Minimal/clean theme |
+| [✗]{.status-revamp} | `theme_cpal_classic()` | Classic theme with axes |
+| [✓]{.status-ready} | `theme_cpal_dark()` | Dark background theme |
+| [✗]{.status-revamp} | `theme_cpal_print()` | Print-optimized theme |
+| [✗]{.status-revamp} | `theme_cpal_map()` | Theme for maps |
+| [✓]{.status-ready} | `theme_cpal_auto()` | Auto light/dark theme |
+| [✓]{.status-ready} | `theme_cpal_switch()` | Reactive theme switching |
+| [✓]{.status-ready} | `set_theme_cpal()` | Set default theme for session |
+| [✓]{.status-ready} | `make_theme_reactive()` | Create reactive theme for Shiny |
+| [✓]{.status-ready} | `preview_cpal_themes()` | Visual preview of all themes |
+:::
 
-### Step 2: Prepare Data
+::: {.callout-note collapse="true"}
+## Highcharter (18 functions)
 
-```r
-# Using built-in mtcars dataset
-car_data <- mtcars |>
-  mutate(
-    cylinders = factor(cyl),
-    car_name = rownames(mtcars)
-  )
-```
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `hc_theme_cpal_light()` | Light Highcharter theme |
+| [✓]{.status-ready} | `hc_theme_cpal_dark()` | Dark Highcharter theme |
+| [✓]{.status-ready} | `hc_theme_cpal_switch()` | Reactive theme for Shiny |
+| [✓]{.status-ready} | `hc_cpal_theme()` | Apply CPAL theme to chart |
+| [✓]{.status-ready} | `hc_colors_cpal()` | Set CPAL colors on chart |
+| [✓]{.status-ready} | `hc_tooltip_cpal()` | Styled tooltips |
+| [✓]{.status-ready} | `hc_yaxis_cpal()` | Formatted y-axis |
+| [✓]{.status-ready} | `hc_colorAxis_cpal()` | Color axis for heatmaps |
+| [✓]{.status-ready} | `hc_add_cpal_logo()` | Add logo to chart |
+| [✓]{.status-ready} | `hc_cpal_number_format()` | Number formatting options |
+| [✓]{.status-ready} | `hc_linetype_cpal()` | Line styling |
+| [✓]{.status-ready} | `hc_histogram_cpal()` | Histogram styling |
+| [✓]{.status-ready} | `hc_boxplot_style_cpal()` | Boxplot styling |
+| [✓]{.status-ready} | `hc_lollipop_cpal()` | Lollipop chart helper |
+| [✓]{.status-ready} | `hc_dumbbell_cpal()` | Dumbbell chart helper |
+| [✓]{.status-ready} | `hc_waterfall_colors_cpal()` | Waterfall chart colors |
+| [✓]{.status-ready} | `hc_treemap_style_cpal()` | Treemap styling |
+| [✓]{.status-ready} | `hc_treemap_data_cpal()` | Treemap data formatter |
+:::
 
-### Step 3: Create the Plot
+::: {.callout-note collapse="true"}
+## Tables (3 functions)
 
-```r
-p <- ggplot(car_data, aes(x = wt, y = mpg, color = cylinders)) +
-  geom_point(size = 3, alpha = 0.8) +
-  scale_color_cpal("main_3") +
-  labs(
-    title = "Fuel Efficiency by Vehicle Weight",
-    subtitle = "Heavier vehicles tend to have lower fuel efficiency",
-    x = "Weight (1,000 lbs)",
-    y = "Miles per Gallon",
-    color = "Cylinders",
-    caption = "Source: Motor Trend Car Road Tests (1974)"
-  ) +
-  theme_cpal()
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [●]{.status-dev} | `cpal_table()` | Auto-select GT or Reactable |
+| [●]{.status-dev} | `cpal_table_gt()` | Styled GT table (static) |
+| [●]{.status-dev} | `cpal_table_reactable()` | Styled Reactable (interactive) |
+:::
 
-print(p)
-```
+::: {.callout-note collapse="true"}
+## Maps (2 functions)
 
-### Step 4: Save the Plot
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [●]{.status-dev} | `cpal_mapgl()` | Create styled mapgl map |
+| [●]{.status-dev} | `cpal_mapgl_layer()` | Add styled layer to map |
+:::
 
-```r
-# Save with standard dimensions
-save_cpal_plot(p, "my_first_cpal_plot.png", size = "default")
+::: {.callout-note collapse="true"}
+## Project Scaffolding (8 functions)
 
-# Save for slides
-save_cpal_plot(p, "my_first_cpal_plot_slide.png", size = "slide")
-```
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `start_project()` | Create new project from template |
+| [✗]{.status-revamp} | `use_quarto_report()` | Add Quarto report template |
+| [✗]{.status-revamp} | `use_quarto_slides()` | Add Quarto slides template |
+| [✗]{.status-revamp} | `use_quarto_web()` | Add Quarto website template |
+| [✗]{.status-revamp} | `use_shiny_app()` | Add Shiny app template |
+| [✗]{.status-revamp} | `use_shiny_dashboard()` | Add Shiny dashboard template |
+| [✗]{.status-revamp} | `use_shiny_theme()` | Add Shiny theme files |
+| [✗]{.status-revamp} | `use_targets()` | Add targets pipeline |
+:::
 
-### Step 5: Add Logo (Optional)
+::: {.callout-note collapse="true"}
+## Brand & Assets (4 functions)
 
-```r
-# Add CPAL logo to the plot
-p_with_logo <- add_cpal_logo(p, position = "top-right")
-print(p_with_logo)
-```
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `use_cpal_brand()` | Add \_brand.yml to project |
+| [✓]{.status-ready} | `validate_cpal_brand()` | Validate brand configuration |
+| [✓]{.status-ready} | `get_cpal_asset()` | Get path to package asset |
+| [✓]{.status-ready} | `update_cpal_assets()` | Update assets in project |
+:::
+
+::: {.callout-note collapse="true"}
+## Shiny & Dashboards (4 functions)
+
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `cpal_dashboard_theme()` | bslib theme for dashboards |
+| [✓]{.status-ready} | `cpal_shiny()` | Initialize Shiny with CPAL theme |
+| [✗]{.status-revamp} | `cpal_add_scss_enhancements()` | Add custom SCSS to theme |
+| [✗]{.status-revamp} | `cpal_export_scss()` | Export SCSS variables |
+:::
+
+::: {.callout-note collapse="true"}
+## Utilities (6 functions)
+
+| Status | Function | Description |
+|:------:|----------|-------------|
+| [✓]{.status-ready} | `setup_cpal_google_fonts()` | Set up Google Fonts |
+| [✓]{.status-ready} | `cpal_font_family()` | Get current font family |
+| [✓]{.status-ready} | `cpal_font_family_fallback()` | Get fallback font stack |
+| [✓]{.status-ready} | `save_cpal_plot()` | Save plot with proper sizing |
+| [✓]{.status-ready} | `add_cpal_logo()` | Add logo to ggplot |
+| [✓]{.status-ready} | `check_plot_accessibility()` | Check plot accessibility |
+:::
 
 ---
 
 ## Quick Reference
 
-### Essential Functions
-
-| Task | Function |
-|------|----------|
-| Get brand colors | `cpal_colors_primary()` |
-| Apply color scale | `scale_color_cpal("main")` |
-| Apply theme | `theme_cpal()` |
-| Save plot | `save_cpal_plot(p, "file.png")` |
-| Create table | `cpal_table_reactable(data)` |
-| Start project | `start_project("name", "analysis")` |
-
-### Essential Palettes
-
-| Palette | Use Case | Colors |
-|---------|----------|--------|
-| `main` | Categorical data | 5 |
-| `main_3` | Simple comparisons | 3 |
-| `teal_seq_5` | Sequential/continuous | 5 |
-| `pink_teal_5` | Diverging data | 5 |
-
-### Essential Themes
-
-| Theme | Use Case |
-|-------|----------|
-| `theme_cpal()` | Default, most situations |
-| `theme_cpal_minimal()` | Clean, simple designs |
-| `theme_cpal_dark()` | Presentations, dark mode |
-| `theme_cpal_print()` | Print publications |
+| Task | Function | Example |
+|------|----------|---------|
+| Apply theme | `theme_cpal()` | `+ theme_cpal()` |
+| Color scale | `scale_color_cpal()` | `scale_color_cpal("main_3")` |
+| Get colors | `cpal_colors()` | `cpal_colors("midnight_seq_5")` |
+| Save plot | `save_cpal_plot()` | `save_cpal_plot(p, "file.png")` |
+| Create table | `cpal_table()` | `cpal_table(data)` |
+| Start project | `start_project()` | `start_project("name", "analysis")` |
 
 ---
 
@@ -232,7 +264,8 @@ Now that you have cpaltemplates set up, explore these guides:
 1. **[Colors & Palettes](colors-palettes.qmd)** - Deep dive into the color system
 2. **[Themes & Styling](themes-styling.qmd)** - Customize your visualizations
 3. **[Project Setup](project-setup.qmd)** - Create standardized project structures
-4. **[Workflows](workflow-integration.qmd)** - End-to-end examples
+4. **[ggplot2 Gallery](gallery-ggplot2.qmd)** - Example charts with code
+5. **[Highcharter Gallery](gallery-highcharter.qmd)** - Interactive chart examples
 
 ---
 

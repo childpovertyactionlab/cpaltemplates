@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>cpaltemplates</title>
+<title>cpaltemplates - CPAL Data Visualization Toolkit</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -107,7 +107,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed fullcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -136,6 +136,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-galleries" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Galleries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-galleries">    
+        <li>
+    <a class="dropdown-item" href="./gallery-ggplot2.html">
+ <span class="dropdown-text">ggplot2 Chart Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallery-highcharter.html">
+ <span class="dropdown-text">Highcharter Chart Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
     </a>
@@ -145,10 +160,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./project-setup.html">
  <span class="dropdown-text">Project Setup</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./brand-assets.html">
- <span class="dropdown-text">Brand &amp; Assets</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Visualization</li>
@@ -171,10 +182,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
-    <a class="dropdown-item" href="./interactive-features.html">
- <span class="dropdown-text">Interactive Charts</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
   </li>  
@@ -190,10 +197,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./workflow-integration.html"> 
-<span class="menu-text">Workflows</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function-reference.html"> 
 <span class="menu-text">Reference</span></a>
@@ -214,76 +217,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#welcome-to-cpaltemplates" id="toc-welcome-to-cpaltemplates" class="nav-link active" data-scroll-target="#welcome-to-cpaltemplates">Welcome to cpaltemplates</a>
-  <ul class="collapse">
-  <li><a href="#why-cpaltemplates" id="toc-why-cpaltemplates" class="nav-link" data-scroll-target="#why-cpaltemplates">Why cpaltemplates?</a></li>
-  </ul></li>
-  <li><a href="#quick-start" id="toc-quick-start" class="nav-link" data-scroll-target="#quick-start">Quick Start</a>
-  <ul class="collapse">
-  <li><a href="#installation" id="toc-installation" class="nav-link" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#your-first-cpal-plot" id="toc-your-first-cpal-plot" class="nav-link" data-scroll-target="#your-first-cpal-plot">Your First CPAL Plot</a></li>
-  </ul></li>
-  <li><a href="#package-features" id="toc-package-features" class="nav-link" data-scroll-target="#package-features">Package Features</a>
-  <ul class="collapse">
-  <li><a href="#color-system-21-functions" id="toc-color-system-21-functions" class="nav-link" data-scroll-target="#color-system-21-functions">Color System (21 functions)</a></li>
-  <li><a href="#theme-system-8-functions" id="toc-theme-system-8-functions" class="nav-link" data-scroll-target="#theme-system-8-functions">Theme System (8 functions)</a></li>
-  <li><a href="#tables-3-functions" id="toc-tables-3-functions" class="nav-link" data-scroll-target="#tables-3-functions">Tables (3 functions)</a></li>
-  <li><a href="#project-scaffolding-7-functions" id="toc-project-scaffolding-7-functions" class="nav-link" data-scroll-target="#project-scaffolding-7-functions">Project Scaffolding (7 functions)</a></li>
-  <li><a href="#interactive-visualizations-7-functions" id="toc-interactive-visualizations-7-functions" class="nav-link" data-scroll-target="#interactive-visualizations-7-functions">Interactive Visualizations (7 functions)</a></li>
-  <li><a href="#shiny-dashboards-5-functions" id="toc-shiny-dashboards-5-functions" class="nav-link" data-scroll-target="#shiny-dashboards-5-functions">Shiny Dashboards (5 functions)</a></li>
-  </ul></li>
-  <li><a href="#documentation-overview" id="toc-documentation-overview" class="nav-link" data-scroll-target="#documentation-overview">Documentation Overview</a></li>
-  <li><a href="#getting-help" id="toc-getting-help" class="nav-link" data-scroll-target="#getting-help">Getting Help</a></li>
-  <li><a href="#package-statistics" id="toc-package-statistics" class="nav-link" data-scroll-target="#package-statistics">Package Statistics</a></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">cpaltemplates</h1>
-<p class="subtitle lead">CPAL Data Visualization &amp; Branding Toolkit</p>
+
+
+
+<section id="cpaltemplates" class="level1 hero-banner">
+<h1>cpaltemplates</h1>
+<div class="tagline">
+<p>CPAL Data Visualization &amp; Branding Toolkit</p>
 </div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-<section id="welcome-to-cpaltemplates" class="level2">
-<h2 class="anchored" data-anchor-id="welcome-to-cpaltemplates">Welcome to cpaltemplates</h2>
-<p><strong>cpaltemplates</strong> is the official R package for the Child Poverty Action Lab (CPAL) data science team. It provides a comprehensive toolkit for creating consistently branded, accessible, and professional data visualizations, reports, and dashboards.</p>
-<section id="why-cpaltemplates" class="level3">
-<h3 class="anchored" data-anchor-id="why-cpaltemplates">Why cpaltemplates?</h3>
-<p><strong>Consistent Branding</strong>: Every visualization, table, and dashboard uses CPAL’s official colors, fonts, and styling.</p>
-<p><strong>Accessibility First</strong>: All color palettes are designed for WCAG compliance with built-in validation tools.</p>
-<p><strong>Rapid Development</strong>: Start new projects with pre-configured templates.</p>
-<hr>
+<div class="hero-palette">
+<p><span class="swatch" style="background-color: #E86A50;" title="Coral"></span> <span class="swatch" style="background-color: #D4A84B;" title="Gold"></span> <span class="swatch" style="background-color: #5A8A6F;" title="Sage"></span> <span class="swatch" style="background-color: #006878;" title="Deep Teal"></span> <span class="swatch" style="background-color: #004855;" title="Midnight"></span> <span class="swatch" style="background-color: #5C6B73;" title="Slate"></span></p>
+</div>
+<div class="hero-features">
+<p><span class="hero-feature">Consistent Branding</span> <span class="hero-feature">WCAG Accessible Colors</span> <span class="hero-feature">ggplot2 + Highcharter</span> <span class="hero-feature">Shiny Themes</span></p>
+</div>
 </section>
-</section>
+<p>The official R package for the Child Poverty Action Lab data science team. Create consistently branded, accessible, and professional data visualizations, reports, and dashboards. Includes utility functions and project templates to get your analysis or projects started quickly.</p>
 <section id="quick-start" class="level2">
 <h2 class="anchored" data-anchor-id="quick-start">Quick Start</h2>
-<section id="installation" class="level3">
-<h3 class="anchored" data-anchor-id="installation">Installation</h3>
+<p>Install the package from GitHub and load it:</p>
 <div class="cell">
-<details open="" class="code-fold">
-<summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install from GitHub</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"childpovertyactionlab/cpaltemplates"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -292,793 +249,183 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set up fonts (run once per session)</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">setup_cpal_google_fonts</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
+</div>
+<p>For detailed setup instructions, see the <a href="./getting-started.html">Getting Started</a> guide.</p>
+<hr>
+</section>
+<section id="documentation" class="level2">
+<h2 class="anchored" data-anchor-id="documentation">Documentation</h2>
+<section id="galleries" class="level3">
+<h3 class="anchored" data-anchor-id="galleries">Galleries</h3>
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100 gallery-card">
+<div class="card-header">
+<p><strong>ggplot2 Chart Gallery</strong></p>
+</div>
+<div class="card-body">
+<p>Browse example charts built with ggplot2 and CPAL themes including bar charts, line charts, scatter plots, heatmaps, treemaps, and more.</p>
+<p><a href="./gallery-ggplot2.html" class="btn btn-primary">View Gallery</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100 gallery-card">
+<div class="card-header">
+<p><strong>Highcharter Chart Gallery</strong></p>
+</div>
+<div class="card-body">
+<p>Interactive chart examples using Highcharter with CPAL styling including tooltips, animations, dark mode, and specialized chart types.</p>
+<p><a href="./gallery-highcharter.html" class="btn btn-primary">View Gallery</a></p>
+</div>
+</div>
+</div>
 </div>
 </section>
-<section id="your-first-cpal-plot" class="level3">
-<h3 class="anchored" data-anchor-id="your-first-cpal-plot">Your First CPAL Plot</h3>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> wt, <span class="at">y =</span> mpg, <span class="at">color =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vehicle Fuel Efficiency"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Weight vs. Miles Per Gallon by Cylinder Count"</span>,</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Weight (1000 lbs)"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cylinders"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="index_files/figure-html/first-plot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>A branded CPAL visualization</figcaption>
-</figure>
+<section id="getting-started" class="level3">
+<h3 class="anchored" data-anchor-id="getting-started">Getting Started</h3>
+<div class="grid">
+<div class="g-col-12">
+<div class="card">
+<div class="card-header">
+<p><strong>Getting Started</strong></p>
+</div>
+<div class="card-body">
+<p>Installation, initial setup, font configuration, and your first CPAL visualization.</p>
+<p><a href="./getting-started.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="guides" class="level3">
+<h3 class="anchored" data-anchor-id="guides">Guides</h3>
+<div class="grid">
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Project Setup</strong></p>
+</div>
+<div class="card-body">
+<p>Create new projects with pre-configured templates for analysis, reports, slides, Shiny apps, and more.</p>
+<p><a href="./project-setup.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Colors &amp; Palettes</strong></p>
+</div>
+<div class="card-body">
+<p>CPAL’s WCAG-compliant color system with 16+ palettes for categorical, sequential, and diverging data.</p>
+<p><a href="./colors-palettes.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Themes &amp; Styling</strong></p>
+</div>
+<div class="card-body">
+<p>ggplot2 themes for different contexts: standard, minimal, dark mode, print, and maps.</p>
+<p><a href="./themes-styling.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Plots &amp; Output</strong></p>
+</div>
+<div class="card-body">
+<p>Creating visualizations and exporting them with proper sizing, resolution, and branding.</p>
+<p><a href="./plots-visualizations.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Tables</strong></p>
+</div>
+<div class="card-body">
+<p>Professional tables using GT (static/print) and Reactable (interactive) with CPAL styling.</p>
+<p><a href="./tables-gt.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Maps &amp; Geographic</strong></p>
+</div>
+<div class="card-body">
+<p>Geographic visualizations with mapgl integration and CPAL map themes.</p>
+<p><a href="./maps-geographic.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Shiny Dashboards</strong></p>
+</div>
+<div class="card-body">
+<p>Build branded Shiny dashboards with bslib theming and dark/light mode support.</p>
+<p><a href="./shiny-dashboards.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Utilities &amp; Helpers</strong></p>
+</div>
+<div class="card-body">
+<p>Helper functions for logos, plot saving, accessibility checks, and more.</p>
+<p><a href="./utilities-helpers.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+<div class="g-col-12 g-col-md-4">
+<div class="card h-100">
+<div class="card-header">
+<p><strong>Troubleshooting</strong></p>
+</div>
+<div class="card-body">
+<p>Solutions to common issues with fonts, themes, colors, and package configuration.</p>
+<p><a href="./troubleshooting.html" class="btn btn-outline-primary btn-sm">Read Guide</a></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="reference" class="level3">
+<h3 class="anchored" data-anchor-id="reference">Reference</h3>
+<div class="grid">
+<div class="g-col-12">
+<div class="card">
+<div class="card-header">
+<p><strong>Function Reference</strong></p>
+</div>
+<div class="card-body">
+<p>Complete index of all 67+ exported functions organized by category.</p>
+<p><a href="./function-reference.html" class="btn btn-outline-secondary btn-sm">View Reference</a></p>
+</div>
 </div>
 </div>
 </div>
 <hr>
 </section>
 </section>
-<section id="package-features" class="level2">
-<h2 class="anchored" data-anchor-id="package-features">Package Features</h2>
-<section id="color-system-21-functions" class="level3">
-<h3 class="anchored" data-anchor-id="color-system-21-functions">Color System (21 functions)</h3>
-<p>Access CPAL’s carefully designed color palettes:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Primary brand colors</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_colors_primary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code> midnight deep_teal     coral      sage     slate warm_gray 
-"#004855" "#006878" "#E86A50" "#5A8A6F" "#5C6B73" "#9BA8AB" </code></pre>
-</div>
-</div>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">view_cpal_palettes</span>(<span class="fu">c</span>(<span class="st">"main"</span>, <span class="st">"midnight_seq_5"</span>, <span class="st">"coral_midnight_5"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="index_files/figure-html/palette-visual-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>CPAL color palettes</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p><a href="./colors-palettes.html">Learn more about Colors &amp; Palettes</a></p>
-<hr>
-</section>
-<section id="theme-system-8-functions" class="level3">
-<h3 class="anchored" data-anchor-id="theme-system-8-functions">Theme System (8 functions)</h3>
-<p>Consistent ggplot2 themes for every context:</p>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Theme</th>
-<th>Use Case</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>theme_cpal()</code></td>
-<td>Standard visualizations</td>
-</tr>
-<tr class="even">
-<td><code>theme_cpal_minimal()</code></td>
-<td>Clean, minimal designs</td>
-</tr>
-<tr class="odd">
-<td><code>theme_cpal_dark()</code></td>
-<td>Dark backgrounds/presentations</td>
-</tr>
-<tr class="even">
-<td><code>theme_cpal_print()</code></td>
-<td>Print-optimized output</td>
-</tr>
-<tr class="odd">
-<td><code>theme_cpal_map()</code></td>
-<td>Geographic visualizations</td>
-</tr>
-</tbody>
-</table>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mtcars, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(cyl), <span class="at">y =</span> mpg, <span class="at">fill =</span> <span class="fu">factor</span>(cyl))) <span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_cpal</span>(<span class="st">"main_3"</span>) <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Fuel Efficiency by Cylinder Count"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Cylinders"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Miles per Gallon"</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>() <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="index_files/figure-html/theme-example-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
-<figcaption>Example using theme_cpal()</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p><a href="./themes-styling.html">Learn more about Themes</a></p>
-<hr>
-</section>
-<section id="tables-3-functions" class="level3">
-<h3 class="anchored" data-anchor-id="tables-3-functions">Tables (3 functions)</h3>
-<p>Professional tables for reports and dashboards:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">6</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(mpg, cyl, hp, wt) <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cpal_table_gt</span>(<span class="at">title =</span> <span class="st">"Vehicle Specifications"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div id="cinbeymzcs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#cinbeymzcs table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#cinbeymzcs thead, #cinbeymzcs tbody, #cinbeymzcs tfoot, #cinbeymzcs tr, #cinbeymzcs td, #cinbeymzcs th {
-  border-style: none;
-}
-
-#cinbeymzcs p {
-  margin: 0;
-  padding: 0;
-}
-
-#cinbeymzcs .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#cinbeymzcs .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#cinbeymzcs .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#cinbeymzcs .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#cinbeymzcs .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#cinbeymzcs .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#cinbeymzcs .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#cinbeymzcs .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#cinbeymzcs .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#cinbeymzcs .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#cinbeymzcs .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#cinbeymzcs .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#cinbeymzcs .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#cinbeymzcs .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#cinbeymzcs .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cinbeymzcs .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#cinbeymzcs .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#cinbeymzcs .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#cinbeymzcs .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cinbeymzcs .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#cinbeymzcs .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cinbeymzcs .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#cinbeymzcs .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cinbeymzcs .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#cinbeymzcs .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#cinbeymzcs .gt_left {
-  text-align: left;
-}
-
-#cinbeymzcs .gt_center {
-  text-align: center;
-}
-
-#cinbeymzcs .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#cinbeymzcs .gt_font_normal {
-  font-weight: normal;
-}
-
-#cinbeymzcs .gt_font_bold {
-  font-weight: bold;
-}
-
-#cinbeymzcs .gt_font_italic {
-  font-style: italic;
-}
-
-#cinbeymzcs .gt_super {
-  font-size: 65%;
-}
-
-#cinbeymzcs .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#cinbeymzcs .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#cinbeymzcs .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#cinbeymzcs .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#cinbeymzcs .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#cinbeymzcs .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#cinbeymzcs .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#cinbeymzcs .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#cinbeymzcs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-
-<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-<thead>
-<tr class="header gt_heading">
-<th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border">Vehicle Specifications</th>
-</tr>
-<tr class="odd gt_col_headings">
-<th id="mpg" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mpg</th>
-<th id="cyl" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">cyl</th>
-<th id="hp" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">hp</th>
-<th id="wt" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">wt</th>
-</tr>
-</thead>
-<tbody class="gt_table_body">
-<tr class="odd">
-<td class="gt_row gt_right" headers="mpg">21.0</td>
-<td class="gt_row gt_right" headers="cyl">6</td>
-<td class="gt_row gt_right" headers="hp">110</td>
-<td class="gt_row gt_right" headers="wt">2.620</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_right" headers="mpg">21.0</td>
-<td class="gt_row gt_right" headers="cyl">6</td>
-<td class="gt_row gt_right" headers="hp">110</td>
-<td class="gt_row gt_right" headers="wt">2.875</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_right" headers="mpg">22.8</td>
-<td class="gt_row gt_right" headers="cyl">4</td>
-<td class="gt_row gt_right" headers="hp">93</td>
-<td class="gt_row gt_right" headers="wt">2.320</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_right" headers="mpg">21.4</td>
-<td class="gt_row gt_right" headers="cyl">6</td>
-<td class="gt_row gt_right" headers="hp">110</td>
-<td class="gt_row gt_right" headers="wt">3.215</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_right" headers="mpg">18.7</td>
-<td class="gt_row gt_right" headers="cyl">8</td>
-<td class="gt_row gt_right" headers="hp">175</td>
-<td class="gt_row gt_right" headers="wt">3.440</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_right" headers="mpg">18.1</td>
-<td class="gt_row gt_right" headers="cyl">6</td>
-<td class="gt_row gt_right" headers="hp">105</td>
-<td class="gt_row gt_right" headers="wt">3.460</td>
-</tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-<p><a href="./tables-gt.html">Learn more about Tables</a></p>
-<hr>
-</section>
-<section id="project-scaffolding-7-functions" class="level3">
-<h3 class="anchored" data-anchor-id="project-scaffolding-7-functions">Project Scaffolding (7 functions)</h3>
-<p>Start new projects with pre-configured structure:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">start_project</span>(</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"dallas-housing-analysis"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">project_type =</span> <span class="st">"analysis"</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">features =</span> <span class="fu">c</span>(<span class="st">"git"</span>, <span class="st">"renv"</span>, <span class="st">"targets"</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">use_quarto_report</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p>Available project types: analysis, quarto-report, quarto-slides, quarto-web, shiny-dashboard, shiny-app, package</p>
-<p><a href="./project-setup.html">Learn more about Project Setup</a></p>
-<hr>
-</section>
-<section id="interactive-visualizations-7-functions" class="level3">
-<h3 class="anchored" data-anchor-id="interactive-visualizations-7-functions">Interactive Visualizations (7 functions)</h3>
-<p>Create interactive charts with ggiraph:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggiraph)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(data, <span class="fu">aes</span>(x, y)) <span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point_interactive</span>(<span class="fu">aes</span>(<span class="at">tooltip =</span> label)) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_cpal</span>()</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_interactive</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p><a href="./interactive-features.html">Learn more about Interactive Features</a></p>
-<hr>
-</section>
-<section id="shiny-dashboards-5-functions" class="level3">
-<h3 class="anchored" data-anchor-id="shiny-dashboards-5-functions">Shiny Dashboards (5 functions)</h3>
-<p>Build branded dashboards with Bootstrap 5 theming:</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page_sidebar</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">cpal_dashboard_theme</span>(),</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"CPAL Dashboard"</span>,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> <span class="fu">sidebar</span>(...),</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  ...</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
-<p><a href="./shiny-dashboards.html">Learn more about Shiny Dashboards</a></p>
-<hr>
-</section>
-</section>
-<section id="documentation-overview" class="level2">
-<h2 class="anchored" data-anchor-id="documentation-overview">Documentation Overview</h2>
-<table class="table">
-<thead>
-<tr class="header">
-<th>Section</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><a href="./getting-started.html">Getting Started</a></td>
-<td>Installation, setup, and first steps</td>
-</tr>
-<tr class="even">
-<td><a href="./project-setup.html">Project Setup</a></td>
-<td>Creating and configuring projects</td>
-</tr>
-<tr class="odd">
-<td><a href="./colors-palettes.html">Colors &amp; Palettes</a></td>
-<td>Complete color system guide</td>
-</tr>
-<tr class="even">
-<td><a href="./themes-styling.html">Themes &amp; Styling</a></td>
-<td>ggplot2 theme documentation</td>
-</tr>
-<tr class="odd">
-<td><a href="./plots-visualizations.html">Plots &amp; Output</a></td>
-<td>Creating and exporting visualizations</td>
-</tr>
-<tr class="even">
-<td><a href="./tables-gt.html">Tables</a></td>
-<td>GT and Reactable table styling</td>
-</tr>
-<tr class="odd">
-<td><a href="./interactive-features.html">Interactive Features</a></td>
-<td>ggiraph and interactive charts</td>
-</tr>
-<tr class="even">
-<td><a href="./maps-geographic.html">Maps</a></td>
-<td>Geographic visualizations</td>
-</tr>
-<tr class="odd">
-<td><a href="./shiny-dashboards.html">Shiny Dashboards</a></td>
-<td>Dashboard theming</td>
-</tr>
-<tr class="even">
-<td><a href="./brand-assets.html">Brand &amp; Assets</a></td>
-<td>Brand file management</td>
-</tr>
-<tr class="odd">
-<td><a href="./utilities-helpers.html">Utilities</a></td>
-<td>Helper functions</td>
-</tr>
-<tr class="even">
-<td><a href="./workflow-integration.html">Workflows</a></td>
-<td>End-to-end examples</td>
-</tr>
-<tr class="odd">
-<td><a href="./function-reference.html">Function Reference</a></td>
-<td>Complete function index</td>
-</tr>
-<tr class="even">
-<td><a href="./troubleshooting.html">Troubleshooting</a></td>
-<td>Common issues and solutions</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-<section id="getting-help" class="level2">
-<h2 class="anchored" data-anchor-id="getting-help">Getting Help</h2>
+<section id="feedback-support" class="level2">
+<h2 class="anchored" data-anchor-id="feedback-support">Feedback &amp; Support</h2>
+<p>Have questions, found a bug, or want to request a feature?</p>
 <ul>
-<li>GitHub Issues: <a href="https://github.com/childpovertyactionlab/cpaltemplates/issues">Report bugs or request features</a></li>
-<li>Troubleshooting Guide: <a href="./troubleshooting.html">Common solutions</a></li>
-</ul>
-<hr>
-</section>
-<section id="package-statistics" class="level2">
-<h2 class="anchored" data-anchor-id="package-statistics">Package Statistics</h2>
-<ul>
-<li>67 exported functions across 8 categories</li>
-<li>16 color palettes designed for accessibility</li>
-<li>6 ggplot2 themes for different contexts</li>
-<li>7 project templates for rapid development</li>
+<li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues">Open an issue on GitHub</a></li>
+<li><a href="https://github.com/childpovertyactionlab/cpaltemplates">View the source code</a></li>
 </ul>
 
 
@@ -1624,7 +971,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>   
     <div class="nav-footer-center">
 <p>Child Poverty Action Lab - Data Science Team</p>
-<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+<div class="toc-actions"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
       <ul class="footer-items list-unstyled">
     <li class="nav-item compact">

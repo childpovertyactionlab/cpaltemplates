@@ -1,7 +1,7 @@
 Package: cpaltemplates
 Type: Package
 Title: Contains templates for the Child Poverty Action Lab
-Version: 2.6.1
+Version: 2.7.0
 Authors@R: person("Michael", "Lopez", email = "michael@cpal.org", role = c('aut', 'cre'))
 Description: Common templates for the Child Poverty Action Lab in one tidy package.
 Depends: 
@@ -22,24 +22,24 @@ Imports:
     utils,
     stats,
     bslib,
-    sass
+    sass,
+    highcharter
 Suggests:
     testthat (>= 3.0.0),
     roxygen2,
     cowplot,
-    ggiraph,
     magick,
     mapgl,
     showtext,
     sysfonts,
     quarto,
     systemfonts,
-    gdtools,
     brand.yml,
     thematic,
-    highcharter,
     lifecycle,
-    patchwork
+    patchwork,
+    base64enc,
+    shiny
 License: GPL-3
 URL: https://github.com/childpovertyactionlab/cpaltemplates
 BugReports: https://github.com/childpovertyactionlab/cpaltemplates/issues

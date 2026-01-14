@@ -11,19 +11,20 @@ library(ggplot2)
 library(dplyr)
 ```
 
-## Overview
+Consistent color usage is essential for creating professional, recognizable data visualizations. The cpaltemplates color system provides 25 functions for working with CPAL's carefully designed color palettes in R and ggplot2. All colors are sourced from `_brand.yml` and designed for WCAG accessibility compliance, ensuring your charts are readable by users with color vision deficiencies.
 
-The cpaltemplates color system provides 21 functions for working with CPAL's carefully designed color palettes. All colors are sourced from `_brand.yml` and designed for WCAG accessibility compliance.
+Whether you're creating a quick exploratory plot or a polished visualization for a report, these functions make it easy to apply CPAL branding consistently across all your R-based data products.
 
 ---
 
 ## Primary Brand Colors
 
-CPAL's 5 core brand colors form the foundation of all palettes:
+CPAL's 6 core brand colors form the foundation of all palettes. These colors were carefully selected for brand recognition, accessibility, and versatility across different visualization types.
 
 ```{r}
 #| label: primary-colors
-#| code-fold: show
+#| code-fold: false
+#| eval: false
 cpal_colors_primary()
 ```
 
@@ -52,15 +53,17 @@ gt::gt(primary_colors) |>
     Hex = "Hex Code",
     Use_Case = "Use Case"
   ) |>
-  gt::text_transform(
-    locations = gt::cells_body(columns = Hex),
-    fn = function(x) {
-      glue::glue(
-        "<span style='display: inline-block; width: 20px; height: 20px; background-color: {x}; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'></span><code>{x}</code>"
+  gt::fmt(
+    columns = Hex,
+    fns = function(x) {
+      paste0(
+        "<span style='display: inline-block; width: 20px; height: 20px; background-color: ",
+        x, "; border-radius: 3px; vertical-align: middle; margin-right: 8px; border: 1px solid #ddd;'></span><code>",
+        x, "</code>"
       )
     }
   ) |>
-  gt::fmt_markdown(columns = Hex) |>
+  gt::cols_align(align = "left", columns = Hex) |>
   gt::tab_options(
     table.font.size = "14px",
     column_labels.font.weight = "bold"
@@ -71,53 +74,174 @@ gt::gt(primary_colors) |>
 
 ## Core Color Functions
 
+These functions are your primary tools for accessing CPAL colors in R. Use them to retrieve color values for ggplot2 visualizations, Shiny apps, or any R-based graphics.
+
 ### `cpal_colors()`
 
-The main entry point for accessing any CPAL color or palette.
+The main entry point for accessing any CPAL color or palette. This versatile function handles single colors, multiple colors, and complete palettes—making it the go-to choice for most color needs.
 
 ```{r}
-#| label: cpal-colors-examples
-# Get all primary colors
+#| label: color-strip-helper
+#| echo: false
+
+# Helper function to create horizontal color strips
+color_strip <- function(colors, show_names = TRUE) {
+  color_names <- names(colors)
+  hex_values <- unname(colors)
+
+  swatches <- vapply(seq_along(hex_values), function(i) {
+    hex <- hex_values[i]
+    label <- if (show_names && !is.null(color_names) && !is.na(color_names[i])) {
+      paste0("<div style='font-size: 11px; font-weight: 600; margin-bottom: 2px;'>", color_names[i], "</div>")
+    } else {
+      ""
+    }
+    paste0(
+      "<div style='display: inline-block; text-align: center; margin-right: 12px; margin-bottom: 8px;'>",
+      "<div style='width: 60px; height: 40px; background-color: ", hex,
+      "; border-radius: 4px; border: 1px solid #ddd; margin-bottom: 4px;'></div>",
+      label,
+      "<code style='font-size: 11px;'>", hex, "</code>",
+      "</div>"
+    )
+  }, character(1))
+
+  cat(paste0(
+    "<div style='display: flex; flex-wrap: wrap; align-items: flex-start; padding: 12px 0;'>",
+    paste(swatches, collapse = ""),
+    "</div>"
+  ))
+}
+```
+
+#### Get all primary colors
+
+```{r}
+#| label: cpal-colors-all
+#| code-fold: false
+#| eval: false
 cpal_colors()
+```
 
-# Get a single color by name
+```{r}
+#| label: cpal-colors-all-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors())
+```
+
+#### Get a single color by name
+
+```{r}
+#| label: cpal-colors-single
+#| code-fold: false
+#| eval: false
 cpal_colors("coral")
+```
 
-# Get multiple specific colors
+```{r}
+#| label: cpal-colors-single-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors("coral"))
+```
+
+#### Get multiple specific colors
+
+```{r}
+#| label: cpal-colors-multiple
+#| code-fold: false
+#| eval: false
 cpal_colors(c("midnight", "coral", "sage"))
 ```
 
 ```{r}
-#| label: cpal-colors-palettes
-# Get a palette
+#| label: cpal-colors-multiple-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors(c("midnight", "coral", "sage")))
+```
+
+#### Get a palette
+
+```{r}
+#| label: cpal-colors-palette
+#| code-fold: false
+#| eval: false
 cpal_colors("midnight_seq_5")
+```
 
-# Limit number of colors
+```{r}
+#| label: cpal-colors-palette-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors("midnight_seq_5"), show_names = FALSE)
+```
+
+#### Limit number of colors
+
+```{r}
+#| label: cpal-colors-limit
+#| code-fold: false
+#| eval: false
 cpal_colors("main", n = 3)
+```
 
-# Reverse palette order
+```{r}
+#| label: cpal-colors-limit-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors("main", n = 3))
+```
+
+#### Reverse palette order
+
+```{r}
+#| label: cpal-colors-reverse
+#| code-fold: false
+#| eval: false
 cpal_colors("midnight_seq_5", reverse = TRUE)
+```
+
+```{r}
+#| label: cpal-colors-reverse-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors("midnight_seq_5", reverse = TRUE), show_names = FALSE)
 ```
 
 ---
 
 ### `cpal_colors_extended()`
 
-Returns all 17+ colors including primary colors and shades:
+Returns all 17+ colors including primary colors and shades. Useful when you need access to the full color palette for complex visualizations or custom color schemes.
 
 ```{r}
 #| label: extended-colors
+#| code-fold: false
+#| eval: false
 cpal_colors_extended()
+```
+
+```{r}
+#| label: extended-colors-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_colors_extended())
 ```
 
 ---
 
 ## Viewing Palettes
 
+Before choosing colors for your visualization, it helps to see what's available. These functions let you explore and preview all CPAL palettes directly in R.
+
 ### All Available Palettes
 
 ```{r}
 #| label: list-palettes
+#| code-fold: false
+#| eval: false
 list_cpal_palettes()
 ```
 
@@ -125,6 +249,7 @@ list_cpal_palettes()
 
 ```{r}
 #| label: view-all-palettes
+#| code-fold: false
 #| fig-height: 8
 #| fig-cap: "All CPAL color palettes"
 view_cpal_palettes()
@@ -134,25 +259,27 @@ view_cpal_palettes()
 
 ## Palette Types
 
+Choosing the right palette type is crucial for effective data visualization. Different data types require different color approaches—using a sequential palette for categorical data (or vice versa) can mislead readers or obscure patterns in your data.
+
 ### Categorical Palettes
 
-For discrete data with distinct categories:
+**Use for:** Discrete data with distinct, unordered categories (e.g., regions, product types, demographic groups).
+
+Categorical palettes use visually distinct colors that don't imply any ordering or magnitude. Each category gets its own easily distinguishable color.
 
 ```{r}
 #| label: categorical-palettes
-#| fig-height: 5
-#| fig-cap: "Categorical palettes for discrete data"
-view_cpal_palettes(c("main", "main_3", "main_4", "main_5", "main_6", "binary", "status"))
+#| fig-height: 4
+view_cpal_palettes(c("main", "blues", "compare", "binary", "status"))
 ```
 
 **Usage example:**
 
 ```{r}
 #| label: categorical-example
-#| fig-cap: "Using categorical palette"
 ggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) +
   geom_bar() +
-  scale_fill_cpal("main_3") +
+  scale_fill_cpal("main") +  # Use cpal_colors("main", n = 3) for fewer colors
   labs(title = "Count by Cylinder", x = "Cylinders", y = "Count") +
   theme_cpal() +
   theme(legend.position = "none")
@@ -162,20 +289,20 @@ ggplot(mtcars, aes(x = factor(cyl), fill = factor(cyl))) +
 
 ### Sequential Palettes
 
-For continuous or ordered data:
+**Use for:** Continuous or ordered data where values progress from low to high (e.g., population density, income levels, temperature).
+
+Sequential palettes progress from light to dark (or vice versa), allowing readers to intuitively understand that darker colors represent higher values.
 
 ```{r}
 #| label: sequential-palettes
-#| fig-height: 4
-#| fig-cap: "Sequential palettes for continuous data"
-view_cpal_palettes(c("midnight_seq_4", "midnight_seq_5", "midnight_seq_6", "midnight_seq_8"))
+#| fig-height: 5
+view_cpal_palettes(c("midnight_seq_5", "midnight_seq_8", "coral_seq_5", "coral_seq_8", "sage_seq_5", "sage_seq_8"))
 ```
 
 **Usage example:**
 
 ```{r}
 #| label: sequential-example
-#| fig-cap: "Using sequential palette for continuous data"
 ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
   geom_point(size = 4) +
   scale_color_cpal_c("midnight_seq_5") +
@@ -186,6 +313,11 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
     y = "Miles per Gallon",
     color = "Horsepower"
   ) +
+  guides(color = guide_colorbar(
+    title.position = "top",
+    barwidth = 15,
+    barheight = 1
+  )) +
   theme_cpal()
 ```
 
@@ -193,20 +325,20 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = hp)) +
 
 ### Diverging Palettes
 
-For data with a meaningful midpoint:
+**Use for:** Data with a meaningful midpoint or neutral value (e.g., year-over-year change, survey responses from negative to positive, deviations from average).
+
+Diverging palettes use two distinct hues that meet at a neutral midpoint, making it easy to see whether values are above or below the center.
 
 ```{r}
 #| label: diverging-palettes
-#| fig-height: 4
-#| fig-cap: "Diverging palettes for data with midpoints"
-view_cpal_palettes(c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9"))
+#| fig-height: 6
+view_cpal_palettes(c("coral_midnight_3", "coral_midnight_5", "coral_midnight_7", "coral_midnight_9", "sage_coral_3", "sage_coral_5", "sage_coral_7", "sage_coral_9"))
 ```
 
 **Usage example:**
 
 ```{r}
 #| label: diverging-example
-#| fig-cap: "Using diverging palette for change data"
 # Create sample data with positive and negative changes
 change_data <- data.frame(
   category = LETTERS[1:7],
@@ -234,11 +366,14 @@ ggplot(change_data, aes(x = category, y = change, fill = change)) +
 
 ## ggplot2 Scale Functions
 
+These functions integrate directly with ggplot2, letting you apply CPAL colors using familiar `scale_*` syntax. They work just like built-in ggplot2 scales but use CPAL's branded color palettes.
+
 ### Discrete Scales
+
+Use `scale_color_cpal()` or `scale_fill_cpal()` when your data has distinct categories. The function automatically maps each category to a color from your chosen palette.
 
 ```{r}
 #| label: discrete-scale-example
-#| fig-cap: "Using scale_color_cpal() for discrete data"
 ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point(size = 3) +
   scale_color_cpal("main_3") +
@@ -251,13 +386,19 @@ ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
 
 ### Continuous Scales
 
+Use `scale_color_cpal_c()` or `scale_fill_cpal_c()` when your data is numeric and continuous. The function interpolates smoothly across your chosen palette to represent the full range of values.
+
 ```{r}
 #| label: continuous-scale-example
-#| fig-cap: "Using scale_fill_cpal_c() for continuous data"
 ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
   geom_tile() +
-  scale_fill_cpal_c("teal_seq_5") +
+  scale_fill_cpal_c("midnight_seq_5") +
   labs(title = "Continuous Fill Scale") +
+  guides(fill = guide_colorbar(
+    title.position = "top",
+    barwidth = 15,
+    barheight = 1
+  )) +
   theme_cpal()
 ```
 
@@ -265,39 +406,77 @@ ggplot(faithfuld, aes(waiting, eruptions, fill = density)) +
 
 ## Color Interpolation
 
+Sometimes you need a custom number of colors or a gradient between specific colors that isn't covered by the standard palettes. These functions let you generate custom color sequences programmatically.
+
 ### `cpal_color_ramp()`
 
-Generate smooth gradient between two colors:
+Generate a smooth gradient between two CPAL colors. Useful when you need a specific number of steps or want to create a custom sequential palette.
+
+#### Gradient from coral to midnight
 
 ```{r}
-#| label: color-ramp
-# Gradient from coral to midnight
+#| label: color-ramp-1
+#| code-fold: false
+#| eval: false
 cpal_color_ramp("coral", "midnight", n = 7)
+```
 
-# Using color names from brand.yml
+```{r}
+#| label: color-ramp-1-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_color_ramp("coral", "midnight", n = 7), show_names = FALSE)
+```
+
+#### Using color names from brand.yml
+
+```{r}
+#| label: color-ramp-2
+#| code-fold: false
+#| eval: false
 cpal_color_ramp("midnight_1", "midnight", n = 5)
+```
+
+```{r}
+#| label: color-ramp-2-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_color_ramp("midnight_1", "midnight", n = 5), show_names = FALSE)
 ```
 
 ### `cpal_color_gradient()`
 
-Create gradient through multiple colors:
+Create a gradient that passes through multiple colors. Perfect for custom diverging palettes or complex color schemes that need to hit specific color waypoints.
+
+#### Three-color gradient
 
 ```{r}
 #| label: color-gradient
-# Three-color gradient
+#| code-fold: false
+#| eval: false
 cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9)
+```
+
+```{r}
+#| label: color-gradient-strip
+#| echo: false
+#| results: asis
+color_strip(cpal_color_gradient(c("coral", "neutral", "midnight"), n = 9), show_names = FALSE)
 ```
 
 ---
 
 ## Color Validation (Accessibility)
 
-### `validate_color_contrast()`
+Accessibility isn't just good practice—it's essential for reaching all audiences. These validation functions help you ensure your color choices meet [WCAG (Web Content Accessibility Guidelines)](https://www.w3.org/WAI/standards-guidelines/wcag/) standards, making your R visualizations readable for users with color vision deficiencies.
 
-Check if two colors meet WCAG contrast requirements:
+### `validate_color_contrast()`
+Check if two colors meet WCAG contrast requirements. Use this when placing text on colored backgrounds or ensuring data points are distinguishable.
 
 ```{r}
-#| label: contrast-validation
+#| label: contrast-validation-code
+#| code-fold: false
+#| eval: false
 # Check deep_teal on white (should pass AA)
 validate_color_contrast("#006878", "#FFFFFF")
 
@@ -308,12 +487,28 @@ validate_color_contrast("#006878", "#FFFFFF", level = "AAA")
 validate_color_contrast("#004855", "#FFFFFF", level = "AAA")
 ```
 
+::: {.callout-note collapse="true" title="Click to see output"}
+```{r}
+#| label: contrast-validation-output
+#| echo: false
+# Check deep_teal on white (should pass AA)
+validate_color_contrast("#006878", "#FFFFFF")
+
+# Check with AAA standard (stricter)
+validate_color_contrast("#006878", "#FFFFFF", level = "AAA")
+
+# Midnight on white (high contrast)
+validate_color_contrast("#004855", "#FFFFFF", level = "AAA")
+```
+:::
+
 ### `validate_brand_colors()`
 
 Check all CPAL palette colors for accessibility:
 
 ```{r}
 #| label: brand-validation
+#| code-fold: false
 #| eval: false
 validate_brand_colors()
 ```
@@ -323,6 +518,8 @@ This function prints a detailed report showing which colors pass WCAG AA/AAA sta
 ---
 
 ## Choosing the Right Palette
+
+Not sure which palette to use? This quick reference helps you match your data type to the appropriate CPAL palette. The goal is to choose colors that help readers understand your data, not just make charts look pretty.
 
 ### Quick Reference
 
@@ -340,9 +537,10 @@ This function prints a detailed report showing which colors pass WCAG AA/AAA sta
 
 ## Complete Example
 
+Here's a complete example showing how CPAL colors, scales, and themes work together in a typical R data visualization workflow. This pattern—data preparation, ggplot2 visualization, CPAL scales, and CPAL theme—is the foundation for all branded CPAL charts.
+
 ```{r}
 #| label: complete-example
-#| fig-cap: "Complete visualization with CPAL colors and theme"
 # Prepare data
 car_data <- mtcars |>
   mutate(
@@ -351,7 +549,7 @@ car_data <- mtcars |>
   )
 
 # Create visualization
-ggplot(car_data, aes(x = hp, y = mpg, color = cylinders, size = wt)) +
+p1 <- ggplot(car_data, aes(x = hp, y = mpg, color = cylinders, size = wt)) +
   geom_point(alpha = 0.7) +
   scale_color_cpal("main_3") +
   scale_size_continuous(range = c(2, 8)) +
@@ -365,12 +563,17 @@ ggplot(car_data, aes(x = hp, y = mpg, color = cylinders, size = wt)) +
     caption = "Source: Motor Trend Car Road Tests (1974)"
   ) +
   theme_cpal()
+
+cpaltemplates::add_cpal_logo(p1)
 ```
 
 ---
 
 ## Next Steps
 
-- [Themes & Styling](themes-styling.qmd) - Apply consistent themes to your plots
-- [Plots & Output](plots-visualizations.qmd) - Save and export visualizations
-- [Brand & Assets](brand-assets.qmd) - Customize brand configuration
+Now that you understand CPAL's color system, explore these related guides:
+
+- [Themes & Styling](themes-styling.qmd) - Apply consistent ggplot2 themes to your plots
+- [Plots & Output](plots-visualizations.qmd) - Save and export your R visualizations
+- [ggplot2 Gallery](gallery-ggplot2.qmd) - See colors in action with example charts
+- [Highcharter Gallery](gallery-highcharter.qmd) - CPAL colors in interactive charts

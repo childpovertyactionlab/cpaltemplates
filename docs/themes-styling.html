@@ -136,6 +136,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span class="menu-text">Getting Started</span></a>
   </li>  
   <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-galleries" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Galleries</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-galleries">    
+        <li>
+    <a class="dropdown-item" href="./gallery-ggplot2.html">
+ <span class="dropdown-text">ggplot2 Chart Gallery</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./gallery-highcharter.html">
+ <span class="dropdown-text">Highcharter Chart Gallery</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-guides" role="button" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Guides</span>
     </a>
@@ -145,10 +160,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./project-setup.html">
  <span class="dropdown-text">Project Setup</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./brand-assets.html">
- <span class="dropdown-text">Brand &amp; Assets</span></a>
   </li>  
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Visualization</li>
@@ -171,10 +182,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li><hr class="dropdown-divider"></li>
         <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
-    <a class="dropdown-item" href="./interactive-features.html">
- <span class="dropdown-text">Interactive Charts</span></a>
-  </li>  
-        <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
   </li>  
@@ -190,10 +197,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./workflow-integration.html"> 
-<span class="menu-text">Workflows</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./function-reference.html"> 
 <span class="menu-text">Reference</span></a>
@@ -284,7 +287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>The cpaltemplates theme system provides 8 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity.</p>
+<p>The cpaltemplates theme system provides 11 functions for creating consistently branded ggplot2 visualizations. Each theme is designed for specific use cases while maintaining CPAL’s visual identity.</p>
 <hr>
 </section>
 <section id="quick-start" class="level2">
@@ -690,6 +693,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td>Maps</td>
 <td><code>theme_cpal_map()</code></td>
+</tr>
+<tr class="odd">
+<td>Shiny dark/light mode</td>
+<td><code>theme_cpal_switch()</code></td>
 </tr>
 </tbody>
 </table>

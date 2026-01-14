@@ -1,6 +1,6 @@
 # cpaltemplates Function Reference
 
-Complete reference for all 67 exported functions in cpaltemplates v2.5.0.
+Complete reference for all exported functions in cpaltemplates v2.7.0.
 
 ---
 
@@ -9,7 +9,8 @@ Complete reference for all 67 exported functions in cpaltemplates v2.5.0.
 - [Color System](#color-system)
 - [Theme System](#theme-system)
 - [Table Functions](#table-functions)
-- [Interactive Visualization](#interactive-visualization)
+- [Highcharter Functions](#highcharter-functions)
+- [Mapping Functions](#mapping-functions)
 - [Project Scaffolding](#project-scaffolding)
 - [Brand & Asset Management](#brand--asset-management)
 - [Utility Functions](#utility-functions)
@@ -83,27 +84,29 @@ cpal_palettes("teal_seq_5")         # Get specific palette by name
 
 #### `cpal_palettes_sequential()`
 Returns list of sequential palettes for continuous data:
-- `midnight_seq_4`, `midnight_seq_5`, `midnight_seq_6`, `midnight_seq_8` - Single-hue midnight
-- Legacy aliases: `teal_seq_4`, `teal_seq_5`, `teal_seq_6`
+- `midnight_seq_5`, `midnight_seq_8` - Single-hue midnight
+- `coral_seq_5`, `coral_seq_8` - Single-hue coral
+- `sage_seq_5`, `sage_seq_8` - Single-hue sage
 
 ---
 
 #### `cpal_palettes_diverging()`
 Returns list of diverging palettes:
 - `coral_midnight_3`, `coral_midnight_5`, `coral_midnight_7`, `coral_midnight_9`
-- Legacy aliases: `pink_teal_3`, `pink_teal_5`, `pink_teal_6`
+- `sage_coral_3`, `sage_coral_5`, `sage_coral_7`, `sage_coral_9`
+- Legacy aliases: `pink_teal_3`, `pink_teal_6`
 
 ---
 
 #### `cpal_palettes_categorical()`
 Returns list of categorical palettes:
-- `main` (8 colors), `main_3`, `main_4`, `main_5`, `main_6`
-- `binary` (positive/negative), `status` (success/warning/error/info)
+- `main` (8 colors) - use `cpal_colors("main", n = 3)` to subset
+- `blues`, `compare`, `binary`, `status`
 
 ---
 
 #### `list_cpal_palettes(details)`
-List all 16 available palette names. Set `details = TRUE` for descriptions.
+List all available palette names. Set `details = TRUE` for descriptions.
 
 ---
 
@@ -327,42 +330,266 @@ Interactive table using reactable.
 
 ---
 
-## Interactive Visualization
+## Highcharter Functions
 
-### ggiraph Integration
+### Core Theme Functions
 
-#### `cpal_interactive(plot, width_svg, height_svg, ...)`
-Convert ggplot to interactive ggiraph with CPAL styling.
+#### `hc_theme_cpal_light(base_size, grid, legend_position, show_credits)`
+Light mode Highcharter theme matching `theme_cpal()`.
+
+| Argument | Options |
+|----------|---------|
+| `base_size` | Base font size in pixels (default: 14) |
+| `grid` | "horizontal", "vertical", "both", "none" |
+| `legend_position` | "bottom", "right", "top", "left" |
+| `show_credits` | Show Highcharts watermark (default: FALSE) |
 
 ```r
-p <- ggplot(data, aes(x, y)) +
-  geom_point_interactive(aes(tooltip = name)) +
-  theme_cpal()
-
-cpal_interactive(p)
+hchart(mtcars, "scatter", hcaes(wt, mpg)) |>
+  hc_add_theme(hc_theme_cpal_light())
 ```
 
 ---
 
-#### Interactive Geom Wrappers
-Convenience wrappers for ggiraph geoms with CPAL defaults:
-
-- `cpal_point_interactive(mapping, data, tooltip_var, onclick_var, data_id_var, ...)`
-- `cpal_line_interactive(...)`
-- `cpal_col_interactive(...)`
-- `cpal_polygon_interactive(...)`
+#### `hc_theme_cpal_dark(base_size, grid, legend_position, show_credits)`
+Dark mode Highcharter theme matching `theme_cpal_dark()`.
 
 ---
 
-### mapgl Integration
+#### `hc_theme_cpal_switch(mode, ...)`
+Returns appropriate theme based on mode ("light" or "dark"). Useful for Shiny dark mode toggles.
+
+```r
+output$chart <- renderHighchart({
+  hchart(data, "column", hcaes(x, y)) |>
+    hc_add_theme(hc_theme_cpal_switch(input$dark_mode))
+})
+```
+
+---
+
+#### `hc_cpal_theme(hc, mode, ...)`
+Convenience function that applies CPAL theme and sets number formatting in one call.
+
+```r
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_cpal_theme()        # Light mode
+
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_cpal_theme("dark")  # Dark mode
+```
+
+---
+
+### Color Functions
+
+#### `hc_colors_cpal(hc, palette, n, reverse)`
+Apply CPAL color palettes to a Highcharter chart.
+
+| Argument | Options |
+|----------|---------|
+| `palette` | "main", "categorical", "sequential", "seq", "diverging", "div" |
+| `n` | Number of colors to use (optional) |
+| `reverse` | Reverse palette order (default: FALSE) |
+
+```r
+hchart(data, "bar", hcaes(x = category, y = value, group = series)) |>
+  hc_colors_cpal("main")
+```
+
+---
+
+#### `hc_colorAxis_cpal(hc, palette, min, max, reverse, stops)`
+Configure color axis for heatmaps and choropleths.
+
+| Argument | Description |
+|----------|-------------|
+| `palette` | "sequential" or "diverging" |
+| `min`, `max` | Value range for color scale |
+| `reverse` | Reverse color direction |
+| `stops` | Number of color stops |
+
+```r
+# Sequential for heatmaps
+hchart(data, "heatmap", hcaes(x, y, value = z)) |>
+  hc_colorAxis_cpal("sequential", min = 0, max = 100)
+
+# Diverging for correlations
+hchart(cor_data, "heatmap", hcaes(x, y, value = correlation)) |>
+  hc_colorAxis_cpal("diverging", min = -1, max = 1)
+```
+
+---
+
+### Formatting Helpers
+
+#### `hc_cpal_number_format(hc)`
+Set US number formatting globally (commas for thousands). Call once per session or in pipe.
+
+```r
+hc_cpal_number_format()  # Set globally
+
+# Or in pipe
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_cpal_number_format()
+```
+
+---
+
+#### `hc_tooltip_cpal(hc, decimals, prefix, suffix, point_format)`
+Configure tooltip formatting with decimal control.
+
+| Argument | Description |
+|----------|-------------|
+| `decimals` | Number of decimal places (default: 0) |
+| `prefix` | Text before value, e.g., "$" |
+| `suffix` | Text after value, e.g., "%" or " people" |
+| `point_format` | Custom format string (overrides other options) |
+
+```r
+# Population
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_tooltip_cpal(decimals = 0, suffix = " people")
+
+# Currency
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_tooltip_cpal(decimals = 2, prefix = "$")
+```
+
+---
+
+#### `hc_yaxis_cpal(hc, title, decimals, prefix, suffix, divide_by, ...)`
+Configure y-axis label formatting.
+
+| Argument | Description |
+|----------|-------------|
+| `title` | Y-axis title |
+| `decimals` | Decimal places in labels |
+| `prefix` | Text before values, e.g., "$" |
+| `suffix` | Text after values, e.g., "%" |
+| `divide_by` | Divide values for display, e.g., 1000000 for millions |
+
+```r
+# Percentage axis
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_yaxis_cpal(title = "Poverty Rate", decimals = 1, suffix = "%")
+
+# Population in millions
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_yaxis_cpal(title = "Population", suffix = "M", divide_by = 1000000)
+```
+
+---
+
+#### `hc_linetype_cpal(hc, curved)`
+Switch between straight lines and smooth splines for line charts.
+
+```r
+hchart(data, "line", hcaes(x, y)) |>
+  hc_linetype_cpal(curved = TRUE)   # Smooth spline
+
+hchart(data, "line", hcaes(x, y)) |>
+  hc_linetype_cpal(curved = FALSE)  # Straight lines
+```
+
+---
+
+### Logo Functions
+
+#### `hc_add_cpal_logo(hc, logo_url, mode, position, width, height, opacity, margin)`
+Add CPAL logo watermark to chart.
+
+| Argument | Options |
+|----------|---------|
+| `mode` | "light" (teal logo) or "dark" (white logo) |
+| `position` | "top-right", "top-left", "bottom-right", "bottom-left" |
+| `width` | Logo width in pixels (default: 60) |
+| `opacity` | Logo opacity 0-1 (default: 0.5) |
+
+```r
+# Light mode (teal logo)
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_add_theme(hc_theme_cpal_light()) |>
+  hc_add_cpal_logo()
+
+# Dark mode (white logo)
+hchart(data, "bar", hcaes(x, y)) |>
+  hc_add_theme(hc_theme_cpal_dark()) |>
+  hc_add_cpal_logo(mode = "dark")
+```
+
+---
+
+### Chart Helper Functions
+
+#### `hc_histogram_cpal(data, breaks, name, color, title, subtitle, x_title, y_title)`
+Create a CPAL-styled histogram from raw data.
+
+```r
+hc_histogram_cpal(mtcars$mpg, breaks = 15, title = "MPG Distribution")
+```
+
+---
+
+#### `hc_lollipop_cpal(categories, values, name, stem_color, dot_color, horizontal, title, ...)`
+Create a lollipop chart (stem + dot).
+
+```r
+hc_lollipop_cpal(
+  categories = c("A", "B", "C"),
+  values = c(10, 20, 15),
+  title = "Rankings"
+)
+```
+
+---
+
+#### `hc_dumbbell_cpal(categories, values_start, values_end, name_start, name_end, horizontal, title, ...)`
+Create a dumbbell chart showing gaps between two values.
+
+```r
+hc_dumbbell_cpal(
+  categories = c("Region A", "Region B", "Region C"),
+  values_start = c(10, 20, 15),
+  values_end = c(15, 25, 12),
+  name_start = "2020",
+  name_end = "2024",
+  title = "Change Over Time"
+)
+```
+
+---
+
+## Mapping Functions
 
 #### `cpal_mapgl(style, bounds, ...)`
 Create mapgl map with Dallas area defaults.
+
+```r
+map <- cpal_mapgl(
+  style = "mapbox://styles/mapbox/light-v11",
+  bounds = list(west = -97.0, east = -96.5, south = 32.5, north = 33.0)
+)
+```
 
 ---
 
 #### `cpal_mapgl_layer(map, id, source, type, paint, ...)`
 Add CPAL-styled layer to mapgl map.
+
+| Argument | Description |
+|----------|-------------|
+| `type` | "fill", "line", or "circle" |
+| `paint` | Paint properties (uses CPAL defaults if NULL) |
+
+```r
+map |>
+  cpal_mapgl_layer(
+    id = "my_layer",
+    source = geojson_data,
+    type = "fill"
+  )
+```
 
 ---
 
@@ -471,12 +698,11 @@ Unified font family accessor. Returns best available CPAL font.
 
 | Argument | Options |
 |----------|---------|
-| `type` | "plot" (default), "interactive", "table", "print" |
+| `type` | "plot" (default), "table", "print" |
 | `setup` | If TRUE, attempts to set up fonts if not available |
 
 ```r
 cpal_font_family()                  # Get font for regular plots
-cpal_font_family("interactive")     # Get font for ggiraph
 cpal_font_family(setup = TRUE)      # Set up fonts if missing
 ```
 
@@ -487,13 +713,8 @@ Returns system font fallback ("sans").
 
 ---
 
-#### `get_cpal_font_family(for_interactive, setup_if_missing)`
-Legacy wrapper around `cpal_font_family()` for backward compatibility.
-
----
-
 #### `setup_cpal_google_fonts(force_refresh, verbose)`
-Download and register Inter/Roboto fonts from Google Fonts for both regular and interactive plots.
+Download and register Inter/Roboto fonts from Google Fonts for plots.
 
 ---
 
@@ -574,4 +795,19 @@ validate_color_contrast("#006878", "#FFFFFF")        # Specific pair
 ```r
 cpal_color_ramp("coral", "midnight", n = 7)
 cpal_color_gradient(c("midnight_1", "deep_teal", "midnight"), n = 10)
+```
+
+### Creating interactive Highcharter charts
+```r
+library(highcharter)
+
+# Basic themed chart
+hchart(data, "column", hcaes(x = category, y = value)) |>
+  hc_cpal_theme() |>
+  hc_tooltip_cpal(decimals = 0) |>
+  hc_add_cpal_logo()
+
+# With dark mode in Shiny
+hchart(data, "line", hcaes(x, y)) |>
+  hc_cpal_theme(input$dark_mode)
 ```

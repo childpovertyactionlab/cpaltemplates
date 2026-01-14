@@ -34,7 +34,7 @@ view_cpal_palettes()
 
 # Show specific palette
 view_cpal_palettes("main")
-view_cpal_palettes("teal_seq_5")
+view_cpal_palettes("midnight_seq_5")
 
 # Show multiple palettes
 view_cpal_palettes(c("main", "midnight_seq_5", "coral_midnight_5"))

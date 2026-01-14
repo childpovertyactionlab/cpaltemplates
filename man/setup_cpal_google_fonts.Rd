@@ -2,7 +2,7 @@
 % Please edit documentation in R/interactive.R
 \name{setup_cpal_google_fonts}
 \alias{setup_cpal_google_fonts}
-\title{Setup CPAL Google Fonts for All Plot Types}
+\title{Setup CPAL Google Fonts for Plots}
 \usage{
 setup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)
 }
@@ -12,9 +12,8 @@ setup_cpal_google_fonts(force_refresh = FALSE, verbose = TRUE)
 \item{verbose}{Logical. Show detailed setup messages (default: TRUE)}
 }
 \value{
-List with setup results including success status for each font type.
+List with setup results including success status for each font.
 }
 \description{
-Comprehensive font setup that downloads and registers Inter and Roboto
-from Google Fonts for use in both regular and interactive plots.
+Downloads and registers Inter and Roboto from Google Fonts for use in plots.
 }

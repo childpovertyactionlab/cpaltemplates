@@ -18,14 +18,18 @@ website:
         href: index.qmd
       - text: "Getting Started"
         href: getting-started.qmd
+      - text: "Galleries"
+        menu:
+          - text: "ggplot2 Chart Gallery"
+            href: gallery-ggplot2.qmd
+          - text: "Highcharter Chart Gallery"
+            href: gallery-highcharter.qmd
       - text: "Guides"
         menu:
           - text: "---"
           - text: "Setup & Infrastructure"
           - text: "Project Setup"
             href: project-setup.qmd
-          - text: "Brand & Assets"
-            href: brand-assets.qmd
           - text: "---"
           - text: "Visualization"
           - text: "Colors & Palettes"
@@ -38,8 +42,6 @@ website:
             href: tables-gt.qmd
           - text: "---"
           - text: "Interactive & Web"
-          - text: "Interactive Charts"
-            href: interactive-features.qmd
           - text: "Maps & Geographic"
             href: maps-geographic.qmd
           - text: "Shiny Dashboards"
@@ -48,8 +50,6 @@ website:
           - text: "Utilities"
           - text: "Helper Functions"
             href: utilities-helpers.qmd
-      - text: "Workflows"
-        href: workflow-integration.qmd
       - text: "Reference"
         href: function-reference.qmd
       - text: "Troubleshooting"
