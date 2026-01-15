@@ -232,12 +232,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#understanding-the-package-structure" id="toc-understanding-the-package-structure" class="nav-link" data-scroll-target="#understanding-the-package-structure">Understanding the Package Structure</a></li>
   <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick Reference</a></li>
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
-  <li><a href="#common-setup-issues" id="toc-common-setup-issues" class="nav-link" data-scroll-target="#common-setup-issues">Common Setup Issues</a>
-  <ul class="collapse">
-  <li><a href="#fonts-not-loading" id="toc-fonts-not-loading" class="nav-link" data-scroll-target="#fonts-not-loading">Fonts Not Loading</a></li>
-  <li><a href="#package-not-found" id="toc-package-not-found" class="nav-link" data-scroll-target="#package-not-found">Package Not Found</a></li>
-  <li><a href="#interactive-features-not-working" id="toc-interactive-features-not-working" class="nav-link" data-scroll-target="#interactive-features-not-working">Interactive Features Not Working</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/getting-started.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
@@ -313,7 +307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Pro Tip
+Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -1090,47 +1084,8 @@ Utilities (6 functions)
 <li><strong><a href="./gallery-ggplot2.html">ggplot2 Gallery</a></strong> - Example charts with code</li>
 <li><strong><a href="./gallery-highcharter.html">Highcharter Gallery</a></strong> - Interactive chart examples</li>
 </ol>
-<hr>
-</section>
-<section id="common-setup-issues" class="level2">
-<h2 class="anchored" data-anchor-id="common-setup-issues">Common Setup Issues</h2>
-<section id="fonts-not-loading" class="level3">
-<h3 class="anchored" data-anchor-id="fonts-not-loading">Fonts Not Loading</h3>
-<p>If fonts aren’t loading correctly:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Force refresh fonts</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">setup_cpal_google_fonts</span>(<span class="at">force_refresh =</span> <span class="cn">TRUE</span>, <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check what's available</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cpal_font_family</span>(<span class="at">setup =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="package-not-found" class="level3">
-<h3 class="anchored" data-anchor-id="package-not-found">Package Not Found</h3>
-<p>If installation fails:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check R version</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>R.version.string</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Should be 4.3.0 or higher</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Try with dependencies</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"childpovertyactionlab/cpaltemplates"</span>,</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">dependencies =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="interactive-features-not-working" class="level3">
-<h3 class="anchored" data-anchor-id="interactive-features-not-working">Interactive Features Not Working</h3>
-<p>For ggiraph functionality:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install ggiraph and dependencies</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"ggiraph"</span>, <span class="st">"gdtools"</span>, <span class="st">"systemfonts"</span>))</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Register fonts for interactive use</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">requireNamespace</span>(<span class="st">"gdtools"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Inter"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  gdtools<span class="sc">::</span><span class="fu">register_gfont</span>(<span class="st">"Roboto"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>See the <a href="./troubleshooting.html">Troubleshooting Guide</a> for more solutions.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
