@@ -88,3 +88,4 @@ knitr:
     fig.height: 5
     dpi: 300
     out.width: "80%"
+    fig.align: "center"

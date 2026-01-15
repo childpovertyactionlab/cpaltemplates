@@ -300,3 +300,15 @@ pre.sourceCode {
 [data-bs-theme="dark"] .status-legend {
   background-color: #1f2937;
 }
+
+/* Center htmlwidgets (Highcharter, etc.) */
+.cell-output-display .htmlwidget {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cell-output-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

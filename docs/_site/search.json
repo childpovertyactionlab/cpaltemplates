@@ -67,77 +67,119 @@
     "href": "themes-styling.html",
     "title": "Themes & Styling",
     "section": "",
-    "text": "cpaltemplates provides consistent theming for both static (ggplot2) and interactive (Highcharter) visualizations. This page covers theme selection by use case, customization options, and utility functions for saving and branding your plots.\nFor chart-specific examples, see the ggplot2 Gallery and Highcharter Gallery."
+    "text": "cpaltemplates provides consistent theming functions to ensure all CPAL data visualizations maintain brand consistency across reports, dashboards, and presentations. These functions handle typography, colors, gridlines, and branding elements so you can focus on the data story.\nGeneral guidance:"
   },
   {
-    "objectID": "themes-styling.html#quick-start",
-    "href": "themes-styling.html#quick-start",
+    "objectID": "themes-styling.html#setting-the-theme-globally",
+    "href": "themes-styling.html#setting-the-theme-globally",
     "title": "Themes & Styling",
-    "section": "Quick Start",
-    "text": "Quick Start\n\nggplot2\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Fuel Efficiency by Weight\", color = \"Cylinders\") +\n  theme_cpal()\n\n\n\n\n\nBasic ggplot2 with theme_cpal()\n\n\n\n\n\n\nHighcharter\nlibrary(highcharter)\n\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg, group = factor(cyl))) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal(\"main_3\") |&gt;\n  hc_title(text = \"Fuel Efficiency by Weight\")"
+    "section": "Setting the Theme Globally",
+    "text": "Setting the Theme Globally\nSet a CPAL theme once at the top of your script so all subsequent plots use it automatically:\n\n# At the top of your script\nset_theme_cpal()\n\nYou can also set a specific variant:\n\n# Use dark theme for entire session\nset_theme_cpal(\"dark\")\n\n# Reset to ggplot2 default when done\ntheme_set(theme_gray())"
   },
   {
-    "objectID": "themes-styling.html#theme-selection-by-use-case",
-    "href": "themes-styling.html#theme-selection-by-use-case",
+    "objectID": "themes-styling.html#available-theme-variants",
+    "href": "themes-styling.html#available-theme-variants",
     "title": "Themes & Styling",
-    "section": "Theme Selection by Use Case",
-    "text": "Theme Selection by Use Case\n\n\n\n\n\n\n\n\nUse Case\nggplot2 Theme\nHighcharter Theme\n\n\n\n\nGeneral purpose\ntheme_cpal()\nhc_cpal_theme()\n\n\nDark mode / presentations\ntheme_cpal_dark()\nhc_cpal_theme(\"dark\")\n\n\nPrint publications\ntheme_cpal_print()\n-\n\n\nAcademic papers\ntheme_cpal_classic()\n-\n\n\nMinimal / clean\ntheme_cpal_minimal()\n-\n\n\nMaps\ntheme_cpal_map()\n-\n\n\nShiny (reactive)\ntheme_cpal_switch()\nhc_theme_cpal_switch()"
+    "section": "Available Theme Variants",
+    "text": "Available Theme Variants\ncpaltemplates provides 6 theme variants optimized for different use cases. Each theme maintains CPAL branding while serving specific output contexts. Choose the theme that best matches your visualization’s destination and purpose.\n\ntheme_cpal() - Default\nThe primary CPAL theme for general-purpose visualizations. Features horizontal gridlines, clean typography, and a balanced layout suitable for reports, dashboards, and presentations. Use this as your starting point for most visualizations.\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  labs(title = \"Default Theme\", subtitle = \"General-purpose visualizations\", color = \"Cylinders\") +\n  theme_cpal()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\ntheme_cpal_minimal() - Clean & Simple\nA streamlined theme with reduced visual elements for distraction-free presentations. Removes unnecessary gridlines and chrome to let the data speak for itself. Ideal for executive summaries and slide decks where simplicity is paramount.\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  labs(title = \"Minimal Theme\", subtitle = \"Clean, distraction-free\", color = \"Cylinders\") +\n  theme_cpal_minimal()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\ntheme_cpal_classic() - Traditional\nA traditional theme with axis lines on both axes, following academic and scientific publication conventions. Best suited for research papers, technical reports, and audiences expecting conventional chart styling.\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  labs(title = \"Classic Theme\", subtitle = \"Traditional with axis lines\", color = \"Cylinders\") +\n  theme_cpal_classic()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\ntheme_cpal_dark() - Dark Mode\nOptimized for dark backgrounds with light text and adjusted colors for readability. Perfect for presentations in dimmed rooms, dark-themed dashboards, and digital displays where dark mode reduces eye strain.\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  labs(title = \"Dark Theme\", subtitle = \"Presentations and dark mode\", color = \"Cylinders\") +\n  theme_cpal_dark()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\ntheme_cpal_print() - Print Optimized\nA high-contrast theme designed specifically for printed materials and PDFs. Uses darker lines and increased contrast to ensure legibility when printed in black and white or on lower-quality paper.\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  labs(title = \"Print Theme\", subtitle = \"Optimized for print output\", color = \"Cylinders\") +\n  theme_cpal_print()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\ntheme_cpal_map() - Geographic\nA minimal theme specifically designed for geographic visualizations. Removes axes, gridlines, and panel borders to let map polygons and spatial data take center stage. Essential for choropleth maps and spatial analysis.\n\n\nShow code\n# Get US states data\nus_states &lt;- map_data(\"state\")\n\np &lt;- ggplot(us_states, aes(x = long, y = lat, group = group)) +\n  geom_polygon(fill = \"#006878\", color = \"white\", linewidth = 0.3) +\n  coord_fixed(1.3) +\n  labs(title = \"Map Theme\", subtitle = \"Geographic visualizations\") +\n  theme_cpal_map()\n\nadd_cpal_logo(p)"
   },
   {
-    "objectID": "themes-styling.html#ggplot2-themes",
-    "href": "themes-styling.html#ggplot2-themes",
+    "objectID": "themes-styling.html#side-by-side-comparison",
+    "href": "themes-styling.html#side-by-side-comparison",
     "title": "Themes & Styling",
-    "section": "ggplot2 Themes",
-    "text": "ggplot2 Themes\n\ntheme_cpal() - Default Theme\nThe primary CPAL theme with full customization options.\ntheme_cpal(\n  base_size = 16,\n  base_family = NULL,\n  style = \"default\",\n\n  grid = \"horizontal\",\n  axis_line = \"x\",\n  axis_title = TRUE,\n  legend_position = \"bottom\"\n)\n\nParameters\n\n\n\n\n\n\n\n\nArgument\nOptions\nDefault\n\n\n\n\nbase_size\nNumeric (font size in pts)\n16\n\n\ngrid\n“horizontal”, “vertical”, “both”, “none”\n“horizontal”\n\n\naxis_line\n“x”, “y”, “both”, “none”\n“x”\n\n\nlegend_position\n“bottom”, “right”, “top”, “left”, “none”\n“bottom”\n\n\n\n\n\n\n\nTheme Variants\n\n\n\n\n\n\nNote\n\n\n\ntheme_cpal_minimal(), theme_cpal_classic(), theme_cpal_print(), and theme_cpal_map() are currently under review and may be modified.\n\n\n\n\n\n\n\n\n\n\nTheme\nDescription\nBest For\n\n\n\n\ntheme_cpal()\nFull-featured default\nGeneral use\n\n\ntheme_cpal_dark()\nDark background\nPresentations, dark mode\n\n\ntheme_cpal_minimal()\nReduced visual elements\nClean, simple charts\n\n\ntheme_cpal_classic()\nAxis lines on both axes\nAcademic style\n\n\ntheme_cpal_print()\nHigh contrast\nPrint publications\n\n\ntheme_cpal_map()\nNo axes, minimal chrome\nGeographic visualizations\n\n\n\n\n\n\ntheme_cpal_dark() - Dark Mode\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal(\"main_3\") +\n  labs(title = \"Dark Theme Example\", color = \"Cylinders\") +\n  theme_cpal_dark()\n\n\n\n\n\nDark theme for presentations\n\n\n\n\n\n\n\nSession-Wide Theme Setting\nSet a CPAL theme as the default for your entire R session:\n# Set dark theme for entire session\nset_theme_cpal(\"dark\")\n\n# All subsequent plots use dark theme automatically\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point()  # No theme_cpal() needed\n\n# Reset to ggplot2 default\ntheme_set(theme_gray())\n\n\n\nTheme Comparison\n\n\nShow code\npreview_cpal_themes()\n\n\n\n\n\nComparison of all ggplot2 themes"
+    "section": "Side-by-Side Comparison",
+    "text": "Side-by-Side Comparison\nUse preview_cpal_themes() to compare all theme variants at once:\n\n\nShow code\npreview_cpal_themes()"
   },
   {
-    "objectID": "themes-styling.html#highcharter-themes",
-    "href": "themes-styling.html#highcharter-themes",
+    "objectID": "themes-styling.html#theme-customization",
+    "href": "themes-styling.html#theme-customization",
     "title": "Themes & Styling",
-    "section": "Highcharter Themes",
-    "text": "Highcharter Themes\n\nhc_cpal_theme() - Apply Theme to Chart\nApply CPAL styling to any Highcharter chart.\nhc_cpal_theme(hc, mode = \"light\")\n\n\n\nArgument\nDescription\n\n\n\n\nhc\nA highchart object\n\n\nmode\n“light” or “dark”\n\n\n\n\nExample\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal(\"main\") |&gt;\n  hc_title(text = \"Scatter Plot\") |&gt;\n  hc_add_cpal_logo()\n\n\n\n\nTheme Functions\n\n\n\nFunction\nDescription\n\n\n\n\nhc_theme_cpal_light()\nReturns light mode theme object\n\n\nhc_theme_cpal_dark()\nReturns dark mode theme object\n\n\nhc_theme_cpal_switch(mode)\nReturns theme based on mode parameter\n\n\nhc_cpal_theme(hc, mode)\nApplies theme to a chart\n\n\n\n\n\n\nhc_colors_cpal() - Apply Color Palette\nhc_colors_cpal(hc, palette = \"main\", n = NULL)\n\n\n\nArgument\nDescription\n\n\n\n\nhc\nA highchart object\n\n\npalette\nPalette name (e.g., “main”, “main_3”, “diverging”)\n\n\nn\nNumber of colors (auto-detected if NULL)\n\n\n\n\n\n\nhc_add_cpal_logo() - Add Branding\nhc_add_cpal_logo(hc, position = \"bottom-right\", mode = \"light\")"
+    "section": "Theme Customization",
+    "text": "Theme Customization\nAll CPAL themes accept customization parameters. Here are the most commonly used options:\n\nBase Size\nAdjust the base font size (affects all text proportionally):\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Larger Text for Presentations\") +\n  theme_cpal(base_size = 20)\n\n\n\n\n\n\n\n\n\n\n\nGrid Options\nControl which gridlines appear:\n\n\nShow code\nggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Both Horizontal and Vertical Grid\") +\n  theme_cpal(grid = \"both\")\n\n\n\n\n\n\n\n\n\n\n\n\nGrid Option\nDescription\n\n\n\n\n\"horizontal\"\nHorizontal lines only (default)\n\n\n\"vertical\"\nVertical lines only\n\n\n\"both\"\nBoth horizontal and vertical\n\n\n\"none\"\nNo gridlines\n\n\n\nSee ?theme_cpal for full parameter documentation."
   },
   {
-    "objectID": "themes-styling.html#darklight-mode-switching-shiny",
-    "href": "themes-styling.html#darklight-mode-switching-shiny",
+    "objectID": "themes-styling.html#adding-the-cpal-logo",
+    "href": "themes-styling.html#adding-the-cpal-logo",
     "title": "Themes & Styling",
-    "section": "Dark/Light Mode Switching (Shiny)",
-    "text": "Dark/Light Mode Switching (Shiny)\nFor Shiny applications that support dark/light mode toggles.\n\nggplot2: theme_cpal_switch()\ntheme_cpal_switch(mode = \"light\", ...)\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode)\n})\n\n\nggplot2: make_theme_reactive()\nCreate a reusable reactive theme:\nserver &lt;- function(input, output, session) {\n  current_theme &lt;- make_theme_reactive(input, toggle_id = \"dark_mode\")\n\n  output$plot1 &lt;- renderPlot({\n    ggplot(data1, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n}\n\n\nHighcharter: hc_theme_cpal_switch()\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_add_theme(hc_theme_cpal_switch(input$dark_mode)) |&gt;\n    hc_colors_cpal(\"main\")\n})"
+    "section": "Adding the CPAL Logo",
+    "text": "Adding the CPAL Logo\nAlways add the CPAL logo to final outputs using add_cpal_logo():\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Vehicle Fuel Efficiency\", subtitle = \"Motor Trend Car Road Tests\") +\n  theme_cpal()\n\nadd_cpal_logo(p)\n\n\n\n\n\n\n\n\n\n\n\n\nPosition\nDescription\n\n\n\n\n\"top-right\"\nUpper right corner (default)\n\n\n\"top-left\"\nUpper left corner\n\n\n\"bottom-right\"\nLower right corner\n\n\n\"bottom-left\"\nLower left corner\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nadd_cpal_logo() automatically uses the white logo variant when it detects a dark theme."
   },
   {
-    "objectID": "themes-styling.html#saving-exporting-plots",
-    "href": "themes-styling.html#saving-exporting-plots",
+    "objectID": "themes-styling.html#applying-the-theme",
+    "href": "themes-styling.html#applying-the-theme",
     "title": "Themes & Styling",
-    "section": "Saving & Exporting Plots",
-    "text": "Saving & Exporting Plots\n\nsave_cpal_plot()\nSave plots with standardized CPAL dimensions.\nsave_cpal_plot(\n  plot,\n  filename,\n  size = \"default\",\n  dpi = 300,\n  bg = \"white\",\n  ...\n)\n\nSize Presets\n\n\n\nPreset\nDimensions\nUse Case\n\n\n\n\n\"default\"\n8 × 5\nGeneral purpose\n\n\n\"slide\"\n10 × 5.625\nPresentations (16:9)\n\n\n\"half\"\n4 × 3\nHalf-page figures\n\n\n\"square\"\n5 × 5\nSocial media\n\n\n\"wide\"\n12 × 4\nDashboards\n\n\n\"tall\"\n5 × 8\nVertical layouts\n\n\n\n\n\nExamples\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#007A8C\") +\n  theme_cpal()\n\n# Default size\nsave_cpal_plot(p, \"plot.png\")\n\n# Presentation slide\nsave_cpal_plot(p, \"slide.png\", size = \"slide\")\n\n# Custom dimensions\nsave_cpal_plot(p, \"custom.png\", size = c(10, 6))\n\n# High-res print\nsave_cpal_plot(p, \"print.png\", dpi = 600)\n\n# PDF output\nsave_cpal_plot(p, \"plot.pdf\")"
+    "section": "Applying the Theme",
+    "text": "Applying the Theme\nUse hc_cpal_theme() as a convenient one-stop function that applies the theme and sets US number formatting:\n\n\nShow code\nhchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg, group = factor(cyl))) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Fuel Efficiency by Weight\") |&gt;\n  hc_xAxis(title = list(text = \"Weight (1000 lbs)\")) |&gt;\n  hc_yAxis(title = list(text = \"Miles per Gallon\")) |&gt;\n  hc_add_cpal_logo()\n\n\n\n\n\n\n\nTheme Functions\n\n\n\n\n\n\n\nFunction\nDescription\n\n\n\n\nhc_cpal_theme(hc, mode)\nApply theme to chart (convenience function)\n\n\nhc_theme_cpal_light()\nReturns light mode theme object\n\n\nhc_theme_cpal_dark()\nReturns dark mode theme object"
   },
   {
-    "objectID": "themes-styling.html#adding-branding",
-    "href": "themes-styling.html#adding-branding",
+    "objectID": "themes-styling.html#color-functions",
+    "href": "themes-styling.html#color-functions",
     "title": "Themes & Styling",
-    "section": "Adding Branding",
-    "text": "Adding Branding\n\nadd_cpal_logo() - ggplot2\nAdd the CPAL logo to any ggplot2 visualization.\nadd_cpal_logo(\n  plot,\n  position = \"top-right\",\n  size = 0.09,\n  logo_path = NULL\n)\n\n\n\nArgument\nDescription\n\n\n\n\nposition\n“top-right”, “top-left”, “bottom-right”, “bottom-left”\n\n\nsize\nLogo size as proportion of plot (0-1)\n\n\n\nFeatures: - Auto-detects white logo for dark themes - Maintains aspect ratio - Places logo outside the plot area\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\", size = 3) +\n  labs(title = \"Vehicle Fuel Efficiency\") +\n  theme_cpal()\n\nadd_cpal_logo(p, position = \"bottom-right\")\n\n\n\n\n\nPlot with CPAL logo\n\n\n\n\n\n\nhc_add_cpal_logo() - Highcharter\nhchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_add_cpal_logo(position = \"bottom-right\")"
+    "section": "Color Functions",
+    "text": "Color Functions\nHighcharter color functions ensure your interactive charts use CPAL brand colors consistently. These functions work similarly to the ggplot2 scale_*_cpal() functions but are designed for the Highcharts JavaScript library.\n\nhc_colors_cpal() - Categorical Palettes\nUse hc_colors_cpal() when your chart has discrete categories (e.g., grouped bar charts, multi-series line charts, pie charts). This function sets the color array that Highcharts cycles through for each series or category.\n\n\nShow code\n# Sample data with multiple categories\nsales_data &lt;- data.frame(\n  quarter = rep(c(\"Q1\", \"Q2\", \"Q3\", \"Q4\"), 3),\n  region = rep(c(\"North\", \"Central\", \"South\"), each = 4),\n  sales = c(120, 150, 180, 200, 90, 110, 130, 160, 150, 170, 190, 220)\n)\n\nhchart(sales_data, \"column\", hcaes(x = quarter, y = sales, group = region)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Quarterly Sales by Region\") |&gt;\n  hc_yAxis(title = list(text = \"Sales ($K)\")) |&gt;\n  hc_add_cpal_logo()\n\n\n\n\n\n\nAvailable palettes:\n\n\n\nPalette\nDescription\nBest For\n\n\n\n\n\"main\"\nPrimary CPAL colors (default)\nMost categorical data\n\n\n\"secondary\"\nExtended palette\nMany categories (5+)\n\n\n\"diverging\"\nTwo-tone scale\nComparing opposites\n\n\n\n\n\nShow code\n# Use a specific palette\nhchart(data, \"pie\", hcaes(name = category, y = value)) |&gt;\n  hc_colors_cpal(\"secondary\")\n\n# Limit to specific number of colors\nhchart(data, \"bar\", hcaes(x = x, y = y, group = category)) |&gt;\n  hc_colors_cpal(\"main\", n = 4)\n\n\n\n\nhc_colorAxis_cpal() - Continuous Scales\nUse hc_colorAxis_cpal() for visualizations where color represents a continuous numeric value, such as heatmaps, choropleth maps, or treemaps. This creates a smooth gradient between colors.\n\n\nShow code\n# Create heatmap data\nheatmap_data &lt;- expand.grid(\n  day = c(\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"),\n  hour = c(\"9am\", \"12pm\", \"3pm\", \"6pm\")\n) |&gt;\n  mutate(value = round(runif(20, 10, 100)))\n\nhchart(heatmap_data, \"heatmap\", hcaes(x = day, y = hour, value = value)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colorAxis_cpal(\"sequential\") |&gt;\n  hc_title(text = \"Activity Heatmap\") |&gt;\n  hc_legend(title = list(text = \"Activity Level\")) |&gt;\n  hc_add_cpal_logo()\n\n\n\n\n\n\nAvailable continuous palettes:\n\n\n\nPalette\nDescription\nBest For\n\n\n\n\n\"sequential\"\nLight to dark gradient\nValues from low to high\n\n\n\"diverging\"\nTwo-color gradient\nValues with meaningful midpoint"
   },
   {
-    "objectID": "themes-styling.html#accessibility-checking",
-    "href": "themes-styling.html#accessibility-checking",
+    "objectID": "themes-styling.html#formatting-helpers",
+    "href": "themes-styling.html#formatting-helpers",
     "title": "Themes & Styling",
-    "section": "Accessibility Checking",
-    "text": "Accessibility Checking\n\ncheck_plot_accessibility()\nAnalyze a plot for accessibility issues.\ncheck_plot_accessibility(plot, verbose = TRUE)\nChecks performed: - Text size (readable) - Color contrast (WCAG standards) - Colorblind safety - Data-to-ink ratio\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point() +\n  scale_color_cpal(\"main_3\") +\n  theme_cpal()\n\ncheck_plot_accessibility(p)\n#&gt; ✓ All colors pass WCAG AA\n#&gt; ✓ Color palette is colorblind-safe\n#&gt; Overall: PASS"
+    "section": "Formatting Helpers",
+    "text": "Formatting Helpers\n\n\n\n\n\n\n\nFunction\nPurpose\n\n\n\n\nhc_tooltip_cpal(decimals, prefix, suffix)\nFormat tooltip values\n\n\nhc_yaxis_cpal(title, prefix, suffix, divide_by)\nFormat y-axis labels\n\n\nhc_cpal_number_format()\nSet US number formatting (commas)\n\n\n\nExample with formatted tooltip and axis:\n\n\nShow code\ncounty_data &lt;- data.frame(\n  county = c(\"Dallas\", \"Tarrant\", \"Collin\", \"Denton\"),\n  population = c(2600000, 2100000, 1100000, 950000)\n)\n\nhchart(county_data, \"bar\", hcaes(x = county, y = population), name = \"Population\") |&gt;\n  hc_cpal_theme() |&gt;\n  hc_title(text = \"North Texas County Population\") |&gt;\n  hc_yaxis_cpal(title = \"Population\", suffix = \"M\", divide_by = 1000000) |&gt;\n  hc_tooltip_cpal(suffix = \" residents\") |&gt;\n  hc_add_cpal_logo()"
   },
   {
-    "objectID": "themes-styling.html#quick-reference",
-    "href": "themes-styling.html#quick-reference",
+    "objectID": "themes-styling.html#adding-the-cpal-logo-1",
+    "href": "themes-styling.html#adding-the-cpal-logo-1",
     "title": "Themes & Styling",
-    "section": "Quick Reference",
-    "text": "Quick Reference\n\nggplot2 Functions\n\n\n\nFunction\nPurpose\n\n\n\n\ntheme_cpal()\nDefault CPAL theme\n\n\ntheme_cpal_dark()\nDark background theme\n\n\ntheme_cpal_minimal()\nMinimal styling\n\n\ntheme_cpal_classic()\nTraditional with axis lines\n\n\ntheme_cpal_print()\nPrint-optimized\n\n\ntheme_cpal_map()\nGeographic visualizations\n\n\ntheme_cpal_switch()\nReactive light/dark switching\n\n\nset_theme_cpal()\nSet session default\n\n\npreview_cpal_themes()\nCompare all themes\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL branding\n\n\ncheck_plot_accessibility()\nCheck accessibility\n\n\n\n\n\nHighcharter Functions\n\n\n\nFunction\nPurpose\n\n\n\n\nhc_cpal_theme()\nApply CPAL theme to chart\n\n\nhc_theme_cpal_light()\nLight mode theme object\n\n\nhc_theme_cpal_dark()\nDark mode theme object\n\n\nhc_theme_cpal_switch()\nReactive theme switching\n\n\nhc_colors_cpal()\nApply CPAL color palette\n\n\nhc_add_cpal_logo()\nAdd CPAL branding"
+    "section": "Adding the CPAL Logo",
+    "text": "Adding the CPAL Logo\nThe hc_add_cpal_logo() function adds CPAL branding to Highcharter outputs. The logo is positioned in the bottom-right corner by default and automatically renders as a clickable link to the CPAL website.\n\nBasic Usage\nAdd the logo as the final step in your Highcharter pipeline:\n\n\nShow code\ntrend_data &lt;- data.frame(\n  year = 2019:2024,\n  rate = c(18.2, 19.1, 17.8, 16.5, 15.9, 14.8)\n)\n\nhchart(trend_data, \"line\", hcaes(x = year, y = rate), name = \"Child Poverty Rate\") |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Child Poverty Rate Trend\") |&gt;\n  hc_subtitle(text = \"Dallas County, 2019-2024\") |&gt;\n  hc_yAxis(title = list(text = \"Poverty Rate (%)\"), min = 0) |&gt;\n  hc_xAxis(title = list(text = \"Year\")) |&gt;\n  hc_add_cpal_logo()\n\n\n\n\n\n\n\n\nLight vs Dark Mode\nThe mode parameter controls which logo variant is used. Use \"dark\" when your chart has a dark background to ensure the logo remains visible:\n\n\nShow code\nhchart(trend_data, \"area\", hcaes(x = year, y = rate), name = \"Child Poverty Rate\") |&gt;\n  hc_cpal_theme(\"dark\") |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Child Poverty Rate Trend (Dark Mode)\") |&gt;\n  hc_yAxis(title = list(text = \"Poverty Rate (%)\"), min = 0) |&gt;\n  hc_add_cpal_logo(mode = \"dark\")\n\n\n\n\n\n\n\n\n\nMode\nLogo Variant\nUse When\n\n\n\n\n\"light\"\nDark logo (default)\nLight/white chart backgrounds\n\n\n\"dark\"\nWhite logo\nDark chart backgrounds"
+  },
+  {
+    "objectID": "themes-styling.html#saving-ggplot2-plots",
+    "href": "themes-styling.html#saving-ggplot2-plots",
+    "title": "Themes & Styling",
+    "section": "Saving ggplot2 Plots",
+    "text": "Saving ggplot2 Plots\nExport ggplot2 visualizations as static image files when you need to embed charts in Word documents, PowerPoint presentations, PDF reports, or send them via email. Static images are universally viewable, don’t require special software, and maintain consistent appearance across all devices.\nUse save_cpal_plot() for consistent output dimensions:\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg)) +\n  geom_point(color = \"#006878\") +\n  theme_cpal()\n\n# Default size (8x5 inches)\nsave_cpal_plot(p, \"plot.png\")\n\n# For presentations\nsave_cpal_plot(p, \"slide.png\", size = \"slide\")\n\n# Custom dimensions\nsave_cpal_plot(p, \"custom.png\", size = c(10, 6))\n\n\n\nSize Presets\n\n\n\nPreset\nDimensions\nUse Case\n\n\n\n\n\"default\"\n8 x 5”\nStandard reports\n\n\n\"slide\"\n10 x 5.625”\n16:9 presentations\n\n\n\"half\"\n4 x 3”\nHalf-width in reports\n\n\n\"third\"\n2.5 x 2”\nDashboard widgets\n\n\n\"square\"\n5 x 5”\nSocial media\n\n\n\"wide\"\n12 x 4”\nBanners, headers\n\n\n\"tall\"\n5 x 8”\nInfographics\n\n\n\n\n\nDPI Recommendations\n\n\n\nDPI\nUse Case\n\n\n\n\n72\nScreen preview, quick drafts\n\n\n150\nWeb images, email\n\n\n300\nStandard print, reports (default)\n\n\n600\nHigh-quality print, publications\n\n\n\n\n\nShow code\n# High-resolution for print\nsave_cpal_plot(p, \"print_quality.png\", dpi = 600)\n\n# Lower resolution for web\nsave_cpal_plot(p, \"web_image.png\", dpi = 150)"
+  },
+  {
+    "objectID": "themes-styling.html#exporting-highcharter-as-html",
+    "href": "themes-styling.html#exporting-highcharter-as-html",
+    "title": "Themes & Styling",
+    "section": "Exporting Highcharter as HTML",
+    "text": "Exporting Highcharter as HTML\nExport Highcharter visualizations as standalone HTML files when you want recipients to interact with the data—hovering for details, zooming into specific regions, or downloading the underlying data. This is ideal for sharing with stakeholders who want to explore the data themselves, embedding in web pages, or creating self-service data portals.\nUnlike static images, HTML exports preserve all interactivity. Recipients can open the file in any web browser without needing R or special software installed.\nSave interactive charts using htmlwidgets::saveWidget():\n\n\nShow code\nlibrary(htmlwidgets)\n\nchart &lt;- hchart(mtcars, \"scatter\", hcaes(x = wt, y = mpg)) |&gt;\n  hc_cpal_theme() |&gt;\n  hc_title(text = \"Interactive Chart\") |&gt;\n  hc_add_cpal_logo()\n\n# Save as self-contained HTML file\nsaveWidget(chart, \"interactive_chart.html\", selfcontained = TRUE)\n\n\nThe selfcontained = TRUE option embeds all JavaScript dependencies, making the file portable and shareable."
+  },
+  {
+    "objectID": "themes-styling.html#why-accessibility-matters",
+    "href": "themes-styling.html#why-accessibility-matters",
+    "title": "Themes & Styling",
+    "section": "Why Accessibility Matters",
+    "text": "Why Accessibility Matters\nCPAL visualizations should be accessible to all users, including those with visual impairments or color vision deficiencies. CPAL color palettes are designed with WCAG compliance in mind."
+  },
+  {
+    "objectID": "themes-styling.html#checking-plot-accessibility",
+    "href": "themes-styling.html#checking-plot-accessibility",
+    "title": "Themes & Styling",
+    "section": "Checking Plot Accessibility",
+    "text": "Checking Plot Accessibility\nUse check_plot_accessibility() to analyze a plot for common accessibility issues:\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  theme_cpal()\n\ncheck_plot_accessibility(p)\n\n\n=== CPAL Plot Accessibility Check ===\n\nText Size:\n  Base size: 14 pt\n  Status: OK PASS \n   Text size is adequate \n\nColor Accessibility:\n  Using CPAL palette: NO No \n   Consider using CPAL color palettes which are colorblind-safe \n\nRecommendations:\n  - Add descriptive titles and captions\n  - Consider using shapes/patterns in addition to colors\n  - Test with colorblindness simulators\n  - Provide alternative text descriptions for web/document use\n\n\nWhat it checks:\n\nText size (minimum 10pt recommended)\nColor contrast against background\nColorblind-safe palette usage\nOverall accessibility score"
+  },
+  {
+    "objectID": "themes-styling.html#ggplot2-functions",
+    "href": "themes-styling.html#ggplot2-functions",
+    "title": "Themes & Styling",
+    "section": "ggplot2 Functions",
+    "text": "ggplot2 Functions\n\n\n\nFunction\nPurpose\n\n\n\n\ntheme_cpal()\nDefault CPAL theme\n\n\ntheme_cpal_dark()\nDark background theme\n\n\ntheme_cpal_minimal()\nMinimal, clean styling\n\n\ntheme_cpal_classic()\nTraditional with axis lines\n\n\ntheme_cpal_print()\nPrint-optimized\n\n\ntheme_cpal_map()\nGeographic visualizations\n\n\nset_theme_cpal()\nSet session-wide default\n\n\ntheme_cpal_switch()\nReactive light/dark (Shiny)\n\n\nmake_theme_reactive()\nCreate reactive theme (Shiny)\n\n\npreview_cpal_themes()\nCompare all theme variants\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL branding\n\n\ncheck_plot_accessibility()\nCheck accessibility"
+  },
+  {
+    "objectID": "themes-styling.html#highcharter-functions",
+    "href": "themes-styling.html#highcharter-functions",
+    "title": "Themes & Styling",
+    "section": "Highcharter Functions",
+    "text": "Highcharter Functions\n\n\n\nFunction\nPurpose\n\n\n\n\nhc_cpal_theme()\nApply theme to chart\n\n\nhc_theme_cpal_light()\nLight mode theme object\n\n\nhc_theme_cpal_dark()\nDark mode theme object\n\n\nhc_theme_cpal_switch()\nReactive theme (Shiny)\n\n\nhc_colors_cpal()\nApply CPAL color palette\n\n\nhc_colorAxis_cpal()\nContinuous color scale\n\n\nhc_tooltip_cpal()\nFormat tooltips\n\n\nhc_yaxis_cpal()\nFormat y-axis labels\n\n\nhc_cpal_number_format()\nUS number formatting\n\n\nhc_add_cpal_logo()\nAdd CPAL branding"
   },
   {
     "objectID": "themes-styling.html#next-steps",
     "href": "themes-styling.html#next-steps",
     "title": "Themes & Styling",
     "section": "Next Steps",
-    "text": "Next Steps\n\nggplot2 Gallery - Static chart examples\nHighcharter Gallery - Interactive chart examples\nColors & Palettes - CPAL color system\nShiny Dashboards - Dashboard theming"
+    "text": "Next Steps\n\nColors & Palettes - CPAL color system and scales\nggplot2 Gallery - Static chart examples\nHighcharter Gallery - Interactive chart examples\nShiny Dashboards - Dashboard theming"
   },
   {
     "objectID": "shiny-dashboards.html",
@@ -312,7 +354,7 @@
     "href": "getting-started.html#initial-setup",
     "title": "Getting Started",
     "section": "Initial Setup",
-    "text": "Initial Setup\n\nLoading the Package\nlibrary(cpaltemplates)\n\n\nFont Setup\nCPAL visualizations use Inter (primary) and Roboto (secondary) fonts from Google Fonts. Run this setup once per R session:\n# Set up fonts for both static and interactive plots\nsetup_cpal_google_fonts()\n\n\n\n\n\n\nPro Tip\n\n\n\nAdd setup_cpal_google_fonts() to your project’s setup script or .Rprofile to ensure fonts are always available.\n\n\n\n\nVerifying Installation\nRun these commands to verify everything is working:\n# Check that colors load correctly\ncpal_colors_primary()\n#&gt;   midnight       teal       pink     orange       gold\n#&gt;  \"#004855\"  \"#007A8C\"  \"#C3257B\"  \"#ED683F\"  \"#AB8C01\"\n\n# Check that themes work\nlibrary(ggplot2)\np &lt;- ggplot(mtcars, aes(wt, mpg)) +\n  geom_point() +\n  theme_cpal()\nprint(p)\n\n# Check font availability\ncpal_font_family()\n#&gt; [1] \"Inter\"  # or \"Roboto\" or \"sans\" if fonts unavailable"
+    "text": "Initial Setup\n\nLoading the Package\nlibrary(cpaltemplates)\n\n\nFont Setup\nCPAL visualizations use Inter (primary) and Roboto (secondary) fonts from Google Fonts. Run this setup once per R session:\n# Set up fonts for both static and interactive plots\nsetup_cpal_google_fonts()\n\n\n\n\n\n\nTip\n\n\n\nAdd setup_cpal_google_fonts() to your project’s setup script or .Rprofile to ensure fonts are always available.\n\n\n\n\nVerifying Installation\nRun these commands to verify everything is working:\n# Check that colors load correctly\ncpal_colors_primary()\n#&gt;   midnight       teal       pink     orange       gold\n#&gt;  \"#004855\"  \"#007A8C\"  \"#C3257B\"  \"#ED683F\"  \"#AB8C01\"\n\n# Check that themes work\nlibrary(ggplot2)\np &lt;- ggplot(mtcars, aes(wt, mpg)) +\n  geom_point() +\n  theme_cpal()\nprint(p)\n\n# Check font availability\ncpal_font_family()\n#&gt; [1] \"Inter\"  # or \"Roboto\" or \"sans\" if fonts unavailable"
   },
   {
     "objectID": "getting-started.html#understanding-the-package-structure",
@@ -334,13 +376,6 @@
     "title": "Getting Started",
     "section": "Next Steps",
     "text": "Next Steps\nNow that you have cpaltemplates set up, explore these guides:\n\nColors & Palettes - Deep dive into the color system\nThemes & Styling - Customize your visualizations\nProject Setup - Create standardized project structures\nggplot2 Gallery - Example charts with code\nHighcharter Gallery - Interactive chart examples"
-  },
-  {
-    "objectID": "getting-started.html#common-setup-issues",
-    "href": "getting-started.html#common-setup-issues",
-    "title": "Getting Started",
-    "section": "Common Setup Issues",
-    "text": "Common Setup Issues\n\nFonts Not Loading\nIf fonts aren’t loading correctly:\n# Force refresh fonts\nsetup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)\n\n# Check what's available\ncpal_font_family(setup = TRUE)\n\n\nPackage Not Found\nIf installation fails:\n# Check R version\nR.version.string\n#&gt; Should be 4.3.0 or higher\n\n# Try with dependencies\nremotes::install_github(\n  \"childpovertyactionlab/cpaltemplates\",\n  dependencies = TRUE\n)\n\n\nInteractive Features Not Working\nFor ggiraph functionality:\n# Install ggiraph and dependencies\ninstall.packages(c(\"ggiraph\", \"gdtools\", \"systemfonts\"))\n\n# Register fonts for interactive use\nif (requireNamespace(\"gdtools\", quietly = TRUE)) {\n  gdtools::register_gfont(\"Inter\")\n  gdtools::register_gfont(\"Roboto\")\n}\nSee the Troubleshooting Guide for more solutions."
   },
   {
     "objectID": "gallery-ggplot2.html",
@@ -760,7 +795,7 @@
     "href": "gallery-highcharter.html#boxplot",
     "title": "Highcharter Chart Gallery",
     "section": "Boxplot",
-    "text": "Boxplot\nWhen to use: Use to compare distributions across groups in a compact form.\n\n\nShow code\n# Calculate boxplot statistics for each group\ngroups &lt;- unique(distribution_data$group)\nboxplot_series &lt;- lapply(groups, function(g) {\n  vals &lt;- distribution_data$value[distribution_data$group == g]\n  stats &lt;- boxplot.stats(vals)\n  list(\n    low = stats$stats[1],\n    q1 = stats$stats[2],\n    median = stats$stats[3],\n    q3 = stats$stats[4],\n    high = stats$stats[5],\n    name = g\n  )\n})\n\nhighchart() |&gt;\n  hc_chart(type = \"boxplot\") |&gt;\n  hc_cpal_theme() |&gt;\n  hc_title(text = \"Value Distribution by Group\") |&gt;\n  hc_subtitle(text = \"Box shows median and quartiles; whiskers show range\") |&gt;\n  hc_xAxis(categories = groups, title = list(text = \"Group\")) |&gt;\n  hc_yAxis(title = list(text = \"Value\")) |&gt;\n  hc_add_series(name = groups[1], data = list(boxplot_series[[1]])) |&gt;\n  hc_add_series(name = groups[2], data = list(boxplot_series[[2]])) |&gt;\n  hc_add_series(name = groups[3], data = list(boxplot_series[[3]])) |&gt;\n  hc_add_series(name = groups[4], data = list(boxplot_series[[4]])) |&gt;\n  hc_boxplot_style_cpal() |&gt;\n  hc_add_cpal_logo()"
+    "text": "Boxplot\nWhen to use: Use to compare distributions across groups in a compact form.\n\n\nShow code\n# Calculate boxplot statistics for each group\ngroups &lt;- unique(distribution_data$group)\nboxplot_series &lt;- lapply(groups, function(g) {\n  vals &lt;- distribution_data$value[distribution_data$group == g]\n  stats &lt;- boxplot.stats(vals)\n  list(\n    low = stats$stats[1],\n    q1 = stats$stats[2],\n    median = stats$stats[3],\n    q3 = stats$stats[4],\n    high = stats$stats[5],\n    name = g\n  )\n})\n\nhighchart() |&gt;\n  hc_chart(type = \"boxplot\") |&gt;\n  hc_cpal_theme() |&gt;\n  hc_title(text = \"Value Distribution by Group\") |&gt;\n  hc_subtitle(text = \"Box shows median and quartiles; whiskers show range\") |&gt;\n  hc_xAxis(categories = groups, title = list(text = \"Group\")) |&gt;\n  hc_yAxis(title = list(text = \"Value\")) |&gt;\n  hc_add_series(name = groups[1], data = list(boxplot_series[[1]])) |&gt;\n  hc_add_series(name = groups[2], data = list(boxplot_series[[2]])) |&gt;\n  hc_add_series(name = groups[3], data = list(boxplot_series[[3]])) |&gt;\n  hc_add_series(name = groups[4], data = list(boxplot_series[[4]])) |&gt;\n  hc_boxplot_style_cpal() |&gt;\n  hc_tooltip_cpal(\n    point_format = paste0(\n      \"&lt;b&gt;{series.name}&lt;/b&gt;&lt;br/&gt;\",\n      \"Max: {point.high:.2f}&lt;br/&gt;\",\n      \"Q3: {point.q3:.2f}&lt;br/&gt;\",\n      \"Median: {point.median:.2f}&lt;br/&gt;\",\n      \"Q1: {point.q1:.2f}&lt;br/&gt;\",\n      \"Min: {point.low:.2f}\"\n    )\n  ) |&gt;\n  hc_add_cpal_logo()"
   },
   {
     "objectID": "gallery-highcharter.html#heatmap",
@@ -1076,5 +1111,12 @@
     "title": "Troubleshooting",
     "section": "See Also",
     "text": "See Also\n\nGetting Started - Initial setup\nFunction Reference - All functions\nThemes & Styling - Theme documentation\nUtilities & Helpers - Utility functions"
+  },
+  {
+    "objectID": "themes-styling.html#darklight-mode-switching-for-shiny",
+    "href": "themes-styling.html#darklight-mode-switching-for-shiny",
+    "title": "Themes & Styling",
+    "section": "Dark/Light Mode Switching for Shiny",
+    "text": "Dark/Light Mode Switching for Shiny\nWhen building Shiny apps with dark/light mode toggles, use these reactive theme functions:\nggplot2:\n\n\nShow code\n# Direct switch based on input\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode)  # \"light\" or \"dark\"\n})\n\n# Or create a reusable reactive theme\nserver &lt;- function(input, output, session) {\n  current_theme &lt;- make_theme_reactive(input, toggle_id = \"dark_mode\")\n\n  output$plot &lt;- renderPlot({\n    ggplot(data, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n}\n\n\nHighcharter:\n\n\nShow code\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_cpal_theme(input$dark_mode) |&gt;\n    hc_add_cpal_logo(mode = input$dark_mode)\n})\n\n\nSee Shiny Dashboards for complete examples."
   }
 ]
