@@ -13,6 +13,7 @@ cpal_table_reactable(
   bold_rows = NULL,
   bold_only_rows = NULL,
   data_bar_columns = NULL,
+  static = FALSE,
   searchable = TRUE,
   pagination = TRUE,
   page_size = 10,
@@ -41,17 +42,21 @@ cpal_table_reactable(
 
 \item{data_bar_columns}{Character vector. Names of columns to render as inline data bars.}
 
-\item{searchable}{Logical. Enable a global search bar (default: TRUE).}
+\item{static}{Logical. If TRUE, disables all interactive features (search, pagination,
+sorting, filtering) for a clean, print-friendly appearance. Useful for small tables
+in reports or HTML documents where interactivity is not needed. Default: FALSE.}
 
-\item{pagination}{Logical. Enable pagination (default: TRUE).}
+\item{searchable}{Logical. Enable a global search bar (default: TRUE, ignored if static = TRUE).}
+
+\item{pagination}{Logical. Enable pagination (default: TRUE, ignored if static = TRUE).}
 
 \item{page_size}{Integer. Number of rows per page (default: 10).}
 
-\item{sortable}{Logical. Enable column sorting (default: TRUE).}
+\item{sortable}{Logical. Enable column sorting (default: TRUE, ignored if static = TRUE).}
 
-\item{filterable}{Logical. Enable per-column filtering (default: FALSE).}
+\item{filterable}{Logical. Enable per-column filtering (default: FALSE, ignored if static = TRUE).}
 
-\item{show_page_size_options}{Logical. Show the "rows per page" selector (default: TRUE).}
+\item{show_page_size_options}{Logical. Show the "rows per page" selector (default: TRUE, ignored if static = TRUE).}
 
 \item{striped}{Logical. Enable zebra-striping for rows (default: FALSE).}
 
@@ -63,8 +68,8 @@ cpal_table_reactable(
 A `reactable` HTML widget object.
 }
 \description{
-Creates a CPAL-styled interactive table using `reactable`. This function 
-integrates with the CPAL SCSS theme and provides advanced features like 
+Creates a CPAL-styled interactive table using `reactable`. This function
+integrates with the CPAL SCSS theme and provides advanced features like
 row highlighting and data bars.
 }
 \section{Custom Styling}{

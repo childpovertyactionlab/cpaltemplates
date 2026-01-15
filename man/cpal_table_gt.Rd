@@ -4,7 +4,13 @@
 \alias{cpal_table_gt}
 \title{CPAL GT Table}
 \usage{
-cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL)
+cpal_table_gt(
+  data,
+  title = NULL,
+  subtitle = NULL,
+  source = NULL,
+  striped = FALSE
+)
 }
 \arguments{
 \item{data}{A data frame or tibble.}
@@ -14,16 +20,38 @@ cpal_table_gt(data, title = NULL, subtitle = NULL, source = NULL)
 \item{subtitle}{Character. The subtitle of the table (appears below the title).}
 
 \item{source}{Character. Source attribution text; automatically prefixed with "Source: ".}
+
+\item{striped}{Logical. Enable zebra-striping for rows (default: FALSE).}
 }
 \value{
-A `gt_tbl` object.
+A `gt_tbl` object that can be further customized with gt functions.
 }
 \description{
 Generates a static, publication-quality table using the `gt` framework,
-styled according to CPAL brand guidelines.
+styled according to CPAL brand guidelines. Ideal for PDF export, print
+materials, and scientific publications.
+}
+\details{
+This function applies CPAL brand styling to GT tables:
+\itemize{
+  \item Bold headers with teal top/bottom borders
+  \item Clean typography optimized for print
+  \item Consistent cell padding and alignment
+  \item Optional row striping for readability
+}
+
+Use this function for PDF/print output. For interactive HTML tables,
+use [cpal_table_reactable()] instead.
+}
+\examples{
+# Basic GT table
+cpal_table_gt(head(mtcars), title = "Vehicle Data", source = "Motor Trend")
+
+# With striping
+cpal_table_gt(head(mtcars), title = "Vehicle Data", striped = TRUE)
 }
 \seealso{
-[cpal_table_reactable()] for interactive versions.
+[cpal_table_reactable()] for interactive HTML tables.
 
 Other Tables: 
 \code{\link{cpal_table_reactable}()}

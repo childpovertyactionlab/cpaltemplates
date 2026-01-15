@@ -1,6 +1,6 @@
 ---
 title: "Tables"
-subtitle: "Interactive data tables with CPAL styling"
+subtitle: "Static and interactive data tables with CPAL styling"
 ---
 
 ```{r}
@@ -10,51 +10,50 @@ library(cpaltemplates)
 library(dplyr)
 ```
 
-cpaltemplates provides `cpal_table_reactable()` for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, Shiny applications, and web-based data exploration.
+cpaltemplates provides two table functions for different use cases:
 
-**Why Reactable tables?**
+| Function | Output | Best For |
+|----------|--------|----------|
+| `cpal_table_reactable()` | Interactive HTML | Dashboards, Shiny apps, web exploration |
+| `cpal_table_gt()` | Static/Print | PDF reports, scientific publications, print materials |
 
-- **Bootstrap 5 compatible** - Seamless integration with modern Shiny dashboards and bslib themes
-- **Interactive by default** - Built-in search, sort, filter, and pagination
-- **Responsive design** - Works well across desktop and mobile devices
-- **Accessible** - Keyboard navigation and screen reader support
+Both functions apply consistent CPAL branding: teal header borders, clean typography, and professional styling.
 
 ::: {.callout-tip}
-## When to Use Interactive Tables
-Reactable tables excel when users need to explore data themselves—searching for specific records, sorting by different columns, or filtering to subsets. For simple data display without interactivity, consider standard markdown tables or kable output.
+## Choosing the Right Function
+- **Need interactivity?** (search, sort, filter, pagination) → Use `cpal_table_reactable()`
+- **Need PDF/print output?** → Use `cpal_table_gt()`
+- **Small table in HTML report?** → Use `cpal_table_reactable(static = TRUE)` for clean look without controls
 :::
 
 ---
 
-# Built-in CPAL Styling
+# Reactable Tables (Interactive)
 
-Tables created with `cpal_table_reactable()` automatically include CPAL branding:
+## Overview
 
-| Element | Styling |
-|---------|---------|
-| **Header** | Bold text (1.1rem) with 2px teal borders (top and bottom) |
-| **Rows** | Subtle teal highlight on hover, compact padding by default |
-| **Sorting** | Click headers to sort (arrows hidden for clean look) |
-| **Striped rows** | Light gray alternating background (when enabled) |
-| **Search input** | Teal border with focus ring |
-| **Pagination** | Styled page buttons with active state highlighting |
-| **Title/Subtitle** | Consistent typography with CPAL colors |
-| **Source footer** | Italicized attribution aligned right |
+`cpal_table_reactable()` creates interactive tables ideal for dashboards and web applications. Built on the reactable package, these tables offer:
 
-The styling works automatically in both Quarto documents and Shiny dashboards. In Quarto docs with dark mode enabled, tables automatically adapt their colors for proper contrast.
+- **Bootstrap 5 compatible** - Works with bslib and modern Shiny dashboards
+- **Interactive by default** - Built-in search, sort, filter, and pagination
+- **Responsive design** - Adapts to different screen sizes
+- **Accessible** - Keyboard navigation and screen reader support
 
-::: {.callout-note}
-## Shiny Integration
-In Shiny apps using `cpal_dashboard_theme()`, additional styling is applied through the SCSS theme system for full Bootstrap 5 integration.
-:::
+### Styling Requirements
+
+For full CPAL styling in different contexts:
+
+| Context | Required Setup |
+|---------|----------------|
+| **Quarto docs** | Include `styles.css` in `_quarto.yml` |
+| **Shiny (bslib)** | Use `cpal_dashboard_theme()` - styling automatic |
+| **Shiny (basic)** | Include `cpal-theme.css` in www/ folder |
 
 ---
 
-# Creating Tables
+## Basic Interactive Table
 
-## Basic Table
-
-The simplest usage creates an interactive table with search and pagination enabled by default. Users can click column headers to sort and use the search box to find specific records.
+The default configuration creates a fully interactive table with search, pagination, and sorting.
 
 ```{r}
 #| label: reactable-basic
@@ -72,6 +71,50 @@ mtcars |>
 
 ---
 
+## Static Mode
+
+For small tables where interactivity isn't needed, use `static = TRUE` to create a clean, print-friendly appearance while keeping CPAL styling. This disables search, pagination, sorting, and filtering.
+
+```{r}
+#| label: reactable-static
+#| code-fold: false
+mtcars |>
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp, wt) |>
+  head(8) |>
+  cpal_table_reactable(
+    title = "Fuel Efficiency Summary",
+    subtitle = "Top 8 vehicles by MPG",
+    source = "Motor Trend, 1974",
+    static = TRUE
+  )
+```
+
+Static mode is ideal for:
+- Small reference tables (< 15 rows)
+- Tables embedded in HTML reports
+- Scientific/academic tables in web documents
+- Any situation where you want clean presentation without interactive controls
+
+---
+
+## Built-in CPAL Styling
+
+Tables created with `cpal_table_reactable()` automatically include CPAL branding:
+
+| Element | Styling |
+|---------|---------|
+| **Header** | Bold text (1.1rem) with 2px teal borders (top and bottom) |
+| **Rows** | Subtle teal highlight on hover, compact padding by default |
+| **Sorting** | Click headers to sort (arrows hidden for clean look) |
+| **Striped rows** | Light gray alternating background (when enabled) |
+| **Search input** | Teal border with focus ring |
+| **Pagination** | Styled page buttons with active state highlighting |
+| **Title/Subtitle** | Consistent typography with CPAL colors |
+| **Source footer** | Italicized attribution aligned right |
+
+---
+
 ## Function Reference
 
 ```
@@ -80,60 +123,38 @@ cpal_table_reactable(
   title = NULL,
   subtitle = NULL,
   source = NULL,
-  highlight_columns = NULL,
-  bold_rows = NULL,
-  bold_only_rows = NULL,
-  data_bar_columns = NULL,
+  static = FALSE,
   searchable = TRUE,
   pagination = TRUE,
   page_size = 10,
   sortable = TRUE,
   filterable = FALSE,
-  show_page_size_options = TRUE,
   striped = FALSE,
   compact = TRUE,
   ...
 )
 ```
 
-### Core Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `data` | Data frame to display |
-| `title` | Optional table title displayed above the table |
-| `subtitle` | Optional subtitle displayed below the title |
-| `source` | Optional source attribution displayed in footer |
-
-### Highlighting Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `highlight_columns` | Column names to apply visual highlighting |
-| `bold_rows` | Column name with 1/0 values; 1 triggers highlighted background |
-| `bold_only_rows` | Column name with 1/0 values; 1 triggers bold text only |
-| `data_bar_columns` | Column names to render as inline data bars |
-
-### Interactive Feature Arguments
+### Key Arguments
 
 | Argument | Default | Description |
 |----------|---------|-------------|
+| `static` | `FALSE` | Disable all interactive features for print-friendly output |
 | `searchable` | `TRUE` | Enable global search bar |
 | `pagination` | `TRUE` | Enable pagination |
 | `page_size` | `10` | Rows per page |
 | `sortable` | `TRUE` | Enable column sorting |
 | `filterable` | `FALSE` | Enable per-column filtering |
-| `show_page_size_options` | `TRUE` | Show rows per page selector |
 | `striped` | `FALSE` | Enable zebra-striping for rows |
 | `compact` | `TRUE` | Use reduced cell padding |
 
 ---
 
-# Table Features
+## Interactive Features
 
-## Column Filtering
+### Column Filtering
 
-Enable per-column filters when users need to narrow down data by specific column values. This is especially useful for tables with categorical data like regions, categories, or status fields. Users can filter each column independently while still using the global search.
+Enable per-column filters for tables with categorical data:
 
 ```{r}
 #| label: reactable-filter
@@ -149,11 +170,9 @@ mtcars |>
   )
 ```
 
----
+### Row Highlighting
 
-## Row Highlighting
-
-Use `bold_rows` to draw attention to specific rows based on a condition. This is useful for flagging records that meet certain criteria—high performers, outliers, or items requiring attention. The column should contain 1/0 values where 1 triggers a highlighted background.
+Use `bold_rows` to highlight specific rows based on a condition:
 
 ```{r}
 #| label: reactable-bold-rows
@@ -166,22 +185,16 @@ mtcars |>
   select(car, mpg, cyl, hp, wt, high_performance) |>
   head(15) |>
   cpal_table_reactable(
-    title = "High Performance Vehicles Highlighted",
+    title = "High Performance Vehicles",
     subtitle = "Rows with HP > 200 are highlighted",
     bold_rows = "high_performance",
     page_size = 15
   )
 ```
 
-::: {.callout-note}
-The highlighting column (`high_performance` in this example) is displayed in the table. If you want to hide it, you can remove it from the data after the table processes it, or use reactable's column definitions to hide specific columns.
-:::
+### Striped Display
 
----
-
-## Striped Display
-
-Tables use compact padding by default. Add `striped = TRUE` for zebra-striping to improve readability when scanning across rows in dense tables. Use `compact = FALSE` if you prefer more spacious cell padding.
+Add `striped = TRUE` for zebra-striping:
 
 ```{r}
 #| label: reactable-striped
@@ -200,102 +213,91 @@ mtcars |>
 
 ---
 
-## Pagination Options
+# GT Tables (Static/Print)
 
-Control pagination behavior based on your dataset size. For small datasets (under 15-20 rows), disabling pagination shows all data at once. For large datasets, pagination prevents overwhelming users and improves performance.
+## Overview
+
+`cpal_table_gt()` creates publication-quality static tables using the gt package. These tables are designed for:
+
+- **PDF reports** - Clean rendering in PDF output
+- **Scientific publications** - Professional academic formatting
+- **Print materials** - Optimized for physical printing
+- **Word documents** - Compatible with docx export
+
+GT tables share the same visual styling as reactable tables (teal header borders, consistent typography) but are optimized for static output formats.
+
+---
+
+## Basic GT Table
 
 ```{r}
-#| label: reactable-pagination
+#| label: gt-basic
 #| code-fold: false
-# Small dataset - no pagination needed
 mtcars |>
   mutate(car = rownames(mtcars)) |>
-  select(car, mpg, cyl, hp) |>
-  head(6) |>
-  cpal_table_reactable(
-    title = "Small Dataset",
-    subtitle = "Pagination disabled for small tables",
-    pagination = FALSE,
-    searchable = FALSE
+  select(car, mpg, cyl, hp, wt) |>
+  head(8) |>
+  cpal_table_gt(
+    title = "Vehicle Specifications",
+    subtitle = "Sample data from Motor Trend",
+    source = "Motor Trend, 1974"
   )
 ```
 
-| Dataset Size | Recommendation |
-|--------------|----------------|
-| < 15 rows | Disable pagination (`pagination = FALSE`) |
-| 15-50 rows | Default pagination with 10-15 rows per page |
-| 50-200 rows | Enable filtering (`filterable = TRUE`) |
-| 200+ rows | Consider server-side pagination or data aggregation |
-
 ---
 
-## Complete Example
-
-Combining multiple features for a comprehensive data exploration table. This example demonstrates filtering, row highlighting, and striped display working together.
+## GT Table with Striping
 
 ```{r}
-#| label: complete-example
+#| label: gt-striped
 #| code-fold: false
-# Prepare data with highlight column
-vehicle_data <- mtcars |>
-  mutate(
-    car = rownames(mtcars),
-    efficiency_flag = ifelse(mpg > 25, 1, 0),
-    transmission = ifelse(am == 1, "Manual", "Automatic")
-  ) |>
-  select(car, transmission, mpg, cyl, hp, wt, efficiency_flag)
-
-vehicle_data |>
-  cpal_table_reactable(
-    title = "Complete Vehicle Analysis",
-    subtitle = "Searchable, filterable table with row highlighting",
-    source = "Motor Trend Car Road Tests (1974)",
-    bold_rows = "efficiency_flag",
-    filterable = TRUE,
-    striped = TRUE,
-    page_size = 10
+mtcars |>
+  mutate(car = rownames(mtcars)) |>
+  select(car, mpg, cyl, hp, wt) |>
+  head(10) |>
+  cpal_table_gt(
+    title = "Vehicle Data with Striping",
+    source = "Motor Trend, 1974",
+    striped = TRUE
   )
 ```
 
 ---
 
-# Use Cases
+## Function Reference
 
-## When to Use Reactable Tables
+```
+cpal_table_gt(
+  data,
+  title = NULL,
+  subtitle = NULL,
+  source = NULL,
+  striped = FALSE
+)
+```
 
-| Use Case | Why Reactable Works |
-|----------|---------------------|
-| **Shiny Dashboards** | Bootstrap 5 compatible, reactive-friendly |
-| **Data Exploration** | Search, sort, filter let users find what they need |
-| **Large Datasets** | Pagination handles hundreds of rows efficiently |
-| **Web Applications** | Responsive design works on all screen sizes |
-| **Stakeholder Reports** | Interactive HTML reports users can explore |
+| Argument | Description |
+|----------|-------------|
+| `data` | Data frame to display |
+| `title` | Table title |
+| `subtitle` | Table subtitle |
+| `source` | Source attribution (prefixed with "Source:") |
+| `striped` | Enable zebra-striping (default: FALSE) |
 
-## When to Consider Alternatives
+### Extending GT Tables
 
-| Situation | Better Alternative |
-|-----------|-------------------|
-| PDF/Print reports | Use `knitr::kable()` or `gt` package |
-| Simple 3-5 row tables | Markdown tables |
-| Static documentation | `knitr::kable()` with minimal styling |
-| Very large datasets (10k+ rows) | Server-side pagination or data aggregation |
+Since `cpal_table_gt()` returns a gt object, you can chain additional gt functions:
 
----
-
-# Quick Reference
-
-| Parameter | Purpose | Common Values |
-|-----------|---------|---------------|
-| `title` | Table heading | Any string |
-| `subtitle` | Secondary heading | Any string |
-| `source` | Data attribution | Any string |
-| `filterable` | Column filters | `TRUE` / `FALSE` |
-| `searchable` | Global search | `TRUE` / `FALSE` |
-| `pagination` | Page through rows | `TRUE` / `FALSE` |
-| `page_size` | Rows per page | `10`, `15`, `25`, `50` |
-| `striped` | Zebra rows | `TRUE` / `FALSE` |
-| `compact` | Dense padding | `TRUE` / `FALSE` |
-| `bold_rows` | Highlight rows | Column name with 1/0 |
+```{r}
+#| label: gt-extended
+#| code-fold: false
+#| eval: false
+mtcars |>
+  head(5) |>
+  cpal_table_gt(title = "Custom GT Table") |>
+  gt::fmt_number(columns = mpg, decimals = 1) |>
+  gt::cols_label(mpg = "Miles/Gallon", hp = "Horsepower")
+```
 
 ---
 
