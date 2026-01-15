@@ -942,70 +942,77 @@
     "href": "tables-styling.html",
     "title": "Tables",
     "section": "",
-    "text": "cpaltemplates provides cpal_table_reactable() for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, Shiny applications, and web-based data exploration.\nWhy Reactable tables?"
+    "text": "cpaltemplates provides two table functions for different use cases:\nBoth functions apply consistent CPAL branding: teal header borders, clean typography, and professional styling."
   },
   {
-    "objectID": "tables-styling.html#basic-table",
-    "href": "tables-styling.html#basic-table",
+    "objectID": "tables-styling.html#overview",
+    "href": "tables-styling.html#overview",
     "title": "Tables",
-    "section": "Basic Table",
-    "text": "Basic Table\nThe simplest usage creates an interactive table with search and pagination enabled by default. Users can click column headers to sort and use the search box to find specific records.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"Vehicle Database\",\n    subtitle = \"Sample from mtcars dataset\",\n    source = \"Motor Trend, 1974\"\n  )\n\n\nVehicle Database\nSample from mtcars dataset\n\n\nSource: Motor Trend, 1974"
+    "section": "Overview",
+    "text": "Overview\ncpal_table_reactable() creates interactive tables ideal for dashboards and web applications. Built on the reactable package, these tables offer:\n\nBootstrap 5 compatible - Works with bslib and modern Shiny dashboards\nInteractive by default - Built-in search, sort, filter, and pagination\nResponsive design - Adapts to different screen sizes\nAccessible - Keyboard navigation and screen reader support\n\n\nStyling Requirements\nFor full CPAL styling in different contexts:\n\n\n\nContext\nRequired Setup\n\n\n\n\nQuarto docs\nInclude styles.css in _quarto.yml\n\n\nShiny (bslib)\nUse cpal_dashboard_theme() - styling automatic\n\n\nShiny (basic)\nInclude cpal-theme.css in www/ folder"
+  },
+  {
+    "objectID": "tables-styling.html#basic-interactive-table",
+    "href": "tables-styling.html#basic-interactive-table",
+    "title": "Tables",
+    "section": "Basic Interactive Table",
+    "text": "Basic Interactive Table\nThe default configuration creates a fully interactive table with search, pagination, and sorting.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"Vehicle Database\",\n    subtitle = \"Sample from mtcars dataset\",\n    source = \"Motor Trend, 1974\"\n  )\n\n\nVehicle Database\nSample from mtcars dataset\n\n\nSource: Motor Trend, 1974"
+  },
+  {
+    "objectID": "tables-styling.html#static-mode",
+    "href": "tables-styling.html#static-mode",
+    "title": "Tables",
+    "section": "Static Mode",
+    "text": "Static Mode\nFor small tables where interactivity isn’t needed, use static = TRUE to create a clean, print-friendly appearance while keeping CPAL styling. This disables search, pagination, sorting, and filtering.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  head(8) |&gt;\n  cpal_table_reactable(\n    title = \"Fuel Efficiency Summary\",\n    subtitle = \"Top 8 vehicles by MPG\",\n    source = \"Motor Trend, 1974\",\n    static = TRUE\n  )\n\n\nFuel Efficiency Summary\nTop 8 vehicles by MPG\n\n\nSource: Motor Trend, 1974\n\n\n\nStatic mode is ideal for: - Small reference tables (&lt; 15 rows) - Tables embedded in HTML reports - Scientific/academic tables in web documents - Any situation where you want clean presentation without interactive controls"
+  },
+  {
+    "objectID": "tables-styling.html#built-in-cpal-styling",
+    "href": "tables-styling.html#built-in-cpal-styling",
+    "title": "Tables",
+    "section": "Built-in CPAL Styling",
+    "text": "Built-in CPAL Styling\nTables created with cpal_table_reactable() automatically include CPAL branding:\n\n\n\n\n\n\n\nElement\nStyling\n\n\n\n\nHeader\nBold text (1.1rem) with 2px teal borders (top and bottom)\n\n\nRows\nSubtle teal highlight on hover, compact padding by default\n\n\nSorting\nClick headers to sort (arrows hidden for clean look)\n\n\nStriped rows\nLight gray alternating background (when enabled)\n\n\nSearch input\nTeal border with focus ring\n\n\nPagination\nStyled page buttons with active state highlighting\n\n\nTitle/Subtitle\nConsistent typography with CPAL colors\n\n\nSource footer\nItalicized attribution aligned right"
   },
   {
     "objectID": "tables-styling.html#function-reference",
     "href": "tables-styling.html#function-reference",
     "title": "Tables",
     "section": "Function Reference",
-    "text": "Function Reference\ncpal_table_reactable(\n  data,\n  title = NULL,\n  subtitle = NULL,\n  source = NULL,\n  highlight_columns = NULL,\n  bold_rows = NULL,\n  bold_only_rows = NULL,\n  data_bar_columns = NULL,\n  searchable = TRUE,\n  pagination = TRUE,\n  page_size = 10,\n  sortable = TRUE,\n  filterable = FALSE,\n  show_page_size_options = TRUE,\n  striped = FALSE,\n  compact = FALSE,\n  ...\n)\n\nCore Arguments\n\n\n\nArgument\nDescription\n\n\n\n\ndata\nData frame to display\n\n\ntitle\nOptional table title displayed above the table\n\n\nsubtitle\nOptional subtitle displayed below the title\n\n\nsource\nOptional source attribution displayed in footer\n\n\n\n\n\nHighlighting Arguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nhighlight_columns\nColumn names to apply visual highlighting\n\n\nbold_rows\nColumn name with 1/0 values; 1 triggers highlighted background\n\n\nbold_only_rows\nColumn name with 1/0 values; 1 triggers bold text only\n\n\ndata_bar_columns\nColumn names to render as inline data bars\n\n\n\n\n\nInteractive Feature Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nsearchable\nTRUE\nEnable global search bar\n\n\npagination\nTRUE\nEnable pagination\n\n\npage_size\n10\nRows per page\n\n\nsortable\nTRUE\nEnable column sorting\n\n\nfilterable\nFALSE\nEnable per-column filtering\n\n\nshow_page_size_options\nTRUE\nShow rows per page selector\n\n\nstriped\nFALSE\nEnable zebra-striping for rows\n\n\ncompact\nFALSE\nUse reduced cell padding"
+    "text": "Function Reference\ncpal_table_reactable(\n  data,\n  title = NULL,\n  subtitle = NULL,\n  source = NULL,\n  static = FALSE,\n  searchable = TRUE,\n  pagination = TRUE,\n  page_size = 10,\n  sortable = TRUE,\n  filterable = FALSE,\n  striped = FALSE,\n  compact = TRUE,\n  ...\n)\n\nKey Arguments\n\n\n\n\n\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nstatic\nFALSE\nDisable all interactive features for print-friendly output\n\n\nsearchable\nTRUE\nEnable global search bar\n\n\npagination\nTRUE\nEnable pagination\n\n\npage_size\n10\nRows per page\n\n\nsortable\nTRUE\nEnable column sorting\n\n\nfilterable\nFALSE\nEnable per-column filtering\n\n\nstriped\nFALSE\nEnable zebra-striping for rows\n\n\ncompact\nTRUE\nUse reduced cell padding"
   },
   {
-    "objectID": "tables-styling.html#column-filtering",
-    "href": "tables-styling.html#column-filtering",
+    "objectID": "tables-styling.html#interactive-features",
+    "href": "tables-styling.html#interactive-features",
     "title": "Tables",
-    "section": "Column Filtering",
-    "text": "Column Filtering\nEnable per-column filters when users need to narrow down data by specific column values. This is especially useful for tables with categorical data like regions, categories, or status fields. Users can filter each column independently while still using the global search.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  cpal_table_reactable(\n    title = \"Filterable Table\",\n    subtitle = \"Use column filters to explore data\",\n    filterable = TRUE,\n    page_size = 10\n  )\n\n\nFilterable Table\nUse column filters to explore data"
+    "section": "Interactive Features",
+    "text": "Interactive Features\n\nColumn Filtering\nEnable per-column filters for tables with categorical data:\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  cpal_table_reactable(\n    title = \"Filterable Table\",\n    subtitle = \"Use column filters to explore data\",\n    filterable = TRUE,\n    page_size = 10\n  )\n\n\nFilterable Table\nUse column filters to explore data\n\n\n\n\n\n\n\nRow Highlighting\nUse bold_rows to highlight specific rows based on a condition:\n\nmtcars |&gt;\n  mutate(\n    car = rownames(mtcars),\n    high_performance = ifelse(hp &gt; 200, 1, 0)\n  ) |&gt;\n  select(car, mpg, cyl, hp, wt, high_performance) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"High Performance Vehicles\",\n    subtitle = \"Rows with HP &gt; 200 are highlighted\",\n    bold_rows = \"high_performance\",\n    page_size = 15\n  )\n\n\nHigh Performance Vehicles\nRows with HP &gt; 200 are highlighted\n\n\n\n\n\n\n\nStriped Display\nAdd striped = TRUE for zebra-striping:\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Table\",\n    subtitle = \"Zebra-striping for improved readability\",\n    striped = TRUE,\n    page_size = 12\n  )\n\n\nStriped Table\nZebra-striping for improved readability"
   },
   {
-    "objectID": "tables-styling.html#row-highlighting",
-    "href": "tables-styling.html#row-highlighting",
+    "objectID": "tables-styling.html#overview-1",
+    "href": "tables-styling.html#overview-1",
     "title": "Tables",
-    "section": "Row Highlighting",
-    "text": "Row Highlighting\nUse bold_rows to draw attention to specific rows based on a condition. This is useful for flagging records that meet certain criteria—high performers, outliers, or items requiring attention. The column should contain 1/0 values where 1 triggers a highlighted background.\n\nmtcars |&gt;\n  mutate(\n    car = rownames(mtcars),\n    high_performance = ifelse(hp &gt; 200, 1, 0)\n  ) |&gt;\n  select(car, mpg, cyl, hp, wt, high_performance) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"High Performance Vehicles Highlighted\",\n    subtitle = \"Rows with HP &gt; 200 are highlighted\",\n    bold_rows = \"high_performance\",\n    page_size = 15\n  )\n\n\nHigh Performance Vehicles Highlighted\nRows with HP &gt; 200 are highlighted\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe highlighting column (high_performance in this example) is displayed in the table. If you want to hide it, you can remove it from the data after the table processes it, or use reactable’s column definitions to hide specific columns."
+    "section": "Overview",
+    "text": "Overview\ncpal_table_gt() creates publication-quality static tables using the gt package. These tables are designed for:\n\nPDF reports - Clean rendering in PDF output\nScientific publications - Professional academic formatting\nPrint materials - Optimized for physical printing\nWord documents - Compatible with docx export\n\nGT tables share the same visual styling as reactable tables (teal header borders, consistent typography) but are optimized for static output formats."
   },
   {
-    "objectID": "tables-styling.html#striped-and-compact-display",
-    "href": "tables-styling.html#striped-and-compact-display",
+    "objectID": "tables-styling.html#basic-gt-table",
+    "href": "tables-styling.html#basic-gt-table",
     "title": "Tables",
-    "section": "Striped and Compact Display",
-    "text": "Striped and Compact Display\nUse striped = TRUE for zebra-striping to improve readability when scanning across rows in dense tables. Use compact = TRUE for reduced cell padding when screen space is limited or when displaying many columns.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Compact Table\",\n    subtitle = \"Zebra-striping with reduced padding\",\n    striped = TRUE,\n    compact = TRUE,\n    page_size = 12\n  )\n\n\nStriped Compact Table\nZebra-striping with reduced padding"
+    "section": "Basic GT Table",
+    "text": "Basic GT Table\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  head(8) |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Specifications\",\n    subtitle = \"Sample data from Motor Trend\",\n    source = \"Motor Trend, 1974\"\n  )\n\n\n\n\n\n\n\nVehicle Specifications\n\n\nSample data from Motor Trend\n\n\ncar\nmpg\ncyl\nhp\nwt\n\n\n\n\nMazda RX4\n21.0\n6\n110\n2.620\n\n\nMazda RX4 Wag\n21.0\n6\n110\n2.875\n\n\nDatsun 710\n22.8\n4\n93\n2.320\n\n\nHornet 4 Drive\n21.4\n6\n110\n3.215\n\n\nHornet Sportabout\n18.7\n8\n175\n3.440\n\n\nValiant\n18.1\n6\n105\n3.460\n\n\nDuster 360\n14.3\n8\n245\n3.570\n\n\nMerc 240D\n24.4\n4\n62\n3.190\n\n\n\nSource: Motor Trend, 1974"
   },
   {
-    "objectID": "tables-styling.html#pagination-options",
-    "href": "tables-styling.html#pagination-options",
+    "objectID": "tables-styling.html#gt-table-with-striping",
+    "href": "tables-styling.html#gt-table-with-striping",
     "title": "Tables",
-    "section": "Pagination Options",
-    "text": "Pagination Options\nControl pagination behavior based on your dataset size. For small datasets (under 15-20 rows), disabling pagination shows all data at once. For large datasets, pagination prevents overwhelming users and improves performance.\n\n# Small dataset - no pagination needed\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp) |&gt;\n  head(6) |&gt;\n  cpal_table_reactable(\n    title = \"Small Dataset\",\n    subtitle = \"Pagination disabled for small tables\",\n    pagination = FALSE,\n    searchable = FALSE\n  )\n\n\nSmall Dataset\nPagination disabled for small tables\n\n\n\n\n\n\n\n\nDataset Size\nRecommendation\n\n\n\n\n&lt; 15 rows\nDisable pagination (pagination = FALSE)\n\n\n15-50 rows\nDefault pagination with 10-15 rows per page\n\n\n50-200 rows\nEnable filtering (filterable = TRUE)\n\n\n200+ rows\nConsider server-side pagination or data aggregation"
+    "section": "GT Table with Striping",
+    "text": "GT Table with Striping\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt) |&gt;\n  head(10) |&gt;\n  cpal_table_gt(\n    title = \"Vehicle Data with Striping\",\n    source = \"Motor Trend, 1974\",\n    striped = TRUE\n  )\n\n\n\n\n\n\n\nVehicle Data with Striping\n\n\ncar\nmpg\ncyl\nhp\nwt\n\n\n\n\nMazda RX4\n21.0\n6\n110\n2.620\n\n\nMazda RX4 Wag\n21.0\n6\n110\n2.875\n\n\nDatsun 710\n22.8\n4\n93\n2.320\n\n\nHornet 4 Drive\n21.4\n6\n110\n3.215\n\n\nHornet Sportabout\n18.7\n8\n175\n3.440\n\n\nValiant\n18.1\n6\n105\n3.460\n\n\nDuster 360\n14.3\n8\n245\n3.570\n\n\nMerc 240D\n24.4\n4\n62\n3.190\n\n\nMerc 230\n22.8\n4\n95\n3.150\n\n\nMerc 280\n19.2\n6\n123\n3.440\n\n\n\nSource: Motor Trend, 1974"
   },
   {
-    "objectID": "tables-styling.html#complete-example",
-    "href": "tables-styling.html#complete-example",
+    "objectID": "tables-styling.html#function-reference-1",
+    "href": "tables-styling.html#function-reference-1",
     "title": "Tables",
-    "section": "Complete Example",
-    "text": "Complete Example\nCombining multiple features for a comprehensive data exploration table. This example demonstrates filtering, row highlighting, and striped display working together.\n\n# Prepare data with highlight column\nvehicle_data &lt;- mtcars |&gt;\n  mutate(\n    car = rownames(mtcars),\n    efficiency_flag = ifelse(mpg &gt; 25, 1, 0),\n    transmission = ifelse(am == 1, \"Manual\", \"Automatic\")\n  ) |&gt;\n  select(car, transmission, mpg, cyl, hp, wt, efficiency_flag)\n\nvehicle_data |&gt;\n  cpal_table_reactable(\n    title = \"Complete Vehicle Analysis\",\n    subtitle = \"Searchable, filterable table with row highlighting\",\n    source = \"Motor Trend Car Road Tests (1974)\",\n    bold_rows = \"efficiency_flag\",\n    filterable = TRUE,\n    striped = TRUE,\n    page_size = 10\n  )\n\n\nComplete Vehicle Analysis\nSearchable, filterable table with row highlighting\n\n\nSource: Motor Trend Car Road Tests (1974)"
-  },
-  {
-    "objectID": "tables-styling.html#when-to-use-reactable-tables",
-    "href": "tables-styling.html#when-to-use-reactable-tables",
-    "title": "Tables",
-    "section": "When to Use Reactable Tables",
-    "text": "When to Use Reactable Tables\n\n\n\n\n\n\n\nUse Case\nWhy Reactable Works\n\n\n\n\nShiny Dashboards\nBootstrap 5 compatible, reactive-friendly\n\n\nData Exploration\nSearch, sort, filter let users find what they need\n\n\nLarge Datasets\nPagination handles hundreds of rows efficiently\n\n\nWeb Applications\nResponsive design works on all screen sizes\n\n\nStakeholder Reports\nInteractive HTML reports users can explore"
-  },
-  {
-    "objectID": "tables-styling.html#when-to-consider-alternatives",
-    "href": "tables-styling.html#when-to-consider-alternatives",
-    "title": "Tables",
-    "section": "When to Consider Alternatives",
-    "text": "When to Consider Alternatives\n\n\n\n\n\n\n\nSituation\nBetter Alternative\n\n\n\n\nPDF/Print reports\nUse knitr::kable() or gt package\n\n\nSimple 3-5 row tables\nMarkdown tables\n\n\nStatic documentation\nknitr::kable() with minimal styling\n\n\nVery large datasets (10k+ rows)\nServer-side pagination or data aggregation"
+    "section": "Function Reference",
+    "text": "Function Reference\ncpal_table_gt(\n  data,\n  title = NULL,\n  subtitle = NULL,\n  source = NULL,\n  striped = FALSE\n)\n\n\n\nArgument\nDescription\n\n\n\n\ndata\nData frame to display\n\n\ntitle\nTable title\n\n\nsubtitle\nTable subtitle\n\n\nsource\nSource attribution (prefixed with “Source:”)\n\n\nstriped\nEnable zebra-striping (default: FALSE)\n\n\n\n\nExtending GT Tables\nSince cpal_table_gt() returns a gt object, you can chain additional gt functions:\n\nmtcars |&gt;\n  head(5) |&gt;\n  cpal_table_gt(title = \"Custom GT Table\") |&gt;\n  gt::fmt_number(columns = mpg, decimals = 1) |&gt;\n  gt::cols_label(mpg = \"Miles/Gallon\", hp = \"Horsepower\")"
   },
   {
     "objectID": "tables-styling.html#next-steps",
