@@ -133,6 +133,13 @@
     "text": "Adding the CPAL Logo\nThe hc_add_cpal_logo() function adds CPAL branding to Highcharter outputs. The logo is positioned in the bottom-right corner by default and automatically renders as a clickable link to the CPAL website.\n\nBasic Usage\nAdd the logo as the final step in your Highcharter pipeline:\n\n\nShow code\ntrend_data &lt;- data.frame(\n  year = 2019:2024,\n  rate = c(18.2, 19.1, 17.8, 16.5, 15.9, 14.8)\n)\n\nhchart(trend_data, \"line\", hcaes(x = year, y = rate), name = \"Child Poverty Rate\") |&gt;\n  hc_cpal_theme() |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Child Poverty Rate Trend\") |&gt;\n  hc_subtitle(text = \"Dallas County, 2019-2024\") |&gt;\n  hc_yAxis(title = list(text = \"Poverty Rate (%)\"), min = 0) |&gt;\n  hc_xAxis(title = list(text = \"Year\")) |&gt;\n  hc_add_cpal_logo()\n\n\n\n\n\n\n\n\nLight vs Dark Mode\nThe mode parameter controls which logo variant is used. Use \"dark\" when your chart has a dark background to ensure the logo remains visible:\n\n\nShow code\nhchart(trend_data, \"area\", hcaes(x = year, y = rate), name = \"Child Poverty Rate\") |&gt;\n  hc_cpal_theme(\"dark\") |&gt;\n  hc_colors_cpal() |&gt;\n  hc_title(text = \"Child Poverty Rate Trend (Dark Mode)\") |&gt;\n  hc_yAxis(title = list(text = \"Poverty Rate (%)\"), min = 0) |&gt;\n  hc_add_cpal_logo(mode = \"dark\")\n\n\n\n\n\n\n\n\n\nMode\nLogo Variant\nUse When\n\n\n\n\n\"light\"\nDark logo (default)\nLight/white chart backgrounds\n\n\n\"dark\"\nWhite logo\nDark chart backgrounds"
   },
   {
+    "objectID": "themes-styling.html#darklight-mode-switching-for-shiny",
+    "href": "themes-styling.html#darklight-mode-switching-for-shiny",
+    "title": "Themes & Styling",
+    "section": "Dark/Light Mode Switching for Shiny",
+    "text": "Dark/Light Mode Switching for Shiny\nWhen building Shiny apps with dark/light mode toggles, use these reactive theme functions:\nggplot2:\n\n\nShow code\n# Direct switch based on input\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode)  # \"light\" or \"dark\"\n})\n\n# Or create a reusable reactive theme\nserver &lt;- function(input, output, session) {\n  current_theme &lt;- make_theme_reactive(input, toggle_id = \"dark_mode\")\n\n  output$plot &lt;- renderPlot({\n    ggplot(data, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n}\n\n\nHighcharter:\n\n\nShow code\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_cpal_theme(input$dark_mode) |&gt;\n    hc_add_cpal_logo(mode = input$dark_mode)\n})\n\n\nSee Shiny Dashboards for complete examples."
+  },
+  {
     "objectID": "themes-styling.html#saving-ggplot2-plots",
     "href": "themes-styling.html#saving-ggplot2-plots",
     "title": "Themes & Styling",
@@ -159,20 +166,6 @@
     "title": "Themes & Styling",
     "section": "Checking Plot Accessibility",
     "text": "Checking Plot Accessibility\nUse check_plot_accessibility() to analyze a plot for common accessibility issues:\n\n\nShow code\np &lt;- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +\n  geom_point(size = 3) +\n  scale_color_cpal() +\n  theme_cpal()\n\ncheck_plot_accessibility(p)\n\n\n=== CPAL Plot Accessibility Check ===\n\nText Size:\n  Base size: 14 pt\n  Status: OK PASS \n   Text size is adequate \n\nColor Accessibility:\n  Using CPAL palette: NO No \n   Consider using CPAL color palettes which are colorblind-safe \n\nRecommendations:\n  - Add descriptive titles and captions\n  - Consider using shapes/patterns in addition to colors\n  - Test with colorblindness simulators\n  - Provide alternative text descriptions for web/document use\n\n\nWhat it checks:\n\nText size (minimum 10pt recommended)\nColor contrast against background\nColorblind-safe palette usage\nOverall accessibility score"
-  },
-  {
-    "objectID": "themes-styling.html#ggplot2-functions",
-    "href": "themes-styling.html#ggplot2-functions",
-    "title": "Themes & Styling",
-    "section": "ggplot2 Functions",
-    "text": "ggplot2 Functions\n\n\n\nFunction\nPurpose\n\n\n\n\ntheme_cpal()\nDefault CPAL theme\n\n\ntheme_cpal_dark()\nDark background theme\n\n\ntheme_cpal_minimal()\nMinimal, clean styling\n\n\ntheme_cpal_classic()\nTraditional with axis lines\n\n\ntheme_cpal_print()\nPrint-optimized\n\n\ntheme_cpal_map()\nGeographic visualizations\n\n\nset_theme_cpal()\nSet session-wide default\n\n\ntheme_cpal_switch()\nReactive light/dark (Shiny)\n\n\nmake_theme_reactive()\nCreate reactive theme (Shiny)\n\n\npreview_cpal_themes()\nCompare all theme variants\n\n\nsave_cpal_plot()\nSave with standard dimensions\n\n\nadd_cpal_logo()\nAdd CPAL branding\n\n\ncheck_plot_accessibility()\nCheck accessibility"
-  },
-  {
-    "objectID": "themes-styling.html#highcharter-functions",
-    "href": "themes-styling.html#highcharter-functions",
-    "title": "Themes & Styling",
-    "section": "Highcharter Functions",
-    "text": "Highcharter Functions\n\n\n\nFunction\nPurpose\n\n\n\n\nhc_cpal_theme()\nApply theme to chart\n\n\nhc_theme_cpal_light()\nLight mode theme object\n\n\nhc_theme_cpal_dark()\nDark mode theme object\n\n\nhc_theme_cpal_switch()\nReactive theme (Shiny)\n\n\nhc_colors_cpal()\nApply CPAL color palette\n\n\nhc_colorAxis_cpal()\nContinuous color scale\n\n\nhc_tooltip_cpal()\nFormat tooltips\n\n\nhc_yaxis_cpal()\nFormat y-axis labels\n\n\nhc_cpal_number_format()\nUS number formatting\n\n\nhc_add_cpal_logo()\nAdd CPAL branding"
   },
   {
     "objectID": "themes-styling.html#next-steps",
@@ -952,18 +945,18 @@
     "text": "cpaltemplates provides cpal_table_reactable() for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, Shiny applications, and web-based data exploration.\nWhy Reactable tables?"
   },
   {
-    "objectID": "tables-styling.html#reactable-tables",
-    "href": "tables-styling.html#reactable-tables",
-    "title": "Tables",
-    "section": "Reactable Tables",
-    "text": "Reactable Tables\n\ncpal_table_reactable()\nCreate interactive tables with searching, sorting, and pagination. This function wraps the reactable package with CPAL styling and provides additional features like row highlighting and data bars.\ncpal_table_reactable(\n\ndata,\ntitle = NULL,\nsubtitle = NULL,\nsource = NULL,\nhighlight_columns = NULL,\nbold_rows = NULL,\nbold_only_rows = NULL,\ndata_bar_columns = NULL,\nsearchable = TRUE,\npagination = TRUE,\npage_size = 10,\nsortable = TRUE,\nfilterable = FALSE,\nshow_page_size_options = TRUE,\nstriped = FALSE,\ncompact = FALSE,\n...\n)\n\nArguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\ndata\nData frame to display\n\n\ntitle\nOptional table title\n\n\nsubtitle\nOptional table subtitle\n\n\nsource\nOptional source attribution in footer\n\n\nhighlight_columns\nColumn names to apply highlighting\n\n\nbold_rows\nColumn name with 1/0 values; 1 triggers highlighted background\n\n\nbold_only_rows\nColumn name with 1/0 values; 1 triggers bold text only\n\n\ndata_bar_columns\nColumn names to render as inline data bars\n\n\nsearchable\nEnable global search bar (default: TRUE)\n\n\npagination\nEnable pagination (default: TRUE)\n\n\npage_size\nRows per page (default: 10)\n\n\nsortable\nEnable column sorting (default: TRUE)\n\n\nfilterable\nEnable per-column filtering (default: FALSE)\n\n\nshow_page_size_options\nShow rows per page selector (default: TRUE)\n\n\nstriped\nEnable zebra-striping for rows (default: FALSE)\n\n\ncompact\nUse reduced cell padding (default: FALSE)\n\n\n...\nAdditional arguments passed to reactable::reactable()"
-  },
-  {
     "objectID": "tables-styling.html#basic-table",
     "href": "tables-styling.html#basic-table",
     "title": "Tables",
     "section": "Basic Table",
     "text": "Basic Table\nThe simplest usage creates an interactive table with search and pagination enabled by default. Users can click column headers to sort and use the search box to find specific records.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"Vehicle Database\",\n    subtitle = \"Sample from mtcars dataset\",\n    source = \"Motor Trend, 1974\"\n  )\n\n\nVehicle Database\nSample from mtcars dataset\n\n\nSource: Motor Trend, 1974"
+  },
+  {
+    "objectID": "tables-styling.html#function-reference",
+    "href": "tables-styling.html#function-reference",
+    "title": "Tables",
+    "section": "Function Reference",
+    "text": "Function Reference\ncpal_table_reactable(\n  data,\n  title = NULL,\n  subtitle = NULL,\n  source = NULL,\n  highlight_columns = NULL,\n  bold_rows = NULL,\n  bold_only_rows = NULL,\n  data_bar_columns = NULL,\n  searchable = TRUE,\n  pagination = TRUE,\n  page_size = 10,\n  sortable = TRUE,\n  filterable = FALSE,\n  show_page_size_options = TRUE,\n  striped = FALSE,\n  compact = TRUE,\n  ...\n)\n\nCore Arguments\n\n\n\nArgument\nDescription\n\n\n\n\ndata\nData frame to display\n\n\ntitle\nOptional table title displayed above the table\n\n\nsubtitle\nOptional subtitle displayed below the title\n\n\nsource\nOptional source attribution displayed in footer\n\n\n\n\n\nHighlighting Arguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nhighlight_columns\nColumn names to apply visual highlighting\n\n\nbold_rows\nColumn name with 1/0 values; 1 triggers highlighted background\n\n\nbold_only_rows\nColumn name with 1/0 values; 1 triggers bold text only\n\n\ndata_bar_columns\nColumn names to render as inline data bars\n\n\n\n\n\nInteractive Feature Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nsearchable\nTRUE\nEnable global search bar\n\n\npagination\nTRUE\nEnable pagination\n\n\npage_size\n10\nRows per page\n\n\nsortable\nTRUE\nEnable column sorting\n\n\nfilterable\nFALSE\nEnable per-column filtering\n\n\nshow_page_size_options\nTRUE\nShow rows per page selector\n\n\nstriped\nFALSE\nEnable zebra-striping for rows\n\n\ncompact\nTRUE\nUse reduced cell padding"
   },
   {
     "objectID": "tables-styling.html#column-filtering",
@@ -980,11 +973,11 @@
     "text": "Row Highlighting\nUse bold_rows to draw attention to specific rows based on a condition. This is useful for flagging records that meet certain criteria—high performers, outliers, or items requiring attention. The column should contain 1/0 values where 1 triggers a highlighted background.\n\nmtcars |&gt;\n  mutate(\n    car = rownames(mtcars),\n    high_performance = ifelse(hp &gt; 200, 1, 0)\n  ) |&gt;\n  select(car, mpg, cyl, hp, wt, high_performance) |&gt;\n  head(15) |&gt;\n  cpal_table_reactable(\n    title = \"High Performance Vehicles Highlighted\",\n    subtitle = \"Rows with HP &gt; 200 are highlighted\",\n    bold_rows = \"high_performance\",\n    page_size = 15\n  )\n\n\nHigh Performance Vehicles Highlighted\nRows with HP &gt; 200 are highlighted\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nThe highlighting column (high_performance in this example) is displayed in the table. If you want to hide it, you can remove it from the data after the table processes it, or use reactable’s column definitions to hide specific columns."
   },
   {
-    "objectID": "tables-styling.html#striped-and-compact",
-    "href": "tables-styling.html#striped-and-compact",
+    "objectID": "tables-styling.html#striped-and-compact-display",
+    "href": "tables-styling.html#striped-and-compact-display",
     "title": "Tables",
-    "section": "Striped and Compact",
-    "text": "Striped and Compact\nUse striped = TRUE for zebra-striping to improve readability of dense tables. Use compact = TRUE for reduced cell padding when space is limited.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Compact Table\",\n    subtitle = \"Zebra-striping with reduced padding\",\n    striped = TRUE,\n    compact = TRUE,\n    page_size = 12\n  )\n\n\nStriped Compact Table\nZebra-striping with reduced padding"
+    "section": "Striped and Compact Display",
+    "text": "Striped and Compact Display\nUse striped = TRUE for zebra-striping to improve readability when scanning across rows in dense tables. Use compact = TRUE for reduced cell padding when screen space is limited or when displaying many columns.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Compact Table\",\n    subtitle = \"Zebra-striping with reduced padding\",\n    striped = TRUE,\n    compact = TRUE,\n    page_size = 12\n  )\n\n\nStriped Compact Table\nZebra-striping with reduced padding"
   },
   {
     "objectID": "tables-styling.html#pagination-options",
@@ -1006,6 +999,13 @@
     "title": "Tables",
     "section": "When to Use Reactable Tables",
     "text": "When to Use Reactable Tables\n\n\n\n\n\n\n\nUse Case\nWhy Reactable Works\n\n\n\n\nShiny Dashboards\nBootstrap 5 compatible, reactive-friendly\n\n\nData Exploration\nSearch, sort, filter let users find what they need\n\n\nLarge Datasets\nPagination handles hundreds of rows efficiently\n\n\nWeb Applications\nResponsive design works on all screen sizes\n\n\nStakeholder Reports\nInteractive HTML reports users can explore"
+  },
+  {
+    "objectID": "tables-styling.html#when-to-consider-alternatives",
+    "href": "tables-styling.html#when-to-consider-alternatives",
+    "title": "Tables",
+    "section": "When to Consider Alternatives",
+    "text": "When to Consider Alternatives\n\n\n\n\n\n\n\nSituation\nBetter Alternative\n\n\n\n\nPDF/Print reports\nUse knitr::kable() or gt package\n\n\nSimple 3-5 row tables\nMarkdown tables\n\n\nStatic documentation\nknitr::kable() with minimal styling\n\n\nVery large datasets (10k+ rows)\nServer-side pagination or data aggregation"
   },
   {
     "objectID": "tables-styling.html#next-steps",
@@ -1113,31 +1113,10 @@
     "text": "See Also\n\nGetting Started - Initial setup\nFunction Reference - All functions\nThemes & Styling - Theme documentation\nUtilities & Helpers - Utility functions"
   },
   {
-    "objectID": "themes-styling.html#darklight-mode-switching-for-shiny",
-    "href": "themes-styling.html#darklight-mode-switching-for-shiny",
-    "title": "Themes & Styling",
-    "section": "Dark/Light Mode Switching for Shiny",
-    "text": "Dark/Light Mode Switching for Shiny\nWhen building Shiny apps with dark/light mode toggles, use these reactive theme functions:\nggplot2:\n\n\nShow code\n# Direct switch based on input\noutput$plot &lt;- renderPlot({\n  ggplot(data, aes(x, y)) +\n    geom_point() +\n    theme_cpal_switch(input$dark_mode)  # \"light\" or \"dark\"\n})\n\n# Or create a reusable reactive theme\nserver &lt;- function(input, output, session) {\n  current_theme &lt;- make_theme_reactive(input, toggle_id = \"dark_mode\")\n\n  output$plot &lt;- renderPlot({\n    ggplot(data, aes(x, y)) +\n      geom_point() +\n      current_theme()\n  })\n}\n\n\nHighcharter:\n\n\nShow code\noutput$chart &lt;- renderHighchart({\n  hchart(data, \"column\", hcaes(x = x, y = y)) |&gt;\n    hc_cpal_theme(input$dark_mode) |&gt;\n    hc_add_cpal_logo(mode = input$dark_mode)\n})\n\n\nSee Shiny Dashboards for complete examples."
-  },
-  {
-    "objectID": "tables-styling.html#function-reference",
-    "href": "tables-styling.html#function-reference",
+    "objectID": "tables-styling.html#striped-display",
+    "href": "tables-styling.html#striped-display",
     "title": "Tables",
-    "section": "Function Reference",
-    "text": "Function Reference\ncpal_table_reactable(\n  data,\n  title = NULL,\n  subtitle = NULL,\n  source = NULL,\n  highlight_columns = NULL,\n  bold_rows = NULL,\n  bold_only_rows = NULL,\n  data_bar_columns = NULL,\n  searchable = TRUE,\n  pagination = TRUE,\n  page_size = 10,\n  sortable = TRUE,\n  filterable = FALSE,\n  show_page_size_options = TRUE,\n  striped = FALSE,\n  compact = FALSE,\n  ...\n)\n\nCore Arguments\n\n\n\nArgument\nDescription\n\n\n\n\ndata\nData frame to display\n\n\ntitle\nOptional table title displayed above the table\n\n\nsubtitle\nOptional subtitle displayed below the title\n\n\nsource\nOptional source attribution displayed in footer\n\n\n\n\n\nHighlighting Arguments\n\n\n\n\n\n\n\nArgument\nDescription\n\n\n\n\nhighlight_columns\nColumn names to apply visual highlighting\n\n\nbold_rows\nColumn name with 1/0 values; 1 triggers highlighted background\n\n\nbold_only_rows\nColumn name with 1/0 values; 1 triggers bold text only\n\n\ndata_bar_columns\nColumn names to render as inline data bars\n\n\n\n\n\nInteractive Feature Arguments\n\n\n\nArgument\nDefault\nDescription\n\n\n\n\nsearchable\nTRUE\nEnable global search bar\n\n\npagination\nTRUE\nEnable pagination\n\n\npage_size\n10\nRows per page\n\n\nsortable\nTRUE\nEnable column sorting\n\n\nfilterable\nFALSE\nEnable per-column filtering\n\n\nshow_page_size_options\nTRUE\nShow rows per page selector\n\n\nstriped\nFALSE\nEnable zebra-striping for rows\n\n\ncompact\nFALSE\nUse reduced cell padding"
-  },
-  {
-    "objectID": "tables-styling.html#striped-and-compact-display",
-    "href": "tables-styling.html#striped-and-compact-display",
-    "title": "Tables",
-    "section": "Striped and Compact Display",
-    "text": "Striped and Compact Display\nUse striped = TRUE for zebra-striping to improve readability when scanning across rows in dense tables. Use compact = TRUE for reduced cell padding when screen space is limited or when displaying many columns.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Compact Table\",\n    subtitle = \"Zebra-striping with reduced padding\",\n    striped = TRUE,\n    compact = TRUE,\n    page_size = 12\n  )\n\n\nStriped Compact Table\nZebra-striping with reduced padding"
-  },
-  {
-    "objectID": "tables-styling.html#when-to-consider-alternatives",
-    "href": "tables-styling.html#when-to-consider-alternatives",
-    "title": "Tables",
-    "section": "When to Consider Alternatives",
-    "text": "When to Consider Alternatives\n\n\n\n\n\n\n\nSituation\nBetter Alternative\n\n\n\n\nPDF/Print reports\nUse knitr::kable() or gt package\n\n\nSimple 3-5 row tables\nMarkdown tables\n\n\nStatic documentation\nknitr::kable() with minimal styling\n\n\nVery large datasets (10k+ rows)\nServer-side pagination or data aggregation"
+    "section": "Striped Display",
+    "text": "Striped Display\nTables use compact padding by default. Add striped = TRUE for zebra-striping to improve readability when scanning across rows in dense tables. Use compact = FALSE if you prefer more spacious cell padding.\n\nmtcars |&gt;\n  mutate(car = rownames(mtcars)) |&gt;\n  select(car, mpg, cyl, hp, wt, qsec, drat) |&gt;\n  head(12) |&gt;\n  cpal_table_reactable(\n    title = \"Striped Table\",\n    subtitle = \"Zebra-striping for improved readability\",\n    striped = TRUE,\n    page_size = 12\n  )\n\n\nStriped Table\nZebra-striping for improved readability"
   }
 ]

@@ -32,8 +32,9 @@ Tables created with `cpal_table_reactable()` automatically include CPAL branding
 
 | Element | Styling |
 |---------|---------|
-| **Header** | Bold text with 2px teal borders (top and bottom) |
-| **Rows** | Subtle teal highlight on hover |
+| **Header** | Bold text (1.1rem) with 2px teal borders (top and bottom) |
+| **Rows** | Subtle teal highlight on hover, compact padding by default |
+| **Sorting** | Click headers to sort (arrows hidden for clean look) |
 | **Striped rows** | Light gray alternating background (when enabled) |
 | **Search input** | Teal border with focus ring |
 | **Pagination** | Styled page buttons with active state highlighting |
@@ -90,7 +91,7 @@ cpal_table_reactable(
   filterable = FALSE,
   show_page_size_options = TRUE,
   striped = FALSE,
-  compact = FALSE,
+  compact = TRUE,
   ...
 )
 ```
@@ -124,7 +125,7 @@ cpal_table_reactable(
 | `filterable` | `FALSE` | Enable per-column filtering |
 | `show_page_size_options` | `TRUE` | Show rows per page selector |
 | `striped` | `FALSE` | Enable zebra-striping for rows |
-| `compact` | `FALSE` | Use reduced cell padding |
+| `compact` | `TRUE` | Use reduced cell padding |
 
 ---
 
@@ -178,9 +179,9 @@ The highlighting column (`high_performance` in this example) is displayed in the
 
 ---
 
-## Striped and Compact Display
+## Striped Display
 
-Use `striped = TRUE` for zebra-striping to improve readability when scanning across rows in dense tables. Use `compact = TRUE` for reduced cell padding when screen space is limited or when displaying many columns.
+Tables use compact padding by default. Add `striped = TRUE` for zebra-striping to improve readability when scanning across rows in dense tables. Use `compact = FALSE` if you prefer more spacious cell padding.
 
 ```{r}
 #| label: reactable-striped
@@ -190,10 +191,9 @@ mtcars |>
   select(car, mpg, cyl, hp, wt, qsec, drat) |>
   head(12) |>
   cpal_table_reactable(
-    title = "Striped Compact Table",
-    subtitle = "Zebra-striping with reduced padding",
+    title = "Striped Table",
+    subtitle = "Zebra-striping for improved readability",
     striped = TRUE,
-    compact = TRUE,
     page_size = 12
   )
 ```

@@ -61,7 +61,7 @@ cpal_table_gt <- function(data,
 #' @param filterable Logical. Enable per-column filtering (default: FALSE).
 #' @param show_page_size_options Logical. Show the "rows per page" selector (default: TRUE).
 #' @param striped Logical. Enable zebra-striping for rows (default: FALSE).
-#' @param compact Logical. Use reduced cell padding (default: FALSE).
+#' @param compact Logical. Use reduced cell padding (default: TRUE).
 #' @param ... Additional arguments passed to [reactable::reactable()].
 #'
 #' @return A `reactable` HTML widget object.
@@ -106,7 +106,7 @@ cpal_table_reactable <- function(data,
                                  filterable       = FALSE,
                                  show_page_size_options = TRUE,
                                  striped          = FALSE,
-                                 compact          = FALSE,
+                                 compact          = TRUE,
                                  ...) {
   # Load required packages
   if (!requireNamespace("reactable", quietly = TRUE)) {
@@ -147,7 +147,7 @@ cpal_table_reactable <- function(data,
   reactable_table <- reactable::reactable(
     data,
     height = 530,
-    showSortable = TRUE,
+    showSortable = FALSE,
     searchable = searchable,
     pagination = pagination,
     defaultPageSize = page_size,
@@ -171,6 +171,7 @@ cpal_table_reactable <- function(data,
       # Header styling with CPAL brand borders
       headerStyle = list(
         fontWeight = "bold",
+        fontSize = "1.1rem",
         textAlign = "center",
         borderTop = paste0("2px solid ", cpal_primary),
         borderBottom = paste0("2px solid ", cpal_primary),

@@ -20,7 +20,7 @@ cpal_table_reactable(
   filterable = FALSE,
   show_page_size_options = TRUE,
   striped = FALSE,
-  compact = FALSE,
+  compact = TRUE,
   ...
 )
 }
@@ -55,7 +55,7 @@ cpal_table_reactable(
 
 \item{striped}{Logical. Enable zebra-striping for rows (default: FALSE).}
 
-\item{compact}{Logical. Use reduced cell padding (default: FALSE).}
+\item{compact}{Logical. Use reduced cell padding (default: TRUE).}
 
 \item{...}{Additional arguments passed to [reactable::reactable()].}
 }
