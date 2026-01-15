@@ -116,6 +116,15 @@ cpal_table_reactable <- function(data,
     stop("Package 'htmltools' is required but not installed.")
   }
 
+
+  # CPAL brand colors for theming
+
+  cpal_primary <- "#006878"
+  cpal_midnight <- "#004855"
+  cpal_border <- "#dee2e6"
+  cpal_highlight <- "rgba(0, 104, 120, 0.08)"
+  cpal_stripe <- "rgba(0, 0, 0, 0.03)"
+
   header_block <- if (!is.null(title) || !is.null(subtitle)) {
     # Use standard CSS classes for header elements instead of inline styles
     htmltools::tags$div(class = "cpal-table-header", if (!is.null(title)) {
@@ -152,18 +161,65 @@ cpal_table_reactable <- function(data,
     # 'reactable-cpal' class is used as a hook for all our SCSS styles
     class = "reactable-cpal",
 
-    # If a custom theme object is still desired for specific reactable options not available via CSS,
-    # it can be defined here without color values
+    # CPAL-styled theme with brand colors and consistent styling
     theme = reactable::reactableTheme(
+      # Base colors
+      borderColor = cpal_border,
+      highlightColor = cpal_highlight,
+      stripedColor = cpal_stripe,
+
+      # Header styling with CPAL brand borders
       headerStyle = list(
         fontWeight = "bold",
         textAlign = "center",
-        borderRadius = "0"
+        borderTop = paste0("2px solid ", cpal_primary),
+        borderBottom = paste0("2px solid ", cpal_primary),
+        padding = "12px 8px"
       ),
 
-      searchInputStyle = list(width = "30%"),
+      # Cell styling
+      cellStyle = list(
+        borderTop = paste0("1px solid ", cpal_border)
+      ),
 
-      pageButtonActiveStyle = list(fontWeight = "700")
+      # Search input styling
+      searchInputStyle = list(
+        width = "30%",
+        border = paste0("1px solid ", cpal_primary),
+        borderRadius = "4px",
+        padding = "6px 12px",
+        "&:focus" = list(
+          outline = "none",
+          boxShadow = "0 0 0 0.2rem rgba(0, 104, 120, 0.25)"
+        )
+      ),
+
+      # Filter input styling (for column filters)
+      filterInputStyle = list(
+        border = paste0("1px solid ", cpal_border),
+        borderRadius = "4px",
+        padding = "4px 8px"
+      ),
+
+      # Pagination styling
+      paginationStyle = list(
+        borderTop = paste0("1px solid ", cpal_border),
+        paddingTop = "12px"
+      ),
+
+      # Page button styling
+      pageButtonStyle = list(
+        borderRadius = "4px",
+        padding = "4px 8px"
+      ),
+      pageButtonActiveStyle = list(
+        fontWeight = "700",
+        backgroundColor = cpal_primary,
+        color = "#FFFFFF"
+      ),
+      pageButtonCurrentStyle = list(
+        fontWeight = "700"
+      )
     ),
     ...
   )

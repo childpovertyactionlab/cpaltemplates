@@ -225,18 +225,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#reactable-tables" id="toc-reactable-tables" class="nav-link active" data-scroll-target="#reactable-tables">Reactable Tables</a>
+  <li><a href="#built-in-cpal-styling" id="toc-built-in-cpal-styling" class="nav-link active" data-scroll-target="#built-in-cpal-styling">Built-in CPAL Styling</a></li>
+  <li><a href="#creating-tables" id="toc-creating-tables" class="nav-link" data-scroll-target="#creating-tables">Creating Tables</a>
   <ul class="collapse">
-  <li><a href="#cpal_table_reactable" id="toc-cpal_table_reactable" class="nav-link" data-scroll-target="#cpal_table_reactable"><code>cpal_table_reactable()</code></a></li>
-  </ul></li>
   <li><a href="#basic-table" id="toc-basic-table" class="nav-link" data-scroll-target="#basic-table">Basic Table</a></li>
+  <li><a href="#function-reference" id="toc-function-reference" class="nav-link" data-scroll-target="#function-reference">Function Reference</a>
+  <ul class="collapse">
+  <li><a href="#core-arguments" id="toc-core-arguments" class="nav-link" data-scroll-target="#core-arguments">Core Arguments</a></li>
+  <li><a href="#highlighting-arguments" id="toc-highlighting-arguments" class="nav-link" data-scroll-target="#highlighting-arguments">Highlighting Arguments</a></li>
+  <li><a href="#interactive-feature-arguments" id="toc-interactive-feature-arguments" class="nav-link" data-scroll-target="#interactive-feature-arguments">Interactive Feature Arguments</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#table-features" id="toc-table-features" class="nav-link" data-scroll-target="#table-features">Table Features</a>
+  <ul class="collapse">
   <li><a href="#column-filtering" id="toc-column-filtering" class="nav-link" data-scroll-target="#column-filtering">Column Filtering</a></li>
   <li><a href="#row-highlighting" id="toc-row-highlighting" class="nav-link" data-scroll-target="#row-highlighting">Row Highlighting</a></li>
-  <li><a href="#striped-and-compact" id="toc-striped-and-compact" class="nav-link" data-scroll-target="#striped-and-compact">Striped and Compact</a></li>
+  <li><a href="#striped-and-compact-display" id="toc-striped-and-compact-display" class="nav-link" data-scroll-target="#striped-and-compact-display">Striped and Compact Display</a></li>
   <li><a href="#pagination-options" id="toc-pagination-options" class="nav-link" data-scroll-target="#pagination-options">Pagination Options</a></li>
   <li><a href="#complete-example" id="toc-complete-example" class="nav-link" data-scroll-target="#complete-example">Complete Example</a></li>
+  </ul></li>
+  <li><a href="#use-cases" id="toc-use-cases" class="nav-link" data-scroll-target="#use-cases">Use Cases</a>
+  <ul class="collapse">
   <li><a href="#when-to-use-reactable-tables" id="toc-when-to-use-reactable-tables" class="nav-link" data-scroll-target="#when-to-use-reactable-tables">When to Use Reactable Tables</a></li>
+  <li><a href="#when-to-consider-alternatives" id="toc-when-to-consider-alternatives" class="nav-link" data-scroll-target="#when-to-consider-alternatives">When to Consider Alternatives</a></li>
+  </ul></li>
+  <li><a href="#quick-reference" id="toc-quick-reference" class="nav-link" data-scroll-target="#quick-reference">Quick Reference</a>
+  <ul class="collapse">
   <li><a href="#next-steps" id="toc-next-steps" class="nav-link" data-scroll-target="#next-steps">Next Steps</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/childpovertyactionlab/cpaltemplates/blob/main/tables-styling.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
@@ -246,7 +262,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Tables</h1>
-<p class="subtitle lead">Interactive tables with CPAL styling</p>
+<p class="subtitle lead">Interactive data tables with CPAL styling</p>
 </div>
 
 
@@ -263,54 +279,136 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="callout callout-style-default callout-warning callout-titled">
+<p>cpaltemplates provides <code>cpal_table_reactable()</code> for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, Shiny applications, and web-based data exploration.</p>
+<p><strong>Why Reactable tables?</strong></p>
+<ul>
+<li><strong>Bootstrap 5 compatible</strong> - Seamless integration with modern Shiny dashboards and bslib themes</li>
+<li><strong>Interactive by default</strong> - Built-in search, sort, filter, and pagination</li>
+<li><strong>Responsive design</strong> - Works well across desktop and mobile devices</li>
+<li><strong>Accessible</strong> - Keyboard navigation and screen reader support</li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Under Review
+When to Use Interactive Tables
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>The table functions documented here are functional but currently under review. The API and styling may be modified in future releases, and this documentation will be updated to reflect those changes.</p>
+<p>Reactable tables excel when users need to explore data themselves—searching for specific records, sorting by different columns, or filtering to subsets. For simple data display without interactivity, consider standard markdown tables or kable output.</p>
 </div>
 </div>
-<p>cpaltemplates provides <code>cpal_table_reactable()</code> for creating interactive, searchable tables styled with CPAL branding. Built on the reactable package, these tables are ideal for dashboards, web applications, and data exploration where users need to search, sort, filter, and paginate through data.</p>
-<p>Reactable tables offer several advantages for interactive contexts: built-in search functionality, column sorting, per-column filtering, pagination for large datasets, and responsive design that works well across devices. The CPAL styling ensures consistent branding while maintaining readability and accessibility.</p>
 <hr>
-<section id="reactable-tables" class="level2">
-<h2 class="anchored" data-anchor-id="reactable-tables">Reactable Tables</h2>
-<section id="cpal_table_reactable" class="level3">
-<h3 class="anchored" data-anchor-id="cpal_table_reactable"><code>cpal_table_reactable()</code></h3>
-<p>Create interactive tables with searching, sorting, and pagination. This function wraps the reactable package with CPAL styling and provides additional features like row highlighting and data bars.</p>
-<pre><code>cpal_table_reactable(
-
-data,
-title = NULL,
-subtitle = NULL,
-source = NULL,
-highlight_columns = NULL,
-bold_rows = NULL,
-bold_only_rows = NULL,
-data_bar_columns = NULL,
-searchable = TRUE,
-pagination = TRUE,
-page_size = 10,
-sortable = TRUE,
-filterable = FALSE,
-show_page_size_options = TRUE,
-striped = FALSE,
-compact = FALSE,
-...
-)</code></pre>
-<section id="arguments" class="level4">
-<h4 class="anchored" data-anchor-id="arguments">Arguments</h4>
+<section id="built-in-cpal-styling" class="level1">
+<h1>Built-in CPAL Styling</h1>
+<p>Tables created with <code>cpal_table_reactable()</code> automatically include CPAL branding:</p>
 <table class="table">
-<colgroup>
-<col style="width: 43%">
-<col style="width: 56%">
-</colgroup>
+<thead>
+<tr class="header">
+<th>Element</th>
+<th>Styling</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Header</strong></td>
+<td>Bold text with 2px teal borders (top and bottom)</td>
+</tr>
+<tr class="even">
+<td><strong>Rows</strong></td>
+<td>Subtle teal highlight on hover</td>
+</tr>
+<tr class="odd">
+<td><strong>Striped rows</strong></td>
+<td>Light gray alternating background (when enabled)</td>
+</tr>
+<tr class="even">
+<td><strong>Search input</strong></td>
+<td>Teal border with focus ring</td>
+</tr>
+<tr class="odd">
+<td><strong>Pagination</strong></td>
+<td>Styled page buttons with active state highlighting</td>
+</tr>
+<tr class="even">
+<td><strong>Title/Subtitle</strong></td>
+<td>Consistent typography with CPAL colors</td>
+</tr>
+<tr class="odd">
+<td><strong>Source footer</strong></td>
+<td>Italicized attribution aligned right</td>
+</tr>
+</tbody>
+</table>
+<p>The styling works automatically in both Quarto documents and Shiny dashboards. In Quarto docs with dark mode enabled, tables automatically adapt their colors for proper contrast.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Shiny Integration
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Shiny apps using <code>cpal_dashboard_theme()</code>, additional styling is applied through the SCSS theme system for full Bootstrap 5 integration.</p>
+</div>
+</div>
+<hr>
+</section>
+<section id="creating-tables" class="level1">
+<h1>Creating Tables</h1>
+<section id="basic-table" class="level2">
+<h2 class="anchored" data-anchor-id="basic-table">Basic Table</h2>
+<p>The simplest usage creates an interactive table with search and pagination enabled by default. Users can click column headers to sort and use the search box to find specific records.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">car =</span> <span class="fu">rownames</span>(mtcars)) <span class="sc">|&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(car, mpg, cyl, hp, wt, qsec) <span class="sc">|&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cpal_table_reactable</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vehicle Database"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Sample from mtcars dataset"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"Motor Trend, 1974"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="cpal-table-header">
+<h3 class="cpal-table-title anchored">Vehicle Database</h3>
+<p class="cpal-table-subtitle">Sample from mtcars dataset</p>
+</div>
+<div id="htmlwidget-33c39d1c38ec009e72a3" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<div class="cpal-table-footer">Source: Motor Trend, 1974</div>
+<script type="application/json" data-for="htmlwidget-33c39d1c38ec009e72a3">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25],"qsec":[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"qsec","name":"qsec","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"913617c5e7dae0c3557013cac15e1201"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<hr>
+</section>
+<section id="function-reference" class="level2">
+<h2 class="anchored" data-anchor-id="function-reference">Function Reference</h2>
+<pre><code>cpal_table_reactable(
+  data,
+  title = NULL,
+  subtitle = NULL,
+  source = NULL,
+  highlight_columns = NULL,
+  bold_rows = NULL,
+  bold_only_rows = NULL,
+  data_bar_columns = NULL,
+  searchable = TRUE,
+  pagination = TRUE,
+  page_size = 10,
+  sortable = TRUE,
+  filterable = FALSE,
+  show_page_size_options = TRUE,
+  striped = FALSE,
+  compact = FALSE,
+  ...
+)</code></pre>
+<section id="core-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="core-arguments">Core Arguments</h3>
+<table class="table">
 <thead>
 <tr class="header">
 <th>Argument</th>
@@ -324,19 +422,36 @@ compact = FALSE,
 </tr>
 <tr class="even">
 <td><code>title</code></td>
-<td>Optional table title</td>
+<td>Optional table title displayed above the table</td>
 </tr>
 <tr class="odd">
 <td><code>subtitle</code></td>
-<td>Optional table subtitle</td>
+<td>Optional subtitle displayed below the title</td>
 </tr>
 <tr class="even">
 <td><code>source</code></td>
-<td>Optional source attribution in footer</td>
+<td>Optional source attribution displayed in footer</td>
 </tr>
+</tbody>
+</table>
+</section>
+<section id="highlighting-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="highlighting-arguments">Highlighting Arguments</h3>
+<table class="table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td><code>highlight_columns</code></td>
-<td>Column names to apply highlighting</td>
+<td>Column names to apply visual highlighting</td>
 </tr>
 <tr class="even">
 <td><code>bold_rows</code></td>
@@ -350,41 +465,59 @@ compact = FALSE,
 <td><code>data_bar_columns</code></td>
 <td>Column names to render as inline data bars</td>
 </tr>
+</tbody>
+</table>
+</section>
+<section id="interactive-feature-arguments" class="level3">
+<h3 class="anchored" data-anchor-id="interactive-feature-arguments">Interactive Feature Arguments</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td><code>searchable</code></td>
-<td>Enable global search bar (default: TRUE)</td>
+<td><code>TRUE</code></td>
+<td>Enable global search bar</td>
 </tr>
 <tr class="even">
 <td><code>pagination</code></td>
-<td>Enable pagination (default: TRUE)</td>
+<td><code>TRUE</code></td>
+<td>Enable pagination</td>
 </tr>
 <tr class="odd">
 <td><code>page_size</code></td>
-<td>Rows per page (default: 10)</td>
+<td><code>10</code></td>
+<td>Rows per page</td>
 </tr>
 <tr class="even">
 <td><code>sortable</code></td>
-<td>Enable column sorting (default: TRUE)</td>
+<td><code>TRUE</code></td>
+<td>Enable column sorting</td>
 </tr>
 <tr class="odd">
 <td><code>filterable</code></td>
-<td>Enable per-column filtering (default: FALSE)</td>
+<td><code>FALSE</code></td>
+<td>Enable per-column filtering</td>
 </tr>
 <tr class="even">
 <td><code>show_page_size_options</code></td>
-<td>Show rows per page selector (default: TRUE)</td>
+<td><code>TRUE</code></td>
+<td>Show rows per page selector</td>
 </tr>
 <tr class="odd">
 <td><code>striped</code></td>
-<td>Enable zebra-striping for rows (default: FALSE)</td>
+<td><code>FALSE</code></td>
+<td>Enable zebra-striping for rows</td>
 </tr>
 <tr class="even">
 <td><code>compact</code></td>
-<td>Use reduced cell padding (default: FALSE)</td>
-</tr>
-<tr class="odd">
-<td><code>...</code></td>
-<td>Additional arguments passed to <code>reactable::reactable()</code></td>
+<td><code>FALSE</code></td>
+<td>Use reduced cell padding</td>
 </tr>
 </tbody>
 </table>
@@ -392,36 +525,12 @@ compact = FALSE,
 </section>
 </section>
 </section>
-<section id="basic-table" class="level2">
-<h2 class="anchored" data-anchor-id="basic-table">Basic Table</h2>
-<p>The simplest usage creates an interactive table with search and pagination enabled by default.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">car =</span> <span class="fu">rownames</span>(mtcars)) <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(car, mpg, cyl, hp, wt, qsec) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">15</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cpal_table_reactable</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Vehicle Database"</span>,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Sample from mtcars dataset"</span>,</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">source =</span> <span class="st">"Motor Trend, 1974"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="cpal-table-header">
-<h3 class="cpal-table-title anchored">Vehicle Database</h3>
-<p class="cpal-table-subtitle">Sample from mtcars dataset</p>
-</div>
-<div id="htmlwidget-7a39eaf172279ff8818f" class="reactable html-widget" style="width:auto;height:530px;"></div>
-<div class="cpal-table-footer">Source: Motor Trend, 1974</div>
-<script type="application/json" data-for="htmlwidget-7a39eaf172279ff8818f">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25],"qsec":[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4,17.6,18,17.98]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"qsec","name":"qsec","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"913617c5e7dae0c3557013cac15e1201"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
-<hr>
-</section>
+<section id="table-features" class="level1">
+<h1>Table Features</h1>
 <section id="column-filtering" class="level2">
 <h2 class="anchored" data-anchor-id="column-filtering">Column Filtering</h2>
-<p>Enable per-column filters for more granular data exploration. Users can filter each column independently while still using the global search.</p>
-<div class="cell">
+<p>Enable per-column filters when users need to narrow down data by specific column values. This is especially useful for tables with categorical data like regions, categories, or status fields. Users can filter each column independently while still using the global search.</p>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">car =</span> <span class="fu">rownames</span>(mtcars)) <span class="sc">|&gt;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(car, mpg, cyl, hp, wt) <span class="sc">|&gt;</span></span>
@@ -436,16 +545,16 @@ compact = FALSE,
 <h3 class="cpal-table-title anchored">Filterable Table</h3>
 <p class="cpal-table-subtitle">Use column filters to explore data</p>
 </div>
-<div id="htmlwidget-43b11b798a931f4b71ba" class="reactable html-widget" style="width:auto;height:530px;"></div>
-<script type="application/json" data-for="htmlwidget-43b11b798a931f4b71ba">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"fe32ead02f796b11c3822f29c0a6669f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-11801416bc69cd84b572" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<script type="application/json" data-for="htmlwidget-11801416bc69cd84b572">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"fe32ead02f796b11c3822f29c0a6669f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <hr>
 </section>
 <section id="row-highlighting" class="level2">
 <h2 class="anchored" data-anchor-id="row-highlighting">Row Highlighting</h2>
-<p>Use <code>bold_rows</code> to highlight entire rows based on a condition. The column should contain 1/0 values where 1 triggers a highlighted background.</p>
-<div class="cell">
+<p>Use <code>bold_rows</code> to draw attention to specific rows based on a condition. This is useful for flagging records that meet certain criteria—high performers, outliers, or items requiring attention. The column should contain 1/0 values where 1 triggers a highlighted background.</p>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">car =</span> <span class="fu">rownames</span>(mtcars),</span>
@@ -464,16 +573,29 @@ compact = FALSE,
 <h3 class="cpal-table-title anchored">High Performance Vehicles Highlighted</h3>
 <p class="cpal-table-subtitle">Rows with HP &gt; 200 are highlighted</p>
 </div>
-<div id="htmlwidget-07302d41de20b371c666" class="reactable html-widget" style="width:auto;height:530px;"></div>
-<script type="application/json" data-for="htmlwidget-07302d41de20b371c666">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25],"high_performance":[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"high_performance","name":"high_performance","type":"numeric"}],"searchable":true,"defaultPageSize":15,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"aed4959b1215ac86b76a84593f978065"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3ec53458e6fe5d038376" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<script type="application/json" data-for="htmlwidget-3ec53458e6fe5d038376">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25],"high_performance":[0,0,0,0,0,0,1,0,0,0,0,0,0,0,1]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"high_performance","name":"high_performance","type":"numeric"}],"searchable":true,"defaultPageSize":15,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"aed4959b1215ac86b76a84593f978065"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The highlighting column (<code>high_performance</code> in this example) is displayed in the table. If you want to hide it, you can remove it from the data after the table processes it, or use reactable’s column definitions to hide specific columns.</p>
 </div>
 </div>
 <hr>
 </section>
-<section id="striped-and-compact" class="level2">
-<h2 class="anchored" data-anchor-id="striped-and-compact">Striped and Compact</h2>
-<p>Use <code>striped = TRUE</code> for zebra-striping to improve readability of dense tables. Use <code>compact = TRUE</code> for reduced cell padding when space is limited.</p>
-<div class="cell">
+<section id="striped-and-compact-display" class="level2">
+<h2 class="anchored" data-anchor-id="striped-and-compact-display">Striped and Compact Display</h2>
+<p>Use <code>striped = TRUE</code> for zebra-striping to improve readability when scanning across rows in dense tables. Use <code>compact = TRUE</code> for reduced cell padding when screen space is limited or when displaying many columns.</p>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">car =</span> <span class="fu">rownames</span>(mtcars)) <span class="sc">|&gt;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(car, mpg, cyl, hp, wt, qsec, drat) <span class="sc">|&gt;</span></span>
@@ -490,16 +612,16 @@ compact = FALSE,
 <h3 class="cpal-table-title anchored">Striped Compact Table</h3>
 <p class="cpal-table-subtitle">Zebra-striping with reduced padding</p>
 </div>
-<div id="htmlwidget-005ab44a40f4d20a4dda" class="reactable html-widget" style="width:auto;height:530px;"></div>
-<script type="application/json" data-for="htmlwidget-005ab44a40f4d20a4dda">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07],"qsec":[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4],"drat":[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"qsec","name":"qsec","type":"numeric"},{"id":"drat","name":"drat","type":"numeric"}],"searchable":true,"defaultPageSize":12,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"striped":true,"compact":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"d4ba28425792c23d41d20eb6129641a8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-7bfada83b200d5f9d1b5" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<script type="application/json" data-for="htmlwidget-7bfada83b200d5f9d1b5">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8],"hp":[110,110,93,110,175,105,245,62,95,123,123,180],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07],"qsec":[16.46,17.02,18.61,19.44,17.02,20.22,15.84,20,22.9,18.3,18.9,17.4],"drat":[3.9,3.9,3.85,3.08,3.15,2.76,3.21,3.69,3.92,3.92,3.92,3.07]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"qsec","name":"qsec","type":"numeric"},{"id":"drat","name":"drat","type":"numeric"}],"searchable":true,"defaultPageSize":12,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"striped":true,"compact":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"d4ba28425792c23d41d20eb6129641a8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <hr>
 </section>
 <section id="pagination-options" class="level2">
 <h2 class="anchored" data-anchor-id="pagination-options">Pagination Options</h2>
-<p>Control pagination behavior with <code>page_size</code> and <code>show_page_size_options</code>. For smaller datasets, you may want to disable pagination entirely.</p>
-<div class="cell">
+<p>Control pagination behavior based on your dataset size. For small datasets (under 15-20 rows), disabling pagination shows all data at once. For large datasets, pagination prevents overwhelming users and improves performance.</p>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Small dataset - no pagination needed</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>mtcars <span class="sc">|&gt;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">car =</span> <span class="fu">rownames</span>(mtcars)) <span class="sc">|&gt;</span></span>
@@ -516,16 +638,42 @@ compact = FALSE,
 <h3 class="cpal-table-title anchored">Small Dataset</h3>
 <p class="cpal-table-subtitle">Pagination disabled for small tables</p>
 </div>
-<div id="htmlwidget-46588586a86eb9436f41" class="reactable html-widget" style="width:auto;height:530px;"></div>
-<script type="application/json" data-for="htmlwidget-46588586a86eb9436f41">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"mpg":[21,21,22.8,21.4,18.7,18.1],"cyl":[6,6,4,6,8,6],"hp":[110,110,93,110,175,105]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"}],"pagination":false,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"ef9791e39d2fa4a3b57a2cbb476aa818"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-153e961867d920156f51" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<script type="application/json" data-for="htmlwidget-153e961867d920156f51">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant"],"mpg":[21,21,22.8,21.4,18.7,18.1],"cyl":[6,6,4,6,8,6],"hp":[110,110,93,110,175,105]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"}],"pagination":false,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"ef9791e39d2fa4a3b57a2cbb476aa818"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Dataset Size</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt; 15 rows</td>
+<td>Disable pagination (<code>pagination = FALSE</code>)</td>
+</tr>
+<tr class="even">
+<td>15-50 rows</td>
+<td>Default pagination with 10-15 rows per page</td>
+</tr>
+<tr class="odd">
+<td>50-200 rows</td>
+<td>Enable filtering (<code>filterable = TRUE</code>)</td>
+</tr>
+<tr class="even">
+<td>200+ rows</td>
+<td>Consider server-side pagination or data aggregation</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 <section id="complete-example" class="level2">
 <h2 class="anchored" data-anchor-id="complete-example">Complete Example</h2>
-<p>Combining multiple features for a comprehensive data exploration table.</p>
-<div class="cell">
+<p>Combining multiple features for a comprehensive data exploration table. This example demonstrates filtering, row highlighting, and striped display working together.</p>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data with highlight column</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>vehicle_data <span class="ot">&lt;-</span> mtcars <span class="sc">|&gt;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
@@ -550,34 +698,162 @@ compact = FALSE,
 <h3 class="cpal-table-title anchored">Complete Vehicle Analysis</h3>
 <p class="cpal-table-subtitle">Searchable, filterable table with row highlighting</p>
 </div>
-<div id="htmlwidget-8d3ff04aa60ae8dc3191" class="reactable html-widget" style="width:auto;height:530px;"></div>
+<div id="htmlwidget-7bd7f109a295b4174288" class="reactable html-widget" style="width:auto;height:530px;"></div>
 <div class="cpal-table-footer">Source: Motor Trend Car Road Tests (1974)</div>
-<script type="application/json" data-for="htmlwidget-8d3ff04aa60ae8dc3191">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"transmission":["Manual","Manual","Manual","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Manual","Manual","Manual","Automatic","Automatic","Automatic","Automatic","Automatic","Manual","Manual","Manual","Manual","Manual","Manual","Manual"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],"efficiency_flag":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"transmission","name":"transmission","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"efficiency_flag","name":"efficiency_flag","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"striped":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"headerStyle":{"fontWeight":"bold","textAlign":"center","borderRadius":"0"},"searchInputStyle":{"width":"30%"},"pageButtonActiveStyle":{"fontWeight":"700"}},"dataKey":"339abc1442230a4670ef4bbc56e13a5a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-7bd7f109a295b4174288">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"car":["Mazda RX4","Mazda RX4 Wag","Datsun 710","Hornet 4 Drive","Hornet Sportabout","Valiant","Duster 360","Merc 240D","Merc 230","Merc 280","Merc 280C","Merc 450SE","Merc 450SL","Merc 450SLC","Cadillac Fleetwood","Lincoln Continental","Chrysler Imperial","Fiat 128","Honda Civic","Toyota Corolla","Toyota Corona","Dodge Challenger","AMC Javelin","Camaro Z28","Pontiac Firebird","Fiat X1-9","Porsche 914-2","Lotus Europa","Ford Pantera L","Ferrari Dino","Maserati Bora","Volvo 142E"],"transmission":["Manual","Manual","Manual","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Automatic","Manual","Manual","Manual","Automatic","Automatic","Automatic","Automatic","Automatic","Manual","Manual","Manual","Manual","Manual","Manual","Manual"],"mpg":[21,21,22.8,21.4,18.7,18.1,14.3,24.4,22.8,19.2,17.8,16.4,17.3,15.2,10.4,10.4,14.7,32.4,30.4,33.9,21.5,15.5,15.2,13.3,19.2,27.3,26,30.4,15.8,19.7,15,21.4],"cyl":[6,6,4,6,8,6,8,4,4,6,6,8,8,8,8,8,8,4,4,4,4,8,8,8,8,4,4,4,8,6,8,4],"hp":[110,110,93,110,175,105,245,62,95,123,123,180,180,180,205,215,230,66,52,65,97,150,150,245,175,66,91,113,264,175,335,109],"wt":[2.62,2.875,2.32,3.215,3.44,3.46,3.57,3.19,3.15,3.44,3.44,4.07,3.73,3.78,5.25,5.424,5.345,2.2,1.615,1.835,2.465,3.52,3.435,3.84,3.845,1.935,2.14,1.513,3.17,2.77,3.57,2.78],"efficiency_flag":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"car","name":"car","type":"character"},{"id":"transmission","name":"transmission","type":"character"},{"id":"mpg","name":"mpg","type":"numeric"},{"id":"cyl","name":"cyl","type":"numeric"},{"id":"hp","name":"hp","type":"numeric"},{"id":"wt","name":"wt","type":"numeric"},{"id":"efficiency_flag","name":"efficiency_flag","type":"numeric"}],"searchable":true,"defaultPageSize":10,"showPageSizeOptions":true,"pageSizeOptions":[10,15,25,50],"highlight":true,"striped":true,"showSortable":true,"className":"reactable-cpal","height":"530px","theme":{"borderColor":"#dee2e6","stripedColor":"rgba(0, 0, 0, 0.03)","highlightColor":"rgba(0, 104, 120, 0.08)","headerStyle":{"fontWeight":"bold","textAlign":"center","borderTop":"2px solid #006878","borderBottom":"2px solid #006878","padding":"12px 8px"},"cellStyle":{"borderTop":"1px solid #dee2e6"},"filterInputStyle":{"border":"1px solid #dee2e6","borderRadius":"4px","padding":"4px 8px"},"searchInputStyle":{"width":"30%","border":"1px solid #006878","borderRadius":"4px","padding":"6px 12px","&:focus":{"outline":"none","boxShadow":"0 0 0 0.2rem rgba(0, 104, 120, 0.25)"}},"paginationStyle":{"borderTop":"1px solid #dee2e6","paddingTop":"12px"},"pageButtonStyle":{"borderRadius":"4px","padding":"4px 8px"},"pageButtonActiveStyle":{"fontWeight":"700","backgroundColor":"#006878","color":"#FFFFFF"},"pageButtonCurrentStyle":{"fontWeight":"700"}},"dataKey":"339abc1442230a4670ef4bbc56e13a5a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <hr>
 </section>
+</section>
+<section id="use-cases" class="level1">
+<h1>Use Cases</h1>
 <section id="when-to-use-reactable-tables" class="level2">
 <h2 class="anchored" data-anchor-id="when-to-use-reactable-tables">When to Use Reactable Tables</h2>
-<p>Reactable tables are best suited for:</p>
-<ul>
-<li><strong>Dashboards</strong> - Interactive exploration of data</li>
-<li><strong>Web applications</strong> - User-facing data displays</li>
-<li><strong>Data exploration</strong> - When users need to search, sort, and filter</li>
-<li><strong>Large datasets</strong> - Pagination handles many rows efficiently</li>
-<li><strong>Shiny apps</strong> - Full interactivity in reactive contexts</li>
-</ul>
-<p>For static reports, PDFs, or publications where interactivity isn’t needed, consider using the <code>gt</code> package directly with custom CPAL styling.</p>
+<table class="table">
+<colgroup>
+<col style="width: 32%">
+<col style="width: 67%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Use Case</th>
+<th>Why Reactable Works</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Shiny Dashboards</strong></td>
+<td>Bootstrap 5 compatible, reactive-friendly</td>
+</tr>
+<tr class="even">
+<td><strong>Data Exploration</strong></td>
+<td>Search, sort, filter let users find what they need</td>
+</tr>
+<tr class="odd">
+<td><strong>Large Datasets</strong></td>
+<td>Pagination handles hundreds of rows efficiently</td>
+</tr>
+<tr class="even">
+<td><strong>Web Applications</strong></td>
+<td>Responsive design works on all screen sizes</td>
+</tr>
+<tr class="odd">
+<td><strong>Stakeholder Reports</strong></td>
+<td>Interactive HTML reports users can explore</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="when-to-consider-alternatives" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-consider-alternatives">When to Consider Alternatives</h2>
+<table class="table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 63%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Better Alternative</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PDF/Print reports</td>
+<td>Use <code>knitr::kable()</code> or <code>gt</code> package</td>
+</tr>
+<tr class="even">
+<td>Simple 3-5 row tables</td>
+<td>Markdown tables</td>
+</tr>
+<tr class="odd">
+<td>Static documentation</td>
+<td><code>knitr::kable()</code> with minimal styling</td>
+</tr>
+<tr class="even">
+<td>Very large datasets (10k+ rows)</td>
+<td>Server-side pagination or data aggregation</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
+</section>
+<section id="quick-reference" class="level1">
+<h1>Quick Reference</h1>
+<table class="table">
+<thead>
+<tr class="header">
+<th>Parameter</th>
+<th>Purpose</th>
+<th>Common Values</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>title</code></td>
+<td>Table heading</td>
+<td>Any string</td>
+</tr>
+<tr class="even">
+<td><code>subtitle</code></td>
+<td>Secondary heading</td>
+<td>Any string</td>
+</tr>
+<tr class="odd">
+<td><code>source</code></td>
+<td>Data attribution</td>
+<td>Any string</td>
+</tr>
+<tr class="even">
+<td><code>filterable</code></td>
+<td>Column filters</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>searchable</code></td>
+<td>Global search</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>pagination</code></td>
+<td>Page through rows</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>page_size</code></td>
+<td>Rows per page</td>
+<td><code>10</code>, <code>15</code>, <code>25</code>, <code>50</code></td>
+</tr>
+<tr class="even">
+<td><code>striped</code></td>
+<td>Zebra rows</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="odd">
+<td><code>compact</code></td>
+<td>Dense padding</td>
+<td><code>TRUE</code> / <code>FALSE</code></td>
+</tr>
+<tr class="even">
+<td><code>bold_rows</code></td>
+<td>Highlight rows</td>
+<td>Column name with 1/0</td>
+</tr>
+</tbody>
+</table>
+<hr>
 <section id="next-steps" class="level2">
 <h2 class="anchored" data-anchor-id="next-steps">Next Steps</h2>
 <ul>
-<li><a href="./shiny-dashboards.html">Shiny Dashboards</a> - Using tables in dashboards</li>
+<li><a href="./shiny-dashboards.html">Shiny Dashboards</a> - Using tables in dashboard layouts</li>
 <li><a href="./themes-styling.html">Themes &amp; Styling</a> - Consistent styling across visualizations</li>
+<li><a href="./colors-palettes.html">Colors &amp; Palettes</a> - CPAL color system</li>
 </ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

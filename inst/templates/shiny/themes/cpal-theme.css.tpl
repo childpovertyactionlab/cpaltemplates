@@ -116,7 +116,7 @@ body {
   color: var(--cpal-midnight);
 }
 
-/* Data tables */
+/* Data tables (DT package) */
 .dataTables_wrapper {
   font-family: "Inter", "Arial", sans-serif;
 }
@@ -135,6 +135,66 @@ table.dataTable thead th {
 
 table.dataTable tbody tr:hover {
   background-color: rgba(0, 128, 151, 0.1);
+}
+
+/* ============================================
+   Reactable Table Styles (CPAL Branding)
+   ============================================ */
+
+/* Base reactable container */
+.reactable-cpal {
+  font-family: inherit;
+}
+
+/* Table header title and subtitle */
+.cpal-table-header {
+  margin-bottom: 1rem;
+}
+
+.cpal-table-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--cpal-midnight);
+}
+
+.cpal-table-subtitle {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin: 0;
+}
+
+/* Table footer/source */
+.cpal-table-footer {
+  font-size: 0.8rem;
+  color: #6c757d;
+  font-style: italic;
+  text-align: right;
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Row hover enhancement */
+.reactable-cpal .rt-tr:hover {
+  background-color: rgba(0, 128, 151, 0.08);
+}
+
+/* Ensure table doesn't have double borders */
+.reactable-cpal .rt-table {
+  border-top: none;
+}
+
+/* Sort indicator styling */
+.reactable-cpal .rt-sort-header:hover {
+  background-color: rgba(0, 128, 151, 0.05);
+}
+
+/* Page size select styling */
+.reactable-cpal .rt-page-size-select {
+  border: 1px solid var(--cpal-teal);
+  border-radius: 4px;
+  padding: 4px 8px;
 }
 
 /* Plotly styling */
