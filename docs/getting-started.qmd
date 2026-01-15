@@ -58,7 +58,7 @@ setup_cpal_google_fonts()
 ```
 
 ::: {.callout-tip}
-## Pro Tip
+## Tip 
 Add `setup_cpal_google_fonts()` to your project's setup script or `.Rprofile` to ensure fonts are always available.
 :::
 
@@ -266,52 +266,3 @@ Now that you have cpaltemplates set up, explore these guides:
 3. **[Project Setup](project-setup.qmd)** - Create standardized project structures
 4. **[ggplot2 Gallery](gallery-ggplot2.qmd)** - Example charts with code
 5. **[Highcharter Gallery](gallery-highcharter.qmd)** - Interactive chart examples
-
----
-
-## Common Setup Issues
-
-### Fonts Not Loading
-
-If fonts aren't loading correctly:
-
-```r
-# Force refresh fonts
-setup_cpal_google_fonts(force_refresh = TRUE, verbose = TRUE)
-
-# Check what's available
-cpal_font_family(setup = TRUE)
-```
-
-### Package Not Found
-
-If installation fails:
-
-```r
-# Check R version
-R.version.string
-#> Should be 4.3.0 or higher
-
-# Try with dependencies
-remotes::install_github(
-  "childpovertyactionlab/cpaltemplates",
-  dependencies = TRUE
-)
-```
-
-### Interactive Features Not Working
-
-For ggiraph functionality:
-
-```r
-# Install ggiraph and dependencies
-install.packages(c("ggiraph", "gdtools", "systemfonts"))
-
-# Register fonts for interactive use
-if (requireNamespace("gdtools", quietly = TRUE)) {
-  gdtools::register_gfont("Inter")
-  gdtools::register_gfont("Roboto")
-}
-```
-
-See the [Troubleshooting Guide](troubleshooting.qmd) for more solutions.

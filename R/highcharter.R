@@ -1352,16 +1352,28 @@ cpal_color <- function(name) {
 #'   hc_boxplot_style_cpal()
 #' }
 hc_boxplot_style_cpal <- function(hc, fill_opacity = 0.7) {
-  palette <- cpal_colors("main")
+  palette <- unname(cpal_colors("main"))
 
+  # Modify each series to have explicit color and fillColor
+
+  if (!is.null(hc$x$hc_opts$series)) {
+    for (i in seq_along(hc$x$hc_opts$series)) {
+      color_index <- ((i - 1) %% length(palette)) + 1
+      base_color <- palette[color_index]
+      # Convert hex to rgba with opacity for fill
+      rgb_vals <- grDevices::col2rgb(base_color)
+      fill_color <- sprintf("rgba(%d, %d, %d, %.1f)",
+                            rgb_vals[1], rgb_vals[2], rgb_vals[3], fill_opacity)
+      # Set both color (for stroke) and fillColor (for fill)
+      hc$x$hc_opts$series[[i]]$color <- base_color
+      hc$x$hc_opts$series[[i]]$fillColor <- fill_color
+    }
+  }
+
+  # Set plotOptions for line styling
   hc |>
-    highcharter::hc_colors(unname(palette)) |>
     highcharter::hc_plotOptions(
       boxplot = list(
-        fillColor = htmlwidgets::JS(sprintf(
-          "Highcharts.color(Highcharts.getOptions().colors[this.colorIndex || 0]).setOpacity(%f).get()",
-          fill_opacity
-        )),
         lineWidth = 2,
         medianWidth = 3,
         whiskerLength = "50%"

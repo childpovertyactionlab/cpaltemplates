@@ -86,5 +86,5 @@ knitr:
   opts_chunk:
     fig.width: 8
     fig.height: 5
-    dpi: 150
+    dpi: 300
     out.width: "80%"

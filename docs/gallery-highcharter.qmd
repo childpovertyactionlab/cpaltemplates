@@ -525,6 +525,16 @@ highchart() |>
   hc_add_series(name = groups[3], data = list(boxplot_series[[3]])) |>
   hc_add_series(name = groups[4], data = list(boxplot_series[[4]])) |>
   hc_boxplot_style_cpal() |>
+  hc_tooltip_cpal(
+    point_format = paste0(
+      "<b>{series.name}</b><br/>",
+      "Max: {point.high:.2f}<br/>",
+      "Q3: {point.q3:.2f}<br/>",
+      "Median: {point.median:.2f}<br/>",
+      "Q1: {point.q1:.2f}<br/>",
+      "Min: {point.low:.2f}"
+    )
+  ) |>
   hc_add_cpal_logo()
 ```
 
