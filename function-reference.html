@@ -35,12 +35,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -137,12 +135,12 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./themes-styling.html">
  <span class="dropdown-text">Themes &amp; Styling</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./tables-styling.html">
  <span class="dropdown-text">Tables (GT &amp; Reactable)</span></a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
@@ -170,7 +168,6 @@ ul.task-list li input[type="checkbox"] {
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -257,11 +254,11 @@ ul.task-list li input[type="checkbox"] {
 <section id="quick-navigation" class="level2">
 <h2 class="anchored" data-anchor-id="quick-navigation">Quick Navigation</h2>
 <ul>
-<li><a href="#color-system">Color System</a> (22 functions)</li>
+<li><a href="#color-system">Color System</a> (25 functions)</li>
 <li><a href="#theme-system">Theme System</a> (11 functions)</li>
-<li><a href="#table-functions">Table Functions</a> (1 function)</li>
+<li><a href="#table-functions">Table Functions</a> (2 functions)</li>
 <li><a href="#highcharter-functions">Highcharter Functions</a> (18 functions)</li>
-<li><a href="#map-functions">Map Functions</a> (2 functions)</li>
+<li><a href="#map-functions">Map Functions</a> (5 functions)</li>
 <li><a href="#project-scaffolding">Project Scaffolding</a> (8 functions)</li>
 <li><a href="#brand-asset-management">Brand &amp; Asset Management</a> (4 functions)</li>
 <li><a href="#utility-functions">Utility Functions</a> (6 functions)</li>
@@ -517,12 +514,12 @@ ul.task-list li input[type="checkbox"] {
 <td>Main CPAL theme with full customization</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_minimal()</code></td>
 <td>Minimal variant with reduced elements</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_classic()</code></td>
 <td>Traditional styling with axis lines</td>
 </tr>
@@ -532,14 +529,19 @@ ul.task-list li input[type="checkbox"] {
 <td>Dark background variant</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_print()</code></td>
 <td>Print-optimized theme</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_map()</code></td>
 <td>Geographic visualization theme</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>theme_cpal_auto()</code></td>
+<td>Thematic-compatible auto theme</td>
 </tr>
 </tbody>
 </table>
@@ -606,19 +608,6 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="table-functions" class="level2">
 <h2 class="anchored" data-anchor-id="table-functions">Table Functions</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Table functions are currently under review. See <a href="./tables-styling.html">Tables</a> for current documentation.</p>
-</div>
-</div>
 <table class="table">
 <colgroup>
 <col style="width: 25%">
@@ -634,9 +623,14 @@ Note
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_table_gt()</code></td>
+<td>Styled GT table (static)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_table_reactable()</code></td>
-<td>Interactive searchable table with CPAL styling</td>
+<td>Styled Reactable (interactive)</td>
 </tr>
 </tbody>
 </table>
@@ -833,19 +827,6 @@ Note
 </section>
 <section id="map-functions" class="level2">
 <h2 class="anchored" data-anchor-id="map-functions">Map Functions</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Map functions are currently under review. See <a href="./maps-geographic.html">Maps &amp; Geographic</a> for current documentation.</p>
-</div>
-</div>
 <table class="table">
 <colgroup>
 <col style="width: 25%">
@@ -861,14 +842,29 @@ Note
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_mapgl()</code></td>
-<td>Create mapgl map with Dallas defaults</td>
+<td>Create styled mapgl map</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
-<td><code>cpal_mapgl_layer()</code></td>
-<td>Add CPAL-styled layer to mapgl</td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>add_cpal_popup_style()</code></td>
+<td>Apply CPAL styling to popup container</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_popup_html()</code></td>
+<td>Generate basic popup HTML content</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_popup_html_metrics()</code></td>
+<td>Generate popup HTML with metrics</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_legend_style()</code></td>
+<td>Get styled legend options for mapgl</td>
 </tr>
 </tbody>
 </table>
@@ -1100,22 +1096,22 @@ Note
 <tr class="odd">
 <td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_dashboard_theme()</code></td>
-<td>Bootstrap 5 theme from _brand.yml</td>
+<td>bslib theme for dashboards</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_shiny()</code></td>
-<td>Legacy Shiny theme (deprecated)</td>
+<td>Initialize Shiny with CPAL theme</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_add_scss_enhancements()</code></td>
-<td>Add enhanced SCSS styling</td>
+<td>Add custom SCSS to theme</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_export_scss()</code></td>
-<td>Export SCSS for custom use</td>
+<td>Export SCSS variables</td>
 </tr>
 </tbody>
 </table>
@@ -1124,6 +1120,10 @@ Note
 <section id="deprecated-functions" class="level2">
 <h2 class="anchored" data-anchor-id="deprecated-functions">Deprecated Functions</h2>
 <table class="table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Function</th>
@@ -1132,12 +1132,28 @@ Note
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>cpal_shiny()</code></td>
-<td><code>cpal_dashboard_theme()</code></td>
+<td><code>cpal_interactive()</code></td>
+<td>Use Highcharter’s <code>hchart()</code> with <code>hc_cpal_theme()</code></td>
 </tr>
 <tr class="even">
-<td><code>theme_cpal_auto()</code></td>
-<td><code>theme_cpal_switch()</code></td>
+<td><code>cpal_point_interactive()</code></td>
+<td>Use Highcharter scatter charts</td>
+</tr>
+<tr class="odd">
+<td><code>cpal_line_interactive()</code></td>
+<td>Use Highcharter line/spline charts</td>
+</tr>
+<tr class="even">
+<td><code>cpal_col_interactive()</code></td>
+<td>Use Highcharter column/bar charts</td>
+</tr>
+<tr class="odd">
+<td><code>cpal_polygon_interactive()</code></td>
+<td>Use Highcharter or mapgl for polygons</td>
+</tr>
+<tr class="even">
+<td><code>cpal_mapgl_layer()</code></td>
+<td>Use mapgl’s native layer functions</td>
 </tr>
 </tbody>
 </table>
@@ -1178,150 +1194,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

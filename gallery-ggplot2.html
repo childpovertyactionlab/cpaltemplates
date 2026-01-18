@@ -69,12 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -171,12 +169,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./themes-styling.html">
  <span class="dropdown-text">Themes &amp; Styling</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./tables-styling.html">
  <span class="dropdown-text">Tables (GT &amp; Reactable)</span></a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
@@ -204,7 +202,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -326,7 +323,7 @@ Code Visibility
 <section id="bar-chart-horizontal" class="level2">
 <h2 class="anchored" data-anchor-id="bar-chart-horizontal">Bar Chart (Horizontal)</h2>
 <p><strong>When to use:</strong> Best for comparing values across categories, especially when category labels are long or when you have many categories.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -347,9 +344,9 @@ Code Visibility
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/bar-chart-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/bar-chart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -358,7 +355,7 @@ Code Visibility
 <section id="column-chart-vertical" class="level2">
 <h2 class="anchored" data-anchor-id="column-chart-vertical">Column Chart (Vertical)</h2>
 <p><strong>When to use:</strong> Ideal for comparing values across a small number of categories (typically 3-8).</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -377,9 +374,9 @@ Code Visibility
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/column-chart-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/column-chart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -388,7 +385,7 @@ Code Visibility
 <section id="line-chart" class="level2">
 <h2 class="anchored" data-anchor-id="line-chart">Line Chart</h2>
 <p><strong>When to use:</strong> Best for showing trends over time or continuous change across an ordered sequence.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_time <span class="sc">|&gt;</span></span>
@@ -409,9 +406,9 @@ Code Visibility
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/line-chart-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/line-chart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -420,7 +417,7 @@ Code Visibility
 <section id="scatter-plot" class="level2">
 <h2 class="anchored" data-anchor-id="scatter-plot">Scatter Plot</h2>
 <p><strong>When to use:</strong> Use to explore the relationship between two continuous variables.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -439,9 +436,9 @@ Code Visibility
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/scatter-plot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/scatter-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -450,7 +447,7 @@ Code Visibility
 <section id="bubble-plot" class="level2">
 <h2 class="anchored" data-anchor-id="bubble-plot">Bubble Plot</h2>
 <p><strong>When to use:</strong> Use when you need to show relationships between three variables simultaneously.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -474,9 +471,9 @@ Code Visibility
 <span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/bubble-plot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/bubble-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -489,7 +486,7 @@ Code Visibility
 <section id="grouped-bar-chart" class="level2">
 <h2 class="anchored" data-anchor-id="grouped-bar-chart">Grouped Bar Chart</h2>
 <p><strong>When to use:</strong> Use when comparing two or more related metrics across the same categories.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -518,9 +515,9 @@ Code Visibility
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/grouped-bar-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/grouped-bar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -529,7 +526,7 @@ Code Visibility
 <section id="stacked-bar-chart" class="level2">
 <h2 class="anchored" data-anchor-id="stacked-bar-chart">Stacked Bar Chart</h2>
 <p><strong>When to use:</strong> Use when showing how parts contribute to a total across categories.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> spending_data <span class="sc">|&gt;</span></span>
@@ -552,9 +549,9 @@ Code Visibility
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/stacked-bar-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/stacked-bar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -563,7 +560,7 @@ Code Visibility
 <section id="stacked-bar-chart-1" class="level2">
 <h2 class="anchored" data-anchor-id="stacked-bar-chart-1">100% Stacked Bar Chart</h2>
 <p><strong>When to use:</strong> Use when comparing the relative composition across categories, regardless of total size.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> spending_data <span class="sc">|&gt;</span></span>
@@ -586,9 +583,9 @@ Code Visibility
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/stacked-100-bar-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/stacked-100-bar-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -601,7 +598,7 @@ Code Visibility
 <section id="basic-area-chart" class="level2">
 <h2 class="anchored" data-anchor-id="basic-area-chart">Basic Area Chart</h2>
 <p><strong>When to use:</strong> Use to emphasize the magnitude or volume of values over time.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> monthly_data <span class="sc">|&gt;</span></span>
@@ -622,9 +619,9 @@ Code Visibility
 <span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/area-chart-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/area-chart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -633,7 +630,7 @@ Code Visibility
 <section id="stacked-area-chart" class="level2">
 <h2 class="anchored" data-anchor-id="stacked-area-chart">Stacked Area Chart</h2>
 <p><strong>When to use:</strong> Use when showing how multiple components contribute to a total over time.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> monthly_data <span class="sc">|&gt;</span></span>
@@ -654,9 +651,9 @@ Code Visibility
 <span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/stacked-area-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/stacked-area-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -669,7 +666,7 @@ Code Visibility
 <section id="histogram" class="level2">
 <h2 class="anchored" data-anchor-id="histogram">Histogram</h2>
 <p><strong>When to use:</strong> Use to understand the distribution of a single continuous variable.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> distribution_data <span class="sc">|&gt;</span></span>
@@ -686,9 +683,9 @@ Code Visibility
 <span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/histogram-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/histogram-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -697,7 +694,7 @@ Code Visibility
 <section id="density-plot" class="level2">
 <h2 class="anchored" data-anchor-id="density-plot">Density Plot</h2>
 <p><strong>When to use:</strong> Use to visualize the probability distribution of continuous data.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> distribution_data <span class="sc">|&gt;</span></span>
@@ -718,9 +715,9 @@ Code Visibility
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/density-plot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/density-plot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -729,7 +726,7 @@ Code Visibility
 <section id="boxplot" class="level2">
 <h2 class="anchored" data-anchor-id="boxplot">Boxplot</h2>
 <p><strong>When to use:</strong> Use to compare distributions across groups in a compact form.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> distribution_data <span class="sc">|&gt;</span></span>
@@ -748,9 +745,9 @@ Code Visibility
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/boxplot-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/boxplot-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -763,7 +760,7 @@ Code Visibility
 <section id="heatmap" class="level2">
 <h2 class="anchored" data-anchor-id="heatmap">Heatmap</h2>
 <p><strong>When to use:</strong> Use to display patterns in data across two categorical dimensions.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>heatmap_data <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
@@ -812,9 +809,9 @@ Code Visibility
 <span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/heatmap-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/heatmap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -823,7 +820,7 @@ Code Visibility
 <section id="correlation-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-matrix">Correlation Matrix</h2>
 <p><strong>When to use:</strong> Use to visualize the strength and direction of relationships between multiple numeric variables.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate correlation matrix</span></span>
@@ -877,9 +874,9 @@ Code Visibility
 <span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/correlogram-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/correlogram-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -892,7 +889,7 @@ Code Visibility
 <section id="donut-chart" class="level2">
 <h2 class="anchored" data-anchor-id="donut-chart">Donut Chart</h2>
 <p><strong>When to use:</strong> Use to show proportions of a whole when you have 2-5 categories.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>region_pop <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -938,9 +935,9 @@ Code Visibility
 <span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/donut-chart-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/donut-chart-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -949,7 +946,7 @@ Code Visibility
 <section id="treemap" class="level2">
 <h2 class="anchored" data-anchor-id="treemap">Treemap</h2>
 <p><strong>When to use:</strong> Use to show hierarchical part-to-whole relationships where size represents a quantitative value.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> budget_data <span class="sc">|&gt;</span></span>
@@ -970,9 +967,9 @@ Code Visibility
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/treemap-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/treemap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -985,7 +982,7 @@ Code Visibility
 <section id="lollipop-chart" class="level2">
 <h2 class="anchored" data-anchor-id="lollipop-chart">Lollipop Chart</h2>
 <p><strong>When to use:</strong> Use as a cleaner alternative to bar charts when you have many categories.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_counties <span class="sc">|&gt;</span></span>
@@ -1011,9 +1008,9 @@ Code Visibility
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/lollipop-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/lollipop-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1022,7 +1019,7 @@ Code Visibility
 <section id="ribbonrange-chart" class="level2">
 <h2 class="anchored" data-anchor-id="ribbonrange-chart">Ribbon/Range Chart</h2>
 <p><strong>When to use:</strong> Use when presenting estimates that have uncertainty.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>range_data <span class="ot">&lt;-</span> tx_time <span class="sc">|&gt;</span></span>
@@ -1049,9 +1046,9 @@ Code Visibility
 <span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/ribbon-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/ribbon-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1064,7 +1061,7 @@ Code Visibility
 <section id="facet-wrap-small-multiples" class="level2">
 <h2 class="anchored" data-anchor-id="facet-wrap-small-multiples">Facet Wrap (Small Multiples)</h2>
 <p><strong>When to use:</strong> Use to create multiple panels of the same chart type, each showing a subset of the data.</p>
-<div class="cell">
+<div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Show code</summary>
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> tx_time <span class="sc">|&gt;</span></span>
@@ -1084,9 +1081,9 @@ Code Visibility
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="fu">add_cpal_logo</span>(p)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div>
+<div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="gallery-ggplot2_files/figure-html/facet-wrap-1.png" class="img-fluid figure-img" style="width:80.0%"></p>
+<p><img src="gallery-ggplot2_files/figure-html/facet-wrap-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%"></p>
 </figure>
 </div>
 </div>
@@ -1171,150 +1168,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
