@@ -1,506 +1,578 @@
 ---
 title: "Maps & Geographic"
-subtitle: "Creating geographic visualizations with CPAL styling"
+subtitle: "Creating interactive maps with CPAL styling using mapgl"
 ---
 
-::: {.callout-warning}
-## Under Review
-The map-related functions in cpaltemplates are currently under review. This page will be updated once that review is complete. The functions described here are functional but may be modified in future releases.
-:::
-
-## Overview
-
-cpaltemplates provides tools for creating both static and interactive maps with CPAL branding. The package includes a specialized map theme and integration with mapgl for interactive web maps.
-
----
-
-## Quick Start
-
-```r
-library(cpaltemplates)
-library(ggplot2)
-library(sf)
-
-# Static map with ggplot2
-ggplot(geo_data) +
-  geom_sf(aes(fill = value)) +
-  scale_fill_cpal_c("teal_seq_5") +
-  theme_cpal_map()
-```
-
----
-
-## Static Maps with ggplot2
-
-### `theme_cpal_map()`
-
-A specialized theme for geographic visualizations.
-
-```r
-theme_cpal_map(base_size = 14, base_family = NULL, ...)
-```
-
-#### Features
-
-- No axis lines or gridlines
-- Minimal chrome
-- Clean background
-- Optimized for map layers
-
-#### Examples
-
-```r
-library(sf)
-library(ggplot2)
-
-# Basic choropleth
-ggplot(counties_sf) +
-  geom_sf(aes(fill = population), color = "white", linewidth = 0.2) +
-  scale_fill_cpal_c("teal_seq_5") +
-  labs(
-    title = "Population by County",
-    fill = "Population"
-  ) +
-  theme_cpal_map()
-
-# With points overlay
-ggplot() +
-  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
-  geom_sf(data = points, aes(color = category), size = 2) +
-  scale_color_cpal("main_3") +
-  theme_cpal_map()
-```
-
----
-
-## Color Scales for Maps
-
-### Sequential Scales (Choropleth)
-
-```r
-# Single-hue teal gradient
-scale_fill_cpal_c("teal_seq_5")
-
-# Multi-hue gradient
-scale_fill_cpal_c("yellow_teal_seq_5")
-```
-
-### Diverging Scales (Change/Difference)
-
-```r
-# Coral to midnight through neutral
-scale_fill_cpal_c("coral_midnight_5")
-```
-
-### Categorical Scales (Types/Categories)
-
-```r
-# Discrete categories
-scale_fill_cpal("main_3")
-scale_color_cpal("main")
-```
-
----
-
-## Interactive Maps with mapgl
-
-### `cpal_mapgl()`
-
-Create mapgl maps with Dallas area defaults and CPAL styling.
-
-```r
-cpal_mapgl(
-  style = NULL,
-  bounds = NULL,
-  ...
-)
-```
-
-#### Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `style` | Map style (default: light) |
-| `bounds` | Bounding box for initial view |
-| `...` | Additional arguments to mapgl |
-
-::: {.callout-note}
-## Mapbox Token Required
-Interactive maps require a Mapbox access token. Set it as an environment variable:
-```r
-Sys.setenv(MAPBOX_PUBLIC_TOKEN = "your_token_here")
-```
-:::
-
-#### Examples
-
-```r
-library(mapgl)
-
-# Basic Dallas-area map
-cpal_mapgl()
-
-# With custom bounds
-cpal_mapgl(bounds = c(-97.5, 32.5, -96.5, 33.1))
-```
-
----
-
-### `cpal_mapgl_layer()`
-
-Add CPAL-styled layers to mapgl maps.
-
-```r
-cpal_mapgl_layer(
-  map,
-  id,
-  source,
-  type = c("fill", "line", "circle", "symbol"),
-  paint = NULL,
-  ...
-)
-```
-
-#### Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `map` | A mapgl map object |
-| `id` | Unique layer ID |
-| `source` | Data source (sf object, URL, etc.) |
-| `type` | Layer type |
-| `paint` | Paint properties (colors, opacity, etc.) |
-| `...` | Additional layer options |
-
-#### Examples
-
-```r
-# Add a fill layer
-cpal_mapgl() |>
-  cpal_mapgl_layer(
-    id = "neighborhoods",
-    source = neighborhoods_sf,
-    type = "fill",
-    paint = list(
-      "fill-color" = "#007A8C",
-      "fill-opacity" = 0.6
-    )
-  )
-
-# Add a circle layer
-cpal_mapgl() |>
-  cpal_mapgl_layer(
-    id = "locations",
-    source = locations_sf,
-    type = "circle",
-    paint = list(
-      "circle-color" = "#C3257B",
-      "circle-radius" = 6,
-      "circle-opacity" = 0.8
-    )
-  )
-```
-
----
-
-## Choropleth Maps
-
-### Basic Choropleth
-
-```r
-library(sf)
-library(ggplot2)
-
-# Prepare data
-tracts <- st_read("census_tracts.geojson") |>
-  mutate(poverty_rate = poverty_pop / total_pop)
-
-# Create choropleth
-ggplot(tracts) +
-  geom_sf(aes(fill = poverty_rate), color = "white", linewidth = 0.1) +
-  scale_fill_cpal_c("teal_seq_5", labels = scales::percent) +
-  labs(
-    title = "Poverty Rate by Census Tract",
-    subtitle = "Dallas County, TX",
-    fill = "Poverty Rate"
-  ) +
-  theme_cpal_map()
-```
-
-### Binned Choropleth
-
-```r
-# Create bins
-tracts <- tracts |>
-  mutate(
-    poverty_bin = cut(
-      poverty_rate,
-      breaks = c(0, 0.1, 0.2, 0.3, 0.5, 1),
-      labels = c("<10%", "10-20%", "20-30%", "30-50%", ">50%")
-    )
-  )
-
-ggplot(tracts) +
-  geom_sf(aes(fill = poverty_bin), color = "white", linewidth = 0.1) +
-  scale_fill_cpal("teal_seq_5") +
-  labs(fill = "Poverty Rate") +
-  theme_cpal_map()
-```
-
----
-
-## Point Maps
-
-### Basic Points
-
-```r
-ggplot() +
-  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
-  geom_sf(data = locations, color = "#007A8C", size = 2) +
-  theme_cpal_map()
-```
-
-### Sized Points (Bubble Map)
-
-```r
-ggplot() +
-  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
-  geom_sf(
-    data = locations,
-    aes(size = population),
-    color = "#007A8C",
-    alpha = 0.6
-  ) +
-  scale_size_continuous(range = c(1, 10)) +
-  theme_cpal_map()
-```
-
-### Colored Points
-
-```r
-ggplot() +
-  geom_sf(data = boundaries, fill = "#EBEBEB", color = "white") +
-  geom_sf(
-    data = locations,
-    aes(color = category),
-    size = 3
-  ) +
-  scale_color_cpal("main_3") +
-  theme_cpal_map()
-```
-
----
-
-## Interactive Maps with ggiraph
-
-```r
-library(ggiraph)
-
-# Interactive choropleth
-p <- ggplot(tracts) +
-  geom_sf_interactive(
-    aes(
-      fill = poverty_rate,
-      tooltip = paste0(name, ": ", scales::percent(poverty_rate)),
-      data_id = geoid
-    ),
-    color = "white",
-    linewidth = 0.1
-  ) +
-  scale_fill_cpal_c("teal_seq_5") +
-  theme_cpal_map()
-
-cpal_interactive(p)
-```
-
----
-
-## Map Layouts
-
-### With Inset
-
-```r
-library(cowplot)
-
-# Main map
-main_map <- ggplot(dallas_tracts) +
-  geom_sf(aes(fill = value)) +
-  scale_fill_cpal_c("teal_seq_5") +
-  theme_cpal_map()
-
-# Inset showing Texas
-inset <- ggplot(texas) +
-  geom_sf(fill = "#EBEBEB") +
-  geom_sf(data = dallas_county, fill = "#007A8C") +
-  theme_void()
-
-# Combine
-ggdraw() +
-  draw_plot(main_map) +
-  draw_plot(inset, x = 0.7, y = 0.1, width = 0.25, height = 0.25)
-```
-
-### Faceted Maps
-
-```r
-ggplot(tracts) +
-  geom_sf(aes(fill = value)) +
-  scale_fill_cpal_c("teal_seq_5") +
-  facet_wrap(~year) +
-  theme_cpal_map() +
-  theme(strip.text = element_text(size = 12, face = "bold"))
-```
-
----
-
-## North Arrow and Scale Bar
-
-```r
-library(ggspatial)
-
-ggplot(tracts) +
-  geom_sf(aes(fill = value)) +
-  scale_fill_cpal_c("teal_seq_5") +
-  annotation_scale(
-    location = "bl",
-    bar_cols = c("#004855", "white")
-  ) +
-  annotation_north_arrow(
-    location = "tr",
-    style = north_arrow_minimal(fill = "#004855")
-  ) +
-  theme_cpal_map()
-```
-
----
-
-## Basemaps
-
-### With OpenStreetMap Tiles
-
-```r
-library(ggspatial)
-
-ggplot() +
-  annotation_map_tile(type = "cartolight", zoom = 11) +
-  geom_sf(
-    data = locations,
-    color = "#007A8C",
-    size = 3
-  ) +
-  theme_cpal_map()
-```
-
-### Custom Basemap Styling
-
-```r
-# For mapgl
-cpal_mapgl(style = "mapbox://styles/mapbox/light-v11") |>
-  cpal_mapgl_layer(
-    id = "data_layer",
-    source = my_data,
-    type = "fill"
-  )
-```
-
----
-
-## Complete Example
-
-```r
+```{r}
+#| label: setup
+#| include: false
 library(cpaltemplates)
 library(ggplot2)
 library(sf)
 library(dplyr)
 
-# Load data
-tracts <- st_read("dallas_tracts.geojson") |>
+# Sample data for static map examples
+nc <- st_read(system.file("shape/nc.shp", package = "sf"), quiet = TRUE) |>
+  st_transform(4326) |>
+  mutate(poverty_rate = round(runif(n(), 8, 28), 1))
+
+# Sample points within NC boundaries (not bounding box)
+set.seed(42)
+sample_points <- st_sample(st_union(nc), size = 25, type = "random") |>
+  st_as_sf() |>
   mutate(
-    poverty_pct = poverty / population * 100,
-    tooltip = paste0(
-      "<strong>", name, "</strong><br>",
-      "Population: ", scales::comma(population), "<br>",
-      "Poverty Rate: ", round(poverty_pct, 1), "%"
-    )
+    name = paste("Location", row_number()),
+    category = sample(c("Type A", "Type B", "Type C"), n(), replace = TRUE),
+    value = round(runif(n(), 100, 1000))
   )
-
-# Create static map
-static_map <- ggplot(tracts) +
-  geom_sf(aes(fill = poverty_pct), color = "white", linewidth = 0.1) +
-  scale_fill_cpal_c(
-    "teal_seq_5",
-    name = "Poverty Rate (%)",
-    breaks = c(0, 10, 20, 30, 40)
-  ) +
-  labs(
-    title = "Child Poverty in Dallas County",
-    subtitle = "By Census Tract, 2022",
-    caption = "Source: American Community Survey"
-  ) +
-  theme_cpal_map()
-
-# Save static version
-save_cpal_plot(static_map, "dallas_poverty_map.png", size = "default")
-
-# Create interactive version
-library(ggiraph)
-
-interactive_map <- ggplot(tracts) +
-  geom_sf_interactive(
-    aes(fill = poverty_pct, tooltip = tooltip, data_id = geoid),
-    color = "white",
-    linewidth = 0.1
-  ) +
-  scale_fill_cpal_c("teal_seq_5", name = "Poverty Rate (%)") +
-  labs(title = "Child Poverty in Dallas County") +
-  theme_cpal_map()
-
-cpal_interactive(interactive_map)
 ```
 
----
+Interactive maps are essential for exploring geographic data and communicating spatial patterns. The cpaltemplates package integrates with the [mapgl](https://walker-data.com/mapgl/) package to create professional, CPAL-branded web maps using Mapbox GL JS.
+
+::: {.callout-note}
+## mapgl Maps in Quarto
+mapgl maps are interactive HTML widgets that don't render in static Quarto documents. The examples below show screenshots of the output. For interactive maps, use mapgl in **Shiny applications** or render your Quarto document as an HTML file with `format: html`.
+:::
+
+## Setup
+
+### Mapbox Access Token
+
+Interactive maps require a Mapbox access token. Mapbox offers a generous free tier for development and small-scale use.
+
+1. Create a free account at [mapbox.com](https://www.mapbox.com/)
+2. Navigate to **Account** > **Tokens**
+3. Copy your **Default public token** (starts with `pk.`)
+4. Add it to your `.Renviron` file:
+
+```{r}
+#| label: token-setup
+#| eval: false
+#| code-fold: false
+
+# Open your .Renviron file
+usethis::edit_r_environ()
+
+# Add this line (replace with your actual token):
+# MAPBOX_PUBLIC_TOKEN="pk.your_token_here"
+
+# Save the file and restart R
+```
+
+::: {.callout-tip}
+## Verify Your Token
+After restarting R, verify your token is set:
+```r
+Sys.getenv("MAPBOX_PUBLIC_TOKEN")
+```
+:::
+
+## Basemap Themes
+
+Initialize a Mapbox GL map with `cpal_mapgl()`. Four CPAL-branded basemap themes are available:
+
+| Theme | Best For |
+|-------|----------|
+| `"light"` | Most data visualizations, reports (default) |
+| `"dark"` | Dashboards, dark mode applications |
+| `"satellite"` | Land use analysis, geographic context |
+| `"minimal"` | Dense data overlays, monochrome aesthetic |
+
+### Light Theme (Default)
+
+Best for most data visualizations and reports:
+
+```{r}
+#| label: cpal-mapgl-light
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl() |>
+  fit_bounds(nc)
+```
+
+![Light theme basemap](images/maps/cpal-mapgl-light.png){fig-alt="CPAL light theme basemap"}
+
+### Dark Theme
+
+Ideal for dashboards and dark mode applications:
+
+```{r}
+#| label: cpal-mapgl-dark
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl(theme = "dark") |>
+  fit_bounds(nc)
+```
+
+![Dark theme basemap](images/maps/cpal-mapgl-dark.png){fig-alt="CPAL dark theme basemap"}
+
+## Choropleth Maps
+
+Choropleth maps shade regions based on data values. Use `add_fill_layer()` with `interpolate_palette()` for continuous color scales.
+
+### Basic Choropleth
+
+```{r}
+#| label: choropleth-basic
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "counties",
+    source = nc,
+    fill_color = "#008097",
+    fill_opacity = 0.7,
+    fill_outline_color = "#FFFFFF",
+    popup = "NAME",
+    tooltip = "NAME"
+  ) |>
+  fit_bounds(nc)
+```
+
+![Basic choropleth with single CPAL color](images/maps/choropleth-basic.png){fig-alt="Choropleth map with CPAL teal fill color"}
+
+### With Color Scale and Styled Legend
+
+For continuous data, use `interpolate_palette()` with CPAL sequential colors and `cpal_legend_style()` for branded legends:
+
+```{r}
+#| label: choropleth-styled
+#| eval: false
+#| code-fold: true
+
+# Get CPAL sequential palette
+seq_colors <- cpal_colors("midnight_seq_5")
+
+# Create continuous color scale
+color_scale <- interpolate_palette(
+  data = nc,
+  column = "poverty_rate",
+  method = "quantile",
+  n = 5,
+  colors = seq_colors
+)
+
+# Apply to map with styled legend
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "poverty",
+    source = nc,
+    fill_color = color_scale$expression,
+    fill_opacity = 0.7,
+    fill_outline_color = "#FFFFFF",
+    popup = "popup_html",
+    tooltip = "NAME"
+  ) |>
+  add_legend(
+    "Poverty Rate (%)",
+    values = get_legend_labels(color_scale, digits = 1),
+    colors = get_legend_colors(color_scale),
+    type = "continuous",
+    style = cpal_legend_style()
+  ) |>
+  fit_bounds(nc)
+```
+
+![Choropleth with CPAL sequential colors and styled legend](images/maps/choropleth-styled-legend.png){fig-alt="Choropleth map with midnight sequential color scale and styled legend"}
+
+### Classification Methods
+
+| Method | Use When |
+|--------|----------|
+| `"quantile"` | Data is skewed; want equal counts in each bin |
+| `"equal"` | Data is evenly distributed; want equal-width bins |
+| `"jenks"` | Want natural groupings that minimize within-group variance |
+
+## Point Maps
+
+Use `add_circle_layer()` for point data. Supports color encoding, size encoding, and clustering.
+
+### Basic Points
+
+```{r}
+#| label: points-basic
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "background",
+    source = nc,
+    fill_color = "#EBEBEB",
+    fill_outline_color = "#FFFFFF"
+  ) |>
+  add_circle_layer(
+    id = "locations",
+    source = sample_points,
+    circle_color = "#E86A50",
+    circle_radius = 8,
+    circle_opacity = 0.8,
+    circle_stroke_color = "#FFFFFF",
+    circle_stroke_width = 2,
+    popup = "name"
+  ) |>
+  fit_bounds(nc)
+```
+
+![Basic point map with CPAL coral circles](images/maps/points-basic.png){fig-alt="Point map showing locations as coral circles on gray background"}
+
+### Colored by Category
+
+```{r}
+#| label: points-colored
+#| eval: false
+#| code-fold: true
+
+# Create color expression for categories
+category_colors <- list(
+  "match",
+  list("get", "category"),
+  "Type A", "#004855",
+  "Type B", "#E86A50",
+  "Type C", "#5A8A6F",
+  "#999999"
+)
+
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "background",
+    source = nc,
+    fill_color = "#EBEBEB",
+    fill_outline_color = "#FFFFFF"
+  ) |>
+  add_circle_layer(
+    id = "locations",
+    source = sample_points,
+    circle_color = category_colors,
+    circle_radius = 8,
+    circle_opacity = 0.9,
+    circle_stroke_color = "#FFFFFF",
+    circle_stroke_width = 2,
+    popup = "name",
+    tooltip = "category"
+  ) |>
+  add_legend(
+    "Category",
+    values = c("Type A", "Type B", "Type C"),
+    colors = c("#004855", "#E86A50", "#5A8A6F"),
+    type = "categorical",
+    style = cpal_legend_style()
+  ) |>
+  fit_bounds(nc)
+```
+
+![Points colored by category with styled legend](images/maps/points-colored.png){fig-alt="Point map with points colored by category using CPAL colors"}
+
+### Sized by Value
+
+Encode a numeric variable in circle size:
+
+```{r}
+#| label: points-sized
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "background",
+    source = nc,
+    fill_color = "#EBEBEB",
+    fill_outline_color = "#FFFFFF"
+  ) |>
+  add_circle_layer(
+    id = "locations",
+    source = sample_points,
+    circle_color = "#004855",
+    circle_radius = list(
+      "interpolate", list("linear"),
+      list("get", "value"),
+      100, 5,
+      500, 12,
+      1000, 20
+    ),
+    circle_opacity = 0.7,
+    circle_stroke_color = "#FFFFFF",
+    circle_stroke_width = 1,
+    popup = "name",
+    tooltip = "value"
+  ) |>
+  fit_bounds(nc)
+```
+
+![Points sized by value](images/maps/points-sized.png){fig-alt="Point map with circle sizes proportional to values"}
+
+## Popups & Tooltips
+
+Both `add_fill_layer()` and `add_circle_layer()` support interactive popups (click) and tooltips (hover).
+
+| Parameter | Behavior |
+|-----------|----------|
+| `popup` | Shows on click. Pass a column name or HTML string column. |
+| `tooltip` | Shows on hover. Pass a column name. |
+
+### Styled Popups with Metrics
+
+Use `cpal_popup_html_metrics()` to create rich, branded popup content with key metrics, and `add_cpal_popup_style()` to style the popup container:
+
+```{r}
+#| label: popup-metrics
+#| eval: false
+#| code-fold: true
+
+library(dplyr)
+
+# Add styled popup column to data
+# Use rowwise() so metrics are evaluated per-row
+nc <- nc |>
+  rowwise() |>
+  mutate(
+    popup_metrics = cpal_popup_html_metrics(
+      title = NAME,
+      subtitle = "County",
+      metrics = c(
+        "Population" = scales::comma(population),
+        "Poverty Rate" = paste0(poverty_rate, "%"),
+        "Area" = paste0(round(AREA, 1), " sq mi")
+      ),
+      footer = "Source: US Census Bureau"
+    )
+  ) |>
+  ungroup()
+
+# Use in map with popup styling
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "counties",
+    source = nc,
+    fill_color = color_scale$expression,
+    fill_opacity = 0.7,
+    popup = "popup_metrics",
+    tooltip = "NAME"
+  ) |>
+  add_cpal_popup_style() |>
+  add_legend(
+    "Poverty Rate (%)",
+    values = get_legend_labels(color_scale, digits = 1),
+    colors = get_legend_colors(color_scale),
+    type = "continuous",
+    style = cpal_legend_style()
+  ) |>
+  fit_bounds(nc)
+```
+
+![Map with CPAL-styled popup showing metrics](images/maps/popup-cpal-metrics.png){fig-alt="Choropleth map with styled popup displaying key metrics"}
+
+### Popup Functions
+
+| Function | Purpose |
+|----------|---------|
+| `cpal_popup_html_metrics()` | Generate popup HTML with title, subtitle, metrics table, and footer |
+| `add_cpal_popup_style()` | Apply CPAL styling to popup container (background, border, shadow) |
+
+## Legend Styling
+
+Use `cpal_legend_style()` to apply consistent CPAL branding to map legends.
+
+```{r}
+#| label: legend-style
+#| eval: false
+#| code-fold: false
+
+cpal_legend_style(
+  theme = c("light", "dark"),
+  position = c("bottom-right", "bottom-left", "top-right", "top-left"),
+  width = 180
+)
+```
+
+| Argument | Description |
+|----------|-------------|
+| `theme` | Match your map theme: `"light"` or `"dark"` |
+| `position` | Legend placement on map |
+| `width` | Legend width in pixels |
+
+The style includes CPAL typography (Inter font), appropriate colors, subtle shadow, and proper spacing.
+
+## Dark Theme Example
+
+For dark-themed dashboards, use matching dark styles for the map, legend, and popups. The coral palette works well on dark backgrounds. Key tips:
+
+- **Use `fill_opacity = 1.0`** to prevent the dark basemap from blending through and muting colors
+- **Reverse the palette** so lighter shades represent higher values (more visible on dark backgrounds)
+
+```{r}
+#| label: dark-theme-complete
+#| eval: false
+#| code-fold: true
+
+# Use coral palette, reversed so lighter = higher values
+coral_colors <- cpal_colors("coral_seq_5", reverse = TRUE)
+color_scale_dark <- interpolate_palette(
+  data = nc,
+  column = "poverty_rate",
+  method = "quantile",
+  n = 5,
+  colors = coral_colors
+)
+
+# Create dark popup content (use rowwise for per-row evaluation)
+nc <- nc |>
+  rowwise() |>
+  mutate(
+    popup_dark = cpal_popup_html_metrics(
+      title = NAME,
+      subtitle = "County",
+      metrics = c("Poverty Rate" = paste0(poverty_rate, "%")),
+      theme = "dark"
+    )
+  ) |>
+  ungroup()
+
+# Complete dark theme map
+cpal_mapgl(theme = "dark") |>
+  add_fill_layer(
+    id = "poverty",
+    source = nc,
+    fill_color = color_scale_dark$expression,
+    fill_opacity = 1.0,  # Full opacity prevents dark basemap bleed-through
+    fill_outline_color = "#333333",
+    popup = "popup_dark",
+    tooltip = "NAME"
+  ) |>
+  add_cpal_popup_style(theme = "dark") |>
+  add_legend(
+    "Poverty Rate (%)",
+    values = get_legend_labels(color_scale_dark, digits = 1),
+    colors = get_legend_colors(color_scale_dark),
+    type = "continuous",
+    style = cpal_legend_style(theme = "dark")
+  ) |>
+  fit_bounds(nc)
+```
+
+![Complete dark theme example with coral palette](images/maps/dark-theme-styled.png){fig-alt="Dark theme map with coral color scale, styled legend, and dark popup"}
+
+## Static Maps with ggplot2
+
+For static maps in reports and presentations, use `theme_cpal_map()` with ggplot2 and sf.
+
+### Choropleth
+
+```{r}
+#| label: static-map-example
+#| code-fold: true
+
+p1 <- ggplot(nc) +
+  geom_sf(aes(fill = poverty_rate), color = "white", linewidth = 0.2) +
+  scale_fill_cpal(palette = "midnight_seq_5", discrete = FALSE) +
+  labs(
+    title = "Simulated Poverty Rate by County",
+    subtitle = "North Carolina",
+    fill = "Poverty Rate (%)"
+  ) +
+  theme_cpal_map() +
+  theme(
+    legend.title.position = "top",
+    legend.title = element_text(hjust = 0.5)
+  )
+
+add_cpal_logo(p1)
+```
+
+### Point Overlay
+
+```{r}
+#| label: static-points
+#| code-fold: true
+
+p2 <- ggplot() +
+  geom_sf(data = nc, fill = "#EBEBEB", color = "white") +
+  geom_sf(data = sample_points, aes(color = category), size = 3) +
+  scale_color_cpal(palette = "main") +
+  labs(
+    title = "Sample Locations",
+    color = "Category"
+  ) +
+  theme_cpal_map() +
+  theme(
+    legend.title.position = "top",
+    legend.title = element_text(hjust = 0.5)
+  )
+
+add_cpal_logo(p2)
+```
 
 ## Troubleshooting
 
 ### Map Not Displaying
 
-```r
-# Check sf installation
-if (!requireNamespace("sf", quietly = TRUE)) {
-  install.packages("sf")
-}
+**Check Mapbox token:**
 
-# Verify CRS
-st_crs(data)
+```{r}
+#| label: troubleshoot-token
+#| eval: false
 
-# Transform if needed
-data <- st_transform(data, 4326)
+# Should return your token, not empty string
+Sys.getenv("MAPBOX_PUBLIC_TOKEN")
 ```
 
-### Mapbox Token Issues
+**Verify sf data is valid:**
 
-```r
-# Set token
-Sys.setenv(MAPBOX_PUBLIC_TOKEN = "pk.xxx...")
+```{r}
+#| label: troubleshoot-sf
+#| eval: false
 
-# Verify it's set
-Sys.getenv("MAPBOX_PUBLIC_TOKEN")
+# Check CRS
+sf::st_crs(my_data)
+
+# Transform to WGS84 if needed
+my_data <- sf::st_transform(my_data, 4326)
 ```
 
 ### Slow Rendering
 
-```r
-# Simplify geometries
-data_simple <- st_simplify(data, dTolerance = 100)
+For large datasets, simplify geometries:
 
-# Or reduce vertices
-data_simple <- rmapshaper::ms_simplify(data, keep = 0.1)
+```{r}
+#| label: troubleshoot-performance
+#| eval: false
+
+# Simplify with sf
+data_simple <- sf::st_simplify(my_data, dTolerance = 100)
+
+# Or use rmapshaper for better results
+data_simple <- rmapshaper::ms_simplify(my_data, keep = 0.1)
 ```
 
----
+### Colors Not Showing
+
+Ensure you're passing the expression from `interpolate_palette()`:
+
+```{r}
+#| label: troubleshoot-colors
+#| eval: false
+
+# Correct - use $expression
+fill_color = color_scale$expression
+
+# Incorrect - don't pass the whole object
+fill_color = color_scale
+```
+
+## Function Reference
+
+| Function | Purpose |
+|----------|---------|
+| `cpal_mapgl()` | Initialize CPAL-themed Mapbox GL map |
+| `cpal_legend_style()` | Get styled legend options for `add_legend()` |
+| `cpal_popup_html_metrics()` | Generate popup HTML with metrics |
+| `add_cpal_popup_style()` | Apply CPAL styling to popup container |
 
 ## Next Steps
 
-- [Colors & Palettes](colors-palettes.qmd) - Color scales for maps
-- [Themes & Styling](themes-styling.qmd) - Theme customization
-- [Troubleshooting](troubleshooting.qmd) - Common issues
+- [Colors & Palettes](colors-palettes.qmd) - Complete color system documentation
+- [Themes & Styling](themes-styling.qmd) - ggplot2 theme customization
+- [mapgl Documentation](https://walker-data.com/mapgl/) - Full mapgl package reference

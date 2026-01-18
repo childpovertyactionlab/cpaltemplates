@@ -1,5 +1,73 @@
 ---
 
+# cpaltemplates 2.8.0 (2026-01-17)
+
+## Enhanced mapgl Integration
+
+### New Functions
+
+* **`cpal_legend_style()`**: Returns a styled list for use with `mapgl::add_legend()`. Provides consistent CPAL branding for map legends with light and dark theme support.
+  - Parameters: `theme` ("light"/"dark"), `position`, `width`
+  - Includes CPAL typography (Inter font), appropriate colors, subtle shadow, and proper spacing
+
+* **`cpal_popup_html_metrics()`**: Generate rich popup HTML content with highlighted metrics. Creates branded popups with title, subtitle, key-value metrics table, and footer.
+  - Parameters: `title`, `subtitle`, `metrics` (named vector), `body`, `footer`, `theme`
+  - Use with `rowwise()` in dplyr pipelines for per-row evaluation
+
+### Enhancements
+
+* **`cpal_mapgl()`**: Now supports four basemap themes: `"light"` (default), `"dark"`, `"satellite"`, and `"minimal"`
+
+* **`add_cpal_popup_style()`**: Enhanced popup container styling with light/dark theme support
+
+### Documentation
+
+* Complete rewrite of Maps & Geographic documentation page
+* Added comprehensive examples for choropleth maps, point maps, and dark theme workflows
+* New sections covering popup styling, legend styling, and static ggplot2 maps
+
+### Usage Example
+
+```r
+library(mapgl)
+library(cpaltemplates)
+library(dplyr)
+
+# Create styled popup content (use rowwise for per-row values)
+nc <- nc |>
+  rowwise() |>
+  mutate(
+    popup = cpal_popup_html_metrics(
+      title = NAME,
+      subtitle = "County",
+      metrics = c(
+        "Population" = scales::comma(population),
+        "Poverty Rate" = paste0(poverty_rate, "%")
+      ),
+      footer = "Source: US Census"
+    )
+  ) |>
+  ungroup()
+
+# Create map with styled legend and popup
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "counties",
+    source = nc,
+    fill_color = color_scale$expression,
+    popup = "popup"
+  ) |>
+  add_cpal_popup_style() |>
+  add_legend(
+    "Poverty Rate (%)",
+    values = values,
+    colors = colors,
+    style = cpal_legend_style()
+  )
+```
+
+---
+
 # cpaltemplates 2.7.0 (2026-01-12)
 
 ## Highcharter Integration & ggiraph Deprecation

@@ -69,12 +69,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -171,12 +169,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./themes-styling.html">
  <span class="dropdown-text">Themes &amp; Styling</span></a>
   </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./tables-styling.html">
  <span class="dropdown-text">Tables (GT &amp; Reactable)</span></a>
   </li>  
-        <li><hr class="dropdown-divider"></li>
-        <li class="dropdown-header">Interactive &amp; Web</li>
         <li>
     <a class="dropdown-item" href="./maps-geographic.html">
  <span class="dropdown-text">Maps &amp; Geographic</span></a>
@@ -204,7 +202,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
           </div> <!-- /navcollapse -->
           <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -279,12 +276,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Suggested packages for extended features</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="fu">c</span>(</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"ggiraph"</span>,      <span class="co"># Interactive visualizations</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"cowplot"</span>,      <span class="co"># Logo placement</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"magick"</span>,       <span class="co"># Image processing for logos</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"showtext"</span>,     <span class="co"># Google Fonts for static plots</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sysfonts"</span>,     <span class="co"># Font management</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"gdtools"</span>,      <span class="co"># Font rendering for interactive plots</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"highcharter"</span>,  <span class="co"># Interactive visualizations</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"mapgl"</span>,        <span class="co"># Interactive maps</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"cowplot"</span>,      <span class="co"># Logo placement</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"magick"</span>,       <span class="co"># Image processing for logos</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"showtext"</span>,     <span class="co"># Google Fonts for static plots</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"sysfonts"</span>,     <span class="co"># Font management</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"patchwork"</span>     <span class="co"># Theme preview</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <hr>
@@ -531,12 +528,12 @@ Theme System (11 functions)
 <td>Default CPAL theme</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_minimal()</code></td>
 <td>Minimal/clean theme</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_classic()</code></td>
 <td>Classic theme with axes</td>
 </tr>
@@ -546,12 +543,12 @@ Theme System (11 functions)
 <td>Dark background theme</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_print()</code></td>
 <td>Print-optimized theme</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>theme_cpal_map()</code></td>
 <td>Theme for maps</td>
 </tr>
@@ -712,7 +709,7 @@ Highcharter (18 functions)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tables (3 functions)
+Tables (2 functions)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -733,17 +730,12 @@ Tables (3 functions)
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
-<td><code>cpal_table()</code></td>
-<td>Auto-select GT or Reactable</td>
-</tr>
-<tr class="even">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_table_gt()</code></td>
 <td>Styled GT table (static)</td>
 </tr>
-<tr class="odd">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_table_reactable()</code></td>
 <td>Styled Reactable (interactive)</td>
 </tr>
@@ -758,13 +750,18 @@ Tables (3 functions)
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Maps (2 functions)
+Maps (5 functions)
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 32%">
+<col style="width: 41%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: center;">Status</th>
@@ -774,14 +771,29 @@ Maps (2 functions)
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_mapgl()</code></td>
 <td>Create styled mapgl map</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-dev">●</span></td>
-<td><code>cpal_mapgl_layer()</code></td>
-<td>Add styled layer to map</td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>add_cpal_popup_style()</code></td>
+<td>Apply CPAL styling to popup container</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_popup_html()</code></td>
+<td>Generate basic popup HTML content</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_popup_html_metrics()</code></td>
+<td>Generate popup HTML with metrics</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
+<td><code>cpal_legend_style()</code></td>
+<td>Get styled legend options for mapgl</td>
 </tr>
 </tbody>
 </table>
@@ -947,12 +959,12 @@ Shiny &amp; Dashboards (4 functions)
 <td>Initialize Shiny with CPAL theme</td>
 </tr>
 <tr class="odd">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_add_scss_enhancements()</code></td>
 <td>Add custom SCSS to theme</td>
 </tr>
 <tr class="even">
-<td style="text-align: center;"><span class="status-revamp">✗</span></td>
+<td style="text-align: center;"><span class="status-ready">✓</span></td>
 <td><code>cpal_export_scss()</code></td>
 <td>Export SCSS variables</td>
 </tr>
@@ -1109,150 +1121,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {

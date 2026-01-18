@@ -1,7 +1,7 @@
 # cpaltemplates <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![R Package Version](https://img.shields.io/badge/version-2.6.1-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
+[![R Package Version](https://img.shields.io/badge/version-2.8.0-success.svg)](https://github.com/childpovertyactionlab/cpaltemplates)
 [![R-CMD-check](https://img.shields.io/badge/R--CMD--check-passing-brightgreen.svg)](https://github.com/childpovertyactionlab/cpaltemplates/actions)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 <!-- badges: end -->
@@ -106,24 +106,44 @@ hc_dumbbell_cpal(categories, start_vals, end_vals, title = "Change")
 
 ### 🗺️ Mapping Support
 
-Create interactive maps with CPAL styling:
+Create interactive maps with CPAL styling using mapgl:
 
 ```r
-# Initialize a CPAL-styled map
-map <- cpal_mapgl(
-  center = c(-96.7970, 32.7767),  # Dallas coordinates
-  zoom = 10,
-  style = "light"  # or "dark", "satellite"
-)
+library(mapgl)
+library(dplyr)
 
-# Add data layers
-map %>%
-  cpal_mapgl_layer(
-    data = your_geojson,
-    type = "fill",
-    fillColor = cpal_colors()["deep_teal"],
-    fillOpacity = 0.7
+# Initialize a CPAL-styled map (themes: light, dark, satellite, minimal)
+cpal_mapgl(theme = "light") |>
+  add_fill_layer(
+    id = "counties",
+    source = my_sf_data,
+    fill_color = "#008097",
+    fill_opacity = 0.7,
+    popup = "popup_column"
+  ) |>
+  add_cpal_popup_style() |>
+  add_legend(
+    "My Legend",
+    values = legend_values,
+    colors = legend_colors,
+    style = cpal_legend_style()
   )
+
+# Create rich popup content with metrics
+my_data <- my_data |>
+ rowwise() |>
+ mutate(
+    popup = cpal_popup_html_metrics(
+      title = name,
+      subtitle = "Category",
+      metrics = c(
+        "Population" = scales::comma(population),
+        "Rate" = paste0(rate, "%")
+      ),
+      footer = "Source: Data source"
+    )
+  ) |>
+  ungroup()
 ```
 
 ### 📋 Table Formatting
@@ -333,7 +353,7 @@ use_quarto_report(
 | **Tables** | `cpal_table_gt()`, `cpal_table_reactable()` | Formatted tables |
 | **Dashboards** | `cpal_dashboard_theme()`, `make_theme_reactive()` | Shiny dashboard components |
 | **Projects** | `start_project()`, `use_*()` | Project scaffolding |
-| **Maps** | `cpal_mapgl()`, `cpal_mapgl_layer()` | Interactive mapping |
+| **Maps** | `cpal_mapgl()`, `cpal_legend_style()`, `cpal_popup_html_metrics()`, `add_cpal_popup_style()` | Interactive mapping with mapgl |
 | **Utilities** | `save_cpal_plot()`, `add_cpal_logo()` | Helper functions |
 
 ## Best Practices

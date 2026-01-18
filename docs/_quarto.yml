@@ -36,10 +36,10 @@ website:
             href: colors-palettes.qmd
           - text: "Themes & Styling"
             href: themes-styling.qmd
-          - text: "Tables (GT & Reactable)"
-            href: tables-styling.qmd
           - text: "---"
           - text: "Interactive & Web"
+          - text: "Tables (GT & Reactable)"
+            href: tables-styling.qmd
           - text: "Maps & Geographic"
             href: maps-geographic.qmd
           - text: "Shiny Dashboards"
@@ -61,9 +61,7 @@ website:
 
 format:
   html:
-    theme:
-      light: flatly
-      dark: darkly
+    theme: flatly
     css: styles.css
     toc: true
     toc-depth: 3

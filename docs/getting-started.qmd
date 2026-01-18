@@ -28,12 +28,12 @@ cpaltemplates requires R version 4.3.0 or higher. The package will automatically
 
 # Suggested packages for extended features
 install.packages(c(
-  "ggiraph",      # Interactive visualizations
+  "highcharter",  # Interactive visualizations
+  "mapgl",        # Interactive maps
   "cowplot",      # Logo placement
   "magick",       # Image processing for logos
   "showtext",     # Google Fonts for static plots
   "sysfonts",     # Font management
-  "gdtools",      # Font rendering for interactive plots
   "patchwork"     # Theme preview
 ))
 ```
@@ -136,11 +136,11 @@ Click each section below to see the available functions.
 | Status | Function | Description |
 |:------:|----------|-------------|
 | [✓]{.status-ready} | `theme_cpal()` | Default CPAL theme |
-| [✗]{.status-revamp} | `theme_cpal_minimal()` | Minimal/clean theme |
-| [✗]{.status-revamp} | `theme_cpal_classic()` | Classic theme with axes |
+| [✓]{.status-ready} | `theme_cpal_minimal()` | Minimal/clean theme |
+| [✓]{.status-ready} | `theme_cpal_classic()` | Classic theme with axes |
 | [✓]{.status-ready} | `theme_cpal_dark()` | Dark background theme |
-| [✗]{.status-revamp} | `theme_cpal_print()` | Print-optimized theme |
-| [✗]{.status-revamp} | `theme_cpal_map()` | Theme for maps |
+| [✓]{.status-ready} | `theme_cpal_print()` | Print-optimized theme |
+| [✓]{.status-ready} | `theme_cpal_map()` | Theme for maps |
 | [✓]{.status-ready} | `theme_cpal_auto()` | Auto light/dark theme |
 | [✓]{.status-ready} | `theme_cpal_switch()` | Reactive theme switching |
 | [✓]{.status-ready} | `set_theme_cpal()` | Set default theme for session |
@@ -174,22 +174,24 @@ Click each section below to see the available functions.
 :::
 
 ::: {.callout-note collapse="true"}
-## Tables (3 functions)
+## Tables (2 functions)
 
 | Status | Function | Description |
 |:------:|----------|-------------|
-| [●]{.status-dev} | `cpal_table()` | Auto-select GT or Reactable |
-| [●]{.status-dev} | `cpal_table_gt()` | Styled GT table (static) |
-| [●]{.status-dev} | `cpal_table_reactable()` | Styled Reactable (interactive) |
+| [✓]{.status-ready} | `cpal_table_gt()` | Styled GT table (static) |
+| [✓]{.status-ready} | `cpal_table_reactable()` | Styled Reactable (interactive) |
 :::
 
 ::: {.callout-note collapse="true"}
-## Maps (2 functions)
+## Maps (5 functions)
 
 | Status | Function | Description |
 |:------:|----------|-------------|
-| [●]{.status-dev} | `cpal_mapgl()` | Create styled mapgl map |
-| [●]{.status-dev} | `cpal_mapgl_layer()` | Add styled layer to map |
+| [✓]{.status-ready} | `cpal_mapgl()` | Create styled mapgl map |
+| [✓]{.status-ready} | `add_cpal_popup_style()` | Apply CPAL styling to popup container |
+| [✓]{.status-ready} | `cpal_popup_html()` | Generate basic popup HTML content |
+| [✓]{.status-ready} | `cpal_popup_html_metrics()` | Generate popup HTML with metrics |
+| [✓]{.status-ready} | `cpal_legend_style()` | Get styled legend options for mapgl |
 :::
 
 ::: {.callout-note collapse="true"}
@@ -225,8 +227,8 @@ Click each section below to see the available functions.
 |:------:|----------|-------------|
 | [✓]{.status-ready} | `cpal_dashboard_theme()` | bslib theme for dashboards |
 | [✓]{.status-ready} | `cpal_shiny()` | Initialize Shiny with CPAL theme |
-| [✗]{.status-revamp} | `cpal_add_scss_enhancements()` | Add custom SCSS to theme |
-| [✗]{.status-revamp} | `cpal_export_scss()` | Export SCSS variables |
+| [✓]{.status-ready} | `cpal_add_scss_enhancements()` | Add custom SCSS to theme |
+| [✓]{.status-ready} | `cpal_export_scss()` | Export SCSS variables |
 :::
 
 ::: {.callout-note collapse="true"}

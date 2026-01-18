@@ -4,18 +4,68 @@
 \alias{cpal_mapgl}
 \title{Create interactive maps with mapgl}
 \usage{
-cpal_mapgl(style = "mapbox://styles/mapbox/light-v11", bounds = NULL, ...)
+cpal_mapgl(
+  theme = c("light", "dark", "satellite", "minimal"),
+  bounds = NULL,
+  ...
+)
 }
 \arguments{
-\item{style}{Mapbox style URL or style object}
+\item{theme}{Basemap theme: "light" (default), "dark", "satellite", or "minimal"}
 
-\item{bounds}{Initial map bounds (defaults to Dallas area)}
+\item{bounds}{Optional bounding box for initial view. If NULL, the map will
+fit to data added via layers. Use `mapgl::fit_bounds()` to adjust after
+adding layers.}
 
-\item{...}{Additional arguments passed to mapboxgl()}
+\item{...}{Additional arguments passed to `mapgl::mapboxgl()`}
 }
 \value{
-A mapboxgl object
+A mapboxgl map object
 }
 \description{
-Wrapper for mapgl with CPAL defaults for Dallas area
+Initialize a Mapbox GL map with CPAL-branded basemap styles.
+}
+\details{
+Available themes:
+\itemize{
+  \item \code{"light"} - Default theme, good for general use and dashboards
+  \item \code{"dark"} - Dark mode for dark-themed dashboards
+  \item \code{"satellite"} - Satellite imagery for geographic/land use analysis
+  \item \code{"minimal"} - Monochrome style for dense data overlays
+}
+
+Requires a Mapbox access token. Set the environment variable
+`MAPBOX_PUBLIC_TOKEN` in your `.Renviron` file:
+
+```
+usethis::edit_r_environ()
+# Add: MAPBOX_PUBLIC_TOKEN="pk.your_token_here"
+```
+}
+\examples{
+\dontrun{
+library(mapgl)
+
+# Basic light theme map
+cpal_mapgl()
+
+# Dark theme for dashboards
+cpal_mapgl(theme = "dark")
+
+# Satellite for land use analysis
+cpal_mapgl(theme = "satellite")
+
+# Minimal for dense data
+cpal_mapgl(theme = "minimal")
+
+# With data layer
+cpal_mapgl() |>
+  add_fill_layer(
+    id = "regions",
+    source = my_sf_data,
+    fill_color = "#008097",
+    fill_opacity = 0.7
+  )
+}
+
 }
