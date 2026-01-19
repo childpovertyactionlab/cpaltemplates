@@ -455,6 +455,70 @@ cpal_mapgl(theme = "dark") |>
 
 ![Complete dark theme example with coral palette](images/maps/dark-theme-styled.png){fig-alt="Dark theme map with coral color scale, styled legend, and dark popup"}
 
+## Emissive Strength for 3D Lighting
+
+When using mapgl's 3D features or dark themes, you can enhance layer visibility with **emissive strength** properties. These make colors appear to emit light, which is especially effective on dark basemaps.
+
+### Emissive Properties by Layer Type
+
+| Layer Type | Emissive Property | Example |
+|------------|-------------------|---------|
+| Fill (polygons) | `fill_emissive_strength` | Choropleth maps |
+| Circle (points) | `circle_emissive_strength` | Point maps |
+| Line | `line_emissive_strength` | Route/path maps |
+| Symbol/Icon | `icon_emissive_strength` | Marker icons |
+| Text | `text_emissive_strength` | Labels |
+
+### Recommended Values
+
+- **`1.0`** - Full emissive strength, colors appear vibrant and luminous
+- **`0.5`** - Subtle glow effect
+- **`0.0`** - No emissive effect (default)
+
+### Example: Dark Theme with Emissive Fill
+
+```{r}
+#| label: emissive-example
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl(theme = "dark") |>
+  add_fill_layer(
+    id = "regions",
+    source = nc,
+    fill_color = color_scale$expression,
+    fill_opacity = 1.0,
+    fill_emissive_strength = 1.0,  # Makes colors glow
+    fill_outline_color = "#333333"
+  ) |>
+  fit_bounds(nc)
+```
+
+### Example: Points with Emissive Glow
+
+```{r}
+#| label: emissive-points
+#| eval: false
+#| code-fold: true
+
+cpal_mapgl(theme = "dark") |>
+  add_circle_layer(
+    id = "locations",
+    source = sample_points,
+    circle_color = "#E86A50",
+    circle_radius = 10,
+    circle_emissive_strength = 1.0,  # Points appear to glow
+    circle_stroke_color = "#FFFFFF",
+    circle_stroke_width = 1
+  ) |>
+  fit_bounds(nc)
+```
+
+::: {.callout-tip}
+## When to Use Emissive Strength
+Emissive strength is most impactful on **dark theme** maps where standard colors can appear muted. On light themes, the effect is less noticeable since the basemap is already bright.
+:::
+
 ## Static Maps with ggplot2
 
 For static maps in reports and presentations, use `theme_cpal_map()` with ggplot2 and sf.

@@ -112,6 +112,34 @@ setup_cpal_google_fonts <- function(force_refresh = FALSE, verbose = TRUE) {
 #' # Add: MAPBOX_PUBLIC_TOKEN="pk.your_token_here"
 #' ```
 #'
+#' @section Emissive Strength for 3D Lighting:
+#' When using mapgl's 3D features or dark themes, you can enhance layer visibility
+#' with emissive strength properties. Set these to `1.0` for vibrant colors that
+#' appear to emit light:
+#'
+#' \tabular{ll}{
+#'   \strong{Layer Type} \tab \strong{Emissive Property} \cr
+#'
+#'   Fill (polygons) \tab \code{fill_emissive_strength = 1.0} \cr
+#'   Circle (points) \tab \code{circle_emissive_strength = 1.0} \cr
+#'   Line \tab \code{line_emissive_strength = 1.0} \cr
+#'   Symbol/Icon \tab \code{icon_emissive_strength = 1.0} \cr
+#'   Text \tab \code{text_emissive_strength = 1.0}
+#' }
+#'
+#' These properties are especially useful for dark theme maps where you want
+#' colors to stand out. Example:
+#'
+#' \preformatted{
+#' cpal_mapgl(theme = "dark") |>
+#'   add_fill_layer(
+#'     id = "regions",
+#'     source = my_data,
+#'     fill_color = "#008097",
+#'     fill_emissive_strength = 1.0
+#'   )
+#' }
+#'
 #' @examples
 #' \dontrun{
 #' library(mapgl)
